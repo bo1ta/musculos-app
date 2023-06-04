@@ -1,0 +1,611 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BC1160D02A2CFB830028D8FC /* MusculosAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160CF2A2CFB830028D8FC /* MusculosAppApp.swift */; };
+		BC1160D22A2CFB830028D8FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160D12A2CFB830028D8FC /* ContentView.swift */; };
+		BC1160D42A2CFB830028D8FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC1160D32A2CFB830028D8FC /* Assets.xcassets */; };
+		BC1160D72A2CFB830028D8FC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC1160D62A2CFB830028D8FC /* Preview Assets.xcassets */; };
+		BC1160D92A2CFB830028D8FC /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160D82A2CFB830028D8FC /* Persistence.swift */; };
+		BC1160DC2A2CFB830028D8FC /* MusculosApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC1160DA2A2CFB830028D8FC /* MusculosApp.xcdatamodeld */; };
+		BC1160E72A2CFB840028D8FC /* MusculosAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160E62A2CFB840028D8FC /* MusculosAppTests.swift */; };
+		BC1160F12A2CFB840028D8FC /* MusculosAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160F02A2CFB840028D8FC /* MusculosAppUITests.swift */; };
+		BC1160F32A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160F22A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BC1160E32A2CFB840028D8FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC1160C42A2CFB820028D8FC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BC1160CB2A2CFB830028D8FC;
+			remoteInfo = MusculosApp;
+		};
+		BC1160ED2A2CFB840028D8FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC1160C42A2CFB820028D8FC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BC1160CB2A2CFB830028D8FC;
+			remoteInfo = MusculosApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BC1160CC2A2CFB830028D8FC /* MusculosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusculosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC1160CF2A2CFB830028D8FC /* MusculosAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosAppApp.swift; sourceTree = "<group>"; };
+		BC1160D12A2CFB830028D8FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BC1160D32A2CFB830028D8FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BC1160D62A2CFB830028D8FC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		BC1160D82A2CFB830028D8FC /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		BC1160DB2A2CFB830028D8FC /* MusculosApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MusculosApp.xcdatamodel; sourceTree = "<group>"; };
+		BC1160DD2A2CFB830028D8FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC1160E22A2CFB840028D8FC /* MusculosAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusculosAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC1160E62A2CFB840028D8FC /* MusculosAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosAppTests.swift; sourceTree = "<group>"; };
+		BC1160EC2A2CFB840028D8FC /* MusculosAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusculosAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC1160F02A2CFB840028D8FC /* MusculosAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosAppUITests.swift; sourceTree = "<group>"; };
+		BC1160F22A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BC1160C92A2CFB830028D8FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC1160DF2A2CFB840028D8FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC1160E92A2CFB840028D8FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BC1160C32A2CFB820028D8FC = {
+			isa = PBXGroup;
+			children = (
+				BC1160CE2A2CFB830028D8FC /* MusculosApp */,
+				BC1160E52A2CFB840028D8FC /* MusculosAppTests */,
+				BC1160EF2A2CFB840028D8FC /* MusculosAppUITests */,
+				BC1160CD2A2CFB830028D8FC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BC1160CD2A2CFB830028D8FC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC1160CC2A2CFB830028D8FC /* MusculosApp.app */,
+				BC1160E22A2CFB840028D8FC /* MusculosAppTests.xctest */,
+				BC1160EC2A2CFB840028D8FC /* MusculosAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BC1160CE2A2CFB830028D8FC /* MusculosApp */ = {
+			isa = PBXGroup;
+			children = (
+				BC1160CF2A2CFB830028D8FC /* MusculosAppApp.swift */,
+				BC1160D12A2CFB830028D8FC /* ContentView.swift */,
+				BC1160D32A2CFB830028D8FC /* Assets.xcassets */,
+				BC1160D82A2CFB830028D8FC /* Persistence.swift */,
+				BC1160DD2A2CFB830028D8FC /* Info.plist */,
+				BC1160DA2A2CFB830028D8FC /* MusculosApp.xcdatamodeld */,
+				BC1160D52A2CFB830028D8FC /* Preview Content */,
+			);
+			path = MusculosApp;
+			sourceTree = "<group>";
+		};
+		BC1160D52A2CFB830028D8FC /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				BC1160D62A2CFB830028D8FC /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		BC1160E52A2CFB840028D8FC /* MusculosAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				BC1160E62A2CFB840028D8FC /* MusculosAppTests.swift */,
+			);
+			path = MusculosAppTests;
+			sourceTree = "<group>";
+		};
+		BC1160EF2A2CFB840028D8FC /* MusculosAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BC1160F02A2CFB840028D8FC /* MusculosAppUITests.swift */,
+				BC1160F22A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift */,
+			);
+			path = MusculosAppUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BC1160CB2A2CFB830028D8FC /* MusculosApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC1160F62A2CFB840028D8FC /* Build configuration list for PBXNativeTarget "MusculosApp" */;
+			buildPhases = (
+				BC1160C82A2CFB830028D8FC /* Sources */,
+				BC1160C92A2CFB830028D8FC /* Frameworks */,
+				BC1160CA2A2CFB830028D8FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MusculosApp;
+			productName = MusculosApp;
+			productReference = BC1160CC2A2CFB830028D8FC /* MusculosApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BC1160E12A2CFB840028D8FC /* MusculosAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC1160F92A2CFB840028D8FC /* Build configuration list for PBXNativeTarget "MusculosAppTests" */;
+			buildPhases = (
+				BC1160DE2A2CFB840028D8FC /* Sources */,
+				BC1160DF2A2CFB840028D8FC /* Frameworks */,
+				BC1160E02A2CFB840028D8FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BC1160E42A2CFB840028D8FC /* PBXTargetDependency */,
+			);
+			name = MusculosAppTests;
+			productName = MusculosAppTests;
+			productReference = BC1160E22A2CFB840028D8FC /* MusculosAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BC1160EB2A2CFB840028D8FC /* MusculosAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC1160FC2A2CFB840028D8FC /* Build configuration list for PBXNativeTarget "MusculosAppUITests" */;
+			buildPhases = (
+				BC1160E82A2CFB840028D8FC /* Sources */,
+				BC1160E92A2CFB840028D8FC /* Frameworks */,
+				BC1160EA2A2CFB840028D8FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BC1160EE2A2CFB840028D8FC /* PBXTargetDependency */,
+			);
+			name = MusculosAppUITests;
+			productName = MusculosAppUITests;
+			productReference = BC1160EC2A2CFB840028D8FC /* MusculosAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BC1160C42A2CFB820028D8FC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					BC1160CB2A2CFB830028D8FC = {
+						CreatedOnToolsVersion = 14.3;
+					};
+					BC1160E12A2CFB840028D8FC = {
+						CreatedOnToolsVersion = 14.3;
+						TestTargetID = BC1160CB2A2CFB830028D8FC;
+					};
+					BC1160EB2A2CFB840028D8FC = {
+						CreatedOnToolsVersion = 14.3;
+						TestTargetID = BC1160CB2A2CFB830028D8FC;
+					};
+				};
+			};
+			buildConfigurationList = BC1160C72A2CFB820028D8FC /* Build configuration list for PBXProject "MusculosApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BC1160C32A2CFB820028D8FC;
+			productRefGroup = BC1160CD2A2CFB830028D8FC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BC1160CB2A2CFB830028D8FC /* MusculosApp */,
+				BC1160E12A2CFB840028D8FC /* MusculosAppTests */,
+				BC1160EB2A2CFB840028D8FC /* MusculosAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BC1160CA2A2CFB830028D8FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC1160D72A2CFB830028D8FC /* Preview Assets.xcassets in Resources */,
+				BC1160D42A2CFB830028D8FC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC1160E02A2CFB840028D8FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC1160EA2A2CFB840028D8FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BC1160C82A2CFB830028D8FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC1160DC2A2CFB830028D8FC /* MusculosApp.xcdatamodeld in Sources */,
+				BC1160D92A2CFB830028D8FC /* Persistence.swift in Sources */,
+				BC1160D22A2CFB830028D8FC /* ContentView.swift in Sources */,
+				BC1160D02A2CFB830028D8FC /* MusculosAppApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC1160DE2A2CFB840028D8FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC1160E72A2CFB840028D8FC /* MusculosAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC1160E82A2CFB840028D8FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC1160F12A2CFB840028D8FC /* MusculosAppUITests.swift in Sources */,
+				BC1160F32A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BC1160E42A2CFB840028D8FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BC1160CB2A2CFB830028D8FC /* MusculosApp */;
+			targetProxy = BC1160E32A2CFB840028D8FC /* PBXContainerItemProxy */;
+		};
+		BC1160EE2A2CFB840028D8FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BC1160CB2A2CFB830028D8FC /* MusculosApp */;
+			targetProxy = BC1160ED2A2CFB840028D8FC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		BC1160F42A2CFB840028D8FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BC1160F52A2CFB840028D8FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BC1160F72A2CFB840028D8FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MusculosApp/Preview Content\"";
+				DEVELOPMENT_TEAM = 8JV792LAQ5;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hawk.MusculosApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BC1160F82A2CFB840028D8FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MusculosApp/Preview Content\"";
+				DEVELOPMENT_TEAM = 8JV792LAQ5;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hawk.MusculosApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BC1160FA2A2CFB840028D8FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8JV792LAQ5;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hawk.MusculosAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MusculosApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MusculosApp";
+			};
+			name = Debug;
+		};
+		BC1160FB2A2CFB840028D8FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8JV792LAQ5;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hawk.MusculosAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MusculosApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MusculosApp";
+			};
+			name = Release;
+		};
+		BC1160FD2A2CFB840028D8FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8JV792LAQ5;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hawk.MusculosAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MusculosApp;
+			};
+			name = Debug;
+		};
+		BC1160FE2A2CFB840028D8FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8JV792LAQ5;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hawk.MusculosAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MusculosApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BC1160C72A2CFB820028D8FC /* Build configuration list for PBXProject "MusculosApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC1160F42A2CFB840028D8FC /* Debug */,
+				BC1160F52A2CFB840028D8FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC1160F62A2CFB840028D8FC /* Build configuration list for PBXNativeTarget "MusculosApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC1160F72A2CFB840028D8FC /* Debug */,
+				BC1160F82A2CFB840028D8FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC1160F92A2CFB840028D8FC /* Build configuration list for PBXNativeTarget "MusculosAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC1160FA2A2CFB840028D8FC /* Debug */,
+				BC1160FB2A2CFB840028D8FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC1160FC2A2CFB840028D8FC /* Build configuration list for PBXNativeTarget "MusculosAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC1160FD2A2CFB840028D8FC /* Debug */,
+				BC1160FE2A2CFB840028D8FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BC1160DA2A2CFB830028D8FC /* MusculosApp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BC1160DB2A2CFB830028D8FC /* MusculosApp.xcdatamodel */,
+			);
+			currentVersion = BC1160DB2A2CFB830028D8FC /* MusculosApp.xcdatamodel */;
+			path = MusculosApp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = BC1160C42A2CFB820028D8FC /* Project object */;
+}
