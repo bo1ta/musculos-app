@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct MusculosAppApp: App {
+struct MusculosApp: App {
     let persistenceController = PersistenceController.shared
 
     var body: some Scene {
