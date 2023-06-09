@@ -9,24 +9,6 @@ import Foundation
 import SwiftUI
 import Combine
 
-struct AuthenticationResponse: Codable {
-    var token: String
-}
-
-struct AuthenticationRequest: Request {
-    var headers: [String : String]?
-    
-    typealias ReturnType = AuthenticationResponse
-    
-    var path: String = "/auth/login"
-    var method: HTTPMethod = .post
-    var body: [String: Any]
-    
-    init(body: [String: Any]) {
-        self.body = body
-    }
-}
-
 final class LoginViewModel: ObservableObject {
     @Published var username = ""
     @Published var password = ""
@@ -39,6 +21,13 @@ final class LoginViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .assign(to: \.isFormValid, on: self)
             .store(in: &cancellables)
+    }
+}
+
+extension LoginViewModel {
+    public func authenticateUser() {
+        let authenticationHelper = AuthenticationHelper()
+        authenticationHelper.authenticateUser(with: self.username, password: self.password)
     }
 }
 
