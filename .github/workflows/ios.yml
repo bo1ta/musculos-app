@@ -23,7 +23,7 @@ jobs:
         run: |
           device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
           if [ $scheme = default ]; then scheme=$(cat default); fi
-          xcodebuild build-for-testing -scheme "$scheme" -project "/MusculosApp/MusculosApp.xcodeproj" -destination "platform=$platform,name=$device"
+          xcodebuild build-for-testing -scheme "$scheme" -project "musculos-app/MusculosApp/MusculosApp.xcodeproj" -destination "platform=$platform,name=$device"
       - name: Test
         env:
           scheme: ${{ 'default' }}
