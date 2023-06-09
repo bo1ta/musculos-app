@@ -79,6 +79,8 @@ struct LoginView: View {
     }
 }
 
-#Preview {
-    LoginView(viewModel: LoginViewModel())
+struct LoginView_Previews: PreviewProvider {
+    static var previews: some View {
+        LoginView(viewModel: LoginViewModel())
+    }
 }
