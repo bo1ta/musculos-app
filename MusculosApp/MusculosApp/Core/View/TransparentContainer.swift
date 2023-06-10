@@ -16,14 +16,17 @@ struct TransparentContainer<Content: View>: View {
     
     var body: some View {
         ZStack {
+            Color.gray
+                .opacity(0.4)
+                .cornerRadius(10)
+                .padding()
+                .padding([.top, .bottom], 20)
+            
             VStack {
                 content
                     .padding()
-                    .fixedSize(horizontal: false, vertical: true) 
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .background(Color.gray)
-            .cornerRadius(10)
-            .opacity(0.5)
             .padding()
         }
     }
