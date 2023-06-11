@@ -79,6 +79,7 @@ struct LoginView: View {
                         }, label: {
                             Text(self.viewModel.currentStep == .login ? "Sign In" : "Sign Up")
                                 .frame(maxWidth: .infinity)
+                                .foregroundColor(Color.appColor(with: .violetBlue))
                         })
                         .buttonStyle(PrimaryButton())
                         .opacity(self.viewModel.isFormValid ? 1 : 0.5)
