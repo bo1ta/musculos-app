@@ -20,9 +20,9 @@ struct IconButton: View {
         Button(action: action) {
             Image(systemName: systemImage)
                 .font(.system(size: 24))
-                .foregroundColor(.white)
+                .foregroundColor(.gray)
                 .padding(16)
-                .background(Color.gray)
+                .background(Color.appColor(with: .background))
                 .clipShape(Circle())
         }
     }
@@ -30,8 +30,13 @@ struct IconButton: View {
 
 struct IconButton_Preview: PreviewProvider {
     static var previews: some View {
-        IconButton(systemImage: "person")
-            .previewLayout(.sizeThatFits)
-            .padding()
+        ZStack {
+            Color
+                .gray
+                .frame(width: 100, height: 100)
+            IconButton(systemImage: "person")
+        }
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }
