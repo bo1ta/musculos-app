@@ -15,11 +15,15 @@ public enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
+public enum HTTPHeader: String {
+    case contentType = "Content-Type"
+}
+
 public protocol Request {
     var path: String { get }
     var method: HTTPMethod { get }
     var contentType: String { get }
-    var body: [String: Any]? { get }
+    var body: [String: Any] { get }
     var headers: [String: String]? { get }
     associatedtype ReturnType: Codable
 }
@@ -28,29 +32,33 @@ extension Request {
     var method: HTTPMethod { return .get }
     var contentType: String { return "application/json" }
     var queryParams: [String: String]? { return nil }
-    var body: [String: Any]? { return nil }
     var headers: [String:Any]? { return nil }
 }
 
 extension Request {
-    /// Serialize dictionary to json data object
     private func requestBody(from params: [String: Any]?) -> Data? {
-        guard let params = params else { return nil }
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: params) else {
+        guard let otherParams = params else { return nil }
+        do {
+            let httpBody = try JSONSerialization.data(withJSONObject: otherParams)
+            return httpBody
+        } catch {
+            print("Error serializing JSON: \(error)")
             return nil
         }
-        return httpBody
     }
     
     func asURLRequest(baseURL: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: baseURL) else { return nil }
-        urlComponents.path = "\(urlComponents.path)\(self.path)"
         guard let finalURL = urlComponents.url else { return nil }
         
         var request = URLRequest(url: finalURL)
         request.httpMethod = self.method.rawValue
         request.httpBody = self.requestBody(from: self.body)
-        request.allHTTPHeaderFields = self.headers
+        
+        var newHeaders = headers ?? [String: String]()
+        newHeaders[HTTPHeader.contentType.rawValue] = self.contentType
+        request.allHTTPHeaderFields = newHeaders
+        
         return request
     }
 }
