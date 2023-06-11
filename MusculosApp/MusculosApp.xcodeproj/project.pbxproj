@@ -30,6 +30,8 @@
 		BCCE85E92A33D7B5001BEE8B /* Encodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E82A33D7B5001BEE8B /* Encodable+Extension.swift */; };
 		BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85EA2A33DCA6001BEE8B /* UserDefaultsWrapper.swift */; };
 		BCCE85ED2A35008C001BEE8B /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85EC2A35008C001BEE8B /* Color+Extension.swift */; };
+		BCF86C2F2A360DDB003293A4 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C2E2A360DDB003293A4 /* LoginRequest.swift */; };
+		BCF86C312A360DF3003293A4 /* RegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C302A360DF3003293A4 /* RegisterRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,8 @@
 		BCCE85E82A33D7B5001BEE8B /* Encodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+Extension.swift"; sourceTree = "<group>"; };
 		BCCE85EA2A33DCA6001BEE8B /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		BCCE85EC2A35008C001BEE8B /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		BCF86C2E2A360DDB003293A4 /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
+		BCF86C302A360DF3003293A4 /* RegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +186,7 @@
 		BC352AE42A326D7C00DAA3AB /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				BCF86C2D2A360DCF003293A4 /* Request */,
 				BC352AE52A326D9900DAA3AB /* Protocols */,
 				BC352AE82A3270E700DAA3AB /* NetworkDispatcher.swift */,
 				BC352AEA2A32713300DAA3AB /* NetworkRequestError.swift */,
@@ -247,6 +252,15 @@
 				BC59720B2A3507F500EBB075 /* HearTip.swift */,
 			);
 			path = ViewComponent;
+			sourceTree = "<group>";
+		};
+		BCF86C2D2A360DCF003293A4 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				BCF86C2E2A360DDB003293A4 /* LoginRequest.swift */,
+				BCF86C302A360DF3003293A4 /* RegisterRequest.swift */,
+			);
+			path = Request;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -381,6 +395,8 @@
 			files = (
 				BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */,
 				BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */,
+				BCF86C312A360DF3003293A4 /* RegisterRequest.swift in Sources */,
+				BCF86C2F2A360DDB003293A4 /* LoginRequest.swift in Sources */,
 				BCCE85ED2A35008C001BEE8B /* Color+Extension.swift in Sources */,
 				BC1160DC2A2CFB830028D8FC /* MusculosApp.xcdatamodeld in Sources */,
 				BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */,
