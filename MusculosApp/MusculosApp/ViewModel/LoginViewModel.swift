@@ -15,7 +15,15 @@ final class LoginViewModel: ObservableObject {
     @Published var isFormValid = false
     
     @Published var hasToken = false
+    
     @State var isLoading = false
+    @State var showErrorAlert = false
+    
+    var errorMessage: String? {
+        didSet {
+            showErrorAlert = errorMessage != nil
+        }
+    }
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -48,15 +56,18 @@ extension LoginViewModel {
         self.authenticationHelper
             .authenticateUser(with: self.username, password: self.password)
             .sink { [weak self] completion in
+                guard let self = self else { return }
+                
                 switch completion {
                 case .failure(let networkError):
+                    self.errorMessage = networkError.description
                     print(networkError)
                     break
                 case .finished:
                     print("Finished!")
                     break
                 }
-                self?.isLoading = false
+                self.isLoading = false
             } receiveValue: { [weak self] response in
                 print("Got the token: \(response.token)")
                 self?.hasToken = true

@@ -62,7 +62,7 @@ struct LoginView: View {
                                 .frame(maxWidth: .infinity)
                         })
                         .buttonStyle(PrimaryButton())
-                        .opacity(1)
+                        .opacity(self.viewModel.isFormValid ? 1 : 0.5)
                         .disabled(!self.viewModel.isFormValid)
                         .padding(.top, 50)
                         .padding([.trailing, .leading], 23)
@@ -72,13 +72,12 @@ struct LoginView: View {
                     .onAppear(perform: {
                         viewModel.setupSubscriptions()
                     })
-                
+                    .alert(isPresented: self.viewModel.$showErrorAlert, content: {
+                        Alert(title: Text("Something went wrong"), message: Text(self.viewModel.errorMessage ?? "Request timed out"))
+                    })
                 }
             }
         }
-    }
-    var buttonOpacity: Double {
-        return self.viewModel.isFormValid ? 1 : 0.5
     }
 }
 
