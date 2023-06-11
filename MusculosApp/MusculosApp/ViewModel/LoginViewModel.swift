@@ -14,7 +14,15 @@ final class LoginViewModel: ObservableObject {
     @Published var password = ""
     @Published var isFormValid = false
     
+    @Published var hasToken = false
+    @State var isLoading = false
+    
     private var cancellables = Set<AnyCancellable>()
+    
+    var overrideAuthenticationHelper: AuthenticationHelper?
+    private var authenticationHelper: AuthenticationHelper {
+        return self.overrideAuthenticationHelper ?? AuthenticationHelper()
+    }
     
     init() {
         isLoginFormValidPublisher
@@ -22,12 +30,39 @@ final class LoginViewModel: ObservableObject {
             .assign(to: \.isFormValid, on: self)
             .store(in: &cancellables)
     }
+    
+    func setupSubscriptions() {
+        self.$hasToken.sink { hasToken in
+            if !self.isLoading && hasToken {
+                print("Ready to navigate")
+            }
+        }
+        .store(in: &cancellables)
+    }
 }
 
 extension LoginViewModel {
     public func authenticateUser() {
-        let authenticationHelper = AuthenticationHelper()
-        authenticationHelper.authenticateUser(with: self.username, password: self.password)
+        self.isLoading = true
+        
+        self.authenticationHelper
+            .authenticateUser(with: self.username, password: self.password)
+            .sink { [weak self] completion in
+                switch completion {
+                case .failure(let networkError):
+                    print(networkError)
+                    break
+                case .finished:
+                    print("Finished!")
+                    break
+                }
+                self?.isLoading = false
+            } receiveValue: { [weak self] response in
+                print("Got the token: \(response.token)")
+                self?.hasToken = true
+                self?.isLoading = false
+            }
+            .store(in: &cancellables)
     }
 }
 

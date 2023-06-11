@@ -30,19 +30,10 @@ public class AuthenticationHelper: NSObject {
     private let loginEndpoint = APIEndpoint.baseWithEndpoint(endpoint: .authentication)
     private let dispatcher = NetworkDispatcher()
     
-    private var cancellables = [AnyCancellable]()
-    
-    func authenticateUser(with email: String, password: String){
+    func authenticateUser(with email: String, password: String) -> AnyPublisher<AuthenticationResponse, NetworkRequestError> {
         let dictionary: [String: Any] = ["email": email, "password": password]
         let request = AuthenticationRequest(body: dictionary)
-        let client = MusculosClient(baseURL: self.loginEndpoint, networkDispatcher: self.dispatcher)
-        client
-            .dispatch(request)
-            .sink { result in
-                print(result)
-            } receiveValue: { response in
-                UserDefaultsWrapper.shared.authToken = response.token
-            }
-            .store(in: &self.cancellables)
+        let client = MusculosClient(baseURL: request.path, networkDispatcher: self.dispatcher)
+        return client.dispatch(request).eraseToAnyPublisher()
     }
 }
