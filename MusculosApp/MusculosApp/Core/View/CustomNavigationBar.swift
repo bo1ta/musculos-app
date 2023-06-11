@@ -8,19 +8,28 @@
 import SwiftUI
 
 struct CustomNavigationBar: View {
+    private let leftButton: IconButton
+    private let rightButton: IconButton
+    
+    init(leftButton: IconButton, rightButton: IconButton) {
+        self.leftButton = leftButton
+        self.rightButton = rightButton
+    }
+    
     var body: some View {
         HStack {
-            RoundedRectangle(cornerSize: CGSize(width: 25, height: 20))
-                .frame(maxWidth: .infinity, maxHeight: 60)
-                .foregroundColor(.gray)
-                .opacity(0.5)
+            self.leftButton
+            Spacer()
+            self.rightButton
         }
+        .padding()
+        .background(Capsule().fill(.gray))
     }
 }
 
 struct CustomNavigation_Preview: PreviewProvider {
     static var previews: some View {
-        CustomNavigationBar()
+        CustomNavigationBar(leftButton: IconButton(systemImage: "arrowshape.backward.fill"), rightButton: IconButton(systemImage: "figure.skating"))
             .previewLayout(.sizeThatFits)
             .padding()
     }
