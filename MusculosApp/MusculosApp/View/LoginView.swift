@@ -72,8 +72,10 @@ struct LoginView: View {
                     .onAppear(perform: {
                         viewModel.setupSubscriptions()
                     })
-                    .alert(isPresented: self.viewModel.$showErrorAlert, content: {
-                        Alert(title: Text("Something went wrong"), message: Text(self.viewModel.errorMessage ?? "Request timed out"))
+                    .alert(isPresented: self.$viewModel.showErrorAlert, content: {
+                        Alert(title: Text("Something went wrong"), message: Text(self.viewModel.errorMessage ?? "Request timed out"), dismissButton: .default(Text("Ok"), action: {
+                            self.viewModel.showErrorAlert = false
+                        }))
                     })
                 }
             }

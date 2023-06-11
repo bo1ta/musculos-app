@@ -13,15 +13,13 @@ final class LoginViewModel: ObservableObject {
     @Published var username = ""
     @Published var password = ""
     @Published var isFormValid = false
-    
     @Published var hasToken = false
-    
-    @State var isLoading = false
-    @State var showErrorAlert = false
+    @Published var isLoading = false
+    @Published var showErrorAlert = false
     
     var errorMessage: String? {
         didSet {
-            showErrorAlert = errorMessage != nil
+            self.showErrorAlert = self.errorMessage != nil
         }
     }
     
@@ -55,6 +53,7 @@ extension LoginViewModel {
         
         self.authenticationHelper
             .authenticateUser(with: self.username, password: self.password)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 

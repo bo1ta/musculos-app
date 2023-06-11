@@ -23,6 +23,7 @@ struct MusculosClient {
             return Fail(outputType: R.ReturnType.self, failure: NetworkRequestError.badRequest)
                 .eraseToAnyPublisher()
         }
+
         typealias RequestPublisher = AnyPublisher<R.ReturnType, NetworkRequestError>
         let requestPublisher: RequestPublisher = self.networkDispatcher.dispatch(request: urlRequest)
         return requestPublisher.eraseToAnyPublisher()
