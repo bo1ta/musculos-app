@@ -136,6 +136,7 @@ extension LoginViewModel {
 }
 
 // MARK: - Form validation
+
 extension LoginViewModel {
     private var isUsernameValidPublisher: AnyPublisher<Bool, Never> {
         $username

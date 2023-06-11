@@ -11,6 +11,12 @@ struct User: Codable {
     var userName: String
     var id: Int
     var email: String
+    
+    enum CodingKeys: String, CodingKey {
+        case userName = "user_name"
+        case id
+        case email
+    }
 }
 
 struct RegisterResponse: Codable {
