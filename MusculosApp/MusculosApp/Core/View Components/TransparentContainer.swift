@@ -24,7 +24,7 @@ struct TransparentContainer<Content: View>: View {
             VStack {
                 content
                     .padding()
-                    .fixedSize(horizontal: false, vertical: true)
+                    .fixedSize(horizontal: false, vertical: false)
             }
             .padding()
         }
