@@ -34,6 +34,7 @@
 		BCF86C312A360DF3003293A4 /* RegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C302A360DF3003293A4 /* RegisterRequest.swift */; };
 		BCF86C332A362105003293A4 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C322A362105003293A4 /* CustomNavigationBar.swift */; };
 		BCF86C372A362291003293A4 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C362A362291003293A4 /* IconButton.swift */; };
+		BCF86C392A363012003293A4 /* SelectPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C382A363012003293A4 /* SelectPill.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		BCF86C302A360DF3003293A4 /* RegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequest.swift; sourceTree = "<group>"; };
 		BCF86C322A362105003293A4 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		BCF86C362A362291003293A4 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
+		BCF86C382A363012003293A4 /* SelectPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPill.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,9 +180,8 @@
 			isa = PBXGroup;
 			children = (
 				BC59720F2A351AEF00EBB075 /* ButtonStyle */,
-				BC5972082A35074E00EBB075 /* View */,
-				BCCE85F02A3504B8001BEE8B /* ViewComponent */,
-				BCCE85E72A33D7A8001BEE8B /* Extensions */,
+				BC5972082A35074E00EBB075 /* View Components */,
+				BCCE85E72A33D7A8001BEE8B /* Extension */,
 				BC352AE42A326D7C00DAA3AB /* Network */,
 				BCCE85EA2A33DCA6001BEE8B /* UserDefaultsWrapper.swift */,
 			);
@@ -217,14 +218,16 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		BC5972082A35074E00EBB075 /* View */ = {
+		BC5972082A35074E00EBB075 /* View Components */ = {
 			isa = PBXGroup;
 			children = (
 				BC5972092A35075800EBB075 /* TransparentContainer.swift */,
 				BCF86C322A362105003293A4 /* CustomNavigationBar.swift */,
 				BCF86C362A362291003293A4 /* IconButton.swift */,
+				BC59720B2A3507F500EBB075 /* HearTip.swift */,
+				BCF86C382A363012003293A4 /* SelectPill.swift */,
 			);
-			path = View;
+			path = "View Components";
 			sourceTree = "<group>";
 		};
 		BC59720F2A351AEF00EBB075 /* ButtonStyle */ = {
@@ -243,21 +246,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		BCCE85E72A33D7A8001BEE8B /* Extensions */ = {
+		BCCE85E72A33D7A8001BEE8B /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				BCCE85E82A33D7B5001BEE8B /* Encodable+Extension.swift */,
 				BCCE85EC2A35008C001BEE8B /* Color+Extension.swift */,
 			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		BCCE85F02A3504B8001BEE8B /* ViewComponent */ = {
-			isa = PBXGroup;
-			children = (
-				BC59720B2A3507F500EBB075 /* HearTip.swift */,
-			);
-			path = ViewComponent;
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		BCF86C2D2A360DCF003293A4 /* Request */ = {
@@ -408,6 +403,7 @@
 				BCF86C332A362105003293A4 /* CustomNavigationBar.swift in Sources */,
 				BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */,
 				BCF86C372A362291003293A4 /* IconButton.swift in Sources */,
+				BCF86C392A363012003293A4 /* SelectPill.swift in Sources */,
 				BC352AED2A32774600DAA3AB /* MusculosClient.swift in Sources */,
 				BC1160D92A2CFB830028D8FC /* Persistence.swift in Sources */,
 				BCCE85E92A33D7B5001BEE8B /* Encodable+Extension.swift in Sources */,
