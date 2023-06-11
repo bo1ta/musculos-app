@@ -1,0 +1,39 @@
+//
+//  RegisterRequest.swift
+//  MusculosApp
+//
+//  Created by Solomon Alexandru on 11.06.2023.
+//
+
+import Foundation
+
+struct User: Codable {
+    var userName: String
+    var id: Int
+    var email: String
+    
+    enum CodingKeys: String, CodingKey {
+        case userName = "user_name"
+        case id
+        case email
+    }
+}
+
+struct RegisterResponse: Codable {
+    var user: User
+    var token: String
+}
+
+struct RegisterRequest: Request {
+    var headers: [String : String]?
+    
+    typealias ReturnType = RegisterResponse
+    
+    var path: String = APIEndpoint.baseWithEndpoint(endpoint: .register)
+    var method: HTTPMethod = .post
+    var body: [String: Any]
+    
+    init(body: [String: Any]) {
+        self.body = body
+    }
+}

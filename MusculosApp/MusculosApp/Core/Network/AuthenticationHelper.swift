@@ -8,32 +8,26 @@
 import Foundation
 import Combine
 
-struct AuthenticationResponse: Codable {
-    var token: String
-}
-
-struct AuthenticationRequest: Request {
-    var headers: [String : String]?
-    
-    typealias ReturnType = AuthenticationResponse
-    
-    var path: String = APIEndpoint.baseWithEndpoint(endpoint: .authentication)
-    var method: HTTPMethod = .post
-    var body: [String: Any]
-    
-    init(body: [String: Any]) {
-        self.body = body
-    }
-}
-
 public class AuthenticationHelper: NSObject {
-    private let loginEndpoint = APIEndpoint.baseWithEndpoint(endpoint: .authentication)
-    private let dispatcher = NetworkDispatcher()
+    private let dispatcher: NetworkDispatcher
     
-    func authenticateUser(with email: String, password: String) -> AnyPublisher<AuthenticationResponse, NetworkRequestError> {
+    init(dispatcher: NetworkDispatcher = NetworkDispatcher()) {
+        self.dispatcher = dispatcher
+    }
+    
+    func authenticateUser(with email: String, password: String) -> AnyPublisher<LoginResponse, NetworkRequestError> {
         let dictionary: [String: Any] = ["email": email, "password": password]
-        let request = AuthenticationRequest(body: dictionary)
+        let request = LoginRequest(body: dictionary)
         let client = MusculosClient(baseURL: request.path, networkDispatcher: self.dispatcher)
-        return client.dispatch(request).eraseToAnyPublisher()
+        return client.dispatch(request)
+            .eraseToAnyPublisher()
+    }
+    
+    func registerUser(username: String, email: String, password: String) -> AnyPublisher<RegisterResponse, NetworkRequestError> {
+        let dictionary: [String: Any] = ["user_name": username, "email": email, "password": password]
+        let request = RegisterRequest(body: dictionary)
+        let client = MusculosClient(baseURL: request.path, networkDispatcher: self.dispatcher)
+        return client.dispatch(request)
+            .eraseToAnyPublisher()
     }
 }

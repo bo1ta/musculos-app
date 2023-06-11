@@ -9,6 +9,11 @@ import SwiftUI
 
 struct LoginView: View {
     @ObservedObject private var viewModel: LoginViewModel
+    @State private var animateStepTransition = false
+    
+    private var isRegister: Bool {
+        return self.viewModel.currentStep == .register
+    }
     
     init(viewModel: LoginViewModel) {
         self.viewModel = viewModel
@@ -30,14 +35,25 @@ struct LoginView: View {
                     TransparentContainer {
                         VStack {
                             HStack {
-                                Image(systemName: "person")
+                                Image(systemName: "envelope")
                                     .foregroundColor(.secondary)
-                                TextField("Email", text: self.$viewModel.username)
+                                TextField("Email", text: self.$viewModel.email)
                                     .autocapitalization(.none)
                                     .disableAutocorrection(true)
                             }
                             .padding()
                             .background(Capsule().fill(.white))
+                            
+                            if self.isRegister {
+                                HStack {
+                                    Image(systemName: "person")
+                                        .foregroundColor(.secondary)
+                                    TextField("Username", text: self.$viewModel.username)
+                                }
+                                .padding()
+                                .background(Capsule().fill(.white))
+                                .transition(.scale)
+                            }
                             
                             HStack {
                                 Image(systemName: "lock")
@@ -49,16 +65,19 @@ struct LoginView: View {
                             .background(Capsule().fill(.white))
                         }
                         .padding([.leading, .trailing], 10)
-                        Button(action: {}, label: {
-                            Text("Forgot password?")
-                                .padding(.leading, 150)
-                                .foregroundColor(.white)
-                        })
+                        
+                        if !self.isRegister {
+                            Button(action: {}, label: {
+                                Text("Forgot password?")
+                                    .padding(.leading, 150)
+                                    .foregroundColor(.white)
+                            })
+                        }
                         
                         Button(action: {
-                            self.viewModel.authenticateUser()
+                            self.viewModel.handleAuthentication()
                         }, label: {
-                            Text("Sign In")
+                            Text(self.viewModel.currentStep == .login ? "Sign In" : "Sign Up")
                                 .frame(maxWidth: .infinity)
                         })
                         .buttonStyle(PrimaryButton())
@@ -66,6 +85,16 @@ struct LoginView: View {
                         .disabled(!self.viewModel.isFormValid)
                         .padding(.top, 50)
                         .padding([.trailing, .leading], 23)
+                        
+                        Button(action: {
+                            withAnimation(Animation.linear(duration: 0.2)) {
+                                self.animateStepTransition = true
+                                self.viewModel.handleNextStep()
+                            }
+                        }, label: {
+                            Text(self.isRegister ? "Already have an account?" : "Don't have an account?")
+                                .foregroundColor(Color.appColor(with: .violetBlue))
+                        })
                         
                         Spacer()
                     }

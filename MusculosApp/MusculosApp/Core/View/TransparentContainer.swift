@@ -20,7 +20,6 @@ struct TransparentContainer<Content: View>: View {
                 .opacity(0.4)
                 .cornerRadius(10)
                 .padding()
-                .padding([.top, .bottom], 20)
             
             VStack {
                 content
