@@ -19,12 +19,12 @@ struct TransparentContainer<Content: View>: View {
             Color.gray
                 .opacity(0.4)
                 .cornerRadius(10)
-                .padding()
+                .padding([.leading, .trailing], 5)
             
             VStack {
                 content
                     .padding()
-                    .fixedSize(horizontal: false, vertical: true)
+                    .fixedSize(horizontal: false, vertical: false)
             }
             .padding()
         }

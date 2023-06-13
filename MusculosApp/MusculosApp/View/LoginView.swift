@@ -70,7 +70,7 @@ struct LoginView: View {
                             Button(action: {}, label: {
                                 Text("Forgot password?")
                                     .padding(.leading, 150)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(Color.appColor(with: .violetBlue))
                             })
                         }
                         

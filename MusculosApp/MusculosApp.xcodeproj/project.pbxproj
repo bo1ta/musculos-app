@@ -24,6 +24,7 @@
 		BC59720A2A35075800EBB075 /* TransparentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972092A35075800EBB075 /* TransparentContainer.swift */; };
 		BC59720C2A3507F500EBB075 /* HearTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC59720B2A3507F500EBB075 /* HearTip.swift */; };
 		BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972102A351B0F00EBB075 /* PrimaryButton.swift */; };
+		BCB144662A38CC2F00A8209F /* DetailsSplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB144652A38CC2F00A8209F /* DetailsSplashView.swift */; };
 		BCCE85E22A328629001BEE8B /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E12A328629001BEE8B /* LoginViewModel.swift */; };
 		BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E32A33D376001BEE8B /* APIEndpoint.swift */; };
 		BCCE85E62A33D658001BEE8B /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E52A33D658001BEE8B /* AuthenticationHelper.swift */; };
@@ -34,6 +35,10 @@
 		BCF86C312A360DF3003293A4 /* RegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C302A360DF3003293A4 /* RegisterRequest.swift */; };
 		BCF86C332A362105003293A4 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C322A362105003293A4 /* CustomNavigationBar.swift */; };
 		BCF86C372A362291003293A4 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C362A362291003293A4 /* IconButton.swift */; };
+		BCF86C392A363012003293A4 /* SelectPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C382A363012003293A4 /* SelectPill.swift */; };
+		BCF86C3B2A3632BA003293A4 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */; };
+		BCF86C3D2A363A92003293A4 /* SelectedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C3C2A363A92003293A4 /* SelectedButton.swift */; };
+		BCF86C422A3678E4003293A4 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C412A3678E4003293A4 /* ProgressBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +80,7 @@
 		BC5972092A35075800EBB075 /* TransparentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentContainer.swift; sourceTree = "<group>"; };
 		BC59720B2A3507F500EBB075 /* HearTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HearTip.swift; sourceTree = "<group>"; };
 		BC5972102A351B0F00EBB075 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
+		BCB144652A38CC2F00A8209F /* DetailsSplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsSplashView.swift; sourceTree = "<group>"; };
 		BCCE85E12A328629001BEE8B /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		BCCE85E32A33D376001BEE8B /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		BCCE85E52A33D658001BEE8B /* AuthenticationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationHelper.swift; sourceTree = "<group>"; };
@@ -85,6 +91,10 @@
 		BCF86C302A360DF3003293A4 /* RegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequest.swift; sourceTree = "<group>"; };
 		BCF86C322A362105003293A4 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		BCF86C362A362291003293A4 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
+		BCF86C382A363012003293A4 /* SelectPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPill.swift; sourceTree = "<group>"; };
+		BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
+		BCF86C3C2A363A92003293A4 /* SelectedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedButton.swift; sourceTree = "<group>"; };
+		BCF86C412A3678E4003293A4 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,9 +188,8 @@
 			isa = PBXGroup;
 			children = (
 				BC59720F2A351AEF00EBB075 /* ButtonStyle */,
-				BC5972082A35074E00EBB075 /* View */,
-				BCCE85F02A3504B8001BEE8B /* ViewComponent */,
-				BCCE85E72A33D7A8001BEE8B /* Extensions */,
+				BC5972082A35074E00EBB075 /* View Components */,
+				BCCE85E72A33D7A8001BEE8B /* Extension */,
 				BC352AE42A326D7C00DAA3AB /* Network */,
 				BCCE85EA2A33DCA6001BEE8B /* UserDefaultsWrapper.swift */,
 			);
@@ -213,24 +222,30 @@
 			isa = PBXGroup;
 			children = (
 				BC352AEF2A327E3300DAA3AB /* LoginView.swift */,
+				BCB144652A38CC2F00A8209F /* DetailsSplashView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		BC5972082A35074E00EBB075 /* View */ = {
+		BC5972082A35074E00EBB075 /* View Components */ = {
 			isa = PBXGroup;
 			children = (
 				BC5972092A35075800EBB075 /* TransparentContainer.swift */,
 				BCF86C322A362105003293A4 /* CustomNavigationBar.swift */,
 				BCF86C362A362291003293A4 /* IconButton.swift */,
+				BC59720B2A3507F500EBB075 /* HearTip.swift */,
+				BCF86C382A363012003293A4 /* SelectPill.swift */,
+				BCF86C412A3678E4003293A4 /* ProgressBar.swift */,
 			);
-			path = View;
+			path = "View Components";
 			sourceTree = "<group>";
 		};
 		BC59720F2A351AEF00EBB075 /* ButtonStyle */ = {
 			isa = PBXGroup;
 			children = (
 				BC5972102A351B0F00EBB075 /* PrimaryButton.swift */,
+				BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */,
+				BCF86C3C2A363A92003293A4 /* SelectedButton.swift */,
 			);
 			path = ButtonStyle;
 			sourceTree = "<group>";
@@ -243,21 +258,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		BCCE85E72A33D7A8001BEE8B /* Extensions */ = {
+		BCCE85E72A33D7A8001BEE8B /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				BCCE85E82A33D7B5001BEE8B /* Encodable+Extension.swift */,
 				BCCE85EC2A35008C001BEE8B /* Color+Extension.swift */,
 			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		BCCE85F02A3504B8001BEE8B /* ViewComponent */ = {
-			isa = PBXGroup;
-			children = (
-				BC59720B2A3507F500EBB075 /* HearTip.swift */,
-			);
-			path = ViewComponent;
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		BCF86C2D2A360DCF003293A4 /* Request */ = {
@@ -399,6 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCF86C3D2A363A92003293A4 /* SelectedButton.swift in Sources */,
 				BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */,
 				BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */,
 				BCF86C312A360DF3003293A4 /* RegisterRequest.swift in Sources */,
@@ -408,8 +416,12 @@
 				BCF86C332A362105003293A4 /* CustomNavigationBar.swift in Sources */,
 				BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */,
 				BCF86C372A362291003293A4 /* IconButton.swift in Sources */,
+				BCF86C422A3678E4003293A4 /* ProgressBar.swift in Sources */,
+				BCF86C392A363012003293A4 /* SelectPill.swift in Sources */,
+				BCB144662A38CC2F00A8209F /* DetailsSplashView.swift in Sources */,
 				BC352AED2A32774600DAA3AB /* MusculosClient.swift in Sources */,
 				BC1160D92A2CFB830028D8FC /* Persistence.swift in Sources */,
+				BCF86C3B2A3632BA003293A4 /* SecondaryButton.swift in Sources */,
 				BCCE85E92A33D7B5001BEE8B /* Encodable+Extension.swift in Sources */,
 				BC352AF02A327E3300DAA3AB /* LoginView.swift in Sources */,
 				BCCE85E62A33D658001BEE8B /* AuthenticationHelper.swift in Sources */,

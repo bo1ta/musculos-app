@@ -1,0 +1,46 @@
+//
+//  ProgressBar.swift
+//  MusculosApp
+//
+//  Created by Solomon Alexandru on 12.06.2023.
+//
+
+import SwiftUI
+
+struct ProgressBar: View {
+    let progressCount: Int
+    var currentProgress: Int
+    
+    init(progressCount: Int, currentProgress: Int) {
+        self.progressCount = progressCount
+        self.currentProgress = currentProgress
+    }
+    
+    var body: some View {
+        HStack {
+            Spacer()
+            ForEach(0..<self.progressCount) { index in
+                if index == currentProgress {
+                    Image(systemName: "circle.fill")
+                        .font(.system(size: 11))
+                        .foregroundColor(Color.appColor(with: .spriteGreen))
+                } else {
+                    Image(systemName: "circle.fill")
+                        .font(.system(size: 10))
+                        .foregroundColor(.gray)
+                }
+            }
+            Spacer()
+        }
+        .padding()
+        .background(Capsule().fill(.gray).frame(maxWidth: .infinity).opacity(0.5))
+    }
+}
+
+struct ProgressBar_Preview: PreviewProvider {
+    static var previews: some View {
+        ProgressBar(progressCount: 5, currentProgress: 2)
+            .padding()
+            .previewLayout(.sizeThatFits)
+    }
+}
