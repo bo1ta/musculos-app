@@ -48,8 +48,10 @@ extension Request {
     }
     
     func asURLRequest(baseURL: String) -> URLRequest? {
-        guard var urlComponents = URLComponents(string: baseURL) else { return nil }
-        guard let finalURL = urlComponents.url else { return nil }
+        guard
+            let urlComponents = URLComponents(string: baseURL),
+            let finalURL = urlComponents.url
+        else { return nil }
         
         var request = URLRequest(url: finalURL)
         request.httpMethod = self.method.rawValue

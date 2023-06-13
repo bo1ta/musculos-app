@@ -10,13 +10,15 @@ import SwiftUI
 struct SelectPill: View {
     private let question: String
     private let options: [String]
+    private let onContinue: () -> Void
     
     @State private var contentHeight: CGFloat = 0
     @State private var selectedOptions: [String: Bool] = [:]
     
-    init(question: String, options: [String]) {
+    init(question: String, options: [String], onContinue: @escaping () -> Void = {}) {
         self.question = question
         self.options = options
+        self.onContinue = onContinue
     }
     
     var body: some View {
@@ -38,11 +40,18 @@ struct SelectPill: View {
                             Text(option)
                                 .frame(maxWidth: .infinity)
                         })
-                        .buttonStyle(SelectedButton(option: option, selectedOptions: selectedOptions))
+                        .buttonStyle(SelectedButton(isSelected: selectedOptions[option] ?? false))
                         .listRowSeparator(.hidden)
                     }
                     .padding(.bottom, 4)
-                    Spacer()
+                    Button(action: self.onContinue, label: {
+                        Text("Next")
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(.black)
+                    })
+                    .buttonStyle(PrimaryButton())
+                    .padding(.top, 18)
                 }
                 .onAppear(perform: {
                     self.selectedOptions = Dictionary(uniqueKeysWithValues: options.map { ($0, false) })

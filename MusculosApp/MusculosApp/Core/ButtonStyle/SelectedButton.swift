@@ -9,14 +9,14 @@ import Foundation
 import SwiftUI
 
 struct SelectedButton: ButtonStyle {
-    var option: String
-    var selectedOptions: [String: Bool]
+    var isSelected: Bool
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(16)
-            .background(selectedOptions[option] ?? false ? Color.appColor(with: .violetBlue) : Color.gray)
+            .background(isSelected ? Color.appColor(with: .violetBlue) : Color.gray)
             .foregroundColor(.white)
+            .font(Font.body.bold())
             .clipShape(RoundedRectangle(cornerSize: CGSize(width: 24, height: 20)))
             .opacity(0.8)
     }

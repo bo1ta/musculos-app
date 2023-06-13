@@ -24,6 +24,7 @@
 		BC59720A2A35075800EBB075 /* TransparentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972092A35075800EBB075 /* TransparentContainer.swift */; };
 		BC59720C2A3507F500EBB075 /* HearTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC59720B2A3507F500EBB075 /* HearTip.swift */; };
 		BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972102A351B0F00EBB075 /* PrimaryButton.swift */; };
+		BCB144662A38CC2F00A8209F /* DetailsSplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB144652A38CC2F00A8209F /* DetailsSplashView.swift */; };
 		BCCE85E22A328629001BEE8B /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E12A328629001BEE8B /* LoginViewModel.swift */; };
 		BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E32A33D376001BEE8B /* APIEndpoint.swift */; };
 		BCCE85E62A33D658001BEE8B /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E52A33D658001BEE8B /* AuthenticationHelper.swift */; };
@@ -37,6 +38,7 @@
 		BCF86C392A363012003293A4 /* SelectPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C382A363012003293A4 /* SelectPill.swift */; };
 		BCF86C3B2A3632BA003293A4 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */; };
 		BCF86C3D2A363A92003293A4 /* SelectedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C3C2A363A92003293A4 /* SelectedButton.swift */; };
+		BCF86C422A3678E4003293A4 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C412A3678E4003293A4 /* ProgressBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +80,7 @@
 		BC5972092A35075800EBB075 /* TransparentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentContainer.swift; sourceTree = "<group>"; };
 		BC59720B2A3507F500EBB075 /* HearTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HearTip.swift; sourceTree = "<group>"; };
 		BC5972102A351B0F00EBB075 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
+		BCB144652A38CC2F00A8209F /* DetailsSplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsSplashView.swift; sourceTree = "<group>"; };
 		BCCE85E12A328629001BEE8B /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		BCCE85E32A33D376001BEE8B /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		BCCE85E52A33D658001BEE8B /* AuthenticationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationHelper.swift; sourceTree = "<group>"; };
@@ -91,6 +94,7 @@
 		BCF86C382A363012003293A4 /* SelectPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPill.swift; sourceTree = "<group>"; };
 		BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		BCF86C3C2A363A92003293A4 /* SelectedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedButton.swift; sourceTree = "<group>"; };
+		BCF86C412A3678E4003293A4 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				BC352AEF2A327E3300DAA3AB /* LoginView.swift */,
+				BCB144652A38CC2F00A8209F /* DetailsSplashView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -230,6 +235,7 @@
 				BCF86C362A362291003293A4 /* IconButton.swift */,
 				BC59720B2A3507F500EBB075 /* HearTip.swift */,
 				BCF86C382A363012003293A4 /* SelectPill.swift */,
+				BCF86C412A3678E4003293A4 /* ProgressBar.swift */,
 			);
 			path = "View Components";
 			sourceTree = "<group>";
@@ -410,7 +416,9 @@
 				BCF86C332A362105003293A4 /* CustomNavigationBar.swift in Sources */,
 				BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */,
 				BCF86C372A362291003293A4 /* IconButton.swift in Sources */,
+				BCF86C422A3678E4003293A4 /* ProgressBar.swift in Sources */,
 				BCF86C392A363012003293A4 /* SelectPill.swift in Sources */,
+				BCB144662A38CC2F00A8209F /* DetailsSplashView.swift in Sources */,
 				BC352AED2A32774600DAA3AB /* MusculosClient.swift in Sources */,
 				BC1160D92A2CFB830028D8FC /* Persistence.swift in Sources */,
 				BCF86C3B2A3632BA003293A4 /* SecondaryButton.swift in Sources */,
