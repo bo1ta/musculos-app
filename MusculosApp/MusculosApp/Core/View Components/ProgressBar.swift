@@ -22,11 +22,11 @@ struct ProgressBar: View {
             ForEach(0..<self.progressCount) { index in
                 if index == currentProgress {
                     Image(systemName: "circle.fill")
-                        .font(.system(size: 11)) // Adjust the size as needed
+                        .font(.system(size: 11))
                         .foregroundColor(Color.appColor(with: .spriteGreen))
                 } else {
                     Image(systemName: "circle.fill")
-                        .font(.system(size: 10)) // Adjust the size as needed
+                        .font(.system(size: 10))
                         .foregroundColor(.gray)
                 }
             }
