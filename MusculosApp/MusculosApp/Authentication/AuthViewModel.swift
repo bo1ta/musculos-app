@@ -9,10 +9,11 @@ import Foundation
 import SwiftUI
 import Combine
 
-final class LoginViewModel: ObservableObject {
+final class AuthViewModel: ObservableObject {
     enum AuthenticationStep: String {
         case login, register
     }
+    @Published var currentStep: AuthenticationStep = .login
     
     @Published var email = ""
     @Published var username = ""
@@ -21,8 +22,6 @@ final class LoginViewModel: ObservableObject {
     @Published var hasToken = false
     @Published var isLoading = false
     @Published var showErrorAlert = false
-    
-    @Published var currentStep: AuthenticationStep = .login
     
     var errorMessage: String? {
         didSet {
@@ -33,9 +32,8 @@ final class LoginViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private var formValidationCancellable: AnyCancellable?
     
-    private let authenticationHelper: AuthenticationHelper?
-    
-    init(authenticationHelper: AuthenticationHelper = AuthenticationHelper()) {
+    private let authenticationHelper: AuthenticationModule?
+    init(authenticationHelper: AuthenticationModule = AuthenticationModule()) {
         self.authenticationHelper = authenticationHelper
         
         self.formValidationCancellable = $currentStep.combineLatest(isLoginFormValidPublisher, isRegisterFormValidPublisher)
@@ -57,7 +55,7 @@ final class LoginViewModel: ObservableObject {
 
 // MARK: - Authentication methods
 
-extension LoginViewModel {
+extension AuthViewModel {
     public func handleNextStep() {
         self.currentStep = self.currentStep == .login ? .register : .login
     }
@@ -137,7 +135,7 @@ extension LoginViewModel {
 
 // MARK: - Form validation
 
-extension LoginViewModel {
+extension AuthViewModel {
     private var isUsernameValidPublisher: AnyPublisher<Bool, Never> {
         $username
             .map { $0.count >= 5 }

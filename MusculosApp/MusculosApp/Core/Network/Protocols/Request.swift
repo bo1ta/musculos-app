@@ -32,7 +32,7 @@ extension Request {
     var method: HTTPMethod { return .get }
     var contentType: String { return "application/json" }
     var queryParams: [String: String]? { return nil }
-    var headers: [String:Any]? { return nil }
+    var headers: [String: String]? { return nil }
 }
 
 extension Request {
