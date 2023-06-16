@@ -17,7 +17,7 @@ struct ContentView: View {
     private var items: FetchedResults<Item>
 
     var body: some View {
-        SelectPill(question: "Set your goal", options: ["Lose weight", "Build muscle", "Get toned", "Plan nutrition"])
+        SelectPill(question: "Choose a lifestyle", answers: [Answer(id: 1, content: "One", questionId: 1), Answer(id: 2, content: "Two", questionId: 1), Answer(id: 3, content: "Three", questionId: 1)])
     }
 
     private func addItem() {

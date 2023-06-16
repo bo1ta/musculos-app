@@ -9,15 +9,17 @@ import SwiftUI
 
 struct SelectPill: View {
     private let question: String
-    private let options: [String]
     private let onContinue: () -> Void
     
     @State private var contentHeight: CGFloat = 0
-    @State private var selectedOptions: [String: Bool] = [:]
     
-    init(question: String, options: [String], onContinue: @escaping () -> Void = {}) {
+    @Binding var selectedAnswer: Answer?
+    var answers: [Answer]
+    
+    init(question: String, answers: [Answer], selectedAnswer: Binding<Answer?> = .constant(nil), onContinue: @escaping () -> Void = {}) {
         self.question = question
-        self.options = options
+        self.answers = answers
+        self._selectedAnswer = selectedAnswer
         self.onContinue = onContinue
     }
     
@@ -28,19 +30,14 @@ struct SelectPill: View {
                         .font(.largeTitle)
                         .foregroundColor(.white)
                     
-                    ForEach(options, id: \.self) { option in
+                    ForEach(answers, id: \.self) { answer in
                         Button(action: {
-                            selectedOptions[option]?.toggle()
-                            for (key, _) in selectedOptions {
-                                if key != option {
-                                    selectedOptions[key] = false
-                                }
-                            }
+                            selectedAnswer = answer
                         }, label: {
-                            Text(option)
+                            Text(answer.content)
                                 .frame(maxWidth: .infinity)
                         })
-                        .buttonStyle(SelectedButton(isSelected: selectedOptions[option] ?? false))
+                        .buttonStyle(SelectedButton(isSelected: selectedAnswer == answer))
                         .listRowSeparator(.hidden)
                     }
                     .padding(.bottom, 4)
@@ -53,9 +50,6 @@ struct SelectPill: View {
                     .buttonStyle(PrimaryButton())
                     .padding(.top, 18)
                 }
-                .onAppear(perform: {
-                    self.selectedOptions = Dictionary(uniqueKeysWithValues: options.map { ($0, false) })
-                })
                 .background(
                     GeometryReader { scrollViewGeometry in
                         Color.clear
@@ -72,6 +66,6 @@ struct SelectPill: View {
 
 struct SelectPill_Preview: PreviewProvider {
     static var previews: some View {
-        SelectPill(question: "Set your goal", options: ["Lose weight", "Build muscle", "Get toned", "Plan nutrition"])
+        SelectPill(question: "Choose a lifestyle", answers: [Answer(id: 1, content: "One", questionId: 1), Answer(id: 2, content: "Two", questionId: 1), Answer(id: 3, content: "Three", questionId: 1)])
     }
 }

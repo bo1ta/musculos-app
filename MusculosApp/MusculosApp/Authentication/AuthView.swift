@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-struct LoginView: View {
-    @ObservedObject private var viewModel: LoginViewModel
+struct AuthView: View {
+    @ObservedObject private var viewModel: AuthViewModel
     @State private var animateStepTransition = false
     
     private var isRegister: Bool {
         return self.viewModel.currentStep == .register
     }
     
-    init(viewModel: LoginViewModel) {
+    init(viewModel: AuthViewModel) {
         self.viewModel = viewModel
     }
     
@@ -113,8 +113,8 @@ struct LoginView: View {
     }
 }
 
-struct LoginView_Previews: PreviewProvider {
+struct AuthView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(viewModel: LoginViewModel())
+        AuthView(viewModel: AuthViewModel())
     }
 }

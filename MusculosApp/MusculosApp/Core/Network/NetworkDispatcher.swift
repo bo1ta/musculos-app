@@ -17,6 +17,9 @@ struct NetworkDispatcher {
     }
     
     func dispatch<ReturnType: Codable>(request: URLRequest) -> AnyPublisher<ReturnType, NetworkRequestError> {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
         return urlSession
             .dataTaskPublisher(for: request)
             .tryMap { data, response in
@@ -26,7 +29,7 @@ struct NetworkDispatcher {
                 }
                 return data
             }
-            .decode(type: ReturnType.self, decoder: JSONDecoder())
+            .decode(type: ReturnType.self, decoder: decoder)
             .mapError { error in
                 handleError(error)
             }
