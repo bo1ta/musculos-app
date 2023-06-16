@@ -8,23 +8,13 @@
 import Foundation
 import Combine
 
-public enum HTTPMethod: String {
-    case get    = "GET"
-    case post   = "POST"
-    case put    = "PUT"
-    case delete = "DELETE"
-}
-
-public enum HTTPHeader: String {
-    case contentType = "Content-Type"
-}
-
 public protocol Request {
     var path: String { get }
     var method: HTTPMethod { get }
     var contentType: String { get }
     var body: [String: Any] { get }
     var headers: [String: String]? { get }
+    var authToken: String? { get }
     associatedtype ReturnType: Codable
 }
 
@@ -33,6 +23,7 @@ extension Request {
     var contentType: String { return "application/json" }
     var queryParams: [String: String]? { return nil }
     var headers: [String: String]? { return nil }
+    var authToken: String? { return UserDefaultsWrapper.shared.authToken }
 }
 
 extension Request {
@@ -58,9 +49,12 @@ extension Request {
         request.httpBody = self.requestBody(from: self.body)
         
         var newHeaders = headers ?? [String: String]()
-        newHeaders[HTTPHeader.contentType.rawValue] = self.contentType
+        newHeaders[HTTPHeaderConstants.contentType] = self.contentType
+        if let authToken = self.authToken {
+            newHeaders[HTTPHeaderConstants.authorization] = authToken
+        }
+
         request.allHTTPHeaderFields = newHeaders
-        
         return request
     }
 }

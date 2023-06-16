@@ -11,7 +11,7 @@ import Combine
 
 final class AuthViewModel: ObservableObject {
     enum AuthenticationStep: String {
-        case login, register
+        case  login, register
     }
     @Published var currentStep: AuthenticationStep = .login
     
@@ -19,7 +19,6 @@ final class AuthViewModel: ObservableObject {
     @Published var username = ""
     @Published var password = ""
     @Published var isFormValid = false
-    @Published var hasToken = false
     @Published var isLoading = false
     @Published var showErrorAlert = false
     
@@ -32,7 +31,9 @@ final class AuthViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private var formValidationCancellable: AnyCancellable?
     
+    let authSuccess = PassthroughSubject<Void, Never>()
     private let authenticationHelper: AuthenticationModule?
+    
     init(authenticationHelper: AuthenticationModule = AuthenticationModule()) {
         self.authenticationHelper = authenticationHelper
         
@@ -51,24 +52,15 @@ final class AuthViewModel: ObservableObject {
                 self?.isFormValid = isValid
             })
     }
+    
+    public func handleNextStep() {
+        self.currentStep = self.currentStep == .login ? .register : .login
+    }
 }
 
 // MARK: - Authentication methods
 
 extension AuthViewModel {
-    public func handleNextStep() {
-        self.currentStep = self.currentStep == .login ? .register : .login
-    }
-    
-    public func setupSubscriptions() {
-        self.$hasToken.sink { hasToken in
-            if !self.isLoading && hasToken {
-                print("Ready to navigate")
-            }
-        }
-        .store(in: &cancellables)
-    }
-    
     public func handleAuthentication() {
         if self.currentStep == .login {
             self.loginUser()
@@ -98,8 +90,9 @@ extension AuthViewModel {
                 self.isLoading = false
             } receiveValue: { [weak self] response in
                 print("Got the token: \(response.token)")
-                self?.hasToken = true
+                UserDefaultsWrapper.shared.authToken = response.token
                 self?.isLoading = false
+                self?.authSuccess.send()
             }
             .store(in: &cancellables)
     }
@@ -126,8 +119,8 @@ extension AuthViewModel {
             } receiveValue: { [weak self] response in
                 print("Got the token: \(response.token)")
                 print("And the user: \(response.user)")
-                self?.hasToken = true
                 self?.isLoading = false
+                self?.authSuccess.send()
             }
             .store(in: &cancellables)
     }
