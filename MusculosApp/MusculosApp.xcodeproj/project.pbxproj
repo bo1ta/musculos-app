@@ -141,7 +141,7 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
-		BC10E42D2A3B8AD90008A72E /* Intro Details Splash */ = {
+		BC10E42D2A3B8AD90008A72E /* Questions Splash */ = {
 			isa = PBXGroup;
 			children = (
 				BC10E42F2A3B8B200008A72E /* Model */,
@@ -149,7 +149,7 @@
 				BC10E4302A3B8B510008A72E /* IntroductionModule.swift */,
 				BC10E4322A3B8CAC0008A72E /* IntroductionViewModel.swift */,
 			);
-			path = "Intro Details Splash";
+			path = "Questions Splash";
 			sourceTree = "<group>";
 		};
 		BC10E42E2A3B8AF60008A72E /* Model */ = {
@@ -192,10 +192,8 @@
 		BC1160CE2A2CFB830028D8FC /* MusculosApp */ = {
 			isa = PBXGroup;
 			children = (
-				BC10E42D2A3B8AD90008A72E /* Intro Details Splash */,
+				BC10E42D2A3B8AD90008A72E /* Questions Splash */,
 				BC10E42C2A3B8AB00008A72E /* Authentication */,
-				BCCE85E02A32861B001BEE8B /* ViewModel */,
-				BC352AEE2A327E1F00DAA3AB /* View */,
 				BC352AE32A326D6C00DAA3AB /* Core */,
 				BC1160CF2A2CFB830028D8FC /* MusculosApp.swift */,
 				BC1160D12A2CFB830028D8FC /* ContentView.swift */,
@@ -266,13 +264,6 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		BC352AEE2A327E1F00DAA3AB /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		BC5972082A35074E00EBB075 /* View Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -294,13 +285,6 @@
 				BCF86C3C2A363A92003293A4 /* SelectedButton.swift */,
 			);
 			path = ButtonStyle;
-			sourceTree = "<group>";
-		};
-		BCCE85E02A32861B001BEE8B /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		BCCE85E72A33D7A8001BEE8B /* Extension */ = {
