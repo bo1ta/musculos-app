@@ -38,6 +38,9 @@ struct IntroductionView: View {
                         .padding([.leading, .trailing], 20)
                 }
             })
+            .onAppear(perform: {
+                self.viewModel.getQuestions()
+            })
         }
     }
 }

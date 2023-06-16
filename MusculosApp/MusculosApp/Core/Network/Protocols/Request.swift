@@ -12,7 +12,7 @@ public protocol Request {
     var path: String { get }
     var method: HTTPMethod { get }
     var contentType: String { get }
-    var body: [String: Any] { get }
+    var body: [String: Any]? { get }
     var headers: [String: String]? { get }
     var authToken: String? { get }
     associatedtype ReturnType: Codable
@@ -22,6 +22,7 @@ extension Request {
     var method: HTTPMethod { return .get }
     var contentType: String { return "application/json" }
     var queryParams: [String: String]? { return nil }
+    var body: [String: Any]? { return nil }
     var headers: [String: String]? { return nil }
     var authToken: String? { return UserDefaultsWrapper.shared.authToken }
 }

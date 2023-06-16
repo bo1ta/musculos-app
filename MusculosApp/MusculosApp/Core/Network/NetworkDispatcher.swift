@@ -29,7 +29,19 @@ struct NetworkDispatcher {
                 }
                 return data
             }
-            .decode(type: ReturnType.self, decoder: decoder)
+            .flatMap({ (data: Data) -> AnyPublisher<ReturnType, Error> in
+                do {
+                    let result = try decoder.decode(ReturnType.self, from: data)
+                    return Just(result)
+                        .setFailureType(to: Error.self)
+                        .eraseToAnyPublisher()
+                } catch {
+                    print("Decoding error:", error)
+                    print("Data:", String(data: data, encoding: .utf8) ?? "")
+                    return Fail(error: error)
+                        .eraseToAnyPublisher()
+                }
+            })
             .mapError { error in
                 handleError(error)
             }

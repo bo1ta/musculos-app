@@ -60,7 +60,7 @@ extension IntroductionViewModel {
                 self?.isLoading = false
             } receiveValue: { [weak self] response in
                 DispatchQueue.main.async {
-                    self?.questions = response.questions
+                    self?.questions = response
                     self?.isLoading = false
                 }
             }

@@ -14,7 +14,13 @@ struct Answer: Codable {
 }
 
 extension Answer: Hashable {
+    static func == (lhs: Answer, rhs: Answer) -> Bool {
+        return lhs.id == rhs.id
+    }
     
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
 struct Question: Codable {
@@ -23,13 +29,7 @@ struct Question: Codable {
     var answers: [Answer]
 }
 
-struct IntroductionResponse: Codable {
-    var questions: [Question]
-}
-
 struct IntroductionRequest: Request {
-    typealias ReturnType = IntroductionResponse
-
+    typealias ReturnType = [Question]
     var path: String = APIEndpoint.baseWithEndpoint(endpoint: .questions)
-    var body: [String : Any] = [:]
 }

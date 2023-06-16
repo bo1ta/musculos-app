@@ -15,7 +15,7 @@ struct IntroductionModule: NetworkModule {
         self.dispatcher = dispatcher
     }
     
-    func getQuestions() -> AnyPublisher<IntroductionResponse, NetworkRequestError> {
+    func getQuestions() -> AnyPublisher<[Question], NetworkRequestError> {
         let request = IntroductionRequest()
         let client = MusculosClient(baseURL: request.path, networkDispatcher: self.dispatcher)
         return client.dispatch(request)
