@@ -106,6 +106,11 @@ struct AuthView: View {
                         })
                     }
                 }
+                .onAppear(perform: {
+                    if UserDefaultsWrapper.shared.authToken != nil {
+                        self.path.append("IntroductionView")
+                    }
+                })
                 .onReceive(viewModel.authSuccess, perform: { _ in
                     print("Ready to navigate")
                     self.path.append("IntroductionView")

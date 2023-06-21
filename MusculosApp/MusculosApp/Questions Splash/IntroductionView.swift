@@ -10,6 +10,8 @@ import SwiftUI
 struct IntroductionView: View {
     @ObservedObject var viewModel: IntroductionViewModel
     
+    @State private var selectedAnswer: Answer? = nil
+    
     init(viewModel: IntroductionViewModel = IntroductionViewModel()) {
         self.viewModel = viewModel
     }
@@ -30,13 +32,20 @@ struct IntroductionView: View {
                         .padding([.leading, .trailing], 20)
                     
                     if let currentQuestion = viewModel.currentQuestion {
-                        SelectPill(question: currentQuestion.content, answers: currentQuestion.answers)
+                        SelectPill(question: currentQuestion.content, answers: currentQuestion.answers, selectedAnswer: $selectedAnswer) {
+                            withAnimation(Animation.snappy(duration: 0.7)) {
+                                self.viewModel.nextQuestion(with: selectedAnswer)
+                            }
+                        }
                     } else {
                         SelectPill(question: "Choose a lifestyle", answers: [Answer(id: 1, content: "One", questionId: 1), Answer(id: 2, content: "Two", questionId: 1), Answer(id: 3, content: "Three", questionId: 1)])
                     }
                     ProgressBar(progressCount: 5, currentProgress: 0)
                         .padding([.leading, .trailing], 20)
                 }
+            })
+            .onAppear(perform: {
+                self.viewModel.getQuestions()
             })
         }
     }

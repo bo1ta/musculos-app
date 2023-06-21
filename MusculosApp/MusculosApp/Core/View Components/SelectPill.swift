@@ -12,8 +12,8 @@ struct SelectPill: View {
     private let onContinue: () -> Void
     
     @State private var contentHeight: CGFloat = 0
-    
     @Binding var selectedAnswer: Answer?
+
     var answers: [Answer]
     
     init(question: String, answers: [Answer], selectedAnswer: Binding<Answer?> = .constant(nil), onContinue: @escaping () -> Void = {}) {
@@ -30,7 +30,7 @@ struct SelectPill: View {
                         .font(.largeTitle)
                         .foregroundColor(.white)
                     
-                    ForEach(answers, id: \.self) { answer in
+                    ForEach(answers, id: \.id) { answer in
                         Button(action: {
                             selectedAnswer = answer
                         }, label: {
