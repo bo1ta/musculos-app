@@ -105,20 +105,15 @@ extension AuthViewModel {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
-                
                 switch completion {
                 case .failure(let networkError):
                     self.errorMessage = networkError.description
-                    print(networkError)
                     break
                 case .finished:
-                    print("Finished!")
                     break
                 }
                 self.isLoading = false
             } receiveValue: { [weak self] response in
-                print("Got the token: \(response.token)")
-                print("And the user: \(response.user)")
                 self?.isLoading = false
                 self?.authSuccess.send()
             }

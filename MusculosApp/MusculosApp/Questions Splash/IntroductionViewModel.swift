@@ -7,13 +7,15 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 final class IntroductionViewModel: ObservableObject {
     @Published var questions: [Question] = []
     @Published var currentIndex: Int = 0
     @Published var errorMessage: String? = nil
     @Published var isLoading: Bool = false
-        
+    
+    private var selectedAnswers: [Answer] = []
     private var cancellables = Set<AnyCancellable>()
     private var module: IntroductionModule = IntroductionModule()
     
@@ -22,24 +24,25 @@ final class IntroductionViewModel: ObservableObject {
     }
     
     var currentQuestion: Question? {
-        guard currentIndex >= 0 && currentIndex < questions.count else {
+        guard self.currentIndex >= 0 && self.currentIndex < questions.count else {
             return nil
         }
-        return questions[currentIndex]
+        return self.questions[currentIndex]
     }
     
-    func nextQuestion() {
-        guard currentIndex < questions.count - 1 else {
-            return
-        }
-        currentIndex += 1
+    func nextQuestion(with answer: Answer?) {
+        guard
+            let answer = answer,
+            self.currentIndex < questions.count - 1
+        else { return }
+        
+        self.currentIndex += 1
+        self.selectedAnswers.append(answer)
     }
     
     func previousQuestion() {
-        guard currentIndex > 0 else {
-            return
-        }
-        currentIndex -= 1
+        guard self.currentIndex > 0 else { return }
+        self.currentIndex -= 1
     }
 }
 
