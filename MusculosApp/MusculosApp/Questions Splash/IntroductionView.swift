@@ -48,6 +48,7 @@ struct IntroductionView: View {
                 self.viewModel.getQuestions()
             })
         }
+        .navigationBarBackButtonHidden()
     }
 }
 

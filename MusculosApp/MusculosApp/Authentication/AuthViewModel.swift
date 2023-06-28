@@ -81,15 +81,12 @@ extension AuthViewModel {
                 switch completion {
                 case .failure(let networkError):
                     self.errorMessage = networkError.description
-                    print(networkError)
                     break
                 case .finished:
-                    print("Finished!")
                     break
                 }
                 self.isLoading = false
             } receiveValue: { [weak self] response in
-                print("Got the token: \(response.token)")
                 UserDefaultsWrapper.shared.authToken = response.token
                 self?.isLoading = false
                 self?.authSuccess.send()

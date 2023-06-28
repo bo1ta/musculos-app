@@ -19,12 +19,11 @@ struct NetworkDispatcher {
     func dispatch<ReturnType: Codable>(request: URLRequest) -> AnyPublisher<ReturnType, NetworkRequestError> {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
+        print("odata")
         NetworkLogger.logRequest(request)
         return urlSession
             .dataTaskPublisher(for: request)
             .tryMap { data, response in
-                print("Data: \(data.asDictionary)")
                 if let response = response as? HTTPURLResponse,
                    !(200...299).contains(response.statusCode) {
                     throw httpError(response.statusCode)
