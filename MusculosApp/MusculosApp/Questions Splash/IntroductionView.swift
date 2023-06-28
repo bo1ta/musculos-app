@@ -37,11 +37,13 @@ struct IntroductionView: View {
                                 self.viewModel.nextQuestion(with: selectedAnswer)
                             }
                         }
+                        ProgressBar(progressCount: viewModel.questions.count, currentProgress: viewModel.currentIndex)
+                            .padding([.leading, .trailing], 20)
                     } else {
                         SelectPill(question: "Choose a lifestyle", answers: [Answer(id: 1, content: "One", questionId: 1), Answer(id: 2, content: "Two", questionId: 1), Answer(id: 3, content: "Three", questionId: 1)])
+                        ProgressBar(progressCount: 5, currentProgress: 0)
+                            .padding([.leading, .trailing], 20)
                     }
-                    ProgressBar(progressCount: 5, currentProgress: 0)
-                        .padding([.leading, .trailing], 20)
                 }
             })
             .onAppear(perform: {
