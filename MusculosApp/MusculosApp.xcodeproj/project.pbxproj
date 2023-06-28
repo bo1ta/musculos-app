@@ -29,6 +29,7 @@
 		BC59720C2A3507F500EBB075 /* HearTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC59720B2A3507F500EBB075 /* HearTip.swift */; };
 		BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972102A351B0F00EBB075 /* PrimaryButton.swift */; };
 		BCB144662A38CC2F00A8209F /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB144652A38CC2F00A8209F /* IntroductionView.swift */; };
+		BCCBEE662A4CA41000B211F1 /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEE652A4CA41000B211F1 /* NetworkLogger.swift */; };
 		BCCE85E22A328629001BEE8B /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E12A328629001BEE8B /* AuthViewModel.swift */; };
 		BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E32A33D376001BEE8B /* APIEndpoint.swift */; };
 		BCCE85E62A33D658001BEE8B /* AuthenticationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E52A33D658001BEE8B /* AuthenticationModule.swift */; };
@@ -90,6 +91,7 @@
 		BC59720B2A3507F500EBB075 /* HearTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HearTip.swift; sourceTree = "<group>"; };
 		BC5972102A351B0F00EBB075 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		BCB144652A38CC2F00A8209F /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
+		BCCBEE652A4CA41000B211F1 /* NetworkLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLogger.swift; sourceTree = "<group>"; };
 		BCCE85E12A328629001BEE8B /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		BCCE85E32A33D376001BEE8B /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		BCCE85E52A33D658001BEE8B /* AuthenticationModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationModule.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 				BC352AE42A326D7C00DAA3AB /* Network */,
 				BCCE85EA2A33DCA6001BEE8B /* UserDefaultsWrapper.swift */,
 				BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */,
+				BCCBEE652A4CA41000B211F1 /* NetworkLogger.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				BCF86C3B2A3632BA003293A4 /* SecondaryButton.swift in Sources */,
 				BCCE85E92A33D7B5001BEE8B /* Encodable+Extension.swift in Sources */,
 				BC10E42B2A3B89D60008A72E /* NetworkModule.swift in Sources */,
+				BCCBEE662A4CA41000B211F1 /* NetworkLogger.swift in Sources */,
 				BC352AF02A327E3300DAA3AB /* AuthView.swift in Sources */,
 				BCCE85E62A33D658001BEE8B /* AuthenticationModule.swift in Sources */,
 				BC1160D22A2CFB830028D8FC /* ContentView.swift in Sources */,

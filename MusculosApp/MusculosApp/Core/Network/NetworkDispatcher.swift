@@ -20,9 +20,11 @@ struct NetworkDispatcher {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         
+        NetworkLogger.logRequest(request)
         return urlSession
             .dataTaskPublisher(for: request)
             .tryMap { data, response in
+                print("Data: \(data.asDictionary)")
                 if let response = response as? HTTPURLResponse,
                    !(200...299).contains(response.statusCode) {
                     throw httpError(response.statusCode)

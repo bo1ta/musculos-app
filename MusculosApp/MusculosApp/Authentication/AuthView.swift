@@ -50,6 +50,8 @@ struct AuthView: View {
                                         Image(systemName: "person")
                                             .foregroundColor(.secondary)
                                         TextField("Username", text: self.$viewModel.username)
+                                            .autocorrectionDisabled()
+                                            .autocapitalization(.none)
                                     }
                                     .padding()
                                     .background(Capsule().fill(.white))

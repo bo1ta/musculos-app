@@ -28,10 +28,9 @@ extension Request {
 }
 
 extension Request {
-    private func requestBody(from params: [String: Any]?) -> Data? {
-        guard let otherParams = params else { return nil }
+    private func requestBody(from body: [String: Any]) -> Data? {
         do {
-            let httpBody = try JSONSerialization.data(withJSONObject: otherParams)
+            let httpBody = try JSONSerialization.data(withJSONObject: body)
             return httpBody
         } catch {
             print("Error serializing JSON: \(error)")
@@ -47,7 +46,10 @@ extension Request {
         
         var request = URLRequest(url: finalURL)
         request.httpMethod = self.method.rawValue
-        request.httpBody = self.requestBody(from: self.body)
+        
+        if let body = self.body {
+            request.httpBody = self.requestBody(from: body)
+        }
         
         var newHeaders = headers ?? [String: String]()
         newHeaders[HTTPHeaderConstants.contentType] = self.contentType

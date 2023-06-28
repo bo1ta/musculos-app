@@ -23,7 +23,7 @@ struct RegisterRequest: Request {
     
     var path: String = APIEndpoint.baseWithEndpoint(endpoint: .register)
     var method: HTTPMethod = .post
-    var body: [String: Any]
+    var body: [String: Any]?
     
     init(body: [String: Any]) {
         self.body = body

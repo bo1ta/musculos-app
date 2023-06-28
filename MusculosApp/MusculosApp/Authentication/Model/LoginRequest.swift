@@ -23,9 +23,9 @@ struct LoginRequest: Request {
     
     var path: String = APIEndpoint.baseWithEndpoint(endpoint: .authentication)
     var method: HTTPMethod = .post
-    var body: [String: Any]
+    var body: [String: Any]?
     
-    init(body: [String: Any]) {
+    init(body: [String: Any]?) {
         self.body = body
     }
 }
