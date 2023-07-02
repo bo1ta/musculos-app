@@ -28,7 +28,11 @@ struct IntroductionView: View {
                 if viewModel.isLoading {
                     ProgressView("Loading...")
                 } else {
-                    CustomNavigationBar(onBack: {}, onContinue: {})
+                    CustomNavigationBar(onBack: {
+                        viewModel.previousQuestion()
+                    }, onContinue: {
+                        viewModel.nextQuestion(with: nil)
+                    })
                         .padding([.leading, .trailing], 20)
                     
                     if let currentQuestion = viewModel.currentQuestion {
