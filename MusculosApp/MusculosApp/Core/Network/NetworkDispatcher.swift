@@ -19,7 +19,6 @@ struct NetworkDispatcher {
     func dispatch<ReturnType: Codable>(request: URLRequest) -> AnyPublisher<ReturnType, NetworkRequestError> {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        print("odata")
         NetworkLogger.logRequest(request)
         return urlSession
             .dataTaskPublisher(for: request)

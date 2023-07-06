@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-final class AuthViewModel: ObservableObject {
+final class AuthenticationViewModel: ObservableObject {
     enum AuthenticationStep: String {
         case  login, register
     }
@@ -60,7 +60,7 @@ final class AuthViewModel: ObservableObject {
 
 // MARK: - Authentication methods
 
-extension AuthViewModel {
+extension AuthenticationViewModel {
     public func handleAuthentication() {
         if self.currentStep == .login {
             self.loginUser()
@@ -110,7 +110,7 @@ extension AuthViewModel {
                     break
                 }
                 self.isLoading = false
-            } receiveValue: { [weak self] response in
+            } receiveValue: { [weak self] _ in
                 self?.isLoading = false
                 self?.authSuccess.send()
             }
@@ -120,7 +120,7 @@ extension AuthViewModel {
 
 // MARK: - Form validation
 
-extension AuthViewModel {
+extension AuthenticationViewModel {
     private var isUsernameValidPublisher: AnyPublisher<Bool, Never> {
         $username
             .map { $0.count >= 5 }
