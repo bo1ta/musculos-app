@@ -57,8 +57,10 @@ extension IntroductionViewModel {
                 switch completion {
                 case .failure(let networkError):
                     self?.errorMessage = networkError.description
+                    break
                 case .finished:
                     print("Finished fetching questions!")
+                    break
                 }
                 self?.isLoading = false
             } receiveValue: { [weak self] response in
@@ -66,6 +68,26 @@ extension IntroductionViewModel {
                     self?.questions = response
                     self?.isLoading = false
                 }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func postAnswers() {
+        self.isLoading = true
+        self.module.postAnswers(self.selectedAnswers)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                switch completion {
+                case .failure(let networkError):
+                    self?.errorMessage = networkError.description
+                    break
+                case .finished:
+                    print("Finished posting answers")
+                    break
+                }
+                self?.isLoading = false
+            } receiveValue: { [weak self] _ in
+                self?.isLoading = false
             }
             .store(in: &cancellables)
     }

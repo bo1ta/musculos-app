@@ -20,6 +20,8 @@
 		BC1160E72A2CFB840028D8FC /* MusculosAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160E62A2CFB840028D8FC /* MusculosAppTests.swift */; };
 		BC1160F12A2CFB840028D8FC /* MusculosAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160F02A2CFB840028D8FC /* MusculosAppUITests.swift */; };
 		BC1160F32A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160F22A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift */; };
+		BC182ECA2A589A81003DEA30 /* MusculosDataStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */; };
+		BC182ECD2A589BE7003DEA30 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* DataController.swift */; };
 		BC352AE72A326DAE00DAA3AB /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AE62A326DAE00DAA3AB /* Request.swift */; };
 		BC352AE92A3270E700DAA3AB /* NetworkDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AE82A3270E700DAA3AB /* NetworkDispatcher.swift */; };
 		BC352AEB2A32713300DAA3AB /* NetworkRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEA2A32713300DAA3AB /* NetworkRequestError.swift */; };
@@ -39,6 +41,7 @@
 		BCD372452A57366900C0F161 /* HorizontalPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD372442A57366900C0F161 /* HorizontalPickerViewController.swift */; };
 		BCD372472A5736EE00C0F161 /* HorizontalPickerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD372462A5736EE00C0F161 /* HorizontalPickerViewCell.swift */; };
 		BCD372492A57410800C0F161 /* HorizontalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD372482A57410800C0F161 /* HorizontalPicker.swift */; };
+		BCD3724B2A5775D400C0F161 /* UserAnswersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD3724A2A5775D400C0F161 /* UserAnswersRequest.swift */; };
 		BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */; };
 		BCF86C2F2A360DDB003293A4 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C2E2A360DDB003293A4 /* LoginRequest.swift */; };
 		BCF86C312A360DF3003293A4 /* RegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C302A360DF3003293A4 /* RegisterRequest.swift */; };
@@ -85,6 +88,8 @@
 		BC1160EC2A2CFB840028D8FC /* MusculosAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusculosAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC1160F02A2CFB840028D8FC /* MusculosAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosAppUITests.swift; sourceTree = "<group>"; };
 		BC1160F22A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BC182EC92A589A81003DEA30 /* Musculos.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Musculos.xcdatamodel; sourceTree = "<group>"; };
+		BC182ECC2A589BE7003DEA30 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		BC352AE62A326DAE00DAA3AB /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		BC352AE82A3270E700DAA3AB /* NetworkDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDispatcher.swift; sourceTree = "<group>"; };
 		BC352AEA2A32713300DAA3AB /* NetworkRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestError.swift; sourceTree = "<group>"; };
@@ -104,6 +109,7 @@
 		BCD372442A57366900C0F161 /* HorizontalPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPickerViewController.swift; sourceTree = "<group>"; };
 		BCD372462A5736EE00C0F161 /* HorizontalPickerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPickerViewCell.swift; sourceTree = "<group>"; };
 		BCD372482A57410800C0F161 /* HorizontalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPicker.swift; sourceTree = "<group>"; };
+		BCD3724A2A5775D400C0F161 /* UserAnswersRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAnswersRequest.swift; sourceTree = "<group>"; };
 		BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BCF86C2E2A360DDB003293A4 /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		BCF86C302A360DF3003293A4 /* RegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequest.swift; sourceTree = "<group>"; };
@@ -175,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				BC10E4282A3B811C0008A72E /* IntroductionRequest.swift */,
+				BCD3724A2A5775D400C0F161 /* UserAnswersRequest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -241,9 +248,19 @@
 			path = MusculosAppUITests;
 			sourceTree = "<group>";
 		};
+		BC182ECB2A589BC7003DEA30 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */,
+				BC182ECC2A589BE7003DEA30 /* DataController.swift */,
+			);
+			path = "Core Data";
+			sourceTree = "<group>";
+		};
 		BC352AE32A326D6C00DAA3AB /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				BC182ECB2A589BC7003DEA30 /* Core Data */,
 				BCD372422A57364200C0F161 /* UIKit */,
 				BC59720F2A351AEF00EBB075 /* ButtonStyle */,
 				BC5972082A35074E00EBB075 /* View Components */,
@@ -459,6 +476,7 @@
 			files = (
 				BCF86C3D2A363A92003293A4 /* SelectedButton.swift in Sources */,
 				BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */,
+				BC182ECA2A589A81003DEA30 /* MusculosDataStore.xcdatamodeld in Sources */,
 				BCD372472A5736EE00C0F161 /* HorizontalPickerViewCell.swift in Sources */,
 				BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */,
 				BCF86C312A360DF3003293A4 /* RegisterRequest.swift in Sources */,
@@ -468,6 +486,7 @@
 				BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */,
 				BC1160DC2A2CFB830028D8FC /* MusculosApp.xcdatamodeld in Sources */,
 				BCF86C332A362105003293A4 /* CustomNavigationBar.swift in Sources */,
+				BCD3724B2A5775D400C0F161 /* UserAnswersRequest.swift in Sources */,
 				BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */,
 				BCD372492A57410800C0F161 /* HorizontalPicker.swift in Sources */,
 				BCF86C372A362291003293A4 /* IconButton.swift in Sources */,
@@ -492,6 +511,7 @@
 				BC352AE72A326DAE00DAA3AB /* Request.swift in Sources */,
 				BCCE85E22A328629001BEE8B /* AuthenticationViewModel.swift in Sources */,
 				BC10E4292A3B811C0008A72E /* IntroductionRequest.swift in Sources */,
+				BC182ECD2A589BE7003DEA30 /* DataController.swift in Sources */,
 				BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -832,6 +852,16 @@
 			);
 			currentVersion = BC1160DB2A2CFB830028D8FC /* MusculosApp.xcdatamodel */;
 			path = MusculosApp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BC182EC92A589A81003DEA30 /* Musculos.xcdatamodel */,
+			);
+			currentVersion = BC182EC92A589A81003DEA30 /* Musculos.xcdatamodel */;
+			path = MusculosDataStore.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

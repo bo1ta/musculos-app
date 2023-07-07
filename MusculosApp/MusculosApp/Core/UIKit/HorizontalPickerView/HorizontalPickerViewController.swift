@@ -12,11 +12,11 @@ class HorizontalPickerViewController: UIViewController {
     
     var cellWidth: CGFloat = 0
     var data: [String] = []
-    var selectedCellIndexPath: IndexPath?
+    private var selectedCellIndexPath: IndexPath?
     
     var selectionDidChange: ((String) -> Void)?
     
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
@@ -25,6 +25,7 @@ class HorizontalPickerViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(HorizontalPickerViewCell.self, forCellWithReuseIdentifier: HorizontalPickerViewCell.identifier)
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .clear
         return collectionView
     }()
     
@@ -42,9 +43,10 @@ class HorizontalPickerViewController: UIViewController {
 }
 
 extension HorizontalPickerViewController {
-    fileprivate func setupCollectionViewUI() {
+    private func setupCollectionViewUI() {
         self.cellWidth = self.view.frame.width / 4
-        self.view.addSubview(collectionView)
+        self.view.addSubview(self.collectionView)
+
         NSLayoutConstraint.activate([
             collectionView.widthAnchor.constraint(equalToConstant: view.frame.width),
             collectionView.heightAnchor.constraint(equalToConstant: cellWidth),
@@ -64,7 +66,6 @@ extension HorizontalPickerViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalPickerViewCell.identifier, for: indexPath) as! HorizontalPickerViewCell
-        cell.backgroundColor = indexPath.item % 2 == 0 ? .blue : .red
         cell.configure(with: self.data[indexPath.row])
         return cell
     }

@@ -21,4 +21,11 @@ struct IntroductionModule: NetworkModule {
         return client.dispatch(request)
             .eraseToAnyPublisher()
     }
+    
+    func postAnswers(_ answers: [Answer]) -> AnyPublisher<[Answer], NetworkRequestError> {
+        let request = UserAnswersRequest(body: answers.asDictionary)
+        let client = MusculosClient(baseURL: request.path, networkDispatcher: self.dispatcher)
+        return client.dispatch(request)
+            .eraseToAnyPublisher()
+    }
 }

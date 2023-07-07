@@ -27,7 +27,8 @@ struct IntroductionView: View {
                     })
                         .padding([.leading, .trailing], 20)
                     
-                   answerQuestion
+                   weightPicker
+                Spacer()
             })
             .overlay(loadingOverlay)
             .onAppear(perform: {
@@ -78,7 +79,39 @@ struct IntroductionView: View {
         ProgressBar(progressCount: 5, currentProgress: 0)
             .padding([.leading, .trailing], 20)
     }
-
+    
+    @State private var contentHeight: CGFloat = 0
+    
+    @ViewBuilder private var weightPicker: some View {
+        TransparentContainer {
+            VStack {
+                Text("What's your current weight")
+                    .font(.largeTitle)
+                    .fontWeight(.light)
+                    .foregroundColor(.white)
+                    .lineLimit(2, reservesSpace: true)
+                HorizontalPicker(selectedOption: $selectedOption)
+                    .padding(25)
+                Button(action: {}, label: {
+                    Text("Next")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.black)
+                })
+                .buttonStyle(PrimaryButton())
+                .padding(.top, 18)
+            }
+            .background(
+                GeometryReader { scrollViewGeometry in
+                    Color.clear
+                        .onAppear(perform: {
+                            contentHeight += 40 + scrollViewGeometry.size.height + 80
+                        })
+                })
+        }
+        .padding([.leading, .trailing], 20)
+        .frame(height: contentHeight)
+    }
 }
 
 

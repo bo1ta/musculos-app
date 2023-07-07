@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct HorizontalPicker: UIViewControllerRepresentable {
-
     @Binding var selectedOption: String
 
     func makeUIViewController(context: Context) -> HorizontalPickerViewController {
