@@ -72,6 +72,12 @@ struct SelectPill: View {
 
 struct SelectPill_Preview: PreviewProvider {
     static var previews: some View {
-        SelectPill(question: "Choose a lifestyle", answers: [Answer(id: 1, content: "One", questionId: 1), Answer(id: 2, content: "Two", questionId: 1), Answer(id: 3, content: "Three", questionId: 1)])
+        SelectPill(question: "Choose a lifestyle",
+                   answers: [
+                    Answer(id: 1, content: "One", questionId: 1),
+                    Answer(id: 2, content: "Two", questionId: 1),
+                    Answer(id: 3, content: "Three", questionId: 1)
+                   ]
+        )
     }
 }
