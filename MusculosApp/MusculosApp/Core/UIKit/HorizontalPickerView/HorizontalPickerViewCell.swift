@@ -12,7 +12,7 @@ class HorizontalPickerViewCell: UICollectionViewCell {
 
     static let identifier = String(describing: HorizontalPickerViewCell.self)
     
-    public let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
