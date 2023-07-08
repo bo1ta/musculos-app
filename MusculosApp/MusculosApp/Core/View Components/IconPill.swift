@@ -26,11 +26,7 @@ struct IconPill: View {
                         .padding(.leading, 10)
                     Text(self.title)
                         .foregroundColor(.white)
-                        .font(.caption)
-                        .background(ViewGeometry())
-                        .onPreferenceChange(ViewSizeKey.self, perform: { value in
-                            self.textSize = value
-                        })
+                        .font(.caption)	
                     Spacer()
                 }
             }
