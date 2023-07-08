@@ -57,6 +57,7 @@
 		BCFBB7722A59C6D700896C3C /* AnswerEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB76C2A59C6D700896C3C /* AnswerEntity+CoreDataProperties.swift */; };
 		BCFBB7752A59CD6F00896C3C /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7742A59CD6F00896C3C /* Question.swift */; };
 		BCFBB7772A59D25300896C3C /* WorkoutCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7762A59D25300896C3C /* WorkoutCard.swift */; };
+		BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB77B2A59DF2800896C3C /* IconPill.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +132,7 @@
 		BCFBB76C2A59C6D700896C3C /* AnswerEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AnswerEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BCFBB7742A59CD6F00896C3C /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		BCFBB7762A59D25300896C3C /* WorkoutCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCard.swift; sourceTree = "<group>"; };
+		BCFBB77B2A59DF2800896C3C /* IconPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPill.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -317,6 +319,7 @@
 				BCF86C382A363012003293A4 /* SelectPill.swift */,
 				BCF86C412A3678E4003293A4 /* ProgressBar.swift */,
 				BCFBB7762A59D25300896C3C /* WorkoutCard.swift */,
+				BCFBB77B2A59DF2800896C3C /* IconPill.swift */,
 			);
 			path = "View Components";
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */,
 				BCF86C312A360DF3003293A4 /* RegisterRequest.swift in Sources */,
 				BC10E4312A3B8B510008A72E /* IntroductionModule.swift in Sources */,
+				BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */,
 				BCF86C2F2A360DDB003293A4 /* LoginRequest.swift in Sources */,
 				BCCE85ED2A35008C001BEE8B /* Color+Extension.swift in Sources */,
 				BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */,
