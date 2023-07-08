@@ -15,8 +15,6 @@
 		BC1160D22A2CFB830028D8FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160D12A2CFB830028D8FC /* ContentView.swift */; };
 		BC1160D42A2CFB830028D8FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC1160D32A2CFB830028D8FC /* Assets.xcassets */; };
 		BC1160D72A2CFB830028D8FC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC1160D62A2CFB830028D8FC /* Preview Assets.xcassets */; };
-		BC1160D92A2CFB830028D8FC /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160D82A2CFB830028D8FC /* Persistence.swift */; };
-		BC1160DC2A2CFB830028D8FC /* MusculosApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC1160DA2A2CFB830028D8FC /* MusculosApp.xcdatamodeld */; };
 		BC1160E72A2CFB840028D8FC /* MusculosAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160E62A2CFB840028D8FC /* MusculosAppTests.swift */; };
 		BC1160F12A2CFB840028D8FC /* MusculosAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160F02A2CFB840028D8FC /* MusculosAppUITests.swift */; };
 		BC1160F32A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160F22A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift */; };
@@ -87,8 +85,6 @@
 		BC1160D12A2CFB830028D8FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BC1160D32A2CFB830028D8FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC1160D62A2CFB830028D8FC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		BC1160D82A2CFB830028D8FC /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		BC1160DB2A2CFB830028D8FC /* MusculosApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MusculosApp.xcdatamodel; sourceTree = "<group>"; };
 		BC1160DD2A2CFB830028D8FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC1160E22A2CFB840028D8FC /* MusculosAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusculosAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC1160E62A2CFB840028D8FC /* MusculosAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosAppTests.swift; sourceTree = "<group>"; };
@@ -230,9 +226,7 @@
 				BC1160CF2A2CFB830028D8FC /* MusculosApp.swift */,
 				BC1160D12A2CFB830028D8FC /* ContentView.swift */,
 				BC1160D32A2CFB830028D8FC /* Assets.xcassets */,
-				BC1160D82A2CFB830028D8FC /* Persistence.swift */,
 				BC1160DD2A2CFB830028D8FC /* Info.plist */,
-				BC1160DA2A2CFB830028D8FC /* MusculosApp.xcdatamodeld */,
 				BC1160D52A2CFB830028D8FC /* Preview Content */,
 			);
 			path = MusculosApp;
@@ -513,7 +507,6 @@
 				BCF86C2F2A360DDB003293A4 /* LoginRequest.swift in Sources */,
 				BCCE85ED2A35008C001BEE8B /* Color+Extension.swift in Sources */,
 				BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */,
-				BC1160DC2A2CFB830028D8FC /* MusculosApp.xcdatamodeld in Sources */,
 				BCF86C332A362105003293A4 /* CustomNavigationBar.swift in Sources */,
 				BCD3724B2A5775D400C0F161 /* UserAnswersRequest.swift in Sources */,
 				BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */,
@@ -526,7 +519,6 @@
 				BCF86C392A363012003293A4 /* SelectPill.swift in Sources */,
 				BCB144662A38CC2F00A8209F /* IntroductionView.swift in Sources */,
 				BC352AED2A32774600DAA3AB /* MusculosClient.swift in Sources */,
-				BC1160D92A2CFB830028D8FC /* Persistence.swift in Sources */,
 				BCFBB7702A59C6D700896C3C /* QuestionEntity+CoreDataProperties.swift in Sources */,
 				BCF86C3B2A3632BA003293A4 /* SecondaryButton.swift in Sources */,
 				BCFBB76F2A59C6D700896C3C /* PersonEntity+CoreDataClass.swift in Sources */,
@@ -881,16 +873,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		BC1160DA2A2CFB830028D8FC /* MusculosApp.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				BC1160DB2A2CFB830028D8FC /* MusculosApp.xcdatamodel */,
-			);
-			currentVersion = BC1160DB2A2CFB830028D8FC /* MusculosApp.xcdatamodel */;
-			path = MusculosApp.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
 		BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
