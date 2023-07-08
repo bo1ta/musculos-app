@@ -12,6 +12,7 @@ struct SelectPill: View {
     private let onContinue: () -> Void
     
     @State private var contentHeight: CGFloat = 0
+
     @Binding var selectedAnswer: Answer?
 
     var answers: [Answer]
@@ -30,17 +31,8 @@ struct SelectPill: View {
                         .font(.largeTitle)
                         .foregroundColor(.white)
                     
-                    ForEach(answers, id: \.id) { answer in
-                        Button(action: {
-                            selectedAnswer = answer
-                        }, label: {
-                            Text(answer.content)
-                                .frame(maxWidth: .infinity)
-                        })
-                        .buttonStyle(SelectedButton(isSelected: selectedAnswer == answer))
-                        .listRowSeparator(.hidden)
-                    }
-                    .padding(.bottom, 4)
+                    self.answersButtons
+                   
                     Button(action: self.onContinue, label: {
                         Text("Next")
                             .bold()
@@ -50,7 +42,7 @@ struct SelectPill: View {
                     .buttonStyle(PrimaryButton())
                     .padding(.top, 18)
                 }
-                .background(
+                .background( // calculate transparent container frame
                     GeometryReader { scrollViewGeometry in
                         Color.clear
                             .onAppear(perform: {
@@ -61,6 +53,20 @@ struct SelectPill: View {
             }
         .padding([.leading, .trailing], 20)
         .frame(height: contentHeight)
+    }
+    
+    @ViewBuilder private var answersButtons: some View {
+        ForEach(answers, id: \.id) { answer in
+            Button(action: {
+                selectedAnswer = answer
+            }, label: {
+                Text(answer.content)
+                    .frame(maxWidth: .infinity)
+            })
+            .buttonStyle(SelectedButton(isSelected: selectedAnswer == answer))
+            .listRowSeparator(.hidden)
+        }
+        .padding(.bottom, 4)
     }
 }
 
