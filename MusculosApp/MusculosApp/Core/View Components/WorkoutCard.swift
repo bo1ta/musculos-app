@@ -52,9 +52,12 @@ struct WorkoutCard: View {
     
     @ViewBuilder private var bottomSection: some View {
         HStack {
-            Text(content)
-                .font(.body)
-                .foregroundColor(.white)
+            VStack {
+                Text(content)
+                    .font(.body)
+                    .foregroundColor(.white)
+            }
+            .padding([.bottom, .leading], 5)
             Spacer()
         }
     }
