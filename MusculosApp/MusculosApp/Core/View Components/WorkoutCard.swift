@@ -12,6 +12,15 @@ struct WorkoutCard: View {
     var subtitle: String
     var content: String
     var imageName: String
+    var options: [IconPillOption]?
+    
+    init(title: String, subtitle: String, content: String, imageName: String, options: [IconPillOption]? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.content = content
+        self.imageName = imageName
+        self.options = options
+    }
     
     var body: some View {
         VStack {
@@ -52,10 +61,18 @@ struct WorkoutCard: View {
     
     @ViewBuilder private var bottomSection: some View {
         HStack {
-            VStack {
+            VStack(alignment: .leading) {
                 Text(content)
-                    .font(.body)
+                    .font(.caption)
                     .foregroundColor(.white)
+                
+                if let options = self.options, !options.isEmpty {
+                    HStack {
+                        ForEach(options, id: \.self) {
+                            IconPill(option: $0)
+                        }
+                    }
+                }
             }
             .padding([.bottom, .leading], 5)
             Spacer()
@@ -65,6 +82,14 @@ struct WorkoutCard: View {
 
 struct WorkoutCard_Preview: PreviewProvider {
     static var previews: some View {
-        WorkoutCard(title: "Back workout", subtitle: "Start your first week", content: "Body contouring", imageName: "deadlift-background")
+        WorkoutCard(title: "Back workout",
+                    subtitle: "Start your first week",
+                    content: "Body contouring",
+                    imageName: "deadlift-background",
+                    options: [
+                        IconPillOption(systemImage: "clock", title: "1x / week"),
+                        IconPillOption(systemImage: "bolt.badge.clock", title: "Start streak")
+                    ])
+        .previewLayout(.sizeThatFits)
     }
 }
