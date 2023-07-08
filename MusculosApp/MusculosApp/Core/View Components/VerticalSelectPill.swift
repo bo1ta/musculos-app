@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelectPill: View {
+struct VerticalSelectPill: View {
     private let question: String
     private let onContinue: () -> Void
     
@@ -42,17 +42,8 @@ struct SelectPill: View {
                     .buttonStyle(PrimaryButton())
                     .padding(.top, 18)
                 }
-                .background( // calculate transparent container frame
-                    GeometryReader { scrollViewGeometry in
-                        Color.clear
-                            .onAppear(perform: {
-                                contentHeight += 40 + scrollViewGeometry.size.height + 80
-                            })
-                    }
-                )
             }
         .padding([.leading, .trailing], 20)
-        .frame(height: contentHeight)
     }
     
     @ViewBuilder private var answersButtons: some View {
@@ -72,12 +63,13 @@ struct SelectPill: View {
 
 struct SelectPill_Preview: PreviewProvider {
     static var previews: some View {
-        SelectPill(question: "Choose a lifestyle",
-                   answers: [
-                    Answer(id: 1, content: "One", questionId: 1),
-                    Answer(id: 2, content: "Two", questionId: 1),
-                    Answer(id: 3, content: "Three", questionId: 1)
-                   ]
+        VerticalSelectPill(
+            question: "Choose a lifestyle",
+            answers: [
+                Answer(id: 1, content: "One", questionId: 1),
+                Answer(id: 2, content: "Two", questionId: 1),
+                Answer(id: 3, content: "Three", questionId: 1)
+            ]
         )
     }
 }

@@ -45,7 +45,7 @@
 		BCF86C312A360DF3003293A4 /* RegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C302A360DF3003293A4 /* RegisterRequest.swift */; };
 		BCF86C332A362105003293A4 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C322A362105003293A4 /* CustomNavigationBar.swift */; };
 		BCF86C372A362291003293A4 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C362A362291003293A4 /* IconButton.swift */; };
-		BCF86C392A363012003293A4 /* SelectPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C382A363012003293A4 /* SelectPill.swift */; };
+		BCF86C392A363012003293A4 /* VerticalSelectPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C382A363012003293A4 /* VerticalSelectPill.swift */; };
 		BCF86C3B2A3632BA003293A4 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */; };
 		BCF86C3D2A363A92003293A4 /* SelectedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C3C2A363A92003293A4 /* SelectedButton.swift */; };
 		BCF86C422A3678E4003293A4 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C412A3678E4003293A4 /* ProgressBar.swift */; };
@@ -59,6 +59,7 @@
 		BCFBB7772A59D25300896C3C /* WorkoutCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7762A59D25300896C3C /* WorkoutCard.swift */; };
 		BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB77B2A59DF2800896C3C /* IconPill.swift */; };
 		BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7852A59EDC400896C3C /* IconPillOption.swift */; };
+		BCFBB7882A59F96100896C3C /* HorizontalSelectPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7872A59F96100896C3C /* HorizontalSelectPill.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,7 +122,7 @@
 		BCF86C302A360DF3003293A4 /* RegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequest.swift; sourceTree = "<group>"; };
 		BCF86C322A362105003293A4 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		BCF86C362A362291003293A4 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
-		BCF86C382A363012003293A4 /* SelectPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPill.swift; sourceTree = "<group>"; };
+		BCF86C382A363012003293A4 /* VerticalSelectPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalSelectPill.swift; sourceTree = "<group>"; };
 		BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		BCF86C3C2A363A92003293A4 /* SelectedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedButton.swift; sourceTree = "<group>"; };
 		BCF86C412A3678E4003293A4 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
@@ -135,6 +136,7 @@
 		BCFBB7762A59D25300896C3C /* WorkoutCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCard.swift; sourceTree = "<group>"; };
 		BCFBB77B2A59DF2800896C3C /* IconPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPill.swift; sourceTree = "<group>"; };
 		BCFBB7852A59EDC400896C3C /* IconPillOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPillOption.swift; sourceTree = "<group>"; };
+		BCFBB7872A59F96100896C3C /* HorizontalSelectPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSelectPill.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,7 +320,8 @@
 				BCF86C322A362105003293A4 /* CustomNavigationBar.swift */,
 				BCF86C362A362291003293A4 /* IconButton.swift */,
 				BC59720B2A3507F500EBB075 /* HearTip.swift */,
-				BCF86C382A363012003293A4 /* SelectPill.swift */,
+				BCF86C382A363012003293A4 /* VerticalSelectPill.swift */,
+				BCFBB7872A59F96100896C3C /* HorizontalSelectPill.swift */,
 				BCF86C412A3678E4003293A4 /* ProgressBar.swift */,
 				BCFBB7762A59D25300896C3C /* WorkoutCard.swift */,
 			);
@@ -535,7 +538,7 @@
 				BCFBB7772A59D25300896C3C /* WorkoutCard.swift in Sources */,
 				BCF86C422A3678E4003293A4 /* ProgressBar.swift in Sources */,
 				BC10E4332A3B8CAC0008A72E /* IntroductionViewModel.swift in Sources */,
-				BCF86C392A363012003293A4 /* SelectPill.swift in Sources */,
+				BCF86C392A363012003293A4 /* VerticalSelectPill.swift in Sources */,
 				BCB144662A38CC2F00A8209F /* IntroductionView.swift in Sources */,
 				BC352AED2A32774600DAA3AB /* MusculosClient.swift in Sources */,
 				BCFBB7702A59C6D700896C3C /* QuestionEntity+CoreDataProperties.swift in Sources */,
@@ -546,6 +549,7 @@
 				BCFBB76E2A59C6D700896C3C /* AnswerEntity+CoreDataClass.swift in Sources */,
 				BCCBEE662A4CA41000B211F1 /* NetworkLogger.swift in Sources */,
 				BCFBB7712A59C6D700896C3C /* QuestionEntity+CoreDataClass.swift in Sources */,
+				BCFBB7882A59F96100896C3C /* HorizontalSelectPill.swift in Sources */,
 				BC352AF02A327E3300DAA3AB /* AuthenticationView.swift in Sources */,
 				BCCE85E62A33D658001BEE8B /* AuthenticationModule.swift in Sources */,
 				BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */,

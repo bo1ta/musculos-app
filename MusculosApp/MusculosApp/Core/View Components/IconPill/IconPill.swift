@@ -18,7 +18,7 @@ struct IconPill: View {
         RoundedRectangle(cornerRadius: 12)
             .foregroundColor(.gray)
             .opacity(0.6)
-            .frame(width: 100.0, height: 25)
+            .frame(width: CGFloat(self.option.title.count * 10) + 15, height: 25)
             .overlay {
                 HStack {
                     if let systemImage = self.option.systemImage {

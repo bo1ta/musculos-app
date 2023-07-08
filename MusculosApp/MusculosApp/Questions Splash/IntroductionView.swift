@@ -16,7 +16,7 @@ struct IntroductionView: View {
     init(viewModel: IntroductionViewModel = IntroductionViewModel()) {
         self.viewModel = viewModel
     }
-    
+ 
     var body: some View {
         backgroundView {
             VStack(alignment: .leading, content: {
@@ -62,7 +62,7 @@ struct IntroductionView: View {
     
     @ViewBuilder private var answerQuestion: some View {
         if let currentQuestion = viewModel.currentQuestion {
-            SelectPill(question: currentQuestion.content, answers: currentQuestion.answers, selectedAnswer: $selectedAnswer) {
+            VerticalSelectPill(question: currentQuestion.content, answers: currentQuestion.answers, selectedAnswer: $selectedAnswer) {
                 withAnimation(Animation.snappy(duration: 0.7)) {
                     self.viewModel.nextQuestion(with: selectedAnswer)
                 }
@@ -75,18 +75,16 @@ struct IntroductionView: View {
     }
     
     @ViewBuilder private var mockQuestion: some View {
-        SelectPill(question: "Choose a lifestyle", answers: [Answer(id: 1, content: "One", questionId: 1), Answer(id: 2, content: "Two", questionId: 1), Answer(id: 3, content: "Three", questionId: 1)])
+        VerticalSelectPill(question: "Choose a lifestyle", answers: [Answer(id: 1, content: "One", questionId: 1), Answer(id: 2, content: "Two", questionId: 1), Answer(id: 3, content: "Three", questionId: 1)])
         ProgressBar(progressCount: 5, currentProgress: 0)
             .padding([.leading, .trailing], 20)
     }
-    
-    @State private var contentHeight: CGFloat = 0
-    
+        
     @ViewBuilder private var weightPicker: some View {
         TransparentContainer {
             VStack {
                 Text("What's your current weight")
-                    .font(.largeTitle)
+                    .font(.title)
                     .fontWeight(.light)
                     .foregroundColor(.white)
                     .lineLimit(2, reservesSpace: true)
@@ -101,16 +99,8 @@ struct IntroductionView: View {
                 .buttonStyle(PrimaryButton())
                 .padding(.top, 18)
             }
-            .background(
-                GeometryReader { scrollViewGeometry in
-                    Color.clear
-                        .onAppear(perform: {
-                            contentHeight += 40 + scrollViewGeometry.size.height + 80
-                        })
-                })
         }
         .padding([.leading, .trailing], 20)
-        .frame(height: contentHeight)
     }
 }
 

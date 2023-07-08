@@ -10,6 +10,8 @@ import SwiftUI
 struct TransparentContainer<Content: View>: View {
     let content: Content
     
+    @State private var contentHeight: CGFloat = 0
+    
     init(@ViewBuilder content: () -> Content) {
         self.content = content()
     }
@@ -24,8 +26,17 @@ struct TransparentContainer<Content: View>: View {
             VStack {
                 content
                     .padding()
+                    .background( // calculate transparent container frame
+                        GeometryReader { scrollViewGeometry in
+                            Color.clear
+                                .onAppear(perform: {
+                                    contentHeight += 40 + scrollViewGeometry.size.height + 80
+                                })
+                        }
+                    )
             }
             .padding()
         }
+        .frame(maxHeight: contentHeight)
     }
 }
