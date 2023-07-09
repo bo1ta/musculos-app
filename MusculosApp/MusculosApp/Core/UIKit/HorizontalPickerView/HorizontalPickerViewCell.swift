@@ -62,7 +62,7 @@ class HorizontalPickerViewCell: UICollectionViewCell {
     
     public func configure(with title: String, isSelected: Bool = false) {
         titleLabel.text = title
-        titleLabel.font = UIFont.systemFont(ofSize: 34, weight: .regular)
+        titleLabel.font = UIFont.systemFont(ofSize: isSelected ? 25 : 23, weight: .regular)
         circleView.layer.cornerRadius = circleView.frame.width / 2
         circleView.backgroundColor = isSelected ? .gray : .clear
         circleView.layer.borderWidth = isSelected ? 0 : 2

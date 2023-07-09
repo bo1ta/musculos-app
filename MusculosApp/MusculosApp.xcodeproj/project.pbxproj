@@ -60,6 +60,7 @@
 		BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB77B2A59DF2800896C3C /* IconPill.swift */; };
 		BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7852A59EDC400896C3C /* IconPillOption.swift */; };
 		BCFBB7882A59F96100896C3C /* HorizontalSelectPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7872A59F96100896C3C /* HorizontalSelectPill.swift */; };
+		BCFBB78A2A5A020700896C3C /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7892A5A020700896C3C /* SearchBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +138,7 @@
 		BCFBB77B2A59DF2800896C3C /* IconPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPill.swift; sourceTree = "<group>"; };
 		BCFBB7852A59EDC400896C3C /* IconPillOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPillOption.swift; sourceTree = "<group>"; };
 		BCFBB7872A59F96100896C3C /* HorizontalSelectPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSelectPill.swift; sourceTree = "<group>"; };
+		BCFBB7892A5A020700896C3C /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,6 +326,7 @@
 				BCFBB7872A59F96100896C3C /* HorizontalSelectPill.swift */,
 				BCF86C412A3678E4003293A4 /* ProgressBar.swift */,
 				BCFBB7762A59D25300896C3C /* WorkoutCard.swift */,
+				BCFBB7892A5A020700896C3C /* SearchBar.swift */,
 			);
 			path = "View Components";
 			sourceTree = "<group>";
@@ -559,6 +562,7 @@
 				BC59720C2A3507F500EBB075 /* HearTip.swift in Sources */,
 				BC352AEB2A32713300DAA3AB /* NetworkRequestError.swift in Sources */,
 				BC352AE72A326DAE00DAA3AB /* Request.swift in Sources */,
+				BCFBB78A2A5A020700896C3C /* SearchBar.swift in Sources */,
 				BCCE85E22A328629001BEE8B /* AuthenticationViewModel.swift in Sources */,
 				BCFBB7752A59CD6F00896C3C /* Question.swift in Sources */,
 				BC10E4292A3B811C0008A72E /* Answer.swift in Sources */,

@@ -88,7 +88,8 @@ struct WorkoutCard_Preview: PreviewProvider {
                     imageName: "deadlift-background",
                     options: [
                         IconPillOption(systemImage: "clock", title: "1x / week"),
-                        IconPillOption(systemImage: "bolt.badge.clock", title: "Start streak")
+                        IconPillOption(systemImage: "bolt.badge.clock", title: "Start streak"),
+                        IconPillOption(systemImage: "bolt.badge.clock", title: "Completeee")
                     ])
         .previewLayout(.sizeThatFits)
     }
