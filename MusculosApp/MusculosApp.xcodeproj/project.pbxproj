@@ -177,7 +177,7 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
-		BC10E42D2A3B8AD90008A72E /* Questions Splash */ = {
+		BC10E42D2A3B8AD90008A72E /* Introduction */ = {
 			isa = PBXGroup;
 			children = (
 				BC10E42F2A3B8B200008A72E /* Model */,
@@ -185,7 +185,7 @@
 				BC10E4302A3B8B510008A72E /* IntroductionModule.swift */,
 				BC10E4322A3B8CAC0008A72E /* IntroductionViewModel.swift */,
 			);
-			path = "Questions Splash";
+			path = Introduction;
 			sourceTree = "<group>";
 		};
 		BC10E42E2A3B8AF60008A72E /* Model */ = {
@@ -230,7 +230,7 @@
 		BC1160CE2A2CFB830028D8FC /* MusculosApp */ = {
 			isa = PBXGroup;
 			children = (
-				BC10E42D2A3B8AD90008A72E /* Questions Splash */,
+				BC10E42D2A3B8AD90008A72E /* Introduction */,
 				BC10E42C2A3B8AB00008A72E /* Authentication */,
 				BC352AE32A326D6C00DAA3AB /* Core */,
 				BC1160CF2A2CFB830028D8FC /* MusculosApp.swift */,
