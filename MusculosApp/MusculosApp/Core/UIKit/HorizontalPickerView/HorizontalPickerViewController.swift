@@ -12,10 +12,10 @@ class HorizontalPickerViewController: UIViewController {
     
     var cellWidth: CGFloat = 0
     var data: [String] = []
-    private var selectedCellIndexPath: IndexPath?
-    
     var selectionDidChange: ((String) -> Void)?
-    
+
+    private var selectedCellIndexPath: IndexPath?
+
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal

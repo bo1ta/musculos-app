@@ -11,9 +11,12 @@ struct HorizontalSelectPill: View {
     private let title: String
     private let options: [String]
     
-    init(title: String, options: [String]) {
+    @Binding private var selectedOption: String
+    
+    init(title: String, options: [String], selectedOption: Binding<String> = .constant("")) {
         self.title = title
         self.options = options
+        self._selectedOption = selectedOption
     }
     
     var body: some View {
@@ -30,14 +33,15 @@ struct HorizontalSelectPill: View {
     }
     
     @ViewBuilder private var buttonStack: some View {
-        HStack {
+        HStack(spacing: 20) {
             ForEach(self.options, id: \.self) { option in
                 Button(action: {
-                    
+                    self.selectedOption = option
                 }, label: {
                     Text(option)
+                        .frame(maxWidth: 120)
                 })
-                .buttonStyle(SecondaryButton())
+                .buttonStyle(SelectedButton(isSelected: selectedOption == option))
             }
         }
     }
