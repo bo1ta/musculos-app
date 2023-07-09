@@ -26,11 +26,11 @@ struct TransparentContainer<Content: View>: View {
             VStack {
                 content
                     .padding()
-                    .background( // calculate transparent container frame
+                    .background( // calculate transparent container height
                         GeometryReader { scrollViewGeometry in
                             Color.clear
                                 .onAppear(perform: {
-                                    contentHeight += 40 + scrollViewGeometry.size.height + 80
+                                    contentHeight += 40 + scrollViewGeometry.size.height
                                 })
                         }
                     )
