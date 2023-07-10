@@ -25,7 +25,7 @@ struct SearchBar: View {
         RoundedRectangle(cornerRadius: 20.0)
             .frame(maxHeight: 50)
             .foregroundColor(.white)
-            .opacity(0.5)
+            .opacity(UIConstants.componentOpacity)
             .overlay {
                 HStack(spacing: 0) {
                     Image(systemName: "magnifyingglass")

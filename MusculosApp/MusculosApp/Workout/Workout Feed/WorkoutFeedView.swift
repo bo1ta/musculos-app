@@ -8,11 +8,39 @@
 import SwiftUI
 
 struct WorkoutFeedView: View {
+    @State private var selectedFilter: String = ""
+    private let options = ["Mix workout", "Home workout", "Gym workout"]
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        backgroundView {
+            VStack(spacing: 4) {
+                SearchBar(placeholderText: "Search workouts")
+                ButtonHorizontalStack(selectedOption: $selectedFilter, options: self.options)
+                WorkoutCard(title: "Day 4", subtitle: "Start your 4th day workout", content: "AB Crunches", imageName: "workout-crunches", options: [IconPillOption(title: "15 min"), IconPillOption(title: "234 kcal")])
+                Spacer()
+            }
+            .padding(1)
+        }
+    }
+    
+    @ViewBuilder private func backgroundView(@ViewBuilder content: () -> some View) -> some View {
+        ZStack {
+            Image("weightlifting-background")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(minWidth: 0, maxHeight: .infinity)
+                .edgesIgnoringSafeArea(.all)
+                .overlay { // TODO: Extend this overlay to the edges
+                }
+            
+            content()
+        }
     }
 }
 
-#Preview {
-    WorkoutFeedView()
+struct WorkoutFeedView_Preview: PreviewProvider {
+    static var previews: some View {
+        WorkoutFeedView()
+    }
 }
