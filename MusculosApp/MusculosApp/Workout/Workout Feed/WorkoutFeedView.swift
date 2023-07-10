@@ -14,7 +14,7 @@ struct WorkoutFeedView: View {
     
     var body: some View {
         backgroundView {
-            VStack(spacing: 4) {
+            VStack(spacing: 1) {
                 SearchBar(placeholderText: "Search workouts")
                 ButtonHorizontalStack(selectedOption: $selectedFilter, options: self.options)
                 WorkoutCard(title: "Day 4", subtitle: "Start your 4th day workout", content: "AB Crunches", imageName: "workout-crunches", options: [IconPillOption(title: "15 min"), IconPillOption(title: "234 kcal")])
@@ -31,7 +31,11 @@ struct WorkoutFeedView: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(minWidth: 0, maxHeight: .infinity)
                 .edgesIgnoringSafeArea(.all)
-                .overlay { // TODO: Extend this overlay to the edges
+                .overlay {
+                    Color.black
+                        .opacity(0.5)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .ignoresSafeArea()
                 }
             
             content()
