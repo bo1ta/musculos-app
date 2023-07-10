@@ -14,25 +14,39 @@ struct IconPill: View {
         self.option = option
     }
     
+    private var systemImageSize: CGFloat {
+        guard self.option.systemImage != nil else { return 0 }
+        
+        /// `ImageScale.small
+        return 40.0
+    }
+    
+    private var fontSizeWidth: CGFloat {
+        return self.option.title.widthOfString(usingFont: .systemFont(ofSize: 12))
+    }
+    
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
             .foregroundColor(.gray)
             .opacity(0.6)
-            .frame(width: CGFloat(self.option.title.count * 10) + 15, height: 25)
+            .frame(minWidth: self.systemImageSize + self.fontSizeWidth + 20, minHeight: 25)
             .overlay {
-                HStack {
-                    if let systemImage = self.option.systemImage {
-                        Image(systemName: systemImage)
+                VStack(alignment: .center) {
+                    HStack {
+                        if let systemImage = self.option.systemImage {
+                            Image(systemName: systemImage)
+                                .imageScale(.small)
+                                .foregroundColor(.white)
+                        }
+                       
+                        Text(self.option.title)
                             .foregroundColor(.white)
-                            .padding(.leading, 10)
+                            .font(.caption)
                     }
-                   
-                    Text(self.option.title)
-                        .foregroundColor(.white)
-                        .font(.caption)
-                    Spacer()
+                    .fixedSize()
                 }
             }
+            .fixedSize()
     }
 }
 
