@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WorkoutCard: View {
+struct CurrentWorkoutCard: View {
     var title: String
     var subtitle: String
     var content: String
@@ -37,7 +37,7 @@ struct WorkoutCard: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
         )
-        .cornerRadius(12)
+        .cornerRadius(25)
         .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
         .frame(height: 240)
     }
@@ -82,7 +82,7 @@ struct WorkoutCard: View {
 
 struct WorkoutCard_Preview: PreviewProvider {
     static var previews: some View {
-        WorkoutCard(title: "Back workout",
+        CurrentWorkoutCard(title: "Back workout",
                     subtitle: "Start your first week",
                     content: "Body contouring",
                     imageName: "deadlift-background",

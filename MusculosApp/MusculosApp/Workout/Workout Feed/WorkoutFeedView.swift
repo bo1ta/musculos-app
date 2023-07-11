@@ -14,10 +14,11 @@ struct WorkoutFeedView: View {
     
     var body: some View {
         backgroundView {
-            VStack(spacing: 1) {
+            VStack(spacing: 5) {
                 SearchBar(placeholderText: "Search workouts")
                 ButtonHorizontalStack(selectedOption: $selectedFilter, options: self.options)
-                WorkoutCard(title: "Day 4", subtitle: "Start your 4th day workout", content: "AB Crunches", imageName: "workout-crunches", options: [IconPillOption(title: "15 min"), IconPillOption(title: "234 kcal")])
+                CurrentWorkoutCard(title: "Day 4", subtitle: "Start your 4th day workout", content: "AB Crunches", imageName: "deadlift-background-2", options: [IconPillOption(title: "15 min"), IconPillOption(title: "234 kcal")])
+                    .padding([.leading, .trailing], 10)
                 Spacer()
             }
             .padding(1)

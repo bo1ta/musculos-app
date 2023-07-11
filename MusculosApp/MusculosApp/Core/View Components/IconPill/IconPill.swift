@@ -7,8 +7,13 @@
 
 import SwiftUI
 
+enum IconPillSize {
+    case small, medium, large
+}
+
 struct IconPill: View {
     private let option: IconPillOption
+    private let iconPillSize: IconPillSize = .small
     
     init(option: IconPillOption) {
         self.option = option
@@ -25,14 +30,25 @@ struct IconPill: View {
         return self.option.title.widthOfString(usingFont: .systemFont(ofSize: 12))
     }
     
+    private var rectangleWidth: CGFloat {
+        var multiplier = 1
+        switch self.iconPillSize {
+        case .small:
+            return (self.systemImageSize + self.fontSizeWidth + 20) / 2 + 20
+        case .medium, .large:
+            break
+        }
+        return self.systemImageSize + self.fontSizeWidth + 20
+    }
+    
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
             .foregroundColor(.gray)
-            .opacity(0.6)
-            .frame(minWidth: self.systemImageSize + self.fontSizeWidth + 20, minHeight: 25)
+            .opacity(0.2)
+            .frame(minWidth: self.rectangleWidth, minHeight: 25)
             .overlay {
                 VStack(alignment: .center) {
-                    HStack {
+                    HStack(spacing: 3) {
                         if let systemImage = self.option.systemImage {
                             Image(systemName: systemImage)
                                 .imageScale(.small)
@@ -41,7 +57,7 @@ struct IconPill: View {
                        
                         Text(self.option.title)
                             .foregroundColor(.white)
-                            .font(.caption)
+                            .font(Font(CTFont(.smallToolbar, size: 10)))
                     }
                     .fixedSize()
                 }
