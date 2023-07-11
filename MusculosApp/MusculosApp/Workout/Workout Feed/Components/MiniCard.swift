@@ -55,10 +55,7 @@ struct MiniCard: View {
 
 struct CardItem_Preview: PreviewProvider {
     static var previews: some View {
-        MiniCard(item: MiniCardItem(title: "Featured workout",
-                                        subtitle: "Gym workout",
-                                        description: "Body contouring",
-                                        iconPillOption: IconPillOption(title: "In progress"))
-        )
+        MiniCard(item: MiniCardItem(title: "Featured workout", subtitle: "Gym workout", description: "Body contouring", iconPillOption: IconPillOption(title: "In progress")))
+        .previewLayout(.sizeThatFits)
     }
 }
