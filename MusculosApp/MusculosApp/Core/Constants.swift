@@ -18,3 +18,7 @@ public class HTTPHeaderConstants: NSObject {
     static let contentType = "Content-Type"
     static let authorization = "Authorization"
 }
+
+public class UIConstants: NSObject {
+    static let componentOpacity: Double = 0.95
+}

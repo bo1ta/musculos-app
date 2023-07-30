@@ -7,38 +7,68 @@
 
 import SwiftUI
 
+enum IconPillSize {
+    case small, medium, large
+}
+
 struct IconPill: View {
     private let option: IconPillOption
+    private let iconPillSize: IconPillSize = .small
     
     init(option: IconPillOption) {
         self.option = option
     }
     
+    private var systemImageSize: CGFloat {
+        guard self.option.systemImage != nil else { return 0 }
+        
+        /// `ImageScale.small
+        return 40.0
+    }
+    
+    private var fontSizeWidth: CGFloat {
+        return self.option.title.widthOfString(usingFont: .systemFont(ofSize: 12))
+    }
+    
+    private var rectangleWidth: CGFloat {
+        var multiplier = 1
+        switch self.iconPillSize {
+        case .small:
+            return (self.systemImageSize + self.fontSizeWidth + 20) / 2 + 20
+        case .medium, .large:
+            break
+        }
+        return self.systemImageSize + self.fontSizeWidth + 20
+    }
+    
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
             .foregroundColor(.gray)
-            .opacity(0.6)
-            .frame(width: CGFloat(self.option.title.count * 10) + 15, height: 25)
+            .opacity(0.2)
+            .frame(minWidth: self.rectangleWidth, minHeight: 25)
             .overlay {
-                HStack {
-                    if let systemImage = self.option.systemImage {
-                        Image(systemName: systemImage)
+                VStack(alignment: .center) {
+                    HStack(spacing: 3) {
+                        if let systemImage = self.option.systemImage {
+                            Image(systemName: systemImage)
+                                .imageScale(.small)
+                                .foregroundColor(.white)
+                        }
+                       
+                        Text(self.option.title)
                             .foregroundColor(.white)
-                            .padding(.leading, 10)
+                            .font(Font(CTFont(.smallToolbar, size: 10)))
                     }
-                   
-                    Text(self.option.title)
-                        .foregroundColor(.white)
-                        .font(.caption)
-                    Spacer()
+                    .fixedSize()
                 }
             }
+            .fixedSize()
     }
 }
 
 struct IconPill_Preview: PreviewProvider {
     static var previews: some View {
-        IconPill(option: IconPillOption(systemImage: "clock", title: "1x / week"))
+        IconPill(option: IconPillOption(title: "1x / week", systemImage: "clock"))
             .previewLayout(.sizeThatFits)
     }
 }
