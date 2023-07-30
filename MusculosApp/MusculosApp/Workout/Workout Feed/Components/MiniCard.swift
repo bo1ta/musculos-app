@@ -12,8 +12,18 @@ struct MiniCardItem {
     let title: String
     let subtitle: String
     let description: String
-    
+    let imageName: String?
+    let color: Color?
     let iconPillOption: IconPillOption?
+    
+    init(title: String, subtitle: String, description: String, imageName: String? = nil, color: Color? = nil, iconPillOption: IconPillOption? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.description = description
+        self.imageName = imageName
+        self.color = color
+        self.iconPillOption = iconPillOption
+    }
 }
 
 extension MiniCardItem: Hashable {
@@ -23,19 +33,16 @@ extension MiniCardItem: Hashable {
 }
 
 struct MiniCard: View {
-    private let size: CGFloat
+    private let size: CGFloat?
     private let item: MiniCardItem
     
-    init(item: MiniCardItem, size: CGFloat = 150) {
+    init(item: MiniCardItem, size: CGFloat? = 150) {
         self.item = item
         self.size = size
     }
     
     var body: some View {
-        RoundedRectangle(cornerSize: CGSize(width: 30, height: 15))
-            .scaledToFit()
-            .frame(width: size, height: size)
-            .foregroundColor(.orange)
+        self.roundedRectangle
             .overlay {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(item.title)
@@ -52,6 +59,7 @@ struct MiniCard: View {
                         .font(.callout)
                         .foregroundColor(.white)
                         .fontWeight(.medium)
+                        .padding(.bottom, item.iconPillOption != nil ? 0 : 35)
                     
                     if let iconPillOption = self.item.iconPillOption {
                         IconPill(option: iconPillOption)
@@ -60,6 +68,26 @@ struct MiniCard: View {
                 }
                 .padding(5)
             }
+    }
+    
+    @ViewBuilder
+    private var roundedRectangle: some View {
+        let shadowRadius = 5.0
+        let roundedRectangle = RoundedRectangle(cornerRadius: 25.0)
+        
+        if let imageName = item.imageName {
+            Image(imageName)
+                .scaledToFit()
+                .frame(width: size, height: size)
+                .clipShape(roundedRectangle)
+                .shadow(radius: shadowRadius)
+        } else {
+            roundedRectangle
+                .scaledToFit()
+                .frame(width: size, height: size)
+                .foregroundColor(item.color ?? .orange)
+                .shadow(radius: shadowRadius)
+        }
     }
 }
 

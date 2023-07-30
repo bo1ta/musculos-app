@@ -8,8 +8,8 @@
 import Foundation
 
 struct IconPillOption {
-    var systemImage: String?
     var title: String
+    var systemImage: String?
 }
 
 extension IconPillOption: Hashable {

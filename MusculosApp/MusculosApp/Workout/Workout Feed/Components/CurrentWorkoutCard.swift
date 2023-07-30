@@ -42,7 +42,8 @@ struct CurrentWorkoutCard: View {
         .frame(height: 240)
     }
     
-    @ViewBuilder private var topSection: some View {
+    @ViewBuilder
+    private var topSection: some View {
         HStack {
             VStack {
                 Text(title)
@@ -59,7 +60,8 @@ struct CurrentWorkoutCard: View {
         }
     }
     
-    @ViewBuilder private var bottomSection: some View {
+    @ViewBuilder
+    private var bottomSection: some View {
         HStack {
             VStack(alignment: .leading) {
                 Text(content)
@@ -87,9 +89,9 @@ struct WorkoutCard_Preview: PreviewProvider {
                     content: "Body contouring",
                     imageName: "deadlift-background",
                     options: [
-                        IconPillOption(systemImage: "clock", title: "1x / week"),
-                        IconPillOption(systemImage: "bolt.badge.clock", title: "Start streak"),
-                        IconPillOption(systemImage: "bolt.badge.clock", title: "Complete")
+                        IconPillOption(title: "1x / week", systemImage: "clock"),
+                        IconPillOption(title: "Start streak", systemImage: "bolt.badge.clock"),
+                        IconPillOption(title: "Complete", systemImage: "bolt.badge.clock")
                     ])
         .previewLayout(.sizeThatFits)
     }

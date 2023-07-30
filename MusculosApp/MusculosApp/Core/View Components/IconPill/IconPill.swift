@@ -68,7 +68,7 @@ struct IconPill: View {
 
 struct IconPill_Preview: PreviewProvider {
     static var previews: some View {
-        IconPill(option: IconPillOption(systemImage: "clock", title: "1x / week"))
+        IconPill(option: IconPillOption(title: "1x / week", systemImage: "clock"))
             .previewLayout(.sizeThatFits)
     }
 }

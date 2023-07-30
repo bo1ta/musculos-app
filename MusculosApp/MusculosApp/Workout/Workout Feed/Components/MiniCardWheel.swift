@@ -9,18 +9,19 @@ import SwiftUI
 
 struct MiniCardWheel: View {
     private let items: [MiniCardItem]
+    private let itemSize: CGFloat?
     
-    init(items: [MiniCardItem]) {
+    init(items: [MiniCardItem], itemSize: CGFloat? = nil) {
         self.items = items
+        self.itemSize = itemSize
     }
     
     var body: some View {
             ScrollView(.horizontal) {
                 LazyHStack {
                     ForEach(items, id: \.self) { item in
-                            MiniCard(item: item)
-                }
-
+                            MiniCard(item: item, size: itemSize)
+                    }
                 }
             }
             .frame(height: 200)
