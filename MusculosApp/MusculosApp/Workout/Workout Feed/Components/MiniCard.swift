@@ -59,7 +59,7 @@ struct MiniCard: View {
                         .font(.callout)
                         .foregroundColor(.white)
                         .fontWeight(.medium)
-                        .padding(.bottom, item.iconPillOption != nil ? 0 : 35)
+                        .padding(.bottom, item.iconPillOption != nil ? 0 : 30)
                     
                     if let iconPillOption = self.item.iconPillOption {
                         IconPill(option: iconPillOption)
@@ -77,6 +77,7 @@ struct MiniCard: View {
         
         if let imageName = item.imageName {
             Image(imageName)
+                .resizable()
                 .scaledToFit()
                 .frame(width: size, height: size)
                 .clipShape(roundedRectangle)
@@ -93,7 +94,7 @@ struct MiniCard: View {
 
 struct CardItem_Preview: PreviewProvider {
     static var previews: some View {
-        MiniCard(item: MiniCardItem(title: "Featured workout", subtitle: "Gym workout", description: "Body contouring", iconPillOption: IconPillOption(title: "In progress")))
+        MiniCard(item: MiniCardItem(title: "Featured workout", subtitle: "Gym workout", description: "Body contouring", imageName: "workout-crunches", iconPillOption: IconPillOption(title: "In progress")))
         .previewLayout(.sizeThatFits)
     }
 }

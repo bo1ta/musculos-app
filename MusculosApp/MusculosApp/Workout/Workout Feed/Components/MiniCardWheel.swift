@@ -33,7 +33,7 @@ struct MiniCardWheel_Preview: PreviewProvider {
         MiniCardWheel(items: [
             MiniCardItem(title: "Hello", subtitle: "hello", description: "hello", iconPillOption: IconPillOption(title: "Hei")),
             MiniCardItem(title: "Hello", subtitle: "hello", description: "hello", iconPillOption: nil),
-            MiniCardItem(title: "Hello", subtitle: "hello", description: "hello", iconPillOption: nil),
+            MiniCardItem(title: "Hello", subtitle: "hello", description: "hello", imageName: "workout-crunches", iconPillOption: nil),
             MiniCardItem(title: "Hello", subtitle: "hello", description: "hello", iconPillOption: nil),
             MiniCardItem(title: "Hello", subtitle: "hello", description: "hello", iconPillOption: nil),
             MiniCardItem(title: "Hello", subtitle: "hello", description: "hello", iconPillOption: nil),

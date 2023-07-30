@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 class HorizontalPickerViewCell: UICollectionViewCell {
-
     static let identifier = String(describing: HorizontalPickerViewCell.self)
     
     private let titleLabel: UILabel = {
