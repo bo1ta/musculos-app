@@ -89,7 +89,7 @@ struct WorkoutCard_Preview: PreviewProvider {
                     options: [
                         IconPillOption(systemImage: "clock", title: "1x / week"),
                         IconPillOption(systemImage: "bolt.badge.clock", title: "Start streak"),
-                        IconPillOption(systemImage: "bolt.badge.clock", title: "Completeee")
+                        IconPillOption(systemImage: "bolt.badge.clock", title: "Complete")
                     ])
         .previewLayout(.sizeThatFits)
     }

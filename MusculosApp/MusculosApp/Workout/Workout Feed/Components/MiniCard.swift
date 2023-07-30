@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MiniCardItem {
+    let id = UUID().uuidString
     let title: String
     let subtitle: String
     let description: String
@@ -15,17 +16,25 @@ struct MiniCardItem {
     let iconPillOption: IconPillOption?
 }
 
+extension MiniCardItem: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+}
+
 struct MiniCard: View {
-    
+    private let size: CGFloat
     private let item: MiniCardItem
     
-    init(item: MiniCardItem) {
+    init(item: MiniCardItem, size: CGFloat = 150) {
         self.item = item
+        self.size = size
     }
     
     var body: some View {
         RoundedRectangle(cornerSize: CGSize(width: 30, height: 15))
-            .frame(maxWidth: 150, maxHeight: 150)
+            .scaledToFit()
+            .frame(width: size, height: size)
             .foregroundColor(.orange)
             .overlay {
                 VStack(alignment: .leading, spacing: 5) {
@@ -49,6 +58,7 @@ struct MiniCard: View {
                             .padding(.bottom, 5)
                     }
                 }
+                .padding(5)
             }
     }
 }
