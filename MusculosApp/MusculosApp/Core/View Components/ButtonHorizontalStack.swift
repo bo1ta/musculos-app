@@ -20,7 +20,7 @@ struct ButtonHorizontalStack: View {
         HStack(spacing: 1) {
             ForEach(options, id: \.self) { option in
                 Button(action: {
-                    self.selectedOption = option
+                    self.selectedOption = self.selectedOption == option ? "" : option
                 }, label: {
                     Text(option)
                         .font(.caption)
