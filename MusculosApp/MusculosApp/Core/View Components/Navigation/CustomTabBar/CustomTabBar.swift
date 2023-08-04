@@ -7,35 +7,6 @@
 
 import SwiftUI
 
-
-enum TabBarItem: String {
-    case dashboard
-    case workout
-    case add
-    
-    var label: String {
-        switch self {
-        case .add:
-            return "Add"
-        case .dashboard:
-            return "Dashboard"
-        case .workout:
-            return "Workout"
-        }
-    }
-    
-    var imageName: String {
-        switch self {
-        case .add:
-            return "plus"
-        case .dashboard:
-            return "rectangle.grid.2x2"
-        case .workout:
-            return "dumbbell"
-        }
-    }
-}
-
 struct CustomTabBar: View {
     var tabBarItems: [TabBarItem] = [.dashboard, .add, .workout]
     

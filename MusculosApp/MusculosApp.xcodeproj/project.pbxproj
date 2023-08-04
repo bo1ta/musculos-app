@@ -19,6 +19,7 @@
 		BC1160E72A2CFB840028D8FC /* MusculosAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160E62A2CFB840028D8FC /* MusculosAppTests.swift */; };
 		BC1160F12A2CFB840028D8FC /* MusculosAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160F02A2CFB840028D8FC /* MusculosAppUITests.swift */; };
 		BC1160F32A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160F22A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift */; };
+		BC11BC5A2A7D74CB00D96440 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC11BC592A7D74CB00D96440 /* TabBarItem.swift */; };
 		BC182ECA2A589A81003DEA30 /* MusculosDataStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */; };
 		BC182ECD2A589BE7003DEA30 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* DataController.swift */; };
 		BC352AE72A326DAE00DAA3AB /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AE62A326DAE00DAA3AB /* Request.swift */; };
@@ -105,6 +106,7 @@
 		BC1160EC2A2CFB840028D8FC /* MusculosAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusculosAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC1160F02A2CFB840028D8FC /* MusculosAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosAppUITests.swift; sourceTree = "<group>"; };
 		BC1160F22A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BC11BC592A7D74CB00D96440 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		BC182EC92A589A81003DEA30 /* Musculos.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Musculos.xcdatamodel; sourceTree = "<group>"; };
 		BC182ECC2A589BE7003DEA30 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		BC352AE62A326DAE00DAA3AB /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
@@ -378,6 +380,7 @@
 		BC5A41032A7D6EF300F671F5 /* CustomTabBar */ = {
 			isa = PBXGroup;
 			children = (
+				BC11BC592A7D74CB00D96440 /* TabBarItem.swift */,
 				BC0E9C482A7D710F009DFC4B /* Tab Bar Button */,
 				BC5A41042A7D6F0D00F671F5 /* Protocol */,
 				BC6DE1BE2A770FAE006AE28C /* CustomTabBar.swift */,
@@ -652,6 +655,7 @@
 				BCE3B6962A5AEC65001D04EB /* WorkoutFeedView.swift in Sources */,
 				BCFBB78A2A5A020700896C3C /* SearchBar.swift in Sources */,
 				BCCE85E22A328629001BEE8B /* AuthenticationViewModel.swift in Sources */,
+				BC11BC5A2A7D74CB00D96440 /* TabBarItem.swift in Sources */,
 				BCFBB7752A59CD6F00896C3C /* Question.swift in Sources */,
 				BC10E4292A3B811C0008A72E /* Answer.swift in Sources */,
 				BC182ECD2A589BE7003DEA30 /* DataController.swift in Sources */,
