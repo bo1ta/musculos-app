@@ -9,11 +9,10 @@ import Foundation
 import UIKit
 
 class HorizontalPickerViewController: UIViewController {
-    
-    var cellWidth: CGFloat = 0
-    var data: [String] = []
     var selectionDidChange: ((String) -> Void)?
 
+    private var cellWidth: CGFloat = 0
+    private var data: [String] = []
     private var selectedCellIndexPath: IndexPath?
 
     private lazy var collectionView: UICollectionView = {
@@ -103,7 +102,7 @@ extension HorizontalPickerViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let inset = view.frame.width/2 - (cellWidth/2)
+        let inset = view.frame.width/2 - cellWidth/2
         return UIEdgeInsets(
             top: 0,
             left: inset,
@@ -118,7 +117,7 @@ extension HorizontalPickerViewController: UICollectionViewDelegateFlowLayout {
 extension HorizontalPickerViewController {
     public func select(row: Int, in section: Int = 0, animated: Bool = true) {
         guard row < data.count else { return }
-        
+    
         self.cleanupSelection()
         
         let indexPath = IndexPath(row: row, section: section)
@@ -161,7 +160,6 @@ extension HorizontalPickerViewController {
             let bottomBoundary = viewMidX - cellRect.width/2
             
             /// A print state representating what the return is calculating
-            print("topboundary: \(topBoundary) > cellMidX: \(cellMidX) > Bottom Boundary: \(bottomBoundary)")
             return topBoundary > cellMidX  && cellMidX > bottomBoundary
         })
         

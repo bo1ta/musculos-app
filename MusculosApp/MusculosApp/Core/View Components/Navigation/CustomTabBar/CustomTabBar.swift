@@ -7,47 +7,57 @@
 
 import SwiftUI
 
-struct CustomTabBar: View {
-    var tabBarItems: [TabBarItem] = [.dashboard, .add, .workout]
-    
+struct CustomTabBar<Content:View>: View {
+    var tabBarItems: [TabBarItem]
+    let content: Content
+
     @State var selectedIndex = 0
     
-    var body: some View {
-        ZStack(alignment: .bottom, content: {
-            HStack {
-                ForEach(tabBarItems.indices, id: \.self) { index in
-                    tabItem(with: tabBarItems[index], isSelected: selectedIndex == index) {
-                        withAnimation(.easeInOut) {
-                            selectedIndex = index
-                        }
-                    }
-                    if tabBarItems[index] != tabBarItems.last {
-                        Spacer()
-                    }
-                }
-            }
-            .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(25)
-        })
+    init(tabBarItems: [TabBarItem], selectedIndex: Int = 0, @ViewBuilder content: () -> Content) {
+        self.tabBarItems = tabBarItems
+        self.content = content()
+        self.selectedIndex = selectedIndex
     }
     
-    private func tabItem(with item: TabBarItem, isSelected: Bool, onTapGesture: @escaping () -> Void) -> some View {
+    var body: some View {
         VStack(spacing: 0) {
+            
+            content
+                    HStack {
+                        ForEach(tabBarItems.indices, id: \.self) { index in
+                            Spacer()
+                            tabItem(with: tabBarItems[index], isSelected: selectedIndex == index) {
+                                withAnimation(.snappy) {
+                                    selectedIndex = index
+                                }
+                            }
+                            Spacer()
+                        }
+                    }
+                    .frame(height: 70)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(25)
+            }
+    }
+}
+
+extension CustomTabBar {
+    private func tabItem(with item: TabBarItem, isSelected: Bool, onTapGesture: @escaping () -> Void) -> some View {
+        VStack {
             if item == .add {
-                ZStack(alignment: .top) {
-                    AddTabBarButton(onTapGesture: onTapGesture)
-                }
+                AddTabBarButton(onTapGesture: onTapGesture)
+                    .padding(.bottom)
             } else {
                 Image(systemName: item.imageName)
-                    .foregroundStyle(isSelected ? Color.appColor(with: .violetBlue) : .gray)
+                    .foregroundStyle(isSelected ? .black : .gray)
                     .onTapGesture(perform: onTapGesture)
                     .frame(height: 30)
                     .font(Font(CTFont(.menuItem, size: 23)))
+                    .fontWeight(.bold)
                 
-                Text(item.label)
-                    .font(.caption)
-                    .foregroundStyle(isSelected ? Color.appColor(with: .violetBlue) : .gray)
+//                Text(item.label)
+//                    .font(.caption)
+//                    .foregroundStyle(isSelected ? .black : .gray)
             }
         }
     }
@@ -55,7 +65,8 @@ struct CustomTabBar: View {
 
 struct CustomTabBar_Preview: PreviewProvider {
     static var previews: some View {
-        CustomTabBar()
-            .previewLayout(.sizeThatFits)
+        CustomTabBar(tabBarItems: [.dashboard, .add, .workout]) {
+            Text("hi")
+        }
     }
 }

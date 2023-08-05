@@ -34,3 +34,13 @@ enum TabBarItem: String {
         }
     }
 }
+
+extension TabBarItem: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.label)
+    }
+    
+    static func ==(_ lhs: TabBarItem, rhs: TabBarItem) -> Bool {
+        return lhs.label == rhs.label
+    }
+}

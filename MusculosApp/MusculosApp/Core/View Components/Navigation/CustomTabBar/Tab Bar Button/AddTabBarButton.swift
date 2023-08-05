@@ -28,9 +28,9 @@ struct AddTabBarButton: CustomTabBarButton {
                             .foregroundStyle(Color.appColor(with: .spriteGreen))
                             .onTapGesture(perform: self.onTapGesture)
                     }
-                    .frame(width: 30, height: 30)
+                    .frame(width: 50, height: 50)
             }
-            .frame(width: 40, height: 40)
+            .frame(width: 60, height: 60)
     }
 }
 

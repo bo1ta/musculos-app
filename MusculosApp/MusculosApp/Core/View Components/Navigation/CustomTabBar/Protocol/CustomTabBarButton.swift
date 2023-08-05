@@ -12,3 +12,4 @@ protocol CustomTabBarButton: View {
     var tabBarItem: TabBarItem { get }
     var onTapGesture: () -> Void { get set }
 }
+
