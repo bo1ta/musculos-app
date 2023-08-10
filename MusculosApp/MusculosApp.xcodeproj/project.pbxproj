@@ -27,6 +27,9 @@
 		BC352AEB2A32713300DAA3AB /* NetworkRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEA2A32713300DAA3AB /* NetworkRequestError.swift */; };
 		BC352AED2A32774600DAA3AB /* MusculosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEC2A32774600DAA3AB /* MusculosClient.swift */; };
 		BC352AF02A327E3300DAA3AB /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEF2A327E3300DAA3AB /* AuthenticationView.swift */; };
+		BC3FB0EA2A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0E92A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift */; };
+		BC3FB0EC2A85565400C3F9B1 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0EB2A85565400C3F9B1 /* View+Extension.swift */; };
+		BC3FB0EE2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0ED2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift */; };
 		BC5924FF2A5C527F000F1941 /* ButtonHorizontalStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5924FE2A5C527F000F1941 /* ButtonHorizontalStack.swift */; };
 		BC5925012A5C8B72000F1941 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5925002A5C8B72000F1941 /* String+Extension.swift */; };
 		BC59720A2A35075800EBB075 /* TransparentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972092A35075800EBB075 /* TransparentContainer.swift */; };
@@ -115,6 +118,9 @@
 		BC352AEA2A32713300DAA3AB /* NetworkRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestError.swift; sourceTree = "<group>"; };
 		BC352AEC2A32774600DAA3AB /* MusculosClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosClient.swift; sourceTree = "<group>"; };
 		BC352AEF2A327E3300DAA3AB /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		BC3FB0E92A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
+		BC3FB0EB2A85565400C3F9B1 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		BC3FB0ED2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemViewModifier.swift; sourceTree = "<group>"; };
 		BC5924FE2A5C527F000F1941 /* ButtonHorizontalStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonHorizontalStack.swift; sourceTree = "<group>"; };
 		BC5925002A5C8B72000F1941 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BC5972092A35075800EBB075 /* TransparentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentContainer.swift; sourceTree = "<group>"; };
@@ -186,14 +192,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BC0E9C482A7D710F009DFC4B /* Tab Bar Button */ = {
-			isa = PBXGroup;
-			children = (
-				BCE4170F2A7D73380088D975 /* AddTabBarButton.swift */,
-			);
-			path = "Tab Bar Button";
-			sourceTree = "<group>";
-		};
 		BC10E42C2A3B8AB00008A72E /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,9 +307,11 @@
 		BC352AE32A326D6C00DAA3AB /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				BC3FB0EF2A855D9100C3F9B1 /* Preference Key */,
 				BC182ECB2A589BC7003DEA30 /* Core Data */,
 				BCD372422A57364200C0F161 /* UIKit */,
-				BC59720F2A351AEF00EBB075 /* ButtonStyle */,
+				BC59720F2A351AEF00EBB075 /* Button Style */,
+				BC5A41032A7D6EF300F671F5 /* Tab Bar */,
 				BC5972082A35074E00EBB075 /* View Components */,
 				BCCE85E72A33D7A8001BEE8B /* Extension */,
 				BC352AE42A326D7C00DAA3AB /* Network */,
@@ -343,6 +343,34 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		BC3FB0EF2A855D9100C3F9B1 /* Preference Key */ = {
+			isa = PBXGroup;
+			children = (
+				BC3FB0E92A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift */,
+			);
+			path = "Preference Key";
+			sourceTree = "<group>";
+		};
+		BC3FB0F02A855DD200C3F9B1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BC5A41042A7D6F0D00F671F5 /* Protocol */,
+				BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */,
+				BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainer.swift */,
+				BCE4170F2A7D73380088D975 /* AddTabBarButton.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BC3FB0F12A855E1500C3F9B1 /* Tab Bar Item */ = {
+			isa = PBXGroup;
+			children = (
+				BC11BC592A7D74CB00D96440 /* TabBarItem.swift */,
+				BC3FB0ED2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift */,
+			);
+			path = "Tab Bar Item";
+			sourceTree = "<group>";
+		};
 		BC5972082A35074E00EBB075 /* View Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,20 +386,19 @@
 			path = "View Components";
 			sourceTree = "<group>";
 		};
-		BC59720F2A351AEF00EBB075 /* ButtonStyle */ = {
+		BC59720F2A351AEF00EBB075 /* Button Style */ = {
 			isa = PBXGroup;
 			children = (
 				BC5972102A351B0F00EBB075 /* PrimaryButton.swift */,
 				BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */,
 				BCF86C3C2A363A92003293A4 /* SelectedButton.swift */,
 			);
-			path = ButtonStyle;
+			path = "Button Style";
 			sourceTree = "<group>";
 		};
 		BC5A41022A7C55AB00F671F5 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				BC5A41032A7D6EF300F671F5 /* CustomTabBar */,
 				BCF86C412A3678E4003293A4 /* ProgressBar.swift */,
 				BCFBB7892A5A020700896C3C /* SearchBar.swift */,
 				BCF86C322A362105003293A4 /* CustomNavigationBar.swift */,
@@ -379,16 +406,13 @@
 			path = Navigation;
 			sourceTree = "<group>";
 		};
-		BC5A41032A7D6EF300F671F5 /* CustomTabBar */ = {
+		BC5A41032A7D6EF300F671F5 /* Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
-				BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainer.swift */,
-				BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */,
-				BC11BC592A7D74CB00D96440 /* TabBarItem.swift */,
-				BC0E9C482A7D710F009DFC4B /* Tab Bar Button */,
-				BC5A41042A7D6F0D00F671F5 /* Protocol */,
+				BC3FB0F12A855E1500C3F9B1 /* Tab Bar Item */,
+				BC3FB0F02A855DD200C3F9B1 /* View */,
 			);
-			path = CustomTabBar;
+			path = "Tab Bar";
 			sourceTree = "<group>";
 		};
 		BC5A41042A7D6F0D00F671F5 /* Protocol */ = {
@@ -415,6 +439,7 @@
 				BCCE85E82A33D7B5001BEE8B /* Encodable+Extension.swift */,
 				BCCE85EC2A35008C001BEE8B /* Color+Extension.swift */,
 				BC5925002A5C8B72000F1941 /* String+Extension.swift */,
+				BC3FB0EB2A85565400C3F9B1 /* View+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -628,6 +653,7 @@
 				BCD372452A57366900C0F161 /* HorizontalPickerViewController.swift in Sources */,
 				BCFBB7772A59D25300896C3C /* CurrentWorkoutCard.swift in Sources */,
 				BCE417102A7D73380088D975 /* AddTabBarButton.swift in Sources */,
+				BC3FB0EC2A85565400C3F9B1 /* View+Extension.swift in Sources */,
 				BCF86C422A3678E4003293A4 /* ProgressBar.swift in Sources */,
 				BC10E4332A3B8CAC0008A72E /* IntroductionViewModel.swift in Sources */,
 				BCF86C392A363012003293A4 /* VerticalSelectPill.swift in Sources */,
@@ -645,7 +671,9 @@
 				BC5925012A5C8B72000F1941 /* String+Extension.swift in Sources */,
 				BCFBB7712A59C6D700896C3C /* QuestionEntity+CoreDataClass.swift in Sources */,
 				BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainer.swift in Sources */,
+				BC3FB0EA2A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift in Sources */,
 				BCFBB7882A59F96100896C3C /* HorizontalSelectPill.swift in Sources */,
+				BC3FB0EE2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift in Sources */,
 				BC352AF02A327E3300DAA3AB /* AuthenticationView.swift in Sources */,
 				BCCE85E62A33D658001BEE8B /* AuthenticationModule.swift in Sources */,
 				BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */,

@@ -9,21 +9,22 @@ import Foundation
 import SwiftUI
 
 struct CustomTabBarView: View {
-    @Binding var selectedIndex: String
+    @Namespace private var namespace
+    @Binding var selection: TabBarItem
     private var tabBarItems: [TabBarItem]
     
-    init(tabBarItems: [TabBarItem], selectedIndex: Binding<String>) {
+    init(tabBarItems: [TabBarItem], selection: Binding<TabBarItem>) {
         self.tabBarItems = tabBarItems
-        self._selectedIndex = selectedIndex
+        self._selection = selection
     }
     
     var body: some View {
         HStack(spacing: 24) {
             Spacer()
             ForEach(tabBarItems.indices, id: \.self) { index in
-                tabItem(with: tabBarItems[index], isSelected: selectedIndex == tabBarItems[index].rawValue) {
+                tabItem(with: tabBarItems[index], isSelected: selection.rawValue == tabBarItems[index].rawValue) {
                     withAnimation(.easeIn(duration: 0.1)) {
-                        selectedIndex = tabBarItems[index].rawValue
+                        selection = tabBarItems[index]
                     }
                 }
             }
@@ -56,6 +57,6 @@ extension CustomTabBarView {
 
 struct CustomTabBarView_Preview: PreviewProvider {
     static var previews: some View {
-        CustomTabBarView(tabBarItems: [.dashboard, .add, .workout], selectedIndex: Binding<String>.constant(""))
+        CustomTabBarView(tabBarItems: [.dashboard, .add, .workout], selection: Binding<TabBarItem>.constant(.dashboard))
     }
 }

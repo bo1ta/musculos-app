@@ -11,7 +11,6 @@ struct WorkoutFeedView: View {
     @State private var selectedFilter: String = ""
     private let options = ["Mix workout", "Home workout", "Gym workout"]
     
-    
     var body: some View {
         backgroundView {
             VStack(spacing: 5) {
