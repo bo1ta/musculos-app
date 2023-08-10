@@ -39,7 +39,6 @@ struct SearchBar: View {
                 }
                 .padding()
             }
-            .padding(4)
     }
 }
 

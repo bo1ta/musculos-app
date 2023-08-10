@@ -11,8 +11,20 @@ import CoreData
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
+    @State private var selection: String = "workout"
+    @State private var tabSelection: TabBarItem = .workout
+    
     var body: some View {
-        AuthenticationView(viewModel: AuthenticationViewModel())
+        CustomTabBarContainer(selection: $tabSelection) {
+            WorkoutFeedView()
+                .tabBarItem(tab: .workout , selection: $tabSelection)
+            
+            AuthenticationView()
+                .tabBarItem(tab: .add, selection: $tabSelection)
+            
+            IntroductionView()
+                .tabBarItem(tab: .dashboard, selection: $tabSelection)
+        }
     }
 }
 

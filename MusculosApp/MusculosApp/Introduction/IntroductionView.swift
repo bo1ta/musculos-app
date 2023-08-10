@@ -63,7 +63,7 @@ struct IntroductionView: View {
     @ViewBuilder private var answerQuestion: some View {
         if let currentQuestion = viewModel.currentQuestion {
             VerticalSelectPill(question: currentQuestion.content, answers: currentQuestion.answers, selectedAnswer: $selectedAnswer) {
-                withAnimation(Animation.snappy(duration: 0.7)) {
+                withAnimation(Animation.easeInOut(duration: 2.0)) {
                     self.viewModel.nextQuestion(with: selectedAnswer)
                 }
             }

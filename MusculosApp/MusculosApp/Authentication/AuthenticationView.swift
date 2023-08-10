@@ -15,7 +15,7 @@ struct AuthenticationView: View {
         return self.viewModel.currentStep == .register
     }
     
-    init(viewModel: AuthenticationViewModel) {
+    init(viewModel: AuthenticationViewModel = AuthenticationViewModel()) {
         self.viewModel = viewModel
     }
     
