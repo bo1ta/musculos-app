@@ -18,7 +18,7 @@ struct CustomTabBarView: View {
     }
     
     var body: some View {
-        HStack {
+        HStack(spacing: 24) {
             Spacer()
             ForEach(tabBarItems.indices, id: \.self) { index in
                 tabItem(with: tabBarItems[index], isSelected: selectedIndex == tabBarItems[index].rawValue) {
@@ -30,6 +30,7 @@ struct CustomTabBarView: View {
             Spacer()
         }
         .frame(height: 70)
+        .fixedSize(horizontal: true, vertical: false)
         .background(Color(.systemGray6))
         .cornerRadius(25)
     }
@@ -55,6 +56,6 @@ extension CustomTabBarView {
 
 struct CustomTabBarView_Preview: PreviewProvider {
     static var previews: some View {
-        CustomTabBarView(tabBarItems: [.dashboard, .workout, .add], selectedIndex: Binding<String>.constant(""))
+        CustomTabBarView(tabBarItems: [.dashboard, .add, .workout], selectedIndex: Binding<String>.constant(""))
     }
 }
