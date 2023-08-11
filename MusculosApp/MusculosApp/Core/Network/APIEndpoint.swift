@@ -8,15 +8,15 @@
 import Foundation
 
 enum Endpoint: String {
-    case authentication = "/auth/login"
-    case register       = "/users"
+    case authentication = "/user/login"
+    case register       = "/user/register"
     case persons        = "/persons"
-    case questions      = "/questions"
+    case questions      = "/api/questions"
     case userAnswers    = "/user-answers"
 }
 
 public class APIEndpoint {
-    static let base = "http://0.0.0.0:3000"
+    static let base = "http://127.0.0.1:8080"
     
     static func baseWithEndpoint(endpoint: Endpoint) -> String {
         return Self.base + endpoint.rawValue
