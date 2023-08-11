@@ -1,5 +1,5 @@
 //
-//  CardItem.swift
+//  MiniCardView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 11.07.2023.
@@ -32,7 +32,7 @@ extension MiniCardItem: Hashable {
     }
 }
 
-struct MiniCard: View {
+struct MiniCardView: View {
     private let size: CGFloat?
     private let item: MiniCardItem
     
@@ -92,9 +92,9 @@ struct MiniCard: View {
     }
 }
 
-struct CardItem_Preview: PreviewProvider {
+struct MiniCardItem_Preview: PreviewProvider {
     static var previews: some View {
-        MiniCard(item: MiniCardItem(title: "Featured workout", subtitle: "Gym workout", description: "Body contouring", imageName: "workout-crunches", iconPillOption: IconPillOption(title: "In progress")))
+        MiniCardView(item: MiniCardItem(title: "Featured workout", subtitle: "Gym workout", description: "Body contouring", imageName: "workout-crunches", iconPillOption: IconPillOption(title: "In progress")))
         .previewLayout(.sizeThatFits)
     }
 }

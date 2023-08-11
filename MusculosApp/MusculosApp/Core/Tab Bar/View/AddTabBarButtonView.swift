@@ -1,5 +1,5 @@
 //
-//  AddTabBarButton.swift
+//  AddTabBarButtonView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 04.08.2023.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct AddTabBarButton: CustomTabBarButton {
+struct AddTabBarButtonView: CustomTabBarButton {
     var onTapGesture: () -> Void
     var tabBarItem: TabBarItem { .add }
     
@@ -34,9 +34,9 @@ struct AddTabBarButton: CustomTabBarButton {
     }
 }
 
-struct AddTabBarButton_Preview: PreviewProvider {
+struct AddTabBarButtonView_Preview: PreviewProvider {
     static var previews: some View {
-        AddTabBarButton(onTapGesture: {})
+        AddTabBarButtonView(onTapGesture: {})
             .previewLayout(.sizeThatFits)
     }
 }

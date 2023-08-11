@@ -1,5 +1,5 @@
 //
-//  ButtonHorizontalStack.swift
+//  ButtonHorizontalStackView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 10.07.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ButtonHorizontalStack: View {
+struct ButtonHorizontalStackView: View {
     @Binding private var selectedOption: String
     private let options: [String]
     
@@ -32,9 +32,9 @@ struct ButtonHorizontalStack: View {
     }
 }
 
-struct ButtonHorizontalStack_Preview: PreviewProvider {
+struct ButtonHorizontalStackView_Preview: PreviewProvider {
     static var previews: some View {
-        ButtonHorizontalStack(selectedOption: Binding<String>.constant(""), options: ["Mix workout", "Home workout", "Gym workout"])
+        ButtonHorizontalStackView(selectedOption: Binding<String>.constant(""), options: ["Mix workout", "Home workout", "Gym workout"])
             .previewLayout(.sizeThatFits)
     }
 }

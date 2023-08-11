@@ -62,7 +62,7 @@ struct IntroductionView: View {
     
     @ViewBuilder private var answerQuestion: some View {
         if let currentQuestion = viewModel.currentQuestion {
-            VerticalSelectPill(question: currentQuestion.content, answers: currentQuestion.answers, selectedAnswer: $selectedAnswer) {
+            VerticalSelectPillView(question: currentQuestion.content, answers: currentQuestion.answers, selectedAnswer: $selectedAnswer) {
                 withAnimation(Animation.easeInOut(duration: 2.0)) {
                     self.viewModel.nextQuestion(with: selectedAnswer)
                 }
@@ -75,13 +75,13 @@ struct IntroductionView: View {
     }
     
     @ViewBuilder private var mockQuestion: some View {
-        VerticalSelectPill(question: "Choose a lifestyle", answers: [Answer(id: 1, content: "One", questionId: 1), Answer(id: 2, content: "Two", questionId: 1), Answer(id: 3, content: "Three", questionId: 1)])
+        VerticalSelectPillView(question: "Choose a lifestyle", answers: [Answer(id: 1, content: "One", questionId: 1), Answer(id: 2, content: "Two", questionId: 1), Answer(id: 3, content: "Three", questionId: 1)])
         ProgressBar(progressCount: 5, currentProgress: 0)
             .padding([.leading, .trailing], 20)
     }
         
     @ViewBuilder private var weightPicker: some View {
-        TransparentContainer {
+        TransparentContainerView {
             VStack {
                 Text("What's your current weight")
                     .font(.title)

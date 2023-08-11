@@ -41,7 +41,7 @@ extension CustomTabBarView {
     private func tabItem(with item: TabBarItem, isSelected: Bool, onTapGesture: @escaping () -> Void) -> some View {
         VStack {
             if item == .add {
-                AddTabBarButton(onTapGesture: onTapGesture)
+                AddTabBarButtonView(onTapGesture: onTapGesture)
                     .padding(.bottom)
             } else {
                 Image(systemName: item.imageName)

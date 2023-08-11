@@ -1,5 +1,5 @@
 //
-//  CustomTabBarContainer.swift
+//  CustomTabBarContainerView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 31.07.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomTabBarContainer<Content:View>: View {
+struct CustomTabBarContainerView<Content:View>: View {
     @Binding var selection: TabBarItem
     @State private var tabBarItems: [TabBarItem] = []
     let content: Content

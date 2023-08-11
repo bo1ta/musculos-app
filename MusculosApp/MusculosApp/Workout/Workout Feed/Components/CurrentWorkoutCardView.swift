@@ -1,5 +1,5 @@
 //
-//  WorkoutCard.swift
+//  WorkoutCardView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 08.07.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CurrentWorkoutCard: View {
+struct CurrentWorkoutCardView: View {
     var title: String
     var subtitle: String
     var content: String
@@ -82,9 +82,9 @@ struct CurrentWorkoutCard: View {
     }
 }
 
-struct WorkoutCard_Preview: PreviewProvider {
+struct WorkoutCardView_Preview: PreviewProvider {
     static var previews: some View {
-        CurrentWorkoutCard(title: "Back workout",
+        CurrentWorkoutCardView(title: "Back workout",
                     subtitle: "Start your first week",
                     content: "Body contouring",
                     imageName: "deadlift-background",
