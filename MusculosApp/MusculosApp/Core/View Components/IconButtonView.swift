@@ -1,5 +1,5 @@
 //
-//  IconButton.swift
+//  IconButtonView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 11.06.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct IconButton: View {
+struct IconButtonView: View {
     let systemImage: String
     let action: () -> Void
     
@@ -28,13 +28,13 @@ struct IconButton: View {
     }
 }
 
-struct IconButton_Preview: PreviewProvider {
+struct IconButtonView_Preview: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color
                 .gray
                 .frame(width: 100, height: 100)
-            IconButton(systemImage: "person")
+            IconButtonView(systemImage: "person")
         }
         .previewLayout(.sizeThatFits)
         .padding()

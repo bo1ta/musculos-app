@@ -18,7 +18,7 @@ struct CustomNavigationBar: View {
     
     var body: some View {
         HStack {
-            IconButton(systemImage: "lessthan", action: self.onBack)
+            IconButtonView(systemImage: "lessthan", action: self.onBack)
                 .padding([.leading], 10)
                 .padding([.top, .bottom], 10)
             Spacer()

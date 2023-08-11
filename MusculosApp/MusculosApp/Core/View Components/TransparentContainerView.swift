@@ -1,5 +1,5 @@
 //
-//  TransparentContainer.swift
+//  TransparentContainerView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 10.06.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TransparentContainer<Content: View>: View {
+struct TransparentContainerView<Content: View>: View {
     let content: Content
     
     @State private var contentHeight: CGFloat = 0

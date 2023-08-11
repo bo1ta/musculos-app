@@ -1,5 +1,5 @@
 //
-//  SelectPill.swift
+//  VerticalSelectPillView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 11.06.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct VerticalSelectPill: View {
+struct VerticalSelectPillView: View {
     private let question: String
     private let onContinue: () -> Void
     
@@ -25,7 +25,7 @@ struct VerticalSelectPill: View {
     }
     
     var body: some View {
-        TransparentContainer {
+        TransparentContainerView {
                 VStack {
                     Text(self.question)
                         .font(.largeTitle)
@@ -61,9 +61,9 @@ struct VerticalSelectPill: View {
     }
 }
 
-struct SelectPill_Preview: PreviewProvider {
+struct VerticalSelectPillView_Preview: PreviewProvider {
     static var previews: some View {
-        VerticalSelectPill(
+        VerticalSelectPillView(
             question: "Choose a lifestyle",
             answers: [
                 Answer(id: 1, content: "One", questionId: 1),

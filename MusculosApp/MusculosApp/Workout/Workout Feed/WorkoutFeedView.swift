@@ -16,12 +16,12 @@ struct WorkoutFeedView: View {
             VStack(spacing: 5) {
                 SearchBar(placeholderText: "Search workouts")
 
-                ButtonHorizontalStack(selectedOption: $selectedFilter, options: self.options)
+                ButtonHorizontalStackView(selectedOption: $selectedFilter, options: self.options)
 
                 ScrollView(.vertical, showsIndicators: false, content: {
-                    CurrentWorkoutCard(title: "Day 4", subtitle: "Start your 4th day workout", content: "AB Crunches", imageName: "deadlift-background-2", options: [IconPillOption(title: "15 min"), IconPillOption(title: "234 kcal")])
+                    CurrentWorkoutCardView(title: "Day 4", subtitle: "Start your 4th day workout", content: "AB Crunches", imageName: "deadlift-background-2", options: [IconPillOption(title: "15 min"), IconPillOption(title: "234 kcal")])
                     
-                    MiniCardWheel(items: [
+                    MiniCardWheelView(items: [
                         MiniCardItem(title: "Featured workout", subtitle: "Gym workout", description: "Body contouring", color: Color.black, iconPillOption: IconPillOption(title: "In progress")),
                         MiniCardItem(title: "Workout crunches", subtitle: "Home workout", description: "6-pack exercise", imageName: "workout-crunches")
                     ])

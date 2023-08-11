@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HearTip: View {
+struct HearTipView: View {
     private let title: String
     private let text: String
     
@@ -17,7 +17,7 @@ struct HearTip: View {
     }
     
     var body: some View {
-        TransparentContainer {
+        TransparentContainerView {
             Text(self.title)
                 .font(.largeTitle)
                 .foregroundColor(.white)
@@ -33,6 +33,6 @@ struct HearTip: View {
 
 struct HearTipView_Preview: PreviewProvider {
     static var previews: some View {
-        HearTip(title: "Transform your body and mind", text: "With the ultimate weight and activity tracking app for anyone who wants to take control of their health and fitness")
+        HearTipView(title: "Transform your body and mind", text: "With the ultimate weight and activity tracking app for anyone who wants to take control of their health and fitness")
     }
 }

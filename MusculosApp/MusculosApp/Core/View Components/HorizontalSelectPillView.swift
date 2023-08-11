@@ -1,5 +1,5 @@
 //
-//  HorizontalSelectPill.swift
+//  HorizontalSelectPillView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 08.07.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HorizontalSelectPill: View {
+struct HorizontalSelectPillView: View {
     private let title: String
     private let options: [String]
     
@@ -20,7 +20,7 @@ struct HorizontalSelectPill: View {
     }
     
     var body: some View {
-        TransparentContainer {
+        TransparentContainerView {
             VStack {
                 Text(title)
                     .font(.title)
@@ -47,8 +47,8 @@ struct HorizontalSelectPill: View {
     }
 }
 
-struct HorizontalSelectPill_Preview: PreviewProvider {
+struct HorizontalSelectPillView_Preview: PreviewProvider {
     static var previews: some View {
-        HorizontalSelectPill(title: "Location", options: ["Home", "Gym", "Mix"])
+        HorizontalSelectPillView(title: "Location", options: ["Home", "Gym", "Mix"])
     }
 }

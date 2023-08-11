@@ -15,7 +15,7 @@ struct ContentView: View {
     @State private var tabSelection: TabBarItem = .workout
     
     var body: some View {
-        CustomTabBarContainer(selection: $tabSelection) {
+        CustomTabBarContainerView(selection: $tabSelection) {
             WorkoutFeedView()
                 .tabBarItem(tab: .workout , selection: $tabSelection)
             
