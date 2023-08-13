@@ -31,6 +31,7 @@
 		BC3FB0EC2A85565400C3F9B1 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0EB2A85565400C3F9B1 /* View+Extension.swift */; };
 		BC3FB0EE2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0ED2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift */; };
 		BC3FB0F62A87051700C3F9B1 /* WorkoutFiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0F52A87051700C3F9B1 /* WorkoutFiltersView.swift */; };
+		BC3FB0F82A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0F72A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift */; };
 		BC5924FF2A5C527F000F1941 /* ButtonHorizontalStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5924FE2A5C527F000F1941 /* ButtonHorizontalStackView.swift */; };
 		BC5925012A5C8B72000F1941 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5925002A5C8B72000F1941 /* String+Extension.swift */; };
 		BC59720A2A35075800EBB075 /* TransparentContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972092A35075800EBB075 /* TransparentContainerView.swift */; };
@@ -123,6 +124,7 @@
 		BC3FB0EB2A85565400C3F9B1 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		BC3FB0ED2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemViewModifier.swift; sourceTree = "<group>"; };
 		BC3FB0F52A87051700C3F9B1 /* WorkoutFiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFiltersView.swift; sourceTree = "<group>"; };
+		BC3FB0F72A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonHorizontalContainerView.swift; sourceTree = "<group>"; };
 		BC5924FE2A5C527F000F1941 /* ButtonHorizontalStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonHorizontalStackView.swift; sourceTree = "<group>"; };
 		BC5925002A5C8B72000F1941 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BC5972092A35075800EBB075 /* TransparentContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentContainerView.swift; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				BCF86C382A363012003293A4 /* VerticalSelectPillView.swift */,
 				BCFBB7872A59F96100896C3C /* HorizontalSelectPillView.swift */,
 				BC5924FE2A5C527F000F1941 /* ButtonHorizontalStackView.swift */,
+				BC3FB0F72A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift */,
 			);
 			path = "View Components";
 			sourceTree = "<group>";
@@ -692,6 +695,7 @@
 				BC59720A2A35075800EBB075 /* TransparentContainerView.swift in Sources */,
 				BC352AE92A3270E700DAA3AB /* NetworkDispatcher.swift in Sources */,
 				BC3FB0F62A87051700C3F9B1 /* WorkoutFiltersView.swift in Sources */,
+				BC3FB0F82A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift in Sources */,
 				BC59720C2A3507F500EBB075 /* HearTipView.swift in Sources */,
 				BC352AEB2A32713300DAA3AB /* NetworkRequestError.swift in Sources */,
 				BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */,

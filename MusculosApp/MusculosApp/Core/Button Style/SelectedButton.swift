@@ -15,7 +15,8 @@ struct SelectedButton: ButtonStyle {
         configuration.label
             .padding(16)
             .lineLimit(0)
-            .background(isSelected ? Color.appColor(with: .spriteGreen) : Color.white)
+            .background(isSelected ? Color.appColor(with: .spriteGreen) : Color.gray)
+            .opacity(0.7)
             .foregroundColor(isSelected ? .black : .gray)
             .font(Font.body.bold())
             .clipShape(RoundedRectangle(cornerSize: CGSize(width: 24, height: 20)))

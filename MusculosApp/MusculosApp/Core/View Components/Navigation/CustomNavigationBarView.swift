@@ -29,7 +29,7 @@ struct CustomNavigationBarView: View {
             }
             Spacer()
             
-            if let isPresented = self.isPresented {
+            if self.isPresented == true {
                 VStack(spacing: 0) {
                     RoundedRectangle(cornerRadius: 10)
                         .frame(width: 60, height: 5)
@@ -40,7 +40,7 @@ struct CustomNavigationBarView: View {
                     if let title = self.title {
                         Text(title)
                             .foregroundColor(.white)
-                            .fontWeight(.bold)
+                            .font(.body)
                             .padding(.bottom, 5)
                     }
                 }
@@ -50,7 +50,8 @@ struct CustomNavigationBarView: View {
                 if let title = self.title {
                     Text(title)
                         .foregroundColor(.white)
-                        .fontWeight(.bold)
+                        .font(.body)
+                        .padding(.bottom, 5)
                 }
             }
             
