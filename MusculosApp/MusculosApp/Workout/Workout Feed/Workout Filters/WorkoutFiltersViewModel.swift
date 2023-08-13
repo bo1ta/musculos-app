@@ -10,9 +10,29 @@ import Combine
 import SwiftUI
 
 class WorkoutFiltersViewModel: ObservableObject {
-    @Published var selectedGenderOption: String = ""
-    @Published var selectedLocationOption: String = ""
-    @Published var selectedTypeOption: String = ""
+    @Published var selectedGenderOption: String = "" {
+        didSet {
+            if selectedGenderOption == oldValue {
+                selectedGenderOption = ""
+            }
+        }
+    }
+    
+    @Published var selectedLocationOption: String = "" {
+        didSet {
+            if selectedLocationOption == oldValue {
+                selectedLocationOption = ""
+            }
+        }
+    }
+    
+    @Published var selectedTypeOption: String = "" {
+        didSet {
+            if selectedTypeOption == oldValue {
+                selectedTypeOption = ""
+            }
+        }
+    }
     
     let genderListItem = SelectListItem(itemTitle: "Gender", options: ["Male", "Female"])
     let locationListItem = SelectListItem(itemTitle: "Location", options: ["Home", "Gym", "Mix"])
