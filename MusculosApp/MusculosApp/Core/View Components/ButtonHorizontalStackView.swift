@@ -17,19 +17,17 @@ struct ButtonHorizontalStackView: View {
     }
     
     var body: some View {
-        HStack(spacing: 0) {
+        EqualWidthHStack {
             ForEach(options, id: \.self) { option in
-                Spacer()
                 Button(action: {
                     self.selectedOption = self.selectedOption == option ? "" : option
                 }, label: {
                     Text(option)
                         .font(.body)
                         .foregroundColor(.white)
-                        .fixedSize(horizontal: true, vertical: true)
+                        .frame(maxWidth: .infinity)
                 })
                 .buttonStyle(SelectedButton(isSelected: option == selectedOption))
-                Spacer()
             }
         }
     }
