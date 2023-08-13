@@ -1,5 +1,5 @@
 //
-//  ProgressBar.swift
+//  ProgressBarView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 12.06.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProgressBar: View {
+struct ProgressBarView: View {
     let progressCount: Int
     var currentProgress: Int
     
@@ -37,9 +37,9 @@ struct ProgressBar: View {
     }
 }
 
-struct ProgressBar_Preview: PreviewProvider {
+struct ProgressBarView_Preview: PreviewProvider {
     static var previews: some View {
-        ProgressBar(progressCount: 5, currentProgress: 2)
+        ProgressBarView(progressCount: 5, currentProgress: 2)
             .padding()
             .previewLayout(.sizeThatFits)
     }

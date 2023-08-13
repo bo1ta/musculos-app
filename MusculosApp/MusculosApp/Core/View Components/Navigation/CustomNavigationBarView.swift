@@ -1,0 +1,77 @@
+//
+//  CustomNavigationBarView.swift
+//  MusculosApp
+//
+//  Created by Solomon Alexandru on 11.06.2023.
+//
+
+import SwiftUI
+
+struct CustomNavigationBarView: View {
+    private let onBack: (() -> Void)?
+    private let onContinue: (() -> Void)?
+    private let title: String?
+    private let isPresented: Bool?
+    
+    init(onBack: (() -> Void)?, onContinue: (() -> Void)?, title: String? = nil, isPresented: Bool? = nil) {
+        self.onBack = onBack
+        self.onContinue = onContinue
+        self.title = title
+        self.isPresented = isPresented
+    }
+    
+    var body: some View {
+        HStack {
+            if let onBack = self.onBack {
+                IconButtonView(systemImage: "lessthan", action: onBack)
+                    .padding([.leading], 10)
+                    .padding([.top, .bottom], 10)
+            }
+            Spacer()
+            
+            if let isPresented = self.isPresented {
+                VStack(spacing: 0) {
+                    RoundedRectangle(cornerRadius: 10)
+                        .frame(width: 60, height: 5)
+                        .foregroundColor(.white)
+                        .fixedSize(horizontal: true, vertical: true)
+                        .padding(.bottom, 5)
+                    
+                    if let title = self.title {
+                        Text(title)
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
+                            .padding(.bottom, 5)
+                    }
+                }
+                .fixedSize(horizontal: true, vertical: true)
+                .padding(5)
+            } else {
+                if let title = self.title {
+                    Text(title)
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                }
+            }
+            
+            Spacer()
+            
+            if let onContinue = self.onContinue {
+                Button(action: onContinue, label: {
+                    Text("Skip")
+                        .foregroundStyle(.white)
+                })
+                .padding([.trailing], 15)
+            }
+        }
+        .background(RoundedRectangle(cornerRadius: 20).opacity(0.5).foregroundColor(.gray))
+    }
+}
+
+struct CustomNavigationBarView_Preview: PreviewProvider {
+    static var previews: some View {
+        CustomNavigationBarView(onBack: nil, onContinue: nil, title: "Filters")
+            .previewLayout(.sizeThatFits)
+            .padding()
+    }
+}

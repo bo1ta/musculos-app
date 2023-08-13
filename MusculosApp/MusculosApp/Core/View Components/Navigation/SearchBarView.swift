@@ -1,5 +1,5 @@
 //
-//  SearchBar.swift
+//  SearchBarView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 08.07.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SearchBar: View {
+struct SearchBarView: View {
     private let placeholderText: String
     private let onFiltersTapped: () -> Void
     
@@ -42,9 +42,9 @@ struct SearchBar: View {
     }
 }
 
-struct SearchBar_Preview: PreviewProvider {
+struct SearchBarView_Preview: PreviewProvider {
     static var previews: some View {
-        SearchBar(placeholderText: "Search workouts")
+        SearchBarView(placeholderText: "Search workouts")
             .previewLayout(.sizeThatFits)
     }
 }

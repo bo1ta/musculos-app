@@ -20,7 +20,7 @@ struct IntroductionView: View {
     var body: some View {
         backgroundView {
             VStack(alignment: .leading, content: {
-                    CustomNavigationBar(onBack: {
+                    CustomNavigationBarView(onBack: {
                         viewModel.previousQuestion()
                     }, onContinue: {
                         viewModel.nextQuestion(with: nil)
@@ -67,7 +67,7 @@ struct IntroductionView: View {
                     self.viewModel.nextQuestion(with: selectedAnswer)
                 }
             }
-            ProgressBar(progressCount: viewModel.questions.count, currentProgress: viewModel.currentIndex)
+            ProgressBarView(progressCount: viewModel.questions.count, currentProgress: viewModel.currentIndex)
                 .padding([.leading, .trailing], 20)
         } else {
           mockQuestion
@@ -76,7 +76,7 @@ struct IntroductionView: View {
     
     @ViewBuilder private var mockQuestion: some View {
         VerticalSelectPillView(question: "Choose a lifestyle", answers: [Answer(id: 1, content: "One", questionId: 1), Answer(id: 2, content: "Two", questionId: 1), Answer(id: 3, content: "Three", questionId: 1)])
-        ProgressBar(progressCount: 5, currentProgress: 0)
+        ProgressBarView(progressCount: 5, currentProgress: 0)
             .padding([.leading, .trailing], 20)
     }
         
