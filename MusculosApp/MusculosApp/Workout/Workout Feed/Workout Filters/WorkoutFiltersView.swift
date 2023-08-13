@@ -17,14 +17,13 @@ struct WorkoutFiltersView: View {
     var body: some View {
         backgroundView {
             ScrollView {
-                VStack(spacing: 5) {
+                VStack(spacing: 8) {
                     CustomNavigationBarView(onBack: nil, onContinue: nil, title: "Filters", isPresented: true)
                     
                     workoutFilters
                     
                     Spacer()
                 }
-                .padding([.top])
             }
         }
     }
@@ -34,6 +33,7 @@ struct WorkoutFiltersView: View {
         ButtonHorizontalContainerView(selectedOption: $viewModel.selectedGenderOption, selectListItem: viewModel.genderListItem)
         ButtonHorizontalContainerView(selectedOption: $viewModel.selectedTypeOption, selectListItem: viewModel.typeListItem)
         ButtonHorizontalContainerView(selectedOption: $viewModel.selectedLocationOption, selectListItem: viewModel.locationListItem)
+        ButtonHorizontalContainerView(selectedOption: $viewModel.selectedBodyOption, selectListItem: viewModel.bodyListItem)
     }
 }
 

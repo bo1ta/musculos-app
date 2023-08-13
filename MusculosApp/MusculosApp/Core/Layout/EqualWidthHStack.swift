@@ -54,7 +54,7 @@ extension EqualWidthHStack {
         let subviewSizes = subviews.map { $0.sizeThatFits(.unspecified) }
         let maxSize: CGSize = subviewSizes.reduce(.zero) { currentMax, subviewSize in
             CGSize(
-                width: max(currentMax.width, subviewSize.width, 100),
+                width: max(currentMax.width, subviewSize.width),
                 height: max(currentMax.height, subviewSize.height))
         }
 
