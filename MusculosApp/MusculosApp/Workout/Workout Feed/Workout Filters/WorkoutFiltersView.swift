@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct WorkoutFiltersView: View {
-    @State private var selectedOption: String = ""
+    @ObservedObject private var viewModel: WorkoutFiltersViewModel
     
-    private let genderListItem = SelectListItem(itemTitle: "Gender", options: ["Male", "Female"])
-    private let locationListItem = SelectListItem(itemTitle: "Location", options: ["Home", "Gym", "Mix"])
-    private let typeListItem = SelectListItem(itemTitle: "Type", options: ["Daily workout", "Workout plan"])
+    init(viewModel: WorkoutFiltersViewModel = WorkoutFiltersViewModel()) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         backgroundView {
@@ -28,17 +28,16 @@ struct WorkoutFiltersView: View {
             }
         }
     }
+    
+    @ViewBuilder
+    private var workoutFilters: some View {
+        ButtonHorizontalContainerView(selectedOption: $viewModel.selectedGenderOption, selectListItem: viewModel.genderListItem)
+        ButtonHorizontalContainerView(selectedOption: $viewModel.selectedTypeOption, selectListItem: viewModel.typeListItem)
+        ButtonHorizontalContainerView(selectedOption: $viewModel.selectedLocationOption, selectListItem: viewModel.locationListItem)
+    }
 }
 
 extension WorkoutFiltersView {
-    @ViewBuilder
-    private var workoutFilters: some View {
-        ButtonHorizontalContainerView(selectedOption: $selectedOption, selectListItem: genderListItem)
-        ButtonHorizontalContainerView(selectedOption: $selectedOption, selectListItem: locationListItem)
-        ButtonHorizontalContainerView(selectedOption: $selectedOption, selectListItem: typeListItem)
-        ButtonHorizontalContainerView(selectedOption: $selectedOption, selectListItem: genderListItem)
-    }
-    
     @ViewBuilder
     private func backgroundView(@ViewBuilder content: () -> some View) -> some View {
         ZStack {
