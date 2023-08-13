@@ -14,7 +14,7 @@ struct WorkoutFeedView: View {
     var body: some View {
         backgroundView {
             VStack(spacing: 5) {
-                SearchBar(placeholderText: "Search workouts")
+                SearchBarView(placeholderText: "Search workouts")
 
                 ButtonHorizontalStackView(selectedOption: $selectedFilter, options: self.options)
 
