@@ -50,5 +50,6 @@ struct HorizontalSelectPillView: View {
 struct HorizontalSelectPillView_Preview: PreviewProvider {
     static var previews: some View {
         HorizontalSelectPillView(title: "Location", options: ["Home", "Gym", "Mix"])
+            .previewLayout(.sizeThatFits)
     }
 }

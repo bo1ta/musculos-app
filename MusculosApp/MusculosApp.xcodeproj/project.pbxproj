@@ -31,6 +31,12 @@
 		BC3FB0EC2A85565400C3F9B1 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0EB2A85565400C3F9B1 /* View+Extension.swift */; };
 		BC3FB0EE2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0ED2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift */; };
 		BC3FB0F62A87051700C3F9B1 /* WorkoutFiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0F52A87051700C3F9B1 /* WorkoutFiltersView.swift */; };
+		BC3FB0F82A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0F72A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift */; };
+		BC3FB0FB2A899A8500C3F9B1 /* EqualWidthHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0FA2A899A8500C3F9B1 /* EqualWidthHStack.swift */; };
+		BC3FB0FD2A899F7C00C3F9B1 /* WorkoutFiltersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0FC2A899F7C00C3F9B1 /* WorkoutFiltersViewModel.swift */; };
+		BC3FB0FF2A89A3E700C3F9B1 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0FE2A89A3E700C3F9B1 /* SliderView.swift */; };
+		BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */; };
+		BC3FB1042A89C56800C3F9B1 /* ExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB1032A89C56800C3F9B1 /* ExerciseView.swift */; };
 		BC5924FF2A5C527F000F1941 /* ButtonHorizontalStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5924FE2A5C527F000F1941 /* ButtonHorizontalStackView.swift */; };
 		BC5925012A5C8B72000F1941 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5925002A5C8B72000F1941 /* String+Extension.swift */; };
 		BC59720A2A35075800EBB075 /* TransparentContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972092A35075800EBB075 /* TransparentContainerView.swift */; };
@@ -123,6 +129,12 @@
 		BC3FB0EB2A85565400C3F9B1 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		BC3FB0ED2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemViewModifier.swift; sourceTree = "<group>"; };
 		BC3FB0F52A87051700C3F9B1 /* WorkoutFiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFiltersView.swift; sourceTree = "<group>"; };
+		BC3FB0F72A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonHorizontalContainerView.swift; sourceTree = "<group>"; };
+		BC3FB0FA2A899A8500C3F9B1 /* EqualWidthHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualWidthHStack.swift; sourceTree = "<group>"; };
+		BC3FB0FC2A899F7C00C3F9B1 /* WorkoutFiltersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFiltersViewModel.swift; sourceTree = "<group>"; };
+		BC3FB0FE2A89A3E700C3F9B1 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
+		BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkButton.swift; sourceTree = "<group>"; };
+		BC3FB1032A89C56800C3F9B1 /* ExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseView.swift; sourceTree = "<group>"; };
 		BC5924FE2A5C527F000F1941 /* ButtonHorizontalStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonHorizontalStackView.swift; sourceTree = "<group>"; };
 		BC5925002A5C8B72000F1941 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BC5972092A35075800EBB075 /* TransparentContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentContainerView.swift; sourceTree = "<group>"; };
@@ -309,6 +321,7 @@
 		BC352AE32A326D6C00DAA3AB /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				BC3FB0F92A899A7900C3F9B1 /* Layout */,
 				BC3FB0EF2A855D9100C3F9B1 /* Preference Key */,
 				BC182ECB2A589BC7003DEA30 /* Core Data */,
 				BCD372422A57364200C0F161 /* UIKit */,
@@ -377,8 +390,25 @@
 			isa = PBXGroup;
 			children = (
 				BC3FB0F52A87051700C3F9B1 /* WorkoutFiltersView.swift */,
+				BC3FB0FC2A899F7C00C3F9B1 /* WorkoutFiltersViewModel.swift */,
 			);
 			path = "Workout Filters";
+			sourceTree = "<group>";
+		};
+		BC3FB0F92A899A7900C3F9B1 /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				BC3FB0FA2A899A8500C3F9B1 /* EqualWidthHStack.swift */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
+		BC3FB1022A89C54A00C3F9B1 /* Exercise */ = {
+			isa = PBXGroup;
+			children = (
+				BC3FB1032A89C56800C3F9B1 /* ExerciseView.swift */,
+			);
+			path = Exercise;
 			sourceTree = "<group>";
 		};
 		BC5972082A35074E00EBB075 /* View Components */ = {
@@ -392,6 +422,7 @@
 				BCF86C382A363012003293A4 /* VerticalSelectPillView.swift */,
 				BCFBB7872A59F96100896C3C /* HorizontalSelectPillView.swift */,
 				BC5924FE2A5C527F000F1941 /* ButtonHorizontalStackView.swift */,
+				BC3FB0F72A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift */,
 			);
 			path = "View Components";
 			sourceTree = "<group>";
@@ -401,6 +432,7 @@
 			children = (
 				BC5972102A351B0F00EBB075 /* PrimaryButton.swift */,
 				BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */,
+				BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */,
 				BCF86C3C2A363A92003293A4 /* SelectedButton.swift */,
 			);
 			path = "Button Style";
@@ -483,9 +515,10 @@
 		BCE3B6942A5AEC23001D04EB /* Workout Feed */ = {
 			isa = PBXGroup;
 			children = (
-				BC3FB0F22A8704EE00C3F9B1 /* Workout Filters */,
-				BC7777342A5DE37B009A452A /* Components */,
 				BCE3B6952A5AEC65001D04EB /* WorkoutFeedView.swift */,
+				BC3FB0F22A8704EE00C3F9B1 /* Workout Filters */,
+				BC3FB1022A89C54A00C3F9B1 /* Exercise */,
+				BC7777342A5DE37B009A452A /* Components */,
 			);
 			path = "Workout Feed";
 			sourceTree = "<group>";
@@ -508,6 +541,7 @@
 			children = (
 				BCFBB77B2A59DF2800896C3C /* IconPill.swift */,
 				BCFBB7852A59EDC400896C3C /* IconPillOption.swift */,
+				BC3FB0FE2A89A3E700C3F9B1 /* SliderView.swift */,
 			);
 			path = IconPill;
 			sourceTree = "<group>";
@@ -648,8 +682,10 @@
 				BCD372472A5736EE00C0F161 /* HorizontalPickerViewCell.swift in Sources */,
 				BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */,
 				BCF86C312A360DF3003293A4 /* RegisterRequest.swift in Sources */,
+				BC3FB0FF2A89A3E700C3F9B1 /* SliderView.swift in Sources */,
 				BC10E4312A3B8B510008A72E /* IntroductionModule.swift in Sources */,
 				BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */,
+				BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */,
 				BCF86C2F2A360DDB003293A4 /* LoginRequest.swift in Sources */,
 				BCCE85ED2A35008C001BEE8B /* Color+Extension.swift in Sources */,
 				BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */,
@@ -664,8 +700,10 @@
 				BCD372452A57366900C0F161 /* HorizontalPickerViewController.swift in Sources */,
 				BCFBB7772A59D25300896C3C /* CurrentWorkoutCardView.swift in Sources */,
 				BCE417102A7D73380088D975 /* AddTabBarButtonView.swift in Sources */,
+				BC3FB0FB2A899A8500C3F9B1 /* EqualWidthHStack.swift in Sources */,
 				BC3FB0EC2A85565400C3F9B1 /* View+Extension.swift in Sources */,
 				BCF86C422A3678E4003293A4 /* ProgressBarView.swift in Sources */,
+				BC3FB1042A89C56800C3F9B1 /* ExerciseView.swift in Sources */,
 				BC10E4332A3B8CAC0008A72E /* IntroductionViewModel.swift in Sources */,
 				BCF86C392A363012003293A4 /* VerticalSelectPillView.swift in Sources */,
 				BCB144662A38CC2F00A8209F /* IntroductionView.swift in Sources */,
@@ -692,12 +730,14 @@
 				BC59720A2A35075800EBB075 /* TransparentContainerView.swift in Sources */,
 				BC352AE92A3270E700DAA3AB /* NetworkDispatcher.swift in Sources */,
 				BC3FB0F62A87051700C3F9B1 /* WorkoutFiltersView.swift in Sources */,
+				BC3FB0F82A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift in Sources */,
 				BC59720C2A3507F500EBB075 /* HearTipView.swift in Sources */,
 				BC352AEB2A32713300DAA3AB /* NetworkRequestError.swift in Sources */,
 				BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */,
 				BC352AE72A326DAE00DAA3AB /* Request.swift in Sources */,
 				BCE3B6962A5AEC65001D04EB /* WorkoutFeedView.swift in Sources */,
 				BCFBB78A2A5A020700896C3C /* SearchBarView.swift in Sources */,
+				BC3FB0FD2A899F7C00C3F9B1 /* WorkoutFiltersViewModel.swift in Sources */,
 				BCCE85E22A328629001BEE8B /* AuthenticationViewModel.swift in Sources */,
 				BC11BC5A2A7D74CB00D96440 /* TabBarItem.swift in Sources */,
 				BCFBB7752A59CD6F00896C3C /* Question.swift in Sources */,

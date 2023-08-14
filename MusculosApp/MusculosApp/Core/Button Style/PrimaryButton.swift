@@ -8,13 +8,14 @@
 import Foundation
 import SwiftUI
 
-
 struct PrimaryButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(16)
+            .fixedSize(horizontal: false, vertical: true)
             .background(Color.appColor(with: .spriteGreen))
-            .foregroundColor(.white)
+            .foregroundColor(.black)
+            .fontWeight(.semibold)
             .clipShape(RoundedRectangle(cornerSize: CGSize(width: 24, height: 20)))
     }
 }
