@@ -12,12 +12,14 @@ struct CustomNavigationBarView: View {
     private let onContinue: (() -> Void)?
     private let title: String?
     private let isPresented: Bool?
+    private let rightBarButton: IconButtonView?
     
-    init(onBack: (() -> Void)?, onContinue: (() -> Void)?, title: String? = nil, isPresented: Bool? = nil) {
+    init(onBack: (() -> Void)?, onContinue: (() -> Void)?, title: String? = nil, isPresented: Bool? = nil, rightBarButton: IconButtonView? = nil) {
         self.onBack = onBack
         self.onContinue = onContinue
         self.title = title
         self.isPresented = isPresented
+        self.rightBarButton = rightBarButton
     }
     
     var body: some View {
@@ -58,11 +60,17 @@ struct CustomNavigationBarView: View {
             Spacer()
             
             if let onContinue = self.onContinue {
-                Button(action: onContinue, label: {
-                    Text("Skip")
-                        .foregroundStyle(.white)
-                })
-                .padding([.trailing], 15)
+                if let rightBarButton = self.rightBarButton {
+                    rightBarButton
+                        .padding([.leading], 10)
+                        .padding([.top, .bottom], 10)
+                } else {
+                    Button(action: onContinue, label: {
+                        Text("Skip")
+                            .foregroundStyle(.white)
+                    })
+                    .padding([.trailing], 15)
+                }
             }
         }
         .background(RoundedRectangle(cornerRadius: 20).opacity(0.5).foregroundColor(.gray))
