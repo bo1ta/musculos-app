@@ -34,6 +34,8 @@
 		BC3FB0F82A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0F72A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift */; };
 		BC3FB0FB2A899A8500C3F9B1 /* EqualWidthHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0FA2A899A8500C3F9B1 /* EqualWidthHStack.swift */; };
 		BC3FB0FD2A899F7C00C3F9B1 /* WorkoutFiltersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0FC2A899F7C00C3F9B1 /* WorkoutFiltersViewModel.swift */; };
+		BC3FB0FF2A89A3E700C3F9B1 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0FE2A89A3E700C3F9B1 /* SliderView.swift */; };
+		BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */; };
 		BC5924FF2A5C527F000F1941 /* ButtonHorizontalStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5924FE2A5C527F000F1941 /* ButtonHorizontalStackView.swift */; };
 		BC5925012A5C8B72000F1941 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5925002A5C8B72000F1941 /* String+Extension.swift */; };
 		BC59720A2A35075800EBB075 /* TransparentContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972092A35075800EBB075 /* TransparentContainerView.swift */; };
@@ -129,6 +131,8 @@
 		BC3FB0F72A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonHorizontalContainerView.swift; sourceTree = "<group>"; };
 		BC3FB0FA2A899A8500C3F9B1 /* EqualWidthHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualWidthHStack.swift; sourceTree = "<group>"; };
 		BC3FB0FC2A899F7C00C3F9B1 /* WorkoutFiltersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFiltersViewModel.swift; sourceTree = "<group>"; };
+		BC3FB0FE2A89A3E700C3F9B1 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
+		BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkButton.swift; sourceTree = "<group>"; };
 		BC5924FE2A5C527F000F1941 /* ButtonHorizontalStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonHorizontalStackView.swift; sourceTree = "<group>"; };
 		BC5925002A5C8B72000F1941 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BC5972092A35075800EBB075 /* TransparentContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentContainerView.swift; sourceTree = "<group>"; };
@@ -418,6 +422,7 @@
 			children = (
 				BC5972102A351B0F00EBB075 /* PrimaryButton.swift */,
 				BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */,
+				BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */,
 				BCF86C3C2A363A92003293A4 /* SelectedButton.swift */,
 			);
 			path = "Button Style";
@@ -525,6 +530,7 @@
 			children = (
 				BCFBB77B2A59DF2800896C3C /* IconPill.swift */,
 				BCFBB7852A59EDC400896C3C /* IconPillOption.swift */,
+				BC3FB0FE2A89A3E700C3F9B1 /* SliderView.swift */,
 			);
 			path = IconPill;
 			sourceTree = "<group>";
@@ -665,8 +671,10 @@
 				BCD372472A5736EE00C0F161 /* HorizontalPickerViewCell.swift in Sources */,
 				BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */,
 				BCF86C312A360DF3003293A4 /* RegisterRequest.swift in Sources */,
+				BC3FB0FF2A89A3E700C3F9B1 /* SliderView.swift in Sources */,
 				BC10E4312A3B8B510008A72E /* IntroductionModule.swift in Sources */,
 				BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */,
+				BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */,
 				BCF86C2F2A360DDB003293A4 /* LoginRequest.swift in Sources */,
 				BCCE85ED2A35008C001BEE8B /* Color+Extension.swift in Sources */,
 				BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */,

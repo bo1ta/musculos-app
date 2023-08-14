@@ -1,20 +1,21 @@
 //
-//  SecondaryButton.swift
+//  DarkButton.swift
 //  MusculosApp
 //
-//  Created by Solomon Alexandru on 11.06.2023.
+//  Created by Solomon Alexandru on 14.08.2023.
 //
 
 import Foundation
 import SwiftUI
 
-struct SecondaryButton: ButtonStyle {
+struct DarkButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(16)
-            .background(Color.gray)
+            .fixedSize(horizontal: false, vertical: true)
+            .background(.black)
             .foregroundColor(.white)
+            .fontWeight(.semibold)
             .clipShape(RoundedRectangle(cornerSize: CGSize(width: 24, height: 20)))
-            .opacity(0.8)
     }
 }

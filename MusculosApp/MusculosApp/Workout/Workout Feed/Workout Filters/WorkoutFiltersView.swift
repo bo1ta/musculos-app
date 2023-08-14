@@ -22,6 +22,8 @@ struct WorkoutFiltersView: View {
                     
                     workoutFilters
                     
+                    SliderView(title: "Workout duration", sliderValue: $viewModel.workoutDuration)
+                    
                     Spacer()
                 }
             }
@@ -35,12 +37,32 @@ struct WorkoutFiltersView: View {
         ButtonHorizontalContainerView(selectedOption: $viewModel.selectedLocationOption, selectListItem: viewModel.locationListItem)
         ButtonHorizontalContainerView(selectedOption: $viewModel.selectedBodyOption, selectListItem: viewModel.bodyListItem)
     }
+    
+    @ViewBuilder
+    private var buttonStack: some View {
+        HStack(spacing: 2) {
+            Button {
+                print("")
+            } label: {
+                Text("Reset")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(DarkButton())
+            Button {
+                print("")
+            } label: {
+                Text("Apply")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(PrimaryButton())
+        }
+    }
 }
 
 extension WorkoutFiltersView {
     @ViewBuilder
     private func backgroundView(@ViewBuilder content: () -> some View) -> some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             Image("weightlifting-background")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -55,6 +77,8 @@ extension WorkoutFiltersView {
             
             content()
                 .padding(4)
+            
+            buttonStack
         }
     }
 }

@@ -42,6 +42,8 @@ class WorkoutFiltersViewModel: ObservableObject {
         }
     }
     
+    @Published var workoutDuration: Double = 0
+    
     let genderListItem = SelectListItem(itemTitle: "Gender", options: ["Male", "Female"])
     let locationListItem = SelectListItem(itemTitle: "Location", options: ["Home", "Gym", "Mix"])
     let typeListItem = SelectListItem(itemTitle: "Type", options: ["Daily workout", "Workout plan"])
