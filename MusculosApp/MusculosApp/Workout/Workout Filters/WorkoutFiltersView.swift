@@ -23,7 +23,7 @@ struct WorkoutFiltersView: View {
         backgroundView {
             ScrollView {
                 VStack(spacing: 8) {
-                    CustomNavigationBarView(onBack: nil, onContinue: nil, title: "Filters", isPresented: true)
+                    CustomNavigationBarView(title: "Filters", isPresented: true, onBack: nil, onContinue: nil)
                         .padding(.top, 10)
                     
                     workoutFilters

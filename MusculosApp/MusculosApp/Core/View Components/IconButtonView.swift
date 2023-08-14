@@ -19,8 +19,8 @@ struct IconButtonView: View {
     var body: some View {
         Button(action: action) {
             Image(systemName: systemImage)
-                .font(.system(size: 18))
-                .foregroundColor(.gray)
+                .font(.system(size: 25))
+                .foregroundColor(.black)
                 .padding(15)
                 .background(Color.appColor(with: .background))
                 .clipShape(Circle())

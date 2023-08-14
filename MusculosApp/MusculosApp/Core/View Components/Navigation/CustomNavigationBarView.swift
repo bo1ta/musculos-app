@@ -14,7 +14,7 @@ struct CustomNavigationBarView: View {
     private let isPresented: Bool?
     private let rightBarButton: IconButtonView?
     
-    init(onBack: (() -> Void)?, onContinue: (() -> Void)?, title: String? = nil, isPresented: Bool? = nil, rightBarButton: IconButtonView? = nil) {
+    init(title: String? = nil, rightBarButton: IconButtonView? = nil, isPresented: Bool? = false, onBack: (() -> Void)?, onContinue: (() -> Void)?) {
         self.onBack = onBack
         self.onContinue = onContinue
         self.title = title
@@ -42,7 +42,7 @@ struct CustomNavigationBarView: View {
                     if let title = self.title {
                         Text(title)
                             .foregroundColor(.white)
-                            .font(.body)
+                            .font(.title)
                             .padding(.bottom, 5)
                     }
                 }
@@ -52,7 +52,7 @@ struct CustomNavigationBarView: View {
                 if let title = self.title {
                     Text(title)
                         .foregroundColor(.white)
-                        .font(.body)
+                        .font(.title2)
                         .padding(.bottom, 5)
                 }
             }
@@ -62,7 +62,7 @@ struct CustomNavigationBarView: View {
             if let onContinue = self.onContinue {
                 if let rightBarButton = self.rightBarButton {
                     rightBarButton
-                        .padding([.leading], 10)
+                        .padding([.trailing], 10)
                         .padding([.top, .bottom], 10)
                 } else {
                     Button(action: onContinue, label: {
@@ -79,7 +79,7 @@ struct CustomNavigationBarView: View {
 
 struct CustomNavigationBarView_Preview: PreviewProvider {
     static var previews: some View {
-        CustomNavigationBarView(onBack: nil, onContinue: nil, title: "Filters")
+        CustomNavigationBarView(title: "Filters", onBack: nil, onContinue: nil)
             .previewLayout(.sizeThatFits)
             .padding()
     }

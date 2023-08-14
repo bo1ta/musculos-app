@@ -22,8 +22,9 @@ struct ContentView: View {
             AuthenticationView()
                 .tabBarItem(tab: .add, selection: $tabSelection)
             
-            IntroductionView()
+            DashboardView()
                 .tabBarItem(tab: .dashboard, selection: $tabSelection)
+            
         }
     }
 }
