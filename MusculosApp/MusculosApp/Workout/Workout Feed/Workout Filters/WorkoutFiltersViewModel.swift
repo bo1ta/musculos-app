@@ -9,6 +9,10 @@ import Foundation
 import Combine
 import SwiftUI
 
+enum WorkoutFilterType {
+    case gender, location, type, body, duration
+}
+
 class WorkoutFiltersViewModel: ObservableObject {
     @Published var selectedGenderOption: String = "" {
         didSet {
@@ -42,11 +46,20 @@ class WorkoutFiltersViewModel: ObservableObject {
         }
     }
     
-    @Published var workoutDuration: Double = 0
+    @Published var selectedWorkoutDuration: Double = 5
+    let workoutTimeRange: ClosedRange<Double> = 5...60
     
     let genderListItem = SelectListItem(itemTitle: "Gender", options: ["Male", "Female"])
     let locationListItem = SelectListItem(itemTitle: "Location", options: ["Home", "Gym", "Mix"])
     let typeListItem = SelectListItem(itemTitle: "Type", options: ["Daily workout", "Workout plan"])
     let bodyListItem = SelectListItem(itemTitle: "Body", options: ["Chest", "Arms", "Abs", "Legs"])
+    
+    func resetState() {
+        self.selectedGenderOption = ""
+        self.selectedLocationOption = ""
+        self.selectedTypeOption = ""
+        self.selectedBodyOption = ""
+        self.selectedWorkoutDuration = 5
+    }
 }
 

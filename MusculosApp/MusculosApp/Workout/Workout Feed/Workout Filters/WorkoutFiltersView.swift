@@ -8,10 +8,15 @@
 import SwiftUI
 
 struct WorkoutFiltersView: View {
+    @Environment(\.dismiss) var dismiss
+
     @ObservedObject private var viewModel: WorkoutFiltersViewModel
+    private var onDismiss: ([WorkoutFilterType: String]) -> Void
     
-    init(viewModel: WorkoutFiltersViewModel = WorkoutFiltersViewModel()) {
+    init(viewModel: WorkoutFiltersViewModel = WorkoutFiltersViewModel(),
+         onDismiss: @escaping ([WorkoutFilterType: String]) -> Void) {
         self.viewModel = viewModel
+        self.onDismiss = onDismiss
     }
     
     var body: some View {
@@ -19,10 +24,11 @@ struct WorkoutFiltersView: View {
             ScrollView {
                 VStack(spacing: 8) {
                     CustomNavigationBarView(onBack: nil, onContinue: nil, title: "Filters", isPresented: true)
+                        .padding(.top, 10)
                     
                     workoutFilters
                     
-                    SliderView(title: "Workout duration", sliderValue: $viewModel.workoutDuration)
+                    SliderView(title: "Workout duration", sliderValue: $viewModel.selectedWorkoutDuration, sliderRange: viewModel.workoutTimeRange)
                     
                     Spacer()
                 }
@@ -42,14 +48,21 @@ struct WorkoutFiltersView: View {
     private var buttonStack: some View {
         HStack(spacing: 2) {
             Button {
-                print("")
+                viewModel.resetState()
             } label: {
                 Text("Reset")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(DarkButton())
             Button {
-                print("")
+                let selectedFilters: [WorkoutFilterType: String] = [
+                    .gender: viewModel.selectedGenderOption,
+                    .type: viewModel.selectedTypeOption,
+                    .location: viewModel.selectedLocationOption,
+                    .body: viewModel.selectedLocationOption,
+                    .duration: "\(viewModel.selectedWorkoutDuration)"]
+                onDismiss(selectedFilters)
+                dismiss()
             } label: {
                 Text("Apply")
                     .frame(maxWidth: .infinity)
@@ -70,7 +83,7 @@ extension WorkoutFiltersView {
                 .edgesIgnoringSafeArea(.all)
                 .overlay {
                     Color.black
-                        .opacity(0.5)
+                        .opacity(0.8)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .ignoresSafeArea()
                 }
@@ -85,6 +98,6 @@ extension WorkoutFiltersView {
 
 struct WorkoutFiltersView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutFiltersView()
+        WorkoutFiltersView(onDismiss: { _ in })
     }
 }

@@ -9,14 +9,18 @@ import SwiftUI
 
 struct WorkoutFeedView: View {
     @State private var selectedFilter: String = ""
+    @State private var isFiltersPresented = false
+
     private let options = ["Mix workout", "Home workout", "Gym workout"]
     
     var body: some View {
         backgroundView {
             VStack(spacing: 5) {
-                SearchBarView(placeholderText: "Search workouts")
+                SearchBarView(placeholderText: "Search workouts", onFiltersTapped: {
+                    isFiltersPresented.toggle()
+                })
 
-                ButtonHorizontalStackView(selectedOption: $selectedFilter, options: self.options)
+                ButtonHorizontalStackView(selectedOption: $selectedFilter, options: self.options, buttonsHaveEqualWidth: false)
 
                 ScrollView(.vertical, showsIndicators: false, content: {
                     CurrentWorkoutCardView(title: "Day 4", subtitle: "Start your 4th day workout", content: "AB Crunches", imageName: "deadlift-background-2", options: [IconPillOption(title: "15 min"), IconPillOption(title: "234 kcal")])
@@ -28,6 +32,11 @@ struct WorkoutFeedView: View {
                 })
                 .padding(0)
                 
+            }
+        }
+        .sheet(isPresented: $isFiltersPresented) {
+            WorkoutFiltersView { filters in
+                print(filters)
             }
         }
     }
@@ -42,7 +51,7 @@ struct WorkoutFeedView: View {
                 .edgesIgnoringSafeArea(.all)
                 .overlay {
                     Color.black
-                        .opacity(0.5)
+                        .opacity(0.8)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .ignoresSafeArea()
                 }
