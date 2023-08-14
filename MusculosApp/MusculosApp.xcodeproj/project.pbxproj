@@ -270,6 +270,7 @@
 		BC1160CE2A2CFB830028D8FC /* MusculosApp */ = {
 			isa = PBXGroup;
 			children = (
+				BC3FB1052A8AAD8600C3F9B1 /* Dashboard */,
 				BCE3B6932A5AEBF9001D04EB /* Workout */,
 				BC10E42D2A3B8AD90008A72E /* Introduction */,
 				BC10E42C2A3B8AB00008A72E /* Authentication */,
@@ -411,6 +412,13 @@
 			path = Exercise;
 			sourceTree = "<group>";
 		};
+		BC3FB1052A8AAD8600C3F9B1 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
 		BC5972082A35074E00EBB075 /* View Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -507,6 +515,7 @@
 		BCE3B6932A5AEBF9001D04EB /* Workout */ = {
 			isa = PBXGroup;
 			children = (
+				BC3FB0F22A8704EE00C3F9B1 /* Workout Filters */,
 				BCE3B6942A5AEC23001D04EB /* Workout Feed */,
 			);
 			path = Workout;
@@ -516,7 +525,6 @@
 			isa = PBXGroup;
 			children = (
 				BCE3B6952A5AEC65001D04EB /* WorkoutFeedView.swift */,
-				BC3FB0F22A8704EE00C3F9B1 /* Workout Filters */,
 				BC3FB1022A89C54A00C3F9B1 /* Exercise */,
 				BC7777342A5DE37B009A452A /* Components */,
 			);
