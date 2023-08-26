@@ -47,6 +47,7 @@
 		BC7777362A5DE3CD009A452A /* MiniCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7777352A5DE3CD009A452A /* MiniCardView.swift */; };
 		BC7777382A5DEBE7009A452A /* MiniCardWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7777372A5DEBE7009A452A /* MiniCardWheelView.swift */; };
 		BCB144662A38CC2F00A8209F /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB144652A38CC2F00A8209F /* IntroductionView.swift */; };
+		BCC23FBB2A8ADD79006CB9AF /* ProgressCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC23FBA2A8ADD79006CB9AF /* ProgressCardView.swift */; };
 		BCCBEE662A4CA41000B211F1 /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEE652A4CA41000B211F1 /* NetworkLogger.swift */; };
 		BCCE85E22A328629001BEE8B /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E12A328629001BEE8B /* AuthenticationViewModel.swift */; };
 		BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E32A33D376001BEE8B /* APIEndpoint.swift */; };
@@ -146,6 +147,7 @@
 		BC7777352A5DE3CD009A452A /* MiniCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniCardView.swift; sourceTree = "<group>"; };
 		BC7777372A5DEBE7009A452A /* MiniCardWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniCardWheelView.swift; sourceTree = "<group>"; };
 		BCB144652A38CC2F00A8209F /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
+		BCC23FBA2A8ADD79006CB9AF /* ProgressCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCardView.swift; sourceTree = "<group>"; };
 		BCCBEE652A4CA41000B211F1 /* NetworkLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLogger.swift; sourceTree = "<group>"; };
 		BCCE85E12A328629001BEE8B /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		BCCE85E32A33D376001BEE8B /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
@@ -425,6 +427,7 @@
 		BC5972082A35074E00EBB075 /* View Components */ = {
 			isa = PBXGroup;
 			children = (
+				BCC23FB92A8ADD6E006CB9AF /* Card */,
 				BC5A41022A7C55AB00F671F5 /* Navigation */,
 				BCFBB7842A59EDB500896C3C /* IconPill */,
 				BC5972092A35075800EBB075 /* TransparentContainerView.swift */,
@@ -484,6 +487,14 @@
 				BC7777372A5DEBE7009A452A /* MiniCardWheelView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		BCC23FB92A8ADD6E006CB9AF /* Card */ = {
+			isa = PBXGroup;
+			children = (
+				BCC23FBA2A8ADD79006CB9AF /* ProgressCardView.swift */,
+			);
+			path = Card;
 			sourceTree = "<group>";
 		};
 		BCCE85E72A33D7A8001BEE8B /* Extension */ = {
@@ -702,6 +713,7 @@
 				BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */,
 				BCF86C332A362105003293A4 /* CustomNavigationBarView.swift in Sources */,
 				BCD3724B2A5775D400C0F161 /* UserAnswersRequest.swift in Sources */,
+				BCC23FBB2A8ADD79006CB9AF /* ProgressCardView.swift in Sources */,
 				BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */,
 				BC7777382A5DEBE7009A452A /* MiniCardWheelView.swift in Sources */,
 				BC3FB1072A8AADDA00C3F9B1 /* DashboardView.swift in Sources */,

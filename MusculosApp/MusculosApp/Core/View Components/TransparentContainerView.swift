@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct TransparentContainerView<Content: View>: View {
+    let spacing: CGFloat
     let content: Content
     
     @State private var contentHeight: CGFloat = 0
     
-    init(@ViewBuilder content: () -> Content) {
+    init(spacing: CGFloat = 0, @ViewBuilder content: () -> Content) {
+        self.spacing = spacing
         self.content = content()
     }
     
@@ -23,7 +25,7 @@ struct TransparentContainerView<Content: View>: View {
                 .cornerRadius(16)
                 .padding([.leading, .trailing], 5)
             
-            VStack(alignment: .center, spacing: 0) {
+            VStack(alignment: .center, spacing: self.spacing) {
                 content
                     .background( // calculate transparent container height
                         GeometryReader { scrollViewGeometry in

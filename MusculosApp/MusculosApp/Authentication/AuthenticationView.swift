@@ -54,7 +54,7 @@ struct AuthenticationView: View {
     private var contentView: some View {
         VStack {
             HearTipView(title: "Transform your body and mind", text: "With the ultimate weight and activity tracking app for anyone who wants to take control of their health and fitness")
-            TransparentContainerView {
+            TransparentContainerView(spacing: 5) {
                 authenticationForm
                 
                 if !self.isRegister {
