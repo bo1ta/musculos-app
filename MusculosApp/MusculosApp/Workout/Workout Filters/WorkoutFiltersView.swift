@@ -54,19 +54,10 @@ struct WorkoutFiltersView: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(DarkButton())
-            Button {
-                let selectedFilters: [WorkoutFilterType: String] = [
-                    .gender: viewModel.selectedGenderOption,
-                    .type: viewModel.selectedTypeOption,
-                    .location: viewModel.selectedLocationOption,
-                    .body: viewModel.selectedLocationOption,
-                    .duration: "\(viewModel.selectedWorkoutDuration)"]
-                onDismiss(selectedFilters)
-                dismiss()
-            } label: {
+            Button(action: self.dismissViewController, label: {
                 Text("Apply")
                     .frame(maxWidth: .infinity)
-            }
+            })
             .buttonStyle(PrimaryButton())
         }
     }
@@ -93,6 +84,17 @@ extension WorkoutFiltersView {
             
             buttonStack
         }
+    }
+    
+    private func dismissViewController() {
+        let selectedFilters: [WorkoutFilterType: String] = [
+            .gender: self.viewModel.selectedGenderOption,
+            .type: self.viewModel.selectedTypeOption,
+            .location: self.viewModel.selectedLocationOption,
+            .body: self.viewModel.selectedLocationOption,
+            .duration: "\(self.viewModel.selectedWorkoutDuration)"]
+        self.onDismiss(selectedFilters)
+        self.dismiss()
     }
 }
 

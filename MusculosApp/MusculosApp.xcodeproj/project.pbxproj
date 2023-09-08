@@ -46,6 +46,8 @@
 		BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */; };
 		BC7777362A5DE3CD009A452A /* MiniCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7777352A5DE3CD009A452A /* MiniCardView.swift */; };
 		BC7777382A5DEBE7009A452A /* MiniCardWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7777372A5DEBE7009A452A /* MiniCardWheelView.swift */; };
+		BC9B21122AAA76A00072C980 /* ExerciseModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9B21112AAA76A00072C980 /* ExerciseModule.swift */; };
+		BC9B21142AAA77240072C980 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9B21132AAA77240072C980 /* Exercise.swift */; };
 		BCB144662A38CC2F00A8209F /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB144652A38CC2F00A8209F /* IntroductionView.swift */; };
 		BCC23FBB2A8ADD79006CB9AF /* ProgressCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC23FBA2A8ADD79006CB9AF /* ProgressCardView.swift */; };
 		BCCBEE662A4CA41000B211F1 /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEE652A4CA41000B211F1 /* NetworkLogger.swift */; };
@@ -146,6 +148,8 @@
 		BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		BC7777352A5DE3CD009A452A /* MiniCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniCardView.swift; sourceTree = "<group>"; };
 		BC7777372A5DEBE7009A452A /* MiniCardWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniCardWheelView.swift; sourceTree = "<group>"; };
+		BC9B21112AAA76A00072C980 /* ExerciseModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseModule.swift; sourceTree = "<group>"; };
+		BC9B21132AAA77240072C980 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		BCB144652A38CC2F00A8209F /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		BCC23FBA2A8ADD79006CB9AF /* ProgressCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCardView.swift; sourceTree = "<group>"; };
 		BCCBEE652A4CA41000B211F1 /* NetworkLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLogger.swift; sourceTree = "<group>"; };
@@ -412,6 +416,8 @@
 			isa = PBXGroup;
 			children = (
 				BC3FB1032A89C56800C3F9B1 /* ExerciseView.swift */,
+				BC9B21112AAA76A00072C980 /* ExerciseModule.swift */,
+				BC9B21132AAA77240072C980 /* Exercise.swift */,
 			);
 			path = Exercise;
 			sourceTree = "<group>";
@@ -698,6 +704,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC9B21142AAA77240072C980 /* Exercise.swift in Sources */,
 				BCF86C3D2A363A92003293A4 /* SelectedButton.swift in Sources */,
 				BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */,
 				BC182ECA2A589A81003DEA30 /* MusculosDataStore.xcdatamodeld in Sources */,
@@ -759,6 +766,7 @@
 				BC352AEB2A32713300DAA3AB /* NetworkRequestError.swift in Sources */,
 				BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */,
 				BC352AE72A326DAE00DAA3AB /* Request.swift in Sources */,
+				BC9B21122AAA76A00072C980 /* ExerciseModule.swift in Sources */,
 				BCE3B6962A5AEC65001D04EB /* WorkoutFeedView.swift in Sources */,
 				BCFBB78A2A5A020700896C3C /* SearchBarView.swift in Sources */,
 				BC3FB0FD2A899F7C00C3F9B1 /* WorkoutFiltersViewModel.swift in Sources */,
