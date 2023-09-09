@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-struct Question: Codable {
+struct Question: Codable, DecodableModel {
     var id: Int
     var content: String
     var answers: [Answer]

@@ -8,24 +8,22 @@
 import Foundation
 import Combine
 
-struct IntroductionModule: NetworkModule {
-    var dispatcher: NetworkDispatcher
+struct IntroductionModule {
+    var client: MusculosClient
     
-    init(dispatcher: NetworkDispatcher = NetworkDispatcher()) {
-        self.dispatcher = dispatcher
+    init(client: MusculosClient = MusculosClient()) {
+        self.client = client
     }
     
-    func getQuestions() -> AnyPublisher<[Question], NetworkRequestError> {
-        let request = IntroductionRequest()
-        let client = MusculosClient(baseURL: request.path, networkDispatcher: self.dispatcher)
-        return client.dispatch(request)
-            .eraseToAnyPublisher()
+    func getQuestions() async throws -> [Question] {
+        let request = APIRequest(method: .get, path: .questions)
+        let responseData = try await self.client.dispatch(request: request)
+        return try await Question.createArrayFrom(responseData)
     }
     
-    func postAnswers(_ answers: [Answer]) -> AnyPublisher<[Answer], NetworkRequestError> {
-        let request = UserAnswersRequest(body: answers.asDictionary)
-        let client = MusculosClient(baseURL: request.path, networkDispatcher: self.dispatcher)
-        return client.dispatch(request)
-            .eraseToAnyPublisher()
+    func postAnswers(answers: [Answer]) async throws {
+        var request = APIRequest(method: .post, path: .userAnswers)
+        request.body = answers.asDictionary
+        _ = try await self.client.dispatch(request: request)
     }
 }

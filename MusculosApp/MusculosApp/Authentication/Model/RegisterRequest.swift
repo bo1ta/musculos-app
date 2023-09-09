@@ -13,19 +13,7 @@ struct User: Codable {
     var email: String
 }
 
-struct RegisterResponse: Codable {
+struct RegisterResponse: Codable, DecodableModel {
     var user: User
     var token: String
-}
-
-struct RegisterRequest: Request {
-    typealias ReturnType = RegisterResponse
-    
-    var path: String = APIEndpoint.baseWithEndpoint(endpoint: .register)
-    var method: HTTPMethod = .post
-    var body: [String: Any]?
-    
-    init(body: [String: Any]) {
-        self.body = body
-    }
 }
