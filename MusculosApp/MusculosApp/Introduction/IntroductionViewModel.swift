@@ -39,6 +39,10 @@ final class IntroductionViewModel: ObservableObject {
         
         self.currentIndex += 1
         self.selectedAnswers.append(answer)
+        
+        if self.selectedAnswers.count == questions.count {
+            self.submitAnswers()
+        }
     }
     
     func previousQuestion() {
@@ -54,6 +58,20 @@ extension IntroductionViewModel {
         Task {
             do {
                 self.questions = try await self.module.getQuestions()
+                self.isLoading = false
+            } catch(let err) {
+                self.errorMessage = err.localizedDescription
+                self.isLoading = false
+            }
+        }
+    }
+    
+    func submitAnswers() {
+        self.isLoading = true
+        
+        Task {
+            do {
+                try await self.module.postAnswers(answers: self.selectedAnswers)
                 self.isLoading = false
             } catch(let err) {
                 self.errorMessage = err.localizedDescription

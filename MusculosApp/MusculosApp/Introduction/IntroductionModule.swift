@@ -20,4 +20,10 @@ struct IntroductionModule {
         let responseData = try await self.client.dispatch(request: request)
         return try await Question.createArrayFrom(responseData)
     }
+    
+    func postAnswers(answers: [Answer]) async throws {
+        var request = APIRequest(method: .post, path: .userAnswers)
+        request.body = answers.asDictionary
+        _ = try await self.client.dispatch(request: request)
+    }
 }
