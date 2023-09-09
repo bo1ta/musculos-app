@@ -32,7 +32,7 @@ struct IntroductionView: View {
             })
             .overlay(loadingOverlay)
             .onAppear(perform: {
-                self.viewModel.getQuestions()
+//                self.viewModel.getQuestions()
             })
         }
         .navigationBarBackButtonHidden()

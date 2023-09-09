@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct AuthenticationView: View {
-    @ObservedObject private var viewModel: AuthenticationViewModel
+    @StateObject private var viewModel: AuthenticationViewModel
     @State private var path = NavigationPath()
     
     private var isRegister: Bool {
         return self.viewModel.currentStep == .register
     }
     
-    init(viewModel: AuthenticationViewModel = AuthenticationViewModel()) {
-        self.viewModel = viewModel
+    init(viewModel: AuthenticationViewModel) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {

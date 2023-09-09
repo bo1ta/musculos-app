@@ -13,7 +13,7 @@ struct User: Codable {
     var email: String
 }
 
-struct RegisterResponse: Codable {
+struct RegisterResponse: Codable, DecodableModel {
     var user: User
     var token: String
 }

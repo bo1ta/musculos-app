@@ -8,26 +8,27 @@
 import Foundation
 import Combine
 
-public class AuthenticationModule: NetworkModule {
-    var dispatcher: NetworkDispatcher
+public class AuthenticationModule {
+    var client: MusculosClient
     
-    init(dispatcher: NetworkDispatcher = NetworkDispatcher()) {
-        self.dispatcher = dispatcher
+    init(client: MusculosClient = MusculosClient()) {
+        self.client = client
     }
     
-    func authenticateUser(with email: String, password: String) -> AnyPublisher<LoginResponse, NetworkRequestError> {
-        let model = Login(email: email, password: password)
-        let request = LoginRequest(body: model.asDictionary)
-        let client = MusculosClient(baseURL: request.path, networkDispatcher: self.dispatcher)
-        return client.dispatch(request)
-            .eraseToAnyPublisher()
+    
+    func registerUser(username: String, email: String, password: String) async throws -> RegisterResponse {
+        var request = APIRequest(method: .post, path: .register)
+        request.body = ["user_name": username, "email": email, "password": password]
+        
+        let responseData = try await self.client.dispatch(request: request)
+        return try await RegisterResponse.createFrom(responseData)
     }
     
-    func registerUser(username: String, email: String, password: String) -> AnyPublisher<RegisterResponse, NetworkRequestError> {
-        let dictionary: [String: Any] = ["user_name": username, "email": email, "password": password]
-        let request = RegisterRequest(body: dictionary)
-        let client = MusculosClient(baseURL: request.path, networkDispatcher: self.dispatcher)
-        return client.dispatch(request)
-            .eraseToAnyPublisher()
+    func loginUser(email: String, password: String) async throws -> LoginResponse {
+        var request = APIRequest(method: .post, path: .authentication)
+        request.body = ["email": email, "password": password]
+        
+        let responseData = try await self.client.dispatch(request: request)
+        return try await LoginResponse.createFrom(responseData)
     }
 }

@@ -19,7 +19,7 @@ struct ContentView: View {
             WorkoutFeedView()
                 .tabBarItem(tab: .workout , selection: $tabSelection)
             
-            AuthenticationView()
+            AuthenticationView(viewModel: AuthenticationViewModel())
                 .tabBarItem(tab: .add, selection: $tabSelection)
             
             IntroductionView()

@@ -16,36 +16,21 @@ struct NetworkDispatcher {
         self.urlSession = urlSession
     }
     
-    func dispatch<ReturnType: Codable>(request: URLRequest) -> AnyPublisher<ReturnType, NetworkRequestError> {
+    func dispatch<ReturnType: Codable>(request: URLRequest) async throws -> ReturnType {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        NetworkLogger.logRequest(request)
-        return urlSession
-            .dataTaskPublisher(for: request)
-            .tryMap { data, response in
-                if let response = response as? HTTPURLResponse,
-                   !(200...299).contains(response.statusCode) {
-                    throw httpError(response.statusCode)
-                }
-                return data
-            }
-            .flatMap({ (data: Data) -> AnyPublisher<ReturnType, Error> in
-                do {
-                    let result = try decoder.decode(ReturnType.self, from: data)
-                    return Just(result)
-                        .setFailureType(to: Error.self)
-                        .eraseToAnyPublisher()
-                } catch {
-                    print("Decoding error:", error)
-                    print("Data:", String(data: data, encoding: .utf8) ?? "")
-                    return Fail(error: error)
-                        .eraseToAnyPublisher()
-                }
-            })
-            .mapError { error in
-                handleError(error)
-            }
-            .eraseToAnyPublisher()
+        
+        let (data, response) = try await self.urlSession.data(for: request)
+        if let response = response as? HTTPURLResponse, !(200...299).contains(response.statusCode) {
+            throw httpError(response.statusCode)
+        }
+        
+        do {
+            let result = try decoder.decode(ReturnType.self, from: data)
+            return result
+        } catch {
+            throw NetworkRequestError.decodingError
+        }
     }
     
     private func httpError(_ statusCode: Int) -> NetworkRequestError {

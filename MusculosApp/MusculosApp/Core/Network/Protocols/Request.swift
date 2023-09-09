@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 
 public protocol Request {
     var path: String { get }

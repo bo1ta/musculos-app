@@ -12,7 +12,7 @@ struct Login: Codable {
     var password: String
 }
 
-struct LoginResponse: Codable {
+struct LoginResponse: Codable, DecodableModel {
     var token: String
 }
 
