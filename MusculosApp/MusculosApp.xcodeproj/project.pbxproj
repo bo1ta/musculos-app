@@ -59,8 +59,8 @@
 		BCE3B6962A5AEC65001D04EB /* WorkoutFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3B6952A5AEC65001D04EB /* WorkoutFeedView.swift */; };
 		BCE417102A7D73380088D975 /* AddTabBarButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4170F2A7D73380088D975 /* AddTabBarButtonView.swift */; };
 		BCF7DE712A7DB2EC00FC960B /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */; };
-		BCF86C2F2A360DDB003293A4 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C2E2A360DDB003293A4 /* LoginRequest.swift */; };
-		BCF86C312A360DF3003293A4 /* RegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C302A360DF3003293A4 /* RegisterRequest.swift */; };
+		BCF86C2F2A360DDB003293A4 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C2E2A360DDB003293A4 /* LoginResponse.swift */; };
+		BCF86C312A360DF3003293A4 /* RegisterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C302A360DF3003293A4 /* RegisterResponse.swift */; };
 		BCF86C332A362105003293A4 /* CustomNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C322A362105003293A4 /* CustomNavigationBarView.swift */; };
 		BCF86C372A362291003293A4 /* IconButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C362A362291003293A4 /* IconButtonView.swift */; };
 		BCF86C392A363012003293A4 /* VerticalSelectPillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C382A363012003293A4 /* VerticalSelectPillView.swift */; };
@@ -155,8 +155,8 @@
 		BCE3B6952A5AEC65001D04EB /* WorkoutFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFeedView.swift; sourceTree = "<group>"; };
 		BCE4170F2A7D73380088D975 /* AddTabBarButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTabBarButtonView.swift; sourceTree = "<group>"; };
 		BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
-		BCF86C2E2A360DDB003293A4 /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
-		BCF86C302A360DF3003293A4 /* RegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequest.swift; sourceTree = "<group>"; };
+		BCF86C2E2A360DDB003293A4 /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
+		BCF86C302A360DF3003293A4 /* RegisterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResponse.swift; sourceTree = "<group>"; };
 		BCF86C322A362105003293A4 /* CustomNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBarView.swift; sourceTree = "<group>"; };
 		BCF86C362A362291003293A4 /* IconButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButtonView.swift; sourceTree = "<group>"; };
 		BCF86C382A363012003293A4 /* VerticalSelectPillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalSelectPillView.swift; sourceTree = "<group>"; };
@@ -227,8 +227,8 @@
 		BC10E42E2A3B8AF60008A72E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BCF86C2E2A360DDB003293A4 /* LoginRequest.swift */,
-				BCF86C302A360DF3003293A4 /* RegisterRequest.swift */,
+				BCF86C2E2A360DDB003293A4 /* LoginResponse.swift */,
+				BCF86C302A360DF3003293A4 /* RegisterResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -691,13 +691,13 @@
 				BC182ECA2A589A81003DEA30 /* MusculosDataStore.xcdatamodeld in Sources */,
 				BCD372472A5736EE00C0F161 /* HorizontalPickerViewCell.swift in Sources */,
 				BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */,
-				BCF86C312A360DF3003293A4 /* RegisterRequest.swift in Sources */,
+				BCF86C312A360DF3003293A4 /* RegisterResponse.swift in Sources */,
 				BC3FB0FF2A89A3E700C3F9B1 /* SliderView.swift in Sources */,
 				BC10E4312A3B8B510008A72E /* IntroductionModule.swift in Sources */,
 				BCD3C4662AACA96800614ED8 /* APIRequest.swift in Sources */,
 				BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */,
 				BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */,
-				BCF86C2F2A360DDB003293A4 /* LoginRequest.swift in Sources */,
+				BCF86C2F2A360DDB003293A4 /* LoginResponse.swift in Sources */,
 				BCCE85ED2A35008C001BEE8B /* Color+Extension.swift in Sources */,
 				BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */,
 				BCF86C332A362105003293A4 /* CustomNavigationBarView.swift in Sources */,
