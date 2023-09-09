@@ -9,6 +9,7 @@ import Foundation
 
 protocol DecodableModel {
     static func createFrom(_ data: Data) async throws -> Self
+    static func createArrayFrom(_ data: Data) async throws -> [Self]
 }
 
 extension DecodableModel where Self: Codable {
@@ -18,6 +19,18 @@ extension DecodableModel where Self: Codable {
         
         do {
             let decoded = try decoder.decode(Self.self, from: data)
+            return decoded
+        } catch {
+            throw NetworkRequestError.decodingError
+        }
+    }
+    
+    static func createArrayFrom(_ data: Data) async throws -> [Self] {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        do {
+            let decoded = try decoder.decode([Self].self, from: data)
             return decoded
         } catch {
             throw NetworkRequestError.decodingError

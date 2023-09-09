@@ -14,4 +14,10 @@ struct IntroductionModule {
     init(client: MusculosClient = MusculosClient()) {
         self.client = client
     }
+    
+    func getQuestions() async throws -> [Question] {
+        let request = APIRequest(method: .get, path: .questions)
+        let responseData = try await self.client.dispatch(request: request)
+        return try await Question.createArrayFrom(responseData)
+    }
 }

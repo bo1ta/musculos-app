@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct IntroductionView: View {
-    @ObservedObject var viewModel: IntroductionViewModel
+    @StateObject var viewModel: IntroductionViewModel
     
     @State private var selectedAnswer: Answer? = nil
     @State private var selectedOption: String =  "12"
     
-    init(viewModel: IntroductionViewModel = IntroductionViewModel()) {
-        self.viewModel = viewModel
+    init(viewModel: IntroductionViewModel) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
     }
  
     var body: some View {
@@ -32,7 +32,7 @@ struct IntroductionView: View {
             })
             .overlay(loadingOverlay)
             .onAppear(perform: {
-//                self.viewModel.getQuestions()
+                self.viewModel.getQuestions()
             })
         }
         .navigationBarBackButtonHidden()
@@ -107,6 +107,6 @@ struct IntroductionView: View {
 
 struct IntroductionView_Preview: PreviewProvider {
     static var previews: some View {
-        IntroductionView()
+        IntroductionView(viewModel: IntroductionViewModel())
     }
 }

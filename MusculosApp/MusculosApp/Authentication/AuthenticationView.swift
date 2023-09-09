@@ -44,7 +44,7 @@ struct AuthenticationView: View {
             })
             .navigationDestination(for: String.self) { view in
                 if view == "IntroductionView" {
-                    IntroductionView()
+                    IntroductionView(viewModel: IntroductionViewModel())
                 }
             }
             .navigationBarBackButtonHidden()

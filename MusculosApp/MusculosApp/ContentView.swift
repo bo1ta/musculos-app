@@ -22,7 +22,7 @@ struct ContentView: View {
             AuthenticationView(viewModel: AuthenticationViewModel())
                 .tabBarItem(tab: .add, selection: $tabSelection)
             
-            IntroductionView()
+            IntroductionView(viewModel: IntroductionViewModel())
                 .tabBarItem(tab: .dashboard, selection: $tabSelection)
         }
     }

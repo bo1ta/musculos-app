@@ -29,10 +29,10 @@ final class AuthenticationViewModel: ObservableObject {
     private var formValidationCancellable: AnyCancellable?
     
     let authSuccess = PassthroughSubject<Void, Never>()
-    private let authenticationModule: AuthenticationModule
+    private let module: AuthenticationModule
     
-    init(authenticationModule: AuthenticationModule = AuthenticationModule()) {
-        self.authenticationModule = authenticationModule
+    init(module: AuthenticationModule = AuthenticationModule()) {
+        self.module = module
         self.setupFormValidation()
     }
     
@@ -74,7 +74,7 @@ extension AuthenticationViewModel {
         
         Task {
             do {
-                let response = try await self.authenticationModule.loginUser(email: self.email, password: self.password)
+                let response = try await self.module.loginUser(email: self.email, password: self.password)
                 UserDefaultsWrapper.shared.authToken = response.token
                 self.isLoading = false
                 self.authSuccess.send()
@@ -90,7 +90,7 @@ extension AuthenticationViewModel {
         
         Task {
             do {
-                let response = try await self.authenticationModule.registerUser(username: self.username, email: self.email, password: self.password)
+                let response = try await self.module.registerUser(username: self.username, email: self.email, password: self.password)
                 UserDefaultsWrapper.shared.authToken = response.token
                 self.isLoading = false
                 self.authSuccess.send()

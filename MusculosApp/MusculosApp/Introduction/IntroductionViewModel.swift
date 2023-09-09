@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import SwiftUI
 
+@MainActor
 final class IntroductionViewModel: ObservableObject {
     @Published var questions: [Question] = []
     @Published var currentIndex: Int = 0
@@ -43,5 +44,21 @@ final class IntroductionViewModel: ObservableObject {
     func previousQuestion() {
         guard self.currentIndex > 0 else { return }
         self.currentIndex -= 1
+    }
+}
+
+extension IntroductionViewModel {
+    func getQuestions() {
+        self.isLoading = true
+        
+        Task {
+            do {
+                self.questions = try await self.module.getQuestions()
+                self.isLoading = false
+            } catch(let err) {
+                self.errorMessage = err.localizedDescription
+                self.isLoading = false
+            }
+        }
     }
 }
