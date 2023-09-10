@@ -14,7 +14,7 @@ final class MuscleModule {
         self.client = client
     }
     
-    func getMuscles(with limit: Int? = nil, and offset: Int? = nil) async throws -> MuscleResponse {
+    func getAllMuscles(with limit: Int? = nil, and offset: Int? = nil) async throws -> MuscleResponse {
         var request = APIRequest(method: .get, path: .muscle)
         
         var queryItems: [URLQueryItem] = []
@@ -30,5 +30,12 @@ final class MuscleModule {
         return try await MuscleResponse.createFrom(responseData)
     }
     
+    func getMuscle(by opk: Int) async throws -> Muscle {
+        var request = APIRequest(method: .get, path: .muscle)
+        request.opk = String(opk)
+        
+        let responseData = try await self.client.dispatch(request)
+        return try await Muscle.createFrom(responseData)
+    }
     
 }
