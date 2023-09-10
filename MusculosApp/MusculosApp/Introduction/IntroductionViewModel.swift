@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import SwiftUI
 
+@MainActor
 final class IntroductionViewModel: ObservableObject {
     @Published var questions: [Question] = []
     @Published var currentIndex: Int = 0
@@ -38,6 +39,10 @@ final class IntroductionViewModel: ObservableObject {
         
         self.currentIndex += 1
         self.selectedAnswers.append(answer)
+        
+        if self.selectedAnswers.count == questions.count {
+            self.submitAnswers()
+        }
     }
     
     func previousQuestion() {
@@ -46,49 +51,32 @@ final class IntroductionViewModel: ObservableObject {
     }
 }
 
-// MARK: - Networking
-
 extension IntroductionViewModel {
     func getQuestions() {
         self.isLoading = true
-        self.module.getQuestions()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                switch completion {
-                case .failure(let networkError):
-                    self?.errorMessage = networkError.description
-                    break
-                case .finished:
-                    print("Finished fetching questions!")
-                    break
-                }
-                self?.isLoading = false
-            } receiveValue: { [weak self] response in
-                DispatchQueue.main.async {
-                    self?.questions = response
-                    self?.isLoading = false
-                }
+        
+        Task {
+            do {
+                self.questions = try await self.module.getQuestions()
+                self.isLoading = false
+            } catch(let err) {
+                self.errorMessage = err.localizedDescription
+                self.isLoading = false
             }
-            .store(in: &cancellables)
+        }
     }
     
-    func postAnswers() {
+    func submitAnswers() {
         self.isLoading = true
-        self.module.postAnswers(self.selectedAnswers)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                switch completion {
-                case .failure(let networkError):
-                    self?.errorMessage = networkError.description
-                    break
-                case .finished:
-                    print("Finished posting answers")
-                    break
-                }
-                self?.isLoading = false
-            } receiveValue: { [weak self] _ in
-                self?.isLoading = false
+        
+        Task {
+            do {
+                try await self.module.postAnswers(answers: self.selectedAnswers)
+                self.isLoading = false
+            } catch(let err) {
+                self.errorMessage = err.localizedDescription
+                self.isLoading = false
             }
-            .store(in: &cancellables)
+        }
     }
 }

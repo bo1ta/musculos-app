@@ -10,22 +10,51 @@ import Combine
 
 
 struct MusculosClient {
-    var baseURL: String
-    var networkDispatcher: NetworkDispatcher
+    var urlSession: URLSession
     
-    init(baseURL: String, networkDispatcher: NetworkDispatcher) {
-        self.baseURL = baseURL
-        self.networkDispatcher = networkDispatcher
+    init(urlSession: URLSession = .shared) {
+        self.urlSession = urlSession
     }
     
-    func dispatch<R: Request>(_ request: R) -> AnyPublisher<R.ReturnType, NetworkRequestError> {
-        guard let urlRequest = request.asURLRequest(baseURL: baseURL) else {
-            return Fail(outputType: R.ReturnType.self, failure: NetworkRequestError.badRequest)
-                .eraseToAnyPublisher()
+    func dispatch(request: APIRequest) async throws -> Data {
+        guard let urlRequest = request.asURLRequest() else {
+            throw NetworkRequestError.badRequest
         }
-
-        typealias RequestPublisher = AnyPublisher<R.ReturnType, NetworkRequestError>
-        let requestPublisher: RequestPublisher = self.networkDispatcher.dispatch(request: urlRequest)
-        return requestPublisher.eraseToAnyPublisher()
+        
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        let (data, response) = try await self.urlSession.data(for: urlRequest)
+        if let response = response as? HTTPURLResponse, !(200...299).contains(response.statusCode) {
+            throw httpError(response.statusCode)
+        }
+        
+        return data
+    }
+    
+    private func httpError(_ statusCode: Int) -> NetworkRequestError {
+        switch statusCode {
+        case 400: return .badRequest
+        case 401: return .unauthorized
+        case 403: return .forbidden
+        case 404: return .notFound
+        case 402, 405...499: return .error4xx(statusCode)
+        case 500: return .serverError
+        case 501...599: return .error5xx(statusCode)
+        default: return .unknownError
+        }
+    }
+    
+    private func handleError(_ error: Error) -> NetworkRequestError {
+        switch error {
+        case is Swift.DecodingError:
+            return .decodingError
+        case let urlError as URLError:
+            return .urlSessionFailed(urlError)
+        case let error as NetworkRequestError:
+            return error
+        default:
+            return .unknownError
+        }
     }
 }

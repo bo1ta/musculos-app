@@ -9,12 +9,9 @@ import Foundation
 import SwiftUI
 import Combine
 
+@MainActor
 final class AuthenticationViewModel: ObservableObject {
-    enum AuthenticationStep: String {
-        case  login, register
-    }
     @Published var currentStep: AuthenticationStep = .login
-    
     @Published var email = ""
     @Published var username = ""
     @Published var password = ""
@@ -32,11 +29,14 @@ final class AuthenticationViewModel: ObservableObject {
     private var formValidationCancellable: AnyCancellable?
     
     let authSuccess = PassthroughSubject<Void, Never>()
-    private let authenticationHelper: AuthenticationModule?
+    private let module: AuthenticationModule
     
-    init(authenticationHelper: AuthenticationModule = AuthenticationModule()) {
-        self.authenticationHelper = authenticationHelper
-        
+    init(module: AuthenticationModule = AuthenticationModule()) {
+        self.module = module
+        self.setupFormValidation()
+    }
+    
+    private func setupFormValidation() {
         self.formValidationCancellable = $currentStep.combineLatest(isLoginFormValidPublisher, isRegisterFormValidPublisher)
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] currentStep, isLoginFormValid, isRegisterFormValid in
@@ -69,52 +69,36 @@ extension AuthenticationViewModel {
         }
     }
     
-    public func loginUser() {
+    private func loginUser() {
         self.isLoading = true
         
-        guard let authenticationHelper = self.authenticationHelper else { return }
-        authenticationHelper.authenticateUser(with: self.email, password: self.password)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
-                
-                switch completion {
-                case .failure(let networkError):
-                    self.errorMessage = networkError.description
-                    break
-                case .finished:
-                    break
-                }
-                self.isLoading = false
-            } receiveValue: { [weak self] response in
+        Task {
+            do {
+                let response = try await self.module.loginUser(email: self.email, password: self.password)
                 UserDefaultsWrapper.shared.authToken = response.token
-                self?.isLoading = false
-                self?.authSuccess.send()
+                self.isLoading = false
+                self.authSuccess.send()
+            } catch(let err) {
+                self.isLoading = false
+                self.errorMessage = err.localizedDescription
             }
-            .store(in: &cancellables)
+        }
     }
     
-    public func registerUser() {
+    private func registerUser() {
         self.isLoading = true
         
-        guard let authenticationHelper = self.authenticationHelper else { return }
-        authenticationHelper.registerUser(username: self.username, email: self.email, password: self.password)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
-                switch completion {
-                case .failure(let networkError):
-                    self.errorMessage = networkError.description
-                    break
-                case .finished:
-                    break
-                }
+        Task {
+            do {
+                let response = try await self.module.registerUser(username: self.username, email: self.email, password: self.password)
+                UserDefaultsWrapper.shared.authToken = response.token
                 self.isLoading = false
-            } receiveValue: { [weak self] _ in
-                self?.isLoading = false
-                self?.authSuccess.send()
+                self.authSuccess.send()
+            } catch(let err) {
+                self.isLoading = false
+                self.errorMessage = err.localizedDescription
             }
-            .store(in: &cancellables)
+        }
     }
 }
 
@@ -149,5 +133,11 @@ extension AuthenticationViewModel {
         Publishers.CombineLatest3(isEmailFormValidPublisher, isUsernameValidPublisher, isPasswordValidPublisher)
             .map { $0 && $1 && $2 }
             .eraseToAnyPublisher()
+    }
+}
+
+extension AuthenticationViewModel {
+    enum AuthenticationStep: String {
+        case  login, register
     }
 }
