@@ -16,7 +16,7 @@ struct MusculosClient {
         self.urlSession = urlSession
     }
     
-    func dispatch(request: APIRequest) async throws -> Data {
+    func dispatch(_ request: APIRequest) async throws -> Data {
         guard let urlRequest = request.asURLRequest() else {
             throw NetworkRequestError.badRequest
         }

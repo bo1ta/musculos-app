@@ -20,7 +20,7 @@ public class AuthenticationModule {
         var request = APIRequest(method: .post, path: .register)
         request.body = ["user_name": username, "email": email, "password": password]
         
-        let responseData = try await self.client.dispatch(request: request)
+        let responseData = try await self.client.dispatch(request)
         return try await RegisterResponse.createFrom(responseData)
     }
     
@@ -28,7 +28,7 @@ public class AuthenticationModule {
         var request = APIRequest(method: .post, path: .authentication)
         request.body = ["email": email, "password": password]
         
-        let responseData = try await self.client.dispatch(request: request)
+        let responseData = try await self.client.dispatch(request)
         return try await LoginResponse.createFrom(responseData)
     }
 }

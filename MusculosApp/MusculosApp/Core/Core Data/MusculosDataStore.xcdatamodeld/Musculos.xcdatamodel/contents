@@ -5,13 +5,13 @@
         <attribute name="content" optional="YES" attributeType="String"/>
         <attribute name="questionId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="MuscleEntity" representedClassName="MuscleEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="englishName" optional="YES" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="imageUrlMain" optional="YES" attributeType="String"/>
-        <attribute name="imageUrlSecondary" optional="YES" attributeType="String"/>
-        <attribute name="isFront" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="latinName" optional="YES" attributeType="String"/>
+    <entity name="MuscleEntity" representedClassName="MuscleEntity" syncable="YES">
+        <attribute name="englishName" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="imageUrlMain" attributeType="String"/>
+        <attribute name="imageUrlSecondary" attributeType="String"/>
+        <attribute name="isFront" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="latinName" attributeType="String"/>
     </entity>
     <entity name="PersonEntity" representedClassName="PersonEntity" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String"/>

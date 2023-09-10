@@ -31,7 +31,6 @@ struct IconPill: View {
     }
     
     private var rectangleWidth: CGFloat {
-        var multiplier = 1
         switch self.iconPillSize {
         case .small:
             return (self.systemImageSize + self.fontSizeWidth + 20) / 2 + 20

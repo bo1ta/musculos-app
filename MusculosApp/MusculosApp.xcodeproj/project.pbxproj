@@ -39,6 +39,10 @@
 		BC59720A2A35075800EBB075 /* TransparentContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972092A35075800EBB075 /* TransparentContainerView.swift */; };
 		BC59720C2A3507F500EBB075 /* HearTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC59720B2A3507F500EBB075 /* HearTipView.swift */; };
 		BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972102A351B0F00EBB075 /* PrimaryButton.swift */; };
+		BC5BAC672AAE3F05003C880E /* MuscleEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC652AAE3F05003C880E /* MuscleEntity+CoreDataClass.swift */; };
+		BC5BAC682AAE3F05003C880E /* MuscleEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC662AAE3F05003C880E /* MuscleEntity+CoreDataProperties.swift */; };
+		BC5BAC6B2AAE4019003C880E /* MuscleModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC6A2AAE4019003C880E /* MuscleModule.swift */; };
+		BC5BAC6E2AAE40E2003C880E /* Muscle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC6D2AAE40E2003C880E /* Muscle.swift */; };
 		BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */; };
 		BC7777362A5DE3CD009A452A /* MiniCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7777352A5DE3CD009A452A /* MiniCardView.swift */; };
 		BC7777382A5DEBE7009A452A /* MiniCardWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7777372A5DEBE7009A452A /* MiniCardWheelView.swift */; };
@@ -135,6 +139,10 @@
 		BC5972092A35075800EBB075 /* TransparentContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentContainerView.swift; sourceTree = "<group>"; };
 		BC59720B2A3507F500EBB075 /* HearTipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HearTipView.swift; sourceTree = "<group>"; };
 		BC5972102A351B0F00EBB075 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
+		BC5BAC652AAE3F05003C880E /* MuscleEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "MuscleEntity+CoreDataClass.swift"; path = "MusculosApp/Core/Core Data/Entity/MuscleEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BC5BAC662AAE3F05003C880E /* MuscleEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "MuscleEntity+CoreDataProperties.swift"; path = "MusculosApp/Core/Core Data/Entity/MuscleEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BC5BAC6A2AAE4019003C880E /* MuscleModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleModule.swift; sourceTree = "<group>"; };
+		BC5BAC6D2AAE40E2003C880E /* Muscle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Muscle.swift; sourceTree = "<group>"; };
 		BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		BC7777352A5DE3CD009A452A /* MiniCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniCardView.swift; sourceTree = "<group>"; };
 		BC7777372A5DEBE7009A452A /* MiniCardWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniCardWheelView.swift; sourceTree = "<group>"; };
@@ -245,6 +253,8 @@
 		BC1160C32A2CFB820028D8FC = {
 			isa = PBXGroup;
 			children = (
+				BC5BAC652AAE3F05003C880E /* MuscleEntity+CoreDataClass.swift */,
+				BC5BAC662AAE3F05003C880E /* MuscleEntity+CoreDataProperties.swift */,
 				BC1160CE2A2CFB830028D8FC /* MusculosApp */,
 				BC1160E52A2CFB840028D8FC /* MusculosAppTests */,
 				BC1160EF2A2CFB840028D8FC /* MusculosAppUITests */,
@@ -266,6 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				BCE3B6932A5AEBF9001D04EB /* Workout */,
+				BC5BAC692AAE400E003C880E /* Muscle */,
 				BC10E42D2A3B8AD90008A72E /* Introduction */,
 				BC10E42C2A3B8AB00008A72E /* Authentication */,
 				BC352AE32A326D6C00DAA3AB /* Core */,
@@ -455,6 +466,23 @@
 				BC0E9C462A7D70E7009DFC4B /* CustomTabBarButton.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		BC5BAC692AAE400E003C880E /* Muscle */ = {
+			isa = PBXGroup;
+			children = (
+				BC5BAC6C2AAE40DC003C880E /* Model */,
+				BC5BAC6A2AAE4019003C880E /* MuscleModule.swift */,
+			);
+			path = Muscle;
+			sourceTree = "<group>";
+		};
+		BC5BAC6C2AAE40DC003C880E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BC5BAC6D2AAE40E2003C880E /* Muscle.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		BC7777342A5DE37B009A452A /* Components */ = {
@@ -680,6 +708,7 @@
 			files = (
 				BCF86C3D2A363A92003293A4 /* SelectedButton.swift in Sources */,
 				BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */,
+				BC5BAC6E2AAE40E2003C880E /* Muscle.swift in Sources */,
 				BC182ECA2A589A81003DEA30 /* MusculosDataStore.xcdatamodeld in Sources */,
 				BCD372472A5736EE00C0F161 /* HorizontalPickerViewCell.swift in Sources */,
 				BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */,
@@ -696,6 +725,7 @@
 				BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */,
 				BC7777382A5DEBE7009A452A /* MiniCardWheelView.swift in Sources */,
 				BCFBB7722A59C6D700896C3C /* AnswerEntity+CoreDataProperties.swift in Sources */,
+				BC5BAC672AAE3F05003C880E /* MuscleEntity+CoreDataClass.swift in Sources */,
 				BC5924FF2A5C527F000F1941 /* ButtonHorizontalStackView.swift in Sources */,
 				BCD372492A57410800C0F161 /* HorizontalPicker.swift in Sources */,
 				BCF86C372A362291003293A4 /* IconButtonView.swift in Sources */,
@@ -709,6 +739,7 @@
 				BC10E4332A3B8CAC0008A72E /* IntroductionViewModel.swift in Sources */,
 				BCF86C392A363012003293A4 /* VerticalSelectPillView.swift in Sources */,
 				BCB144662A38CC2F00A8209F /* IntroductionView.swift in Sources */,
+				BC5BAC6B2AAE4019003C880E /* MuscleModule.swift in Sources */,
 				BC352AED2A32774600DAA3AB /* MusculosClient.swift in Sources */,
 				BCFBB7702A59C6D700896C3C /* QuestionEntity+CoreDataProperties.swift in Sources */,
 				BCF7DE712A7DB2EC00FC960B /* CustomTabBarView.swift in Sources */,
@@ -727,6 +758,7 @@
 				BCD3C4682AACAE7A00614ED8 /* DeocdableModel.swift in Sources */,
 				BC352AF02A327E3300DAA3AB /* AuthenticationView.swift in Sources */,
 				BCCE85E62A33D658001BEE8B /* AuthenticationModule.swift in Sources */,
+				BC5BAC682AAE3F05003C880E /* MuscleEntity+CoreDataProperties.swift in Sources */,
 				BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */,
 				BC1160D22A2CFB830028D8FC /* ContentView.swift in Sources */,
 				BC59720A2A35075800EBB075 /* TransparentContainerView.swift in Sources */,
