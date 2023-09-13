@@ -66,4 +66,53 @@ extension WorkoutManager {
             throw error
         }
     }
+    
+    func fetchLocalExercises() async throws -> [Exercise]? {
+        do {
+            if let exerciseEntities = try await self.dataController.fetchAllEntities(entityName: "ExerciseEntity") as? [ExerciseEntity] {
+                return exerciseEntities.map { Exercise(entity: $0) }
+            }
+            return nil
+        } catch {
+            MusculosLogger.log(.error, message: "Could not fetch local exercises", error: error, category: .coreData)
+            throw error
+        }
+    }
+
+    func fetchAllExercises() async throws -> [Exercise] {
+        do {
+            let exerciseResponse = try await self.exerciseModule.getAllExercise()
+            let exercises = exerciseResponse.results
+            
+            let muscleEntities = try await self.dataController.fetchEntitiesByIds(entityName: "MuscleEntity", by: exercises.flatMap { $0.musclesId }) as? [MuscleEntity]
+            let equipmentEntities = try await self.dataController.fetchEntitiesByIds(entityName: "EquipmentEntity", by: exercises.flatMap { $0.equipmentId }) as? [EquipmentEntity]
+            
+            let newExercises: [Exercise] = exercises.map { exercise in
+                var newExercise = exercise
+                let exerciseEntity = newExercise.toEntity()
+                
+                if let filteredMuscleEntities = muscleEntities?.filter({ exercise.musclesId.contains($0.id) }) {
+                    let muscleSet = Set(arrayLiteral: filteredMuscleEntities)
+                    exerciseEntity.muscles = muscleSet as NSSet
+                    newExercise.muscles = filteredMuscleEntities.map { Muscle(entity: $0) }
+                }
+                
+                if let filteredEquipmentEntities = equipmentEntities?.filter({ exercise.equipmentId.contains($0.id) }) {
+                    let equipmentSet = Set(arrayLiteral: filteredEquipmentEntities)
+                    exerciseEntity.equipments = equipmentSet as NSSet
+                    newExercise.equipments = filteredEquipmentEntities.map { Equipment(entity: $0) }
+                }
+                
+                return newExercise
+            }
+            
+            try self.dataController.save()
+            MusculosLogger.log(.info, message: "Fetched the exercises: \(exercises)", category: .coreData)
+
+            return newExercises
+        } catch {
+            MusculosLogger.log(.error, message: "Could not fetch exercises", category: .coreData)
+            throw error
+        }
+    }
 }
