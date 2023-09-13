@@ -27,11 +27,10 @@ extension ExerciseEntity {
     @NSManaged public var author: String
     @NSManaged public var muscles: NSSet?
     @NSManaged public var equipments: NSSet?
-
 }
 
+// MARK: - Muscles
 extension ExerciseEntity {
-
     @objc(addMusclesObject:)
     @NSManaged public func addToMuscles(_ value: MuscleEntity)
 
@@ -43,11 +42,10 @@ extension ExerciseEntity {
 
     @objc(removeMuscles:)
     @NSManaged public func removeFromMuscles(_ values: NSSet)
-
 }
 
+// MARK: - Equipments
 extension ExerciseEntity {
-
     @objc(addEquipmentsObject:)
     @NSManaged public func addToEquipments(_ value: EquipmentEntity)
 
@@ -59,14 +57,6 @@ extension ExerciseEntity {
 
     @objc(removeEquipments:)
     @NSManaged public func removeFromEquipments(_ values: NSSet)
-
 }
 
-extension ExerciseEntity : Identifiable {
-
-}
-
-extension ExerciseEntity {
-    
-    
-}
+extension ExerciseEntity : Identifiable { }
