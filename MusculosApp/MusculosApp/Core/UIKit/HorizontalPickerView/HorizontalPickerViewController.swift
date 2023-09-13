@@ -159,7 +159,6 @@ extension HorizontalPickerViewController {
             let topBoundary = viewMidX + cellRect.width/2
             let bottomBoundary = viewMidX - cellRect.width/2
             
-            /// A print state representating what the return is calculating
             return topBoundary > cellMidX  && cellMidX > bottomBoundary
         })
         
@@ -169,7 +168,7 @@ extension HorizontalPickerViewController {
                 indexPath = selectedIndexPath
             }
         })
-        
+
         let row = indexPath.row
         // Disables animation on the first and last cell
         if row == 0 || row == data.count - 1 {

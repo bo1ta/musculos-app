@@ -17,7 +17,7 @@ class DataController: ObservableObject {
         self.container = NSPersistentContainer(name: "MusculosDataStore")
         self.container.loadPersistentStores { description, error in
             if let error = error {
-                print("Core data failed to load: \(error)")
+                MusculosLogger.log(.error, message: "Failed to load", category: .coreData)
             }
         }
     }
@@ -28,7 +28,7 @@ class DataController: ObservableObject {
             do {
                 try context.save()
             } catch {
-                print("Core data failed to save: \(error.localizedDescription)")
+                MusculosLogger.log(.error, message: "Failed to save", category: .coreData)
                 throw error
             }
         }

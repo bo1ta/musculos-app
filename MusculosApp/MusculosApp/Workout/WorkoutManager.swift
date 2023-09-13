@@ -26,22 +26,43 @@ final class WorkoutManager {
 
 // MARK: - Fetching objects
 // First, try fetching them from the Core Data store
-// If that fails, make an api request. If successful, save the models in the Core Data store
+// If that fails, make an api request. If successful, save the models in Core Data
 
 extension WorkoutManager {
-    func fetchAllEquipment() async throws -> [Equipment]? {
+    func fetchAllEquipments() async throws -> [Equipment] {
         do {
-            if let equipmentEntities = try await DataController.shared.fetchEquipment() {
+            if let equipmentEntities = try await self.dataController.fetchEquipment() {
                 return equipmentEntities.map { Equipment.init(entity: $0) }
             } else {
                 let equipmentResponse = try await self.equipmentModule.getAllEquipment()
                 let equipments = equipmentResponse.results
+
                 _ = equipments.map { Equipment.toEntity($0) }
                 try self.dataController.save()
+
                 return equipments
             }
         } catch {
-            print("Error fetching equipment from workout manager: ", error.localizedDescription)
+            MusculosLogger.log(.error, message: "Could not fetch equipments", category: .coreData)
+            throw error
+        }
+    }
+    
+    func getAllMuscles() async throws -> [Muscle] {
+        do {
+            if let muscleEntities = try await self.dataController.fetchMuscles() {
+                return muscleEntities.map { Muscle.init(entity: $0) }
+            } else {
+                let muscleResponse = try await self.muscleModule.getAllMuscles()
+                let muscles = muscleResponse.results
+
+                _ = muscles.map { Muscle.toEntity($0) }
+                try self.dataController.save()
+                
+                return muscles
+            }
+        } catch {
+            MusculosLogger.log(.error, message: "Could not fetch muscles", category: .coreData)
             throw error
         }
     }

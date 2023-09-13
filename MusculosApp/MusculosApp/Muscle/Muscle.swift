@@ -23,13 +23,13 @@ struct Muscle: Codable, DecodableModel {
 }
 
 extension Muscle {
-    init(muscleEntity: MuscleEntity) {
-        self.id = muscleEntity.id
-        self.latinName = muscleEntity.latinName
-        self.englishName = muscleEntity.englishName
-        self.isFront = muscleEntity.isFront
-        self.imageUrlMain = muscleEntity.imageUrlMain
-        self.imageUrlSecondary = muscleEntity.imageUrlSecondary
+    init(entity: MuscleEntity) {
+        self.id = entity.id
+        self.latinName = entity.latinName
+        self.englishName = entity.englishName
+        self.isFront = entity.isFront
+        self.imageUrlMain = entity.imageUrlMain
+        self.imageUrlSecondary = entity.imageUrlSecondary
     }
     
     @discardableResult func toEntity() -> MuscleEntity {
