@@ -43,7 +43,7 @@ extension WorkoutManager {
                 return equipments
             }
         } catch {
-            MusculosLogger.log(.error, message: "Could not fetch equipments", category: .coreData)
+            MusculosLogger.log(.error, message: "Could not fetch equipments", error: error, category: .coreData)
             throw error
         }
     }
@@ -62,7 +62,7 @@ extension WorkoutManager {
                 return muscles
             }
         } catch {
-            MusculosLogger.log(.error, message: "Could not fetch muscles", category: .coreData)
+            MusculosLogger.log(.error, message: "Could not fetch muscles", error: error, category: .coreData)
             throw error
         }
     }
