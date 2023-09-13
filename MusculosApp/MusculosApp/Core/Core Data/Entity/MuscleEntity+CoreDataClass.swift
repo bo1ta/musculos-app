@@ -10,4 +10,5 @@ import Foundation
 import CoreData
 
 @objc(MuscleEntity)
-public class MuscleEntity: NSManagedObject { }
+public class MuscleEntity: NSManagedObject {
+}

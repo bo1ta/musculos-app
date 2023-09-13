@@ -13,6 +13,11 @@ struct Equipment: Codable {
 }
 
 extension Equipment {
+    init(entity: EquipmentEntity) {
+        self.id = entity.id
+        self.name = entity.name
+    }
+    
     @discardableResult func toEntity() -> EquipmentEntity {
         let entity = EquipmentEntity(context: DataController.shared.container.viewContext)
         entity.id = self.id
@@ -30,13 +35,7 @@ struct EquipmentResponse: Codable, DecodableModel {
 
 extension EquipmentResponse {
     @discardableResult func toEntities() -> [EquipmentEntity] {
-        let context = DataController.shared.container.viewContext
-        let entities: [EquipmentEntity] = self.results.map { equipment in
-            let entity = EquipmentEntity(context: context)
-            entity.id = equipment.id
-            entity.name = equipment.name
-            return entity
-        }
+        let entities: [EquipmentEntity] = self.results.map { $0.toEntity() }
         return entities
     }
 }

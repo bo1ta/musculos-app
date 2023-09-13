@@ -15,6 +15,7 @@ enum Endpoint: String {
     case userAnswers    = "/user-answers"
     case muscle         = "/muscle"
     case equipment      = "/equipment"
+    case exercise       = "/exercise"
 }
 
 public class APIEndpoint {

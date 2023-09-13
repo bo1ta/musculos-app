@@ -10,7 +10,7 @@ import Foundation
 final class MuscleModule {
     private let client: MusculosClient
     
-    init(client: MusculosClient) {
+    init(client: MusculosClient = MusculosClient()) {
         self.client = client
     }
     
@@ -37,5 +37,4 @@ final class MuscleModule {
         let responseData = try await self.client.dispatch(request)
         return try await Muscle.createFrom(responseData)
     }
-    
 }

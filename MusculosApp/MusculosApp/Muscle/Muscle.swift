@@ -50,3 +50,9 @@ struct MuscleResponse: Codable, DecodableModel {
     var previous: String
     var results: [Muscle]
 }
+
+extension MuscleResponse {
+    @discardableResult func toEntities() -> [MuscleEntity] {
+        return self.results.map { $0.toEntity() }
+    }
+}
