@@ -36,28 +36,18 @@ class DataController: ObservableObject {
 }
 
 extension DataController {
-    func fetchMuscles(with ids: [Int]? = nil) async throws -> [MuscleEntity]? {
+    func fetchAllEntities<T: NSManagedObject>(entityName: String) async throws -> [T]? {
         try await self.container.performBackgroundTask({ backgroundContext in
-            let request = NSFetchRequest<MuscleEntity>(entityName: "MuscleEntity")
-            
-            if let ids = ids {
-                let predicate = NSPredicate(format: "id IN %@", ids)
-                request.predicate = predicate
-            }
-            
+            let request = NSFetchRequest<T>(entityName: entityName)
             return try backgroundContext.fetch(request)
         })
     }
     
-    func fetchEquipment(with ids: [Int]? = nil) async throws -> [EquipmentEntity]? {
+    func fetchEntitiesByIds<T: NSManagedObject>(entityName: String, by ids: [Int]) async throws -> [T]? {
         try await self.container.performBackgroundTask({ backgroundContext in
-            let request = NSFetchRequest<EquipmentEntity>(entityName: "EquipmentEntity")
-            
-            if let ids = ids {
-                let predicate = NSPredicate(format: "id IN %@", ids)
-                request.predicate = predicate
-            }
-            
+            let request = NSFetchRequest<T>(entityName: entityName)
+            let predicate = NSPredicate(format: "id IN %@", ids)
+            request.predicate = predicate
             return try backgroundContext.fetch(request)
         })
     }

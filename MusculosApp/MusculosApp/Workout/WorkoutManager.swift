@@ -31,7 +31,7 @@ final class WorkoutManager {
 extension WorkoutManager {
     func fetchAllEquipments() async throws -> [Equipment] {
         do {
-            if let equipmentEntities = try await self.dataController.fetchEquipment() {
+            if let equipmentEntities = try await self.dataController.fetchAllEntities(entityName: "EquipmentEntity") as? [EquipmentEntity] {
                 return equipmentEntities.map { Equipment.init(entity: $0) }
             } else {
                 let equipmentResponse = try await self.equipmentModule.getAllEquipment()
@@ -48,9 +48,9 @@ extension WorkoutManager {
         }
     }
     
-    func getAllMuscles() async throws -> [Muscle] {
+    func fetchAllMuscles() async throws -> [Muscle] {
         do {
-            if let muscleEntities = try await self.dataController.fetchMuscles() {
+            if let muscleEntities = try await self.dataController.fetchAllEntities(entityName: "MuscleEntity") as? [MuscleEntity] {
                 return muscleEntities.map { Muscle.init(entity: $0) }
             } else {
                 let muscleResponse = try await self.muscleModule.getAllMuscles()
