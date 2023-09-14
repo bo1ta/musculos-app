@@ -9,15 +9,16 @@ import Foundation
 
 
 final class EquipmentModule {
-    private let client: MusculosClient
+    private let client: MusculosClientProtocol
     
-    init(client: MusculosClient) {
+    init(client: MusculosClientProtocol) {
         self.client = client
     }
     
-    func getAllEquipment() async throws -> EquipmentResponse {
+    func getAllEquipment() async throws -> [Equipment] {
         let request = APIRequest(method: .get, path: .equipment)
         let responseData = try await self.client.dispatch(request)
-        return try await EquipmentResponse.createFrom(responseData)
+        let equipmentResponse = try await EquipmentResponse.createFrom(responseData)
+        return equipmentResponse.results
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 struct Muscle: Codable, DecodableModel {
     var id: Int
     var latinName: String
-    var englishName: String
+    var englishName: String?
     var isFront: Bool
     var imageUrlMain: String
     var imageUrlSecondary: String
@@ -35,7 +35,7 @@ extension Muscle {
     @discardableResult func toEntity() -> MuscleEntity {
         let muscleEntity = MuscleEntity(context: DataController.shared.container.viewContext)
         muscleEntity.id = self.id
-        muscleEntity.englishName = self.englishName
+        muscleEntity.englishName = self.englishName ?? ""
         muscleEntity.latinName = self.latinName
         muscleEntity.isFront = self.isFront
         muscleEntity.imageUrlMain = self.imageUrlMain
@@ -45,9 +45,9 @@ extension Muscle {
 }
 
 struct MuscleResponse: Codable, DecodableModel {
-    var count: Int
-    var next: String
-    var previous: String
+    var count: Int?
+    var next: String?
+    var previous: String?
     var results: [Muscle]
 }
 

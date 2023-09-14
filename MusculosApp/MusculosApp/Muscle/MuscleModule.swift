@@ -8,9 +8,9 @@
 import Foundation
 
 final class MuscleModule {
-    private let client: MusculosClient
+    private let client: MusculosClientProtocol
     
-    init(client: MusculosClient = MusculosClient()) {
+    init(client: MusculosClientProtocol = MusculosClient()) {
         self.client = client
     }
     

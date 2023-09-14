@@ -8,8 +8,11 @@
 import Foundation
 import Combine
 
+protocol MusculosClientProtocol {
+    func dispatch(_ request: APIRequest) async throws -> Data
+}
 
-struct MusculosClient {
+struct MusculosClient: MusculosClientProtocol {
     var urlSession: URLSession
     
     init(urlSession: URLSession = .shared) {

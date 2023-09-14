@@ -28,8 +28,8 @@ extension Equipment {
 
 struct EquipmentResponse: Codable, DecodableModel {
     var count: Int
-    var next: String
-    var previous: String
+    var next: String?
+    var previous: String?
     var results: [Equipment]
 }
 

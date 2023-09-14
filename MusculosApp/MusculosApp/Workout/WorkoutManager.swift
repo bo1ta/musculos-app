@@ -34,12 +34,9 @@ extension WorkoutManager {
             if let equipmentEntities = try await self.dataController.fetchAllEntities(entityName: "EquipmentEntity") as? [EquipmentEntity] {
                 return equipmentEntities.map { Equipment.init(entity: $0) }
             } else {
-                let equipmentResponse = try await self.equipmentModule.getAllEquipment()
-                let equipments = equipmentResponse.results
-
+                let equipments = try await self.equipmentModule.getAllEquipment()
                 _ = equipments.map { Equipment.toEntity($0) }
                 try self.dataController.save()
-
                 return equipments
             }
         } catch {

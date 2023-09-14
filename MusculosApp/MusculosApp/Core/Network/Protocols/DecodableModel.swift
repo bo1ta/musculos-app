@@ -1,5 +1,5 @@
 //
-//  DeocdableModel.swift
+//  DecodableModel.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 09.09.2023.
@@ -21,7 +21,7 @@ extension DecodableModel where Self: Codable {
             let decoded = try decoder.decode(Self.self, from: data)
             return decoded
         } catch {
-            throw NetworkRequestError.decodingError
+            throw error
         }
     }
     
