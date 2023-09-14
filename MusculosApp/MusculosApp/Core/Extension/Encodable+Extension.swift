@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 extension Encodable {
     var asDictionary: [String: Any] {
         guard let data = try? JSONEncoder().encode(self) else { return [:] }

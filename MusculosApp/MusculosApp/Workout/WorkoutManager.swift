@@ -105,7 +105,6 @@ extension WorkoutManager {
             
             try self.dataController.save()
             MusculosLogger.log(.info, message: "Fetched the exercises: \(exercises)", category: .coreData)
-
             return newExercises
         } catch {
             MusculosLogger.log(.error, message: "Could not fetch exercises", category: .coreData)

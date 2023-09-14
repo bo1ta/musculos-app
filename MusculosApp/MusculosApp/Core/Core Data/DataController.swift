@@ -9,11 +9,13 @@ import Foundation
 import CoreData
 
 class DataController: ObservableObject {
-    static let shared = DataController()
-
     let container: NSPersistentContainer
     
-    public init() {
+    init(container: NSPersistentContainer) {
+        self.container = container
+    }
+    
+    private init() {
         self.container = NSPersistentContainer(name: "MusculosDataStore")
         self.container.loadPersistentStores { description, error in
             if let error = error {
@@ -50,5 +52,21 @@ extension DataController {
             request.predicate = predicate
             return try backgroundContext.fetch(request)
         })
+    }
+}
+
+extension DataController {
+    private static var _shared: DataController?
+    
+    static var shared: DataController {
+        _shared ?? DataController()
+    }
+    
+    static func setOverride(_ override: DataController) {
+        _shared = override
+    }
+    
+    static func resetOverride() {
+        _shared = nil
     }
 }
