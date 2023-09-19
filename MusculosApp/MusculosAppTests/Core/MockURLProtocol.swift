@@ -42,4 +42,9 @@ class MockURLProtocol: URLProtocol {
     override func stopLoading() {
         MockURLProtocol.expectation?.fulfill()
     }
+    
+    static func clear() {
+        MockURLProtocol.expectation = nil
+        MockURLProtocol.requestHandler = nil
+    }
 }

@@ -24,7 +24,7 @@ extension ExerciseEntity {
     @NSManaged public var category: Int
     @NSManaged public var language: Int
     @NSManaged public var license: Int
-    @NSManaged public var author: String
+    @NSManaged public var author: String?
     @NSManaged public var muscles: NSSet?
     @NSManaged public var equipments: NSSet?
 }

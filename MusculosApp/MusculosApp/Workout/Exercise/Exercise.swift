@@ -6,20 +6,21 @@
 //
 
 import Foundation
+import CoreData
 
 struct Exercise: Codable, DecodableModel {
     var id: Int
     var uuid: String
     var name: String
     var exerciseBase: Int
-    var description: String
+    var description: String?
     var created: String
     var category: Int
     var musclesId: [Int]
     var equipmentId: [Int]
     var language: Int
     var license: Int
-    var licenseAuthor: String
+    var licenseAuthor: String?
 //    var variations: [Int]
 //    var musclesSecondaryId: [Int]
     
@@ -47,7 +48,7 @@ struct Exercise: Codable, DecodableModel {
         self.category = try container.decode(Int.self, forKey: .category)
         self.language = try container.decode(Int.self, forKey: .language)
         self.license = try container.decode(Int.self, forKey: .license)
-        self.licenseAuthor = try container.decode(String.self, forKey: .licenseAuthor)
+        self.licenseAuthor = try container.decode(String?.self, forKey: .licenseAuthor)
         self.equipmentId = try container.decode([Int].self, forKey: .equipmentId)
         self.musclesId = try container.decode([Int].self, forKey: .musclesId)
 //        self.musclesSecondaryId = try container.decode([Int].self, forKey: .musclesSecondaryId)
@@ -81,17 +82,23 @@ struct Exercise: Codable, DecodableModel {
         }
     }
     
-    @discardableResult func toEntity() -> ExerciseEntity {
-        let entity = ExerciseEntity(context: CoreDataStack.shared.mainContext)
+    @discardableResult func toEntity(context: NSManagedObjectContext) -> ExerciseEntity {
+        let entity = ExerciseEntity(context: context)
         entity.id = self.id
         entity.uuid = self.uuid
         entity.name = self.name
         entity.exerciseBase = self.exerciseBase
-        entity.information = self.description
         entity.created = self.created
         entity.category = self.category
         entity.language = self.language
-        entity.author = self.licenseAuthor
+        
+        if let description = self.description {
+            entity.information = description
+        }
+        if let licenseAuthor = self.licenseAuthor {
+            entity.author = licenseAuthor
+        }
+        
         return entity
     }
 }
@@ -99,6 +106,6 @@ struct Exercise: Codable, DecodableModel {
 struct ExerciseResponse: Codable, DecodableModel {
     var count: Int
     var next: String
-    var previous: String
+    var previous: String?
     var results: [Exercise]
 }

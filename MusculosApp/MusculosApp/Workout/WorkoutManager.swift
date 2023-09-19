@@ -113,7 +113,7 @@ extension WorkoutManager {
             
             let newExercises: [Exercise] = exercises.map { exercise in
                 var newExercise = exercise
-                let exerciseEntity = newExercise.toEntity()
+                let exerciseEntity = newExercise.toEntity(context: self.context)
                 
                 if let filteredMuscleEntities = muscleEntities?.filter({ exercise.musclesId.contains($0.id) }) {
                     let muscleSet = Set(arrayLiteral: filteredMuscleEntities)
@@ -126,7 +126,7 @@ extension WorkoutManager {
                     exerciseEntity.equipments = equipmentSet as NSSet
                     newExercise.equipments = filteredEquipmentEntities.map { Equipment(entity: $0) }
                 }
-                
+                                
                 return newExercise
             }
             

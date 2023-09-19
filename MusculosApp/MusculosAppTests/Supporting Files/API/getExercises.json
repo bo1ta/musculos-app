@@ -1,0 +1,113 @@
+{
+    "count": 393,
+    "next": "http://127.0.0.1:8000/api/v2/exercise/?language=2&limit=5&offset=5",
+    "previous": null,
+    "results": [
+        {
+            "id": 345,
+            "uuid": "c788d643-150a-4ac7-97ef-84643c6419bf",
+            "name": "2 Handed Kettlebell Swing",
+            "exercise_base": 9,
+            "description": "<p>Two Handed Russian Style Kettlebell swing</p>",
+            "created": "2023-08-06T10:17:17.349000+02:00",
+            "category": 10,
+            "muscles": [],
+            "muscles_secondary": [],
+            "equipment": [
+                10
+            ],
+            "language": 2,
+            "license": 2,
+            "license_author": "deusinvictus",
+            "variations": [
+                345,
+                249
+            ],
+            "author_history": []
+        },
+        {
+            "id": 2078,
+            "uuid": "bece2c5e-aadc-4d20-bde2-64b5b53f53f0",
+            "name": "3D lunge warmup",
+            "exercise_base": 1115,
+            "description": "As a warmup, use light dumbbells, one in each hand. Lunge in alternating directions, forward, sideways, backwards and 45 degree angles.",
+            "created": "2023-08-06T10:17:17.349000+02:00",
+            "category": 15,
+            "muscles": [],
+            "muscles_secondary": [],
+            "equipment": [
+                3
+            ],
+            "language": 2,
+            "license": 2,
+            "license_author": "philip",
+            "variations": [],
+            "author_history": []
+        },
+        {
+            "id": 1731,
+            "uuid": "66fe654d-3379-46e8-95dc-23e3ce56f25c",
+            "name": "4-count burpees",
+            "exercise_base": 997,
+            "description": "<p>Starting position:</p><p>Stand straight, feet hip-width apart.</p><p>Steps:</p><ol><li>Squat low and support yourself on the floor with your hands between the knees and in front of your feet, your back straight.</li><li>Keeping your hands on the floor, jump your legs backward into high plank position.</li><li>Jump your feet forward to return to the squat position.</li><li>Repeat.</li></ol>",
+            "created": "2023-08-06T10:17:17.349000+02:00",
+            "category": 11,
+            "muscles": [],
+            "muscles_secondary": [],
+            "equipment": [
+                7
+            ],
+            "language": 2,
+            "license": 2,
+            "license_author": "Miroslav Mazel (imported from Feeel)",
+            "variations": [],
+            "author_history": []
+        },
+        {
+            "id": 1061,
+            "uuid": "60d8018d-296f-4c62-a80b-f609a25d34ea",
+            "name": "Abdominal Stabilization",
+            "exercise_base": 56,
+            "description": "",
+            "created": "2023-08-06T10:17:17.349000+02:00",
+            "category": 10,
+            "muscles": [
+                6
+            ],
+            "muscles_secondary": [
+                14
+            ],
+            "equipment": [
+                4
+            ],
+            "language": 2,
+            "license": 2,
+            "license_author": "wger.de",
+            "variations": [],
+            "author_history": []
+        },
+        {
+            "id": 2145,
+            "uuid": "5be194a2-42db-491b-9789-16dc23754c64",
+            "name": "Abdominales sovieticas",
+            "exercise_base": 1189,
+            "description": "sentado en el suelo agarramos la pesa rusa, flexionamos las piernas y las separamos del suelo. Ahora llevaremos a un lado y otro la pesa",
+            "created": "2023-08-06T10:17:17.349000+02:00",
+            "category": 10,
+            "muscles": [
+                6
+            ],
+            "muscles_secondary": [],
+            "equipment": [
+                10
+            ],
+            "language": 2,
+            "license": 2,
+            "license_author": null,
+            "variations": [
+                2145
+            ],
+            "author_history": []
+        }
+    ]
+}

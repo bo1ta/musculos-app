@@ -9,8 +9,8 @@
         <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
     </entity>
-    <entity name="ExerciseEntity" representedClassName="ExerciseEntity" syncable="YES">
-        <attribute name="author" attributeType="String"/>
+    <entity name="ExerciseEntity" representedClassName=".ExerciseEntity" syncable="YES">
+        <attribute name="author" optional="YES" attributeType="String"/>
         <attribute name="category" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="created" attributeType="String"/>
         <attribute name="exerciseBase" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -23,7 +23,7 @@
         <relationship name="equipments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EquipmentEntity"/>
         <relationship name="muscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MuscleEntity"/>
     </entity>
-    <entity name="MuscleEntity" representedClassName="MuscleEntity" syncable="YES">
+    <entity name="MuscleEntity" representedClassName=".MuscleEntity" syncable="YES">
         <attribute name="englishName" attributeType="String"/>
         <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="imageUrlMain" attributeType="String"/>

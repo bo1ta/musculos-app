@@ -10,7 +10,7 @@ import XCTest
 
 class EquipmentModuleTests: XCTestCase {
     override class func tearDown() {
-        MockURLProtocol.requestHandler = nil
+        MockURLProtocol.clear()
         super.tearDown()
     }
     

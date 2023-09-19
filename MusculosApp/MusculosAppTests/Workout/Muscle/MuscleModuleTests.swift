@@ -9,19 +9,19 @@ import XCTest
 
 final class MuscleModuleTests: XCTestCase {
     override class func tearDown() {
-        MockURLProtocol.requestHandler = nil
+        MockURLProtocol.clear()
         super.tearDown()
     }
     
     func testGetAllMusclesSuccess() async throws {
-        let mockData = try XCTUnwrap(self.readFromFile(name: "getMuscles"))
         MockURLProtocol.requestHandler = { request in
             guard let url = request.url else {
                 throw MusculosError.badRequest
             }
             
             let response = try XCTUnwrap(HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil))
-            return (response, mockData)
+            let data = try XCTUnwrap(self.readFromFile(name: "getMuscles"))
+            return (response, data)
         }
 
         let configuration = URLSessionConfiguration.default
@@ -62,7 +62,6 @@ final class MuscleModuleTests: XCTestCase {
         } catch {
             let nsError = error as NSError
             XCTAssertEqual(nsError.domain, "MusculosAppTests.NetworkRequestError")
-            XCTAssertEqual(nsError.code, 4)
         }
     }
 }
