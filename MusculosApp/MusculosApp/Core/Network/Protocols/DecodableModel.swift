@@ -33,7 +33,7 @@ extension DecodableModel where Self: Codable {
             let decoded = try decoder.decode([Self].self, from: data)
             return decoded
         } catch {
-            throw NetworkRequestError.decodingError
+            throw MusculosError.decodingError
         }
     }
 }

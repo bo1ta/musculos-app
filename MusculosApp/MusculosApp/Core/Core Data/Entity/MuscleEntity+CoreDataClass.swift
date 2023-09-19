@@ -9,6 +9,9 @@
 import Foundation
 import CoreData
 
-@objc(MuscleEntity)
 public class MuscleEntity: NSManagedObject {
+    convenience init(context: NSManagedObjectContext) {
+        let entityDescription = NSEntityDescription.entity(forEntityName: "MuscleEntity", in: context)!
+        self.init(entity: entityDescription, insertInto: context)
+    }
 }

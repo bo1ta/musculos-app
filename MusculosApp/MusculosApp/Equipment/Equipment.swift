@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 struct Equipment: Codable {
     var id: Int
@@ -18,8 +19,8 @@ extension Equipment {
         self.name = entity.name
     }
     
-    @discardableResult func toEntity() -> EquipmentEntity {
-        let entity = EquipmentEntity(context: DataController.shared.container.viewContext)
+    @discardableResult func toEntity(context: NSManagedObjectContext) -> EquipmentEntity {
+        let entity = EquipmentEntity(context: context)
         entity.id = self.id
         entity.name = self.name
         return entity
@@ -34,9 +35,8 @@ struct EquipmentResponse: Codable, DecodableModel {
 }
 
 extension EquipmentResponse {
-    @discardableResult func toEntities() -> [EquipmentEntity] {
-        let entities: [EquipmentEntity] = self.results.map { $0.toEntity() }
-        return entities
+    @discardableResult func toEntities(context: NSManagedObjectContext) -> [EquipmentEntity] {
+        self.results.map { $0.toEntity(context: context) }
     }
 }
 

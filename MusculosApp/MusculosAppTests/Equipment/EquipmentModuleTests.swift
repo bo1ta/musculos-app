@@ -21,7 +21,7 @@ class EquipmentModuleTests: XCTestCase {
             guard
                 let url = request.url,
                 let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
-            else { throw NetworkRequestError.badRequest }
+            else { throw MusculosError.badRequest }
             
             return (response, mockData)
         }
@@ -47,7 +47,7 @@ class EquipmentModuleTests: XCTestCase {
     }
     
     func getAllEquipmentFails() async throws {
-        MockURLProtocol.requestHandler = { _ in throw NetworkRequestError.badRequest }
+        MockURLProtocol.requestHandler = { _ in throw MusculosError.badRequest }
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [MockURLProtocol.self]
         

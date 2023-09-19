@@ -9,7 +9,11 @@
 import Foundation
 import CoreData
 
-@objc(EquipmentEntity)
 public class EquipmentEntity: NSManagedObject {
-
+    convenience init(context: NSManagedObjectContext) {
+        let entityDescription = NSEntityDescription.entity(forEntityName: "EquipmentEntity", in: context)!
+        self.init(entity: entityDescription, insertInto: context)
+    }
 }
+
+extension EquipmentEntity: EntityPlugin { }

@@ -10,7 +10,7 @@ import XCTest
 
 class MockURLProtocol: URLProtocol {
     static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data?))?
-    var expectation: XCTestExpectation?
+    static var expectation: XCTestExpectation?
     
     override class func canInit(with request: URLRequest) -> Bool {
         return true
@@ -40,6 +40,6 @@ class MockURLProtocol: URLProtocol {
     }
     
     override func stopLoading() {
-        self.expectation?.fulfill()
+        MockURLProtocol.expectation?.fulfill()
     }
 }

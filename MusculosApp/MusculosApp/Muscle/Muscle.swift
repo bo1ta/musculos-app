@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 struct Muscle: Codable, DecodableModel {
     var id: Int
@@ -32,8 +33,8 @@ extension Muscle {
         self.imageUrlSecondary = entity.imageUrlSecondary
     }
     
-    @discardableResult func toEntity() -> MuscleEntity {
-        let muscleEntity = MuscleEntity(context: DataController.shared.container.viewContext)
+    @discardableResult func toEntity(context: NSManagedObjectContext) -> MuscleEntity {
+        let muscleEntity = MuscleEntity(context: context)
         muscleEntity.id = self.id
         muscleEntity.englishName = self.englishName ?? ""
         muscleEntity.latinName = self.latinName
@@ -52,7 +53,7 @@ struct MuscleResponse: Codable, DecodableModel {
 }
 
 extension MuscleResponse {
-    @discardableResult func toEntities() -> [MuscleEntity] {
-        return self.results.map { $0.toEntity() }
+    @discardableResult func toEntities(context: NSManagedObjectContext) -> [MuscleEntity] {
+        return self.results.map { $0.toEntity(context: context) }
     }
 }

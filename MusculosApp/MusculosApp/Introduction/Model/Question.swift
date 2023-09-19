@@ -30,7 +30,7 @@ extension Question {
     }
     
     func createAnswerEntities(from answers: [Answer]) -> [AnswerEntity] {
-        let viewContext = DataController.shared.container.viewContext
+        let viewContext = CoreDataStack.shared.mainContext
         return answers.map { $0.toEntity(in: viewContext) }
     }
 }

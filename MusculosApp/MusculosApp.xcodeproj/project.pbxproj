@@ -20,8 +20,8 @@
 		BC1160F32A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160F22A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift */; };
 		BC11BC5A2A7D74CB00D96440 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC11BC592A7D74CB00D96440 /* TabBarItem.swift */; };
 		BC182ECA2A589A81003DEA30 /* MusculosDataStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */; };
-		BC182ECD2A589BE7003DEA30 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* DataController.swift */; };
-		BC352AEB2A32713300DAA3AB /* NetworkRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEA2A32713300DAA3AB /* NetworkRequestError.swift */; };
+		BC182ECD2A589BE7003DEA30 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */; };
+		BC352AEB2A32713300DAA3AB /* MusculosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEA2A32713300DAA3AB /* MusculosError.swift */; };
 		BC352AED2A32774600DAA3AB /* MusculosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEC2A32774600DAA3AB /* MusculosClient.swift */; };
 		BC352AF02A327E3300DAA3AB /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEF2A327E3300DAA3AB /* AuthenticationView.swift */; };
 		BC3FB0EA2A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0E92A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift */; };
@@ -56,7 +56,7 @@
 		BC5BAC962AB263E5003C880E /* MusculosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEC2A32774600DAA3AB /* MusculosClient.swift */; };
 		BC5BAC972AB26684003C880E /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD3C4652AACA96800614ED8 /* APIRequest.swift */; };
 		BC5BAC982AB26687003C880E /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E32A33D376001BEE8B /* APIEndpoint.swift */; };
-		BC5BAC992AB2668C003C880E /* NetworkRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEA2A32713300DAA3AB /* NetworkRequestError.swift */; };
+		BC5BAC992AB2668C003C880E /* MusculosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEA2A32713300DAA3AB /* MusculosError.swift */; };
 		BC5BAC9C2AB267B6003C880E /* MuscleModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC9B2AB267B6003C880E /* MuscleModuleTests.swift */; };
 		BC5BAC9D2AB26871003C880E /* MuscleModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC6A2AAE4019003C880E /* MuscleModule.swift */; };
 		BC5BAC9E2AB26B2A003C880E /* Muscle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC6D2AAE40E2003C880E /* Muscle.swift */; };
@@ -66,7 +66,7 @@
 		BC5BACA22AB26CDE003C880E /* EquipmentModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC732AAE4858003C880E /* EquipmentModule.swift */; };
 		BC5BACA32AB26CE4003C880E /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC7F2AAFD771003C880E /* Exercise.swift */; };
 		BC5BACA42AB26CE8003C880E /* ExerciseModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC832AB1072B003C880E /* ExerciseModule.swift */; };
-		BC5BACA52AB26CF3003C880E /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* DataController.swift */; };
+		BC5BACA52AB26CF3003C880E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */; };
 		BC5BACA62AB26CF8003C880E /* PersonEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7672A59C6D700896C3C /* PersonEntity+CoreDataProperties.swift */; };
 		BC5BACA72AB26CFB003C880E /* AnswerEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB76C2A59C6D700896C3C /* AnswerEntity+CoreDataProperties.swift */; };
 		BC5BACA82AB26D00003C880E /* QuestionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB76B2A59C6D700896C3C /* QuestionEntity+CoreDataClass.swift */; };
@@ -87,8 +87,14 @@
 		BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACBC2AB2769B003C880E /* MockURLProtocol.swift */; };
 		BC5BACC12AB28049003C880E /* EquipmentModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC02AB28049003C880E /* EquipmentModuleTests.swift */; };
 		BC5BACC32AB280C5003C880E /* getEquipment.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACC22AB280C5003C880E /* getEquipment.json */; };
-		BC5BACC52AB29C03003C880E /* MockPersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC42AB29C03003C880E /* MockPersistentContainer.swift */; };
+		BC5BACC52AB29C03003C880E /* CoreDataTestStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC42AB29C03003C880E /* CoreDataTestStack.swift */; };
 		BC5BACC72AB29E07003C880E /* WorkoutManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC62AB29E07003C880E /* WorkoutManagerTests.swift */; };
+		BC5BACC82AB36DFA003C880E /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC872AB111C1003C880E /* WorkoutManager.swift */; };
+		BC5BACCA2AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC92AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift */; };
+		BC5BACCB2AB3D44E003C880E /* NSManagedObjectContext+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC92AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift */; };
+		BC5BACCC2AB9270E003C880E /* MusculosDataStore.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */; };
+		BC5BACCF2ABA16FE003C880E /* EntityPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACCE2ABA16FE003C880E /* EntityPlugin.swift */; };
+		BC5BACD02ABA1950003C880E /* EntityPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACCE2ABA16FE003C880E /* EntityPlugin.swift */; };
 		BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */; };
 		BC7777362A5DE3CD009A452A /* MiniCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7777352A5DE3CD009A452A /* MiniCardView.swift */; };
 		BC7777382A5DEBE7009A452A /* MiniCardWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7777372A5DEBE7009A452A /* MiniCardWheelView.swift */; };
@@ -165,8 +171,8 @@
 		BC1160F22A2CFB840028D8FC /* MusculosAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BC11BC592A7D74CB00D96440 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		BC182EC92A589A81003DEA30 /* Musculos.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Musculos.xcdatamodel; sourceTree = "<group>"; };
-		BC182ECC2A589BE7003DEA30 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
-		BC352AEA2A32713300DAA3AB /* NetworkRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestError.swift; sourceTree = "<group>"; };
+		BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		BC352AEA2A32713300DAA3AB /* MusculosError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosError.swift; sourceTree = "<group>"; };
 		BC352AEC2A32774600DAA3AB /* MusculosClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosClient.swift; sourceTree = "<group>"; };
 		BC352AEF2A327E3300DAA3AB /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		BC3FB0E92A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
@@ -204,8 +210,10 @@
 		BC5BACBC2AB2769B003C880E /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		BC5BACC02AB28049003C880E /* EquipmentModuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquipmentModuleTests.swift; sourceTree = "<group>"; };
 		BC5BACC22AB280C5003C880E /* getEquipment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getEquipment.json; sourceTree = "<group>"; };
-		BC5BACC42AB29C03003C880E /* MockPersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPersistentContainer.swift; sourceTree = "<group>"; };
+		BC5BACC42AB29C03003C880E /* CoreDataTestStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTestStack.swift; sourceTree = "<group>"; };
 		BC5BACC62AB29E07003C880E /* WorkoutManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManagerTests.swift; sourceTree = "<group>"; };
+		BC5BACC92AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Extension.swift"; sourceTree = "<group>"; };
+		BC5BACCE2ABA16FE003C880E /* EntityPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityPlugin.swift; sourceTree = "<group>"; };
 		BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		BC7777352A5DE3CD009A452A /* MiniCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniCardView.swift; sourceTree = "<group>"; };
 		BC7777372A5DEBE7009A452A /* MiniCardWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniCardWheelView.swift; sourceTree = "<group>"; };
@@ -391,9 +399,10 @@
 		BC182ECB2A589BC7003DEA30 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				BC5BACCD2ABA16E5003C880E /* Protocol */,
 				BCFBB7662A59C6D700896C3C /* Entity */,
 				BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */,
-				BC182ECC2A589BE7003DEA30 /* DataController.swift */,
+				BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -574,7 +583,7 @@
 			children = (
 				BC5BACB62AB26F40003C880E /* XCTestCase+Extension.swift */,
 				BC5BACBC2AB2769B003C880E /* MockURLProtocol.swift */,
-				BC5BACC42AB29C03003C880E /* MockPersistentContainer.swift */,
+				BC5BACC42AB29C03003C880E /* CoreDataTestStack.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -619,6 +628,14 @@
 			path = Equipment;
 			sourceTree = "<group>";
 		};
+		BC5BACCD2ABA16E5003C880E /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				BC5BACCE2ABA16FE003C880E /* EntityPlugin.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		BC7777342A5DE37B009A452A /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -634,7 +651,7 @@
 			children = (
 				BCCE85E32A33D376001BEE8B /* APIEndpoint.swift */,
 				BCD3C4652AACA96800614ED8 /* APIRequest.swift */,
-				BC352AEA2A32713300DAA3AB /* NetworkRequestError.swift */,
+				BC352AEA2A32713300DAA3AB /* MusculosError.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -646,6 +663,7 @@
 				BCCE85EC2A35008C001BEE8B /* Color+Extension.swift */,
 				BC5925002A5C8B72000F1941 /* String+Extension.swift */,
 				BC3FB0EB2A85565400C3F9B1 /* View+Extension.swift */,
+				BC5BACC92AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -824,6 +842,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC5BACCC2AB9270E003C880E /* MusculosDataStore.xcdatamodeld in Resources */,
 				BC5BACBB2AB270C2003C880E /* getMuscles.json in Resources */,
 				BC5BACC32AB280C5003C880E /* getEquipment.json in Resources */,
 			);
@@ -908,7 +927,7 @@
 				BC3FB0F62A87051700C3F9B1 /* WorkoutFiltersView.swift in Sources */,
 				BC3FB0F82A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift in Sources */,
 				BC59720C2A3507F500EBB075 /* HearTipView.swift in Sources */,
-				BC352AEB2A32713300DAA3AB /* NetworkRequestError.swift in Sources */,
+				BC352AEB2A32713300DAA3AB /* MusculosError.swift in Sources */,
 				BC5BAC922AB2337B003C880E /* ExerciseEntity+CoreDataProperties.swift in Sources */,
 				BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */,
 				BCE3B6962A5AEC65001D04EB /* WorkoutFeedView.swift in Sources */,
@@ -919,9 +938,11 @@
 				BC11BC5A2A7D74CB00D96440 /* TabBarItem.swift in Sources */,
 				BCFBB7752A59CD6F00896C3C /* Question.swift in Sources */,
 				BC10E4292A3B811C0008A72E /* Answer.swift in Sources */,
-				BC182ECD2A589BE7003DEA30 /* DataController.swift in Sources */,
+				BC182ECD2A589BE7003DEA30 /* CoreDataStack.swift in Sources */,
 				BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */,
 				BCFBB76D2A59C6D700896C3C /* PersonEntity+CoreDataProperties.swift in Sources */,
+				BC5BACCF2ABA16FE003C880E /* EntityPlugin.swift in Sources */,
+				BC5BACCA2AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift in Sources */,
 				BC5BAC842AB1072B003C880E /* ExerciseModule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -930,14 +951,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC5BACCB2AB3D44E003C880E /* NSManagedObjectContext+Extension.swift in Sources */,
 				BC5BACA02AB26CD9003C880E /* DecodableModel.swift in Sources */,
 				BC5BAC9E2AB26B2A003C880E /* Muscle.swift in Sources */,
 				BC5BACAE2AB26D85003C880E /* QuestionEntity+CoreDataProperties.swift in Sources */,
 				BC5BACB32AB26D9C003C880E /* MuscleEntity+CoreDataProperties.swift in Sources */,
 				BC5BACA12AB26CDC003C880E /* Equipment.swift in Sources */,
 				BC5BAC962AB263E5003C880E /* MusculosClient.swift in Sources */,
-				BC5BACC52AB29C03003C880E /* MockPersistentContainer.swift in Sources */,
+				BC5BACC52AB29C03003C880E /* CoreDataTestStack.swift in Sources */,
 				BC5BACC12AB28049003C880E /* EquipmentModuleTests.swift in Sources */,
+				BC5BACD02ABA1950003C880E /* EntityPlugin.swift in Sources */,
 				BC5BACA62AB26CF8003C880E /* PersonEntity+CoreDataProperties.swift in Sources */,
 				BC5BACAF2AB26D90003C880E /* ExerciseEntity+CoreDataProperties.swift in Sources */,
 				BC5BACA42AB26CE8003C880E /* ExerciseModule.swift in Sources */,
@@ -959,12 +982,13 @@
 				BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */,
 				BC5BAC982AB26687003C880E /* APIEndpoint.swift in Sources */,
 				BC5BACAD2AB26D7E003C880E /* AnswerEntity+CoreDataClass.swift in Sources */,
+				BC5BACC82AB36DFA003C880E /* WorkoutManager.swift in Sources */,
 				BC5BACA72AB26CFB003C880E /* AnswerEntity+CoreDataProperties.swift in Sources */,
-				BC5BACA52AB26CF3003C880E /* DataController.swift in Sources */,
+				BC5BACA52AB26CF3003C880E /* CoreDataStack.swift in Sources */,
 				BC5BACA82AB26D00003C880E /* QuestionEntity+CoreDataClass.swift in Sources */,
 				BC5BACB42AB26DA9003C880E /* Answer.swift in Sources */,
 				BC5BAC9C2AB267B6003C880E /* MuscleModuleTests.swift in Sources */,
-				BC5BAC992AB2668C003C880E /* NetworkRequestError.swift in Sources */,
+				BC5BAC992AB2668C003C880E /* MusculosError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

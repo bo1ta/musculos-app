@@ -17,7 +17,7 @@ final class MuscleModuleTests: XCTestCase {
         let mockData = try XCTUnwrap(self.readFromFile(name: "getMuscles"))
         MockURLProtocol.requestHandler = { request in
             guard let url = request.url else {
-                throw NetworkRequestError.badRequest
+                throw MusculosError.badRequest
             }
             
             let response = try XCTUnwrap(HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil))
@@ -47,7 +47,7 @@ final class MuscleModuleTests: XCTestCase {
     
     func testGetAllMusclesFailure() async throws {
         MockURLProtocol.requestHandler = { _ in
-            throw NetworkRequestError.badRequest
+            throw MusculosError.badRequest
         }
         
         let configuration = URLSessionConfiguration.default

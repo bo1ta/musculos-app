@@ -82,7 +82,7 @@ struct Exercise: Codable, DecodableModel {
     }
     
     @discardableResult func toEntity() -> ExerciseEntity {
-        let entity = ExerciseEntity(context: DataController.shared.container.viewContext)
+        let entity = ExerciseEntity(context: CoreDataStack.shared.mainContext)
         entity.id = self.id
         entity.uuid = self.uuid
         entity.name = self.name

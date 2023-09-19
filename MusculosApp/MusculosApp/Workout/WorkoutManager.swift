@@ -6,37 +6,79 @@
 //
 
 import Foundation
+import CoreData
 
 final class WorkoutManager {
     private let client: MusculosClient
+    private let context: NSManagedObjectContext
     
     private let equipmentModule: EquipmentModule
     private let muscleModule: MuscleModule
     private let exerciseModule: ExerciseModule
-    
-    private let dataController = DataController.shared
-    
-    init(client: MusculosClient = MusculosClient()) {
+        
+    init(client: MusculosClient = MusculosClient(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.client = client
+        self.context = context
         self.equipmentModule = EquipmentModule(client: self.client)
         self.muscleModule = MuscleModule(client: self.client)
         self.exerciseModule = ExerciseModule(client: self.client)
     }
 }
 
-// MARK: - Fetching objects
+// MARK: - Local storage
+
+extension WorkoutManager {
+    func fetchLocalEquipments(with ids: [Int]? = nil) async throws -> [EquipmentEntity]? {
+        let entityName = "EquipmentEntity"
+        do {
+            if let ids = ids {
+                return try await self.context.fetchEntitiesByIds(entityName: entityName, by: ids) as? [EquipmentEntity]
+            } else {
+                return try await self.context.fetchAllEntities(entityName: entityName) as? [EquipmentEntity]
+            }
+        } catch {
+            MusculosLogger.log(.error, message: "Could not fetch local muscles", error: error, category: .coreData)
+            throw error
+        }
+    }
+    
+    func fetchLocalExercises() async throws -> [ExerciseEntity]? {
+        do {
+            return try await self.context.fetchAllEntities(entityName: "ExerciseEntity") as? [ExerciseEntity]
+        } catch {
+            MusculosLogger.log(.error, message: "Could not fetch local exercises", error: error, category: .coreData)
+            throw error
+        }
+    }
+    
+    func fetchLocalMuscles(with ids: [Int]? = nil) async throws -> [MuscleEntity]? {
+        let entityName = "MuscleEntity"
+        do {
+            if let ids = ids {
+                return try await self.context.fetchEntitiesByIds(entityName: entityName, by: ids) as? [MuscleEntity]
+            } else {
+                return try await self.context.fetchAllEntities(entityName: entityName) as? [MuscleEntity]
+            }
+        } catch {
+            MusculosLogger.log(.error, message: "Could not fetch local muscles", error: error, category: .coreData)
+            throw error
+        }
+    }
+}
+
+// MARK: - Fetching `all` objects
 // First, try fetching them from the Core Data store
-// If that fails, make an api request. If successful, save the models in Core Data
+// If that fails, make an api request. If successful, save the models to Core Data
 
 extension WorkoutManager {
     func fetchAllEquipments() async throws -> [Equipment] {
         do {
-            if let equipmentEntities = try await self.dataController.fetchAllEntities(entityName: "EquipmentEntity") as? [EquipmentEntity] {
+            if let equipmentEntities = try await self.fetchLocalEquipments(), equipmentEntities.count > 0 {
                 return equipmentEntities.map { Equipment.init(entity: $0) }
             } else {
                 let equipments = try await self.equipmentModule.getAllEquipment()
-                _ = equipments.map { Equipment.toEntity($0) }
-                try self.dataController.save()
+                _ = equipments.map { $0.toEntity(context: self.context) }
+                try self.context.save()
                 return equipments
             }
         } catch {
@@ -47,31 +89,16 @@ extension WorkoutManager {
     
     func fetchAllMuscles() async throws -> [Muscle] {
         do {
-            if let muscleEntities = try await self.dataController.fetchAllEntities(entityName: "MuscleEntity") as? [MuscleEntity] {
-                return muscleEntities.map { Muscle.init(entity: $0) }
+            if let localMuscles = try await self.fetchLocalMuscles(), localMuscles.count > 0 {
+                return localMuscles.map { Muscle.init(entity: $0) }
             } else {
                 let muscleResponse = try await self.muscleModule.getAllMuscles()
-                let muscles = muscleResponse.results
-
-                _ = muscles.map { Muscle.toEntity($0) }
-                try self.dataController.save()
-                
-                return muscles
+                muscleResponse.toEntities(context: self.context)
+                try self.context.save()
+                return muscleResponse.results
             }
         } catch {
             MusculosLogger.log(.error, message: "Could not fetch muscles", error: error, category: .coreData)
-            throw error
-        }
-    }
-    
-    func fetchLocalExercises() async throws -> [Exercise]? {
-        do {
-            if let exerciseEntities = try await self.dataController.fetchAllEntities(entityName: "ExerciseEntity") as? [ExerciseEntity] {
-                return exerciseEntities.map { Exercise(entity: $0) }
-            }
-            return nil
-        } catch {
-            MusculosLogger.log(.error, message: "Could not fetch local exercises", error: error, category: .coreData)
             throw error
         }
     }
@@ -81,8 +108,8 @@ extension WorkoutManager {
             let exerciseResponse = try await self.exerciseModule.getAllExercise()
             let exercises = exerciseResponse.results
             
-            let muscleEntities = try await self.dataController.fetchEntitiesByIds(entityName: "MuscleEntity", by: exercises.flatMap { $0.musclesId }) as? [MuscleEntity]
-            let equipmentEntities = try await self.dataController.fetchEntitiesByIds(entityName: "EquipmentEntity", by: exercises.flatMap { $0.equipmentId }) as? [EquipmentEntity]
+            let muscleEntities = try await self.fetchLocalMuscles(with: exercises.flatMap { $0.musclesId } )
+            let equipmentEntities = try await self.fetchLocalEquipments(with: exercises.flatMap { $0.equipmentId} )
             
             let newExercises: [Exercise] = exercises.map { exercise in
                 var newExercise = exercise
@@ -103,7 +130,7 @@ extension WorkoutManager {
                 return newExercise
             }
             
-            try self.dataController.save()
+            try self.context.save()
             MusculosLogger.log(.info, message: "Fetched the exercises: \(exercises)", category: .coreData)
             return newExercises
         } catch {
