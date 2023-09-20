@@ -60,3 +60,4 @@ extension ExerciseEntity {
 }
 
 extension ExerciseEntity : Identifiable { }
+

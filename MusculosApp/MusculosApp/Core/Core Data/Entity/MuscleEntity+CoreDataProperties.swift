@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreData
-
+import SwiftUI
 
 extension MuscleEntity {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MuscleEntity> {
@@ -24,4 +24,10 @@ extension MuscleEntity {
 }
 
 extension MuscleEntity : Identifiable {
+}
+
+extension MuscleEntity {
+    var primaryImage: Image {
+        return Image("muscles/main/muscle-\(self.id)")
+    }
 }

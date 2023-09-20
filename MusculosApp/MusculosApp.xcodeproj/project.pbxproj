@@ -72,6 +72,7 @@
 		BC5BACD52ABA28A7003C880E /* getExercises.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACD42ABA28A7003C880E /* getExercises.json */; };
 		BC5BACD72ABA403F003C880E /* WorkoutFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACD62ABA403F003C880E /* WorkoutFeedViewModel.swift */; };
 		BC5BACD92ABB6694003C880E /* ExerciseModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACD82ABB6694003C880E /* ExerciseModuleTests.swift */; };
+		BC5BACDC2ABB75AA003C880E /* AnatomyOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACDB2ABB75AA003C880E /* AnatomyOverlayView.swift */; };
 		BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */; };
 		BC7777362A5DE3CD009A452A /* MiniCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7777352A5DE3CD009A452A /* MiniCardView.swift */; };
 		BC7777382A5DEBE7009A452A /* MiniCardWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7777372A5DEBE7009A452A /* MiniCardWheelView.swift */; };
@@ -194,6 +195,7 @@
 		BC5BACD42ABA28A7003C880E /* getExercises.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getExercises.json; sourceTree = "<group>"; };
 		BC5BACD62ABA403F003C880E /* WorkoutFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFeedViewModel.swift; sourceTree = "<group>"; };
 		BC5BACD82ABB6694003C880E /* ExerciseModuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseModuleTests.swift; sourceTree = "<group>"; };
+		BC5BACDB2ABB75AA003C880E /* AnatomyOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnatomyOverlayView.swift; sourceTree = "<group>"; };
 		BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		BC7777352A5DE3CD009A452A /* MiniCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniCardView.swift; sourceTree = "<group>"; };
 		BC7777372A5DEBE7009A452A /* MiniCardWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniCardWheelView.swift; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 		BC1160CE2A2CFB830028D8FC /* MusculosApp */ = {
 			isa = PBXGroup;
 			children = (
+				BC5BACDA2ABB7596003C880E /* Anatomy */,
 				BC10E42C2A3B8AB00008A72E /* Authentication */,
 				BC10E42D2A3B8AD90008A72E /* Introduction */,
 				BCE3B6932A5AEBF9001D04EB /* Workout */,
@@ -621,6 +624,14 @@
 				BC5BACC62AB29E07003C880E /* WorkoutManagerTests.swift */,
 			);
 			path = Workout;
+			sourceTree = "<group>";
+		};
+		BC5BACDA2ABB7596003C880E /* Anatomy */ = {
+			isa = PBXGroup;
+			children = (
+				BC5BACDB2ABB75AA003C880E /* AnatomyOverlayView.swift */,
+			);
+			path = Anatomy;
 			sourceTree = "<group>";
 		};
 		BC7777342A5DE37B009A452A /* Components */ = {
@@ -935,6 +946,7 @@
 				BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */,
 				BCFBB76D2A59C6D700896C3C /* PersonEntity+CoreDataProperties.swift in Sources */,
 				BC5BACCF2ABA16FE003C880E /* EntityPlugin.swift in Sources */,
+				BC5BACDC2ABB75AA003C880E /* AnatomyOverlayView.swift in Sources */,
 				BC5BACCA2AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift in Sources */,
 				BC5BAC842AB1072B003C880E /* ExerciseModule.swift in Sources */,
 			);
