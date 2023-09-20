@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import Combine
 
 protocol MusculosClientProtocol {
     func dispatch(_ request: APIRequest) async throws -> Data
+    func dispatchPublisher<T: Codable>(_ request: APIRequest) -> AnyPublisher<T, MusculosError>
 }
 
 struct MusculosClient: MusculosClientProtocol {
@@ -34,6 +36,26 @@ struct MusculosClient: MusculosClientProtocol {
         return data
     }
     
+    func dispatchPublisher<T: Codable>(_ request: APIRequest) -> AnyPublisher<T, MusculosError> {
+        guard let urlRequest = request.asURLRequest() else {
+            return Fail<T, MusculosError>(error: MusculosError.badRequest).eraseToAnyPublisher()
+        }
+        
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        return self.urlSession.dataTaskPublisher(for: urlRequest)
+            .map({ data, response in
+                return data
+            })
+            .decode(type: T.self, decoder: decoder)
+            .receive(on: DispatchQueue.main)
+            .mapError({ _ in
+                return MusculosError.badRequest
+            })
+            .eraseToAnyPublisher()
+    }
+        
     private func httpError(_ statusCode: Int) -> MusculosError {
         switch statusCode {
         case 400: return .badRequest

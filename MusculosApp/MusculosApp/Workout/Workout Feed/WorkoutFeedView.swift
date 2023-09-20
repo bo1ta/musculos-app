@@ -8,39 +8,56 @@
 import SwiftUI
 
 struct WorkoutFeedView: View {
-    @State private var selectedFilter: String = ""
-    @State private var isFiltersPresented = false
+    @StateObject var viewModel = WorkoutFeedViewModel()
 
     private let options = ["Mix workout", "Home workout", "Gym workout"]
     
     var body: some View {
         backgroundView {
             VStack(spacing: 5) {
-                SearchBarView(placeholderText: "Search workouts", onFiltersTapped: {
-                    isFiltersPresented.toggle()
+                SearchBarView(placeholderText: "Search workouts", searchQuery: $viewModel.searchQuery, onFiltersTapped: {
+                    self.viewModel.isFiltersPresented.toggle()
                 })
 
-                ButtonHorizontalStackView(selectedOption: $selectedFilter, options: self.options, buttonsHaveEqualWidth: false)
+                ButtonHorizontalStackView(selectedOption: $viewModel.selectedFilter, options: self.options, buttonsHaveEqualWidth: false)
 
                 ScrollView(.vertical, showsIndicators: false, content: {
                     CurrentWorkoutCardView(title: "Day 4", subtitle: "Start your 4th day workout", content: "AB Crunches", imageName: "deadlift-background-2", options: [IconPillOption(title: "15 min"), IconPillOption(title: "234 kcal")])
                     
-                    MiniCardWheelView(items: [
-                        MiniCardItem(title: "Featured workout", subtitle: "Gym workout", description: "Body contouring", color: Color.black, iconPillOption: IconPillOption(title: "In progress")),
-                        MiniCardItem(title: "Workout crunches", subtitle: "Home workout", description: "6-pack exercise", imageName: "workout-crunches")
-                    ])
+                    if let searchResults = viewModel.searchResults {
+                        ForEach(searchResults) { result in
+                            MiniCardView(item: MiniCardItem(title: result.name, subtitle: result.category, description: "", color: .black))
+                        }
+                    }
+                    
+                    MiniCardWheelView(items: self.miniCardItems)
                 })
                 .padding(0)
-                
             }
         }
-        .sheet(isPresented: $isFiltersPresented) {
+        .onAppear(perform: {
+            Task {
+                await self.viewModel.loadExercises()
+            }
+        })
+        .sheet(isPresented: $viewModel.isFiltersPresented) {
             WorkoutFiltersView { filters in
                 MusculosLogger.log(.info, message: "Showing filters: \(filters)", category: .ui)
             }
         }
     }
     
+    private var miniCardItems: [MiniCardItem] {
+        let exercises = self.viewModel.currentExercises
+        if exercises.count > 0 {
+            return exercises.map({
+                MiniCardItem(title: $0.name, subtitle: $0.created, description: $0.description ?? "", imageName: "workout-crunches")
+            })
+        } else {
+            return []
+        }
+    }
+        
     @ViewBuilder
     private func backgroundView(@ViewBuilder content: () -> some View) -> some View {
         ZStack {

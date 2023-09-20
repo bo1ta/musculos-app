@@ -9,10 +9,10 @@ import SwiftUI
 import CoreData
 
 struct AnatomyOverlayView: View {
-    var muscles: [MuscleEntity]
+    var muscles: [Muscle]
     var customSize: CGFloat
     
-    init(muscles: [MuscleEntity], customSize: CGFloat = 150) {
+    init(muscles: [Muscle], customSize: CGFloat = 150) {
         self.muscles = muscles
         self.customSize = customSize
     }
@@ -23,7 +23,7 @@ struct AnatomyOverlayView: View {
                 .resizable()
             
             ForEach(muscles) { muscle in
-                Image("muscle-\(muscle.id)")
+                muscle.primaryImage
                     .resizable()
             }
         }

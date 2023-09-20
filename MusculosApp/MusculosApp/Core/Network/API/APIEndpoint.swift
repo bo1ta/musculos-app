@@ -16,10 +16,11 @@ enum Endpoint: String {
     case muscle         = "/muscle"
     case equipment      = "/equipment"
     case exercise       = "/exercise"
+    case searchExercise = "/exercise/search"
 }
 
 public class APIEndpoint {
-    static let base = "http://127.0.0.1:8080"
+    static let base = "http://127.0.0.1:8000/api/v2"
     
     static func baseWithEndpoint(endpoint: Endpoint) -> String {
         return Self.base + endpoint.rawValue

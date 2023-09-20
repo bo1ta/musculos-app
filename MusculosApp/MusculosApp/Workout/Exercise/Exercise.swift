@@ -21,8 +21,8 @@ struct Exercise: Codable, DecodableModel {
     var language: Int
     var license: Int
     var licenseAuthor: String?
-//    var variations: [Int]
-//    var musclesSecondaryId: [Int]
+    //    var variations: [Int]
+    //    var musclesSecondaryId: [Int]
     
     var muscles: [Muscle] = []
     var musclesSecondary: [Muscle] = []
@@ -32,8 +32,8 @@ struct Exercise: Codable, DecodableModel {
         case id, uuid, name, exerciseBase, description, created, category, language, license, licenseAuthor
         case musclesId = "muscles"
         case equipmentId = "equipment"
-//        case musclesSecondaryId = "muscles_secondary"
-//        case variations
+        //        case musclesSecondaryId = "muscles_secondary"
+        //        case variations
     }
     
     init(from decoder: Decoder) throws {
@@ -51,10 +51,14 @@ struct Exercise: Codable, DecodableModel {
         self.licenseAuthor = try container.decode(String?.self, forKey: .licenseAuthor)
         self.equipmentId = try container.decode([Int].self, forKey: .equipmentId)
         self.musclesId = try container.decode([Int].self, forKey: .musclesId)
-//        self.musclesSecondaryId = try container.decode([Int].self, forKey: .musclesSecondaryId)
-//        self.variations = try container.decode([Int].self, forKey: .variations)
+        //        self.musclesSecondaryId = try container.decode([Int].self, forKey: .musclesSecondaryId)
+        //        self.variations = try container.decode([Int].self, forKey: .variations)
     }
-    
+}
+
+// MARK: - Helpers
+
+extension Exercise {
     init(entity: ExerciseEntity) {
         self.id = entity.id
         self.uuid = entity.uuid

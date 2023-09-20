@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import SwiftUI
 
 struct Muscle: Codable, DecodableModel {
     var id: Int
@@ -22,6 +23,8 @@ struct Muscle: Codable, DecodableModel {
         case englishName = "name_en"
     }
 }
+
+// MARK: - Helpers
 
 extension Muscle {
     init(entity: MuscleEntity) {
@@ -45,15 +48,12 @@ extension Muscle {
     }
 }
 
-struct MuscleResponse: Codable, DecodableModel {
-    var count: Int?
-    var next: String?
-    var previous: String?
-    var results: [Muscle]
-}
+extension Muscle: Identifiable { }
 
-extension MuscleResponse {
-    @discardableResult func toEntities(context: NSManagedObjectContext) -> [MuscleEntity] {
-        return self.results.map { $0.toEntity(context: context) }
+// MARK: - Computed properties
+
+extension Muscle {
+    var primaryImage: Image {
+        return Image("muscles/main/muscle-\(self.id)")
     }
 }
