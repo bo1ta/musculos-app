@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 
 protocol MusculosClientProtocol {
     func dispatch(_ request: APIRequest) async throws -> Data

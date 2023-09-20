@@ -1,47 +1,52 @@
 //
-//  EquipmentModuleTests.swift
+//  ExerciseModuleTests.swift
 //  MusculosAppTests
 //
-//  Created by Solomon Alexandru on 14.09.2023.
+//  Created by Solomon Alexandru on 20.09.2023.
 //
 
 import Foundation
 import XCTest
+
 @testable import MusculosApp
 
-class EquipmentModuleTests: XCTestCase {
+class ExerciseModuleTests: XCTestCase {
     override class func tearDown() {
         MockURLProtocol.clear()
         super.tearDown()
     }
     
-    func testGetAllEquipmentSucceeds() async throws {
+    func testGetAllExercisesSucceeds() async throws {
+        let networkRequestExpectation = self.expectation(description: "should make a network request")
+        MockURLProtocol.expectation = networkRequestExpectation
         MockURLProtocol.requestHandler = { request in
             guard let url = request.url else { throw MusculosError.badRequest }
             
             let response = try XCTUnwrap(HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil))
-            let data = try XCTUnwrap(self.readFromFile(name: "getEquipment"))
+            let data = try XCTUnwrap(self.readFromFile(name: "getExercises"))
             return (response, data)
         }
-
+        
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [MockURLProtocol.self]
-
+        
         let urlSession = URLSession(configuration: configuration)
         let client = MusculosClient(urlSession: urlSession)
-        let module = EquipmentModule(client: client)
+        let module = ExerciseModule(client: client)
         
         do {
-            let equipments = try await module.getAllEquipment()
-            XCTAssertEqual(equipments.count, 10)
+            let exerciseResponse = try await module.getAllExercise()
+            let exercises = exerciseResponse.results
+            XCTAssertEqual(exercises.count, 5)
             
-            let first = try XCTUnwrap(equipments.first)
-            XCTAssertEqual(first.id, 1)
-            XCTAssertEqual(first.name, "Barbell")
+            let first = try XCTUnwrap(exercises.first)
+            XCTAssertEqual(first.id, 345)
+            XCTAssertEqual(first.name, "2 Handed Kettlebell Swing")
         } catch {
             XCTFail(error.localizedDescription)
         }
         
+        await fulfillment(of: [networkRequestExpectation], timeout: 1)
     }
     
     func testGetAllEquipmentFails() async throws {
@@ -51,10 +56,10 @@ class EquipmentModuleTests: XCTestCase {
         
         let urlSession = URLSession(configuration: configuration)
         let client = MusculosClient(urlSession: urlSession)
-        let module = EquipmentModule(client: client)
+        let module = ExerciseModule(client: client)
         
         do {
-            _ = try await module.getAllEquipment()
+            _ = try await module.getAllExercise()
         } catch {
             let nsError = error as NSError
             XCTAssertEqual(nsError.domain, "MusculosApp.MusculosError")

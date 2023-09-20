@@ -9,8 +9,8 @@ import Foundation
 import CoreData
 
 extension NSManagedObjectContext {
-    func fetchAllEntities<T: NSManagedObject>(entityName: String) async throws -> [T]? {
-        let request = NSFetchRequest<T>(entityName: entityName)
+    func fetchAllEntities<T: NSManagedObject>() async throws -> [T]? {
+        let request = NSFetchRequest<T>(entityName: String(describing: self))
         return try self.fetch(request)
     }
     

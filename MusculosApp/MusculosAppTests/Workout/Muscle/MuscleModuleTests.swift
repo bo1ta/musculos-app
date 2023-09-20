@@ -6,8 +6,9 @@
 //
 
 import XCTest
+@testable import MusculosApp
 
-final class MuscleModuleTests: XCTestCase {
+class MuscleModuleTests: XCTestCase {
     override class func tearDown() {
         MockURLProtocol.clear()
         super.tearDown()
@@ -61,7 +62,7 @@ final class MuscleModuleTests: XCTestCase {
             _ = try await module.getAllMuscles()
         } catch {
             let nsError = error as NSError
-            XCTAssertEqual(nsError.domain, "MusculosAppTests.NetworkRequestError")
+            XCTAssertEqual(nsError.domain, "MusculosApp.MusculosError")
         }
     }
 }

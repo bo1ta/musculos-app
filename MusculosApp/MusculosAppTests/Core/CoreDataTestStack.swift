@@ -15,9 +15,12 @@ struct CoreDataTestStack {
     let mainContext: NSManagedObjectContext
     
     init() {
+        let description = NSPersistentStoreDescription()
+        description.url = URL(fileURLWithPath: "/dev/null")
+        description.type = NSSQLiteStoreType
+        
         self.persistentContainer = NSPersistentContainer(name: "MusculosDataStore")
-        let description = self.persistentContainer.persistentStoreDescriptions.first
-        description?.type = NSInMemoryStoreType
+        self.persistentContainer.persistentStoreDescriptions = [description]
         
         self.persistentContainer.loadPersistentStores { _, error in
             if let error = error {
@@ -33,4 +36,6 @@ struct CoreDataTestStack {
         self.backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         self.backgroundContext.parent = self.mainContext
     }
+    
+    
 }

@@ -9,6 +9,8 @@ import Foundation
 import XCTest
 import CoreData
 
+@testable import MusculosApp
+
 class WorkoutManagerTests: XCTestCase {
     override func tearDown() {
         MockURLProtocol.clear()
@@ -95,12 +97,21 @@ class WorkoutManagerTests: XCTestCase {
     
     func testFetchExercises() async throws {
         let coreDataStack = CoreDataTestStack()
+        let context = coreDataStack.mainContext
         
         // Set up muscles and equipment so we have the one-to-many relationships
-        try await self.setupMockMuscles(in: coreDataStack.mainContext)
-        try await self.setupMockEquipment(in: coreDataStack.mainContext)
-      
-        let exerciseFetchRequest = NSFetchRequest<MuscleEntity>(entityName: "ExerciseEntity")
+        let muscleEntities = try await setupMockMuscles(in: context)
+        XCTAssertGreaterThan(muscleEntities.count, 0)
+        let equipmentEntities = try await setupMockEquipment(in: context)
+        XCTAssertGreaterThan(equipmentEntities.count, 0)
+
+        try context.save()
+        
+        let fetchRequest = NSFetchRequest<MuscleEntity>(entityName: "MuscleEntity")
+        let fetchrequester = try context.fetch(fetchRequest)
+        XCTAssertGreaterThan(fetchrequester.count, 0)
+        
+        let exerciseFetchRequest = NSFetchRequest<ExerciseEntity>(entityName: "ExerciseEntity")
         var exerciseEntities = try coreDataStack.mainContext.fetch(exerciseFetchRequest)
         XCTAssertEqual(exerciseEntities.count, 0)
         
@@ -120,12 +131,11 @@ class WorkoutManagerTests: XCTestCase {
         let urlSession = URLSession(configuration: configuration)
         let client = MusculosClient(urlSession: urlSession)
         
-        let workoutManager = WorkoutManager(client: client, context: coreDataStack.mainContext)
+        let workoutManager = WorkoutManager(client: client, context: context)
         do {
             let exercises = try await workoutManager.fetchAllExercises()
             XCTAssertFalse(exercises.isEmpty)
-
-            exerciseEntities = try coreDataStack.mainContext.fetch(exerciseFetchRequest)
+            exerciseEntities = try context.fetch(exerciseFetchRequest)
             XCTAssertEqual(exerciseEntities.count, exercises.count)
         } catch {
             XCTFail("Test failed with error: \(error)")
@@ -139,7 +149,7 @@ extension WorkoutManagerTests {
     @discardableResult func setupMockMuscles(in context: NSManagedObjectContext) async throws -> [MuscleEntity] {
         let muscleData = try self.readFromFile(name: "getMuscles")
         let muscleResponse = try await MuscleResponse.createFrom(muscleData)
-        return muscleResponse.results.map {$0.toEntity(context: context) }
+        return muscleResponse.results.map { $0.toEntity(context: context) }
     }
     
     @discardableResult func setupMockEquipment(in context: NSManagedObjectContext) async throws -> [EquipmentEntity] {

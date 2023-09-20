@@ -53,35 +53,10 @@
 		BC5BAC8A2AB221FC003C880E /* MusculosLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC892AB221FC003C880E /* MusculosLogger.swift */; };
 		BC5BAC912AB2337B003C880E /* ExerciseEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC8F2AB2337B003C880E /* ExerciseEntity+CoreDataClass.swift */; };
 		BC5BAC922AB2337B003C880E /* ExerciseEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC902AB2337B003C880E /* ExerciseEntity+CoreDataProperties.swift */; };
-		BC5BAC962AB263E5003C880E /* MusculosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEC2A32774600DAA3AB /* MusculosClient.swift */; };
-		BC5BAC972AB26684003C880E /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD3C4652AACA96800614ED8 /* APIRequest.swift */; };
-		BC5BAC982AB26687003C880E /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E32A33D376001BEE8B /* APIEndpoint.swift */; };
-		BC5BAC992AB2668C003C880E /* MusculosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEA2A32713300DAA3AB /* MusculosError.swift */; };
 		BC5BAC9C2AB267B6003C880E /* MuscleModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC9B2AB267B6003C880E /* MuscleModuleTests.swift */; };
-		BC5BAC9D2AB26871003C880E /* MuscleModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC6A2AAE4019003C880E /* MuscleModule.swift */; };
-		BC5BAC9E2AB26B2A003C880E /* Muscle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC6D2AAE40E2003C880E /* Muscle.swift */; };
 		BC5BAC9F2AB26CC1003C880E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */; };
-		BC5BACA02AB26CD9003C880E /* DecodableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD3C4672AACAE7A00614ED8 /* DecodableModel.swift */; };
-		BC5BACA12AB26CDC003C880E /* Equipment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC712AAE47EC003C880E /* Equipment.swift */; };
-		BC5BACA22AB26CDE003C880E /* EquipmentModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC732AAE4858003C880E /* EquipmentModule.swift */; };
-		BC5BACA32AB26CE4003C880E /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC7F2AAFD771003C880E /* Exercise.swift */; };
-		BC5BACA42AB26CE8003C880E /* ExerciseModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC832AB1072B003C880E /* ExerciseModule.swift */; };
 		BC5BACA52AB26CF3003C880E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */; };
-		BC5BACA62AB26CF8003C880E /* PersonEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7672A59C6D700896C3C /* PersonEntity+CoreDataProperties.swift */; };
-		BC5BACA72AB26CFB003C880E /* AnswerEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB76C2A59C6D700896C3C /* AnswerEntity+CoreDataProperties.swift */; };
-		BC5BACA82AB26D00003C880E /* QuestionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB76B2A59C6D700896C3C /* QuestionEntity+CoreDataClass.swift */; };
-		BC5BACA92AB26D03003C880E /* PersonEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7692A59C6D700896C3C /* PersonEntity+CoreDataClass.swift */; };
-		BC5BACAB2AB26D3F003C880E /* ExerciseEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC8F2AB2337B003C880E /* ExerciseEntity+CoreDataClass.swift */; };
 		BC5BACAC2AB26D65003C880E /* MusculosLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC892AB221FC003C880E /* MusculosLogger.swift */; };
-		BC5BACAD2AB26D7E003C880E /* AnswerEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7682A59C6D700896C3C /* AnswerEntity+CoreDataClass.swift */; };
-		BC5BACAE2AB26D85003C880E /* QuestionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB76A2A59C6D700896C3C /* QuestionEntity+CoreDataProperties.swift */; };
-		BC5BACAF2AB26D90003C880E /* ExerciseEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC902AB2337B003C880E /* ExerciseEntity+CoreDataProperties.swift */; };
-		BC5BACB02AB26D94003C880E /* EquipmentEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC752AAE4942003C880E /* EquipmentEntity+CoreDataClass.swift */; };
-		BC5BACB12AB26D97003C880E /* EquipmentEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC762AAE4942003C880E /* EquipmentEntity+CoreDataProperties.swift */; };
-		BC5BACB22AB26D9A003C880E /* MuscleEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC652AAE3F05003C880E /* MuscleEntity+CoreDataClass.swift */; };
-		BC5BACB32AB26D9C003C880E /* MuscleEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC662AAE3F05003C880E /* MuscleEntity+CoreDataProperties.swift */; };
-		BC5BACB42AB26DA9003C880E /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC10E4282A3B811C0008A72E /* Answer.swift */; };
-		BC5BACB52AB26DAD003C880E /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7742A59CD6F00896C3C /* Question.swift */; };
 		BC5BACB72AB26F40003C880E /* XCTestCase+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACB62AB26F40003C880E /* XCTestCase+Extension.swift */; };
 		BC5BACBB2AB270C2003C880E /* getMuscles.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACBA2AB270C2003C880E /* getMuscles.json */; };
 		BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACBC2AB2769B003C880E /* MockURLProtocol.swift */; };
@@ -89,7 +64,6 @@
 		BC5BACC32AB280C5003C880E /* getEquipment.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACC22AB280C5003C880E /* getEquipment.json */; };
 		BC5BACC52AB29C03003C880E /* CoreDataTestStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC42AB29C03003C880E /* CoreDataTestStack.swift */; };
 		BC5BACC72AB29E07003C880E /* WorkoutManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC62AB29E07003C880E /* WorkoutManagerTests.swift */; };
-		BC5BACC82AB36DFA003C880E /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC872AB111C1003C880E /* WorkoutManager.swift */; };
 		BC5BACCA2AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC92AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift */; };
 		BC5BACCB2AB3D44E003C880E /* NSManagedObjectContext+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC92AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift */; };
 		BC5BACCC2AB9270E003C880E /* MusculosDataStore.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */; };
@@ -97,6 +71,7 @@
 		BC5BACD02ABA1950003C880E /* EntityPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACCE2ABA16FE003C880E /* EntityPlugin.swift */; };
 		BC5BACD52ABA28A7003C880E /* getExercises.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACD42ABA28A7003C880E /* getExercises.json */; };
 		BC5BACD72ABA403F003C880E /* WorkoutFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACD62ABA403F003C880E /* WorkoutFeedViewModel.swift */; };
+		BC5BACD92ABB6694003C880E /* ExerciseModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACD82ABB6694003C880E /* ExerciseModuleTests.swift */; };
 		BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */; };
 		BC7777362A5DE3CD009A452A /* MiniCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7777352A5DE3CD009A452A /* MiniCardView.swift */; };
 		BC7777382A5DEBE7009A452A /* MiniCardWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7777372A5DEBE7009A452A /* MiniCardWheelView.swift */; };
@@ -218,6 +193,7 @@
 		BC5BACCE2ABA16FE003C880E /* EntityPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityPlugin.swift; sourceTree = "<group>"; };
 		BC5BACD42ABA28A7003C880E /* getExercises.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getExercises.json; sourceTree = "<group>"; };
 		BC5BACD62ABA403F003C880E /* WorkoutFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFeedViewModel.swift; sourceTree = "<group>"; };
+		BC5BACD82ABB6694003C880E /* ExerciseModuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseModuleTests.swift; sourceTree = "<group>"; };
 		BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		BC7777352A5DE3CD009A452A /* MiniCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniCardView.swift; sourceTree = "<group>"; };
 		BC7777372A5DEBE7009A452A /* MiniCardWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniCardWheelView.swift; sourceTree = "<group>"; };
@@ -615,6 +591,7 @@
 		BC5BACBE2AB28030003C880E /* Exercise */ = {
 			isa = PBXGroup;
 			children = (
+				BC5BACD82ABB6694003C880E /* ExerciseModuleTests.swift */,
 			);
 			path = Exercise;
 			sourceTree = "<group>";
@@ -968,43 +945,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC5BACCB2AB3D44E003C880E /* NSManagedObjectContext+Extension.swift in Sources */,
-				BC5BACA02AB26CD9003C880E /* DecodableModel.swift in Sources */,
-				BC5BAC9E2AB26B2A003C880E /* Muscle.swift in Sources */,
-				BC5BACAE2AB26D85003C880E /* QuestionEntity+CoreDataProperties.swift in Sources */,
-				BC5BACB32AB26D9C003C880E /* MuscleEntity+CoreDataProperties.swift in Sources */,
-				BC5BACA12AB26CDC003C880E /* Equipment.swift in Sources */,
-				BC5BAC962AB263E5003C880E /* MusculosClient.swift in Sources */,
 				BC5BACC52AB29C03003C880E /* CoreDataTestStack.swift in Sources */,
 				BC5BACC12AB28049003C880E /* EquipmentModuleTests.swift in Sources */,
 				BC5BACD02ABA1950003C880E /* EntityPlugin.swift in Sources */,
-				BC5BACA62AB26CF8003C880E /* PersonEntity+CoreDataProperties.swift in Sources */,
-				BC5BACAF2AB26D90003C880E /* ExerciseEntity+CoreDataProperties.swift in Sources */,
-				BC5BACA42AB26CE8003C880E /* ExerciseModule.swift in Sources */,
-				BC5BACA22AB26CDE003C880E /* EquipmentModule.swift in Sources */,
-				BC5BACA32AB26CE4003C880E /* Exercise.swift in Sources */,
 				BC1160E72A2CFB840028D8FC /* MusculosAppTests.swift in Sources */,
-				BC5BACB02AB26D94003C880E /* EquipmentEntity+CoreDataClass.swift in Sources */,
-				BC5BACB52AB26DAD003C880E /* Question.swift in Sources */,
-				BC5BAC972AB26684003C880E /* APIRequest.swift in Sources */,
-				BC5BACA92AB26D03003C880E /* PersonEntity+CoreDataClass.swift in Sources */,
-				BC5BACB22AB26D9A003C880E /* MuscleEntity+CoreDataClass.swift in Sources */,
-				BC5BACB12AB26D97003C880E /* EquipmentEntity+CoreDataProperties.swift in Sources */,
 				BC5BACAC2AB26D65003C880E /* MusculosLogger.swift in Sources */,
 				BC5BACB72AB26F40003C880E /* XCTestCase+Extension.swift in Sources */,
-				BC5BACAB2AB26D3F003C880E /* ExerciseEntity+CoreDataClass.swift in Sources */,
 				BC5BAC9F2AB26CC1003C880E /* Constants.swift in Sources */,
-				BC5BAC9D2AB26871003C880E /* MuscleModule.swift in Sources */,
 				BC5BACC72AB29E07003C880E /* WorkoutManagerTests.swift in Sources */,
 				BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */,
-				BC5BAC982AB26687003C880E /* APIEndpoint.swift in Sources */,
-				BC5BACAD2AB26D7E003C880E /* AnswerEntity+CoreDataClass.swift in Sources */,
-				BC5BACC82AB36DFA003C880E /* WorkoutManager.swift in Sources */,
-				BC5BACA72AB26CFB003C880E /* AnswerEntity+CoreDataProperties.swift in Sources */,
 				BC5BACA52AB26CF3003C880E /* CoreDataStack.swift in Sources */,
-				BC5BACA82AB26D00003C880E /* QuestionEntity+CoreDataClass.swift in Sources */,
-				BC5BACB42AB26DA9003C880E /* Answer.swift in Sources */,
+				BC5BACD92ABB6694003C880E /* ExerciseModuleTests.swift in Sources */,
 				BC5BAC9C2AB267B6003C880E /* MuscleModuleTests.swift in Sources */,
-				BC5BAC992AB2668C003C880E /* MusculosError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
