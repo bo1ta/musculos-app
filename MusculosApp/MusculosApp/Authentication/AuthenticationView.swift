@@ -39,7 +39,6 @@ struct AuthenticationView: View {
                 }
             })
             .onReceive(viewModel.authSuccess, perform: { _ in
-                print("Ready to navigate")
                 self.path.append("IntroductionView")
             })
             .navigationDestination(for: String.self) { view in

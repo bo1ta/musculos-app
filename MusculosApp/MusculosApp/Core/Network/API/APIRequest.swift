@@ -11,31 +11,42 @@ struct APIRequest {
     var method: HTTPMethod
     var path: Endpoint
     var headers: [String: String]?
-    var queryParams: [String: String]?
+    var queryParams: [URLQueryItem]?
     var body: [String: Any]?
     var authToken: String?
+    var opk: String?
     
     var contentType: String { return "application/json" }
     
     func asURLRequest() -> URLRequest? {
-        guard
-            let url = URL(string: APIEndpoint.baseWithEndpoint(endpoint: path))
-        else { return nil }
+        guard var baseURL = URL(string: APIEndpoint.baseWithEndpoint(endpoint: path)) else { return nil }
         
-        var request = URLRequest(url: url)
+        if let opk = opk {
+            baseURL.appendPathComponent(opk)
+        }
+        
+        if let queryParams = self.queryParams {
+            var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
+            components?.queryItems = queryParams
+            if let urlWithQuery = components?.url {
+                baseURL = urlWithQuery
+            }
+        }
+        
+        var request = URLRequest(url: baseURL)
         request.httpMethod = self.method.rawValue
         
         if let body = self.body {
             request.httpBody = self.requestBody(from: body)
         }
         
-        var newHeaders = headers ?? [String: String]()
+        var newHeaders = self.headers ?? [String: String]()
         newHeaders[HTTPHeaderConstants.contentType] = self.contentType
         if let authToken = self.authToken {
             newHeaders[HTTPHeaderConstants.authorization] = authToken
         }
-
         request.allHTTPHeaderFields = newHeaders
+        
         return request
     }
     
@@ -48,3 +59,4 @@ struct APIRequest {
         }
     }
 }
+

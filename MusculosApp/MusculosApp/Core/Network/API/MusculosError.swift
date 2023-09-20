@@ -1,5 +1,5 @@
 //
-//  NetworkRequestError.swift
+//  MusculosError.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 08.06.2023.
@@ -8,7 +8,7 @@
 import Foundation
 
 
-enum NetworkRequestError: LocalizedError, Equatable, CustomStringConvertible {
+enum MusculosError: LocalizedError, Equatable, CustomStringConvertible {
     case invalidRequest
     case badRequest
     case unauthorized

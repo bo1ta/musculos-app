@@ -6,19 +6,21 @@
 //
 
 import Foundation
-import Combine
 
+protocol MusculosClientProtocol {
+    func dispatch(_ request: APIRequest) async throws -> Data
+}
 
-struct MusculosClient {
+struct MusculosClient: MusculosClientProtocol {
     var urlSession: URLSession
     
     init(urlSession: URLSession = .shared) {
         self.urlSession = urlSession
     }
     
-    func dispatch(request: APIRequest) async throws -> Data {
+    func dispatch(_ request: APIRequest) async throws -> Data {
         guard let urlRequest = request.asURLRequest() else {
-            throw NetworkRequestError.badRequest
+            throw MusculosError.badRequest
         }
         
         let decoder = JSONDecoder()
@@ -32,7 +34,7 @@ struct MusculosClient {
         return data
     }
     
-    private func httpError(_ statusCode: Int) -> NetworkRequestError {
+    private func httpError(_ statusCode: Int) -> MusculosError {
         switch statusCode {
         case 400: return .badRequest
         case 401: return .unauthorized
@@ -45,13 +47,13 @@ struct MusculosClient {
         }
     }
     
-    private func handleError(_ error: Error) -> NetworkRequestError {
+    private func handleError(_ error: Error) -> MusculosError {
         switch error {
         case is Swift.DecodingError:
             return .decodingError
         case let urlError as URLError:
             return .urlSessionFailed(urlError)
-        case let error as NetworkRequestError:
+        case let error as MusculosError:
             return error
         default:
             return .unknownError

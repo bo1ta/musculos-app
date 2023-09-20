@@ -36,7 +36,7 @@ struct WorkoutFeedView: View {
         }
         .sheet(isPresented: $isFiltersPresented) {
             WorkoutFiltersView { filters in
-                print(filters)
+                MusculosLogger.log(.info, message: "Showing filters: \(filters)", category: .ui)
             }
         }
     }

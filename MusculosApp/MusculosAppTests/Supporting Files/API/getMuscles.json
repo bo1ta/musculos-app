@@ -1,0 +1,127 @@
+{
+    "count": 15,
+    "next": "next",
+    "previous": "next",
+    "results": [
+        {
+            "id": 2,
+            "name": "Anterior deltoid",
+            "name_en": "Shoulders",
+            "is_front": true,
+            "image_url_main": "/static/images/muscles/main/muscle-2.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-2.svg"
+        },
+        {
+            "id": 1,
+            "name": "Biceps brachii",
+            "name_en": "Biceps",
+            "is_front": true,
+            "image_url_main": "/static/images/muscles/main/muscle-1.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-1.svg"
+        },
+        {
+            "id": 11,
+            "name": "Biceps femoris",
+            "name_en": "Hamstrings",
+            "is_front": false,
+            "image_url_main": "/static/images/muscles/main/muscle-11.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-11.svg"
+        },
+        {
+            "id": 13,
+            "name": "Brachialis",
+            "name_en": "",
+            "is_front": true,
+            "image_url_main": "/static/images/muscles/main/muscle-13.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-13.svg"
+        },
+        {
+            "id": 7,
+            "name": "Gastrocnemius",
+            "name_en": "Calves",
+            "is_front": false,
+            "image_url_main": "/static/images/muscles/main/muscle-7.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-7.svg"
+        },
+        {
+            "id": 8,
+            "name": "Gluteus maximus",
+            "name_en": "Glutes",
+            "is_front": false,
+            "image_url_main": "/static/images/muscles/main/muscle-8.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-8.svg"
+        },
+        {
+            "id": 12,
+            "name": "Latissimus dorsi",
+            "name_en": "Lats",
+            "is_front": false,
+            "image_url_main": "/static/images/muscles/main/muscle-12.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-12.svg"
+        },
+        {
+            "id": 14,
+            "name": "Obliquus externus abdominis",
+            "name_en": "",
+            "is_front": true,
+            "image_url_main": "/static/images/muscles/main/muscle-14.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-14.svg"
+        },
+        {
+            "id": 4,
+            "name": "Pectoralis major",
+            "name_en": "Chest",
+            "is_front": true,
+            "image_url_main": "/static/images/muscles/main/muscle-4.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-4.svg"
+        },
+        {
+            "id": 10,
+            "name": "Quadriceps femoris",
+            "name_en": "Quads",
+            "is_front": true,
+            "image_url_main": "/static/images/muscles/main/muscle-10.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-10.svg"
+        },
+        {
+            "id": 6,
+            "name": "Rectus abdominis",
+            "name_en": "Abs",
+            "is_front": true,
+            "image_url_main": "/static/images/muscles/main/muscle-6.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-6.svg"
+        },
+        {
+            "id": 3,
+            "name": "Serratus anterior",
+            "name_en": "",
+            "is_front": true,
+            "image_url_main": "/static/images/muscles/main/muscle-3.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-3.svg"
+        },
+        {
+            "id": 15,
+            "name": "Soleus",
+            "name_en": "",
+            "is_front": false,
+            "image_url_main": "/static/images/muscles/main/muscle-15.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-15.svg"
+        },
+        {
+            "id": 9,
+            "name": "Trapezius",
+            "name_en": "",
+            "is_front": false,
+            "image_url_main": "/static/images/muscles/main/muscle-9.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-9.svg"
+        },
+        {
+            "id": 5,
+            "name": "Triceps brachii",
+            "name_en": "Triceps",
+            "is_front": false,
+            "image_url_main": "/static/images/muscles/main/muscle-5.svg",
+            "image_url_secondary": "/static/images/muscles/secondary/muscle-5.svg"
+        }
+    ]
+}
