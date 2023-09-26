@@ -5,10 +5,6 @@
         <attribute name="content" optional="YES" attributeType="String"/>
         <attribute name="questionId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="EquipmentEntity" representedClassName=".EquipmentEntity" syncable="YES">
-        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="name" attributeType="String"/>
-    </entity>
     <entity name="ExerciseManagedObject" representedClassName="ExerciseManagedObject" syncable="YES">
         <attribute name="bodyPart" attributeType="String"/>
         <attribute name="equipment" attributeType="String"/>
@@ -18,14 +14,6 @@
         <attribute name="target" attributeType="String"/>
         <relationship name="instructions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StringHolder"/>
         <relationship name="secondaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StringHolder"/>
-    </entity>
-    <entity name="MuscleEntity" representedClassName=".MuscleEntity" syncable="YES">
-        <attribute name="englishName" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="imageUrlMain" attributeType="String"/>
-        <attribute name="imageUrlSecondary" attributeType="String"/>
-        <attribute name="isFront" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="latinName" attributeType="String"/>
     </entity>
     <entity name="PersonEntity" representedClassName="PersonEntity" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String"/>
