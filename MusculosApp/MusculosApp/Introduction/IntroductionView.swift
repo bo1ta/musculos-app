@@ -20,12 +20,12 @@ struct IntroductionView: View {
     var body: some View {
         backgroundView {
             VStack(alignment: .leading, content: {
-                    CustomNavigationBarView(onBack: {
-                        viewModel.previousQuestion()
-                    }, onContinue: {
-                        viewModel.nextQuestion(with: nil)
-                    })
-                        .padding([.leading, .trailing], 20)
+//                    CustomNavigationBarView(onBack: {
+//                        viewModel.previousQuestion()
+//                    }, onContinue: {
+//                        viewModel.nextQuestion(with: nil)
+//                    })
+//                        .padding([.leading, .trailing], 20)
                     
                    weightPicker
                 Spacer()

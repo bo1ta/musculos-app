@@ -10,13 +10,17 @@ import Foundation
 struct APIRequest {
     var method: HTTPMethod
     var path: Endpoint
-    var headers: [String: String]?
     var queryParams: [URLQueryItem]?
     var body: [String: Any]?
     var authToken: String?
     var opk: String?
     
     var contentType: String { return "application/json" }
+    
+    var headers: [String: String] = [
+        "X-RapidAPI-Key": "10f816fad9mshb1b3051df5805d6p159f6cjsn59fc62f2a609",
+        "X-RapidAPI-Host": "exercisedb.p.rapidapi.com"
+    ]
     
     func asURLRequest() -> URLRequest? {
         guard var baseURL = URL(string: APIEndpoint.baseWithEndpoint(endpoint: path)) else { return nil }
@@ -40,7 +44,7 @@ struct APIRequest {
             request.httpBody = self.requestBody(from: body)
         }
         
-        var newHeaders = self.headers ?? [String: String]()
+        var newHeaders = self.headers
         newHeaders[HTTPHeaderConstants.contentType] = self.contentType
         if let authToken = self.authToken {
             newHeaders[HTTPHeaderConstants.authorization] = authToken

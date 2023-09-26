@@ -46,16 +46,6 @@ extension WorkoutManager {
         }
     }
     
-    func fetchLocalExercises() throws -> [ExerciseEntity]? {
-        do {
-            let request = NSFetchRequest<ExerciseEntity>(entityName: "ExerciseEntity")
-            return try self.context.fetch(request)
-        } catch {
-            MusculosLogger.log(.error, message: "Could not fetch local exercises", error: error, category: .coreData)
-            throw error
-        }
-    }
-    
     func fetchLocalMuscles(with ids: [Int]? = nil) throws -> [MuscleEntity]? {
         let entityName = "MuscleEntity"
         let request = NSFetchRequest<MuscleEntity>(entityName: entityName)
@@ -96,7 +86,7 @@ extension WorkoutManager {
         }
     }
     
-    func fetchAllMuscles() async throws -> [Muscle] {
+    func fetchMuscles(offset: Int = 0, limit: Int = 10) async throws -> [Muscle] {
         do {
             if let localMuscles = try self.fetchLocalMuscles(), localMuscles.count > 0 {
                 return localMuscles.map { Muscle.init(entity: $0) }
@@ -111,39 +101,25 @@ extension WorkoutManager {
             throw error
         }
     }
-
-    func fetchAllExercises() async throws -> [Exercise] {
+    
+    func fetchLocalExercises() throws -> [Exercise] {
         do {
-            let exerciseResponse = try await self.exerciseModule.getAllExercise()
-            let exercises = exerciseResponse.results
-            
-            guard let muscleEntities: [MuscleEntity] = try self.fetchLocalMuscles(with: exercises.flatMap { $0.musclesId} ), let equipmentEntities: [EquipmentEntity] = try self.fetchLocalEquipments(with: exercises.flatMap { $0.equipmentId} )  else { return [] }
-            
-            
-            let newExercises: [Exercise] = exercises.map { exercise in
-                var newExercise = exercise
-                let exerciseEntity = newExercise.toEntity(context: self.context)
-                
-                if !muscleEntities.isEmpty {
-                    print(muscleEntities)
-                    print(muscleEntities[0].englishName)
-                    let muscleSet: Set<MuscleEntity> = Set(muscleEntities)
-                    exerciseEntity.muscles = muscleSet as NSSet
-                    newExercise.muscles = muscleEntities.map { Muscle(entity: $0) }
-                }
-                
-                if !equipmentEntities.isEmpty {
-                    let equipmentSet = Set(equipmentEntities)
-                    exerciseEntity.equipments = equipmentSet as NSSet
-                    newExercise.equipments = equipmentEntities.map { Equipment(entity: $0) }
-                }
-            
-                return newExercise
-            }
-            
+            let fetchRequest = NSFetchRequest<ExerciseManagedObject>(entityName: "ExerciseManagedObject")
+            let results = try self.context.fetch(fetchRequest)
+            return results.map { Exercise(from: $0) }
+        } catch {
+            MusculosLogger.log(.error, message: "Could not fetch local exercises", error: error, category: .coreData)
+            throw error
+        }
+    }
+
+    func fetchExercises(offset: Int = 0, limit: Int = 10) async throws -> [Exercise] {
+        do {
+            let exercises = try await self.exerciseModule.getExercises()
+            exercises.forEach { $0.toEntity(context: self.context) }
             try self.context.save()
             MusculosLogger.log(.info, message: "Fetched the exercises: \(exercises)", category: .coreData)
-            return newExercises
+            return exercises
         } catch {
             MusculosLogger.log(.error, message: "Could not fetch exercises", category: .coreData)
             throw error

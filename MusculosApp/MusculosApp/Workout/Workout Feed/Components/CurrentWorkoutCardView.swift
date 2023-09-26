@@ -11,14 +11,12 @@ struct CurrentWorkoutCardView: View {
     var title: String
     var subtitle: String
     var content: String
-    var imageName: String
     var options: [IconPillOption]?
     
-    init(title: String, subtitle: String, content: String, imageName: String, options: [IconPillOption]? = nil) {
+    init(title: String, subtitle: String, content: String, options: [IconPillOption]? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.content = content
-        self.imageName = imageName
         self.options = options
     }
     
@@ -32,11 +30,7 @@ struct CurrentWorkoutCardView: View {
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(
-            Image(imageName)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-        )
+        .background(Color.black)
         .cornerRadius(25)
         .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
         .frame(height: 240)
@@ -85,14 +79,13 @@ struct CurrentWorkoutCardView: View {
 struct WorkoutCardView_Preview: PreviewProvider {
     static var previews: some View {
         CurrentWorkoutCardView(title: "Back workout",
-                    subtitle: "Start your first week",
-                    content: "Body contouring",
-                    imageName: "deadlift-background",
-                    options: [
-                        IconPillOption(title: "1x / week", systemImage: "clock"),
-                        IconPillOption(title: "Start streak", systemImage: "bolt.badge.clock"),
-                        IconPillOption(title: "Complete", systemImage: "bolt.badge.clock")
-                    ])
+                               subtitle: "Start your first week",
+                               content: "Body contouring",
+                               options: [
+                                IconPillOption(title: "1x / week", systemImage: "clock"),
+                                IconPillOption(title: "Start streak", systemImage: "bolt.badge.clock"),
+                                IconPillOption(title: "Complete", systemImage: "bolt.badge.clock")
+                               ])
         .previewLayout(.sizeThatFits)
     }
 }

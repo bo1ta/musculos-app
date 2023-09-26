@@ -11,18 +11,13 @@ import Combine
 @MainActor
 final class WorkoutFeedViewModel: ObservableObject {
     @Published var selectedFilter: String = ""
+    @Published var selectedExercise: Exercise? = nil
     @Published var errorMessage = ""
     @Published var currentExercises: [Exercise] = []
     @Published var isFiltersPresented = false
-    @Published var searchResults: [SearchExerciseResponse.PreviewExercise]?
-    
-    @Published var searchQuery: String = "" {
-        didSet {
-            if searchQuery == "" {
-                searchResults = nil
-            }
-        }
-    }
+    @Published var isExerciseDetailPresented = false
+    @Published var isLoading = false
+    @Published var searchQuery: String = ""
     
     private var cancellables: Set<AnyCancellable> = []
     
@@ -42,9 +37,18 @@ final class WorkoutFeedViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    func loadInitialData() {
+        Task {
+            await self.loadExercises()
+        }
+    }
+    
     func loadExercises() async {
         do {
-            let exercises = try await self.workoutManager.fetchAllExercises()
+            self.isLoading = true
+            defer { self.isLoading = false }
+            
+            let exercises = try await self.workoutManager.fetchExercises()
             self.currentExercises.append(contentsOf: exercises)
         } catch {
             MusculosLogger.log(.error, message: "Error loading exercises", category: .ui)
@@ -52,8 +56,24 @@ final class WorkoutFeedViewModel: ObservableObject {
         }
     }
     
+    func getExercisesByMuscleType(muscleInfo: MuscleInfo) async throws {
+        do {
+            self.isLoading = true
+            defer { self.isLoading = false }
+            
+            let exercises = try await self.exerciseModule.getExercises(by: muscleInfo)
+            self.currentExercises = exercises
+        } catch {
+            MusculosLogger.log(.error, message: "Error loading exercises", category: .ui)
+            self.errorMessage = error.localizedDescription
+        }
+    }
+    
     func searchExercise(with query: String) {
-        let publisher = self.exerciseModule.searchExercise(with: query)
+        self.isLoading = true
+        defer { self.isLoading = false }
+        
+        let publisher = self.exerciseModule.searchExercise(by: query)
         publisher.sink { [weak self] completion in
             switch completion {
             case .finished:
@@ -62,9 +82,8 @@ final class WorkoutFeedViewModel: ObservableObject {
                 self?.errorMessage = error.localizedDescription
             }
         } receiveValue: { [weak self] results in
-            self?.searchResults = results.suggestions.map{ $0.data }
+            self?.currentExercises = results
         }
         .store(in: &cancellables)
-
     }
 }

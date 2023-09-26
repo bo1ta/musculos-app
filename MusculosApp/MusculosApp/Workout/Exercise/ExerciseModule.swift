@@ -15,12 +15,21 @@ final class ExerciseModule {
         self.client = client
     }
     
-    func getAllExercise() async throws -> ExerciseResponse {
+    func getExercises(offset: Int = 0, limit: Int = 10) async throws -> [Exercise] {
         var request = APIRequest(method: .get, path: .exercise)
-        request.queryParams = [URLQueryItem(name: "language", value: "2")]
-        
+        request.queryParams = [
+            URLQueryItem(name: "offset", value: String(offset)),
+            URLQueryItem(name: "limit", value: String(limit))
+        ]
         let responseData = try await self.client.dispatch(request)
-        return try await ExerciseResponse.createFrom(responseData)
+        return try await Exercise.createArrayFrom(responseData)
+    }
+    
+    func getExercises(by muscle: MuscleInfo) async throws -> [Exercise] {
+        let path = Endpoint.exercisesByMuscle(name: muscle.name)
+        let request = APIRequest(method: .get, path: path)
+        let responseData = try await self.client.dispatch(request)
+        return try await Exercise.createArrayFrom(responseData)
     }
     
     func getExercise(by opk: Int) async throws -> Exercise {
@@ -31,32 +40,10 @@ final class ExerciseModule {
         return try await Exercise.createFrom(responseData)
     }
     
-    func searchExercise(with term: String) -> AnyPublisher<SearchExerciseResponse, MusculosError> {
-        var request = APIRequest(method: .get, path: .searchExercise)
-        request.queryParams = [
-            URLQueryItem(name: "language", value: "2"),
-            URLQueryItem(name: "term", value: term)
-        ]
-        
-        let responseData: AnyPublisher<SearchExerciseResponse, MusculosError> = self.client.dispatchPublisher(request)
+    func searchExercise(by name: String) -> AnyPublisher<[Exercise], MusculosError> {
+        let path = Endpoint.searchExercise(name: name)
+        var request = APIRequest(method: .get, path: path)
+        let responseData: AnyPublisher<[Exercise], MusculosError> = self.client.dispatchPublisher(request)
         return responseData
     }
-}
-
-struct SearchExerciseResponse: Codable {
-    struct PreviewExercise: Codable, Identifiable {
-        var id: Int
-        var baseId: Int
-        var name: String
-        var category: String
-        var image: String?
-        var imageThumbnail: String?
-    }
-    
-    struct SearchExercise: Codable {
-        var value: String
-        var data: PreviewExercise
-    }
-    
-    var suggestions: [SearchExercise]
 }

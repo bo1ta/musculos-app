@@ -22,39 +22,28 @@ struct WorkoutFeedView: View {
                 ButtonHorizontalStackView(selectedOption: $viewModel.selectedFilter, options: self.options, buttonsHaveEqualWidth: false)
 
                 ScrollView(.vertical, showsIndicators: false, content: {
-                    CurrentWorkoutCardView(title: "Day 4", subtitle: "Start your 4th day workout", content: "AB Crunches", imageName: "deadlift-background-2", options: [IconPillOption(title: "15 min"), IconPillOption(title: "234 kcal")])
-                    
-                    if let searchResults = viewModel.searchResults {
-                        ForEach(searchResults) { result in
-                            MiniCardView(item: MiniCardItem(title: result.name, subtitle: result.category, description: "", color: .black))
+                    ForEach(viewModel.currentExercises) { exercise in
+                        Button {
+                            self.viewModel.selectedExercise = exercise
+                            self.viewModel.isExerciseDetailPresented = true
+                        } label: {
+                            CurrentWorkoutCardView(title: exercise.name, subtitle: exercise.bodyPart, content: exercise.target)
                         }
                     }
-                    
-                    MiniCardWheelView(items: self.miniCardItems)
                 })
                 .padding(0)
             }
         }
-        .onAppear(perform: {
-            Task {
-                await self.viewModel.loadExercises()
-            }
-        })
+        .task {
+            await self.viewModel.loadExercises()
+        }
         .sheet(isPresented: $viewModel.isFiltersPresented) {
             WorkoutFiltersView { filters in
                 MusculosLogger.log(.info, message: "Showing filters: \(filters)", category: .ui)
             }
         }
-    }
-    
-    private var miniCardItems: [MiniCardItem] {
-        let exercises = self.viewModel.currentExercises
-        if exercises.count > 0 {
-            return exercises.map({
-                MiniCardItem(title: $0.name, subtitle: $0.created, description: $0.description ?? "", imageName: "workout-crunches")
-            })
-        } else {
-            return []
+        .sheet(isPresented: $viewModel.isExerciseDetailPresented) {
+            ExerciseView(exercise: viewModel.selectedExercise!)
         }
     }
         
@@ -83,4 +72,16 @@ struct WorkoutFeedView_Preview: PreviewProvider {
     static var previews: some View {
         WorkoutFeedView()
     }
+}
+
+struct BackgroundClearView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        DispatchQueue.main.async {
+            view.superview?.superview?.backgroundColor = .clear
+        }
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {}
 }
