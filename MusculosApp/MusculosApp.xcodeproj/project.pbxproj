@@ -325,8 +325,6 @@
 			children = (
 				BC5C56EC2AC348EF00AFDBFE /* StringHolder+CoreDataClass.swift */,
 				BC5C56ED2AC348EF00AFDBFE /* StringHolder+CoreDataProperties.swift */,
-				BC63A59E2AC26A68006B1894 /* ExerciseManagedObject+CoreDataClass.swift */,
-				BC63A59F2AC26A68006B1894 /* ExerciseManagedObject+CoreDataProperties.swift */,
 				BC5BAC752AAE4942003C880E /* EquipmentEntity+CoreDataClass.swift */,
 				BC5BAC762AAE4942003C880E /* EquipmentEntity+CoreDataProperties.swift */,
 				BC5BAC652AAE3F05003C880E /* MuscleEntity+CoreDataClass.swift */,
@@ -764,6 +762,8 @@
 				BCFBB7682A59C6D700896C3C /* AnswerEntity+CoreDataClass.swift */,
 				BCFBB7692A59C6D700896C3C /* PersonEntity+CoreDataClass.swift */,
 				BCFBB76A2A59C6D700896C3C /* QuestionEntity+CoreDataProperties.swift */,
+				BC63A59E2AC26A68006B1894 /* ExerciseManagedObject+CoreDataClass.swift */,
+				BC63A59F2AC26A68006B1894 /* ExerciseManagedObject+CoreDataProperties.swift */,
 				BCFBB76B2A59C6D700896C3C /* QuestionEntity+CoreDataClass.swift */,
 				BCFBB76C2A59C6D700896C3C /* AnswerEntity+CoreDataProperties.swift */,
 			);
