@@ -33,6 +33,7 @@ struct SearchBarView: View {
                     TextField(placeholderText, text: $searchQuery)
                         .font(.callout)
                         .padding()
+                        .textInputAutocapitalization(.never)
                     Image(systemName: "blinds.horizontal.open")
                         .foregroundColor(.gray)
                         .onTapGesture(perform: self.onFiltersTapped)

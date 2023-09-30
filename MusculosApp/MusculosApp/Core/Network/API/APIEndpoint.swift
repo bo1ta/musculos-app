@@ -40,7 +40,7 @@ enum Endpoint: CustomStringConvertible {
         case let .searchExercise(name):
             return "/exercises/name/\(name)"
         case let .exercisesByMuscle(name):
-            return "/exercises/bodyPart/\(name)"
+            return "/exercises/bodyPart/{\(name)}"
         }
     }
 }

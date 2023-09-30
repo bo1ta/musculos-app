@@ -37,4 +37,3 @@ struct GIFView: UIViewRepresentable {
     }
 }
 
-

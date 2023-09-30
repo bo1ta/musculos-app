@@ -27,7 +27,7 @@ struct WorkoutFeedView: View {
                             self.viewModel.selectedExercise = exercise
                             self.viewModel.isExerciseDetailPresented = true
                         } label: {
-                            CurrentWorkoutCardView(title: exercise.name, subtitle: exercise.bodyPart, content: exercise.target)
+                            CurrentWorkoutCardView(exercise: exercise)
                         }
                     }
                 })

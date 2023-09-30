@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import Combine
 
 final class WorkoutManager {
     private let client: MusculosClient
@@ -44,8 +45,12 @@ extension WorkoutManager {
             MusculosLogger.log(.info, message: "Fetched the exercises: \(exercises)", category: .coreData)
             return exercises
         } catch {
-            MusculosLogger.log(.error, message: "Could not fetch exercises", category: .coreData)
+            MusculosLogger.log(.error, message: "Could not fetch exercises \(error.localizedDescription)", category: .coreData)
             throw error
         }
     }
+    
+//    func searchForExercise(with query: String) -> AnyPublisher<[Exercise], MusculosError> {
+//        
+//    }
 }

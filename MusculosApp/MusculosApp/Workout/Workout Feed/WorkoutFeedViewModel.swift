@@ -38,17 +38,15 @@ final class WorkoutFeedViewModel: ObservableObject {
     }
     
     func loadInitialData() {
-        Task {
-            await self.loadExercises()
-        }
+        self.loadExercises()
     }
     
-    func loadExercises() async {
+    func loadExercises() {
         do {
             self.isLoading = true
             defer { self.isLoading = false }
             
-            let exercises = try await self.workoutManager.fetchExercises()
+            let exercises = try self.workoutManager.fetchLocalExercises()
             self.currentExercises.append(contentsOf: exercises)
         } catch {
             MusculosLogger.log(.error, message: "Error loading exercises", category: .ui)
@@ -70,6 +68,8 @@ final class WorkoutFeedViewModel: ObservableObject {
     }
     
     func searchExercise(with query: String) {
+        guard query.count > 0 else { return }
+        
         self.isLoading = true
         defer { self.isLoading = false }
         

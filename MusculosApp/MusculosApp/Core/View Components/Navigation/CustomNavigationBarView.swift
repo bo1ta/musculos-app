@@ -19,7 +19,7 @@ struct CustomNavigationBarView: View {
     var body: some View {
         VStack {
             RoundedRectangle(cornerRadius: 25.0)
-                .foregroundColor(.gray)
+                .foregroundColor(.black)
                 .frame(minHeight: 50)
                 .frame(maxHeight: 60)
                 .overlay {
@@ -28,6 +28,7 @@ struct CustomNavigationBarView: View {
                         
                         Text(title)
                             .foregroundColor(.white)
+                            .fontWeight(.bold)
                             .font(self.font)
 
                         Spacer()

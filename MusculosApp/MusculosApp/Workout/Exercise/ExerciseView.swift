@@ -14,8 +14,8 @@ struct ExerciseView: View {
     
     var body: some View {
         VStack(spacing: 10) {
-            CustomNavigationBarView(title: self.exercise.name)
-                .padding(.bottom, 20)
+            self.header
+                .padding(.bottom, 10)
             
             if let url = URL(string: self.exercise.gifUrl) {
                 GIFView(url: Binding(get: { url }, set: { _ in }))
@@ -31,6 +31,24 @@ struct ExerciseView: View {
             
             Spacer()
         }
+    }
+    
+    @ViewBuilder
+    private var header: some View {
+        Rectangle()
+            .foregroundColor(.gray)
+            .frame(maxHeight: 60)
+            .overlay {
+                HStack {
+                    Spacer()
+                    
+                    Text(self.exercise.name)
+                        .foregroundStyle(.white)
+                    
+                    
+                    Spacer()
+                }
+            }
     }
 }
 

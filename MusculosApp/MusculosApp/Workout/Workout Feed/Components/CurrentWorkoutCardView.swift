@@ -8,45 +8,44 @@
 import SwiftUI
 
 struct CurrentWorkoutCardView: View {
-    var title: String
-    var subtitle: String
-    var content: String
-    var options: [IconPillOption]?
-    
-    init(title: String, subtitle: String, content: String, options: [IconPillOption]? = nil) {
-        self.title = title
-        self.subtitle = subtitle
-        self.content = content
-        self.options = options
-    }
+    let exercise: Exercise
     
     var body: some View {
         VStack {
             self.topSection
             
             Spacer()
-            
+
             self.bottomSection
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(Color.black)
+        .background(self.backgroundView)
         .cornerRadius(25)
         .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
         .frame(height: 240)
     }
     
     @ViewBuilder
+    private var backgroundView: some View {
+        if let gifUrl = URL(string: self.exercise.gifUrl) {
+            GIFView(url: Binding(get: { gifUrl }, set: { _ in }))
+        } else {
+            Color.black
+        }
+    }
+    
+    @ViewBuilder
     private var topSection: some View {
         HStack {
             VStack {
-                Text(title)
+                Text(exercise.name)
                     .font(.title)
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
-                Text(subtitle)
+                    .foregroundColor(Color.appColor(with: .spriteGreen))
+                Text(exercise.target)
                     .font(.subheadline)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.red)
                 Spacer()
             }
             .padding([.top, .leading], 5)
@@ -58,14 +57,15 @@ struct CurrentWorkoutCardView: View {
     private var bottomSection: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(content)
+                Text(exercise.equipment)
                     .font(.caption)
                     .foregroundColor(.white)
                 
-                if let options = self.options, !options.isEmpty {
+            let options = self.exercise.secondaryMuscles
+            if !options.isEmpty {
                     HStack {
                         ForEach(options, id: \.self) {
-                            IconPill(option: $0)
+                            IconPill(option: IconPillOption(title: $0))
                         }
                     }
                 }
@@ -78,14 +78,7 @@ struct CurrentWorkoutCardView: View {
 
 struct WorkoutCardView_Preview: PreviewProvider {
     static var previews: some View {
-        CurrentWorkoutCardView(title: "Back workout",
-                               subtitle: "Start your first week",
-                               content: "Body contouring",
-                               options: [
-                                IconPillOption(title: "1x / week", systemImage: "clock"),
-                                IconPillOption(title: "Start streak", systemImage: "bolt.badge.clock"),
-                                IconPillOption(title: "Complete", systemImage: "bolt.badge.clock")
-                               ])
+        CurrentWorkoutCardView(exercise: Exercise(bodyPart: "back", equipment: "dumbbell", gifUrl: "", id: "1", name: "Back workout", target: "back", secondaryMuscles: [""], instructions: ["Get up", "Get down"]))
         .previewLayout(.sizeThatFits)
     }
 }

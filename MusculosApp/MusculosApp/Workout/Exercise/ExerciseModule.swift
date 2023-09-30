@@ -43,6 +43,10 @@ final class ExerciseModule {
     func searchExercise(by name: String) -> AnyPublisher<[Exercise], MusculosError> {
         let path = Endpoint.searchExercise(name: name)
         var request = APIRequest(method: .get, path: path)
+        request.queryParams = [
+            URLQueryItem(name: "limit", value: "10")
+        ]
+        
         let responseData: AnyPublisher<[Exercise], MusculosError> = self.client.dispatchPublisher(request)
         return responseData
     }
