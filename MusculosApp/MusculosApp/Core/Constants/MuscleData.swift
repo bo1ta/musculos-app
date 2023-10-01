@@ -11,30 +11,53 @@ enum MuscleName: String {
     case back, cardio, chest, lowerArms, lowerLegs, neck, shoulders, upperArms, upperLegs, waist
 }
 
+struct MuscleImageInfo {
+    let uuid = UUID()
+
+    let frontAnatomyIds: [Int]?
+    let backAnatomyIds: [Int]?
+    
+    init(frontAnatomyIds: [Int]? = nil, backAnatomyIds: [Int]? = nil) {
+        self.frontAnatomyIds = frontAnatomyIds
+        self.backAnatomyIds = backAnatomyIds
+    }
+}
+
+extension MuscleImageInfo: Hashable {
+    static func ==(_ lhs: MuscleImageInfo, rhs: MuscleImageInfo) -> Bool {
+        return lhs.uuid == rhs.uuid
+    }
+}
+
 struct MuscleInfo {
-    let name: String
     let id: Int
-    let isFront: Bool
+    let name: String
+    let imageInfo: MuscleImageInfo?
+    
+    init(id: Int, name: String, imageInfo: MuscleImageInfo? = nil) {
+        self.id = id
+        self.name = name
+        self.imageInfo = imageInfo
+    }
 }
 
 extension MuscleInfo: Hashable {
     static func ==(_ lhs: MuscleInfo, rhs: MuscleInfo) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.name == rhs.name
     }
 }
 
 struct MuscleData {
+    
     static let muscles: [MuscleName: MuscleInfo] = [
-        .back: MuscleInfo(name: "Back", id: 9, isFront: false),
-        .cardio: MuscleInfo(name: "Cardio", id: 2, isFront: false),
-        .chest: MuscleInfo(name: "Chest", id: 3, isFront: true),
-        .lowerArms: MuscleInfo(name: "Lower Arms", id: 4, isFront: true),
-        .lowerLegs: MuscleInfo(name: "Lower Legs", id: 7, isFront: true),
-        .neck: MuscleInfo(name: "Neck", id: 6, isFront: true),
-        .shoulders: MuscleInfo(name: "Shoulders", id: 1, isFront: true),
-        .upperArms: MuscleInfo(name: "Upper Arms", id: 5, isFront: true),
-        .upperLegs: MuscleInfo(name: "Upper Legs", id: 8, isFront: true),
-        .waist: MuscleInfo(name: "Waist", id: 10, isFront: true)
+        .back: MuscleInfo(id: 9, name: "Back", imageInfo: MuscleImageInfo(backAnatomyIds: [9, 13, 15])),
+        .cardio: MuscleInfo(id: 1, name: "Cardio", imageInfo: MuscleImageInfo(frontAnatomyIds: [6, 7, 10, 16], backAnatomyIds: [8, 7, 10])),
+        .chest: MuscleInfo(id: 4, name: "Chest", imageInfo: MuscleImageInfo(frontAnatomyIds: [4])),
+        .lowerLegs: MuscleInfo(id: 7, name: "Lower Legs", imageInfo: MuscleImageInfo(frontAnatomyIds: [7], backAnatomyIds: [7])),
+        .shoulders: MuscleInfo(id: 2, name: "Shoulders", imageInfo: MuscleImageInfo(frontAnatomyIds: [2, 13])),
+        .upperArms: MuscleInfo(id: 5, name: "Upper Arms", imageInfo: MuscleImageInfo(frontAnatomyIds: [5, 13])),
+        .upperLegs: MuscleInfo(id: 8, name: "Upper Legs", imageInfo: MuscleImageInfo(frontAnatomyIds: [10, 15], backAnatomyIds: [8])),
+        .waist: MuscleInfo(id: 6, name: "Waist", imageInfo: MuscleImageInfo(frontAnatomyIds: [6]))
     ]
     
     static let back = muscles[.back]
@@ -48,3 +71,4 @@ struct MuscleData {
     static let upperLegs = muscles[.upperLegs]
     static let waist = muscles[.waist]
 }
+

@@ -75,25 +75,31 @@ struct SelectMuscleView: View {
     }
     
     private func selectMuscle(_ muscle: MuscleInfo) {
-         if self.isMuscleSelected(muscle) {
-             self.selectedMuscles.removeAll { $0.id == muscle.id }
-             
-             // Handle anatomy view muscle selection
-             if muscle.isFront {
-                 self.frontMusclesIds.removeAll { $0 == muscle.id }
-             } else {
-                 self.backMusclesIds.removeAll { $0 == muscle.id }
-             }
-         } else {
-             self.selectedMuscles.append(muscle)
-             
-             if muscle.isFront {
-                 self.frontMusclesIds.append(muscle.id)
-             } else {
-                 self.backMusclesIds.append(muscle.id)
-             }
-         }
-     }
+        if !self.isMuscleSelected(muscle) {
+            self.selectedMuscles.append(muscle)
+
+            
+            guard let imageInfo = muscle.imageInfo else { return }
+            if let frontAnatomyIds = imageInfo.frontAnatomyIds {
+                self.frontMusclesIds.append(contentsOf: frontAnatomyIds)
+            }
+            if let backAnatomyIds = imageInfo.backAnatomyIds {
+                self.backMusclesIds.append(contentsOf: backAnatomyIds)
+            }
+        } else {
+            self.selectedMuscles.removeAll { $0.id == muscle.id }
+
+            guard let imageInfo = muscle.imageInfo else { return }
+            if let frontAnatomyIds = imageInfo.frontAnatomyIds {
+                let set = Set(frontAnatomyIds)
+                self.frontMusclesIds = self.frontMusclesIds.filter { !set.contains($0) }
+            }
+            if let backAnatomyIds = imageInfo.backAnatomyIds {
+                let set = Set(backAnatomyIds)
+                self.backMusclesIds = self.backMusclesIds.filter { !set.contains($0) }
+            }
+        }
+    }
 }
 
 #Preview {
