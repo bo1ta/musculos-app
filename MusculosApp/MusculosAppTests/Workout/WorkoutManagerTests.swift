@@ -133,7 +133,7 @@ class WorkoutManagerTests: XCTestCase {
         
         let workoutManager = WorkoutManager(client: client, context: context)
         do {
-            let exercises = try await workoutManager.fetchAllExercises()
+            let exercises = try await workoutManager.fetchExercises()
             XCTAssertFalse(exercises.isEmpty)
             exerciseEntities = try context.fetch(exerciseFetchRequest)
             XCTAssertEqual(exerciseEntities.count, exercises.count)

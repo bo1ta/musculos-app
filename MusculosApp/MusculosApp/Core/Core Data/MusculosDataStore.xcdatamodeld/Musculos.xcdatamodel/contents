@@ -1,35 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22G74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22222" systemVersion="22G74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="AnswerEntity" representedClassName="AnswerEntity" syncable="YES">
         <attribute name="answerId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="content" optional="YES" attributeType="String"/>
         <attribute name="questionId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="EquipmentEntity" representedClassName=".EquipmentEntity" syncable="YES">
-        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+    <entity name="ExerciseManagedObject" representedClassName="ExerciseManagedObject" syncable="YES">
+        <attribute name="bodyPart" attributeType="String"/>
+        <attribute name="equipment" attributeType="String"/>
+        <attribute name="gifUrl" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
-    </entity>
-    <entity name="ExerciseEntity" representedClassName=".ExerciseEntity" syncable="YES">
-        <attribute name="author" optional="YES" attributeType="String"/>
-        <attribute name="category" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="created" attributeType="String"/>
-        <attribute name="exerciseBase" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="information" attributeType="String"/>
-        <attribute name="language" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="license" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="name" attributeType="String"/>
-        <attribute name="uuid" attributeType="String"/>
-        <relationship name="equipments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EquipmentEntity"/>
-        <relationship name="muscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MuscleEntity"/>
-    </entity>
-    <entity name="MuscleEntity" representedClassName=".MuscleEntity" syncable="YES">
-        <attribute name="englishName" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="imageUrlMain" attributeType="String"/>
-        <attribute name="imageUrlSecondary" attributeType="String"/>
-        <attribute name="isFront" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="latinName" attributeType="String"/>
+        <attribute name="target" attributeType="String"/>
+        <relationship name="instructions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StringHolder"/>
+        <relationship name="secondaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StringHolder"/>
     </entity>
     <entity name="PersonEntity" representedClassName="PersonEntity" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String"/>
@@ -41,5 +25,8 @@
         <attribute name="content" optional="YES" attributeType="String"/>
         <attribute name="questionId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="answers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AnswerEntity"/>
+    </entity>
+    <entity name="StringHolder" representedClassName="StringHolder" syncable="YES">
+        <attribute name="string" attributeType="String"/>
     </entity>
 </model>

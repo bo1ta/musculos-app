@@ -8,79 +8,40 @@
 import SwiftUI
 
 struct CustomNavigationBarView: View {
-    private let onBack: (() -> Void)?
-    private let onContinue: (() -> Void)?
-    private let title: String?
-    private let isPresented: Bool?
-    private let rightBarButton: IconButtonView?
+    private let title: String
+    private let font: Font
     
-    init(onBack: (() -> Void)?, onContinue: (() -> Void)?, title: String? = nil, isPresented: Bool? = nil, rightBarButton: IconButtonView? = nil) {
-        self.onBack = onBack
-        self.onContinue = onContinue
+    init(title: String, font: Font = .title2) {
         self.title = title
-        self.isPresented = isPresented
-        self.rightBarButton = rightBarButton
+        self.font = font
     }
     
     var body: some View {
-        HStack {
-            if let onBack = self.onBack {
-                IconButtonView(systemImage: "lessthan", action: onBack)
-                    .padding([.leading], 10)
-                    .padding([.top, .bottom], 10)
-            }
-            Spacer()
-            
-            if self.isPresented == true {
-                VStack(spacing: 0) {
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 60, height: 5)
-                        .foregroundColor(.white)
-                        .fixedSize(horizontal: true, vertical: true)
-                        .padding(.bottom, 5)
-                    
-                    if let title = self.title {
+        VStack {
+            RoundedRectangle(cornerRadius: 25.0)
+                .foregroundColor(.black)
+                .frame(minHeight: 50)
+                .frame(maxHeight: 60)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        
                         Text(title)
                             .foregroundColor(.white)
-                            .font(.body)
-                            .padding(.bottom, 5)
+                            .fontWeight(.bold)
+                            .font(self.font)
+
+                        Spacer()
                     }
+                    .padding(.leading, 10)
                 }
-                .fixedSize(horizontal: true, vertical: true)
-                .padding(5)
-            } else {
-                if let title = self.title {
-                    Text(title)
-                        .foregroundColor(.white)
-                        .font(.body)
-                        .padding(.bottom, 5)
-                }
-            }
-            
-            Spacer()
-            
-            if let onContinue = self.onContinue {
-                if let rightBarButton = self.rightBarButton {
-                    rightBarButton
-                        .padding([.leading], 10)
-                        .padding([.top, .bottom], 10)
-                } else {
-                    Button(action: onContinue, label: {
-                        Text("Skip")
-                            .foregroundStyle(.white)
-                    })
-                    .padding([.trailing], 15)
-                }
-            }
         }
-        .background(RoundedRectangle(cornerRadius: 20).opacity(0.5).foregroundColor(.gray))
     }
 }
 
 struct CustomNavigationBarView_Preview: PreviewProvider {
     static var previews: some View {
-        CustomNavigationBarView(onBack: nil, onContinue: nil, title: "Filters")
+        CustomNavigationBarView(title: "Custom Navigation Bar")
             .previewLayout(.sizeThatFits)
-            .padding()
     }
 }

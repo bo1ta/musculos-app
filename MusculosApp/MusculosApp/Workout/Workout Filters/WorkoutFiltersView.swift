@@ -10,12 +10,12 @@ import SwiftUI
 struct WorkoutFiltersView: View {
     @Environment(\.dismiss) var dismiss
 
-    @ObservedObject private var viewModel: WorkoutFiltersViewModel
+    @StateObject private var viewModel: WorkoutFiltersViewModel
     private var onDismiss: ([WorkoutFilterType: String]) -> Void
     
     init(viewModel: WorkoutFiltersViewModel = WorkoutFiltersViewModel(),
          onDismiss: @escaping ([WorkoutFilterType: String]) -> Void) {
-        self.viewModel = viewModel
+        self._viewModel = StateObject(wrappedValue: viewModel)
         self.onDismiss = onDismiss
     }
     
@@ -23,8 +23,7 @@ struct WorkoutFiltersView: View {
         backgroundView {
             ScrollView {
                 VStack(spacing: 8) {
-                    CustomNavigationBarView(onBack: nil, onContinue: nil, title: "Filters", isPresented: true)
-                        .padding(.top, 10)
+                    CustomNavigationBarView(title: "Filters")
                     
                     workoutFilters
                     

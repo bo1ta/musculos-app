@@ -9,8 +9,6 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-    
     @State private var selection: String = "workout"
     @State private var tabSelection: TabBarItem = .workout
     

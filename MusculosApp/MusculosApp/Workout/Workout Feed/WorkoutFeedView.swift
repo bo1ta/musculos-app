@@ -8,39 +8,45 @@
 import SwiftUI
 
 struct WorkoutFeedView: View {
-    @State private var selectedFilter: String = ""
-    @State private var isFiltersPresented = false
+    @StateObject var viewModel = WorkoutFeedViewModel()
 
     private let options = ["Mix workout", "Home workout", "Gym workout"]
     
     var body: some View {
         backgroundView {
             VStack(spacing: 5) {
-                SearchBarView(placeholderText: "Search workouts", onFiltersTapped: {
-                    isFiltersPresented.toggle()
+                SearchBarView(placeholderText: "Search workouts", searchQuery: $viewModel.searchQuery, onFiltersTapped: {
+                    self.viewModel.isFiltersPresented.toggle()
                 })
 
-                ButtonHorizontalStackView(selectedOption: $selectedFilter, options: self.options, buttonsHaveEqualWidth: false)
+                ButtonHorizontalStackView(selectedOption: $viewModel.selectedFilter, options: self.options, buttonsHaveEqualWidth: false)
 
                 ScrollView(.vertical, showsIndicators: false, content: {
-                    CurrentWorkoutCardView(title: "Day 4", subtitle: "Start your 4th day workout", content: "AB Crunches", imageName: "deadlift-background-2", options: [IconPillOption(title: "15 min"), IconPillOption(title: "234 kcal")])
-                    
-                    MiniCardWheelView(items: [
-                        MiniCardItem(title: "Featured workout", subtitle: "Gym workout", description: "Body contouring", color: Color.black, iconPillOption: IconPillOption(title: "In progress")),
-                        MiniCardItem(title: "Workout crunches", subtitle: "Home workout", description: "6-pack exercise", imageName: "workout-crunches")
-                    ])
+                    ForEach(viewModel.currentExercises) { exercise in
+                        Button {
+                            self.viewModel.selectedExercise = exercise
+                            self.viewModel.isExerciseDetailPresented = true
+                        } label: {
+                            CurrentWorkoutCardView(exercise: exercise)
+                        }
+                    }
                 })
                 .padding(0)
-                
             }
         }
-        .sheet(isPresented: $isFiltersPresented) {
+        .task {
+            await self.viewModel.loadExercises()
+        }
+        .sheet(isPresented: $viewModel.isFiltersPresented) {
             WorkoutFiltersView { filters in
                 MusculosLogger.log(.info, message: "Showing filters: \(filters)", category: .ui)
             }
         }
+        .sheet(isPresented: $viewModel.isExerciseDetailPresented) {
+            ExerciseView(exercise: viewModel.selectedExercise!)
+        }
     }
-    
+        
     @ViewBuilder
     private func backgroundView(@ViewBuilder content: () -> some View) -> some View {
         ZStack {
@@ -66,4 +72,16 @@ struct WorkoutFeedView_Preview: PreviewProvider {
     static var previews: some View {
         WorkoutFeedView()
     }
+}
+
+struct BackgroundClearView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        DispatchQueue.main.async {
+            view.superview?.superview?.backgroundColor = .clear
+        }
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {}
 }
