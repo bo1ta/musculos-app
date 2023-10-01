@@ -16,11 +16,14 @@ struct SelectMuscleView: View {
     private var muscles: [MuscleName: MuscleInfo] = MuscleData.muscles
     
     var body: some View {
-        ScrollView {
-            VStack {
-                self.anatomyViews
-                self.musclePairs
+        backgroundView {
+            ScrollView {
+                VStack {
+                    self.anatomyViews
+                    self.musclePairs
+                }
             }
+            .padding(.bottom, 50)
         }
     }
     
@@ -68,6 +71,48 @@ struct SelectMuscleView: View {
                     }
                 }
         })
+    }
+    
+    @ViewBuilder
+    private func backgroundView(@ViewBuilder content: () -> some View) -> some View {
+        ZStack(alignment: .bottom) {
+            Image("weightlifting-background")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(minWidth: 0, maxHeight: .infinity)
+                .edgesIgnoringSafeArea(.all)
+                .overlay {
+                    Color.black
+                        .opacity(0.8)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .ignoresSafeArea()
+                }
+            
+            content()
+                .padding(4)
+            
+            buttonStack
+        }
+    }
+    
+    @ViewBuilder
+    private var buttonStack: some View {
+        HStack(spacing: 2) {
+            Button {
+                
+            } label: {
+                Text("Reset")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(DarkButton())
+            Button {
+                
+            } label: {
+                Text("Apply")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(SelectedButton(isSelected: self.selectedMuscles.count > 0))
+        }
     }
     
     private func isMuscleSelected(_ muscle: MuscleInfo) -> Bool {
