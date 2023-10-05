@@ -26,7 +26,7 @@ final class ExerciseModule {
     }
     
     func getExercises(by muscle: MuscleInfo) async throws -> [Exercise] {
-        let path = Endpoint.exercisesByMuscle(name: muscle.name)
+        let path = Endpoint.exercisesByMuscle(name: muscle.name.lowercased())
         let request = APIRequest(method: .get, path: path)
         let responseData = try await self.client.dispatch(request)
         return try await Exercise.createArrayFrom(responseData)

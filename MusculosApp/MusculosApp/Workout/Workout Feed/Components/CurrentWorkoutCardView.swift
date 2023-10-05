@@ -42,10 +42,10 @@ struct CurrentWorkoutCardView: View {
                 Text(exercise.name)
                     .font(.title)
                     .fontWeight(.bold)
-                    .foregroundColor(Color.appColor(with: .spriteGreen))
+                    .foregroundColor(.black)
                 Text(exercise.target)
                     .font(.subheadline)
-                    .foregroundColor(Color.red)
+                    .foregroundColor(Color.appColor(with: .spriteGreen))
                 Spacer()
             }
             .padding([.top, .leading], 5)

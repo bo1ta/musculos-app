@@ -23,6 +23,7 @@ extension ExerciseManagedObject {
     @NSManaged public var target: String
     @NSManaged public var instructions: NSSet
     @NSManaged public var secondaryMuscles: NSSet
+    @NSManaged public var isFavorite: Bool
 }
 
 // MARK: Generated accessors for instructions

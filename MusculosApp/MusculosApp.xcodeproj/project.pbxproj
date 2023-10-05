@@ -200,6 +200,7 @@
 		BC96C2F92AC386BB00F11CAB /* Musculos 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 2.xcdatamodel"; sourceTree = "<group>"; };
 		BC96C2FA2AC8310500F11CAB /* SelectMuscleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMuscleView.swift; sourceTree = "<group>"; };
 		BC96C2FC2AC83B1C00F11CAB /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		BC96C2FE2ACE18C700F11CAB /* Musculos 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 3.xcdatamodel"; sourceTree = "<group>"; };
 		BCB144652A38CC2F00A8209F /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		BCCE85E12A328629001BEE8B /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		BCCE85E32A33D376001BEE8B /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
@@ -1329,10 +1330,11 @@
 		BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				BC96C2FE2ACE18C700F11CAB /* Musculos 3.xcdatamodel */,
 				BC96C2F92AC386BB00F11CAB /* Musculos 2.xcdatamodel */,
 				BC182EC92A589A81003DEA30 /* Musculos.xcdatamodel */,
 			);
-			currentVersion = BC182EC92A589A81003DEA30 /* Musculos.xcdatamodel */;
+			currentVersion = BC96C2FE2ACE18C700F11CAB /* Musculos 3.xcdatamodel */;
 			path = MusculosDataStore.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

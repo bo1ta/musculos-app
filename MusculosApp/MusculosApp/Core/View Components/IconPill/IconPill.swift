@@ -55,7 +55,7 @@ struct IconPill: View {
                         }
                        
                         Text(self.option.title)
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
                             .font(Font(CTFont(.smallToolbar, size: 10)))
                     }
                     .fixedSize()

@@ -17,6 +17,8 @@ class CoreDataStack {
         self.persistentContainer = NSPersistentContainer(name: "MusculosDataStore")
         let description = self.persistentContainer.persistentStoreDescriptions.first
         description?.type = NSSQLiteStoreType
+        description?.shouldMigrateStoreAutomatically = true
+        description?.shouldInferMappingModelAutomatically = true
 
         self.persistentContainer.loadPersistentStores { description, error in
             if let error = error {
@@ -46,12 +48,12 @@ class CoreDataStack {
 }
 
 extension CoreDataStack {
-    func fetchAllEntities<T: NSManagedObject>(entityName: String) async throws -> [T]? {
+    func fetchAllEntities<T: NSManagedObject>(entityName: String) throws -> [T]? {
         let request = NSFetchRequest<T>(entityName: entityName)
         return try self.mainContext.fetch(request)
     }
     
-    func fetchEntitiesByIds<T: NSManagedObject>(entityName: String, by ids: [Int]) async throws -> [T]? {
+    func fetchEntitiesByIds<T: NSManagedObject>(entityName: String, by ids: [Int]) throws -> [T]? {
         let request = NSFetchRequest<T>(entityName: entityName)
         let predicate = NSPredicate(format: "id IN %@", ids)
         request.predicate = predicate

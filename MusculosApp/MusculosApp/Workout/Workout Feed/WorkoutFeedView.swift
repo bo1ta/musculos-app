@@ -38,8 +38,12 @@ struct WorkoutFeedView: View {
             await self.viewModel.loadExercises()
         }
         .sheet(isPresented: $viewModel.isFiltersPresented) {
-            WorkoutFiltersView { filters in
-                MusculosLogger.log(.info, message: "Showing filters: \(filters)", category: .ui)
+            SelectMuscleView { selectedMuscles in
+                if let muscleInfo = selectedMuscles.first {
+                    Task {
+                        await self.viewModel.getExercisesByMuscleType(muscleInfo: muscleInfo)
+                    }
+                }
             }
         }
         .sheet(isPresented: $viewModel.isExerciseDetailPresented) {

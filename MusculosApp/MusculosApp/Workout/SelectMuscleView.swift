@@ -8,12 +8,18 @@
 import SwiftUI
 
 struct SelectMuscleView: View {
-    @State var frontMusclesIds: [Int] = []
-    @State var backMusclesIds: [Int] = []
+    @Environment(\.dismiss) var dismiss
     
+    @State private var frontMusclesIds: [Int] = []
+    @State private var backMusclesIds: [Int] = []
     @State private var selectedMuscles: [MuscleInfo] = []
     
     private var muscles: [MuscleName: MuscleInfo] = MuscleData.muscles
+    private var onContinue: ([MuscleInfo]) -> Void
+        
+    init(onContinue: @escaping ([MuscleInfo]) -> Void) {
+        self.onContinue = onContinue
+    }
     
     var body: some View {
         backgroundView {
@@ -22,8 +28,8 @@ struct SelectMuscleView: View {
                     self.anatomyViews
                     self.musclePairs
                 }
+                .padding(.bottom, 50)
             }
-            .padding(.bottom, 50)
         }
     }
     
@@ -53,6 +59,29 @@ struct SelectMuscleView: View {
     }
     
     @ViewBuilder
+    private var buttonStack: some View {
+        HStack(spacing: 2) {
+            Button {
+                self.selectedMuscles.removeAll()
+                self.frontMusclesIds.removeAll()
+                self.backMusclesIds.removeAll()
+            } label: {
+                Text("Reset")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(DarkButton())
+            Button {
+                self.onContinue(selectedMuscles)
+                dismiss()
+            } label: {
+                Text("Continue")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(SelectedButton(isSelected: self.selectedMuscles.count > 0))
+        }
+    }
+    
+    @ViewBuilder
     private func createMuscleCard(with muscle: MuscleInfo) -> some View {
         let isSelected = self.isMuscleSelected(muscle)
         
@@ -76,7 +105,7 @@ struct SelectMuscleView: View {
     @ViewBuilder
     private func backgroundView(@ViewBuilder content: () -> some View) -> some View {
         ZStack(alignment: .bottom) {
-            Image("weightlifting-background")
+            Image("deadlift-background")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(minWidth: 0, maxHeight: .infinity)
@@ -92,26 +121,8 @@ struct SelectMuscleView: View {
                 .padding(4)
             
             buttonStack
-        }
-    }
-    
-    @ViewBuilder
-    private var buttonStack: some View {
-        HStack(spacing: 2) {
-            Button {
-                
-            } label: {
-                Text("Reset")
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(DarkButton())
-            Button {
-                
-            } label: {
-                Text("Apply")
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(SelectedButton(isSelected: self.selectedMuscles.count > 0))
+                .padding(4)
+                .padding(.bottom, 10)
         }
     }
     
@@ -122,9 +133,8 @@ struct SelectMuscleView: View {
     private func selectMuscle(_ muscle: MuscleInfo) {
         if !self.isMuscleSelected(muscle) {
             self.selectedMuscles.append(muscle)
-
-            
             guard let imageInfo = muscle.imageInfo else { return }
+            
             if let frontAnatomyIds = imageInfo.frontAnatomyIds {
                 self.frontMusclesIds.append(contentsOf: frontAnatomyIds)
             }
@@ -148,5 +158,5 @@ struct SelectMuscleView: View {
 }
 
 #Preview {
-    SelectMuscleView()
+    SelectMuscleView(onContinue: { _ in })
 }

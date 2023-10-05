@@ -11,7 +11,13 @@ import CoreData
 struct ExerciseView: View {
     @Environment(\.dismiss) var dismiss
     let exercise: Exercise
+    let viewModel: ExerciseViewModel
     
+    init(exercise: Exercise) {
+        self.exercise = exercise
+        self.viewModel = ExerciseViewModel(exercise: exercise)
+    }
+        
     var body: some View {
         VStack(spacing: 10) {
             self.header
@@ -20,23 +26,63 @@ struct ExerciseView: View {
             if let url = URL(string: self.exercise.gifUrl) {
                 GIFView(url: Binding(get: { url }, set: { _ in }))
                     .frame(minWidth: 100, minHeight: 100)
-                    .padding(7)
-                    .padding([.leading, .trailing], 15)
+                    .padding(.top, 10)
+            } else if self.viewModel.shouldShowAnatomyView {
+                HStack {
+                    Spacer()
+                    
+                    if let frontAnatomyIds = self.viewModel.frontMuscles {
+                        AnatomyOverlayView(musclesIds: frontAnatomyIds)
+                    }
+                    
+                    if let backAnatomyIds = self.viewModel.backMuscles {
+                        AnatomyOverlayView(musclesIds: backAnatomyIds, isFront: false)
+                    }
+                    
+                    Spacer()
+                }
             }
             
+            HStack {
+                IconPill(option: IconPillOption(title: self.exercise.bodyPart))
+                IconPill(option: IconPillOption(title: self.exercise.equipment))
+                
+                Spacer()
+                
+                let isFavorite = self.viewModel.isFavorite
+                
+                Button {
+                    self.viewModel.toggleFavorite()
+                } label: {
+                    Circle()
+                        .frame(width: 30, height: 30)
+                        .overlay(content: {
+                            Image(systemName: "heart.fill")
+                                .foregroundStyle(isFavorite ? .red : .white)
+                                .fontWeight(.bold)
+                        })
+                        .foregroundStyle(isFavorite ? .white : .gray)
+                        .opacity(isFavorite ? 1.0 : 0.7)
+                }
+            }
+            .padding([.leading, .trailing, .bottom], 10)
+            
+
             List(self.exercise.instructions, id: \.self) { instruction in
-                    Text(instruction)
+                Text(instruction)
                     .font(.caption)
+                    .foregroundStyle(.primary)
             }
-            
-            Spacer()
+        }
+        .onAppear {
+            self.viewModel.loadData()
         }
     }
     
     @ViewBuilder
     private var header: some View {
         Rectangle()
-            .foregroundColor(.gray)
+            .foregroundColor(Color.appColor(with: .violetBlue))
             .frame(maxHeight: 60)
             .overlay {
                 HStack {
@@ -44,7 +90,7 @@ struct ExerciseView: View {
                     
                     Text(self.exercise.name)
                         .foregroundStyle(.white)
-                    
+                        .font(.title2)
                     
                     Spacer()
                 }
