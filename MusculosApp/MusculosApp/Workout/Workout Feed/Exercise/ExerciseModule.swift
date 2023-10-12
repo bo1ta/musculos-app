@@ -8,12 +8,7 @@
 import Foundation
 import Combine
 
-class ExerciseModule: NetworkModule {
-    var dispatcher: NetworkDispatcher
-    
-    init(dispatcher: NetworkDispatcher = NetworkDispatcher()) {
-        self.dispatcher = dispatcher
-    }
+class ExerciseModule {
     
 //    func getExercises(_ page: Int = 0) -> AnyPublisher<[Exercise], NetworkRequestError> {
 //

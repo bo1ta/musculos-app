@@ -24,7 +24,6 @@
 		BC2EE4912AAE1E3800AEF882 /* NetworkRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2EE48E2AAE1E3800AEF882 /* NetworkRequestError.swift */; };
 		BC2EE4922AAE1E3800AEF882 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2EE48F2AAE1E3800AEF882 /* APIEndpoint.swift */; };
 		BC2EE4932AAE1E3800AEF882 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2EE4902AAE1E3800AEF882 /* APIRequest.swift */; };
-		BC352AEB2A32713300DAA3AB /* NetworkRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEA2A32713300DAA3AB /* NetworkRequestError.swift */; };
 		BC352AED2A32774600DAA3AB /* MusculosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEC2A32774600DAA3AB /* MusculosClient.swift */; };
 		BC352AF02A327E3300DAA3AB /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEF2A327E3300DAA3AB /* AuthenticationView.swift */; };
 		BC3FB0EA2A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0E92A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift */; };
@@ -52,7 +51,6 @@
 		BCC23FBB2A8ADD79006CB9AF /* ProgressCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC23FBA2A8ADD79006CB9AF /* ProgressCardView.swift */; };
 		BCCBEE662A4CA41000B211F1 /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEE652A4CA41000B211F1 /* NetworkLogger.swift */; };
 		BCCE85E22A328629001BEE8B /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E12A328629001BEE8B /* AuthenticationViewModel.swift */; };
-		BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E32A33D376001BEE8B /* APIEndpoint.swift */; };
 		BCCE85E62A33D658001BEE8B /* AuthenticationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E52A33D658001BEE8B /* AuthenticationModule.swift */; };
 		BCCE85E92A33D7B5001BEE8B /* Encodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E82A33D7B5001BEE8B /* Encodable+Extension.swift */; };
 		BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85EA2A33DCA6001BEE8B /* UserDefaultsWrapper.swift */; };
@@ -60,7 +58,6 @@
 		BCD372452A57366900C0F161 /* HorizontalPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD372442A57366900C0F161 /* HorizontalPickerViewController.swift */; };
 		BCD372472A5736EE00C0F161 /* HorizontalPickerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD372462A5736EE00C0F161 /* HorizontalPickerViewCell.swift */; };
 		BCD372492A57410800C0F161 /* HorizontalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD372482A57410800C0F161 /* HorizontalPicker.swift */; };
-		BCD3C4662AACA96800614ED8 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD3C4652AACA96800614ED8 /* APIRequest.swift */; };
 		BCD3C4682AACAE7A00614ED8 /* DeocdableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD3C4672AACAE7A00614ED8 /* DeocdableModel.swift */; };
 		BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */; };
 		BCE3B6962A5AEC65001D04EB /* WorkoutFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3B6952A5AEC65001D04EB /* WorkoutFeedView.swift */; };
@@ -733,7 +730,6 @@
 				BCF86C312A360DF3003293A4 /* RegisterResponse.swift in Sources */,
 				BC3FB0FF2A89A3E700C3F9B1 /* SliderView.swift in Sources */,
 				BC10E4312A3B8B510008A72E /* IntroductionModule.swift in Sources */,
-				BCD3C4662AACA96800614ED8 /* APIRequest.swift in Sources */,
 				BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */,
 				BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */,
 				BCF86C2F2A360DDB003293A4 /* LoginResponse.swift in Sources */,
@@ -741,7 +737,6 @@
 				BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */,
 				BCF86C332A362105003293A4 /* CustomNavigationBarView.swift in Sources */,
 				BCC23FBB2A8ADD79006CB9AF /* ProgressCardView.swift in Sources */,
-				BCCE85E42A33D376001BEE8B /* APIEndpoint.swift in Sources */,
 				BC7777382A5DEBE7009A452A /* MiniCardWheelView.swift in Sources */,
 				BC3FB1072A8AADDA00C3F9B1 /* DashboardView.swift in Sources */,
 				BCFBB7722A59C6D700896C3C /* AnswerEntity+CoreDataProperties.swift in Sources */,
@@ -783,7 +778,6 @@
 				BC3FB0F62A87051700C3F9B1 /* WorkoutFiltersView.swift in Sources */,
 				BC3FB0F82A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift in Sources */,
 				BC59720C2A3507F500EBB075 /* HearTipView.swift in Sources */,
-				BC352AEB2A32713300DAA3AB /* NetworkRequestError.swift in Sources */,
 				BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */,
 				BC9B21122AAA76A00072C980 /* ExerciseModule.swift in Sources */,
 				BCE3B6962A5AEC65001D04EB /* WorkoutFeedView.swift in Sources */,
