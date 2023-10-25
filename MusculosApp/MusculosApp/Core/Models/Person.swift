@@ -8,22 +8,22 @@
 import Foundation
 
 struct Person {
-    let avatar: String
-    let name: String
+  let avatar: String
+  let name: String
 
-    init(avatar: String, name: String) {
-        self.avatar = avatar
-        self.name = name
-    }
+  init(avatar: String, name: String) {
+    self.avatar = avatar
+    self.name = name
+  }
 
-    var avatarUrl: URL? {
-        return URL(string: avatar)
-    }
+  var avatarUrl: URL? {
+    return URL(string: avatar)
+  }
 }
 
 extension Person: Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(avatar)
-        hasher.combine(name)
-    }
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(avatar)
+    hasher.combine(name)
+  }
 }

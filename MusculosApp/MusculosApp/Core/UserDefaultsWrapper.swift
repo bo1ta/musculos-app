@@ -8,32 +8,32 @@
 import Foundation
 
 public class UserDefaultsWrapper: NSObject {
-    private static var sharedWrapper: UserDefaultsWrapper = {
-        return UserDefaultsWrapper()
-    }()
+  private static var sharedWrapper: UserDefaultsWrapper = {
+    return UserDefaultsWrapper()
+  }()
 
-    class var shared: UserDefaultsWrapper {
-        get {
-            return self.sharedWrapper
-        }
-        set {
-            self.sharedWrapper = newValue
-        }
+  class var shared: UserDefaultsWrapper {
+    get {
+      return self.sharedWrapper
     }
-
-    private let userDefaults: UserDefaults
-
-    private let tokenKey = "AuthToken"
-    var authToken: String? {
-        get {
-            return self.userDefaults.string(forKey: self.tokenKey)
-        }
-        set {
-            self.userDefaults.set(newValue, forKey: self.tokenKey)
-        }
+    set {
+      self.sharedWrapper = newValue
     }
+  }
 
-    private override init() {
-        self.userDefaults = UserDefaults.standard
+  private let userDefaults: UserDefaults
+
+  private let tokenKey = "AuthToken"
+  var authToken: String? {
+    get {
+      return self.userDefaults.string(forKey: self.tokenKey)
     }
+    set {
+      self.userDefaults.set(newValue, forKey: self.tokenKey)
+    }
+  }
+
+  private override init() {
+    self.userDefaults = UserDefaults.standard
+  }
 }

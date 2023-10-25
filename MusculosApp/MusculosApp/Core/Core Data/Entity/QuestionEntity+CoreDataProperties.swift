@@ -11,13 +11,13 @@ import CoreData
 
 extension QuestionEntity {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<QuestionEntity> {
-        return NSFetchRequest<QuestionEntity>(entityName: "QuestionEntity")
-    }
+  @nonobjc public class func fetchRequest() -> NSFetchRequest<QuestionEntity> {
+    return NSFetchRequest<QuestionEntity>(entityName: "QuestionEntity")
+  }
 
-    @NSManaged public var content: String
-    @NSManaged public var questionId: Int
-    @NSManaged public var answers: [AnswerEntity]
+  @NSManaged public var content: String
+  @NSManaged public var questionId: Int
+  @NSManaged public var answers: [AnswerEntity]
 
 }
 

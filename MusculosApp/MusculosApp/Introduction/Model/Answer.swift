@@ -9,33 +9,33 @@ import Foundation
 import CoreData
 
 struct Answer: Codable, DecodableModel {
-    var id: Int
-    var content: String
-    var questionId: Int
+  var id: Int
+  var content: String
+  var questionId: Int
 }
 
 extension Answer: Hashable {
-    static func == (lhs: Answer, rhs: Answer) -> Bool {
-        return lhs.id == rhs.id
-    }
+  static func == (lhs: Answer, rhs: Answer) -> Bool {
+    return lhs.id == rhs.id
+  }
 
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+  }
 }
 
 extension Answer {
-    init(answerEntity: AnswerEntity) {
-        self.id = answerEntity.answerId
-        self.content = answerEntity.content
-        self.questionId = answerEntity.questionId
-    }
+  init(answerEntity: AnswerEntity) {
+    self.id = answerEntity.answerId
+    self.content = answerEntity.content
+    self.questionId = answerEntity.questionId
+  }
 
-    func toEntity(in context: NSManagedObjectContext) -> AnswerEntity {
-        let answerEntity = AnswerEntity(context: context)
-        answerEntity.answerId = self.id
-        answerEntity.content = self.content
-        answerEntity.questionId = self.questionId
-        return answerEntity
-    }
+  func toEntity(in context: NSManagedObjectContext) -> AnswerEntity {
+    let answerEntity = AnswerEntity(context: context)
+    answerEntity.answerId = self.id
+    answerEntity.content = self.content
+    answerEntity.questionId = self.questionId
+    return answerEntity
+  }
 }

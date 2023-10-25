@@ -11,72 +11,72 @@ import SwiftUI
 
 @MainActor
 final class IntroductionViewModel: ObservableObject {
-    @Published var questions: [Question] = []
-    @Published var currentIndex: Int = 0
-    @Published var errorMessage: String?
-    @Published var isLoading: Bool = false
+  @Published var questions: [Question] = []
+  @Published var currentIndex: Int = 0
+  @Published var errorMessage: String?
+  @Published var isLoading: Bool = false
 
-    private var selectedAnswers: [Answer] = []
-    private var cancellables = Set<AnyCancellable>()
-    private var module: IntroductionModule = IntroductionModule()
+  private var selectedAnswers: [Answer] = []
+  private var cancellables = Set<AnyCancellable>()
+  private var module: IntroductionModule = IntroductionModule()
 
-    init(module: IntroductionModule = IntroductionModule()) {
-        self.module = module
+  init(module: IntroductionModule = IntroductionModule()) {
+    self.module = module
+  }
+
+  var currentQuestion: Question? {
+    guard self.currentIndex >= 0 && self.currentIndex < questions.count else {
+      return nil
     }
+    return self.questions[currentIndex]
+  }
 
-    var currentQuestion: Question? {
-        guard self.currentIndex >= 0 && self.currentIndex < questions.count else {
-            return nil
-        }
-        return self.questions[currentIndex]
+  func nextQuestion(with answer: Answer?) {
+    guard
+      let answer = answer,
+      self.currentIndex < questions.count - 1
+    else { return }
+
+    self.currentIndex += 1
+    self.selectedAnswers.append(answer)
+
+    if self.selectedAnswers.count == questions.count {
+      self.submitAnswers()
     }
+  }
 
-    func nextQuestion(with answer: Answer?) {
-        guard
-            let answer = answer,
-            self.currentIndex < questions.count - 1
-        else { return }
-
-        self.currentIndex += 1
-        self.selectedAnswers.append(answer)
-
-        if self.selectedAnswers.count == questions.count {
-            self.submitAnswers()
-        }
-    }
-
-    func previousQuestion() {
-        guard self.currentIndex > 0 else { return }
-        self.currentIndex -= 1
-    }
+  func previousQuestion() {
+    guard self.currentIndex > 0 else { return }
+    self.currentIndex -= 1
+  }
 }
 
 extension IntroductionViewModel {
-    func getQuestions() {
-        self.isLoading = true
+  func getQuestions() {
+    self.isLoading = true
 
-        Task {
-            do {
-                self.questions = try await self.module.getQuestions()
-                self.isLoading = false
-            } catch let err {
-                self.errorMessage = err.localizedDescription
-                self.isLoading = false
-            }
-        }
+    Task {
+      do {
+        self.questions = try await self.module.getQuestions()
+        self.isLoading = false
+      } catch let err {
+        self.errorMessage = err.localizedDescription
+        self.isLoading = false
+      }
     }
+  }
 
-    func submitAnswers() {
-        self.isLoading = true
+  func submitAnswers() {
+    self.isLoading = true
 
-        Task {
-            do {
-                try await self.module.postAnswers(answers: self.selectedAnswers)
-                self.isLoading = false
-            } catch let err {
-                self.errorMessage = err.localizedDescription
-                self.isLoading = false
-            }
-        }
+    Task {
+      do {
+        try await self.module.postAnswers(answers: self.selectedAnswers)
+        self.isLoading = false
+      } catch let err {
+        self.errorMessage = err.localizedDescription
+        self.isLoading = false
+      }
     }
+  }
 }

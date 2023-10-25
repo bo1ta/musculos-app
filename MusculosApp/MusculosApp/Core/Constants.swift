@@ -8,17 +8,17 @@
 import Foundation
 
 public enum HTTPMethod: String {
-    case get    = "GET"
-    case post   = "POST"
-    case put    = "PUT"
-    case delete = "DELETE"
+  case get  = "GET"
+  case post   = "POST"
+  case put  = "PUT"
+  case delete = "DELETE"
 }
 
 public class HTTPHeaderConstants: NSObject {
-    static let contentType = "Content-Type"
-    static let authorization = "Authorization"
+  static let contentType = "Content-Type"
+  static let authorization = "Authorization"
 }
 
 public class UIConstants: NSObject {
-    static let componentOpacity: Double = 0.95
+  static let componentOpacity: Double = 0.95
 }
