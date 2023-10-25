@@ -17,11 +17,8 @@ struct ContentView: View {
             WorkoutFeedView()
                 .tabBarItem(tab: .workout , selection: $tabSelection)
             
-            AuthenticationView(viewModel: AuthenticationViewModel())
+            AddExerciseView()
                 .tabBarItem(tab: .add, selection: $tabSelection)
-            
-            IntroductionView(viewModel: IntroductionViewModel())
-                .tabBarItem(tab: .dashboard, selection: $tabSelection)
         }
     }
 }

@@ -10,9 +10,11 @@ import SwiftUI
 struct IconButtonView: View {
     let systemImage: String
     let action: () -> Void
+    let backgroundColor: Color
     
-    init(systemImage: String, action: @escaping () -> Void = {}) {
+    init(systemImage: String, backgroundColor: Color = Color.appColor(with: .background), action: @escaping () -> Void = {}) {
         self.systemImage = systemImage
+        self.backgroundColor = backgroundColor
         self.action = action
     }
     
@@ -22,7 +24,7 @@ struct IconButtonView: View {
                 .font(.system(size: 18))
                 .foregroundColor(.gray)
                 .padding(15)
-                .background(Color.appColor(with: .background))
+                .background(self.backgroundColor)
                 .clipShape(Circle())
         }
     }

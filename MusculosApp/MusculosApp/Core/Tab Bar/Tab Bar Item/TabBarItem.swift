@@ -40,7 +40,7 @@ extension TabBarItem: Hashable {
         hasher.combine(self.label)
     }
     
-    static func ==(_ lhs: TabBarItem, rhs: TabBarItem) -> Bool {
+    static func ==(lhs: TabBarItem, rhs: TabBarItem) -> Bool {
         return lhs.label == rhs.label
     }
 }

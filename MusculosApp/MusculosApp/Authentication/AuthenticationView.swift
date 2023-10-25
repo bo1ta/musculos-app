@@ -75,37 +75,15 @@ struct AuthenticationView: View {
     
     @ViewBuilder private var authenticationForm: some View {
         VStack {
-            HStack {
-                Image(systemName: "envelope")
-                    .foregroundColor(.secondary)
-                TextField("Email", text: self.$viewModel.email)
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
-            }
-            .padding()
-            .background(Capsule().fill(.white))
+            CustomTextFieldView(text: $viewModel.email, textHint: "Email", systemImageName: "envelope")
             
             if self.isRegister {
-                HStack {
-                    Image(systemName: "person")
-                        .foregroundColor(.secondary)
-                    TextField("Username", text: self.$viewModel.username)
-                        .autocorrectionDisabled()
-                        .autocapitalization(.none)
-                }
-                .padding()
-                .background(Capsule().fill(.white))
+                CustomTextFieldView(text: $viewModel.username, textHint: "Username", systemImageName: "person")
                 .transition(.scale)
             }
             
-            HStack {
-                Image(systemName: "lock")
-                    .foregroundColor(.secondary)
-                SecureField("Password", text: self.$viewModel.password)
-                    .textContentType(.password)
-            }
-            .padding()
-            .background(Capsule().fill(.white))
+            CustomTextFieldView(text: $viewModel.password, textHint: "Password", systemImageName: "lock", isSecureField: true)
+            
         }
         .padding([.leading, .trailing], 10)
     }

@@ -18,43 +18,77 @@ final class WorkoutFeedViewModel: ObservableObject {
     @Published var isExerciseDetailPresented = false
     @Published var isLoading = false
     @Published var searchQuery: String = ""
+    @Published var selectedMuscles: [MuscleInfo] = []
     
     private var cancellables: Set<AnyCancellable> = []
     
-    private var workoutManager: WorkoutManager {
+    private lazy var workoutManager: WorkoutManager = {
         return WorkoutManager()
-    }
+    }()
     
-    private var exerciseModule: ExerciseModule {
+    private lazy var exerciseModule: ExerciseModule = {
         return ExerciseModule()
-    }
+    }()
+    
+    private var initialExercises: [Exercise] = []
     
     init() {
-        $searchQuery.debounce(for: 0.5, scheduler: DispatchQueue.main)
+        $searchQuery
+            .debounce(for: 0.5, scheduler: DispatchQueue.main)
             .sink { [weak self] query in
                 self?.searchExercise(with: query)
             }
             .store(in: &cancellables)
+        
+        $selectedFilter
+            .sink { [weak self] filter in
+                self?.filterExercises(by: filter)
+            }
+            .store(in: &cancellables)
     }
     
-    func loadInitialData() {
-        self.loadExercises()
+    func filterExercises(by filter: String) {
+        switch filter {
+        case "Favorites":
+            self.filterFavoriteExercises()
+            return
+        default:
+            self.currentExercises = initialExercises
+            return
+        }
     }
     
-    func loadExercises() {
+    func loadInitialData() async {
+        await self.loadExercises()
+    }
+    
+    func loadExercises() async {
         do {
             self.isLoading = true
             defer { self.isLoading = false }
             
-            let exercises = try self.workoutManager.fetchLocalExercises()
+            let exercises = try await self.workoutManager.fetchLocalExercises()
             self.currentExercises.append(contentsOf: exercises)
+            self.initialExercises = exercises
         } catch {
             MusculosLogger.log(.error, message: "Error loading exercises", category: .ui)
             self.errorMessage = error.localizedDescription
         }
     }
     
-    func getExercisesByMuscleType(muscleInfo: MuscleInfo) async throws {
+    func filterFavoriteExercises() {
+        do {
+            self.isLoading = true
+            defer { self.isLoading = false }
+            
+            let exercises = try self.workoutManager.fetchFavoriteExercises()
+            self.currentExercises = exercises
+        } catch {
+            self.errorMessage = error.localizedDescription
+        }
+    }
+    
+    func getExercisesByMuscleType(muscleInfo: MuscleInfo) async {
         do {
             self.isLoading = true
             defer { self.isLoading = false }

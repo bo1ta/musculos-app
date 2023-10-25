@@ -39,7 +39,6 @@ extension Exercise: DecodableModel {
         } else {
             self.instructions = []
         }
-        
     }
     
     @discardableResult func toEntity(context: NSManagedObjectContext) -> ExerciseManagedObject {
@@ -52,6 +51,7 @@ extension Exercise: DecodableModel {
         entity.target = self.target
         entity.secondaryMuscles = toEntitySet(strings: self.secondaryMuscles, context: context) as NSSet
         entity.instructions = toEntitySet(strings: self.instructions, context: context) as NSSet
+        entity.isFavorite = false
         return entity
     }
     
@@ -66,3 +66,8 @@ extension Exercise: DecodableModel {
 
 extension Exercise: Identifiable { }
 
+extension Exercise: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+}

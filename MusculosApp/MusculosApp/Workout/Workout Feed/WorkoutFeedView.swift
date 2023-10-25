@@ -10,7 +10,7 @@ import SwiftUI
 struct WorkoutFeedView: View {
     @StateObject var viewModel = WorkoutFeedViewModel()
 
-    private let options = ["Mix workout", "Home workout", "Gym workout"]
+    private let options = ["Favorites", "Home workout", "Gym workout"]
     
     var body: some View {
         backgroundView {
@@ -22,7 +22,7 @@ struct WorkoutFeedView: View {
                 ButtonHorizontalStackView(selectedOption: $viewModel.selectedFilter, options: self.options, buttonsHaveEqualWidth: false)
 
                 ScrollView(.vertical, showsIndicators: false, content: {
-                    ForEach(viewModel.currentExercises) { exercise in
+                    ForEach(viewModel.currentExercises, id: \.self) { exercise in
                         Button {
                             self.viewModel.selectedExercise = exercise
                             self.viewModel.isExerciseDetailPresented = true
@@ -38,9 +38,7 @@ struct WorkoutFeedView: View {
             await self.viewModel.loadExercises()
         }
         .sheet(isPresented: $viewModel.isFiltersPresented) {
-            WorkoutFiltersView { filters in
-                MusculosLogger.log(.info, message: "Showing filters: \(filters)", category: .ui)
-            }
+            SelectMuscleView(selectedMuscles: self.$viewModel.selectedMuscles)
         }
         .sheet(isPresented: $viewModel.isExerciseDetailPresented) {
             ExerciseView(exercise: viewModel.selectedExercise!)

@@ -2,7 +2,7 @@
 //  ExerciseManagedObject+CoreDataProperties.swift
 //  MusculosApp
 //
-//  Created by Solomon Alexandru on 26.09.2023.
+//  Created by Solomon Alexandru on 07.10.2023.
 //
 //
 
@@ -11,6 +11,7 @@ import CoreData
 
 
 extension ExerciseManagedObject {
+
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ExerciseManagedObject> {
         return NSFetchRequest<ExerciseManagedObject>(entityName: "ExerciseManagedObject")
     }
@@ -21,8 +22,10 @@ extension ExerciseManagedObject {
     @NSManaged public var id: String
     @NSManaged public var name: String
     @NSManaged public var target: String
-    @NSManaged public var instructions: NSSet
-    @NSManaged public var secondaryMuscles: NSSet
+    @NSManaged @objc(isFavorite) public var isFavorite: Bool
+    @NSManaged public var instructions: NSSet?
+    @NSManaged public var secondaryMuscles: NSSet?
+
 }
 
 // MARK: Generated accessors for instructions

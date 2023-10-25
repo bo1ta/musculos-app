@@ -36,17 +36,41 @@ extension WorkoutManager {
             throw error
         }
     }
+    
+    func fetchFavoriteExercises() throws -> [Exercise] {
+        let fetchRequest = NSFetchRequest<ExerciseManagedObject>(entityName: "ExerciseManagedObject")
+        fetchRequest.predicate = NSPredicate(format: "isFavorite == true")
+        do {
+            let favoriteExercises = try self.context.fetch(fetchRequest)
+            let mappedObjects = favoriteExercises.map { Exercise(from: $0) }
+            return mappedObjects
+        } catch {
+            MusculosLogger.log(.error, message: "Could not fetch favorite exercises", category: .coreData)
+            throw error
+        }
+    }
 
     func fetchExercises(offset: Int = 0, limit: Int = 10) async throws -> [Exercise] {
         do {
-            let exercises = try await self.exerciseModule.getExercises()
-            exercises.forEach { $0.toEntity(context: self.context) }
+            let exercises = try await self.exerciseModule.getExercises(offset: offset, limit: limit)
+            _ = try exercises.forEach { try self.maybeSaveExercise($0) }
             try self.context.save()
             MusculosLogger.log(.info, message: "Fetched the exercises: \(exercises)", category: .coreData)
             return exercises
         } catch {
             MusculosLogger.log(.error, message: "Could not fetch exercises \(error.localizedDescription)", category: .coreData)
             throw error
+        }
+    }
+    
+    private func maybeSaveExercise(_ exercise: Exercise) throws {
+        let fetchRequest = NSFetchRequest<ExerciseManagedObject>(entityName: "ExerciseManagedObject")
+        fetchRequest.fetchLimit = 1
+        fetchRequest.predicate = NSPredicate(format: "name LIKE %@", exercise.name)
+        if let exerciseManagedObject = try self.context.fetch(fetchRequest).first {
+            MusculosLogger.log(.info, message: "Exercise already exists", category: .coreData)
+        } else {
+            _ = exercise.toEntity(context: self.context)
         }
     }
     

@@ -18,6 +18,6 @@ extension NSManagedObjectContext {
         let request = NSFetchRequest<T>(entityName: entityName)
         let predicate = NSPredicate(format: "id IN %@", ids)
         request.predicate = predicate
-        return try self.fetch(request)
+        return try fetch(request)
     }
 }
