@@ -8,5 +8,5 @@
 import Foundation
 
 struct LoginResponse: Codable, DecodableModel {
-    var token: String
+  var token: String
 }

@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct MusculosApp: App {
-    let coreDataStack = CoreDataStack.shared
-    
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, self.coreDataStack.mainContext)
-        }
+  let coreDataStack = CoreDataStack.shared
+
+  var body: some Scene {
+    WindowGroup {
+      ContentView()
+        .environment(\.managedObjectContext, self.coreDataStack.mainContext)
     }
+  }
 }

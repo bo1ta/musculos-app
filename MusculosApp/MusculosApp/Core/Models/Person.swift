@@ -10,12 +10,12 @@ import Foundation
 struct Person {
   let avatar: String
   let name: String
-  
+
   init(avatar: String, name: String) {
     self.avatar = avatar
     self.name = name
   }
-  
+
   var avatarUrl: URL? {
     return URL(string: avatar)
   }

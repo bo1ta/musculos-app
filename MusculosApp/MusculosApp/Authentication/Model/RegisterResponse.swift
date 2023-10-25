@@ -8,12 +8,12 @@
 import Foundation
 
 struct User: Codable {
-    var userName: String
-    var id: Int
-    var email: String
+  var userName: String
+  var id: Int
+  var email: String
 }
 
 struct RegisterResponse: Codable, DecodableModel {
-    var user: User
-    var token: String
+  var user: User
+  var token: String
 }

@@ -24,7 +24,7 @@ extension ChallengeExercise: Hashable {
     hasher.combine(name)
     hasher.combine(rounds)
   }
-  
+
   static func ==(lhs: ChallengeExercise, rhs: ChallengeExercise) -> Bool {
     return lhs.name == rhs.name
   }

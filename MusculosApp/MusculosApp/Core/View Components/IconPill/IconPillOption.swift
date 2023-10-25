@@ -8,12 +8,12 @@
 import Foundation
 
 struct IconPillOption {
-    var title: String
-    var systemImage: String?
+  var title: String
+  var systemImage: String?
 }
 
 extension IconPillOption: Hashable {
-    static func == (lhs: IconPillOption, rhs: IconPillOption) -> Bool {
-        return lhs.title == rhs.title
-    }
+  static func == (lhs: IconPillOption, rhs: IconPillOption) -> Bool {
+    return lhs.title == rhs.title
+  }
 }

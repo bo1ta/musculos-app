@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct HorizontalPicker: UIViewControllerRepresentable {
-    @Binding var selectedOption: String
+  @Binding var selectedOption: String
 
-    func makeUIViewController(context: Context) -> HorizontalPickerViewController {
-        let viewController = HorizontalPickerViewController()
-        viewController.selectionDidChange = { selectedOption in
-            self.selectedOption = selectedOption
-        }
-        return viewController
+  func makeUIViewController(context: Context) -> HorizontalPickerViewController {
+    let viewController = HorizontalPickerViewController()
+    viewController.selectionDidChange = { selectedOption in
+      self.selectedOption = selectedOption
     }
-    
-    func updateUIViewController(_ uiViewController: HorizontalPickerViewController, context: Context) {
-        // No need to update the selection here
-    }
+    return viewController
+  }
+
+  func updateUIViewController(_ uiViewController: HorizontalPickerViewController, context: Context) {
+    // No need to update the selection here
+  }
 }

@@ -9,11 +9,11 @@ import Foundation
 import CoreData
 
 protocol EntityPlugin {
-    static func entityDescription(context: NSManagedObjectContext) -> NSEntityDescription?
+  static func entityDescription(context: NSManagedObjectContext) -> NSEntityDescription?
 }
 
 extension EntityPlugin {
-    static func entityDescription(context: NSManagedObjectContext) -> NSEntityDescription? {
-        return NSEntityDescription.entity(forEntityName: String(describing: self), in: context)
-    }
+  static func entityDescription(context: NSManagedObjectContext) -> NSEntityDescription? {
+    return NSEntityDescription.entity(forEntityName: String(describing: self), in: context)
+  }
 }

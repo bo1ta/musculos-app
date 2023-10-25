@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 protocol CustomTabBarButton: View {
-    var tabBarItem: TabBarItem { get }
-    var onTapGesture: () -> Void { get set }
+  var tabBarItem: TabBarItem { get }
+  var onTapGesture: () -> Void { get set }
 }
-

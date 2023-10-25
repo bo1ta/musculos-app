@@ -11,16 +11,16 @@ import CoreData
 
 extension PersonEntity {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<PersonEntity> {
-        return NSFetchRequest<PersonEntity>(entityName: "PersonEntity")
-    }
+  @nonobjc public class func fetchRequest() -> NSFetchRequest<PersonEntity> {
+    return NSFetchRequest<PersonEntity>(entityName: "PersonEntity")
+  }
 
-    @NSManaged public var email: String?
-    @NSManaged public var personId: Int
-    @NSManaged public var name: String?
-    @NSManaged public var weight: NSNumber?
+  @NSManaged public var email: String?
+  @NSManaged public var personId: Int
+  @NSManaged public var name: String?
+  @NSManaged public var weight: NSNumber?
 }
 
-extension PersonEntity : Identifiable {
+extension PersonEntity: Identifiable {
 
 }

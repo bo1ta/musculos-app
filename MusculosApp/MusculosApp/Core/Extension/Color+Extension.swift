@@ -9,16 +9,16 @@ import Foundation
 import SwiftUI
 
 enum AppColorName: String {
-    case mustardYellow  = "MustardYellow"
-    case spriteGreen    = "SpriteGreen"
-    case violetBlue     = "VioletBlue"
-    case background     = "Background"
-    case grassGreen     = "GrassGreen"
-    case navyBlue       = "NavyBlue"
+  case mustardYellow  = "MustardYellow"
+  case spriteGreen  = "SpriteGreen"
+  case violetBlue   = "VioletBlue"
+  case background   = "Background"
+  case grassGreen   = "GrassGreen"
+  case navyBlue     = "NavyBlue"
 }
 
 extension Color {
-    static func appColor(with name: AppColorName) -> Color {
-        return Color(name.rawValue)
-    }
+  static func appColor(with name: AppColorName) -> Color {
+    return Color(name.rawValue)
+  }
 }
