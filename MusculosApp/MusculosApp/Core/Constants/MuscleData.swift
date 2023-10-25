@@ -42,7 +42,7 @@ struct MuscleInfo {
 }
 
 extension MuscleInfo: Hashable {
-    static func ==(_ lhs: MuscleInfo, rhs: MuscleInfo) -> Bool {
+    static func ==(lhs: MuscleInfo, rhs: MuscleInfo) -> Bool {
         return lhs.name == rhs.name
     }
 }

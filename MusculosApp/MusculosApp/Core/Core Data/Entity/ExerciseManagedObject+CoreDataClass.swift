@@ -2,7 +2,7 @@
 //  ExerciseManagedObject+CoreDataClass.swift
 //  MusculosApp
 //
-//  Created by Solomon Alexandru on 26.09.2023.
+//  Created by Solomon Alexandru on 07.10.2023.
 //
 //
 

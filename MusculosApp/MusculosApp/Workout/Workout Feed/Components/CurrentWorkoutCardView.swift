@@ -15,7 +15,7 @@ struct CurrentWorkoutCardView: View {
             self.topSection
             
             Spacer()
-
+            
             self.bottomSection
         }
         .frame(maxWidth: .infinity)
@@ -41,44 +41,42 @@ struct CurrentWorkoutCardView: View {
             VStack {
                 Text(exercise.name)
                     .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.black)
-                Text(exercise.target)
-                    .font(.subheadline)
-                    .foregroundColor(Color.appColor(with: .spriteGreen))
+                    .fontWeight(.heavy)
+                    .foregroundStyle(.black)
+                Text(exercise.equipment)
+                    .font(.title2)
+                    .fontWeight(.regular)
+                    .foregroundStyle(.black)
+                
                 Spacer()
             }
-            .padding([.top, .leading], 5)
             Spacer()
         }
+        .padding([.top, .leading], 5)
     }
     
     @ViewBuilder
     private var bottomSection: some View {
         HStack {
-            VStack(alignment: .leading) {
-                Text(exercise.equipment)
-                    .font(.caption)
-                    .foregroundColor(.white)
-                
             let options = self.exercise.secondaryMuscles
             if !options.isEmpty {
-                    HStack {
-                        ForEach(options, id: \.self) {
-                            IconPill(option: IconPillOption(title: $0))
-                        }
+                HStack {
+                    IconPill(option: IconPillOption(title: self.exercise.target))
+                    ForEach(options, id: \.self) {
+                        IconPill(option: IconPillOption(title: $0))
                     }
+                    Spacer()
                 }
             }
-            .padding([.bottom, .leading], 5)
-            Spacer()
         }
+        .padding([.bottom, .leading], 5)
+        Spacer()
     }
 }
 
 struct WorkoutCardView_Preview: PreviewProvider {
     static var previews: some View {
         CurrentWorkoutCardView(exercise: Exercise(bodyPart: "back", equipment: "dumbbell", gifUrl: "", id: "1", name: "Back workout", target: "back", secondaryMuscles: [""], instructions: ["Get up", "Get down"]))
-        .previewLayout(.sizeThatFits)
+            .previewLayout(.sizeThatFits)
     }
 }

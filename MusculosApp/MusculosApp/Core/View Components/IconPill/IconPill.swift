@@ -42,8 +42,7 @@ struct IconPill: View {
     
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
-            .foregroundColor(.gray)
-            .opacity(0.2)
+            .foregroundColor(.black)
             .frame(minWidth: self.rectangleWidth, minHeight: 25)
             .overlay {
                 VStack(alignment: .center) {
@@ -55,7 +54,7 @@ struct IconPill: View {
                         }
                        
                         Text(self.option.title)
-                            .foregroundColor(.black)
+                            .foregroundColor(.white)
                             .font(Font(CTFont(.smallToolbar, size: 10)))
                     }
                     .fixedSize()

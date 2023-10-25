@@ -66,3 +66,8 @@ extension Exercise: DecodableModel {
 
 extension Exercise: Identifiable { }
 
+extension Exercise: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+}

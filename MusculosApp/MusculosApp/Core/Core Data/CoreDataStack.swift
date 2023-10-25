@@ -10,8 +10,8 @@ import CoreData
 
 class CoreDataStack {
     let persistentContainer: NSPersistentContainer
-    let backgroundContext: NSManagedObjectContext
     let mainContext: NSManagedObjectContext
+    let backgroundContext: NSManagedObjectContext
 
     private init() {
         self.persistentContainer = NSPersistentContainer(name: "MusculosDataStore")
@@ -34,15 +34,60 @@ class CoreDataStack {
         self.backgroundContext.parent = self.mainContext
     }
     
-    func save() throws {
+    func saveMainContext() async throws {
         let context = self.mainContext
-        if context.hasChanges {
+        try await context.perform {
             do {
                 try context.save()
             } catch {
-                MusculosLogger.log(.error, message: "Failed to save", error: error, category: .coreData)
+                MusculosLogger.log(.error, message: "Failed to save main context", error: error, category: .coreData)
                 throw error
             }
+        }
+    }
+    
+    func saveBackgroundContext() async throws {
+        let context = self.backgroundContext
+        try await context.perform {
+            do {
+                try context.save()
+            } catch {
+                MusculosLogger.log(.error, message: "Failed to save backgroundContext context", error: error, category: .coreData)
+                throw error
+            }
+        }
+        
+    }
+    
+    func deleteSql() {
+        let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("MusculosDataStore.sqlite")
+        
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            MusculosLogger.log(.error, message: "Could not find sqlite db", error: MusculosError.notFound, category: .coreData)
+            return
+        }
+        
+        do {
+            try self.persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, type: .sqlite)
+        } catch {
+            MusculosLogger.log(.error, message: "Could not destroy persistent store", error: MusculosError.notFound, category: .coreData)
+            return
+        }
+    }
+    
+    func deleteAll() async {
+        let container = self.persistentContainer
+        for e in container.persistentStoreCoordinator.managedObjectModel.entities {
+            let r = NSBatchDeleteRequest(
+                fetchRequest: NSFetchRequest(entityName: e.name ?? ""))
+            let _ = try? container.viewContext.execute(r)
+        }
+        
+        do {
+            try await self.saveMainContext()
+        } catch {
+            MusculosLogger.log(.error, message: "Could not save after deleting all", category: .coreData)
+            return
         }
     }
 }
@@ -65,7 +110,13 @@ extension CoreDataStack {
     private static var _shared: CoreDataStack?
     
     static var shared: CoreDataStack {
-        _shared ?? CoreDataStack()
+        if let existingShared = _shared {
+            return existingShared
+        } else {
+            let newShared = CoreDataStack()
+            _shared = newShared
+            return newShared
+        }
     }
     
     static func setOverride(_ override: CoreDataStack) {

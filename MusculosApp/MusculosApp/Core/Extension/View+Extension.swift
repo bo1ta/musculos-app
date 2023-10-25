@@ -14,7 +14,7 @@ extension View {
     }
     
     @ViewBuilder
-    func makeBackgroundView(@ViewBuilder content: () -> some View, with buttonStack: (() -> some View)?) -> some View {
+    func makeBackgroundView(@ViewBuilder content: () -> some View, with buttonStack: (() -> some View)? = nil) -> some View {
         ZStack(alignment: .bottom) {
             Image("weightlifting-background")
                 .resizable()

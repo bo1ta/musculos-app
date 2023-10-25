@@ -10,8 +10,11 @@ import CoreData
 
 struct ExerciseView: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.managedObjectContext) private var managedObjectContext
+    
     let exercise: Exercise
-    let viewModel: ExerciseViewModel
+
+    @ObservedObject var viewModel: ExerciseViewModel
     
     init(exercise: Exercise) {
         self.exercise = exercise
@@ -23,11 +26,7 @@ struct ExerciseView: View {
             self.header
                 .padding(.bottom, 10)
             
-            if let url = URL(string: self.exercise.gifUrl) {
-                GIFView(url: Binding(get: { url }, set: { _ in }))
-                    .frame(minWidth: 100, minHeight: 100)
-                    .padding(.top, 10)
-            } else if self.viewModel.shouldShowAnatomyView {
+            if self.viewModel.shouldShowAnatomyView {
                 HStack {
                     Spacer()
                     
@@ -52,13 +51,15 @@ struct ExerciseView: View {
                 let isFavorite = self.viewModel.isFavorite
                 
                 Button {
-                    self.viewModel.toggleFavorite()
+                    DispatchQueue.main.async {
+                        self.viewModel.toggleFavorite()
+                    }
                 } label: {
                     Circle()
                         .frame(width: 30, height: 30)
                         .overlay(content: {
                             Image(systemName: "heart.fill")
-                                .foregroundStyle(isFavorite ? .red : .white)
+                                .foregroundStyle(isFavorite == true ? .red : .white)
                                 .fontWeight(.bold)
                         })
                         .foregroundStyle(isFavorite ? .white : .gray)
@@ -82,7 +83,7 @@ struct ExerciseView: View {
     @ViewBuilder
     private var header: some View {
         Rectangle()
-            .foregroundColor(Color.appColor(with: .violetBlue))
+            .foregroundColor(.black)
             .frame(maxHeight: 60)
             .overlay {
                 HStack {

@@ -10,15 +10,32 @@ import SwiftUI
 struct SelectMuscleView: View {
     @Environment(\.dismiss) var dismiss
     
-    @State private var frontMusclesIds: [Int] = []
-    @State private var backMusclesIds: [Int] = []
-    @State private var selectedMuscles: [MuscleInfo] = []
+    @State private var frontMusclesIds: [Int]
+    @State private var backMusclesIds: [Int]
+    
+    @Binding private var selectedMuscles: [MuscleInfo]
     
     private var muscles: [MuscleName: MuscleInfo] = MuscleData.muscles
-    private var onContinue: ([MuscleInfo]) -> Void
         
-    init(onContinue: @escaping ([MuscleInfo]) -> Void) {
-        self.onContinue = onContinue
+    init(selectedMuscles: Binding<[MuscleInfo]> = .constant([])) {
+        self._selectedMuscles = selectedMuscles
+        self._frontMusclesIds = State(initialValue: [])
+        self._backMusclesIds = State(initialValue: [])
+        self.maybePopulateAnatomyView()
+    }
+    
+    private mutating func maybePopulateAnatomyView() {
+        guard self.selectedMuscles.count > 0 else { return }
+        
+        let mergedFrontMuscleIds = self.selectedMuscles
+            .compactMap { $0.imageInfo?.frontAnatomyIds }
+            .reduce([], +)
+        self._frontMusclesIds = State(initialValue: mergedFrontMuscleIds)
+        
+        let mergedBackMuscleIds = self.selectedMuscles
+            .compactMap { $0.imageInfo?.backAnatomyIds }
+            .reduce([], +)
+        self._backMusclesIds = State(initialValue: mergedBackMuscleIds)
     }
     
     var body: some View {
@@ -71,7 +88,6 @@ struct SelectMuscleView: View {
             }
             .buttonStyle(DarkButton())
             Button {
-                self.onContinue(selectedMuscles)
                 dismiss()
             } label: {
                 Text("Continue")
@@ -133,30 +149,35 @@ struct SelectMuscleView: View {
     private func selectMuscle(_ muscle: MuscleInfo) {
         if !self.isMuscleSelected(muscle) {
             self.selectedMuscles.append(muscle)
+            
             guard let imageInfo = muscle.imageInfo else { return }
             
             if let frontAnatomyIds = imageInfo.frontAnatomyIds {
                 self.frontMusclesIds.append(contentsOf: frontAnatomyIds)
             }
+            
             if let backAnatomyIds = imageInfo.backAnatomyIds {
                 self.backMusclesIds.append(contentsOf: backAnatomyIds)
             }
         } else {
             self.selectedMuscles.removeAll { $0.id == muscle.id }
-
+            
             guard let imageInfo = muscle.imageInfo else { return }
+
             if let frontAnatomyIds = imageInfo.frontAnatomyIds {
                 let set = Set(frontAnatomyIds)
-                self.frontMusclesIds = self.frontMusclesIds.filter { !set.contains($0) }
+                self.frontMusclesIds = self.frontMusclesIds
+                    .filter { !set.contains($0) }
             }
             if let backAnatomyIds = imageInfo.backAnatomyIds {
                 let set = Set(backAnatomyIds)
-                self.backMusclesIds = self.backMusclesIds.filter { !set.contains($0) }
+                self.backMusclesIds = self.backMusclesIds
+                    .filter { !set.contains($0) }
             }
         }
     }
 }
 
 #Preview {
-    SelectMuscleView(onContinue: { _ in })
+    SelectMuscleView()
 }

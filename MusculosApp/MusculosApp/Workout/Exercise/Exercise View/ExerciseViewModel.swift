@@ -9,12 +9,13 @@ import Foundation
 import SwiftUI
 import CoreData
 
+@MainActor
 final class ExerciseViewModel: ObservableObject {
     @Published var exercise: Exercise
     @Published var isLoading = false
     @Published var errorMessage: String? = nil
     @Published var isFavorite: Bool = false
-        
+    
     init(exercise: Exercise) {
         self.exercise = exercise
     }
@@ -41,9 +42,6 @@ final class ExerciseViewModel: ObservableObject {
         return self.backMuscles != nil || self.frontMuscles != nil
     }
     
-    private var exerciseId: Int? {
-        return Int(self.exercise.id)
-    }
     
     public func loadData() {
         if let localExercise = self.maybeFetchLocal() {
@@ -65,17 +63,27 @@ final class ExerciseViewModel: ObservableObject {
     }
     
     private func maybeFetchLocal() -> ExerciseManagedObject? {
-        guard let exerciseId = self.exerciseId, let localExercise = try? CoreDataStack.shared.fetchEntitiesByIds(entityName: "ExerciseManagedObject", by: [exerciseId])?.first as? ExerciseManagedObject else {
+        let fetchRequest = NSFetchRequest<ExerciseManagedObject>(entityName: "ExerciseManagedObject")
+        fetchRequest.predicate = (NSPredicate(format: "name == %@", self.exercise.name))
+        
+        do {
+            let exerciseManagedObject = try self.managedObjectContext.fetch(fetchRequest)
+            return exerciseManagedObject.first
+        } catch {
+            self.errorMessage = errorMessage
+            MusculosLogger.log(.error, message: "cannot fetch local exercise by name", category: .coreData)
             return nil
         }
-        return localExercise
     }
     
     private func saveLocalChanges() {
-        do {
-            try CoreDataStack.shared.save()
-        } catch {
-            self.errorMessage = error.localizedDescription
+        Task {
+            do {
+                _ = try await CoreDataStack.shared.saveMainContext()
+            } catch {
+                self.errorMessage = error.localizedDescription
+                MusculosLogger.log(.error, message: "cannot save local change", category: .coreData)
+            }
         }
     }
 }
