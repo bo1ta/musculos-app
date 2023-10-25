@@ -9,8 +9,8 @@ import SwiftUI
 
 struct DynamicTextFieldListView: View {
     @Binding private var items: [Int: String]
-    
-    init(items: Binding<[Int : String]> = .constant([:])) {
+
+    init(items: Binding<[Int: String]> = .constant([:])) {
         self._items = items
     }
 
@@ -28,11 +28,11 @@ struct DynamicTextFieldListView: View {
                 self.items[self.items.count] = ""
             } label: {
                 Text("Add")
-                    
+
             }
         }
     }
-    
+
     @ViewBuilder
     private var listView: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -44,7 +44,7 @@ struct DynamicTextFieldListView: View {
                 }))
                 .foregroundStyle(.black)
                 .padding(.leading, 15)
-                
+
                 self.listDivider
                     .padding(.bottom, 10)
                     .padding(.leading, 15)
@@ -54,10 +54,10 @@ struct DynamicTextFieldListView: View {
         .foregroundStyle(.black)
         .padding(.top, 15)
     }
-    
+
     @ViewBuilder
     private var listDivider: some View {
-        VStack{
+        VStack {
             Color.black.frame(height: 1 / UIScreen.main.scale)
         }
     }

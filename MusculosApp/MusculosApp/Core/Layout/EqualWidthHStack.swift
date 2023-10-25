@@ -24,7 +24,7 @@ struct EqualWidthHStack: Layout {
             width: maxSize.width * CGFloat(subviews.count) + totalSpacing,
             height: maxSize.height)
     }
-    
+
     func placeSubviews(
         in bounds: CGRect,
         proposal: ProposedViewSize,
@@ -32,13 +32,13 @@ struct EqualWidthHStack: Layout {
         cache: inout Void
     ) {
         guard !subviews.isEmpty else { return }
-      
+
         let maxSize = maxSize(subviews: subviews)
         let spacing = spacing(subviews: subviews)
 
         let placementProposal = ProposedViewSize(width: maxSize.width, height: maxSize.height)
         var x = bounds.minX + maxSize.width / 2
-      
+
         for index in subviews.indices {
             subviews[index].place(
                 at: CGPoint(x: x, y: bounds.midY),
@@ -60,7 +60,7 @@ extension EqualWidthHStack {
 
         return maxSize
     }
-    
+
     private func spacing(subviews: Subviews) -> [CGFloat] {
         subviews.indices.map { index in
             guard index < subviews.count - 1 else { return 0 }

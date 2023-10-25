@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension ExerciseManagedObject {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ExerciseManagedObject> {
@@ -62,6 +61,6 @@ extension ExerciseManagedObject {
 
 }
 
-extension ExerciseManagedObject : Identifiable {
+extension ExerciseManagedObject: Identifiable {
 
 }

@@ -10,15 +10,15 @@ import SwiftUI
 struct AuthenticationView: View {
     @StateObject private var viewModel: AuthenticationViewModel
     @State private var path = NavigationPath()
-    
+
     private var isRegister: Bool {
         return self.viewModel.currentStep == .register
     }
-    
+
     init(viewModel: AuthenticationViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     var body: some View {
         NavigationStack(path: $path) {
             backgroundView {
@@ -49,13 +49,13 @@ struct AuthenticationView: View {
             .navigationBarBackButtonHidden()
         }
     }
-    
+
     private var contentView: some View {
         VStack {
             HearTipView(title: "Transform your body and mind", text: "With the ultimate weight and activity tracking app for anyone who wants to take control of their health and fitness")
             TransparentContainerView {
                 authenticationForm
-                
+
                 if !self.isRegister {
                     Button(action: {}, label: {
                         Text("Forgot password?")
@@ -63,31 +63,31 @@ struct AuthenticationView: View {
                             .foregroundColor(Color.appColor(with: .violetBlue))
                     })
                 }
-                
+
                 primaryBtn
                 dontHaveAnAccountBtn
-                
+
                 Spacer()
             }
             .overlay(loadingOverlay)
         }
     }
-    
+
     @ViewBuilder private var authenticationForm: some View {
         VStack {
             CustomTextFieldView(text: $viewModel.email, textHint: "Email", systemImageName: "envelope")
-            
+
             if self.isRegister {
                 CustomTextFieldView(text: $viewModel.username, textHint: "Username", systemImageName: "person")
-                .transition(.scale)
+                    .transition(.scale)
             }
-            
+
             CustomTextFieldView(text: $viewModel.password, textHint: "Password", systemImageName: "lock", isSecureField: true)
-            
+
         }
         .padding([.leading, .trailing], 10)
     }
-    
+
     @ViewBuilder private var primaryBtn: some View {
         Button(action: {
             self.viewModel.handleAuthentication()
@@ -102,7 +102,7 @@ struct AuthenticationView: View {
         .padding(.top, 20)
         .padding([.trailing, .leading], 23)
     }
-    
+
     @ViewBuilder private var dontHaveAnAccountBtn: some View {
         Button(action: {
             withAnimation(Animation.linear(duration: 0.2)) {
@@ -113,7 +113,7 @@ struct AuthenticationView: View {
                 .foregroundColor(Color.appColor(with: .violetBlue))
         })
     }
-    
+
     @ViewBuilder private var loadingOverlay: some View {
         if self.viewModel.isLoading {
             ZStack {
@@ -122,7 +122,7 @@ struct AuthenticationView: View {
             }
         }
     }
-    
+
     @ViewBuilder private func backgroundView(@ViewBuilder content: () -> some View) -> some View {
         ZStack {
             Image("throwing-background")
@@ -130,7 +130,7 @@ struct AuthenticationView: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(minWidth: 0, maxHeight: .infinity)
                 .edgesIgnoringSafeArea(.all)
-            
+
             content()
         }
     }

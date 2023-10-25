@@ -10,12 +10,12 @@ import SwiftUI
 struct ProgressBarView: View {
     let progressCount: Int
     var currentProgress: Int
-    
+
     init(progressCount: Int, currentProgress: Int) {
         self.progressCount = progressCount
         self.currentProgress = currentProgress
     }
-    
+
     var body: some View {
         HStack {
             Spacer()

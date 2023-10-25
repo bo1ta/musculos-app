@@ -12,12 +12,12 @@ struct CustomTabBarView: View {
     @Namespace private var namespace
     @Binding var selection: TabBarItem
     private var tabBarItems: [TabBarItem]
-    
+
     init(tabBarItems: [TabBarItem], selection: Binding<TabBarItem>) {
         self.tabBarItems = tabBarItems
         self._selection = selection
     }
-    
+
     var body: some View {
         HStack(spacing: 24) {
             Spacer()

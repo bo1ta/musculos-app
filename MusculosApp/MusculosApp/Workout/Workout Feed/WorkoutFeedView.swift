@@ -11,7 +11,7 @@ struct WorkoutFeedView: View {
     @StateObject var viewModel = WorkoutFeedViewModel()
 
     private let options = ["Favorites", "Home workout", "Gym workout"]
-    
+
     var body: some View {
         backgroundView {
             VStack(spacing: 5) {
@@ -44,7 +44,7 @@ struct WorkoutFeedView: View {
             ExerciseView(exercise: viewModel.selectedExercise!)
         }
     }
-        
+
     @ViewBuilder
     private func backgroundView(@ViewBuilder content: () -> some View) -> some View {
         ZStack {
@@ -59,7 +59,7 @@ struct WorkoutFeedView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .ignoresSafeArea()
                 }
-            
+
             content()
                 .padding(4)
         }

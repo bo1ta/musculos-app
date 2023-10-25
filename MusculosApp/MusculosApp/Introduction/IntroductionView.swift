@@ -9,35 +9,35 @@ import SwiftUI
 
 struct IntroductionView: View {
     @StateObject var viewModel: IntroductionViewModel
-    
-    @State private var selectedAnswer: Answer? = nil
-    @State private var selectedOption: String =  "12"
-    
+
+    @State private var selectedAnswer: Answer?
+    @State private var selectedOption: String = "12"
+
     init(viewModel: IntroductionViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
- 
+
     var body: some View {
         backgroundView {
             VStack(alignment: .leading, content: {
-//                    CustomNavigationBarView(onBack: {
-//                        viewModel.previousQuestion()
-//                    }, onContinue: {
-//                        viewModel.nextQuestion(with: nil)
-//                    })
-//                        .padding([.leading, .trailing], 20)
-                    
-                   weightPicker
+                //                    CustomNavigationBarView(onBack: {
+                //                        viewModel.previousQuestion()
+                //                    }, onContinue: {
+                //                        viewModel.nextQuestion(with: nil)
+                //                    })
+                //                        .padding([.leading, .trailing], 20)
+
+                weightPicker
                 Spacer()
             })
             .overlay(loadingOverlay)
             .onAppear(perform: {
-//                self.viewModel.getQuestions()
+                //                self.viewModel.getQuestions()
             })
         }
         .navigationBarBackButtonHidden()
     }
-    
+
     @ViewBuilder
     private func backgroundView(@ViewBuilder content: () -> some View) -> some View {
         ZStack {
@@ -46,11 +46,11 @@ struct IntroductionView: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(minWidth: 0, maxHeight: .infinity)
                 .edgesIgnoringSafeArea(.all)
-            
+
             content()
         }
     }
-    
+
     @ViewBuilder private var loadingOverlay: some View {
         if self.viewModel.isLoading {
             ZStack {
@@ -59,7 +59,7 @@ struct IntroductionView: View {
             }
         }
     }
-    
+
     @ViewBuilder private var answerQuestion: some View {
         if let currentQuestion = viewModel.currentQuestion {
             VerticalSelectPillView(question: currentQuestion.content, answers: currentQuestion.answers, selectedAnswer: $selectedAnswer) {
@@ -70,16 +70,16 @@ struct IntroductionView: View {
             ProgressBarView(progressCount: viewModel.questions.count, currentProgress: viewModel.currentIndex)
                 .padding([.leading, .trailing], 20)
         } else {
-          mockQuestion
+            mockQuestion
         }
     }
-    
+
     @ViewBuilder private var mockQuestion: some View {
         VerticalSelectPillView(question: "Choose a lifestyle", answers: [Answer(id: 1, content: "One", questionId: 1), Answer(id: 2, content: "Two", questionId: 1), Answer(id: 3, content: "Three", questionId: 1)])
         ProgressBarView(progressCount: 5, currentProgress: 0)
             .padding([.leading, .trailing], 20)
     }
-        
+
     @ViewBuilder private var weightPicker: some View {
         TransparentContainerView {
             VStack {
@@ -103,7 +103,6 @@ struct IntroductionView: View {
         .padding([.leading, .trailing], 20)
     }
 }
-
 
 struct IntroductionView_Preview: PreviewProvider {
     static var previews: some View {

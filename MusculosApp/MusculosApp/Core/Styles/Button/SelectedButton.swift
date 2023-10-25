@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SelectedButton: ButtonStyle {
     var isSelected: Bool
-    
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(16)
@@ -22,4 +22,3 @@ struct SelectedButton: ButtonStyle {
             .opacity(isSelected ? 1.0 : UIConstants.componentOpacity)
     }
 }
-

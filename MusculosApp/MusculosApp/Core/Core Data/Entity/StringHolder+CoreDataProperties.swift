@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension StringHolder {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<StringHolder> {
         return NSFetchRequest<StringHolder>(entityName: "StringHolder")
@@ -18,5 +17,5 @@ extension StringHolder {
     @NSManaged public var string: String
 }
 
-extension StringHolder : Identifiable {
+extension StringHolder: Identifiable {
 }

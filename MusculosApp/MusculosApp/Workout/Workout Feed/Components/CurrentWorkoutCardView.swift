@@ -9,13 +9,13 @@ import SwiftUI
 
 struct CurrentWorkoutCardView: View {
     let exercise: Exercise
-    
+
     var body: some View {
         VStack {
             self.topSection
-            
+
             Spacer()
-            
+
             self.bottomSection
         }
         .frame(maxWidth: .infinity)
@@ -25,7 +25,7 @@ struct CurrentWorkoutCardView: View {
         .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
         .frame(height: 240)
     }
-    
+
     @ViewBuilder
     private var backgroundView: some View {
         if let gifUrl = URL(string: self.exercise.gifUrl) {
@@ -34,7 +34,7 @@ struct CurrentWorkoutCardView: View {
             Color.black
         }
     }
-    
+
     @ViewBuilder
     private var topSection: some View {
         HStack {
@@ -47,14 +47,14 @@ struct CurrentWorkoutCardView: View {
                     .font(.title2)
                     .fontWeight(.regular)
                     .foregroundStyle(.black)
-                
+
                 Spacer()
             }
             Spacer()
         }
         .padding([.top, .leading], 5)
     }
-    
+
     @ViewBuilder
     private var bottomSection: some View {
         HStack {

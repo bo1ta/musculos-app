@@ -7,12 +7,11 @@
 
 import Foundation
 
-
 public class UserDefaultsWrapper: NSObject {
     private static var sharedWrapper: UserDefaultsWrapper = {
         return UserDefaultsWrapper()
     }()
-    
+
     class var shared: UserDefaultsWrapper {
         get {
             return self.sharedWrapper
@@ -21,7 +20,7 @@ public class UserDefaultsWrapper: NSObject {
             self.sharedWrapper = newValue
         }
     }
-    
+
     private let userDefaults: UserDefaults
 
     private let tokenKey = "AuthToken"
@@ -33,7 +32,7 @@ public class UserDefaultsWrapper: NSObject {
             self.userDefaults.set(newValue, forKey: self.tokenKey)
         }
     }
-    
+
     private override init() {
         self.userDefaults = UserDefaults.standard
     }

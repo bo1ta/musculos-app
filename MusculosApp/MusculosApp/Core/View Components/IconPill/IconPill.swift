@@ -14,22 +14,22 @@ enum IconPillSize {
 struct IconPill: View {
     private let option: IconPillOption
     private let iconPillSize: IconPillSize = .small
-    
+
     init(option: IconPillOption) {
         self.option = option
     }
-    
+
     private var systemImageSize: CGFloat {
         guard self.option.systemImage != nil else { return 0 }
-        
+
         /// `ImageScale.small
         return 40.0
     }
-    
+
     private var fontSizeWidth: CGFloat {
         return self.option.title.widthOfString(usingFont: .systemFont(ofSize: 12))
     }
-    
+
     private var rectangleWidth: CGFloat {
         switch self.iconPillSize {
         case .small:
@@ -39,7 +39,7 @@ struct IconPill: View {
         }
         return self.systemImageSize + self.fontSizeWidth + 20
     }
-    
+
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
             .foregroundColor(.black)
@@ -52,7 +52,7 @@ struct IconPill: View {
                                 .imageScale(.small)
                                 .foregroundColor(.white)
                         }
-                       
+
                         Text(self.option.title)
                             .foregroundColor(.white)
                             .font(Font(CTFont(.smallToolbar, size: 10)))

@@ -10,19 +10,19 @@ import SwiftUI
 struct HearTipView: View {
     private let title: String
     private let text: String
-    
+
     init(title: String, text: String) {
         self.title = title
         self.text = text
     }
-    
+
     var body: some View {
         TransparentContainerView {
             Text(self.title)
                 .font(.largeTitle)
                 .foregroundColor(.white)
                 .shadow(color: .black, radius: 20)
-            
+
             Text(self.text)
                 .font(.footnote)
                 .foregroundColor(.white)

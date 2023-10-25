@@ -13,7 +13,7 @@ final class WorkoutManager {
     private let client: MusculosClient
     private let context: NSManagedObjectContext
     private let exerciseModule: ExerciseModule
-        
+
     init(client: MusculosClient = MusculosClient(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.client = client
         self.context = context
@@ -36,7 +36,7 @@ extension WorkoutManager {
             throw error
         }
     }
-    
+
     func fetchFavoriteExercises() throws -> [Exercise] {
         let fetchRequest = NSFetchRequest<ExerciseManagedObject>(entityName: "ExerciseManagedObject")
         fetchRequest.predicate = NSPredicate(format: "isFavorite == true")
@@ -62,7 +62,7 @@ extension WorkoutManager {
             throw error
         }
     }
-    
+
     private func maybeSaveExercise(_ exercise: Exercise) throws {
         let fetchRequest = NSFetchRequest<ExerciseManagedObject>(entityName: "ExerciseManagedObject")
         fetchRequest.fetchLimit = 1
@@ -73,8 +73,8 @@ extension WorkoutManager {
             _ = exercise.toEntity(context: self.context)
         }
     }
-    
-//    func searchForExercise(with query: String) -> AnyPublisher<[Exercise], MusculosError> {
-//        
-//    }
+
+    //    func searchForExercise(with query: String) -> AnyPublisher<[Exercise], MusculosError> {
+    //
+    //    }
 }

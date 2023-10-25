@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 enum MusculosError: LocalizedError, Equatable, CustomStringConvertible {
     case invalidRequest
     case badRequest
@@ -20,7 +19,7 @@ enum MusculosError: LocalizedError, Equatable, CustomStringConvertible {
     case decodingError
     case urlSessionFailed(_ error: URLError)
     case unknownError
-    
+
     var description: String {
         switch self {
         case .invalidRequest:

@@ -20,7 +20,7 @@ extension Question {
         self.content = questionEntity.content
         self.answers = questionEntity.answers.map { $0.toModel() }
     }
-    
+
     func toEntity(in context: NSManagedObjectContext) -> QuestionEntity {
         let questionEntity = QuestionEntity(context: context)
         questionEntity.questionId = self.id
@@ -28,7 +28,7 @@ extension Question {
         questionEntity.answers = self.createAnswerEntities(from: self.answers)
         return questionEntity
     }
-    
+
     func createAnswerEntities(from answers: [Answer]) -> [AnswerEntity] {
         let viewContext = CoreDataStack.shared.mainContext
         return answers.map { $0.toEntity(in: viewContext) }

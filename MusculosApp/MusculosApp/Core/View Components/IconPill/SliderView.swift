@@ -11,16 +11,16 @@ struct SliderView: View {
     let title: String
     @Binding var sliderValue: Double
     var sliderRange: ClosedRange<Double>
-    
+
     init(title: String, sliderValue: Binding<Double>, sliderRange: ClosedRange<Double>) {
         self.title = title
         self._sliderValue = sliderValue
         self.sliderRange = sliderRange
-        
+
         let thumbImage = UIImage(systemName: "circle.fill")
         UISlider.appearance().setThumbImage(thumbImage, for: .normal)
     }
-    
+
     var body: some View {
         TransparentContainerView {
             Text(title)
@@ -30,13 +30,13 @@ struct SliderView: View {
             Slider(value: $sliderValue,
                    in: sliderRange,
                    step: 5)
-            .tint(Color.appColor(with: .violetBlue))
+                .tint(Color.appColor(with: .violetBlue))
             Text("\(Int(sliderValue))")
                 .font(.body)
                 .foregroundColor(.white)
         }
     }
-    
+
 }
 
 struct SliderView_Previews: PreviewProvider {
@@ -53,7 +53,7 @@ extension Slider {
 
 struct ThumbTintColorModifier: ViewModifier {
     let thumbColor: Color
-    
+
     func body(content: Content) -> some View {
         content.overlay(
             RoundedRectangle(cornerRadius: 10)

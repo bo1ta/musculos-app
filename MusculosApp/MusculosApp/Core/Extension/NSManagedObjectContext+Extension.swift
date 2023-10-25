@@ -13,7 +13,7 @@ extension NSManagedObjectContext {
         let request = NSFetchRequest<T>(entityName: String(describing: self))
         return try self.fetch(request)
     }
-    
+
     func fetchEntitiesByIds<T: NSManagedObject>(entityName: String, by ids: [Int]) async throws -> [T]? {
         let request = NSFetchRequest<T>(entityName: entityName)
         let predicate = NSPredicate(format: "id IN %@", ids)

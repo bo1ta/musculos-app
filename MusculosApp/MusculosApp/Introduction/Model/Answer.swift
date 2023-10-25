@@ -18,7 +18,7 @@ extension Answer: Hashable {
     static func == (lhs: Answer, rhs: Answer) -> Bool {
         return lhs.id == rhs.id
     }
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
@@ -30,7 +30,7 @@ extension Answer {
         self.content = answerEntity.content
         self.questionId = answerEntity.questionId
     }
-    
+
     func toEntity(in context: NSManagedObjectContext) -> AnswerEntity {
         let answerEntity = AnswerEntity(context: context)
         answerEntity.answerId = self.id

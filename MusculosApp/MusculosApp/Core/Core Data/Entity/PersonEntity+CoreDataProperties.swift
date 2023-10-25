@@ -21,6 +21,6 @@ extension PersonEntity {
     @NSManaged public var weight: NSNumber?
 }
 
-extension PersonEntity : Identifiable {
+extension PersonEntity: Identifiable {
 
 }

@@ -47,7 +47,7 @@ enum Endpoint: CustomStringConvertible {
 
 public class APIEndpoint {
     static let base = "https://exercisedb.p.rapidapi.com"
-    
+
     static func baseWithEndpoint(endpoint: Endpoint) -> String {
         return Self.base + endpoint.description
     }

@@ -15,19 +15,19 @@ struct SelectListItem {
 struct ButtonHorizontalContainerView: View {
     @Binding var selectedOption: String
     private let selectListItem: SelectListItem
-    
+
     init(selectedOption: Binding<String>, selectListItem: SelectListItem) {
         self._selectedOption = selectedOption
         self.selectListItem = selectListItem
     }
-    
+
     var body: some View {
         TransparentContainerView {
             Text(self.selectListItem.itemTitle)
                 .font(.title3)
                 .foregroundColor(.white)
                 .padding(.bottom, 15)
-            
+
             ButtonHorizontalStackView(selectedOption: $selectedOption, options: self.selectListItem.options)
         }
     }

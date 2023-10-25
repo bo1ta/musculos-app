@@ -10,12 +10,12 @@ import SwiftUI
 struct CustomNavigationBarView: View {
     private let title: String
     private let font: Font
-    
+
     init(title: String, font: Font = .title2) {
         self.title = title
         self.font = font
     }
-    
+
     var body: some View {
         VStack {
             RoundedRectangle(cornerRadius: 25.0)
@@ -25,7 +25,7 @@ struct CustomNavigationBarView: View {
                 .overlay {
                     HStack {
                         Spacer()
-                        
+
                         Text(title)
                             .foregroundColor(.white)
                             .fontWeight(.bold)

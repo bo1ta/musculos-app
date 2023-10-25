@@ -21,7 +21,7 @@ class WorkoutFiltersViewModel: ObservableObject {
             }
         }
     }
-    
+
     @Published var selectedLocationOption: String = "" {
         didSet {
             if selectedLocationOption == oldValue {
@@ -29,7 +29,7 @@ class WorkoutFiltersViewModel: ObservableObject {
             }
         }
     }
-    
+
     @Published var selectedTypeOption: String = "" {
         didSet {
             if selectedTypeOption == oldValue {
@@ -37,7 +37,7 @@ class WorkoutFiltersViewModel: ObservableObject {
             }
         }
     }
-    
+
     @Published var selectedBodyOption: String = "" {
         didSet {
             if selectedBodyOption == oldValue {
@@ -45,15 +45,15 @@ class WorkoutFiltersViewModel: ObservableObject {
             }
         }
     }
-    
+
     @Published var selectedWorkoutDuration: Double = 5
     let workoutTimeRange: ClosedRange<Double> = 5...60
-    
+
     let genderListItem = SelectListItem(itemTitle: "Gender", options: ["Male", "Female"])
     let locationListItem = SelectListItem(itemTitle: "Location", options: ["Home", "Gym", "Mix"])
     let typeListItem = SelectListItem(itemTitle: "Type", options: ["Daily workout", "Workout plan"])
     let bodyListItem = SelectListItem(itemTitle: "Body", options: ["Chest", "Arms", "Abs", "Legs"])
-    
+
     func resetState() {
         self.selectedGenderOption = ""
         self.selectedLocationOption = ""
@@ -62,4 +62,3 @@ class WorkoutFiltersViewModel: ObservableObject {
         self.selectedWorkoutDuration = 5
     }
 }
-

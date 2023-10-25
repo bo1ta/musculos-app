@@ -15,7 +15,7 @@ struct MiniCardItem {
     let imageName: String?
     let color: Color?
     let iconPillOption: IconPillOption?
-    
+
     init(title: String, subtitle: String, description: String, imageName: String? = nil, color: Color? = nil, iconPillOption: IconPillOption? = nil) {
         self.title = title
         self.subtitle = subtitle
@@ -35,12 +35,12 @@ extension MiniCardItem: Hashable {
 struct MiniCardView: View {
     private let size: CGFloat?
     private let item: MiniCardItem
-    
+
     init(item: MiniCardItem, size: CGFloat? = 150) {
         self.item = item
         self.size = size
     }
-    
+
     var body: some View {
         self.roundedRectangle
             .overlay {
@@ -60,7 +60,7 @@ struct MiniCardView: View {
                         .foregroundColor(.white)
                         .fontWeight(.medium)
                         .padding(.bottom, item.iconPillOption != nil ? 0 : 30)
-                    
+
                     if let iconPillOption = self.item.iconPillOption {
                         IconPill(option: iconPillOption)
                             .padding(.bottom, 5)
@@ -69,12 +69,12 @@ struct MiniCardView: View {
                 .padding(5)
             }
     }
-    
+
     @ViewBuilder
     private var roundedRectangle: some View {
         let shadowRadius = 5.0
         let roundedRectangle = RoundedRectangle(cornerRadius: 25.0)
-        
+
         if let imageName = item.imageName {
             Image(imageName)
                 .resizable()
@@ -95,6 +95,6 @@ struct MiniCardView: View {
 struct MiniCardItem_Preview: PreviewProvider {
     static var previews: some View {
         MiniCardView(item: MiniCardItem(title: "Featured workout", subtitle: "Gym workout", description: "Body contouring", imageName: "workout-crunches", iconPillOption: IconPillOption(title: "In progress")))
-        .previewLayout(.sizeThatFits)
+            .previewLayout(.sizeThatFits)
     }
 }

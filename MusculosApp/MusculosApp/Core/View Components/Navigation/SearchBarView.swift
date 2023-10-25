@@ -10,17 +10,17 @@ import SwiftUI
 struct SearchBarView: View {
     private let placeholderText: String
     private let onFiltersTapped: () -> Void
-    
+
     @Binding private var searchQuery: String
     @State private var isTextFieldFocused: Bool = false
-    
+
     init(placeholderText: String, searchQuery: Binding<String> = .constant(""),
          onFiltersTapped: @escaping () -> Void = {}) {
         self.placeholderText = placeholderText
         self._searchQuery = searchQuery
         self.onFiltersTapped = onFiltersTapped
     }
-    
+
     var body: some View {
         RoundedRectangle(cornerRadius: 20.0)
             .frame(maxHeight: 50)

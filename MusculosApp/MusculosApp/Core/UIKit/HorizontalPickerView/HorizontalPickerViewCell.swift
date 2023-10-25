@@ -10,7 +10,7 @@ import UIKit
 
 class HorizontalPickerViewCell: UICollectionViewCell {
     static let identifier = String(describing: HorizontalPickerViewCell.self)
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -20,7 +20,7 @@ class HorizontalPickerViewCell: UICollectionViewCell {
         label.textColor = .white
         return label
     }()
-    
+
     private let circleView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +32,7 @@ class HorizontalPickerViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         addSubview(titleLabel)
         addSubview(circleView)
 
@@ -41,7 +41,7 @@ class HorizontalPickerViewCell: UICollectionViewCell {
             circleView.centerYAnchor.constraint(equalTo: centerYAnchor),
             circleView.widthAnchor.constraint(equalToConstant: 90),
             circleView.heightAnchor.constraint(equalToConstant: 90),
-            
+
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -49,16 +49,16 @@ class HorizontalPickerViewCell: UICollectionViewCell {
         ])
         sendSubviewToBack(circleView)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError()
     }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
         titleLabel.attributedText = nil
     }
-    
+
     public func configure(with title: String, isSelected: Bool = false) {
         titleLabel.text = title
         titleLabel.font = UIFont.systemFont(ofSize: isSelected ? 25 : 23,

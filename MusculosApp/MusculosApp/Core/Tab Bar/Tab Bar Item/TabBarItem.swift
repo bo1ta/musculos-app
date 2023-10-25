@@ -11,7 +11,7 @@ enum TabBarItem: String {
     case dashboard
     case workout
     case add
-    
+
     var label: String {
         switch self {
         case .add:
@@ -22,7 +22,7 @@ enum TabBarItem: String {
             return "Workout"
         }
     }
-    
+
     var imageName: String {
         switch self {
         case .add:
@@ -39,7 +39,7 @@ extension TabBarItem: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.label)
     }
-    
+
     static func ==(lhs: TabBarItem, rhs: TabBarItem) -> Bool {
         return lhs.label == rhs.label
     }

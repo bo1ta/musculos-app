@@ -11,13 +11,13 @@ struct IconButtonView: View {
     let systemImage: String
     let action: () -> Void
     let backgroundColor: Color
-    
+
     init(systemImage: String, backgroundColor: Color = Color.appColor(with: .background), action: @escaping () -> Void = {}) {
         self.systemImage = systemImage
         self.backgroundColor = backgroundColor
         self.action = action
     }
-    
+
     var body: some View {
         Button(action: action) {
             Image(systemName: systemImage)

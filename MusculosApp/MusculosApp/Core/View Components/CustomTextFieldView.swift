@@ -12,14 +12,14 @@ struct CustomTextFieldView: View {
     var textHint: String
     var systemImageName: String?
     var isSecureField: Bool
-    
+
     init(text: Binding<String>, textHint: String = "", systemImageName: String? = nil, isSecureField: Bool = false) {
         self.text = text
         self.textHint = textHint
         self.systemImageName = systemImageName
         self.isSecureField = isSecureField
     }
-    
+
     var body: some View {
         HStack {
             if let systemImageName = self.systemImageName {
@@ -28,7 +28,7 @@ struct CustomTextFieldView: View {
             } else {
                 Spacer(minLength: 10)
             }
-            
+
             if self.isSecureField {
                 SecureField(textHint, text: text)
                     .textContentType(.password)

@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension QuestionEntity {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<QuestionEntity> {
@@ -22,6 +21,6 @@ extension QuestionEntity {
 
 }
 
-extension QuestionEntity : Identifiable {
+extension QuestionEntity: Identifiable {
 
 }

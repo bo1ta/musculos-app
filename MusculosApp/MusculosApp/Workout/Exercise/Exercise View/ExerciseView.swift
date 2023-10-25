@@ -11,45 +11,45 @@ import CoreData
 struct ExerciseView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.managedObjectContext) private var managedObjectContext
-    
+
     let exercise: Exercise
 
     @ObservedObject var viewModel: ExerciseViewModel
-    
+
     init(exercise: Exercise) {
         self.exercise = exercise
         self.viewModel = ExerciseViewModel(exercise: exercise)
     }
-        
+
     var body: some View {
         VStack(spacing: 10) {
             self.header
                 .padding(.bottom, 10)
-            
+
             if self.viewModel.shouldShowAnatomyView {
                 HStack {
                     Spacer()
-                    
+
                     if let frontAnatomyIds = self.viewModel.frontMuscles {
                         AnatomyOverlayView(musclesIds: frontAnatomyIds)
                     }
-                    
+
                     if let backAnatomyIds = self.viewModel.backMuscles {
                         AnatomyOverlayView(musclesIds: backAnatomyIds, isFront: false)
                     }
-                    
+
                     Spacer()
                 }
             }
-            
+
             HStack {
                 IconPill(option: IconPillOption(title: self.exercise.bodyPart))
                 IconPill(option: IconPillOption(title: self.exercise.equipment))
-                
+
                 Spacer()
-                
+
                 let isFavorite = self.viewModel.isFavorite
-                
+
                 Button {
                     DispatchQueue.main.async {
                         self.viewModel.toggleFavorite()
@@ -67,7 +67,6 @@ struct ExerciseView: View {
                 }
             }
             .padding([.leading, .trailing, .bottom], 10)
-            
 
             List(self.exercise.instructions, id: \.self) { instruction in
                 Text(instruction)
@@ -79,7 +78,7 @@ struct ExerciseView: View {
             self.viewModel.loadData()
         }
     }
-    
+
     @ViewBuilder
     private var header: some View {
         Rectangle()
@@ -88,11 +87,11 @@ struct ExerciseView: View {
             .overlay {
                 HStack {
                     Spacer()
-                    
+
                     Text(self.exercise.name)
                         .foregroundStyle(.white)
                         .font(.title2)
-                    
+
                     Spacer()
                 }
             }

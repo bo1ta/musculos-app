@@ -14,7 +14,7 @@ struct AddExerciseView: View {
     @State private var selectedMuscles: [MuscleInfo] = []
     @State private var shouldSelectMuscles: Bool = false
     @State private var instructions: [Int: String] = [0: ""]
-    
+
     var body: some View {
         self.makeBackgroundView {
             VStack {
@@ -23,16 +23,16 @@ struct AddExerciseView: View {
                     VStack(spacing: 10) {
                         self.makeLeadingText("Name")
                         CustomTextFieldView(text: $exerciseName)
-                        
+
                         self.makeLeadingText("Type")
                         CustomTextFieldView(text: $exerciseType)
-                        
+
                         self.makeLeadingText("Equipment")
                         CustomTextFieldView(text: $equipment)
-                        
+
                         self.makeLeadingText("Muscles")
                         self.fakeMusclesFieldView
-                        
+
                         self.makeLeadingText("Instructions")
                         DynamicTextFieldListView(items: self.$instructions)
                     }
@@ -46,7 +46,7 @@ struct AddExerciseView: View {
             SelectMuscleView(selectedMuscles: self.$selectedMuscles)
         })
     }
-    
+
     @ViewBuilder
     private func makeLeadingText(_ text: String) -> some View {
         HStack {
@@ -56,7 +56,7 @@ struct AddExerciseView: View {
         }
         .padding(.leading, 10)
     }
-    
+
     @ViewBuilder
     private var fakeMusclesFieldView: some View {
         Button(action: {
@@ -66,7 +66,7 @@ struct AddExerciseView: View {
                 RoundedRectangle(cornerRadius: 30)
                     .frame(height: 55)
                     .foregroundStyle(.white)
-                
+
                 HStack {
                     if let commaSeparatedMuscles = self.commaSeparatedMuscles {
                         Text(commaSeparatedMuscles)
@@ -79,7 +79,7 @@ struct AddExerciseView: View {
             }
         })
     }
-    
+
     @ViewBuilder
     private var headerBar: some View {
         HStack {
@@ -94,7 +94,7 @@ struct AddExerciseView: View {
                 .padding(.trailing, 5)
         }
     }
-    
+
     private var commaSeparatedMuscles: String? {
         guard self.selectedMuscles.count > 0 else { return nil }
         let selectedNames = self.selectedMuscles.compactMap { $0.name }

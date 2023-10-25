@@ -11,11 +11,11 @@ import SwiftUI
 struct AddTabBarButtonView: CustomTabBarButton {
     var onTapGesture: () -> Void
     var tabBarItem: TabBarItem { .add }
-    
+
     init(onTapGesture: @escaping () -> Void) {
         self.onTapGesture = onTapGesture
     }
-    
+
     var body: some View {
         Circle()
             .foregroundStyle(Color(.white))

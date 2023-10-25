@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-struct CustomTabBarContainerView<Content:View>: View {
+struct CustomTabBarContainerView<Content: View>: View {
     @Binding var selection: TabBarItem
     @State private var tabBarItems: [TabBarItem] = []
     let content: Content
-    
+
     init(selection: Binding<TabBarItem>, @ViewBuilder content: () -> Content) {
         self.content = content()
         self._selection = selection
     }
-    
+
     var body: some View {
         ZStack(alignment: .bottom) {
             content

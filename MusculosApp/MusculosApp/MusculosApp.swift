@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct MusculosApp: App {
     let coreDataStack = CoreDataStack.shared
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()

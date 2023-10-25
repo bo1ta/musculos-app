@@ -20,20 +20,20 @@ class CoreDataStack {
         description?.shouldMigrateStoreAutomatically = true
         description?.shouldInferMappingModelAutomatically = true
 
-        self.persistentContainer.loadPersistentStores { description, error in
+        self.persistentContainer.loadPersistentStores { _, error in
             if let error = error {
                 MusculosLogger.log(.error, message: "Failed to load persistent store", error: error, category: .coreData)
             }
         }
-        
+
         self.mainContext = self.persistentContainer.viewContext
         self.mainContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        
+
         self.backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         self.backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         self.backgroundContext.parent = self.mainContext
     }
-    
+
     func saveMainContext() async throws {
         let context = self.mainContext
         try await context.perform {
@@ -45,7 +45,7 @@ class CoreDataStack {
             }
         }
     }
-    
+
     func saveBackgroundContext() async throws {
         let context = self.backgroundContext
         try await context.perform {
@@ -56,17 +56,17 @@ class CoreDataStack {
                 throw error
             }
         }
-        
+
     }
-    
+
     func deleteSql() {
         let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("MusculosDataStore.sqlite")
-        
+
         guard FileManager.default.fileExists(atPath: url.path) else {
             MusculosLogger.log(.error, message: "Could not find sqlite db", error: MusculosError.notFound, category: .coreData)
             return
         }
-        
+
         do {
             try self.persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, type: .sqlite)
         } catch {
@@ -74,15 +74,15 @@ class CoreDataStack {
             return
         }
     }
-    
+
     func deleteAll() async {
         let container = self.persistentContainer
         for e in container.persistentStoreCoordinator.managedObjectModel.entities {
             let r = NSBatchDeleteRequest(
                 fetchRequest: NSFetchRequest(entityName: e.name ?? ""))
-            let _ = try? container.viewContext.execute(r)
+            _ = try? container.viewContext.execute(r)
         }
-        
+
         do {
             try await self.saveMainContext()
         } catch {
@@ -97,7 +97,7 @@ extension CoreDataStack {
         let request = NSFetchRequest<T>(entityName: entityName)
         return try self.mainContext.fetch(request)
     }
-    
+
     func fetchEntitiesByIds<T: NSManagedObject>(entityName: String, by ids: [Int]) throws -> [T]? {
         let request = NSFetchRequest<T>(entityName: entityName)
         let predicate = NSPredicate(format: "id IN %@", ids)
@@ -108,7 +108,7 @@ extension CoreDataStack {
 
 extension CoreDataStack {
     private static var _shared: CoreDataStack?
-    
+
     static var shared: CoreDataStack {
         if let existingShared = _shared {
             return existingShared
@@ -118,11 +118,11 @@ extension CoreDataStack {
             return newShared
         }
     }
-    
+
     static func setOverride(_ override: CoreDataStack) {
         _shared = override
     }
-    
+
     static func resetOverride() {
         _shared = nil
     }

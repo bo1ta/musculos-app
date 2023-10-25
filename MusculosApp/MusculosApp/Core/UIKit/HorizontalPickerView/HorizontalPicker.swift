@@ -17,7 +17,7 @@ struct HorizontalPicker: UIViewControllerRepresentable {
         }
         return viewController
     }
-    
+
     func updateUIViewController(_ uiViewController: HorizontalPickerViewController, context: Context) {
         // No need to update the selection here
     }

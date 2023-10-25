@@ -11,13 +11,13 @@ struct ButtonHorizontalStackView: View {
     @Binding private var selectedOption: String
     private let options: [String]
     private var buttonsHaveEqualWidth: Bool
-    
+
     init(selectedOption: Binding<String>, options: [String], buttonsHaveEqualWidth: Bool = true) {
         self._selectedOption = selectedOption
         self.options = options
         self.buttonsHaveEqualWidth = buttonsHaveEqualWidth
     }
-    
+
     var body: some View {
         if buttonsHaveEqualWidth {
             EqualWidthHStack {
@@ -29,11 +29,11 @@ struct ButtonHorizontalStackView: View {
             }
         }
     }
-    
+
     private func shouldUseSmallFont(for text: String) -> Bool {
         return !self.buttonsHaveEqualWidth && text.count > 8
     }
-    
+
     @ViewBuilder
     private var buttonStack: some View {
         ForEach(options, id: \.self) { option in
