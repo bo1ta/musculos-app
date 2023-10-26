@@ -7,10 +7,15 @@
 
 import SwiftUI
 
+enum TimerType {
+  case active, rest
+}
+
 struct ChallengeExerciseView: View {
   let challengeExercise: ChallengeExercise
   
   @State private var currentRound = 1
+  @State private var timerType: TimerType = .active
   
   var body: some View {
     VStack {
@@ -78,7 +83,15 @@ struct ChallengeExerciseView: View {
           .padding([.leading, .trailing], 4)
       }
       
-      CircleTimerView(durationInSeconds: challengeExercise.duration)
+      if timerType == .active {
+        CircleTimerView(durationInSeconds: challengeExercise.duration, subtitle: "min", color: Color.appColor(with: .navyBlue), onTimerCompleted: {
+          handleTimerComplete()
+        })
+      } else {
+        CircleTimerView(durationInSeconds: challengeExercise.restDuration, subtitle: "rest", color: .gray, onTimerCompleted: {
+          handleTimerComplete()
+        })
+      }
     }
     .padding([.leading, .trailing], 10)
   }
@@ -88,9 +101,16 @@ struct ChallengeExerciseView: View {
     return "Round \(currentRound)/\(challengeExercise.rounds) | \(challengeExercise.restDuration) sec rest"
   }
   
+  private func handleTimerComplete() {
+    if timerType == .active {
+      timerType = .rest
+      return
+    }
+    timerType = .active
+  }
 }
 
-fileprivate let mockExercise = ChallengeExercise(name: "Wall sit", instructions: "Sit down with your back against the wall as if there was a chair, and hold the position", rounds: 3, duration: 30, restDuration: 30)
+fileprivate let mockExercise = ChallengeExercise(name: "Wall sit", instructions: "Sit down with your back against the wall as if there was a chair, and hold the position", rounds: 3, duration: 5, restDuration: 30)
 
 #Preview {
   ChallengeExerciseView(challengeExercise: mockExercise)

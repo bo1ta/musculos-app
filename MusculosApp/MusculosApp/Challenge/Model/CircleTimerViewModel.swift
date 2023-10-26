@@ -11,7 +11,7 @@ import Combine
 class CircleTimerViewModel: ObservableObject {
   private var timerSubscription: Cancellable?
   private var timerCancellable: AnyCancellable?
-  
+    
   @Published var currentTime: TimeInterval
   @Published var isAnimating: Bool = false
   

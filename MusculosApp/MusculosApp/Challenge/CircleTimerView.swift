@@ -9,16 +9,19 @@ import SwiftUI
 import Combine
 
 struct CircleTimerView: View {
-  let durationInSeconds: UInt
-  
   @ObservedObject var viewModel: CircleTimerViewModel
-  
+
+  private let durationInSeconds: UInt
+  private let subtitle: String
   private var color: Color
+  private var onTimerCompleted: () -> Void
   
-  init(durationInSeconds: Int, color: Color = Color.appColor(with: .grassGreen)) {
+  init(durationInSeconds: Int, subtitle: String = "min", color: Color = Color.appColor(with: .grassGreen), onTimerCompleted: @escaping () -> Void) {
     self.durationInSeconds = UInt(durationInSeconds)
+    self.subtitle = subtitle
     self.viewModel = CircleTimerViewModel(timeDuration: Double(durationInSeconds))
     self.color = color
+    self.onTimerCompleted = onTimerCompleted
   }
   
   private var animation: Animation {
@@ -50,7 +53,7 @@ struct CircleTimerView: View {
           .font(.largeTitle)
           .fontWeight(.black)
           .foregroundStyle(color)
-       Text("min")
+        Text(subtitle)
           .font(.title)
           .foregroundStyle(.gray)
           .opacity(0.6)
@@ -89,13 +92,21 @@ struct CircleTimerView: View {
         viewModel.startTimer(workoutDuration: Double(durationInSeconds))
       }
     }
+    .onChange(of: viewModel.isWorkoutComplete) { isComplete in
+      if isComplete {
+        viewModel.stopTimer()
+        onTimerCompleted()
+      }
+    }
     .animation(animation, value: viewModel.isAnimating)
   }
 }
 
+
+
 struct TimerView_Previews: PreviewProvider {
   static var previews: some View {
-    CircleTimerView(durationInSeconds: 120)
+    CircleTimerView(durationInSeconds: 120, onTimerCompleted: {})
       .preferredColorScheme(.dark)
       .previewLayout(.sizeThatFits)
   }
