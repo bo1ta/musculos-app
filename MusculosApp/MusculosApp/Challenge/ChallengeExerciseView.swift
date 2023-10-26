@@ -13,8 +13,9 @@ enum TimerType {
 
 struct ChallengeExerciseView: View {
   let challengeExercise: ChallengeExercise
+  let onChallengeCompleted: () -> Void
   
-  @State private var currentRound = 1
+  @State private var currentRound = 0
   @State private var timerType: TimerType = .active
   
   var body: some View {
@@ -22,6 +23,9 @@ struct ChallengeExerciseView: View {
       topSection
       bodySection
       Spacer()
+    }
+    .safeAreaInset(edge: .bottom) {
+      nextButton
     }
   }
   
@@ -38,6 +42,27 @@ struct ChallengeExerciseView: View {
         .frame(width: 15, height: 20)
         .foregroundStyle(.white)
     }
+  }
+  
+  @ViewBuilder
+  private var nextButton: some View {
+    Button(action: {
+      print("do something")
+    }, label: {
+      Rectangle()
+        .frame(height: 60)
+        .opacity(isExerciseComplete ? 1.0 : 0.3)
+        .foregroundStyle(Color.appColor(with: .grassGreen))
+        .overlay {
+          Text("Next")
+            .font(.title3)
+            .bold()
+            .foregroundStyle(.white)
+            .frame(maxWidth: .infinity)
+            .opacity(isExerciseComplete ? 1.0 : 0.5)
+        }
+    })
+    .disabled(!isExerciseComplete)
   }
   
   @ViewBuilder
@@ -101,17 +126,26 @@ struct ChallengeExerciseView: View {
     return "Round \(currentRound)/\(challengeExercise.rounds) | \(challengeExercise.restDuration) sec rest"
   }
   
+  private var isExerciseComplete: Bool {
+    return currentRound == challengeExercise.rounds
+  }
+  
   private func handleTimerComplete() {
     if timerType == .active {
+      currentRound += 1
       timerType = .rest
+      
+      if currentRound == challengeExercise.rounds {
+        onChallengeCompleted()
+      }
       return
     }
     timerType = .active
   }
 }
 
-fileprivate let mockExercise = ChallengeExercise(name: "Wall sit", instructions: "Sit down with your back against the wall as if there was a chair, and hold the position", rounds: 3, duration: 5, restDuration: 30)
+fileprivate let mockExercise = ChallengeExercise(name: "Wall sit", instructions: "Sit down with your back against the wall as if there was a chair, and hold the position", rounds: 3, duration: 5, restDuration: 5)
 
 #Preview {
-  ChallengeExerciseView(challengeExercise: mockExercise)
+  ChallengeExerciseView(challengeExercise: mockExercise, onChallengeCompleted: {})
 }
