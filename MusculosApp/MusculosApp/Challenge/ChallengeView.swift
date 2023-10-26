@@ -182,28 +182,31 @@ extension ChallengeView {
   func createListItem(for challengeExercise: ChallengeExercise, with index: Int = 0) -> some View {
     VStack(alignment: .leading, spacing: 0) {
       let isCurrentExercise = challengeExercise == self.currentExercise
+      let viewOpacity = isCurrentExercise ? 1.0 : 0.5
 
       HStack {
         Circle()
           .frame(width: 30, height: 30)
           .foregroundStyle(isCurrentExercise ? Color.appColor(with: .navyBlue) : .gray)
-          .opacity(isCurrentExercise ? 1.0 : 0.8)
+          .opacity(viewOpacity)
           .overlay {
             VStack(alignment: .center) {
               Text("\(index + 1)")
                 .foregroundStyle(isCurrentExercise ? .white : .black)
+                .opacity(viewOpacity)
             }
           }
 
         VStack(alignment: .leading) {
           Text(challengeExercise.name)
             .bold()
+            .opacity(viewOpacity)
 
           /// e.g. "3 rep | 30 sec rest"
           Text("\(challengeExercise.rounds) rep | \(challengeExercise.restDuration) sec rest")
             .font(.callout)
             .foregroundStyle(.gray)
-            .opacity(0.8)
+            .opacity(viewOpacity)
         }
         .padding([.leading, .top], 10)
         Spacer()

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC0170FA2AE9A355005876EE /* ChallengeExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */; };
+		BC0170FC2AE9B7A9005876EE /* CircleTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0170FB2AE9B7A9005876EE /* CircleTimerView.swift */; };
+		BC0170FE2AE9B948005876EE /* CircleTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0170FD2AE9B948005876EE /* CircleTimerViewModel.swift */; };
 		BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C462A7D70E7009DFC4B /* CustomTabBarButton.swift */; };
 		BC10E4292A3B811C0008A72E /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC10E4282A3B811C0008A72E /* Answer.swift */; };
 		BC10E4312A3B8B510008A72E /* IntroductionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC10E4302A3B8B510008A72E /* IntroductionModule.swift */; };
@@ -139,6 +142,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeExerciseView.swift; sourceTree = "<group>"; };
+		BC0170FB2AE9B7A9005876EE /* CircleTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTimerView.swift; sourceTree = "<group>"; };
+		BC0170FD2AE9B948005876EE /* CircleTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTimerViewModel.swift; sourceTree = "<group>"; };
 		BC0E9C462A7D70E7009DFC4B /* CustomTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarButton.swift; sourceTree = "<group>"; };
 		BC10E4282A3B811C0008A72E /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		BC10E4302A3B8B510008A72E /* IntroductionModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionModule.swift; sourceTree = "<group>"; };
@@ -665,6 +671,8 @@
 			children = (
 				BCA87E5A2AE8605D00453E4B /* Model */,
 				BCA87E582AE83B3800453E4B /* ChallengeView.swift */,
+				BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */,
+				BC0170FB2AE9B7A9005876EE /* CircleTimerView.swift */,
 			);
 			path = Challenge;
 			sourceTree = "<group>";
@@ -673,6 +681,7 @@
 			isa = PBXGroup;
 			children = (
 				BCA87E5B2AE8606F00453E4B /* Challenge.swift */,
+				BC0170FD2AE9B948005876EE /* CircleTimerViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -987,6 +996,7 @@
 				BC3FB0EC2A85565400C3F9B1 /* View+Extension.swift in Sources */,
 				BCF86C422A3678E4003293A4 /* ProgressBarView.swift in Sources */,
 				BC5BAC882AB111C1003C880E /* WorkoutManager.swift in Sources */,
+				BC0170FC2AE9B7A9005876EE /* CircleTimerView.swift in Sources */,
 				BCA87E5C2AE8606F00453E4B /* Challenge.swift in Sources */,
 				BC3FB1042A89C56800C3F9B1 /* ExerciseView.swift in Sources */,
 				BC10E4332A3B8CAC0008A72E /* IntroductionViewModel.swift in Sources */,
@@ -1009,6 +1019,7 @@
 				BCCBEC6A2AD75E20002F5E41 /* AddExerciseView.swift in Sources */,
 				BCA87E5F2AE865A600453E4B /* Person.swift in Sources */,
 				BCD3C4682AACAE7A00614ED8 /* DecodableModel.swift in Sources */,
+				BC0170FE2AE9B948005876EE /* CircleTimerViewModel.swift in Sources */,
 				BC352AF02A327E3300DAA3AB /* AuthenticationView.swift in Sources */,
 				BC96C3012AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataClass.swift in Sources */,
 				BCCE85E62A33D658001BEE8B /* AuthenticationModule.swift in Sources */,
@@ -1032,6 +1043,7 @@
 				BC96C2FD2AC83B1C00F11CAB /* Array+Extension.swift in Sources */,
 				BCFBB7752A59CD6F00896C3C /* Question.swift in Sources */,
 				BC10E4292A3B811C0008A72E /* Answer.swift in Sources */,
+				BC0170FA2AE9A355005876EE /* ChallengeExerciseView.swift in Sources */,
 				BC182ECD2A589BE7003DEA30 /* CoreDataStack.swift in Sources */,
 				BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */,
 				BCFBB76D2A59C6D700896C3C /* PersonEntity+CoreDataProperties.swift in Sources */,
