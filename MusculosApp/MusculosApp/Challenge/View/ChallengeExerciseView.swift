@@ -62,7 +62,7 @@ struct ChallengeExerciseView: View {
             }
             Spacer()
           }
-          Image("wall-sit")
+          Image(challengeExercise.image)
             .resizable()
             .scaledToFit()
         }
@@ -87,9 +87,11 @@ struct ChallengeExerciseView: View {
           .font(.callout)
         if let instructions = challengeExercise.instructions {
           Text(instructions)
-            .padding(.top)
             .foregroundStyle(.gray)
             .font(.callout)
+            .fontWeight(.medium)
+            .multilineTextAlignment(.center)
+            .lineLimit(nil)
             .padding([.leading, .trailing], 10)
         }
 
@@ -135,8 +137,6 @@ struct ChallengeExerciseView: View {
   }
 }
 
-fileprivate let mockExercise = ChallengeExercise(name: "Wall Sit", instructions: "Sit down with your back against the wall as if there was a chair, and hold the position", rounds: 1, duration: 5, restDuration: 5)
-
 #Preview {
-  ChallengeExerciseView(challengeExercise: mockExercise, onClose: {_ in })
+  ChallengeExerciseView(challengeExercise: MockConstants.challengeExercise, onClose: {_ in })
 }

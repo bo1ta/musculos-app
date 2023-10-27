@@ -56,5 +56,5 @@ struct CongratulationView: View {
 }
 
 #Preview {
-  CongratulationView(challengeExercise: ChallengeExercise(name: "Squat Master", rounds: 1, duration: 1, restDuration: 1), onGetReward: {})
+  CongratulationView(challengeExercise: ChallengeExercise(name: "Squat Master", image: "wall-sit", rounds: 1, duration: 1, restDuration: 1), onGetReward: {})
 }
