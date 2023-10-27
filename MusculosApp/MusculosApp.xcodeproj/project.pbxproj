@@ -10,6 +10,7 @@
 		BC0170FA2AE9A355005876EE /* ChallengeExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */; };
 		BC0170FC2AE9B7A9005876EE /* CircleTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0170FB2AE9B7A9005876EE /* CircleTimerView.swift */; };
 		BC0170FE2AE9B948005876EE /* CircleTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0170FD2AE9B948005876EE /* CircleTimerViewModel.swift */; };
+		BC0171012AEC3E0A005876EE /* CongratulationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0171002AEC3E0A005876EE /* CongratulationView.swift */; };
 		BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C462A7D70E7009DFC4B /* CustomTabBarButton.swift */; };
 		BC10E4292A3B811C0008A72E /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC10E4282A3B811C0008A72E /* Answer.swift */; };
 		BC10E4312A3B8B510008A72E /* IntroductionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC10E4302A3B8B510008A72E /* IntroductionModule.swift */; };
@@ -145,6 +146,7 @@
 		BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeExerciseView.swift; sourceTree = "<group>"; };
 		BC0170FB2AE9B7A9005876EE /* CircleTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTimerView.swift; sourceTree = "<group>"; };
 		BC0170FD2AE9B948005876EE /* CircleTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTimerViewModel.swift; sourceTree = "<group>"; };
+		BC0171002AEC3E0A005876EE /* CongratulationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongratulationView.swift; sourceTree = "<group>"; };
 		BC0E9C462A7D70E7009DFC4B /* CustomTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarButton.swift; sourceTree = "<group>"; };
 		BC10E4282A3B811C0008A72E /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		BC10E4302A3B8B510008A72E /* IntroductionModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionModule.swift; sourceTree = "<group>"; };
@@ -284,6 +286,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC0170FF2AEB367C005876EE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BCA87E582AE83B3800453E4B /* ChallengeView.swift */,
+				BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */,
+				BC0170FB2AE9B7A9005876EE /* CircleTimerView.swift */,
+				BC0171002AEC3E0A005876EE /* CongratulationView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		BC10E42C2A3B8AB00008A72E /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -669,10 +682,8 @@
 		BCA87E532AE83B0A00453E4B /* Challenge */ = {
 			isa = PBXGroup;
 			children = (
+				BC0170FF2AEB367C005876EE /* View */,
 				BCA87E5A2AE8605D00453E4B /* Model */,
-				BCA87E582AE83B3800453E4B /* ChallengeView.swift */,
-				BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */,
-				BC0170FB2AE9B7A9005876EE /* CircleTimerView.swift */,
 			);
 			path = Challenge;
 			sourceTree = "<group>";
@@ -966,6 +977,7 @@
 				BC63A5A42AC33896006B1894 /* MuscleData.swift in Sources */,
 				BCD372472A5736EE00C0F161 /* HorizontalPickerViewCell.swift in Sources */,
 				BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */,
+				BC0171012AEC3E0A005876EE /* CongratulationView.swift in Sources */,
 				BCF86C312A360DF3003293A4 /* RegisterResponse.swift in Sources */,
 				BCCBEC782AD89505002F5E41 /* DynamicTextFieldListView.swift in Sources */,
 				BC3FB0FF2A89A3E700C3F9B1 /* SliderView.swift in Sources */,

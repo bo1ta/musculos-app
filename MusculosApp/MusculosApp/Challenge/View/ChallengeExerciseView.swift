@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum TimerType {
-  case active, rest
+  case active, rest, completed
 }
 
 struct ChallengeExerciseView: View {
@@ -23,9 +23,6 @@ struct ChallengeExerciseView: View {
       topSection
       bodySection
       Spacer()
-    }
-    .safeAreaInset(edge: .bottom) {
-      nextButton
     }
   }
   
@@ -53,8 +50,9 @@ struct ChallengeExerciseView: View {
         .frame(height: 60)
         .opacity(isExerciseComplete ? 1.0 : 0.3)
         .foregroundStyle(Color.appColor(with: .grassGreen))
+        .padding(5)
         .overlay {
-          Text("Next")
+          Text("Finish")
             .font(.title3)
             .bold()
             .foregroundStyle(.white)
@@ -74,10 +72,13 @@ struct ChallengeExerciseView: View {
       .overlay {
         ZStack {
           VStack {
-            HStack {
-              backButton
-                .padding(15)
-              Spacer()
+            /// if it's completed we'll show the `Get reward` button so no need for the back button
+            if timerType != .completed {
+              HStack {
+                backButton
+                  .padding(15)
+                Spacer()
+              }
             }
             Spacer()
           }
@@ -91,35 +92,49 @@ struct ChallengeExerciseView: View {
   @ViewBuilder
   private var bodySection: some View {
     VStack(alignment: .center) {
-      Text(challengeExercise.name)
-        .foregroundStyle(.black)
-        .font(.title)
-        .bold()
-        .padding(.top)
-      Text(subtitleText)
-        .foregroundStyle(.gray)
-        .font(.callout)
-      
-      if let instructions = challengeExercise.instructions {
-        Text(instructions)
+      if timerType == .completed {
+        CongratulationView(challengeExercise: challengeExercise) {
+          print("get started")
+        }
+      } else {
+        Text(challengeExercise.name)
+          .foregroundStyle(.black)
+          .font(.title)
+          .bold()
           .padding(.top)
+        Text(subtitleText)
           .foregroundStyle(.gray)
           .font(.callout)
-          .padding([.leading, .trailing], 4)
-      }
-      
-      if timerType == .active {
-        CircleTimerView(durationInSeconds: challengeExercise.duration, subtitle: "min", color: Color.appColor(with: .navyBlue), onTimerCompleted: {
-          handleTimerComplete()
-        })
-      } else {
-        CircleTimerView(durationInSeconds: challengeExercise.restDuration, subtitle: "rest", color: .gray, onTimerCompleted: {
-          handleTimerComplete()
-        })
+        if let instructions = challengeExercise.instructions {
+          Text(instructions)
+            .padding(.top)
+            .foregroundStyle(.gray)
+            .font(.callout)
+            .padding([.leading, .trailing], 4)
+        }
+
+        circleView
       }
     }
     .padding([.leading, .trailing], 10)
   }
+  
+  @ViewBuilder
+  private var circleView: some View {
+    if timerType == TimerType.active {
+      CircleTimerView(durationInSeconds: challengeExercise.duration, subtitle: "min", color: Color.appColor(with: .navyBlue), onTimerCompleted: {
+        handleNextTimer()
+      })
+      .id(UUID())
+    } else if timerType == TimerType.rest {
+      CircleTimerView(durationInSeconds: challengeExercise.restDuration, subtitle: "rest", color: .gray, onTimerCompleted: {
+        handleNextTimer()
+      })
+      .id(UUID())
+    }
+  }
+  
+  // MARK: - Helpers and computed properties
   
   /// e.g. `Round 1/3 | 30 sec rest`
   private var subtitleText: String {
@@ -127,24 +142,25 @@ struct ChallengeExerciseView: View {
   }
   
   private var isExerciseComplete: Bool {
-    return currentRound == challengeExercise.rounds
+    return currentRound >= challengeExercise.rounds
   }
   
-  private func handleTimerComplete() {
+  private func handleNextTimer() {
     if timerType == .active {
       currentRound += 1
       timerType = .rest
       
-      if currentRound == challengeExercise.rounds {
+      if currentRound >= challengeExercise.rounds {
         onChallengeCompleted()
+        timerType = .completed
       }
-      return
+    } else {
+      timerType = .active
     }
-    timerType = .active
   }
 }
 
-fileprivate let mockExercise = ChallengeExercise(name: "Wall sit", instructions: "Sit down with your back against the wall as if there was a chair, and hold the position", rounds: 3, duration: 5, restDuration: 5)
+fileprivate let mockExercise = ChallengeExercise(name: "Wall Sit", instructions: "Sit down with your back against the wall as if there was a chair, and hold the position", rounds: 1, duration: 5, restDuration: 5)
 
 #Preview {
   ChallengeExerciseView(challengeExercise: mockExercise, onChallengeCompleted: {})

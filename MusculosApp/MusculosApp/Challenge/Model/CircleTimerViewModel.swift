@@ -19,9 +19,6 @@ class CircleTimerViewModel: ObservableObject {
   
   init(timeDuration: TimeInterval) {
     self.currentTime = timeDuration
-    timerCancellable = timer.autoconnect().sink(receiveValue: { [weak self] _ in
-      self?.currentTime -= 1
-    })
   }
   
   var isWorkoutComplete: Bool {
@@ -36,12 +33,15 @@ class CircleTimerViewModel: ObservableObject {
   
   func startTimer(workoutDuration: TimeInterval) {
     isAnimating = true
+    timerSubscription = timer.autoconnect().sink(receiveValue: { [weak self] _ in
+      self?.currentTime -= 1
+    })
   }
   
   func stopTimer() {
     isAnimating = false
     timerSubscription?.cancel()
-    timerSubscription = nil
+    timerCancellable = nil
   }
 }
 
