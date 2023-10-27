@@ -13,7 +13,7 @@ enum TimerType {
 
 struct ChallengeExerciseView: View {
   let challengeExercise: ChallengeExercise
-  let onChallengeCompleted: () -> Void
+  let onClose: (_: Bool) -> Void
   
   @State private var currentRound = 0
   @State private var timerType: TimerType = .active
@@ -32,7 +32,9 @@ struct ChallengeExerciseView: View {
   
   @ViewBuilder
   private var backButton: some View {
-    Button(action: onChallengeCompleted, label: {
+    Button(action: {
+      onClose(timerType == .completed)
+    }, label: {
       Image(systemName: "chevron.left")
         .resizable()
         .bold()
@@ -70,8 +72,10 @@ struct ChallengeExerciseView: View {
   @ViewBuilder
   private var bodySection: some View {
     VStack(alignment: .center, spacing: 10) {
-      if timerType == .completed {
-        CongratulationView(challengeExercise: challengeExercise, onGetReward: onChallengeCompleted)
+      if self.isExerciseComplete {
+        CongratulationView(challengeExercise: challengeExercise, onGetReward: {
+          onClose(true)
+        })
       } else {
         Text(challengeExercise.name)
           .foregroundStyle(.black)
@@ -114,7 +118,7 @@ struct ChallengeExerciseView: View {
   }
   
   private var isExerciseComplete: Bool {
-    return currentRound >= challengeExercise.rounds
+    return timerType == .completed
   }
   
   private func handleNextTimer() {
@@ -134,5 +138,5 @@ struct ChallengeExerciseView: View {
 fileprivate let mockExercise = ChallengeExercise(name: "Wall Sit", instructions: "Sit down with your back against the wall as if there was a chair, and hold the position", rounds: 1, duration: 5, restDuration: 5)
 
 #Preview {
-  ChallengeExerciseView(challengeExercise: mockExercise, onChallengeCompleted: {})
+  ChallengeExerciseView(challengeExercise: mockExercise, onClose: {_ in })
 }

@@ -12,6 +12,8 @@ struct ChallengeView: View {
   let participants: [Person]?
 
   @State private var currentExercise: ChallengeExercise?
+  @State private var currentExerciseIndex: Int = 0
+
   @State private var showExerciseView = false
 
   init(challenge: Challenge, participants: [Person]?, currentExercise: ChallengeExercise? = nil) {
@@ -31,8 +33,11 @@ struct ChallengeView: View {
       }
       .navigationDestination(isPresented: $showExerciseView) {
         if let exercise = currentExercise {
-          ChallengeExerciseView(challengeExercise: exercise) {
+          ChallengeExerciseView(challengeExercise: exercise) { isCompleted in
             showExerciseView.toggle()
+            if isCompleted, let nextExercise = self.getNextExercise() {
+              currentExercise = nextExercise
+            }
           }
         }
       }
@@ -239,6 +244,18 @@ extension ChallengeView {
           .padding(.leading, 15.5)
       }
     }
+  }
+  
+  private func getNextExercise() -> ChallengeExercise? {
+      let newIndex = currentExerciseIndex + 1
+      if newIndex < challenge.exercises.count {
+          currentExerciseIndex = newIndex
+          return challenge.exercises[newIndex]
+      } else {
+          // If you reach the end, loop back to the first exercise
+          currentExerciseIndex = 0
+          return challenge.exercises.first
+      }
   }
 }
 
