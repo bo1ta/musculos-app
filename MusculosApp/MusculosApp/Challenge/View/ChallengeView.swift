@@ -12,6 +12,7 @@ struct ChallengeView: View {
   let participants: [Person]?
 
   @State private var currentExercise: ChallengeExercise?
+  @State private var showExerciseView = false
 
   init(challenge: Challenge, participants: [Person]?, currentExercise: ChallengeExercise? = nil) {
     self.challenge = challenge
@@ -19,13 +20,22 @@ struct ChallengeView: View {
   }
 
   var body: some View {
-    VStack(spacing: 5) {
-      informationBox
-      challengeExercises
-      Spacer()
-    }
-    .safeAreaInset(edge: .bottom, spacing: 0) {
-      startButton
+    NavigationStack {
+      VStack(spacing: 5) {
+        informationBox
+        challengeExercises
+        Spacer()
+      }
+      .safeAreaInset(edge: .bottom, spacing: 0) {
+        startButton
+      }
+      .navigationDestination(isPresented: $showExerciseView) {
+        if let exercise = currentExercise {
+          ChallengeExerciseView(challengeExercise: exercise) {
+            showExerciseView.toggle()
+          }
+        }
+      }
     }
     .onAppear(perform: {
       self.currentExercise = challenge.exercises.first
@@ -37,7 +47,7 @@ struct ChallengeView: View {
   @ViewBuilder
   private var startButton: some View {
     Button(action: {
-      print("do something")
+      showExerciseView.toggle()
     }, label: {
       Rectangle()
         .frame(height: 60)
@@ -143,7 +153,7 @@ extension ChallengeView {
     let baseAvatarCircle = Circle()
       .frame(width: 40, height: 40)
       .foregroundStyle(.white)
-
+    
     HStack(alignment: .center, spacing: -25, content: {
       ForEach(Array(participants.enumerated()), id: \.element) { index, element in
         if index > 3 {
@@ -177,13 +187,13 @@ extension ChallengeView {
       }
     })
   }
-
+  
   @ViewBuilder
   func createListItem(for challengeExercise: ChallengeExercise, with index: Int = 0) -> some View {
     VStack(alignment: .leading, spacing: 0) {
       let isCurrentExercise = challengeExercise == self.currentExercise
       let viewOpacity = isCurrentExercise ? 1.0 : 0.5
-
+      
       HStack {
         Circle()
           .frame(width: 30, height: 30)
@@ -196,12 +206,12 @@ extension ChallengeView {
                 .opacity(viewOpacity)
             }
           }
-
+        
         VStack(alignment: .leading) {
           Text(challengeExercise.name)
             .bold()
             .opacity(viewOpacity)
-
+          
           /// e.g. "3 rep | 30 sec rest"
           Text("\(challengeExercise.rounds) rep | \(challengeExercise.restDuration) sec rest")
             .font(.callout)
@@ -210,7 +220,7 @@ extension ChallengeView {
         }
         .padding([.leading, .top], 10)
         Spacer()
-
+        
         let minutesFromSeconds = challengeExercise.duration / 60
         Text("\(minutesFromSeconds) min")
           .padding(.trailing, 30)
@@ -218,7 +228,7 @@ extension ChallengeView {
           .foregroundStyle(.gray)
           .opacity(0.8)
       }
-
+      
       /// Draw a vertical line that connects the circles of all the list items
       /// Ends at the last item
       let isLast = challengeExercise == challenge.exercises.last
@@ -237,7 +247,7 @@ extension ChallengeView {
 private let challengeMock = Challenge(
   name: "Squat master",
   exercises: [
-    ChallengeExercise(name: "Wall sit", rounds: 3, duration: 300, restDuration: 30),
+    ChallengeExercise(name: "Wall Sit", instructions: "Sit down with your back against the wall as if there was a chair, and hold the position", rounds: 1, duration: 5, restDuration: 5),
     ChallengeExercise(name: "Braced squat", rounds: 2, duration: 180, restDuration: 30),
     ChallengeExercise(name: "Barbell squat", rounds: 3, duration: 300, restDuration: 30),
     ChallengeExercise(name: "Jump squat", rounds: 2, duration: 180, restDuration: 30)

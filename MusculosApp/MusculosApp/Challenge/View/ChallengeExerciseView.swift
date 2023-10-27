@@ -24,43 +24,21 @@ struct ChallengeExerciseView: View {
       bodySection
       Spacer()
     }
+    .navigationBarTitle("", displayMode: .inline)
+    .navigationBarBackButtonHidden(true)
   }
   
   // MARK: - Views
   
   @ViewBuilder
   private var backButton: some View {
-    Button {
-      // do something
-    } label: {
+    Button(action: onChallengeCompleted, label: {
       Image(systemName: "chevron.left")
         .resizable()
         .bold()
         .frame(width: 15, height: 20)
         .foregroundStyle(.white)
-    }
-  }
-  
-  @ViewBuilder
-  private var nextButton: some View {
-    Button(action: {
-      print("do something")
-    }, label: {
-      Rectangle()
-        .frame(height: 60)
-        .opacity(isExerciseComplete ? 1.0 : 0.3)
-        .foregroundStyle(Color.appColor(with: .grassGreen))
-        .padding(5)
-        .overlay {
-          Text("Finish")
-            .font(.title3)
-            .bold()
-            .foregroundStyle(.white)
-            .frame(maxWidth: .infinity)
-            .opacity(isExerciseComplete ? 1.0 : 0.5)
-        }
     })
-    .disabled(!isExerciseComplete)
   }
   
   @ViewBuilder
@@ -91,11 +69,9 @@ struct ChallengeExerciseView: View {
   
   @ViewBuilder
   private var bodySection: some View {
-    VStack(alignment: .center) {
+    VStack(alignment: .center, spacing: 10) {
       if timerType == .completed {
-        CongratulationView(challengeExercise: challengeExercise) {
-          print("get started")
-        }
+        CongratulationView(challengeExercise: challengeExercise, onGetReward: onChallengeCompleted)
       } else {
         Text(challengeExercise.name)
           .foregroundStyle(.black)
@@ -110,7 +86,7 @@ struct ChallengeExerciseView: View {
             .padding(.top)
             .foregroundStyle(.gray)
             .font(.callout)
-            .padding([.leading, .trailing], 4)
+            .padding([.leading, .trailing], 10)
         }
 
         circleView
@@ -122,14 +98,10 @@ struct ChallengeExerciseView: View {
   @ViewBuilder
   private var circleView: some View {
     if timerType == TimerType.active {
-      CircleTimerView(durationInSeconds: challengeExercise.duration, subtitle: "min", color: Color.appColor(with: .navyBlue), onTimerCompleted: {
-        handleNextTimer()
-      })
+      CircleTimerView(durationInSeconds: challengeExercise.duration, subtitle: "min", color: Color.appColor(with: .navyBlue), onTimerCompleted: handleNextTimer)
       .id(UUID())
     } else if timerType == TimerType.rest {
-      CircleTimerView(durationInSeconds: challengeExercise.restDuration, subtitle: "rest", color: .gray, onTimerCompleted: {
-        handleNextTimer()
-      })
+      CircleTimerView(durationInSeconds: challengeExercise.restDuration, subtitle: "rest", color: .gray, onTimerCompleted: handleNextTimer)
       .id(UUID())
     }
   }
@@ -151,7 +123,6 @@ struct ChallengeExerciseView: View {
       timerType = .rest
       
       if currentRound >= challengeExercise.rounds {
-        onChallengeCompleted()
         timerType = .completed
       }
     } else {
