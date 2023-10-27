@@ -16,26 +16,26 @@ struct CongratulationView: View {
     self.onGetReward = onGetReward
   }
   
-    var body: some View {
-      VStack(alignment: .center, spacing: 10, content: {
-        Image("golden-cup")
-          .resizable()
-          .frame(width: 100, height: 100)
-          .padding(.top, 10)
-        Text("Congratulations!")
-          .font(.title2)
-          .bold()
-        Text("You and your team just finished the \(challengeExercise.name) challenge. Get your reward!")
-          .font(.callout)
-          .foregroundStyle(.gray)
-          .opacity(0.9)
-        
-        getRewardButton
-          .padding(.top, 10)
-        
-      })
-      .padding(20)
-    }
+  var body: some View {
+    VStack(alignment: .center, spacing: 10, content: {
+      Image("golden-cup")
+        .resizable()
+        .frame(width: 100, height: 100)
+        .padding(.top, 10)
+      Text("Congratulations!")
+        .font(.title2)
+        .bold()
+      Text("You and your team just finished the \(challengeExercise.name) challenge. Get your reward!")
+        .font(.callout)
+        .foregroundStyle(.gray)
+        .opacity(0.9)
+      
+      getRewardButton
+        .padding(.top, 10)
+      
+    })
+    .padding(20)
+  }
   
   @ViewBuilder
   private var getRewardButton: some View {
@@ -56,5 +56,5 @@ struct CongratulationView: View {
 }
 
 #Preview {
-    CongratulationView(challengeExercise: ChallengeExercise(name: "Squat Master", rounds: 1, duration: 1, restDuration: 1), onGetReward: {})
+  CongratulationView(challengeExercise: ChallengeExercise(name: "Squat Master", rounds: 1, duration: 1, restDuration: 1), onGetReward: {})
 }

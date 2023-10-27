@@ -44,7 +44,7 @@ struct ChallengeView: View {
         .foregroundStyle(Color.appColor(with: .grassGreen))
         .overlay {
           Text("Start")
-            .font(.title3)
+            .font(.body)
             .bold()
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity)
