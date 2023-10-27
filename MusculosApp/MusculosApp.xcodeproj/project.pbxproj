@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC0170FA2AE9A355005876EE /* ChallengeExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */; };
+		BC0170FC2AE9B7A9005876EE /* CircleTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0170FB2AE9B7A9005876EE /* CircleTimerView.swift */; };
+		BC0170FE2AE9B948005876EE /* CircleTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0170FD2AE9B948005876EE /* CircleTimerViewModel.swift */; };
+		BC0171012AEC3E0A005876EE /* CongratulationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0171002AEC3E0A005876EE /* CongratulationView.swift */; };
+		BC0171042AEC64B8005876EE /* MockConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0171032AEC64B8005876EE /* MockConstants.swift */; };
 		BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C462A7D70E7009DFC4B /* CustomTabBarButton.swift */; };
 		BC10E4292A3B811C0008A72E /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC10E4282A3B811C0008A72E /* Answer.swift */; };
 		BC10E4312A3B8B510008A72E /* IntroductionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC10E4302A3B8B510008A72E /* IntroductionModule.swift */; };
@@ -46,7 +51,6 @@
 		BC5BAC882AB111C1003C880E /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC872AB111C1003C880E /* WorkoutManager.swift */; };
 		BC5BAC8A2AB221FC003C880E /* MusculosLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC892AB221FC003C880E /* MusculosLogger.swift */; };
 		BC5BAC9C2AB267B6003C880E /* MuscleModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC9B2AB267B6003C880E /* MuscleModuleTests.swift */; };
-		BC5BAC9F2AB26CC1003C880E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */; };
 		BC5BACA52AB26CF3003C880E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */; };
 		BC5BACAC2AB26D65003C880E /* MusculosLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC892AB221FC003C880E /* MusculosLogger.swift */; };
 		BC5BACB72AB26F40003C880E /* XCTestCase+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACB62AB26F40003C880E /* XCTestCase+Extension.swift */; };
@@ -139,6 +143,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeExerciseView.swift; sourceTree = "<group>"; };
+		BC0170FB2AE9B7A9005876EE /* CircleTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTimerView.swift; sourceTree = "<group>"; };
+		BC0170FD2AE9B948005876EE /* CircleTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTimerViewModel.swift; sourceTree = "<group>"; };
+		BC0171002AEC3E0A005876EE /* CongratulationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongratulationView.swift; sourceTree = "<group>"; };
+		BC0171032AEC64B8005876EE /* MockConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockConstants.swift; sourceTree = "<group>"; };
 		BC0E9C462A7D70E7009DFC4B /* CustomTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarButton.swift; sourceTree = "<group>"; };
 		BC10E4282A3B811C0008A72E /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		BC10E4302A3B8B510008A72E /* IntroductionModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionModule.swift; sourceTree = "<group>"; };
@@ -278,6 +287,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC0170FF2AEB367C005876EE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BCA87E582AE83B3800453E4B /* ChallengeView.swift */,
+				BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */,
+				BC0170FB2AE9B7A9005876EE /* CircleTimerView.swift */,
+				BC0171002AEC3E0A005876EE /* CongratulationView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		BC10E42C2A3B8AB00008A72E /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,7 +435,6 @@
 				BCCE85E72A33D7A8001BEE8B /* Extension */,
 				BC352AE42A326D7C00DAA3AB /* Network */,
 				BCCE85EA2A33DCA6001BEE8B /* UserDefaultsWrapper.swift */,
-				BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */,
 				BC5BAC892AB221FC003C880E /* MusculosLogger.swift */,
 			);
 			path = Core;
@@ -628,6 +647,8 @@
 		BC63A5A22AC3388D006B1894 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */,
+				BC0171032AEC64B8005876EE /* MockConstants.swift */,
 				BC63A5A32AC33896006B1894 /* MuscleData.swift */,
 			);
 			path = Constants;
@@ -663,8 +684,8 @@
 		BCA87E532AE83B0A00453E4B /* Challenge */ = {
 			isa = PBXGroup;
 			children = (
+				BC0170FF2AEB367C005876EE /* View */,
 				BCA87E5A2AE8605D00453E4B /* Model */,
-				BCA87E582AE83B3800453E4B /* ChallengeView.swift */,
 			);
 			path = Challenge;
 			sourceTree = "<group>";
@@ -673,6 +694,7 @@
 			isa = PBXGroup;
 			children = (
 				BCA87E5B2AE8606F00453E4B /* Challenge.swift */,
+				BC0170FD2AE9B948005876EE /* CircleTimerViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -957,6 +979,7 @@
 				BC63A5A42AC33896006B1894 /* MuscleData.swift in Sources */,
 				BCD372472A5736EE00C0F161 /* HorizontalPickerViewCell.swift in Sources */,
 				BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */,
+				BC0171012AEC3E0A005876EE /* CongratulationView.swift in Sources */,
 				BCF86C312A360DF3003293A4 /* RegisterResponse.swift in Sources */,
 				BCCBEC782AD89505002F5E41 /* DynamicTextFieldListView.swift in Sources */,
 				BC3FB0FF2A89A3E700C3F9B1 /* SliderView.swift in Sources */,
@@ -987,6 +1010,7 @@
 				BC3FB0EC2A85565400C3F9B1 /* View+Extension.swift in Sources */,
 				BCF86C422A3678E4003293A4 /* ProgressBarView.swift in Sources */,
 				BC5BAC882AB111C1003C880E /* WorkoutManager.swift in Sources */,
+				BC0170FC2AE9B7A9005876EE /* CircleTimerView.swift in Sources */,
 				BCA87E5C2AE8606F00453E4B /* Challenge.swift in Sources */,
 				BC3FB1042A89C56800C3F9B1 /* ExerciseView.swift in Sources */,
 				BC10E4332A3B8CAC0008A72E /* IntroductionViewModel.swift in Sources */,
@@ -1009,6 +1033,7 @@
 				BCCBEC6A2AD75E20002F5E41 /* AddExerciseView.swift in Sources */,
 				BCA87E5F2AE865A600453E4B /* Person.swift in Sources */,
 				BCD3C4682AACAE7A00614ED8 /* DecodableModel.swift in Sources */,
+				BC0170FE2AE9B948005876EE /* CircleTimerViewModel.swift in Sources */,
 				BC352AF02A327E3300DAA3AB /* AuthenticationView.swift in Sources */,
 				BC96C3012AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataClass.swift in Sources */,
 				BCCE85E62A33D658001BEE8B /* AuthenticationModule.swift in Sources */,
@@ -1018,6 +1043,7 @@
 				BC59720A2A35075800EBB075 /* TransparentContainerView.swift in Sources */,
 				BC3FB0F62A87051700C3F9B1 /* WorkoutFiltersView.swift in Sources */,
 				BC3FB0F82A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift in Sources */,
+				BC0171042AEC64B8005876EE /* MockConstants.swift in Sources */,
 				BC59720C2A3507F500EBB075 /* HearTipView.swift in Sources */,
 				BC352AEB2A32713300DAA3AB /* MusculosError.swift in Sources */,
 				BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */,
@@ -1032,6 +1058,7 @@
 				BC96C2FD2AC83B1C00F11CAB /* Array+Extension.swift in Sources */,
 				BCFBB7752A59CD6F00896C3C /* Question.swift in Sources */,
 				BC10E4292A3B811C0008A72E /* Answer.swift in Sources */,
+				BC0170FA2AE9A355005876EE /* ChallengeExerciseView.swift in Sources */,
 				BC182ECD2A589BE7003DEA30 /* CoreDataStack.swift in Sources */,
 				BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */,
 				BCFBB76D2A59C6D700896C3C /* PersonEntity+CoreDataProperties.swift in Sources */,
@@ -1053,7 +1080,6 @@
 				BC1160E72A2CFB840028D8FC /* MusculosAppTests.swift in Sources */,
 				BC5BACAC2AB26D65003C880E /* MusculosLogger.swift in Sources */,
 				BC5BACB72AB26F40003C880E /* XCTestCase+Extension.swift in Sources */,
-				BC5BAC9F2AB26CC1003C880E /* Constants.swift in Sources */,
 				BC5BACC72AB29E07003C880E /* WorkoutManagerTests.swift in Sources */,
 				BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */,
 				BC5BACA52AB26CF3003C880E /* CoreDataStack.swift in Sources */,

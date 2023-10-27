@@ -14,9 +14,20 @@ struct Challenge {
 
 struct ChallengeExercise {
   let name: String
+  let image: String
+  let instructions: String?
   let rounds: Int
   let duration: Int
   let restDuration: Int
+  
+  init(name: String, image: String, instructions: String? = nil, rounds: Int, duration: Int, restDuration: Int) {
+    self.name = name
+    self.image = image
+    self.instructions = instructions
+    self.rounds = rounds
+    self.duration = duration
+    self.restDuration = restDuration
+  }
 }
 
 extension ChallengeExercise: Hashable {

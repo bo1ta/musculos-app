@@ -13,13 +13,15 @@ struct ContentView: View {
   @State private var tabSelection: TabBarItem = .workout
 
   var body: some View {
-    CustomTabBarContainerView(selection: $tabSelection) {
-      WorkoutFeedView()
-        .tabBarItem(tab: .workout, selection: $tabSelection)
-
-      AddExerciseView()
-        .tabBarItem(tab: .add, selection: $tabSelection)
-    }
+    ChallengeView(challenge: MockConstants.challenge, participants: MockConstants.persons)
+    
+//    CustomTabBarContainerView(selection: $tabSelection) {
+//      ChallengeView(challenge: challengeMock, participants: participantsMock)
+//        .tabBarItem(tab: .workout, selection: $tabSelection)
+//
+//      AddExerciseView()
+//        .tabBarItem(tab: .add, selection: $tabSelection)
+//    }
   }
 }
 
