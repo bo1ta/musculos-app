@@ -24,8 +24,8 @@ struct ChallengeExerciseView: View {
       bodySection
       Spacer()
     }
-    .navigationBarTitle("", displayMode: .inline)
-    .navigationBarBackButtonHidden(true)
+    .navigationBarBackButtonHidden()
+    .toolbar(.hidden, for: .tabBar)
   }
   
   // MARK: - Views

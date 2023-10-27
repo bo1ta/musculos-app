@@ -13,10 +13,16 @@ struct ContentView: View {
   @State private var tabSelection: TabBarItem = .workout
 
   var body: some View {
-    ChallengeView(challenge: MockConstants.challenge, participants: MockConstants.persons)
+    TabView {
+      HomeView(challenge: MockConstants.challenge)
+        .tabItem { Label("Home", systemImage: "house") }
+      
+      WorkoutFeedView()
+        .tabItem { Label("Explore", systemImage: "water.waves") }
+    }
     
 //    CustomTabBarContainerView(selection: $tabSelection) {
-//      ChallengeView(challenge: challengeMock, participants: participantsMock)
+//      HomeView(challenge: MockConstants.challenge)
 //        .tabBarItem(tab: .workout, selection: $tabSelection)
 //
 //      AddExerciseView()

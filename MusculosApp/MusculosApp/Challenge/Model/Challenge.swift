@@ -10,6 +10,13 @@ import Foundation
 struct Challenge {
   let name: String
   let exercises: [ChallengeExercise]
+  let participants: [Person]?
+  
+  init(name: String, exercises: [ChallengeExercise], participants: [Person]? = nil) {
+    self.name = name
+    self.exercises = exercises
+    self.participants = participants
+  }
 }
 
 struct ChallengeExercise {

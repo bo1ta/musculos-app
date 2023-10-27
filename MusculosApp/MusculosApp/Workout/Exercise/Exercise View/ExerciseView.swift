@@ -67,6 +67,10 @@ struct ExerciseView: View {
         }
       }
       .padding([.leading, .trailing, .bottom], 10)
+      
+      backgroundView
+        .frame(width: 200, height: 200)
+  
 
       List(self.exercise.instructions, id: \.self) { instruction in
         Text(instruction)
@@ -76,6 +80,15 @@ struct ExerciseView: View {
     }
     .onAppear {
       self.viewModel.loadData()
+    }
+  }
+  
+  @ViewBuilder
+  private var backgroundView: some View {
+    if let gifUrl = URL(string: self.exercise.gifUrl) {
+      GIFView(url: Binding(get: { gifUrl }, set: { _ in }))
+    } else {
+      Color.black
     }
   }
 

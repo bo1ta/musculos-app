@@ -67,7 +67,7 @@ final class WorkoutFeedViewModel: ObservableObject {
       self.isLoading = true
       defer { self.isLoading = false }
 
-      let exercises = try await self.workoutManager.fetchLocalExercises()
+      let exercises = try await self.workoutManager.fetchExercises()
       self.currentExercises.append(contentsOf: exercises)
       self.initialExercises = exercises
     } catch {

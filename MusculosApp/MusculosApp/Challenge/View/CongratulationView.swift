@@ -30,28 +30,11 @@ struct CongratulationView: View {
         .foregroundStyle(.gray)
         .opacity(0.9)
       
-      getRewardButton
+      GreenGrassButton(action: self.onGetReward, text: "Get Reward")
         .padding(.top, 10)
       
     })
     .padding(20)
-  }
-  
-  @ViewBuilder
-  private var getRewardButton: some View {
-    Button(action: self.onGetReward, label: {
-      Rectangle()
-        .frame(height: 50)
-        .foregroundStyle(Color.appColor(with: .grassGreen))
-        .padding(5)
-        .overlay {
-          Text("Get Reward")
-            .font(.body)
-            .fontWeight(.heavy)
-            .foregroundStyle(.white)
-            .frame(maxWidth: .infinity)
-        }
-    })
   }
 }
 
