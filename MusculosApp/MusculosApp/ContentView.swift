@@ -26,31 +26,23 @@ struct ContentView: View {
         .tabItem { Label("Profile", systemImage: "person") }
     }
     .onAppear(perform: setupTabBarAppearance)
-    
-    //    CustomTabBarContainerView(selection: $tabSelection) {
-    //      HomeView(challenge: MockConstants.challenge)
-    //        .tabBarItem(tab: .workout, selection: $tabSelection)
-    //
-    //      AddExerciseView()
-    //        .tabBarItem(tab: .add, selection: $tabSelection)
-    //    }
   }
   
   func setupTabBarAppearance() {
-    guard let image = UIImage.gradientImageWithBounds(bounds: CGRect(x: 0, y: 0, width: windowSize.width, height: 8), colors: [
-      UIColor.clear.cgColor,
-      UIColor.black.withAlphaComponent(0.1).cgColor
-    ]) else { return }
+    let bounds = CGRect(x: 0, y: 0, width: windowSize.width, height: 8)
+    let gradientColors = [UIColor.clear.cgColor, UIColor.black.withAlphaComponent(0.1).cgColor]
+    guard
+      let image = UIImage.gradientImageWithBounds(bounds: bounds, colors: gradientColors)
+    else { return }
     
     let appearance = UITabBarAppearance()
     appearance.configureWithTransparentBackground()
     appearance.backgroundColor = UIColor.systemGray6
     appearance.backgroundImage = UIImage()
     appearance.shadowImage = image
-
+    
     UITabBar.appearance().standardAppearance = appearance
-}
-  
+  }
 }
 
 struct ContentView_Previews: PreviewProvider {
