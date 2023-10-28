@@ -9,64 +9,46 @@ import SwiftUI
 
 struct ChallengeView: View {
   let challenge: Challenge
-  let participants: [Person]?
-
+  let onBack: () -> Void
+  
   @State private var currentExercise: ChallengeExercise?
   @State private var currentExerciseIndex: Int = 0
-
   @State private var showExerciseView = false
-
-  init(challenge: Challenge, participants: [Person]?, currentExercise: ChallengeExercise? = nil) {
+  
+  init(challenge: Challenge, onBack: @escaping () -> Void) {
     self.challenge = challenge
-    self.participants = participants
+    self.onBack = onBack
   }
-
+  
   var body: some View {
-    NavigationStack {
-      VStack(spacing: 5) {
-        informationBox
-        challengeExercises
-        Spacer()
-      }
-      .safeAreaInset(edge: .bottom, spacing: 0) {
-        startButton
-      }
-      .navigationDestination(isPresented: $showExerciseView) {
-        if let exercise = currentExercise {
-          ChallengeExerciseView(challengeExercise: exercise) { isCompleted in
-            showExerciseView.toggle()
-            if isCompleted, let nextExercise = self.getNextExercise() {
-              currentExercise = nextExercise
-            }
+    VStack(spacing: 5) {
+      informationBox
+      challengeExercises
+      Spacer()
+    }
+    .safeAreaInset(edge: .bottom, spacing: 0) {
+      GreenGrassButton(action: { showExerciseView.toggle() }, text: "Start")
+    }
+    .navigationDestination(isPresented: $showExerciseView) {
+      if let exercise = currentExercise {
+        ChallengeExerciseView(challengeExercise: exercise) { isCompleted in
+          if isCompleted, let nextExercise = self.getNextExercise() {
+            currentExercise = nextExercise
           }
+          showExerciseView.toggle()
         }
       }
     }
     .onAppear(perform: {
-      self.currentExercise = challenge.exercises.first
+      self.currentExercise = self.currentExercise ?? challenge.exercises.first
     })
+    .navigationBarBackButtonHidden()
+    .navigationTitle("")
+    .toolbar(.hidden, for: .tabBar)
   }
-
+  
   // MARK: - Views
-
-  @ViewBuilder
-  private var startButton: some View {
-    Button(action: {
-      showExerciseView.toggle()
-    }, label: {
-      Rectangle()
-        .frame(height: 60)
-        .foregroundStyle(Color.appColor(with: .grassGreen))
-        .overlay {
-          Text("Start")
-            .font(.body)
-            .bold()
-            .foregroundStyle(.white)
-            .frame(maxWidth: .infinity)
-        }
-    })
-  }
-
+  
   @ViewBuilder
   private var informationBox: some View {
     VStack(alignment: .leading) {
@@ -78,8 +60,8 @@ struct ChallengeView: View {
           VStack(spacing: 1) {
             navigationBar
             titleView
-            if let participants = self.participants {
-              createAvatarCircles(participants: participants)
+            if let participants = self.challenge.participants {
+              PersonAvatarCircle(persons: participants)
               Text("\(participants.count) people attending")
                 .foregroundStyle(.white)
                 .font(.footnote)
@@ -88,7 +70,7 @@ struct ChallengeView: View {
         }
     }
   }
-
+  
   @ViewBuilder
   private var challengeExercises: some View {
     VStack(spacing: 0) {
@@ -98,7 +80,7 @@ struct ChallengeView: View {
     }
     .padding(.leading, 15)
   }
-
+  
   @ViewBuilder
   private var titleView: some View {
     VStack(alignment: .center, content: {
@@ -114,7 +96,7 @@ struct ChallengeView: View {
         .opacity(0.8)
     })
   }
-
+  
   @ViewBuilder
   private var navigationBar: some View {
     HStack(spacing: 0) {
@@ -124,19 +106,17 @@ struct ChallengeView: View {
     }
     .padding([.leading, .trailing], 15)
   }
-
+  
   @ViewBuilder
   private var backButton: some View {
-    Button {
-      // do something
-    } label: {
+    Button(action: onBack, label: {
       Image(systemName: "chevron.left")
         .resizable()
         .frame(width: 15, height: 20)
         .foregroundStyle(.white)
-    }
+    })
   }
-
+  
   @ViewBuilder
   private var addPersonButton: some View {
     Button {
@@ -153,46 +133,6 @@ struct ChallengeView: View {
 // MARK: - Helper methods
 
 extension ChallengeView {
-  @ViewBuilder
-  private func createAvatarCircles(participants: [Person]) -> some View {
-    let baseAvatarCircle = Circle()
-      .frame(width: 40, height: 40)
-      .foregroundStyle(.white)
-    
-    HStack(alignment: .center, spacing: -25, content: {
-      ForEach(Array(participants.enumerated()), id: \.element) { index, element in
-        if index > 3 {
-          Circle()
-            .frame(width: 40, height: 40)
-            .overlay {
-              Text("+\(participants.count - 4)")
-                .font(.callout)
-                .foregroundStyle(.gray)
-            }
-            .foregroundStyle(.white)
-            .padding(.leading, 10)
-        } else {
-          AsyncImage(url: element.avatarUrl) { phase in
-            switch phase {
-            case .empty:
-              ProgressView()
-            case .success(let image):
-              image
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .clipShape(Circle())
-                .frame(width: 60, height: 60)
-            case .failure:
-              baseAvatarCircle
-            @unknown default:
-              EmptyView()
-            }
-          }
-        }
-      }
-    })
-  }
-  
   @ViewBuilder
   func createListItem(for challengeExercise: ChallengeExercise, with index: Int = 0) -> some View {
     VStack(alignment: .leading, spacing: 0) {
@@ -247,18 +187,18 @@ extension ChallengeView {
   }
   
   private func getNextExercise() -> ChallengeExercise? {
-      let newIndex = currentExerciseIndex + 1
-      if newIndex < challenge.exercises.count {
-          currentExerciseIndex = newIndex
-          return challenge.exercises[newIndex]
-      } else {
-          // If you reach the end, loop back to the first exercise
-          currentExerciseIndex = 0
-          return challenge.exercises.first
-      }
+    let newIndex = currentExerciseIndex + 1
+    if newIndex < challenge.exercises.count {
+      currentExerciseIndex = newIndex
+      return challenge.exercises[newIndex]
+    } else {
+      // If you reach the end, loop back to the first exercise
+      currentExerciseIndex = 0
+      return challenge.exercises.first
+    }
   }
 }
 
 #Preview {
-  ChallengeView(challenge: MockConstants.challenge, participants: MockConstants.persons)
+  ChallengeView(challenge: MockConstants.challenge, onBack: {})
 }

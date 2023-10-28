@@ -10,7 +10,7 @@ import Combine
 
 struct CircleTimerView: View {
   @ObservedObject var viewModel: CircleTimerViewModel
-
+  
   private let durationInSeconds: UInt
   private let subtitle: String
   private var color: Color
@@ -48,7 +48,6 @@ struct CircleTimerView: View {
         .frame(width: 220, height: 220)
       
       VStack(spacing: 0) {
-        
         Text(viewModel.formattedCurrentTime)
           .font(.largeTitle)
           .fontWeight(.black)
@@ -85,11 +84,14 @@ struct CircleTimerView: View {
         .rotationEffect(Angle(degrees: 90))
         .rotationEffect(Angle(degrees: viewModel.isAnimating ? 0 : 360))
       }
-      
     }
     .onAppear {
-      if !viewModel.isAnimating {
-        viewModel.startTimer(workoutDuration: Double(durationInSeconds))
+      DispatchQueue.main.async {
+        withAnimation(animation) {
+          if !viewModel.isAnimating {
+            viewModel.startTimer(workoutDuration: Double(durationInSeconds))
+          }
+        }
       }
     }
     .onChange(of: viewModel.isWorkoutComplete) { isComplete in
@@ -98,7 +100,6 @@ struct CircleTimerView: View {
         onTimerCompleted()
       }
     }
-    .animation(animation, value: viewModel.isAnimating)
   }
 }
 

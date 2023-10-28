@@ -9,19 +9,39 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
+  @Environment(\.mainWindowSize) var windowSize
+  
   @State private var selection: String = "workout"
   @State private var tabSelection: TabBarItem = .workout
-
+  
   var body: some View {
-    ChallengeView(challenge: MockConstants.challenge, participants: MockConstants.persons)
+    TabView {
+      HomeView(challenge: MockConstants.challenge)
+        .tabItem { Label("Home", systemImage: "house") }
+      
+      WorkoutFeedView()
+        .tabItem { Label("Explore", systemImage: "water.waves") }
+      
+      WorkoutFeedView()
+        .tabItem { Label("Profile", systemImage: "person") }
+    }
+    .onAppear(perform: setupTabBarAppearance)
+  }
+  
+  func setupTabBarAppearance() {
+    let bounds = CGRect(x: 0, y: 0, width: windowSize.width, height: 8)
+    let gradientColors = [UIColor.clear.cgColor, UIColor.black.withAlphaComponent(0.1).cgColor]
+    guard
+      let image = UIImage.gradientImageWithBounds(bounds: bounds, colors: gradientColors)
+    else { return }
     
-//    CustomTabBarContainerView(selection: $tabSelection) {
-//      ChallengeView(challenge: challengeMock, participants: participantsMock)
-//        .tabBarItem(tab: .workout, selection: $tabSelection)
-//
-//      AddExerciseView()
-//        .tabBarItem(tab: .add, selection: $tabSelection)
-//    }
+    let appearance = UITabBarAppearance()
+    appearance.configureWithTransparentBackground()
+    appearance.backgroundColor = UIColor.systemGray6
+    appearance.backgroundImage = UIImage()
+    appearance.shadowImage = image
+    
+    UITabBar.appearance().standardAppearance = appearance
   }
 }
 

@@ -20,7 +20,7 @@ class MockConstants {
       ChallengeExercise(name: "Braced Squat", image: "squat", instructions: "When doing squats maintain your back in alignment, by keeping your chest up and your hips back.", rounds: 2, duration: 30, restDuration: 30),
       ChallengeExercise(name: "Jump Rope", image: "jump-rope", instructions: "Engage your abs, loosen your shoulders and turn the rope only with your wrists, not the entire arms.", rounds: 3, duration: 100, restDuration: 10),
       ChallengeExercise(name: "Jump Squat", image: "jumo-squat", instructions: "Keep your breathing pattern as natural as possible and exhale as you jump. Maintain your back in alignment by keeping your chest up and your hips back", rounds: 2, duration: 180, restDuration: 30)
-    ])
+    ], participants: MockConstants.persons)
   
   // MARK: - Person
   

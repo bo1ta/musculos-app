@@ -13,8 +13,11 @@ struct MusculosApp: App {
 
   var body: some Scene {
     WindowGroup {
-      ContentView()
-        .environment(\.managedObjectContext, self.coreDataStack.mainContext)
+      GeometryReader { proxy in
+        ContentView()
+          .environment(\.managedObjectContext, self.coreDataStack.mainContext)
+          .environment(\.mainWindowSize, proxy.size)
+      }
     }
   }
 }
