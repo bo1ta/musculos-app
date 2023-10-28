@@ -96,6 +96,7 @@ struct ChallengeExerciseView: View {
         }
 
         circleView
+          .padding(.top)
       }
     }
     .padding([.leading, .trailing], 10)
