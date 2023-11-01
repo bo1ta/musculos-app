@@ -54,12 +54,9 @@ struct CircleTimerView: View {
       }
       .onAppear {
         guard !viewModel.isAnimating else { return }
-
-        DispatchQueue.main.async {
-          withAnimation(animation) {
-            if !viewModel.isAnimating {
-              viewModel.initializeTimer()
-            }
+        withAnimation(animation) {
+          if !viewModel.isAnimating {
+            viewModel.initializeTimer()
           }
         }
       }
@@ -137,6 +134,7 @@ struct CircleTimerView: View {
         }
         .shadow(radius: 2)
     })
+    .disabled(viewModel.isTimerComplete)
   }
 }
 
