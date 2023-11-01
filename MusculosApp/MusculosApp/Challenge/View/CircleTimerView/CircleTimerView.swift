@@ -43,10 +43,7 @@ struct CircleTimerView: View {
   private var circleView: some View {
     innerCircle
       .overlay {
-        outerCircle
-        .overlay {
-          animatingRing
-        }
+        animatingRing
       }
       .onAppear {
         guard !viewModel.isAnimating else { return }
@@ -54,12 +51,12 @@ struct CircleTimerView: View {
         DispatchQueue.main.async {
           withAnimation(animation) {
             if !viewModel.isAnimating {
-              viewModel.startTimer(workoutDuration: Double(durationInSeconds))
+              viewModel.initializeTimer()
             }
           }
         }
       }
-      .onChange(of: viewModel.isWorkoutComplete) { isComplete in
+      .onChange(of: viewModel.isTimerComplete) { isComplete in
         if isComplete {
           viewModel.stopTimer()
           onTimerCompleted()
@@ -95,33 +92,22 @@ struct CircleTimerView: View {
   }
   
   @ViewBuilder
-  private var outerCircle: some View {
+  private var animatingRing: some View {
     ZStack {
       Circle()
-        .trim(from: 0, to: viewModel.isAnimating ? .leastNormalMagnitude : 1)
+        .trim(from: 0, to: viewModel.currentTrimValue)
         .stroke(lineWidth: 16)
-        .foregroundColor(color.opacity(0.5))
+        .foregroundColor(color)
         .frame(width: 190, height: 190)
         .rotationEffect(.degrees(-90))
       
       Circle()
-        .trim(from: 0, to: viewModel.isAnimating ? .leastNormalMagnitude : 1)
+        .trim(from: 0, to: viewModel.currentTrimValue)
         .stroke(lineWidth: 8)
         .foregroundColor(color)
         .frame(width: 200, height: 200)
         .rotationEffect(.degrees(-90))
     }
-  }
-  
-  @ViewBuilder
-  private var animatingRing: some View {
-    ZStack {
-      Circle()
-        .frame(width: 4, height: 4)
-        .foregroundColor(color)
-    }
-    .rotationEffect(Angle(degrees: 90))
-    .rotationEffect(Angle(degrees: viewModel.isAnimating ? 0 : 360))
   }
   
   @ViewBuilder

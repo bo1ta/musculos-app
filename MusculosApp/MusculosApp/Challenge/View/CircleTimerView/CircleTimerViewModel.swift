@@ -15,38 +15,22 @@ class CircleTimerViewModel: ObservableObject {
   private var totalDuration: Double
   
   @Published var isAnimating: Bool = false
-  @Published var isPaused: Bool = true
-    
+  @Published var isPaused: Bool = false
   @Published var currentTime: TimeInterval
-  @Published var rotationAngle: Angle = .degrees(360)
   
-  let timer = Timer.publish(every: 1, on: .main, in: .common)
+  private let timer = Timer.publish(every: 1, on: .main, in: .common)
   
   init(timeDuration: TimeInterval) {
     self.currentTime = timeDuration
     self.totalDuration = Double(timeDuration)
   }
   
-  var isWorkoutComplete: Bool {
-    return currentTime == 0
-  }
+  // MARK: - Timer
   
-  var formattedCurrentTime: String {
-    let minutes = Int(currentTime) / 60
-    let seconds = Int(currentTime) % 60
-    return String(format: "%d:%02d", minutes, seconds)
-  }
-  
-  private var currentRotationAngle: Double {
-    let angle = (1 - (currentTime / totalDuration)) * 360
-    return angle
-  }
-  
-  func startTimer(workoutDuration: TimeInterval) {
+  func initializeTimer() {
     isAnimating = isPaused ? false : true
     timerSubscription = timer.autoconnect().sink(receiveValue: { [weak self] _ in
-      guard let isPaused = self?.isPaused else { return }
-      if isPaused {
+      if self?.isPaused == true {
         self?.isAnimating = false
       } else {
         self?.currentTime -= 1
@@ -57,7 +41,6 @@ class CircleTimerViewModel: ObservableObject {
   func pauseTimer() {
     isAnimating = false
     isPaused = true
-    rotationAngle = Angle(degrees: currentRotationAngle)
   }
   
   func resumeTimer() {
@@ -69,6 +52,22 @@ class CircleTimerViewModel: ObservableObject {
     isAnimating = false
     timerSubscription?.cancel()
     timerCancellable = nil
+  }
+  
+  // MARK: - Computed properties
+  
+  var isTimerComplete: Bool {
+    currentTime == 0
+  }
+  
+  var formattedCurrentTime: String {
+    let minutes = Int(currentTime) / 60
+    let seconds = Int(currentTime) % 60
+    return String(format: "%d:%02d", minutes, seconds)
+  }
+
+  var currentTrimValue: CGFloat {
+    1 - CGFloat(1 - (currentTime / totalDuration))
   }
 }
 

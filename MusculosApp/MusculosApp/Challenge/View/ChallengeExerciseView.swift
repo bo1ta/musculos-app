@@ -17,7 +17,7 @@ struct ChallengeExerciseView: View {
   
   @State private var currentRound = 0
   @State private var timerType: TimerType = .active
-    @State private var currentTimerInSeconds: Int
+  @State private var currentTimerInSeconds: Int
   
   init(challengeExercise: ChallengeExercise, onClose: @escaping (_: Bool) -> Void) {
     self.challengeExercise = challengeExercise
@@ -112,15 +112,25 @@ struct ChallengeExerciseView: View {
   @ViewBuilder
   private var circleView: some View {
     if timerType == TimerType.active {
-      CircleTimerView(durationInSeconds: $currentTimerInSeconds, subtitle: "min", color: Color.appColor(with: .navyBlue), onTimerCompleted: handleNextTimer)
+      CircleTimerView(
+        durationInSeconds: $currentTimerInSeconds,
+        subtitle: "min",
+        color: Color.appColor(with: .navyBlue),
+        onTimerCompleted: handleNextTimer
+      )
       .id(UUID())
     } else if timerType == TimerType.rest {
-      CircleTimerView(durationInSeconds: $currentTimerInSeconds, subtitle: "rest", color: .gray, onTimerCompleted: handleNextTimer)
+      CircleTimerView(
+        durationInSeconds: $currentTimerInSeconds,
+        subtitle: "rest",
+        color: .gray,
+        onTimerCompleted: handleNextTimer
+      )
       .id(UUID())
     }
   }
   
-  // MARK: - Helpers and computed properties
+  // MARK: - Helpers
   
   /// e.g. `Round 1/3 | 30 sec rest`
   private var subtitleText: String {
