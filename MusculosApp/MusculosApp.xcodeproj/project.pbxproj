@@ -302,9 +302,9 @@
 		BC0170FF2AEB367C005876EE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BC8E86E52AF026B4008E3CE4 /* CircleTimerView */,
 				BCA87E582AE83B3800453E4B /* ChallengeView.swift */,
 				BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */,
-				BC0170FB2AE9B7A9005876EE /* CircleTimerView.swift */,
 				BC0171002AEC3E0A005876EE /* CongratulationView.swift */,
 				BC01710A2AEC6DBD005876EE /* PersonAvatarCircle.swift */,
 			);
@@ -714,6 +714,15 @@
 			path = "Environment Key";
 			sourceTree = "<group>";
 		};
+		BC8E86E52AF026B4008E3CE4 /* CircleTimerView */ = {
+			isa = PBXGroup;
+			children = (
+				BC0170FB2AE9B7A9005876EE /* CircleTimerView.swift */,
+				BC0170FD2AE9B948005876EE /* CircleTimerViewModel.swift */,
+			);
+			path = CircleTimerView;
+			sourceTree = "<group>";
+		};
 		BC96C2F62AC3665400F11CAB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -734,7 +743,6 @@
 			isa = PBXGroup;
 			children = (
 				BCA87E5B2AE8606F00453E4B /* Challenge.swift */,
-				BC0170FD2AE9B948005876EE /* CircleTimerViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
