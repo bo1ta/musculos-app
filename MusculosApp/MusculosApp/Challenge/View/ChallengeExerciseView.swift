@@ -59,7 +59,7 @@ struct ChallengeExerciseView: View {
       .overlay {
         ZStack {
           VStack {
-            /// if it's completed we'll show the `Get reward` button so no need for the back button
+            /// if it's completed we show the `Get reward` button so no need for the back button
             if timerType != .completed {
               HStack {
                 backButton

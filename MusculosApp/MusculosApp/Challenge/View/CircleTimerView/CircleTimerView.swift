@@ -16,9 +16,16 @@ struct CircleTimerView: View {
   private var color: Color
   private var onTimerCompleted: () -> Void
   
-  init(durationInSeconds: Binding<Int>, subtitle: String = "min", color: Color = Color.appColor(with: .grassGreen), onTimerCompleted: @escaping () -> Void) {
+  init(
+    durationInSeconds: Binding<Int>,
+    subtitle: String = "min",
+    color: Color = Color.appColor(with: .grassGreen),
+    onTimerCompleted: @escaping () -> Void
+  ) {
     self._durationInSeconds = durationInSeconds
-    self._viewModel = .init(wrappedValue: CircleTimerViewModel(timeDuration: Double(durationInSeconds.wrappedValue)))
+    self._viewModel = .init(
+      wrappedValue: CircleTimerViewModel(timeDuration: Double(durationInSeconds.wrappedValue))
+    )
     self.subtitle = subtitle
     self.color = color
     self.onTimerCompleted = onTimerCompleted
@@ -47,7 +54,7 @@ struct CircleTimerView: View {
       }
       .onAppear {
         guard !viewModel.isAnimating else { return }
-        
+
         DispatchQueue.main.async {
           withAnimation(animation) {
             if !viewModel.isAnimating {
@@ -58,7 +65,7 @@ struct CircleTimerView: View {
       }
       .onChange(of: viewModel.isTimerComplete) { isComplete in
         if isComplete {
-          viewModel.stopTimer()
+          viewModel.clearTimer()
           onTimerCompleted()
         }
       }

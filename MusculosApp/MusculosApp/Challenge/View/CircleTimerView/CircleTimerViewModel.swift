@@ -48,7 +48,7 @@ class CircleTimerViewModel: ObservableObject {
     isPaused = false
   }
   
-  func stopTimer() {
+  func clearTimer() {
     isAnimating = false
     timerSubscription?.cancel()
     timerCancellable = nil
