@@ -19,9 +19,8 @@ final class WorkoutFeedViewModel: ObservableObject {
   @Published var isLoading = false
   @Published var searchQuery: String = ""
   @Published var selectedMuscles: [MuscleInfo] = []
-
-  private var cancellables: Set<AnyCancellable> = []
-
+  
+  // MARK: API
   private lazy var workoutManager: WorkoutManager = {
     return WorkoutManager()
   }()
@@ -29,14 +28,25 @@ final class WorkoutFeedViewModel: ObservableObject {
   private lazy var exerciseModule: ExerciseModule = {
     return ExerciseModule()
   }()
-
-  private var initialExercises: [Exercise] = []
+  
+  // MARK: Cache and clean up
+  private var initialExercises: [Exercise]?
+  private var cancellables: Set<AnyCancellable> = []
+  
+  // MARK: Pagination
+  private var currentOffset = 0
+  private var totalExercisesAvailable: Int?
+  private var exercisesLoadedCount: Int?
 
   init() {
     $searchQuery
       .debounce(for: 0.5, scheduler: DispatchQueue.main)
       .sink { [weak self] query in
-        self?.searchExercise(with: query)
+        if let initialExercises = self?.initialExercises, query == "" {
+          self?.currentExercises = initialExercises
+        } else {
+          self?.searchExercise(with: query)
+        }
       }
       .store(in: &cancellables)
 
@@ -50,29 +60,54 @@ final class WorkoutFeedViewModel: ObservableObject {
   func filterExercises(by filter: String) {
     switch filter {
     case "Favorites":
-      self.filterFavoriteExercises()
+      filterFavoriteExercises()
       return
     default:
-      self.currentExercises = initialExercises
+      if let initialExercises = self.initialExercises {
+        currentExercises = initialExercises
+      }
       return
     }
   }
 
   func loadInitialData() async {
-    await self.loadExercises()
+    currentOffset = 0
+    await loadExercises(offset: currentOffset)
+  }
+  
+  func maybeRequestMoreExercises(index: Int) async {
+    // check if the current index meets the threshold
+    guard
+      let exercisesLoadedCount = self.exercisesLoadedCount,
+      shouldRequestMore(itemsLoadedCount: exercisesLoadedCount, index: index)
+    else { return }
+    
+    // go 10 by 10 for the offset
+    // since the list limit is also 10
+    currentOffset += 10
+    await loadExercises(offset: currentOffset)
+  }
+  
+  private func shouldRequestMore(itemsLoadedCount: Int, index: Int) -> Bool {
+    return index >= itemsLoadedCount - 1
   }
 
-  func loadExercises() async {
+  func loadExercises(offset: Int) async {
     do {
-      self.isLoading = true
-      defer { self.isLoading = false }
+      isLoading = true
+      defer { isLoading = false }
 
-      let exercises = try await self.workoutManager.fetchExercises()
-      self.currentExercises.append(contentsOf: exercises)
-      self.initialExercises = exercises
+      let exercises = try await workoutManager.fetchExercises(offset: offset)
+      currentExercises.append(contentsOf: exercises)
+      exercisesLoadedCount = currentExercises.count
+      
+      // cache the first result
+      if initialExercises == nil {
+        initialExercises = exercises
+      }
     } catch {
+      errorMessage = error.localizedDescription
       MusculosLogger.log(.error, message: "Error loading exercises", category: .ui)
-      self.errorMessage = error.localizedDescription
     }
   }
 

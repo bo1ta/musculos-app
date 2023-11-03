@@ -21,10 +21,6 @@ final class WorkoutManager {
   }
 }
 
-// MARK: - Local storage
-// First, try fetching them from the Core Data store
-// If that fails, make an api request. If successful, save the models to Core Data
-
 extension WorkoutManager {
   func fetchLocalExercises() throws -> [Exercise] {
     do {
@@ -67,14 +63,10 @@ extension WorkoutManager {
     let fetchRequest = NSFetchRequest<ExerciseManagedObject>(entityName: "ExerciseManagedObject")
     fetchRequest.fetchLimit = 1
     fetchRequest.predicate = NSPredicate(format: "name LIKE %@", exercise.name)
-    if let exerciseManagedObject = try self.context.fetch(fetchRequest).first {
+    if let _ = try self.context.fetch(fetchRequest).first {
       MusculosLogger.log(.info, message: "Exercise already exists", category: .coreData)
     } else {
       _ = exercise.toEntity(context: self.context)
     }
   }
-
-  //  func searchForExercise(with query: String) -> AnyPublisher<[Exercise], MusculosError> {
-  //
-  //  }
 }
