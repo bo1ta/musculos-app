@@ -37,6 +37,8 @@ final class WorkoutFeedViewModel: ObservableObject {
   private var currentOffset = 0
   private var totalExercisesAvailable: Int?
   private var exercisesLoadedCount: Int?
+  
+  var overrideLocalPreview = false
 
   init() {
     $searchQuery
@@ -69,8 +71,21 @@ final class WorkoutFeedViewModel: ObservableObject {
       return
     }
   }
+  
+  func loadLocalExercises() {
+    do {
+      currentExercises = try workoutManager.fetchLocalExercises()
+    } catch {
+      errorMessage = error.localizedDescription
+    }
+  }
 
   func loadInitialData() async {
+    guard !overrideLocalPreview else {
+      loadLocalExercises()
+      return
+    }
+    
     currentOffset = 0
     await loadExercises(offset: currentOffset)
   }

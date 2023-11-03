@@ -10,7 +10,12 @@ import SwiftUI
 struct WorkoutFeedView: View {
   @StateObject var viewModel = WorkoutFeedViewModel()
 
+  let overrideLocalExercises: Bool
   private let options = ["Favorites", "Home workout", "Gym workout"]
+  
+  init(overrideLocalExericses: Bool = false) {
+    self.overrideLocalExercises = overrideLocalExericses
+  }
 
   var body: some View {
     return backgroundView {
@@ -87,7 +92,7 @@ struct WorkoutFeedView: View {
 
 struct WorkoutFeedView_Preview: PreviewProvider {
   static var previews: some View {
-    WorkoutFeedView()
+    WorkoutFeedView(overrideLocalExericses: true)
   }
 }
 
