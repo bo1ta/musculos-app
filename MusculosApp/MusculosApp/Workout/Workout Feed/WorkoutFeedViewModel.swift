@@ -93,6 +93,7 @@ final class WorkoutFeedViewModel: ObservableObject {
   func maybeRequestMoreExercises(index: Int) async {
     // check if the current index meets the threshold
     guard
+      !overrideLocalPreview,
       let exercisesLoadedCount = self.exercisesLoadedCount,
       shouldRequestMore(itemsLoadedCount: exercisesLoadedCount, index: index)
     else { return }

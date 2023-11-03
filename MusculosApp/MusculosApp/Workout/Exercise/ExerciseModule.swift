@@ -40,10 +40,11 @@ final class ExerciseModule {
     return try await Exercise.createFrom(responseData)
   }
 
-  func searchExercise(by name: String) -> AnyPublisher<[Exercise], MusculosError> {
+  func searchExercise(by name: String, offset: Int = 0) -> AnyPublisher<[Exercise], MusculosError> {
     let path = Endpoint.searchExercise(name: name)
     var request = APIRequest(method: .get, path: path)
     request.queryParams = [
+      URLQueryItem(name: "offset", value: String(offset)),
       URLQueryItem(name: "limit", value: "10")
     ]
 
