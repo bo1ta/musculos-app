@@ -13,29 +13,19 @@ struct WorkoutFeedView: View {
   private let options = ["Favorites", "Home workout", "Gym workout"]
 
   var body: some View {
-    backgroundView {
+    return backgroundView {
       VStack(spacing: 5) {
-        SearchBarView(placeholderText: "Search workouts", searchQuery: $viewModel.searchQuery, onFiltersTapped: {
-          self.viewModel.isFiltersPresented.toggle()
-        })
-
-        ButtonHorizontalStackView(selectedOption: $viewModel.selectedFilter, options: self.options, buttonsHaveEqualWidth: false)
-
-        ScrollView(.vertical, showsIndicators: false, content: {
-          ForEach(viewModel.currentExercises, id: \.self) { exercise in
-            Button {
-              self.viewModel.selectedExercise = exercise
-              self.viewModel.isExerciseDetailPresented = true
-            } label: {
-              CurrentWorkoutCardView(exercise: exercise)
-            }
-          }
-        })
-        .padding(0)
+        searchBar
+        ButtonHorizontalStackView(
+          selectedOption: $viewModel.selectedFilter,
+          options: self.options,
+          buttonsHaveEqualWidth: false
+        )
+        exerciseCards
       }
     }
     .task {
-      await self.viewModel.loadExercises()
+      await viewModel.loadInitialData()
     }
     .sheet(isPresented: $viewModel.isFiltersPresented) {
       SelectMuscleView(selectedMuscles: self.$viewModel.selectedMuscles)
@@ -43,6 +33,36 @@ struct WorkoutFeedView: View {
     .sheet(isPresented: $viewModel.isExerciseDetailPresented) {
       ExerciseView(exercise: viewModel.selectedExercise!)
     }
+  }
+  
+  // MARK: - Views
+  
+  @ViewBuilder
+  private var searchBar: some View {
+    SearchBarView(placeholderText: "Search workouts", searchQuery: $viewModel.searchQuery, onFiltersTapped: {
+      self.viewModel.isFiltersPresented.toggle()
+    })
+  }
+  
+  @ViewBuilder
+  private var exerciseCards: some View {
+    let enumeratedExercises = Array(viewModel.currentExercises.enumerated())
+    List(enumeratedExercises, id: \.element.id) { index, item in
+      Button {
+        self.viewModel.selectedExercise = item
+        self.viewModel.isExerciseDetailPresented = true
+      } label: {
+        CurrentWorkoutCardView(exercise: item)
+          .onAppear {
+            Task { await viewModel.maybeRequestMoreExercises(index: index) }
+          }
+      }
+      .listRowBackground(Color.clear)
+      .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+    }
+    .frame(maxHeight: .infinity)
+    .listRowBackground(Color.clear)
+    .scrollContentBackground(.hidden)
   }
 
   @ViewBuilder
@@ -61,7 +81,6 @@ struct WorkoutFeedView: View {
         }
 
       content()
-        .padding(4)
     }
   }
 }
