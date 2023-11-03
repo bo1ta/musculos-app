@@ -30,6 +30,7 @@ struct WorkoutFeedView: View {
       }
     }
     .task {
+      viewModel.overrideLocalPreview = overrideLocalExercises
       await viewModel.loadInitialData()
     }
     .sheet(isPresented: $viewModel.isFiltersPresented) {
@@ -66,7 +67,6 @@ struct WorkoutFeedView: View {
       .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
     }
     .frame(maxHeight: .infinity)
-    .listRowBackground(Color.clear)
     .scrollContentBackground(.hidden)
   }
 
