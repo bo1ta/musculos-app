@@ -14,46 +14,48 @@ enum IconPillSize {
 struct IconPill: View {
   private let option: IconPillOption
   private let iconPillSize: IconPillSize = .small
+  private let backgroundColor: Color
 
-  init(option: IconPillOption) {
+  init(option: IconPillOption, backgroundColor: Color = .black) {
     self.option = option
+    self.backgroundColor = backgroundColor
   }
 
   private var systemImageSize: CGFloat {
-    guard self.option.systemImage != nil else { return 0 }
+    guard option.systemImage != nil else { return 0 }
 
     /// `ImageScale.small
     return 40.0
   }
 
   private var fontSizeWidth: CGFloat {
-    return self.option.title.widthOfString(usingFont: .systemFont(ofSize: 12))
+    return option.title.widthOfString(usingFont: .systemFont(ofSize: 12))
   }
 
   private var rectangleWidth: CGFloat {
-    switch self.iconPillSize {
+    switch iconPillSize {
     case .small:
-      return (self.systemImageSize + self.fontSizeWidth + 20) / 2 + 20
+      return (systemImageSize + fontSizeWidth + 20) / 2 + 20
     case .medium, .large:
       break
     }
-    return self.systemImageSize + self.fontSizeWidth + 20
+    return systemImageSize + fontSizeWidth + 20
   }
 
   var body: some View {
     RoundedRectangle(cornerRadius: 12)
-      .foregroundColor(.black)
-      .frame(minWidth: self.rectangleWidth, minHeight: 25)
+      .foregroundColor(backgroundColor)
+      .frame(minWidth: rectangleWidth, minHeight: 25)
       .overlay {
         VStack(alignment: .center) {
           HStack(spacing: 3) {
-            if let systemImage = self.option.systemImage {
+            if let systemImage = option.systemImage {
               Image(systemName: systemImage)
                 .imageScale(.small)
                 .foregroundColor(.white)
             }
 
-            Text(self.option.title)
+            Text(option.title)
               .foregroundColor(.white)
               .font(Font(CTFont(.smallToolbar, size: 10)))
           }

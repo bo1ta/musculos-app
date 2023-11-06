@@ -11,103 +11,118 @@ import CoreData
 struct ExerciseView: View {
   @Environment(\.dismiss) var dismiss
   @Environment(\.managedObjectContext) private var managedObjectContext
-
+  
   let exercise: Exercise
-
+  
   @ObservedObject var viewModel: ExerciseViewModel
-
+  
   init(exercise: Exercise) {
     self.exercise = exercise
     self.viewModel = ExerciseViewModel(exercise: exercise)
   }
-
+  
   var body: some View {
     VStack(spacing: 10) {
-      self.header
+      header
         .padding(.bottom, 10)
-
-      if self.viewModel.shouldShowAnatomyView {
+      
+      if viewModel.shouldShowAnatomyView {
         HStack {
           Spacer()
-
-          if let frontAnatomyIds = self.viewModel.frontMuscles {
+          
+          if let frontAnatomyIds = viewModel.frontMuscles {
             AnatomyOverlayView(musclesIds: frontAnatomyIds)
           }
-
-          if let backAnatomyIds = self.viewModel.backMuscles {
+          
+          if let backAnatomyIds = viewModel.backMuscles {
             AnatomyOverlayView(musclesIds: backAnatomyIds, isFront: false)
           }
-
+          
           Spacer()
         }
       }
-
-      HStack {
-        IconPill(option: IconPillOption(title: self.exercise.bodyPart))
-        IconPill(option: IconPillOption(title: self.exercise.equipment))
-
-        Spacer()
-
-        let isFavorite = self.viewModel.isFavorite
-
-        Button {
-          DispatchQueue.main.async {
-            self.viewModel.toggleFavorite()
-          }
-        } label: {
-          Circle()
-            .frame(width: 30, height: 30)
-            .overlay(content: {
-              Image(systemName: "heart.fill")
-                .foregroundStyle(isFavorite == true ? .red : .white)
-                .fontWeight(.bold)
-            })
-            .foregroundStyle(isFavorite ? .white : .gray)
-            .opacity(isFavorite ? 1.0 : 0.7)
-        }
-      }
-      .padding([.leading, .trailing, .bottom], 10)
       
       backgroundView
         .frame(width: 200, height: 200)
-  
-
-      List(self.exercise.instructions, id: \.self) { instruction in
-        Text(instruction)
-          .font(.caption)
-          .foregroundStyle(.primary)
+      
+      HStack {
+        IconPill(option: IconPillOption(title: exercise.bodyPart), backgroundColor: .cyan)
+        IconPill(option: IconPillOption(title: exercise.equipment), backgroundColor: .green)
+        
+        Spacer()
+        
+        favoriteButton
+      }
+      .padding([.leading, .trailing, .bottom], 10)
+      
+      
+      List(Array(exercise.instructions.enumerated()), id: \.element) { index, instruction in
+        HStack {
+          Text("\(index + 1)")
+          Text(instruction)
+            .
+        }
       }
     }
     .onAppear {
-      self.viewModel.loadData()
+      viewModel.loadData()
+    }
+  }
+  
+  @ViewBuilder
+  private var favoriteButton: some View {
+    Button {
+      viewModel.toggleFavorite()
+    } label: {
+      Image(systemName: "heart.fill")
+        .foregroundStyle(viewModel.isFavorite ? .red : .white)
+        .fontWeight(.bold)
+        .foregroundStyle(viewModel.isFavorite ? .white : .gray)
+        .opacity(viewModel.isFavorite ? 1.0 : 0.7)
     }
   }
   
   @ViewBuilder
   private var backgroundView: some View {
-    if let gifUrl = URL(string: self.exercise.gifUrl) {
+    if let gifUrl = URL(string: exercise.gifUrl) {
       GIFView(url: Binding(get: { gifUrl }, set: { _ in }))
+        .aspectRatio(contentMode: .fit)
+        .padding(.top, 10)
     } else {
       Color.black
     }
   }
-
+  
+  @ViewBuilder
+  private var backButton: some View {
+    Button(action: {
+      print("hei")
+    }, label: {
+      Image(systemName: "chevron.left")
+        .resizable()
+        .bold()
+        .frame(width: 15, height: 20)
+        .foregroundStyle(.black)
+    })
+  }
+  
   @ViewBuilder
   private var header: some View {
-    Rectangle()
-      .foregroundColor(.black)
-      .frame(maxHeight: 60)
-      .overlay {
-        HStack {
-          Spacer()
-
-          Text(self.exercise.name)
-            .foregroundStyle(.white)
-            .font(.title2)
-
-          Spacer()
-        }
+    HStack {
+      Group {
+        backButton
+          .padding(.leading, 15)
       }
+      Spacer()
+      
+      Text(exercise.name)
+        .foregroundStyle(.black)
+        .font(.title2)
+        .bold()
+        .padding(.leading, -15)
+      
+      Spacer()
+    }
   }
 }
 
