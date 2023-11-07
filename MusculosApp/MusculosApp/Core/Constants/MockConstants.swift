@@ -31,4 +31,8 @@ class MockConstants {
     Person(avatar: "https://ebizfiling.com/wp-content/uploads/2017/12/images_29-3.jpg", name: "David"),
     Person(avatar: "https://www.bentbusinessmarketing.com/wp-content/uploads/2013/02/35844588650_3ebd4096b1_b-1024x683.jpg", name: "Ionut")
   ]
+  
+  // MARK: - Exercise
+  
+  static let exercise = Exercise(bodyPart: "back", equipment: "dumbbell", gifUrl: "", id: "1", name: "Back workout", target: "back", secondaryMuscles: [""], instructions: ["Get up", "Get down"])
 }
