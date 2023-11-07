@@ -21,8 +21,12 @@ struct WorkoutFeedView: View {
     NavigationStack {
       backgroundView {
         VStack(spacing: 5) {
-          searchBar
-          filterButtonsStack
+          Group {
+            searchBar
+            filterButtonsStack
+          }
+          .padding([.leading, .trailing], 5)
+          
           exerciseCards
         }
         .task {
