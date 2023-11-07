@@ -11,108 +11,161 @@ import CoreData
 struct ExerciseView: View {
   @Environment(\.dismiss) var dismiss
   @Environment(\.managedObjectContext) private var managedObjectContext
-
+  
   let exercise: Exercise
-
+  let onBack: () -> Void
+  
   @ObservedObject var viewModel: ExerciseViewModel
-
-  init(exercise: Exercise) {
+  
+  init(exercise: Exercise, onBack: @escaping () -> Void) {
     self.exercise = exercise
+    self.onBack = onBack
     self.viewModel = ExerciseViewModel(exercise: exercise)
   }
-
+  
   var body: some View {
     VStack(spacing: 10) {
-      self.header
-        .padding(.bottom, 10)
-
-      if self.viewModel.shouldShowAnatomyView {
-        HStack {
-          Spacer()
-
-          if let frontAnatomyIds = self.viewModel.frontMuscles {
-            AnatomyOverlayView(musclesIds: frontAnatomyIds)
-          }
-
-          if let backAnatomyIds = self.viewModel.backMuscles {
-            AnatomyOverlayView(musclesIds: backAnatomyIds, isFront: false)
-          }
-
-          Spacer()
-        }
-      }
-
-      HStack {
-        IconPill(option: IconPillOption(title: self.exercise.bodyPart))
-        IconPill(option: IconPillOption(title: self.exercise.equipment))
-
-        Spacer()
-
-        let isFavorite = self.viewModel.isFavorite
-
-        Button {
-          DispatchQueue.main.async {
-            self.viewModel.toggleFavorite()
-          }
-        } label: {
-          Circle()
-            .frame(width: 30, height: 30)
-            .overlay(content: {
-              Image(systemName: "heart.fill")
-                .foregroundStyle(isFavorite == true ? .red : .white)
-                .fontWeight(.bold)
-            })
-            .foregroundStyle(isFavorite ? .white : .gray)
-            .opacity(isFavorite ? 1.0 : 0.7)
-        }
-      }
-      .padding([.leading, .trailing, .bottom], 10)
+      header
       
-      backgroundView
-        .frame(width: 200, height: 200)
-  
-
-      List(self.exercise.instructions, id: \.self) { instruction in
-        Text(instruction)
-          .font(.caption)
-          .foregroundStyle(.primary)
+      ScrollView {
+        if viewModel.shouldShowAnatomyView {
+          anatomyView
+        } else {
+          CurrentWorkoutCardView(exercise: exercise, showDetails: false)
+            .padding(.bottom, 5)
+          exerciseCallouts
+          instructionsList
+        }
       }
+      .scrollIndicators(.hidden)
+
+      Spacer()
     }
+    .padding(10)
     .onAppear {
-      self.viewModel.loadData()
+      viewModel.loadData()
+    }
+    .navigationBarBackButtonHidden()
+    .navigationTitle("")
+    .toolbar(.hidden, for: .tabBar)
+  }
+  
+  // MARK: - Views
+  
+  @ViewBuilder
+  private var exerciseCallouts: some View {
+    HStack {
+      IconPill(option: IconPillOption(title: exercise.bodyPart), backgroundColor: .cyan)
+      IconPill(option: IconPillOption(title: exercise.equipment), backgroundColor: .green)
+      
+      Spacer()
+      
+      favoriteButton
+    }
+    .padding([.leading, .trailing, .bottom], 10)
+  }
+  
+  @ViewBuilder
+  private var favoriteButton: some View {
+    Button {
+      viewModel.toggleFavorite()
+    } label: {
+      Image(systemName: "heart.fill")
+        .foregroundStyle(viewModel.isFavorite ? .red : .black)
+        .fontWeight(.bold)
+        .opacity(viewModel.isFavorite ? 1.0 : 0.7)
     }
   }
   
   @ViewBuilder
-  private var backgroundView: some View {
-    if let gifUrl = URL(string: self.exercise.gifUrl) {
-      GIFView(url: Binding(get: { gifUrl }, set: { _ in }))
-    } else {
-      Color.black
-    }
+  private var backButton: some View {
+    Button(action: {
+      dismiss()
+      onBack()
+    }, label: {
+      Image(systemName: "chevron.left")
+        .resizable()
+        .bold()
+        .frame(width: 15, height: 20)
+        .foregroundStyle(.black)
+    })
   }
-
+  
   @ViewBuilder
   private var header: some View {
-    Rectangle()
-      .foregroundColor(.black)
-      .frame(maxHeight: 60)
-      .overlay {
-        HStack {
-          Spacer()
-
-          Text(self.exercise.name)
-            .foregroundStyle(.white)
-            .font(.title2)
-
-          Spacer()
-        }
+    HStack {
+      backButton
+        .padding(.leading, 15)
+      Spacer()
+      
+      Text(exercise.name)
+        .foregroundStyle(.black)
+        .font(.title2)
+        .bold()
+        .padding(.leading, -15)
+        .padding(.trailing, 15)
+        .lineLimit(0)
+      
+      Spacer()
+    }
+  }
+  
+  @ViewBuilder
+  private var instructionsList: some View {
+    ForEach(Array(exercise.instructions.enumerated()), id: \.element) { index, instruction in
+        createListItem(index: index, instruction: instruction)
+    }
+    .padding(.top, 10)
+  }
+  
+  @ViewBuilder
+  private var anatomyView: some View {
+    HStack {
+      Spacer()
+      if let frontAnatomyIds = viewModel.frontMuscles {
+        AnatomyOverlayView(musclesIds: frontAnatomyIds)
       }
+      
+      if let backAnatomyIds = viewModel.backMuscles {
+        AnatomyOverlayView(musclesIds: backAnatomyIds, isFront: false)
+      }
+      Spacer()
+    }
+  }
+
+  @ViewBuilder
+  private func createListItem(index: Int, instruction: String) -> some View {
+    let rectangleHeight: CGFloat = index == exercise.instructions.count - 1 ? 0 : 45
+    
+    VStack(alignment: .leading, spacing: 5) {
+      HStack {
+        Circle()
+          .frame(width: 25, height: 25)
+          .foregroundStyle(.black)
+          .overlay {
+            VStack {
+              Text("\(index + 1)")
+                .foregroundStyle(.white)
+                .font(.caption)
+            }
+          }
+        Text(instruction)
+          .font(.body)
+          .padding(.leading, 5)
+        Spacer()
+      }
+      Rectangle()
+        .fill(.blue)
+        .frame(width: 1, height: rectangleHeight, alignment: .leading)
+        .padding(.leading, 12)
+    }
+    .padding(10)
+
   }
 }
 
 struct ExerciseView_Previews: PreviewProvider {
   static var previews: some View {
-    ExerciseView(exercise: Exercise(bodyPart: "back", equipment: "dumbbell", gifUrl: "", id: "1", name: "Back workout", target: "back", secondaryMuscles: [""], instructions: ["Get up", "Get down"]))
+    ExerciseView(exercise: MockConstants.exercise, onBack: {})
   }
 }

@@ -34,5 +34,6 @@ struct GIFView: UIViewRepresentable {
 
   func updateUIView(_ uiView: UIImageView, context: Context) {
     uiView.setGifFromURL(self.url)
+    uiView.contentMode = .scaleAspectFit
   }
 }

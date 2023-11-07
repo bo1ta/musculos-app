@@ -38,6 +38,7 @@ final class WorkoutFeedViewModel: ObservableObject {
   private var totalExercisesAvailable: Int?
   private var exercisesLoadedCount: Int?
   
+  // Used for preview so we don't make unnecessary network requests
   var overrideLocalPreview = false
 
   init() {
@@ -99,7 +100,7 @@ final class WorkoutFeedViewModel: ObservableObject {
     else { return }
     
     // go 10 by 10 for the offset
-    // since the list limit is also 10
+    // since the request limit is also 10
     currentOffset += 10
     await loadExercises(offset: currentOffset)
   }

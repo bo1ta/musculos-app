@@ -27,7 +27,9 @@ struct ChallengeView: View {
       Spacer()
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {
-      GreenGrassButton(action: { showExerciseView.toggle() }, text: "Start")
+      GreenGrassButton(action: {
+        showExerciseView.toggle()
+      }, text: "Start")
     }
     .navigationDestination(isPresented: $showExerciseView) {
       if let exercise = currentExercise {
@@ -179,7 +181,7 @@ extension ChallengeView {
       let isLast = challengeExercise == challenge.exercises.last
       if !isLast {
         Rectangle()
-          .fill(Color.blue)
+          .fill(.blue)
           .frame(width: 1, height: 35, alignment: .center)
           .padding(.leading, 15.5)
       }
@@ -192,7 +194,7 @@ extension ChallengeView {
       currentExerciseIndex = newIndex
       return challenge.exercises[newIndex]
     } else {
-      // If you reach the end, loop back to the first exercise
+      // If you reach the end, return back to the first exercise
       currentExerciseIndex = 0
       return challenge.exercises.first
     }

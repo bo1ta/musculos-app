@@ -9,32 +9,45 @@ import SwiftUI
 
 struct CurrentWorkoutCardView: View {
   let exercise: Exercise
-
+  let showDetails: Bool // there are some cases where we don't want to show the details like on ExerciseView
+  
+  init(exercise: Exercise, showDetails: Bool = true) {
+    self.exercise = exercise
+    self.showDetails = showDetails
+  }
+  
   var body: some View {
     VStack {
-      self.topSection
-
-      Spacer()
-
-      self.bottomSection
+      if showDetails {
+        topSection
+        Spacer()
+        bottomSection
+      } else {
+        EmptyView()
+      }
     }
-    .frame(maxWidth: .infinity)
+    .frame(maxWidth: .infinity, minHeight: 250)
     .padding()
-    .background(self.backgroundView)
+    .background(backgroundView)
     .cornerRadius(25)
     .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
-    .frame(height: 240)
   }
-
+  
+  // MARK: - Views
+  
   @ViewBuilder
   private var backgroundView: some View {
-    if let gifUrl = URL(string: self.exercise.gifUrl) {
-      GIFView(url: Binding(get: { gifUrl }, set: { _ in }))
+    if let gifUrl = URL(string: exercise.gifUrl) {
+      GeometryReader { geometry in
+        GIFView(url: Binding(get: { gifUrl }, set: { _ in }))
+          .aspectRatio(contentMode: .fit)
+          .frame(width: geometry.size.width, height: geometry.size.width)
+      }
     } else {
       Color.black
     }
   }
-
+  
   @ViewBuilder
   private var topSection: some View {
     HStack {
@@ -47,14 +60,14 @@ struct CurrentWorkoutCardView: View {
           .font(.title2)
           .fontWeight(.regular)
           .foregroundStyle(.black)
-
+        
         Spacer()
       }
       Spacer()
     }
     .padding([.top, .leading], 5)
   }
-
+  
   @ViewBuilder
   private var bottomSection: some View {
     HStack {

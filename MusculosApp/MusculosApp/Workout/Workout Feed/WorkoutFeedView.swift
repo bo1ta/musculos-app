@@ -18,26 +18,31 @@ struct WorkoutFeedView: View {
   }
 
   var body: some View {
-    return backgroundView {
-      VStack(spacing: 5) {
-        searchBar
-        ButtonHorizontalStackView(
-          selectedOption: $viewModel.selectedFilter,
-          options: self.options,
-          buttonsHaveEqualWidth: false
-        )
-        exerciseCards
+    NavigationStack {
+      backgroundView {
+        VStack(spacing: 5) {
+          searchBar
+          filterButtonsStack
+          exerciseCards
+        }
       }
-    }
-    .task {
-      viewModel.overrideLocalPreview = overrideLocalExercises
-      await viewModel.loadInitialData()
-    }
-    .sheet(isPresented: $viewModel.isFiltersPresented) {
-      SelectMuscleView(selectedMuscles: self.$viewModel.selectedMuscles)
-    }
-    .sheet(isPresented: $viewModel.isExerciseDetailPresented) {
-      ExerciseView(exercise: viewModel.selectedExercise!)
+      .task {
+        viewModel.overrideLocalPreview = overrideLocalExercises
+        await viewModel.loadInitialData()
+      }
+      .navigationDestination(isPresented: $viewModel.isExerciseDetailPresented, destination: {
+        if let exercise = viewModel.selectedExercise {
+          ExerciseView(exercise: exercise, onBack: {
+            viewModel.isExerciseDetailPresented = false
+          })
+        } else {
+          EmptyView()
+        }
+       
+      })
+      .sheet(isPresented: $viewModel.isFiltersPresented) {
+        SelectMuscleView(selectedMuscles: $viewModel.selectedMuscles)
+      }
     }
   }
   
@@ -51,6 +56,15 @@ struct WorkoutFeedView: View {
   }
   
   @ViewBuilder
+  private var filterButtonsStack: some View {
+    ButtonHorizontalStackView(
+      selectedOption: $viewModel.selectedFilter,
+      options: self.options,
+      buttonsHaveEqualWidth: false
+    )
+  }
+  
+  @ViewBuilder
   private var exerciseCards: some View {
     let enumeratedExercises = Array(viewModel.currentExercises.enumerated())
     List(enumeratedExercises, id: \.element.id) { index, item in
@@ -59,8 +73,8 @@ struct WorkoutFeedView: View {
         self.viewModel.isExerciseDetailPresented = true
       } label: {
         CurrentWorkoutCardView(exercise: item)
-          .onAppear {
-            Task { await viewModel.maybeRequestMoreExercises(index: index) }
+          .task {
+            await viewModel.maybeRequestMoreExercises(index: index)
           }
       }
       .listRowBackground(Color.clear)
@@ -71,7 +85,9 @@ struct WorkoutFeedView: View {
   }
 
   @ViewBuilder
-  private func backgroundView(@ViewBuilder content: () -> some View) -> some View {
+  private func backgroundView(
+    @ViewBuilder content: () -> some View
+  ) -> some View {
     ZStack {
       Image("weightlifting-background")
         .resizable()
