@@ -13,13 +13,14 @@ final class WorkoutFeedViewModel: ObservableObject {
   @Published var selectedFilter: String = ""
   @Published var selectedExercise: Exercise?
   @Published var errorMessage = ""
-  @Published var currentExercises: [Exercise] = []
   @Published var isFiltersPresented = false
   @Published var isExerciseDetailPresented = false
   @Published var isLoading = false
   @Published var searchQuery: String = ""
   @Published var selectedMuscles: [MuscleInfo] = []
   
+  @Published var currentExercises: [Exercise] = []
+
   // MARK: API
   private lazy var workoutManager: WorkoutManager = {
     return WorkoutManager()
@@ -30,7 +31,8 @@ final class WorkoutFeedViewModel: ObservableObject {
   }()
   
   // MARK: Cache and clean up
-  private var initialExercises: [Exercise]?
+  private var usesLocalCache = false
+  private var exerciseCache: [Exercise]?
   private var cancellables: Set<AnyCancellable> = []
   
   // MARK: Pagination
@@ -45,7 +47,7 @@ final class WorkoutFeedViewModel: ObservableObject {
     $searchQuery
       .debounce(for: 0.5, scheduler: DispatchQueue.main)
       .sink { [weak self] query in
-        if let initialExercises = self?.initialExercises, query == "" {
+        if let initialExercises = self?.exerciseCache, query == "" {
           self?.currentExercises = initialExercises
         } else {
           self?.searchExercise(with: query)
@@ -66,8 +68,8 @@ final class WorkoutFeedViewModel: ObservableObject {
       filterFavoriteExercises()
       return
     default:
-      if let initialExercises = self.initialExercises {
-        currentExercises = initialExercises
+      if let exerciseCache = self.exerciseCache {
+        currentExercises = exerciseCache
       }
       return
     }
@@ -76,14 +78,17 @@ final class WorkoutFeedViewModel: ObservableObject {
   func loadLocalExercises() {
     do {
       currentExercises = try workoutManager.fetchLocalExercises()
+      exerciseCache = currentExercises
+      usesLocalCache = true
     } catch {
       errorMessage = error.localizedDescription
     }
   }
 
   func loadInitialData() async {
+    loadLocalExercises()
+
     guard !overrideLocalPreview else {
-      loadLocalExercises()
       return
     }
     
@@ -115,13 +120,17 @@ final class WorkoutFeedViewModel: ObservableObject {
       defer { isLoading = false }
 
       let exercises = try await workoutManager.fetchExercises(offset: offset)
-      currentExercises.append(contentsOf: exercises)
-      exercisesLoadedCount = currentExercises.count
+      exercisesLoadedCount = exercises.count
       
-      // cache the first result
-      if initialExercises == nil {
-        initialExercises = exercises
+      // if using local cache, flush since the gif images should already be expired
+      if usesLocalCache {
+        currentExercises = exercises
+        exerciseCache = currentExercises // update local cache and keep it for later use
+        usesLocalCache = false
+      } else {
+        currentExercises.append(contentsOf: exercises)
       }
+
     } catch {
       errorMessage = error.localizedDescription
       MusculosLogger.log(.error, message: "Error loading exercises", category: .ui)

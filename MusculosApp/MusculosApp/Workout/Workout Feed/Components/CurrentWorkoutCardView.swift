@@ -10,12 +10,12 @@ import SwiftUI
 struct CurrentWorkoutCardView: View {
   let exercise: Exercise
   let showDetails: Bool // there are some cases where we don't want to show the details like on ExerciseView
-  
+
   init(exercise: Exercise, showDetails: Bool = true) {
     self.exercise = exercise
     self.showDetails = showDetails
   }
-  
+
   var body: some View {
     VStack {
       if showDetails {
@@ -30,7 +30,7 @@ struct CurrentWorkoutCardView: View {
     .padding()
     .background(backgroundView)
     .cornerRadius(25)
-    .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
+    .shadow(color: Color.black.opacity(0.6), radius: 4, x: 0, y: 2)
   }
   
   // MARK: - Views
@@ -38,11 +38,7 @@ struct CurrentWorkoutCardView: View {
   @ViewBuilder
   private var backgroundView: some View {
     if let gifUrl = URL(string: exercise.gifUrl) {
-      GeometryReader { geometry in
         GIFView(url: Binding(get: { gifUrl }, set: { _ in }))
-          .aspectRatio(contentMode: .fit)
-          .frame(width: geometry.size.width, height: geometry.size.width)
-      }
     } else {
       Color.black
     }

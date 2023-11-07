@@ -91,6 +91,7 @@
 		BCA87E5C2AE8606F00453E4B /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5B2AE8606F00453E4B /* Challenge.swift */; };
 		BCA87E5F2AE865A600453E4B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5E2AE865A600453E4B /* Person.swift */; };
 		BCB144662A38CC2F00A8209F /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB144652A38CC2F00A8209F /* IntroductionView.swift */; };
+		BCB6BF4F2AFAE84B00B6CBCE /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */; };
 		BCCBEC6A2AD75E20002F5E41 /* AddExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC692AD75E20002F5E41 /* AddExerciseView.swift */; };
 		BCCBEC722AD85158002F5E41 /* CustomTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC712AD85158002F5E41 /* CustomTextFieldView.swift */; };
 		BCCBEC782AD89505002F5E41 /* DynamicTextFieldListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC772AD89505002F5E41 /* DynamicTextFieldListView.swift */; };
@@ -232,6 +233,7 @@
 		BCA87E5B2AE8606F00453E4B /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		BCA87E5E2AE865A600453E4B /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		BCB144652A38CC2F00A8209F /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
+		BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		BCCBEC692AD75E20002F5E41 /* AddExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseView.swift; sourceTree = "<group>"; };
 		BCCBEC712AD85158002F5E41 /* CustomTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextFieldView.swift; sourceTree = "<group>"; };
 		BCCBEC772AD89505002F5E41 /* DynamicTextFieldListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTextFieldListView.swift; sourceTree = "<group>"; };
@@ -812,6 +814,7 @@
 				BC5BACC92AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift */,
 				BC96C2FC2AC83B1C00F11CAB /* Array+Extension.swift */,
 				BC8E86DC2AED2DB9008E3CE4 /* UIImage+Extension.swift */,
+				BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1096,6 +1099,7 @@
 				BC59720A2A35075800EBB075 /* TransparentContainerView.swift in Sources */,
 				BC3FB0F62A87051700C3F9B1 /* WorkoutFiltersView.swift in Sources */,
 				BC3FB0F82A89418E00C3F9B1 /* ButtonHorizontalContainerView.swift in Sources */,
+				BCB6BF4F2AFAE84B00B6CBCE /* URL+Extension.swift in Sources */,
 				BC0171042AEC64B8005876EE /* MockConstants.swift in Sources */,
 				BC59720C2A3507F500EBB075 /* HearTipView.swift in Sources */,
 				BC352AEB2A32713300DAA3AB /* MusculosError.swift in Sources */,

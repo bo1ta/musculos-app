@@ -15,9 +15,9 @@ struct SelectedButton: ButtonStyle {
     configuration.label
       .padding(16)
       .lineLimit(0)
-      .background(isSelected ? Color.appColor(with: .spriteGreen) : Color.gray)
+      .background(isSelected ? Color.appColor(with: .grassGreen) : .black)
       .opacity(0.8)
-      .font(Font.body.bold())
+      .bold()
       .clipShape(RoundedRectangle(cornerSize: CGSize(width: 24, height: 20)))
       .opacity(isSelected ? 1.0 : UIConstants.componentOpacity)
   }

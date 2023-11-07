@@ -25,23 +25,22 @@ struct WorkoutFeedView: View {
           filterButtonsStack
           exerciseCards
         }
-      }
-      .task {
-        viewModel.overrideLocalPreview = overrideLocalExercises
-        await viewModel.loadInitialData()
-      }
-      .navigationDestination(isPresented: $viewModel.isExerciseDetailPresented, destination: {
-        if let exercise = viewModel.selectedExercise {
-          ExerciseView(exercise: exercise, onBack: {
-            viewModel.isExerciseDetailPresented = false
-          })
-        } else {
-          EmptyView()
+        .task {
+          viewModel.overrideLocalPreview = overrideLocalExercises
+          await viewModel.loadInitialData()
         }
-       
-      })
-      .sheet(isPresented: $viewModel.isFiltersPresented) {
-        SelectMuscleView(selectedMuscles: $viewModel.selectedMuscles)
+        .navigationDestination(isPresented: $viewModel.isExerciseDetailPresented, destination: {
+          if let exercise = viewModel.selectedExercise {
+            ExerciseView(exercise: exercise, onBack: {
+              viewModel.isExerciseDetailPresented = false
+            })
+          } else {
+            EmptyView()
+          }
+        })
+        .sheet(isPresented: $viewModel.isFiltersPresented) {
+          SelectMuscleView(selectedMuscles: $viewModel.selectedMuscles)
+        }
       }
     }
   }
@@ -76,6 +75,7 @@ struct WorkoutFeedView: View {
           .task {
             await viewModel.maybeRequestMoreExercises(index: index)
           }
+          .padding(.bottom, 10)
       }
       .listRowBackground(Color.clear)
       .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
@@ -95,8 +95,8 @@ struct WorkoutFeedView: View {
         .frame(minWidth: 0, maxHeight: .infinity)
         .edgesIgnoringSafeArea(.all)
         .overlay {
-          Color.black
-            .opacity(0.8)
+          Color.white
+            .opacity(0.6)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea()
         }
