@@ -24,7 +24,7 @@ struct ExerciseView: View {
   }
   
   var body: some View {
-    VStack(spacing: 10) {
+    VStack(spacing: 5) {
       header
       
       ScrollView {

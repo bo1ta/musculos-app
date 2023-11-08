@@ -20,7 +20,7 @@ struct ContentView: View {
         .tabItem { Label("Home", systemImage: "house") }
       
       WorkoutFeedView()
-        .tabItem { Label("Explore", systemImage: "water.waves") }
+        .tabItem { Label("Exercises", systemImage: "dumbbell") }
       
       WorkoutFeedView()
         .tabItem { Label("Profile", systemImage: "person") }
