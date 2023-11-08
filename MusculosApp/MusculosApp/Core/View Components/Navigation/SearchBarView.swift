@@ -9,14 +9,18 @@ import SwiftUI
 
 struct SearchBarView: View {
   private let placeholderText: String
+  private let showFilters: Bool
   private let onFiltersTapped: () -> Void
 
   @Binding private var searchQuery: String
   @State private var isTextFieldFocused: Bool = false
 
-  init(placeholderText: String, searchQuery: Binding<String> = .constant(""),
-     onFiltersTapped: @escaping () -> Void = {}) {
+  init(placeholderText: String,
+       searchQuery: Binding<String> = .constant(""),
+       showFilters: Bool = false,
+       onFiltersTapped: @escaping () -> Void = {}) {
     self.placeholderText = placeholderText
+    self.showFilters = showFilters
     self._searchQuery = searchQuery
     self.onFiltersTapped = onFiltersTapped
   }
@@ -34,9 +38,12 @@ struct SearchBarView: View {
             .font(.callout)
             .padding()
             .textInputAutocapitalization(.never)
-          Image(systemName: "blinds.horizontal.open")
-            .foregroundColor(.gray)
-            .onTapGesture(perform: self.onFiltersTapped)
+          
+          if showFilters {
+            Image(systemName: "blinds.horizontal.open")
+              .foregroundColor(.gray)
+              .onTapGesture(perform: self.onFiltersTapped)
+          }
         }
         .padding()
       }

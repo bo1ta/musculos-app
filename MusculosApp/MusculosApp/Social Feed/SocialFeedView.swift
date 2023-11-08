@@ -11,12 +11,27 @@ struct SocialFeedView: View {
   private let person = MockConstants.persons[0]
   private let exercise = MockConstants.exercise
   
+  @State var searchQuery: String = ""
+  
   var body: some View {
-    FeedCardView(person: person, exercise: exercise, onFollow: {}, onLike: {})
+    VStack(spacing: 5) {
+      searchBar
+        .padding(.bottom, 5)
+      FeedCardView(person: person, exercise: exercise, onFollow: {}, onLike: { isLiked in
+      print(isLiked)
+      })
+      Spacer()
+    }
+    .background(.black)
   }
   
   // MARK: - Views
-
+  @ViewBuilder
+  private var searchBar: some View {
+    SearchBarView(placeholderText: "", searchQuery: $searchQuery, onFiltersTapped: {
+      
+    })
+  }
 }
 
 #Preview {

@@ -19,10 +19,10 @@ struct ContentView: View {
       HomeView(challenge: MockConstants.challenge)
         .tabItem { Label("Home", systemImage: "house") }
       
-      WorkoutFeedView()
+      ExerciseFeedView()
         .tabItem { Label("Exercises", systemImage: "dumbbell") }
       
-      WorkoutFeedView()
+      ExerciseFeedView()
         .tabItem { Label("Profile", systemImage: "person") }
     }
     .onAppear(perform: setupTabBarAppearance)

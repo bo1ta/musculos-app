@@ -1,5 +1,5 @@
 //
-//  WorkoutFeedView.swift
+//  ExerciseFeedView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 09.07.2023.
@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct WorkoutFeedView: View {
-  @StateObject var viewModel = WorkoutFeedViewModel()
+struct ExerciseFeedView: View {
+  @StateObject var viewModel = ExerciseFeedViewModel()
 
   // use local store instead of making a network request
   private let overrideLocalExercises: Bool
@@ -113,7 +113,7 @@ struct WorkoutFeedView: View {
 
 struct WorkoutFeedView_Preview: PreviewProvider {
   static var previews: some View {
-    WorkoutFeedView(overrideLocalExericses: true)
+    ExerciseFeedView(overrideLocalExericses: true)
   }
 }
 
