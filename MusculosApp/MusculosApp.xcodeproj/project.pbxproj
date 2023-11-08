@@ -92,6 +92,8 @@
 		BCA87E5F2AE865A600453E4B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5E2AE865A600453E4B /* Person.swift */; };
 		BCB144662A38CC2F00A8209F /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB144652A38CC2F00A8209F /* IntroductionView.swift */; };
 		BCB6BF4F2AFAE84B00B6CBCE /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */; };
+		BCB6BF522AFBF7FF00B6CBCE /* SocialFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB6BF512AFBF7FF00B6CBCE /* SocialFeedView.swift */; };
+		BCB6BF552AFBFB8D00B6CBCE /* FeedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB6BF542AFBFB8D00B6CBCE /* FeedCardView.swift */; };
 		BCCBEC6A2AD75E20002F5E41 /* AddExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC692AD75E20002F5E41 /* AddExerciseView.swift */; };
 		BCCBEC722AD85158002F5E41 /* CustomTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC712AD85158002F5E41 /* CustomTextFieldView.swift */; };
 		BCCBEC782AD89505002F5E41 /* DynamicTextFieldListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC772AD89505002F5E41 /* DynamicTextFieldListView.swift */; };
@@ -234,6 +236,8 @@
 		BCA87E5E2AE865A600453E4B /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		BCB144652A38CC2F00A8209F /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
+		BCB6BF512AFBF7FF00B6CBCE /* SocialFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialFeedView.swift; sourceTree = "<group>"; };
+		BCB6BF542AFBFB8D00B6CBCE /* FeedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCardView.swift; sourceTree = "<group>"; };
 		BCCBEC692AD75E20002F5E41 /* AddExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseView.swift; sourceTree = "<group>"; };
 		BCCBEC712AD85158002F5E41 /* CustomTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextFieldView.swift; sourceTree = "<group>"; };
 		BCCBEC772AD89505002F5E41 /* DynamicTextFieldListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTextFieldListView.swift; sourceTree = "<group>"; };
@@ -389,6 +393,7 @@
 		BC1160CE2A2CFB830028D8FC /* MusculosApp */ = {
 			isa = PBXGroup;
 			children = (
+				BCB6BF502AFBF7EB00B6CBCE /* Social Feed */,
 				BC0171052AEC6A45005876EE /* Home */,
 				BCA87E532AE83B0A00453E4B /* Challenge */,
 				BC5BACDA2ABB7596003C880E /* Anatomy */,
@@ -757,6 +762,23 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		BCB6BF502AFBF7EB00B6CBCE /* Social Feed */ = {
+			isa = PBXGroup;
+			children = (
+				BCB6BF532AFBFB7700B6CBCE /* Components */,
+				BCB6BF512AFBF7FF00B6CBCE /* SocialFeedView.swift */,
+			);
+			path = "Social Feed";
+			sourceTree = "<group>";
+		};
+		BCB6BF532AFBFB7700B6CBCE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BCB6BF542AFBFB8D00B6CBCE /* FeedCardView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		BCCBEC672AD75E01002F5E41 /* Add Exercise */ = {
 			isa = PBXGroup;
 			children = (
@@ -1027,6 +1049,7 @@
 			files = (
 				BCF86C3D2A363A92003293A4 /* SelectedButton.swift in Sources */,
 				BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */,
+				BCB6BF522AFBF7FF00B6CBCE /* SocialFeedView.swift in Sources */,
 				BC5C56EE2AC348EF00AFDBFE /* StringHolder+CoreDataClass.swift in Sources */,
 				BC182ECA2A589A81003DEA30 /* MusculosDataStore.xcdatamodeld in Sources */,
 				BC63A5A42AC33896006B1894 /* MuscleData.swift in Sources */,
@@ -1085,6 +1108,7 @@
 				BC3FB0EA2A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift in Sources */,
 				BCFBB7882A59F96100896C3C /* HorizontalSelectPillView.swift in Sources */,
 				BC3FB0EE2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift in Sources */,
+				BCB6BF552AFBFB8D00B6CBCE /* FeedCardView.swift in Sources */,
 				BCCBEC6A2AD75E20002F5E41 /* AddExerciseView.swift in Sources */,
 				BCA87E5F2AE865A600453E4B /* Person.swift in Sources */,
 				BCD3C4682AACAE7A00614ED8 /* DecodableModel.swift in Sources */,
