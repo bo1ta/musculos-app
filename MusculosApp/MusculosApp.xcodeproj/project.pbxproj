@@ -308,11 +308,10 @@
 		BC0170FF2AEB367C005876EE /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BC8E86E52AF026B4008E3CE4 /* CircleTimerView */,
 				BCA87E582AE83B3800453E4B /* ChallengeView.swift */,
 				BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */,
 				BC0171002AEC3E0A005876EE /* CongratulationView.swift */,
-				BC01710A2AEC6DBD005876EE /* PersonAvatarCircle.swift */,
+				BCB6BF562AFBFCA600B6CBCE /* Components */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -328,10 +327,10 @@
 		BC10E42C2A3B8AB00008A72E /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				BC10E42E2A3B8AF60008A72E /* Model */,
-				BCCE85E12A328629001BEE8B /* AuthenticationViewModel.swift */,
 				BC352AEF2A327E3300DAA3AB /* AuthenticationView.swift */,
+				BCCE85E12A328629001BEE8B /* AuthenticationViewModel.swift */,
 				BCCE85E52A33D658001BEE8B /* AuthenticationModule.swift */,
+				BC10E42E2A3B8AF60008A72E /* Model */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -452,6 +451,8 @@
 		BC352AE32A326D6C00DAA3AB /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				BCCE85EA2A33DCA6001BEE8B /* UserDefaultsWrapper.swift */,
+				BC5BAC892AB221FC003C880E /* MusculosLogger.swift */,
 				BC8E86DE2AED2F14008E3CE4 /* Environment */,
 				BCA87E5D2AE8659F00453E4B /* Models */,
 				BC63A5A22AC3388D006B1894 /* Constants */,
@@ -464,8 +465,6 @@
 				BC5972082A35074E00EBB075 /* View Components */,
 				BCCE85E72A33D7A8001BEE8B /* Extension */,
 				BC352AE42A326D7C00DAA3AB /* Network */,
-				BCCE85EA2A33DCA6001BEE8B /* UserDefaultsWrapper.swift */,
-				BC5BAC892AB221FC003C880E /* MusculosLogger.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -587,10 +586,8 @@
 		BC5BAC7E2AAFD745003C880E /* Exercise */ = {
 			isa = PBXGroup;
 			children = (
-				BCCBEC682AD75E0D002F5E41 /* Exercise View */,
-				BCCBEC672AD75E01002F5E41 /* Add Exercise */,
-				BC63A59C2AC264DB006B1894 /* Exercise.swift */,
-				BC5BAC832AB1072B003C880E /* ExerciseModule.swift */,
+				BCCBEC682AD75E0D002F5E41 /* View */,
+				BCB6BF572AFBFCE400B6CBCE /* Model */,
 			);
 			path = Exercise;
 			sourceTree = "<group>";
@@ -765,8 +762,8 @@
 		BCB6BF502AFBF7EB00B6CBCE /* Social Feed */ = {
 			isa = PBXGroup;
 			children = (
-				BCB6BF532AFBFB7700B6CBCE /* Components */,
 				BCB6BF512AFBF7FF00B6CBCE /* SocialFeedView.swift */,
+				BCB6BF532AFBFB7700B6CBCE /* Components */,
 			);
 			path = "Social Feed";
 			sourceTree = "<group>";
@@ -779,6 +776,40 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		BCB6BF562AFBFCA600B6CBCE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BC8E86E52AF026B4008E3CE4 /* CircleTimerView */,
+				BC01710A2AEC6DBD005876EE /* PersonAvatarCircle.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		BCB6BF572AFBFCE400B6CBCE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BC63A59C2AC264DB006B1894 /* Exercise.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BCB6BF582AFBFD0400B6CBCE /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BC5BAC872AB111C1003C880E /* WorkoutManager.swift */,
+				BC5BAC832AB1072B003C880E /* ExerciseModule.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		BCB6BF592AFBFD3300B6CBCE /* Select Muscle */ = {
+			isa = PBXGroup;
+			children = (
+				BC96C2FA2AC8310500F11CAB /* SelectMuscleView.swift */,
+			);
+			path = "Select Muscle";
+			sourceTree = "<group>";
+		};
 		BCCBEC672AD75E01002F5E41 /* Add Exercise */ = {
 			isa = PBXGroup;
 			children = (
@@ -787,13 +818,13 @@
 			path = "Add Exercise";
 			sourceTree = "<group>";
 		};
-		BCCBEC682AD75E0D002F5E41 /* Exercise View */ = {
+		BCCBEC682AD75E0D002F5E41 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				BC3FB1032A89C56800C3F9B1 /* ExerciseView.swift */,
 				BC372A662AC06D9200F67D19 /* ExerciseViewModel.swift */,
 			);
-			path = "Exercise View";
+			path = View;
 			sourceTree = "<group>";
 		};
 		BCCBEC6B2AD84C69002F5E41 /* Button */ = {
@@ -863,11 +894,12 @@
 		BCE3B6932A5AEBF9001D04EB /* Workout */ = {
 			isa = PBXGroup;
 			children = (
+				BCCBEC672AD75E01002F5E41 /* Add Exercise */,
 				BC5BAC7E2AAFD745003C880E /* Exercise */,
 				BC3FB0F22A8704EE00C3F9B1 /* Workout Filters */,
 				BCE3B6942A5AEC23001D04EB /* Workout Feed */,
-				BC5BAC872AB111C1003C880E /* WorkoutManager.swift */,
-				BC96C2FA2AC8310500F11CAB /* SelectMuscleView.swift */,
+				BCB6BF592AFBFD3300B6CBCE /* Select Muscle */,
+				BCB6BF582AFBFD0400B6CBCE /* Network */,
 			);
 			path = Workout;
 			sourceTree = "<group>";
