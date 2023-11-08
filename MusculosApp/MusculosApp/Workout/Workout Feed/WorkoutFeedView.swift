@@ -81,10 +81,9 @@ struct WorkoutFeedView: View {
           .task {
             await viewModel.maybeRequestMoreExercises(index: index)
           }
-          .padding(.bottom, 10)
       }
       .listRowBackground(Color.clear)
-      .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+      .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
     }
     .frame(maxHeight: .infinity)
     .scrollContentBackground(.hidden)

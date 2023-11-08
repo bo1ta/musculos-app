@@ -27,9 +27,9 @@ struct CurrentWorkoutCardView: View {
       }
     }
     .frame(maxWidth: .infinity, minHeight: 250)
-    .padding()
     .background(backgroundView)
-    .cornerRadius(25)
+    .cornerRadius(15)
+    .padding()
     .shadow(color: Color.black.opacity(0.6), radius: 4, x: 0, y: 2)
   }
   
@@ -39,6 +39,7 @@ struct CurrentWorkoutCardView: View {
   private var backgroundView: some View {
     if let gifUrl = URL(string: exercise.gifUrl) {
         GIFView(url: Binding(get: { gifUrl }, set: { _ in }))
+        .fixedSize()
     } else {
       Color.black
     }

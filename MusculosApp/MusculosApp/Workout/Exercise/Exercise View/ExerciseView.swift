@@ -34,7 +34,11 @@ struct ExerciseView: View {
           CurrentWorkoutCardView(exercise: exercise, showDetails: false)
             .padding(.bottom, 5)
           exerciseCallouts
+          Divider()
+            .padding([.leading, .trailing], 20)
+            .opacity(0.5)
           instructionsList
+            .padding([.leading, .top], 5)
         }
       }
       .scrollIndicators(.hidden)
@@ -115,7 +119,6 @@ struct ExerciseView: View {
     ForEach(Array(exercise.instructions.enumerated()), id: \.element) { index, instruction in
         createListItem(index: index, instruction: instruction)
     }
-    .padding(.top, 10)
   }
   
   @ViewBuilder
@@ -137,7 +140,7 @@ struct ExerciseView: View {
   private func createListItem(index: Int, instruction: String) -> some View {
     let rectangleHeight: CGFloat = index == exercise.instructions.count - 1 ? 0 : 45
     
-    VStack(alignment: .leading, spacing: 5) {
+    VStack(alignment: .leading, spacing: 0) {
       HStack {
         Circle()
           .frame(width: 25, height: 25)
@@ -159,7 +162,7 @@ struct ExerciseView: View {
         .frame(width: 1, height: rectangleHeight, alignment: .leading)
         .padding(.leading, 12)
     }
-    .padding(10)
+    .padding(2)
 
   }
 }
