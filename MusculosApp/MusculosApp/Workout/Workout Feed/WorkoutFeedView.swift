@@ -10,7 +10,9 @@ import SwiftUI
 struct WorkoutFeedView: View {
   @StateObject var viewModel = WorkoutFeedViewModel()
 
-  let overrideLocalExercises: Bool
+  // use local store instead of making a network request
+  private let overrideLocalExercises: Bool
+
   private let options = ["Favorites", "Home workout", "Gym workout"]
   
   init(overrideLocalExericses: Bool = false) {

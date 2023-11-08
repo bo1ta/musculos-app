@@ -104,8 +104,8 @@ final class WorkoutFeedViewModel: ObservableObject {
       shouldRequestMore(itemsLoadedCount: exercisesLoadedCount, index: index)
     else { return }
     
-    // go 10 by 10 for the offset
-    // since the request limit is also 10
+    // go 10 by 10 on the offset
+    // since we fetch 10 exercises on each request
     currentOffset += 10
     await loadExercises(offset: currentOffset)
   }
@@ -122,7 +122,7 @@ final class WorkoutFeedViewModel: ObservableObject {
       let exercises = try await workoutManager.fetchExercises(offset: offset)
       exercisesLoadedCount = exercises.count
       
-      // if using local cache, flush since the gif images should already be expired
+      // if using local cache, flush -- the gif images expire after 24 hours
       if usesLocalCache {
         currentExercises = exercises
         exerciseCache = currentExercises // update local cache and keep it for later use
