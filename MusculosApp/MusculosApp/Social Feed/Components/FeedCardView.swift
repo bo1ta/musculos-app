@@ -20,14 +20,23 @@ struct FeedCardView: View {
       .foregroundStyle(.white)
       .frame(maxHeight: 400)
       .overlay(content: {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
           topSection
           .padding([.leading, .trailing], 10)
           
           Image("weightlifting-background")
             .resizable()
+            .cornerRadius(25)
             .aspectRatio(contentMode: .fit)
             .frame(maxWidth: .infinity, maxHeight: 300)
+            .overlay {
+              VStack {
+                Text(exercise.name)
+                  .font(.title3)
+                  .fontWeight(.heavy)
+                  .foregroundStyle(.white)
+              }
+            }
           
           bottomSection
           .padding([.leading, .trailing], 10)
@@ -36,7 +45,6 @@ struct FeedCardView: View {
         }
       })
       .padding([.leading, .trailing], 10)
-      .shadow(radius: 5)
   }
   
   // MARK: - Views
@@ -47,44 +55,41 @@ struct FeedCardView: View {
       PersonAvatarCircle(persons: [person])
         .shadow(radius: 2)
       
-      VStack {
+      VStack(alignment: .leading) {
         Text(person.name)
-          .font(.title3)
+          .font(.body)
           .bold()
           .shadow(radius: 2)
         Text("just completed an exercise!")
           .font(.caption)
-          .shadow(radius: 2)
+          .foregroundStyle(.gray)
       }
+      .padding(.top)
       Spacer()
       
       Button(action: onFollow, label: {
         Text("Follow")
-          .font(.body)
+          .font(.caption)
+          .fontWeight(.thin)
           .foregroundStyle(.black)
           .bold()
-          .shadow(radius: 2)
       })
     }
+    .padding(5)
   }
   
   @ViewBuilder
   private var bottomSection: some View {
     HStack {
-      Text(exercise.name)
-        .font(.title3)
-        .shadow(radius: 2)
-      
-      Spacer()
-      
       Button(action: {
         isLiked.toggle()
         onLike(isLiked)
       }, label: {
         Image(systemName: isLiked ? "heart.fill" : "heart")
           .foregroundStyle(.black)
-          .shadow(radius: 2)
       })
+      Spacer()
+
     }
   }
 }

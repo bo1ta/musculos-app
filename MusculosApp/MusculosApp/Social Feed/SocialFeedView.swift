@@ -20,6 +20,7 @@ struct SocialFeedView: View {
       FeedCardView(person: person, exercise: exercise, onFollow: {}, onLike: { isLiked in
       print(isLiked)
       })
+      .padding(10)
       Spacer()
     }
     .background(.black)
