@@ -14,24 +14,37 @@ struct SocialFeedView: View {
   @State var searchQuery: String = ""
   
   var body: some View {
-    VStack(spacing: 5) {
+    ScrollView {
       searchBar
-        .padding(.bottom, 5)
-      FeedCardView(person: person, exercise: exercise, onFollow: {}, onLike: { isLiked in
-      print(isLiked)
-      })
-      .padding(10)
-      Spacer()
+        .shadow(radius: 2)
+        feedCards
+          .shadow(radius: 3)
+
+      .background(Color.appColor(with: .background))
     }
-    .background(.black)
   }
   
   // MARK: - Views
+
   @ViewBuilder
   private var searchBar: some View {
-    SearchBarView(placeholderText: "", searchQuery: $searchQuery, onFiltersTapped: {
+    SearchBarView(placeholderText: "", searchQuery: $searchQuery)
       
-    })
+  }
+  
+  @ViewBuilder
+  private var feedCards: some View {
+    VStack {
+      FeedCardView(person: MockConstants.persons[0], exercise: exercise, onFollow: {}, onLike: { isLiked in
+        print(isLiked)
+      })
+      FeedCardView(person: MockConstants.persons[1], exercise: exercise, onFollow: {}, onLike: { isLiked in
+        print(isLiked)
+      })
+      FeedCardView(person: MockConstants.persons[2], exercise: exercise, onFollow: {}, onLike: { isLiked in
+        print(isLiked)
+      })
+    }
   }
 }
 

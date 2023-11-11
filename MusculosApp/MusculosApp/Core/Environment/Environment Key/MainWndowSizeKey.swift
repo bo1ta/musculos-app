@@ -9,6 +9,6 @@ import Foundation
 import SwiftUI
 
 struct MainWndowSizeKey: EnvironmentKey {
-  static let defaultValue: CGSize = .zero
+  static let defaultValue: CGSize = CGSize(width: 375, height: 667)
 }
 

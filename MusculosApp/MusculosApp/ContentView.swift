@@ -22,10 +22,12 @@ struct ContentView: View {
       ExerciseFeedView()
         .tabItem { Label("Exercises", systemImage: "dumbbell") }
       
-      ExerciseFeedView()
+      SocialFeedView()
         .tabItem { Label("Profile", systemImage: "person") }
     }
-    .onAppear(perform: setupTabBarAppearance)
+    .onAppear(perform: {
+      setupTabBarAppearance()
+    })
   }
   
   func setupTabBarAppearance() {

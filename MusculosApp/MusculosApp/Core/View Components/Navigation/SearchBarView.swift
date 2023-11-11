@@ -27,7 +27,7 @@ struct SearchBarView: View {
 
   var body: some View {
     RoundedRectangle(cornerRadius: 20.0)
-      .frame(maxHeight: 50)
+      .frame(minHeight: 50)
       .foregroundColor(.white)
       .opacity(UIConstants.componentOpacity)
       .overlay {

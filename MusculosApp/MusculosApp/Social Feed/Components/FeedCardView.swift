@@ -18,7 +18,7 @@ struct FeedCardView: View {
   var body: some View {
     Rectangle()
       .foregroundStyle(.white)
-      .frame(maxHeight: 400)
+      .frame(minHeight: 350)
       .overlay(content: {
         VStack(alignment: .leading, spacing: 0) {
           topSection
@@ -26,9 +26,10 @@ struct FeedCardView: View {
           
           Image("weightlifting-background")
             .resizable()
+            .padding(3)
             .cornerRadius(25)
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: .infinity, maxHeight: 300)
+            .frame(maxWidth: .infinity, minHeight: 200)
             .overlay {
               VStack {
                 Text(exercise.name)
@@ -40,11 +41,9 @@ struct FeedCardView: View {
           
           bottomSection
           .padding([.leading, .trailing], 10)
-          .padding(.top, -10)
-          
+          .padding([.top, .bottom], 10)
         }
       })
-      .padding([.leading, .trailing], 10)
   }
   
   // MARK: - Views
@@ -70,7 +69,6 @@ struct FeedCardView: View {
       Button(action: onFollow, label: {
         Text("Follow")
           .font(.caption)
-          .fontWeight(.thin)
           .foregroundStyle(.black)
           .bold()
       })
