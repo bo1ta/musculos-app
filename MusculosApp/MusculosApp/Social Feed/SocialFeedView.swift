@@ -34,15 +34,17 @@ struct SocialFeedView: View {
   private var feedCards: some View {
     let enumeratedCards = Array(MockConstants.persons.enumerated())
     List(enumeratedCards, id: \.element.uuid) { index, person in
-      Section {
         FeedCardView(person: person, exercise: exercise, onFollow: {
         }, onLike: { isLiked in
           print(isLiked)
         })
-        .frame(maxWidth: .infinity)
-      }
+        .listRowInsets(.init(top: 25, leading: 0, bottom: 25, trailing: 0))
+        .shadow(radius: 2)
     }
-    .listStyle(.plain)
+    .frame(maxWidth: .infinity)
+    .edgesIgnoringSafeArea(.all)
+    .scrollIndicators(.hidden)
+    .listStyle(.grouped)
   }
 }
 
