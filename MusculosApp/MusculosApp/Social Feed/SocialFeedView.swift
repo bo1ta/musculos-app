@@ -16,6 +16,7 @@ struct SocialFeedView: View {
   var body: some View {
     VStack {
       searchBar
+        .padding(5)
         .shadow(radius: 2)
       feedCards
         .shadow(radius: 3)
