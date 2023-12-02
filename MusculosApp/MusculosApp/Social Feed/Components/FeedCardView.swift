@@ -58,8 +58,7 @@ struct FeedCardView: View {
         Text(person.name)
           .font(.body)
           .bold()
-          .shadow(radius: 2)
-        Text("just completed an exercise!")
+        Text("just completed an exercise")
           .font(.caption)
           .foregroundStyle(.gray)
       }

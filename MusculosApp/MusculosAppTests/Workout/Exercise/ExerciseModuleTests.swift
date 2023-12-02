@@ -35,12 +35,11 @@ class ExerciseModuleTests: XCTestCase {
     let module = ExerciseModule(client: client)
 
     do {
-      let exerciseResponse = try await module.getAllExercise()
-      let exercises = exerciseResponse.results
+      let exercises = try await module.getExercises()
       XCTAssertEqual(exercises.count, 5)
 
       let first = try XCTUnwrap(exercises.first)
-      XCTAssertEqual(first.id, 345)
+      XCTAssertEqual(first.id, "345")
       XCTAssertEqual(first.name, "2 Handed Kettlebell Swing")
     } catch {
       XCTFail(error.localizedDescription)
@@ -59,7 +58,7 @@ class ExerciseModuleTests: XCTestCase {
     let module = ExerciseModule(client: client)
 
     do {
-      _ = try await module.getAllExercise()
+      _ = try await module.getExercises()
     } catch {
       let nsError = error as NSError
       XCTAssertEqual(nsError.domain, "MusculosApp.MusculosError")

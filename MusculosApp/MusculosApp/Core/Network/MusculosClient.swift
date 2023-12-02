@@ -30,7 +30,7 @@ struct MusculosClient: MusculosClientProtocol {
 
     let (data, response) = try await self.urlSession.data(for: urlRequest)
     if let response = response as? HTTPURLResponse, !(200...299).contains(response.statusCode) {
-      throw httpError(response.statusCode)
+      throw MusculosError.httpError(response.statusCode)
     }
 
     return data
@@ -54,31 +54,5 @@ struct MusculosClient: MusculosClientProtocol {
         return MusculosError.badRequest
       })
       .eraseToAnyPublisher()
-  }
-
-  private func httpError(_ statusCode: Int) -> MusculosError {
-    switch statusCode {
-    case 400: return .badRequest
-    case 401: return .unauthorized
-    case 403: return .forbidden
-    case 404: return .notFound
-    case 402, 405...499: return .error4xx(statusCode)
-    case 500: return .serverError
-    case 501...599: return .error5xx(statusCode)
-    default: return .unknownError
-    }
-  }
-
-  private func handleError(_ error: Error) -> MusculosError {
-    switch error {
-    case is Swift.DecodingError:
-      return .decodingError
-    case let urlError as URLError:
-      return .urlSessionFailed(urlError)
-    case let error as MusculosError:
-      return error
-    default:
-      return .unknownError
-    }
   }
 }
