@@ -106,6 +106,8 @@ extension CoreDataStack {
   }
 }
 
+// MARK: - Tests helper
+
 extension CoreDataStack {
   private static var _shared: CoreDataStack?
 

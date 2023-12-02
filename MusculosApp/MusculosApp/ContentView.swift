@@ -19,13 +19,15 @@ struct ContentView: View {
       HomeView(challenge: MockConstants.challenge)
         .tabItem { Label("Home", systemImage: "house") }
       
-      WorkoutFeedView()
+      ExerciseFeedView()
         .tabItem { Label("Exercises", systemImage: "dumbbell") }
       
-      WorkoutFeedView()
+      SocialFeedView()
         .tabItem { Label("Profile", systemImage: "person") }
     }
-    .onAppear(perform: setupTabBarAppearance)
+    .onAppear(perform: {
+      setupTabBarAppearance()
+    })
   }
   
   func setupTabBarAppearance() {

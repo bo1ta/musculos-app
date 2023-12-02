@@ -8,6 +8,7 @@
 import Foundation
 
 struct Person {
+  let uuid = UUID()
   let avatar: String
   let name: String
 

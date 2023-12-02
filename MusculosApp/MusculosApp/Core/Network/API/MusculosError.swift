@@ -46,4 +46,17 @@ enum MusculosError: LocalizedError, Equatable, CustomStringConvertible {
       return "Unknown error"
     }
   }
+  
+  static func httpError(_ statusCode: Int) -> MusculosError {
+    switch statusCode {
+    case 400: return .badRequest
+    case 401: return .unauthorized
+    case 403: return .forbidden
+    case 404: return .notFound
+    case 402, 405...499: return .error4xx(statusCode)
+    case 500: return .serverError
+    case 501...599: return .error5xx(statusCode)
+    default: return .unknownError
+    }
+  }
 }

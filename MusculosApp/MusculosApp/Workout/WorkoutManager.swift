@@ -49,8 +49,9 @@ extension WorkoutManager {
   func fetchExercises(offset: Int = 0, limit: Int = 10) async throws -> [Exercise] {
     do {
       let exercises = try await self.exerciseModule.getExercises(offset: offset, limit: limit)
-      _ = try exercises.forEach { try self.maybeSaveExercise($0) }
-      try self.context.save()
+      _ = try exercises.forEach {
+        try self.maybeSaveExercise($0)
+      }
       MusculosLogger.log(.info, message: "Fetched the exercises: \(exercises)", category: .coreData)
       return exercises
     } catch {
@@ -67,6 +68,7 @@ extension WorkoutManager {
       MusculosLogger.log(.info, message: "Exercise already exists", category: .coreData)
     } else {
       _ = exercise.toEntity(context: self.context)
+      try self.context.save()
     }
   }
 }

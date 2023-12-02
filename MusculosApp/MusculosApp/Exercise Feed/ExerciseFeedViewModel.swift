@@ -1,5 +1,5 @@
 //
-//  WorkoutFeedViewModel.swift
+//  ExerciseFeedViewModel.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 19.09.2023.
@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 @MainActor
-final class WorkoutFeedViewModel: ObservableObject {
+final class ExerciseFeedViewModel: ObservableObject {
   @Published var selectedFilter: String = ""
   @Published var selectedExercise: Exercise?
   @Published var errorMessage = ""
