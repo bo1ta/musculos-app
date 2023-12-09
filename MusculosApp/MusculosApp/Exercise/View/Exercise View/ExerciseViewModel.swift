@@ -70,7 +70,7 @@ final class ExerciseViewModel: ObservableObject {
       return exerciseManagedObject.first
     } catch {
       self.errorMessage = errorMessage
-      MusculosLogger.log(.error, message: "cannot fetch local exercise by name", category: .coreData)
+      MusculosLogger.logError(error: error, message: "cannot fetch local exercise by name", category: .coreData)
       return nil
     }
   }
@@ -81,7 +81,7 @@ final class ExerciseViewModel: ObservableObject {
         _ = try await CoreDataStack.shared.saveMainContext()
       } catch {
         self.errorMessage = error.localizedDescription
-        MusculosLogger.log(.error, message: "cannot save local change", category: .coreData)
+        MusculosLogger.logError(error: error, message: "cannot save local change", category: .coreData)
       }
     }
   }

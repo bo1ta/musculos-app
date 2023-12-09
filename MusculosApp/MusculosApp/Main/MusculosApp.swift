@@ -14,13 +14,21 @@ struct MusculosApp: App {
   private var isPreview: Bool {
     return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
   }
+  
+  private var isLocalAuthenticated: Bool {
+    return UserDefaultsWrapper.shared.isAuthenticated
+  }
 
   var body: some Scene {
     WindowGroup {
       GeometryReader { proxy in
-        ContentView()
-          .environment(\.managedObjectContext, self.coreDataStack.mainContext)
-          .environment(\.mainWindowSize, isPreview ? CGSize(width: 375, height: 667) : proxy.size)
+        if isLocalAuthenticated {
+          ContentView()
+            .environment(\.managedObjectContext, self.coreDataStack.mainContext)
+            .environment(\.mainWindowSize, isPreview ? CGSize(width: 375, height: 667) : proxy.size)
+        } else {
+          AuthenticationView()
+        }
       }
     }
   }

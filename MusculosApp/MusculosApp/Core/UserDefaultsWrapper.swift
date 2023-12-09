@@ -23,13 +23,13 @@ public class UserDefaultsWrapper: NSObject {
 
   private let userDefaults: UserDefaults
 
-  private let tokenKey = "AuthToken"
-  var authToken: String? {
+  private let IS_AUTHENTICATED = "authenticated"
+  var isAuthenticated: Bool {
     get {
-      return self.userDefaults.string(forKey: self.tokenKey)
+      return self.userDefaults.bool(forKey: IS_AUTHENTICATED)
     }
     set {
-      self.userDefaults.set(newValue, forKey: self.tokenKey)
+      self.userDefaults.setValue(newValue, forKey: IS_AUTHENTICATED)
     }
   }
 

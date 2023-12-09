@@ -133,7 +133,7 @@ final class ExerciseFeedViewModel: ObservableObject {
 
     } catch {
       errorMessage = error.localizedDescription
-      MusculosLogger.log(.error, message: "Error loading exercises", category: .ui)
+      MusculosLogger.logError(error: error, message: "Error loading exercises", category: .ui)
     }
   }
 
@@ -157,7 +157,7 @@ final class ExerciseFeedViewModel: ObservableObject {
       let exercises = try await self.exerciseModule.getExercises(by: muscleInfo)
       self.currentExercises = exercises
     } catch {
-      MusculosLogger.log(.error, message: "Error loading exercises", category: .ui)
+      MusculosLogger.logError(error: error, message: "Error loading exercises", category: .ui)
       self.errorMessage = error.localizedDescription
     }
   }

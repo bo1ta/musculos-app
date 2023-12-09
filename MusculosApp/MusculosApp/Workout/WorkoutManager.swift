@@ -28,7 +28,7 @@ extension WorkoutManager {
       let results = try self.context.fetch(fetchRequest)
       return results.map { Exercise(from: $0) }
     } catch {
-      MusculosLogger.log(.error, message: "Could not fetch local exercises", error: error, category: .coreData)
+      MusculosLogger.logError(error: error, message: "Could not fetch local exercises", category: .coreData)
       throw error
     }
   }
@@ -41,7 +41,7 @@ extension WorkoutManager {
       let mappedObjects = favoriteExercises.map { Exercise(from: $0) }
       return mappedObjects
     } catch {
-      MusculosLogger.log(.error, message: "Could not fetch favorite exercises", category: .coreData)
+      MusculosLogger.logError(error: error, message: "Could not fetch favorite exercises", category: .coreData)
       throw error
     }
   }
@@ -52,10 +52,10 @@ extension WorkoutManager {
       _ = try exercises.forEach {
         try self.maybeSaveExercise($0)
       }
-      MusculosLogger.log(.info, message: "Fetched the exercises: \(exercises)", category: .coreData)
+      MusculosLogger.logInfo(message: "Fetched the exercises: \(exercises)", category: .coreData)
       return exercises
     } catch {
-      MusculosLogger.log(.error, message: "Could not fetch exercises \(error.localizedDescription)", category: .coreData)
+      MusculosLogger.logError(error: error, message: "Could not fetch exercises", category: .coreData)
       throw error
     }
   }
@@ -65,7 +65,7 @@ extension WorkoutManager {
     fetchRequest.fetchLimit = 1
     fetchRequest.predicate = NSPredicate(format: "name LIKE %@", exercise.name)
     if let _ = try self.context.fetch(fetchRequest).first {
-      MusculosLogger.log(.info, message: "Exercise already exists", category: .coreData)
+      MusculosLogger.logInfo(message: "Exercise already exists", category: .coreData)
     } else {
       _ = exercise.toEntity(context: self.context)
       try self.context.save()
