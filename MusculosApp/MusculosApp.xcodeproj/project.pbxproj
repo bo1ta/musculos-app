@@ -92,6 +92,7 @@
 		BC96C3012AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96C2FF2AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataClass.swift */; };
 		BC96C3022AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96C3002AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataProperties.swift */; };
 		BC9937222B64199A0067E556 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9937212B64199A0067E556 /* AppConstants.swift */; };
+		BC9937242B6426300067E556 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC9937232B6426300067E556 /* Config.xcconfig */; };
 		BCA87E592AE83B3800453E4B /* ChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E582AE83B3800453E4B /* ChallengeView.swift */; };
 		BCA87E5C2AE8606F00453E4B /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5B2AE8606F00453E4B /* Challenge.swift */; };
 		BCA87E5F2AE865A600453E4B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5E2AE865A600453E4B /* Person.swift */; };
@@ -230,8 +231,8 @@
 		BC96C2FE2ACE18C700F11CAB /* Musculos 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 3.xcdatamodel"; sourceTree = "<group>"; };
 		BC96C2FF2AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ExerciseManagedObject+CoreDataClass.swift"; path = "MusculosApp/Core/Core Data/Entity/ExerciseManagedObject+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BC96C3002AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ExerciseManagedObject+CoreDataProperties.swift"; path = "MusculosApp/Core/Core Data/Entity/ExerciseManagedObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		BC9937202B64181E0067E556 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		BC9937212B64199A0067E556 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		BC9937232B6426300067E556 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Config.xcconfig; path = ../../../../../../Desktop/Config.xcconfig; sourceTree = "<group>"; };
 		BCA87E582AE83B3800453E4B /* ChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeView.swift; sourceTree = "<group>"; };
 		BCA87E5B2AE8606F00453E4B /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		BCA87E5E2AE865A600453E4B /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
@@ -350,7 +351,6 @@
 		BC1160C32A2CFB820028D8FC = {
 			isa = PBXGroup;
 			children = (
-				BC9937202B64181E0067E556 /* Config.xcconfig */,
 				BC96C2FF2AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataClass.swift */,
 				BC96C3002AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataProperties.swift */,
 				BC5C56EC2AC348EF00AFDBFE /* StringHolder+CoreDataClass.swift */,
@@ -387,6 +387,7 @@
 				BCE3B6932A5AEBF9001D04EB /* Workout */,
 				BC352AE32A326D6C00DAA3AB /* Core */,
 				BC1160D32A2CFB830028D8FC /* Assets.xcassets */,
+				BC9937232B6426300067E556 /* Config.xcconfig */,
 				BC1160DD2A2CFB830028D8FC /* Info.plist */,
 				BC1160D52A2CFB830028D8FC /* Preview Content */,
 			);
@@ -1024,6 +1025,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC1160D72A2CFB830028D8FC /* Preview Assets.xcassets in Resources */,
+				BC9937242B6426300067E556 /* Config.xcconfig in Resources */,
 				BC1160D42A2CFB830028D8FC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1200,7 +1202,7 @@
 /* Begin XCBuildConfiguration section */
 		BC1160F42A2CFB840028D8FC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC9937202B64181E0067E556 /* Config.xcconfig */;
+			baseConfigurationReference = BC9937232B6426300067E556 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1261,7 +1263,7 @@
 		};
 		BC1160F52A2CFB840028D8FC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC9937202B64181E0067E556 /* Config.xcconfig */;
+			baseConfigurationReference = BC9937232B6426300067E556 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1316,7 +1318,7 @@
 		};
 		BC1160F72A2CFB840028D8FC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC9937202B64181E0067E556 /* Config.xcconfig */;
+			baseConfigurationReference = BC9937232B6426300067E556 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1349,7 +1351,7 @@
 		};
 		BC1160F82A2CFB840028D8FC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC9937202B64181E0067E556 /* Config.xcconfig */;
+			baseConfigurationReference = BC9937232B6426300067E556 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
