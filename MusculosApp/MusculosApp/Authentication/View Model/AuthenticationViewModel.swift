@@ -66,16 +66,13 @@ extension AuthenticationViewModel {
     loginTask = Task { @MainActor [weak self] in
       guard let self else { return }
       
+      self.errorMessage = nil
       self.isLoading = true
       defer { self.isLoading = false }
       
-      let result = await self.module.loginUser(email: self.email, password: self.password)
-      switch result {
-      case .success():
-        self.isAuthenticated = true
-        self.saveAuthenticationState()
-
-      case .failure(let error):
+      do {
+        try await self.module.loginUser(email: self.email, password: self.password)
+      } catch {
         self.errorMessage = error.localizedDescription
       }
     }
@@ -85,16 +82,16 @@ extension AuthenticationViewModel {
     registerTask = Task { @MainActor [weak self] in
       guard let self else { return }
       
+      self.errorMessage = nil
       self.isLoading = true
       defer { self.isLoading = false }
       
-      let extraData: [String: AnyJSON] = ["username": .string(self.username)]
-      let result = await self.module.registerUser(email: self.email, password: self.password, extraData: extraData)
-      switch result {
-      case .success():
-        self.isAuthenticated = true
-        self.saveAuthenticationState()
-      case .failure(let error):
+      do {
+        let extraData: [String: AnyJSON] = [
+          "username": .string(self.username)
+        ]
+        try await self.module.registerUser(email: self.email, password: self.password, extraData: extraData)
+      } catch {
         self.errorMessage = error.localizedDescription
       }
     }
