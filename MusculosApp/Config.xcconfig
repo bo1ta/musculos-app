@@ -1,0 +1,12 @@
+//
+//  Config.xcconfig
+//  MusculosApp
+//
+//  Created by Solomon Alexandru on 26.01.2024.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+SUPABASE_APP_URL = wqgqgfospzhwoqeqdzbo.supabase.co
+SUPABASE_APP_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxZ3FnZm9zcHpod29xZXFkemJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDE1NTk4MTcsImV4cCI6MjAxNzEzNTgxN30.91uci4-y4VIprNFXfLoK3RAJZWr1mQqp0gW81eSxwIM

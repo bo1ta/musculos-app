@@ -17,6 +17,7 @@ final class AuthenticationViewModel: ObservableObject {
   @Published var password = ""
   @Published var isFormValid = false
   @Published var isLoading = false
+  @Published var isAuthenticated = false
   @Published var showErrorAlert = false
   
   private(set) var loginTask: Task<Void, Never>?
@@ -29,8 +30,6 @@ final class AuthenticationViewModel: ObservableObject {
     }
   }
 
-
-  let authSuccess = PassthroughSubject<Void, Never>()
   private let module: AuthenticationModuleProtocol
 
   init(module: AuthenticationModuleProtocol = AuthenticationModule()) {
@@ -73,7 +72,7 @@ extension AuthenticationViewModel {
       let result = await self.module.loginUser(email: self.email, password: self.password)
       switch result {
       case .success():
-        self.authSuccess.send()
+        self.isAuthenticated = true
         self.saveAuthenticationState()
 
       case .failure(let error):
@@ -93,7 +92,7 @@ extension AuthenticationViewModel {
       let result = await self.module.registerUser(email: self.email, password: self.password, extraData: extraData)
       switch result {
       case .success():
-        self.authSuccess.send()
+        self.isAuthenticated = true
         self.saveAuthenticationState()
       case .failure(let error):
         self.errorMessage = error.localizedDescription

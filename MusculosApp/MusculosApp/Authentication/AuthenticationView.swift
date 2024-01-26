@@ -9,6 +9,12 @@ import SwiftUI
 
 struct AuthenticationView: View {
   @StateObject private var viewModel = AuthenticationViewModel()
+  
+  private let performPostLogin: () -> Void
+  
+  init(performPostLogin: @escaping () -> Void) {
+    self.performPostLogin = performPostLogin
+  }
 
   private var isRegister: Bool {
     return self.viewModel.currentStep == .register
@@ -27,11 +33,15 @@ struct AuthenticationView: View {
           )
         }
     }
+    .onChange(of: viewModel.isAuthenticated, perform: { isAuthenticated in
+      isAuthenticated ? performPostLogin() : nil
+    })
     .background(backgroundImage)
   }
 
   private var contentView: some View {
     VStack {
+      Spacer()
       TransparentContainerView {
         authenticationForm
           .padding(.bottom, 10)
@@ -49,8 +59,8 @@ struct AuthenticationView: View {
         primaryBtn
           .padding(.bottom, 10)
         dontHaveAnAccountBtn
-
       }
+      Spacer()
     }
   }
 
@@ -106,6 +116,6 @@ struct AuthenticationView: View {
 
 struct AuthView_Previews: PreviewProvider {
   static var previews: some View {
-    AuthenticationView()
+    AuthenticationView(performPostLogin: {})
   }
 }
