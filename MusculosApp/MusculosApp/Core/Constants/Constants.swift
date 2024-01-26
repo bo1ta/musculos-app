@@ -22,3 +22,13 @@ public class HTTPHeaderConstants: NSObject {
 public class UIConstants: NSObject {
   static let componentOpacity: Double = 0.95
 }
+
+public class SupabaseConstants: NSObject {
+  enum Bucket: String {
+    case exerciseImage = "exercise_image"
+  }
+  
+  enum Table: String {
+    case exercise
+  }
+}

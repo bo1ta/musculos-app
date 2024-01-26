@@ -18,10 +18,14 @@ final class SupabaseWrapper {
   static let shared = SupabaseWrapper()
   
   var database: PostgrestClient {
-    return client.database
+    client.database
   }
   
   var auth: GoTrueClient {
-    return client.auth
+    client.auth
+  }
+  
+  var storage: SupabaseStorageClient {
+    client.storage
   }
 }
