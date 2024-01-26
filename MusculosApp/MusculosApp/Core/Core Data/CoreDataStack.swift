@@ -22,7 +22,7 @@ class CoreDataStack {
 
     self.persistentContainer.loadPersistentStores { _, error in
       if let error = error {
-        MusculosLogger.log(.error, message: "Failed to load persistent store", error: error, category: .coreData)
+        MusculosLogger.logError(error: error, message: "Failed to load persistent store", category: .coreData)
       }
     }
 
@@ -40,7 +40,7 @@ class CoreDataStack {
       do {
         try context.save()
       } catch {
-        MusculosLogger.log(.error, message: "Failed to save main context", error: error, category: .coreData)
+        MusculosLogger.logError(error: error, message: "Failed to save main context", category: .coreData)
         throw error
       }
     }
@@ -52,7 +52,7 @@ class CoreDataStack {
       do {
         try context.save()
       } catch {
-        MusculosLogger.log(.error, message: "Failed to save backgroundContext context", error: error, category: .coreData)
+        MusculosLogger.logError(error: error, message: "Failed to save backgroundContext context", category: .coreData)
         throw error
       }
     }
@@ -63,14 +63,14 @@ class CoreDataStack {
     let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("MusculosDataStore.sqlite")
 
     guard FileManager.default.fileExists(atPath: url.path) else {
-      MusculosLogger.log(.error, message: "Could not find sqlite db", error: MusculosError.notFound, category: .coreData)
+      MusculosLogger.logError(error: MusculosError.notFound, message: "Could not find sqlite db", category: .coreData)
       return
     }
 
     do {
       try self.persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, type: .sqlite)
     } catch {
-      MusculosLogger.log(.error, message: "Could not destroy persistent store", error: MusculosError.notFound, category: .coreData)
+      MusculosLogger.logError(error: error, message: "Could not destroy persistent store", category: .coreData)
       return
     }
   }
@@ -86,7 +86,7 @@ class CoreDataStack {
     do {
       try await self.saveMainContext()
     } catch {
-      MusculosLogger.log(.error, message: "Could not save after deleting all", category: .coreData)
+      MusculosLogger.logError(error: error, message: "Could not save after deleting all", category: .coreData)
       return
     }
   }

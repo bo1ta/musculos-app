@@ -14,13 +14,14 @@ final class MusculosLogger {
     case coreData
     case ui
   }
-
-  static func log(_ logType: OSLogType, message: String, error: Error? = nil, category: LogCategory) {
+  
+  static func logInfo(message: String, category: LogCategory) {
     let log = OSLog(subsystem: "com.MusculosApp", category: category.rawValue)
-    if let error = error {
-      os_log(logType, log: log, "%@ Error: %@", message, error.localizedDescription)
-    } else {
-      os_log(logType, log: log, "%@", message)
-    }
+    os_log(.debug, log: log, "%@", message)
+  }
+  
+  static func logError(error: Error, message: String, category: LogCategory) {
+    let log = OSLog(subsystem: "com.MusculosApp", category: category.rawValue)
+    os_log(.error, log: log, "%@ Error: %@", message, error.localizedDescription)
   }
 }

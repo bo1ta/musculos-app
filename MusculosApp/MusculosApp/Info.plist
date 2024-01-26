@@ -7,5 +7,9 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>SUPABASE_APP_KEY</key>
+	<string>${SUPABASE_APP_KEY}</string>
+	<key>SUPABASE_APP_URL</key>
+	<string>${SUPABASE_APP_URL}</string>
 </dict>
 </plist>

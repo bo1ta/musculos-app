@@ -8,8 +8,8 @@
 import Foundation
 import SwiftUI
 import Combine
+import Supabase
 
-@MainActor
 final class AuthenticationViewModel: ObservableObject {
   @Published var currentStep: AuthenticationStep = .login
   @Published var email = ""
@@ -17,7 +17,12 @@ final class AuthenticationViewModel: ObservableObject {
   @Published var password = ""
   @Published var isFormValid = false
   @Published var isLoading = false
+  @Published var isAuthenticated = false
   @Published var showErrorAlert = false
+  
+  private(set) var loginTask: Task<Void, Never>?
+  private(set) var registerTask: Task<Void, Never>?
+  private var formValidationCancellable: AnyCancellable?
 
   var errorMessage: String? {
     didSet {
@@ -25,31 +30,19 @@ final class AuthenticationViewModel: ObservableObject {
     }
   }
 
-  private var cancellables = Set<AnyCancellable>()
-  private var formValidationCancellable: AnyCancellable?
+  private let module: AuthenticationModuleProtocol
 
-  let authSuccess = PassthroughSubject<Void, Never>()
-  private let module: AuthenticationModule
-
-  init(module: AuthenticationModule = AuthenticationModule()) {
+  init(module: AuthenticationModuleProtocol = AuthenticationModule()) {
     self.module = module
     self.setupFormValidation()
   }
 
   private func setupFormValidation() {
-    self.formValidationCancellable = $currentStep.combineLatest(isLoginFormValidPublisher, isRegisterFormValidPublisher)
+    self.formValidationCancellable = self.isLoginFormValidPublisher
       .receive(on: RunLoop.main)
-      .sink(receiveValue: { [weak self] currentStep, isLoginFormValid, isRegisterFormValid in
-        var isValid = false
-
-        switch currentStep {
-        case .login:
-          isValid = isLoginFormValid
-        case .register:
-          isValid = isRegisterFormValid
-        }
-
-        self?.isFormValid = isValid
+      .sink(receiveValue: { [weak self] isValid in
+        guard let self else { return }
+        self.isFormValid = isValid
       })
   }
 
@@ -68,37 +61,47 @@ extension AuthenticationViewModel {
       self.registerUser()
     }
   }
-
+  
   private func loginUser() {
-    self.isLoading = true
+    loginTask = Task { @MainActor [weak self] in
+      guard let self else { return }
+      
+      self.isLoading = true
+      defer { self.isLoading = false }
+      
+      let result = await self.module.loginUser(email: self.email, password: self.password)
+      switch result {
+      case .success():
+        self.isAuthenticated = true
+        self.saveAuthenticationState()
 
-    Task {
-      do {
-        let response = try await self.module.loginUser(email: self.email, password: self.password)
-        UserDefaultsWrapper.shared.authToken = response.token
-        self.isLoading = false
-        self.authSuccess.send()
-      } catch let err {
-        self.isLoading = false
-        self.errorMessage = err.localizedDescription
+      case .failure(let error):
+        self.errorMessage = error.localizedDescription
       }
     }
   }
-
+  
   private func registerUser() {
-    self.isLoading = true
-
-    Task {
-      do {
-        let response = try await self.module.registerUser(username: self.username, email: self.email, password: self.password)
-        UserDefaultsWrapper.shared.authToken = response.token
-        self.isLoading = false
-        self.authSuccess.send()
-      } catch let err {
-        self.isLoading = false
-        self.errorMessage = err.localizedDescription
+    registerTask = Task { @MainActor [weak self] in
+      guard let self else { return }
+      
+      self.isLoading = true
+      defer { self.isLoading = false }
+      
+      let extraData: [String: AnyJSON] = ["username": .string(self.username)]
+      let result = await self.module.registerUser(email: self.email, password: self.password, extraData: extraData)
+      switch result {
+      case .success():
+        self.isAuthenticated = true
+        self.saveAuthenticationState()
+      case .failure(let error):
+        self.errorMessage = error.localizedDescription
       }
     }
+  }
+  
+  private func saveAuthenticationState() {
+    UserDefaultsWrapper.shared.isAuthenticated = true
   }
 }
 
@@ -118,7 +121,7 @@ extension AuthenticationViewModel {
   }
 
   private var isLoginFormValidPublisher: AnyPublisher<Bool, Never> {
-    Publishers.CombineLatest(isUsernameValidPublisher, isPasswordValidPublisher)
+    Publishers.CombineLatest(isEmailFormValidPublisher, isPasswordValidPublisher)
       .map { $0 && $1 }
       .eraseToAnyPublisher()
   }
@@ -138,6 +141,6 @@ extension AuthenticationViewModel {
 
 extension AuthenticationViewModel {
   enum AuthenticationStep: String {
-    case  login, register
+    case login, register
   }
 }

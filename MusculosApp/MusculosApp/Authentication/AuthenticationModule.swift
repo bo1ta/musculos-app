@@ -7,27 +7,35 @@
 
 import Foundation
 import Combine
+import Supabase
 
-public class AuthenticationModule {
-  var client: MusculosClient
+protocol AuthenticationModuleProtocol {
+  func registerUser(email: String, password: String, extraData: [String: AnyJSON]?) async -> Result<Void, MusculosError>
+  func loginUser(email: String, password: String) async -> Result<Void, MusculosError>
+}
 
-  init(client: MusculosClient = MusculosClient()) {
-    self.client = client
+public class AuthenticationModule: AuthenticationModuleProtocol {
+  func registerUser(email: String, password: String, extraData: [String: AnyJSON]? = nil) async -> Result<Void, MusculosError> {
+    do {
+      let response = try await SupabaseWrapper.shared.auth.signUp(email: email, password: password, data: extraData)
+      if response.session != nil {
+        return .success(())
+      } else {
+        return .failure(MusculosError.notFound)
+      }
+    } catch {
+      return .failure(MusculosError.sdkError(error))
+    }
   }
-
-  func registerUser(username: String, email: String, password: String) async throws -> RegisterResponse {
-    var request = APIRequest(method: .post, path: .register)
-    request.body = ["user_name": username, "email": email, "password": password]
-
-    let responseData = try await self.client.dispatch(request)
-    return try await RegisterResponse.createFrom(responseData)
-  }
-
-  func loginUser(email: String, password: String) async throws -> LoginResponse {
-    var request = APIRequest(method: .post, path: .authentication)
-    request.body = ["email": email, "password": password]
-
-    let responseData = try await self.client.dispatch(request)
-    return try await LoginResponse.createFrom(responseData)
+  
+  func loginUser(email: String, password: String) async -> Result<Void, MusculosError> {
+    do {
+      try await SupabaseWrapper.shared.auth.signIn(email: email, password: password)
+      MusculosLogger.logInfo(message: "Login successfull", category: .networking)
+      return .success(())
+    } catch {
+      MusculosLogger.logError(error: error, message: "Could not login user", category: .networking)
+      return .failure(MusculosError.sdkError(error))
+    }
   }
 }

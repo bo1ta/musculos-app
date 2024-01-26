@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MusculosError: LocalizedError, Equatable, CustomStringConvertible {
+enum MusculosError: LocalizedError, CustomStringConvertible {
   case invalidRequest
   case badRequest
   case unauthorized
@@ -19,7 +19,8 @@ enum MusculosError: LocalizedError, Equatable, CustomStringConvertible {
   case decodingError
   case urlSessionFailed(_ error: URLError)
   case unknownError
-
+  case sdkError(_ error: Error)
+  
   var description: String {
     switch self {
     case .invalidRequest:
@@ -44,6 +45,8 @@ enum MusculosError: LocalizedError, Equatable, CustomStringConvertible {
       return "URL session failed: \(error.localizedDescription)"
     case .unknownError:
       return "Unknown error"
+    case .sdkError(let error):
+      return "SDK Error: \(error.localizedDescription)"
     }
   }
   

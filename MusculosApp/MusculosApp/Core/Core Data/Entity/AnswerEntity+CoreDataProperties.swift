@@ -18,10 +18,6 @@ extension AnswerEntity {
   @NSManaged public var content: String
   @NSManaged public var answerId: Int
   @NSManaged public var questionId: Int
-
-  func toModel() -> Answer {
-    return Answer(id: self.answerId, content: self.content, questionId: self.questionId)
-  }
 }
 
 extension AnswerEntity: Identifiable {

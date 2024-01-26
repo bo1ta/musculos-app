@@ -21,22 +21,22 @@ struct TransparentContainerView<Content: View>: View {
   var body: some View {
     ZStack {
       Color.gray
-        .opacity(0.4)
+        .opacity(0.7)
         .cornerRadius(16)
         .padding([.leading, .trailing], 5)
 
       VStack(alignment: .center, spacing: self.spacing) {
         content
-          .background( // calculate transparent container height
+          .background(
             GeometryReader { scrollViewGeometry in
               Color.clear
                 .onAppear(perform: {
-                  contentHeight += 40 + scrollViewGeometry.size.height
+                  contentHeight +=  scrollViewGeometry.size.height
                 })
             }
           )
       }
-      .padding()
+      .padding(20)
     }
     .frame(maxHeight: contentHeight)
   }
