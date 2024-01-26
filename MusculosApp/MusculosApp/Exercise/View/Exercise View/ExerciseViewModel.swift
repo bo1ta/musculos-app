@@ -15,6 +15,10 @@ final class ExerciseViewModel: ObservableObject {
   @Published var isLoading = false
   @Published var errorMessage: String?
   @Published var isFavorite: Bool = false
+  
+  private let exerciseResourceManager = ExerciseResourceManager()
+  
+  private(set) var resourceTask: Task<Void, Never>?
 
   init(exercise: Exercise) {
     self.exercise = exercise
@@ -47,16 +51,34 @@ final class ExerciseViewModel: ObservableObject {
       self.isFavorite = localExercise.isFavorite
     }
   }
+  
+  private func saveResource() {
+    isLoading = true
+    defer { isLoading = false }
+    
+    resourceTask = Task {
+      do {
+        try await exerciseResourceManager.saveExercise(exercise: exercise)
+        MusculosLogger.logInfo(message: "super merge!", category: .networking)
+      } catch {
+        errorMessage = errorMessage
+      }
+    }
+  }
 
   public func toggleFavorite() {
-    self.isFavorite.toggle()
+    isFavorite.toggle()
+    
+    if isFavorite {
+      saveResource()
+    }
 
-    if let localExercise = self.maybeFetchLocal() {
-      localExercise.isFavorite = self.isFavorite
-      self.saveLocalChanges()
+    if let localExercise = maybeFetchLocal() {
+      localExercise.isFavorite = isFavorite
+      saveLocalChanges()
     } else {
-      let exerciseManagedObject = self.exercise.toEntity(context: self.managedObjectContext)
-      exerciseManagedObject.isFavorite = self.isFavorite
+      let exerciseManagedObject = exercise.toEntity(context: self.managedObjectContext)
+      exerciseManagedObject.isFavorite = isFavorite
       self.saveLocalChanges()
     }
   }
