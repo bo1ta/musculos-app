@@ -17,20 +17,21 @@ struct CurrentWorkoutCardView: View {
   }
 
   var body: some View {
-    VStack {
+    ZStack {
+      backgroundView
       if showDetails {
-        topSection
-        Spacer()
-        bottomSection
-      } else {
-        EmptyView()
+        VStack {
+          topSection
+          Spacer()
+          bottomSection
+        }
       }
     }
-    .frame(maxWidth: .infinity, minHeight: 250)
     .background(backgroundView)
-    .cornerRadius(15)
+    .cornerRadius(40)
     .padding()
     .shadow(color: Color.black.opacity(0.6), radius: 4, x: 0, y: 2)
+    .frame(width: 360, height: 250)
   }
   
   // MARK: - Views
@@ -38,10 +39,11 @@ struct CurrentWorkoutCardView: View {
   @ViewBuilder
   private var backgroundView: some View {
     if let gifUrl = URL(string: exercise.gifUrl) {
-        GIFView(url: Binding(get: { gifUrl }, set: { _ in }))
-        .fixedSize()
+      GIFImageViewRepresentable(urlType: .url(gifUrl))
+        .frame(width: 360, height: 250)
     } else {
       Color.black
+        .frame(width: 700, height: 700)
     }
   }
   
@@ -62,7 +64,7 @@ struct CurrentWorkoutCardView: View {
       }
       Spacer()
     }
-    .padding([.top, .leading], 5)
+    .padding([.top, .leading], 10)
   }
   
   @ViewBuilder
@@ -86,7 +88,7 @@ struct CurrentWorkoutCardView: View {
 
 struct WorkoutCardView_Preview: PreviewProvider {
   static var previews: some View {
-    CurrentWorkoutCardView(exercise: Exercise(bodyPart: "back", equipment: "dumbbell", gifUrl: "", id: "1", name: "Back workout", target: "back", secondaryMuscles: [""], instructions: ["Get up", "Get down"]))
+    CurrentWorkoutCardView(exercise: Exercise(bodyPart: "back", equipment: "dumbbell", gifUrl: "https://v2.exercisedb.io/image/qr3qX7hFMVj2ZT", id: "1", name: "Back workout", target: "back", secondaryMuscles: [""], instructions: ["Get up", "Get down"]))
       .previewLayout(.sizeThatFits)
   }
 }
