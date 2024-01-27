@@ -37,12 +37,10 @@ final class ExerciseFeedViewModel: ObservableObject {
   private var exerciseCache: [Exercise]?
   private var cancellables: Set<AnyCancellable> = []
   
-  // MARK: Pagination
+  /// Pagination
   private var currentOffset = 0
-  private var totalExercisesAvailable: Int?
-  private var exercisesLoadedCount: Int?
   
-  // Used for preview so we don't make unnecessary network requests
+  /// Used for preview so we don't make unnecessary network requests
   var overrideLocalPreview = false
 
   init() {
@@ -100,20 +98,12 @@ final class ExerciseFeedViewModel: ObservableObject {
   
   func maybeRequestMoreExercises(index: Int) async {
     // check if the current index meets the threshold
-    guard
-      !overrideLocalPreview,
-      let exercisesLoadedCount = self.exercisesLoadedCount,
-      shouldRequestMore(itemsLoadedCount: exercisesLoadedCount, index: index)
-    else { return }
+    guard !overrideLocalPreview, index >= currentExercises.count - 1 else { return }
     
     // go 10 by 10 on the offset
     // since we fetch 10 exercises on each request
     currentOffset += 10
     await loadExercises(offset: currentOffset)
-  }
-  
-  private func shouldRequestMore(itemsLoadedCount: Int, index: Int) -> Bool {
-    return index >= itemsLoadedCount - 1
   }
 
   func loadExercises(offset: Int) async {
@@ -122,7 +112,6 @@ final class ExerciseFeedViewModel: ObservableObject {
       defer { isLoading = false }
 
       let exercises = try await workoutManager.fetchExercises(offset: offset)
-      exercisesLoadedCount = exercises.count
       
       // if using local cache, flush -- the gif images expire after 24 hours
       if usesLocalCache {
