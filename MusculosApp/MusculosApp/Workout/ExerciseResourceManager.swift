@@ -60,9 +60,10 @@ struct ExerciseResourceManager {
     transformOptions: TransformOptions? = nil
   ) async -> URL? {
     do {
+      let fileName = "public/\(fileName)"
       return try await supabaseStorage
         .from(path)
-        .createSignedURL(path: "public/\(fileName).\(format.rawValue)", expiresIn: 180, transform: transformOptions)
+        .createSignedURL(path: fileName, expiresIn: 60, transform: transformOptions)
     } catch {
       MusculosLogger.logError(error: error, message: "signed url problem", category: .supabase)
       return nil
