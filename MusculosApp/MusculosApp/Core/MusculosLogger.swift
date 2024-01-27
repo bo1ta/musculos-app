@@ -13,11 +13,12 @@ final class MusculosLogger {
     case networking
     case coreData
     case ui
+    case supabase
   }
   
   static func logInfo(message: String, category: LogCategory) {
     let log = OSLog(subsystem: "com.MusculosApp", category: category.rawValue)
-    os_log(.debug, log: log, "%@", message)
+    os_log(.debug, log: log, "%@: %@", category.rawValue, message)
   }
   
   static func logError(error: Error, message: String, category: LogCategory) {

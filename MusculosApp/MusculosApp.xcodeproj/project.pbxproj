@@ -570,7 +570,6 @@
 			children = (
 				BCCBEC682AD75E0D002F5E41 /* View */,
 				BCB6BF572AFBFCE400B6CBCE /* Model */,
-				BC5BAC832AB1072B003C880E /* ExerciseModule.swift */,
 			);
 			path = Exercise;
 			sourceTree = "<group>";
@@ -879,6 +878,7 @@
 			children = (
 				BC5BAC872AB111C1003C880E /* WorkoutManager.swift */,
 				BC9937282B6441D90067E556 /* ExerciseResourceManager.swift */,
+				BC5BAC832AB1072B003C880E /* ExerciseModule.swift */,
 				BC3FB0F22A8704EE00C3F9B1 /* Workout Filters */,
 				BCB6BF592AFBFD3300B6CBCE /* Select Muscle */,
 			);

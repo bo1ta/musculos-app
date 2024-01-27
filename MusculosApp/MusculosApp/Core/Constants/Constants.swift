@@ -30,5 +30,6 @@ public class SupabaseConstants: NSObject {
   
   enum Table: String {
     case exercise
+    case favoriteExercise = "favorite_exercise"
   }
 }

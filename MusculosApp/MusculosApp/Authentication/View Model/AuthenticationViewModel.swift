@@ -17,23 +17,29 @@ final class AuthenticationViewModel: ObservableObject {
   @Published var password = ""
   @Published var isFormValid = false
   @Published var isLoading = false
-  @Published var isAuthenticated = false
   @Published var showErrorAlert = false
+  @Published var isAuthenticated = false {
+    didSet {
+      if isAuthenticated {
+        UserDefaultsWrapper.shared.isAuthenticated = true
+      }
+    }
+  }
+  @Published var errorMessage: String? = nil {
+    didSet {
+      self.showErrorAlert = errorMessage != nil
+    }
+  }
   
   private(set) var loginTask: Task<Void, Never>?
   private(set) var registerTask: Task<Void, Never>?
   private var formValidationCancellable: AnyCancellable?
 
-  var errorMessage: String? {
-    didSet {
-      self.showErrorAlert = self.errorMessage != nil
-    }
-  }
-
   private let module: AuthenticationModuleProtocol
 
   init(module: AuthenticationModuleProtocol = AuthenticationModule()) {
     self.module = module
+    self.isAuthenticated = UserDefaultsWrapper.shared.isAuthenticated
     self.setupFormValidation()
   }
 
@@ -72,6 +78,7 @@ extension AuthenticationViewModel {
       
       do {
         try await self.module.loginUser(email: self.email, password: self.password)
+        self.isAuthenticated = true
       } catch {
         self.errorMessage = error.localizedDescription
       }
@@ -91,14 +98,11 @@ extension AuthenticationViewModel {
           "username": .string(self.username)
         ]
         try await self.module.registerUser(email: self.email, password: self.password, extraData: extraData)
+        self.isAuthenticated = true
       } catch {
         self.errorMessage = error.localizedDescription
       }
     }
-  }
-  
-  private func saveAuthenticationState() {
-    UserDefaultsWrapper.shared.isAuthenticated = true
   }
 }
 

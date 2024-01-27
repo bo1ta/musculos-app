@@ -9,17 +9,24 @@ import Foundation
 import Supabase
 
 struct ExerciseResourceManager {
+  struct FavoriteExercise: Codable {
+    let exerciseId: String
+    
+    enum CodingKeys: String, CodingKey {
+      case exerciseId = "exercise_id"
+    }
+  }
+  
   enum ImageContentType: String {
     case gif = "image/gif"
     case image = "image"
   }
-
+  
   enum ImageFormat: String {
     case gif, png
   }
   
   private let supabaseStorage = SupabaseWrapper.shared.storage
-  private let supabaseDatabase = SupabaseWrapper.shared.database
   private let client: MusculosClient
   
   init(client: MusculosClient = MusculosClient()) {
@@ -31,11 +38,19 @@ struct ExerciseResourceManager {
     return data
   }
   
-  func uploadImageData(_ data: Data, fileName: String, contentType: ImageContentType = .gif) async throws {
+  func uploadImageData(
+    _ data: Data,
+    fileName: String,
+    contentType: ImageContentType = .gif
+  ) async {
     let fileOptions = FileOptions(contentType: contentType.rawValue)
-    try await supabaseStorage
-      .from(SupabaseConstants.Bucket.exerciseImage.rawValue)
-      .upload(path: "public/\(fileName)", file: data, options: fileOptions)
+    do {
+      try await supabaseStorage
+        .from(SupabaseConstants.Bucket.exerciseImage.rawValue)
+        .upload(path: "public/\(fileName)", file: data, options: fileOptions)
+    } catch {
+      MusculosLogger.logError(error: error, message: "image already exists", category: .supabase)
+    }
   }
   
   func createSignedUrl(
@@ -49,34 +64,51 @@ struct ExerciseResourceManager {
       .createSignedURL(path: "public/\(fileName).\(format.rawValue)", expiresIn: 180, transform: transformOptions)
   }
   
-  func saveExercise(exercise: Exercise) async throws {
+  func saveExercise(
+    exercise: Exercise,
+    isFavorite: Bool = false
+  ) async throws {
     guard let imageUrl = URL(string: exercise.gifUrl) else { return }
-
+    
     /// download image from public API and upload it to Supabase
+    await SupabaseWrapper.shared.refreshSession()
+    
     let imageData = try await downloadImageData(from: imageUrl)
-    try await uploadImageData(imageData, fileName: exercise.id)
+    await uploadImageData(imageData, fileName: exercise.id)
     
     /// save the object to supabase
-    try await supabaseDatabase
-      .from(SupabaseConstants.Table.exercise.rawValue)
-      .insert(exercise)
-      .execute()
+    try await SupabaseWrapper.shared.insertData(exercise, table: .exercise)
+    
+    if isFavorite {
+      try await favoriteExercise(exercise: exercise)
+    }
   }
   
   func fetchExercise(id: String) async throws -> Exercise? {
-    let exercises: [Exercise] = try await supabaseDatabase
-      .from(SupabaseConstants.Table.exercise.rawValue)
-      .select()
-      .eq("id", value: id)
-      .execute()
-      .value
-    
-    if var exercise = exercises.first {
+    if var exercise: Exercise = try await SupabaseWrapper.shared.fetchById(id: id, table: .exercise) {
       let signedUrl = try await createSignedUrl(fileName: exercise.id)
       exercise.gifUrl = signedUrl.absoluteString
       return exercise
     }
-    
     return nil
+  }
+  
+  func favoriteExercise(exercise: Exercise) async throws {
+    do {
+      let favoriteExercise = FavoriteExercise(exerciseId: exercise.id)
+      try await SupabaseWrapper.shared.insertData(favoriteExercise, table: .favoriteExercise)
+    } catch {
+      MusculosLogger.logError(error: error, message: "could not favorite", category: .networking)
+    }
+  }
+  
+  func fetchFavoriteExercises() async throws -> [FavoriteExercise] {
+    do {
+      let exercises: [FavoriteExercise] = try await SupabaseWrapper.shared.fetchAll(table: .favoriteExercise)
+      return exercises
+    } catch {
+      MusculosLogger.logError(error: error, message: "Could not fetch favorite exercises", category: .supabase)
+    }
+    return []
   }
 }

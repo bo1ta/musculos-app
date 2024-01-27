@@ -25,6 +25,8 @@ final class ExerciseFeedViewModel: ObservableObject {
   private lazy var workoutManager: WorkoutManager = {
     return WorkoutManager()
   }()
+  
+  private let exerciseResourceManager = ExerciseResourceManager()
 
   private lazy var exerciseModule: ExerciseModule = {
     return ExerciseModule()
@@ -138,14 +140,12 @@ final class ExerciseFeedViewModel: ObservableObject {
   }
 
   func filterFavoriteExercises() {
-    do {
-      self.isLoading = true
-      defer { self.isLoading = false }
-
-      let exercises = try self.workoutManager.fetchFavoriteExercises()
-      self.currentExercises = exercises
-    } catch {
-      self.errorMessage = error.localizedDescription
+    Task {
+        self.isLoading = true
+        defer { self.isLoading = false }
+        
+        let exercises = try await exerciseResourceManager.fetchFavoriteExercises()
+      print(exercises)
     }
   }
 

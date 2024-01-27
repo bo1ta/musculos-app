@@ -47,7 +47,7 @@ struct ExerciseView: View {
     }
     .padding(10)
     .onAppear {
-      viewModel.loadData()
+      viewModel.loadLocalData()
     }
     .navigationBarBackButtonHidden()
     .navigationTitle("")

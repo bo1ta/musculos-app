@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 import CoreData
 
-@MainActor
 final class ExerciseViewModel: ObservableObject {
   @Published var exercise: Exercise
   @Published var isLoading = false
@@ -17,8 +16,10 @@ final class ExerciseViewModel: ObservableObject {
   @Published var isFavorite: Bool = false
   
   private let exerciseResourceManager = ExerciseResourceManager()
+  private let managedObjectContext = CoreDataStack.shared.mainContext
   
   private(set) var resourceTask: Task<Void, Never>?
+  private(set) var coreDataTask: Task<Void, Never>?
 
   init(exercise: Exercise) {
     self.exercise = exercise
@@ -34,36 +35,12 @@ final class ExerciseViewModel: ObservableObject {
     return self.muscleImageInfo?.frontAnatomyIds
   }
 
-  private var managedObjectContext: NSManagedObjectContext {
-    return CoreDataStack.shared.mainContext
-  }
-
   public var backMuscles: [Int]? {
     return self.muscleImageInfo?.backAnatomyIds
   }
 
   public var shouldShowAnatomyView: Bool {
     return self.backMuscles != nil || self.frontMuscles != nil
-  }
-
-  public func loadData() {
-    if let localExercise = self.maybeFetchLocal() {
-      self.isFavorite = localExercise.isFavorite
-    }
-  }
-  
-  private func saveResource() {
-    isLoading = true
-    defer { isLoading = false }
-    
-    resourceTask = Task {
-      do {
-        try await exerciseResourceManager.saveExercise(exercise: exercise)
-        MusculosLogger.logInfo(message: "super merge!", category: .networking)
-      } catch {
-        errorMessage = errorMessage
-      }
-    }
   }
 
   public func toggleFavorite() {
@@ -73,6 +50,7 @@ final class ExerciseViewModel: ObservableObject {
       saveResource()
     }
 
+    /// update local exercise if exists or save a new one
     if let localExercise = maybeFetchLocal() {
       localExercise.isFavorite = isFavorite
       saveLocalChanges()
@@ -82,7 +60,40 @@ final class ExerciseViewModel: ObservableObject {
       self.saveLocalChanges()
     }
   }
+  
+  private func cleanUp() {
+    coreDataTask?.cancel()
+    resourceTask?.cancel()
+  }
+}
 
+// MARK: - Network
+
+extension ExerciseViewModel {
+  private func saveResource() {
+    isLoading = true
+    defer { isLoading = false }
+    
+    resourceTask = Task {
+      do {
+        try await exerciseResourceManager.saveExercise(exercise: exercise, isFavorite: isFavorite)
+      } catch {
+        MusculosLogger.logError(error: error, message: "Could not save exercise", category: .networking)
+      }
+    }
+  }
+}
+
+// MARK: - Core Data
+
+extension ExerciseViewModel {
+  @MainActor
+  public func loadLocalData() {
+    if let localExercise = self.maybeFetchLocal() {
+      self.isFavorite = localExercise.isFavorite
+    }
+  }
+  
   private func maybeFetchLocal() -> ExerciseManagedObject? {
     let fetchRequest = NSFetchRequest<ExerciseManagedObject>(entityName: "ExerciseManagedObject")
     fetchRequest.predicate = (NSPredicate(format: "name == %@", self.exercise.name))
@@ -98,7 +109,7 @@ final class ExerciseViewModel: ObservableObject {
   }
 
   private func saveLocalChanges() {
-    Task {
+    coreDataTask = Task {
       do {
         _ = try await CoreDataStack.shared.saveMainContext()
       } catch {

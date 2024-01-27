@@ -17,17 +17,6 @@ struct Exercise: Codable {
   var target: String
   var secondaryMuscles: [String]
   var instructions: [String]
-  
-  enum CodingKeys: String, CodingKey {
-    case id
-    case bodyPart = "body_part"
-    case equipment
-    case gifUrl = "gif_url"
-    case name
-    case target
-    case secondaryMuscles = "secondary_muscles"
-    case instructions
-  }
 }
 
 extension Exercise: DecodableModel {

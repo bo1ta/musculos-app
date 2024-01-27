@@ -18,7 +18,7 @@ struct APIRequest {
   var contentType: String { return "application/json" }
 
   var headers: [String: String] = [
-    "X-RapidAPI-Key": "10f816fad9mshb1b3051df5805d6p159f6cjsn59fc62f2a609",
+    "X-RapidAPI-Key": "049dc386eamshaaf0c2675a37744p118e0bjsn32db6a0c470c",
     "X-RapidAPI-Host": "exercisedb.p.rapidapi.com"
   ]
 
