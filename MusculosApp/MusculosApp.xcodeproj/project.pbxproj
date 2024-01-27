@@ -58,6 +58,7 @@
 		BC59720C2A3507F500EBB075 /* HearTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC59720B2A3507F500EBB075 /* HearTipView.swift */; };
 		BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972102A351B0F00EBB075 /* PrimaryButton.swift */; };
 		BC5B11FF2B65396300B344A0 /* GIFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5B11FE2B65396300B344A0 /* GIFImageView.swift */; };
+		BC5B12042B658A1F00B344A0 /* TabBarSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5B12032B658A1F00B344A0 /* TabBarSettings.swift */; };
 		BC5BAC842AB1072B003C880E /* ExerciseDBModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC832AB1072B003C880E /* ExerciseDBModule.swift */; };
 		BC5BAC882AB111C1003C880E /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC872AB111C1003C880E /* WorkoutManager.swift */; };
 		BC5BAC8A2AB221FC003C880E /* MusculosLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC892AB221FC003C880E /* MusculosLogger.swift */; };
@@ -205,6 +206,7 @@
 		BC59720B2A3507F500EBB075 /* HearTipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HearTipView.swift; sourceTree = "<group>"; };
 		BC5972102A351B0F00EBB075 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		BC5B11FE2B65396300B344A0 /* GIFImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFImageView.swift; sourceTree = "<group>"; };
+		BC5B12032B658A1F00B344A0 /* TabBarSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarSettings.swift; sourceTree = "<group>"; };
 		BC5BAC832AB1072B003C880E /* ExerciseDBModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDBModule.swift; sourceTree = "<group>"; };
 		BC5BAC872AB111C1003C880E /* WorkoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManager.swift; sourceTree = "<group>"; };
 		BC5BAC892AB221FC003C880E /* MusculosLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosLogger.swift; sourceTree = "<group>"; };
@@ -577,6 +579,7 @@
 		BC5A41032A7D6EF300F671F5 /* Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
+				BC5B12012B658A1100B344A0 /* Settings */,
 				BC3FB0F12A855E1500C3F9B1 /* Tab Bar Item */,
 				BC3FB0F02A855DD200C3F9B1 /* View */,
 			);
@@ -606,6 +609,14 @@
 				BC5B11FE2B65396300B344A0 /* GIFImageView.swift */,
 			);
 			path = "GIF Image";
+			sourceTree = "<group>";
+		};
+		BC5B12012B658A1100B344A0 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				BC5B12032B658A1F00B344A0 /* TabBarSettings.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		BC5BAC7E2AAFD745003C880E /* Exercise */ = {
@@ -1122,6 +1133,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCF86C3D2A363A92003293A4 /* SelectedButton.swift in Sources */,
+				BC5B12042B658A1F00B344A0 /* TabBarSettings.swift in Sources */,
 				BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */,
 				BCB6BF522AFBF7FF00B6CBCE /* SocialFeedView.swift in Sources */,
 				BC5C56EE2AC348EF00AFDBFE /* StringHolder+CoreDataClass.swift in Sources */,

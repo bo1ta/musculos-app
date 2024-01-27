@@ -12,3 +12,7 @@ struct MainWndowSizeKey: EnvironmentKey {
   static let defaultValue: CGSize = CGSize(width: 375, height: 667)
 }
 
+struct TabBarHidden: EnvironmentKey {
+  static let defaultValue: Bool = false
+}
+

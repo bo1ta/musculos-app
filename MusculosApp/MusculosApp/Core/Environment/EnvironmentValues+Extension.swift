@@ -13,4 +13,9 @@ extension EnvironmentValues {
     get { self[MainWndowSizeKey.self] }
     set { self[MainWndowSizeKey.self] = newValue }
   }
+  
+  var customTabBarHidden: Bool {
+    get { self[TabBarHidden.self] }
+    set { self[TabBarHidden.self] = newValue }
+  }
 }

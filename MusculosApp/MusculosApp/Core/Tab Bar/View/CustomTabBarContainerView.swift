@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CustomTabBarContainerView<Content: View>: View {
   @Binding var selection: TabBarItem
+  @EnvironmentObject var tabBarSettings: TabBarSettings
   private var tabBarItems: [TabBarItem] = []
   let content: Content
 
@@ -21,7 +22,9 @@ struct CustomTabBarContainerView<Content: View>: View {
   var body: some View {
     ZStack(alignment: .bottom) {
       content
-      CustomTabBarView(tabBarItems: tabBarItems, selection: $selection)
+      if !tabBarSettings.isTabBarHidden {
+        CustomTabBarView(tabBarItems: tabBarItems, selection: $selection)
+      }
     }
   }
 }

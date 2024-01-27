@@ -15,6 +15,8 @@ struct ChallengeView: View {
   @State private var currentExerciseIndex: Int = 0
   @State private var showExerciseView = false
   
+  @EnvironmentObject private var tabBarSettings: TabBarSettings
+  
   init(challenge: Challenge, onBack: @escaping () -> Void) {
     self.challenge = challenge
     self.onBack = onBack
@@ -43,6 +45,10 @@ struct ChallengeView: View {
     }
     .onAppear(perform: {
       self.currentExercise = self.currentExercise ?? challenge.exercises.first
+      tabBarSettings.isTabBarHidden = true
+    })
+    .onDisappear(perform: {
+      tabBarSettings.isTabBarHidden = false
     })
     .navigationBarBackButtonHidden()
     .navigationTitle("")

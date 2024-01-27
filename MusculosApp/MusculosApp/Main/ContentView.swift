@@ -9,8 +9,8 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-  @Environment(\.mainWindowSize) var windowSize
-  
+  @StateObject private var tabBarSettings = TabBarSettings()
+
   @State private var selection: String = "workout"
   @State private var tabSelection: TabBarItem = .dashboard
   
@@ -25,6 +25,7 @@ struct ContentView: View {
         SocialFeedView()
       }
     }
+    .environmentObject(tabBarSettings)
   }
 }
 

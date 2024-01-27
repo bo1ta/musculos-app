@@ -11,6 +11,7 @@ import CoreData
 struct ExerciseView: View {
   @Environment(\.dismiss) var dismiss
   @Environment(\.managedObjectContext) private var managedObjectContext
+  @EnvironmentObject private var tabBarSettings: TabBarSettings
   
   let exercise: Exercise
   let onBack: () -> Void
@@ -48,6 +49,10 @@ struct ExerciseView: View {
     .padding(10)
     .onAppear {
       viewModel.loadLocalData()
+      tabBarSettings.isTabBarHidden = true
+    }
+    .onDisappear {
+      tabBarSettings.isTabBarHidden = false
     }
     .navigationBarBackButtonHidden()
     .navigationTitle("")

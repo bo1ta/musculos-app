@@ -16,7 +16,6 @@ struct AddExerciseView: View {
   @State private var instructions: [Int: String] = [0: ""]
 
   var body: some View {
-    self.makeBackgroundView {
       VStack {
         self.headerBar
         ScrollView {
@@ -39,9 +38,6 @@ struct AddExerciseView: View {
           .padding(10)
         }
       }
-    } with: {
-      EmptyView()
-    }
     .popover(isPresented: $shouldSelectMuscles, content: {
       SelectMuscleView(selectedMuscles: self.$selectedMuscles)
     })
