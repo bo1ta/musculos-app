@@ -51,7 +51,7 @@ struct ExerciseResourceManager {
     } catch {
       MusculosLogger.logError(error: error, message: "image already exists", category: .supabase)
     }
-  }                
+  }
   
   func createSignedUrl(
     fileName: String,

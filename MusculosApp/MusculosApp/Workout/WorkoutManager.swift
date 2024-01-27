@@ -12,12 +12,12 @@ import Combine
 final class WorkoutManager {
   private let client: MusculosClient
   private let context: NSManagedObjectContext
-  private let exerciseModule: ExerciseModule
+  private let exerciseModule: ExerciseDBModule
 
   init(client: MusculosClient = MusculosClient(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
     self.client = client
     self.context = context
-    self.exerciseModule = ExerciseModule(client: self.client)
+    self.exerciseModule = ExerciseDBModule(client: self.client)
   }
 }
 

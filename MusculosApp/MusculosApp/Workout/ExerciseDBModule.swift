@@ -1,5 +1,5 @@
 //
-//  ExerciseModule.swift
+//  ExerciseRapidModule.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 12.09.2023.
@@ -8,7 +8,9 @@
 import Foundation
 import Combine
 
-final class ExerciseModule {
+/// Networking calls for ExerciseDB public API
+/// https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb/
+final class ExerciseDBModule {
   private let client: MusculosClientProtocol
 
   init(client: MusculosClientProtocol = MusculosClient()) {

@@ -28,8 +28,8 @@ final class ExerciseFeedViewModel: ObservableObject {
   
   private let exerciseResourceManager = ExerciseResourceManager()
 
-  private lazy var exerciseModule: ExerciseModule = {
-    return ExerciseModule()
+  private lazy var exerciseModule: ExerciseDBModule = {
+    return ExerciseDBModule()
   }()
   
   // MARK: Cache and clean up
