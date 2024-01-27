@@ -9,6 +9,7 @@ import Foundation
 import CoreData
 
 struct Exercise: Codable {
+  var exerciseId: Int?
   var bodyPart: String
   var equipment: String
   var gifUrl: String
@@ -17,6 +18,11 @@ struct Exercise: Codable {
   var target: String
   var secondaryMuscles: [String]
   var instructions: [String]
+  
+  enum CodingKeys: String, CodingKey {
+    case exerciseId = "exercise_id"
+    case bodyPart, equipment, gifUrl, id, name, target, secondaryMuscles, instructions
+  }
 }
 
 extension Exercise: DecodableModel {
