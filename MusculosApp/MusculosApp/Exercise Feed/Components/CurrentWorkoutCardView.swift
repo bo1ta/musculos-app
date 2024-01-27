@@ -21,13 +21,12 @@ struct CurrentWorkoutCardView: View {
       backgroundView
       if showDetails {
         VStack {
-          topSection
           Spacer()
           bottomSection
+          topSection
         }
       }
     }
-    .background(backgroundView)
     .cornerRadius(40)
     .padding()
     .shadow(color: Color.black.opacity(0.6), radius: 4, x: 0, y: 2)
@@ -49,22 +48,26 @@ struct CurrentWorkoutCardView: View {
   
   @ViewBuilder
   private var topSection: some View {
-    HStack {
-      VStack {
-        Text(exercise.name)
-          .font(.title)
-          .fontWeight(.heavy)
-          .foregroundStyle(.black)
-        Text(exercise.equipment)
-          .font(.title2)
-          .fontWeight(.regular)
-          .foregroundStyle(.black)
-        
-        Spacer()
+    Rectangle()
+      .foregroundStyle(Color.black.opacity(0.9))
+      .frame(width: 360, height: 100)
+      .overlay {
+        HStack {
+          VStack {
+            Text(exercise.name)
+              .font(.title3)
+              .fontWeight(.heavy)
+              .foregroundStyle(.white)
+              .shadow(radius: 1)
+            Text(exercise.equipment)
+              .font(.body)
+              .fontWeight(.regular)
+              .foregroundStyle(.white)
+              .shadow(radius: 1)
+          }
+        }
+        .padding([.top, .leading], 10)
       }
-      Spacer()
-    }
-    .padding([.top, .leading], 10)
   }
   
   @ViewBuilder
@@ -73,22 +76,20 @@ struct CurrentWorkoutCardView: View {
       let options = self.exercise.secondaryMuscles
       if !options.isEmpty {
         HStack {
-          IconPill(option: IconPillOption(title: self.exercise.target))
+          Spacer()
           ForEach(options, id: \.self) {
             IconPill(option: IconPillOption(title: $0))
           }
-          Spacer()
         }
       }
     }
-    .padding([.bottom, .leading], 5)
-    Spacer()
+    .padding([.bottom, .trailing], 5)
   }
 }
 
 struct WorkoutCardView_Preview: PreviewProvider {
   static var previews: some View {
-    CurrentWorkoutCardView(exercise: Exercise(bodyPart: "back", equipment: "dumbbell", gifUrl: "https://v2.exercisedb.io/image/qr3qX7hFMVj2ZT", id: "1", name: "Back workout", target: "back", secondaryMuscles: [""], instructions: ["Get up", "Get down"]))
+    CurrentWorkoutCardView(exercise: Exercise(bodyPart: "back", equipment: "dumbbell", gifUrl: "https://v2.exercisedb.io/image/qr3qX7hFMVj2ZT", id: "1", name: "Back workout", target: "back", secondaryMuscles: ["back", "chest"], instructions: ["Get up", "Get down"]))
       .previewLayout(.sizeThatFits)
   }
 }
