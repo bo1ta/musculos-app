@@ -32,7 +32,7 @@ class ExerciseModuleTests: XCTestCase {
 
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = ExerciseModule(client: client)
+    let module = ExerciseDBModule(client: client)
 
     do {
       let exercises = try await module.getExercises()
@@ -55,7 +55,7 @@ class ExerciseModuleTests: XCTestCase {
 
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = ExerciseModule(client: client)
+    let module = ExerciseDBModule(client: client)
 
     do {
       _ = try await module.getExercises()

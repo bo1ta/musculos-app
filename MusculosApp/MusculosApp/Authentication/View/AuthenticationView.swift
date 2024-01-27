@@ -34,7 +34,9 @@ struct AuthenticationView: View {
         }
     }
     .onChange(of: viewModel.isAuthenticated, perform: { isAuthenticated in
-      isAuthenticated ? performPostLogin() : nil
+      if isAuthenticated {
+        performPostLogin()
+      }
     })
     .background(backgroundImage)
   }

@@ -25,9 +25,11 @@ final class ExerciseFeedViewModel: ObservableObject {
   private lazy var workoutManager: WorkoutManager = {
     return WorkoutManager()
   }()
+  
+  private let exerciseResourceManager = ExerciseResourceManager()
 
-  private lazy var exerciseModule: ExerciseModule = {
-    return ExerciseModule()
+  private lazy var exerciseModule: ExerciseDBModule = {
+    return ExerciseDBModule()
   }()
   
   // MARK: Cache and clean up
@@ -138,14 +140,14 @@ final class ExerciseFeedViewModel: ObservableObject {
   }
 
   func filterFavoriteExercises() {
-    do {
+    Task {
       self.isLoading = true
       defer { self.isLoading = false }
-
-      let exercises = try self.workoutManager.fetchFavoriteExercises()
-      self.currentExercises = exercises
-    } catch {
-      self.errorMessage = error.localizedDescription
+      do {
+        self.currentExercises = try await exerciseResourceManager.fetchFavoriteExercises()
+      } catch {
+        MusculosLogger.logError(error: error, message: "cannot filter exercises", category: .supabase)
+      }
     }
   }
 

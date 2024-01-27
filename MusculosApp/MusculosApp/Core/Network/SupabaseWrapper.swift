@@ -18,10 +18,47 @@ final class SupabaseWrapper {
   static let shared = SupabaseWrapper()
   
   var database: PostgrestClient {
-    return client.database
+    client.database
   }
   
   var auth: GoTrueClient {
-    return client.auth
+    client.auth
+  }
+  
+  var storage: SupabaseStorageClient {
+    client.storage
+  }
+  
+  func insertData(_ data: Encodable, table: SupabaseConstants.Table) async throws {
+    try await database
+      .from(table.rawValue)
+      .insert(data)
+      .execute()
+  }
+  
+  func fetchAll<T: Codable>(table: SupabaseConstants.Table) async throws -> [T] {
+    let results: [T] = try await database.from(table.rawValue)
+      .select()
+      .execute()
+      .value
+    return results
+  }
+  
+  func fetchById<T: Codable>(id: String, table: SupabaseConstants.Table) async throws -> T? {
+    let results: [T] = try await database.from(table.rawValue)
+      .select()
+      .eq("id", value: id)
+      .execute()
+      .value
+    return results.first
+  }
+  
+  func refreshSession() async {
+    do {
+      try await auth.refreshSession()
+      MusculosLogger.logInfo(message: "did refresh session", category: .supabase)
+    } catch {
+      MusculosLogger.logError(error: error, message: "Could not refresh session", category: .supabase)
+    }
   }
 }
