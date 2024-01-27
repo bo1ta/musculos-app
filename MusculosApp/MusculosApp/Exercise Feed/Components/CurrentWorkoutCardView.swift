@@ -17,20 +17,20 @@ struct CurrentWorkoutCardView: View {
   }
 
   var body: some View {
-    VStack {
+    ZStack {
+      backgroundView
       if showDetails {
-        topSection
-        Spacer()
-        bottomSection
-      } else {
-        EmptyView()
+        VStack {
+          Spacer()
+          detailsPills
+          detailsRectangle
+        }
       }
     }
-    .frame(maxWidth: .infinity, minHeight: 250)
-    .background(backgroundView)
-    .cornerRadius(15)
+    .cornerRadius(40)
     .padding()
     .shadow(color: Color.black.opacity(0.6), radius: 4, x: 0, y: 2)
+    .frame(width: 360, height: 250)
   }
   
   // MARK: - Views
@@ -38,55 +38,57 @@ struct CurrentWorkoutCardView: View {
   @ViewBuilder
   private var backgroundView: some View {
     if let gifUrl = URL(string: exercise.gifUrl) {
-        GIFView(url: Binding(get: { gifUrl }, set: { _ in }))
-        .fixedSize()
+      GIFImageViewRepresentable(urlType: .url(gifUrl))
+        .frame(width: 360, height: 250)
     } else {
       Color.black
+        .frame(width: 700, height: 700)
     }
   }
   
   @ViewBuilder
-  private var topSection: some View {
-    HStack {
-      VStack {
-        Text(exercise.name)
-          .font(.title)
-          .fontWeight(.heavy)
-          .foregroundStyle(.black)
-        Text(exercise.equipment)
-          .font(.title2)
-          .fontWeight(.regular)
-          .foregroundStyle(.black)
-        
-        Spacer()
+  private var detailsRectangle: some View {
+    Rectangle()
+      .foregroundStyle(Color.black.opacity(0.9))
+      .frame(width: 360, height: 100)
+      .overlay {
+        HStack {
+          VStack {
+            Text(exercise.name)
+              .font(.title3)
+              .fontWeight(.heavy)
+              .foregroundStyle(.white)
+              .shadow(radius: 1)
+            Text(exercise.equipment)
+              .font(.body)
+              .fontWeight(.regular)
+              .foregroundStyle(.white)
+              .shadow(radius: 1)
+          }
+        }
       }
-      Spacer()
-    }
-    .padding([.top, .leading], 5)
   }
   
   @ViewBuilder
-  private var bottomSection: some View {
+  private var detailsPills: some View {
     HStack {
       let options = self.exercise.secondaryMuscles
       if !options.isEmpty {
         HStack {
-          IconPill(option: IconPillOption(title: self.exercise.target))
+          Spacer()
           ForEach(options, id: \.self) {
             IconPill(option: IconPillOption(title: $0))
           }
-          Spacer()
         }
       }
     }
-    .padding([.bottom, .leading], 5)
-    Spacer()
+    .padding([.bottom, .trailing], 5)
   }
 }
 
 struct WorkoutCardView_Preview: PreviewProvider {
   static var previews: some View {
-    CurrentWorkoutCardView(exercise: Exercise(bodyPart: "back", equipment: "dumbbell", gifUrl: "", id: "1", name: "Back workout", target: "back", secondaryMuscles: [""], instructions: ["Get up", "Get down"]))
+    CurrentWorkoutCardView(exercise: Exercise(bodyPart: "back", equipment: "dumbbell", gifUrl: "https://v2.exercisedb.io/image/qr3qX7hFMVj2ZT", id: "1", name: "Back workout", target: "back", secondaryMuscles: ["back", "chest"], instructions: ["Get up", "Get down"]))
       .previewLayout(.sizeThatFits)
   }
 }

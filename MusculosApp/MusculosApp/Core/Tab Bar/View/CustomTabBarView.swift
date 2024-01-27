@@ -35,6 +35,7 @@ struct CustomTabBarView: View {
     .fixedSize(horizontal: true, vertical: false)
     .background(Color(.systemGray6))
     .cornerRadius(25)
+    .shadow(radius: 2)
   }
 }
 

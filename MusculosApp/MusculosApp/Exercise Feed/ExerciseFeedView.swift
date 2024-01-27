@@ -48,19 +48,22 @@ struct ExerciseFeedView: View {
           SelectMuscleView(selectedMuscles: $viewModel.selectedMuscles)
         }
       }
+      .overlay {
+        if viewModel.isLoading {
+          LoadingOverlayView()
+        }
+      }
     }
   }
   
   // MARK: - Views
   
-  @ViewBuilder
   private var searchBar: some View {
     SearchBarView(placeholderText: "Search workouts", searchQuery: $viewModel.searchQuery, onFiltersTapped: {
       self.viewModel.isFiltersPresented.toggle()
     })
   }
   
-  @ViewBuilder
   private var filterButtonsStack: some View {
     ButtonHorizontalStackView(
       selectedOption: $viewModel.selectedFilter,
@@ -89,7 +92,6 @@ struct ExerciseFeedView: View {
     .scrollContentBackground(.hidden)
   }
 
-  @ViewBuilder
   private func backgroundView(
     @ViewBuilder content: () -> some View
   ) -> some View {
@@ -100,8 +102,8 @@ struct ExerciseFeedView: View {
         .frame(minWidth: 0, maxHeight: .infinity)
         .edgesIgnoringSafeArea(.all)
         .overlay {
-          Color.white
-            .opacity(0.6)
+          Color.black
+            .opacity(0.4)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea()
         }
@@ -113,7 +115,7 @@ struct ExerciseFeedView: View {
 
 struct WorkoutFeedView_Preview: PreviewProvider {
   static var previews: some View {
-    ExerciseFeedView(overrideLocalExericses: true)
+    ExerciseFeedView(overrideLocalExericses: false)
   }
 }
 

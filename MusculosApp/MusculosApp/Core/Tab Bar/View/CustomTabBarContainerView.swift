@@ -9,11 +9,12 @@ import SwiftUI
 
 struct CustomTabBarContainerView<Content: View>: View {
   @Binding var selection: TabBarItem
-  @State private var tabBarItems: [TabBarItem] = []
+  private var tabBarItems: [TabBarItem] = []
   let content: Content
 
-  init(selection: Binding<TabBarItem>, @ViewBuilder content: () -> Content) {
+  init(selection: Binding<TabBarItem>, tabBarItems: [TabBarItem] = [], @ViewBuilder content: () -> Content) {
     self.content = content()
+    self.tabBarItems = tabBarItems
     self._selection = selection
   }
 
@@ -21,9 +22,6 @@ struct CustomTabBarContainerView<Content: View>: View {
     ZStack(alignment: .bottom) {
       content
       CustomTabBarView(tabBarItems: tabBarItems, selection: $selection)
-    }
-    .onPreferenceChange(TabBarItemsPreferenceKey.self) { value in
-      self.tabBarItems = value
     }
   }
 }

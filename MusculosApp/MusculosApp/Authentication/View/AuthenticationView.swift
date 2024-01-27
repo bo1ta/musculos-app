@@ -39,6 +39,11 @@ struct AuthenticationView: View {
       }
     })
     .background(backgroundImage)
+    .overlay {
+      if viewModel.isLoading {
+        LoadingOverlayView()
+      }
+    }
   }
 
   private var contentView: some View {
