@@ -27,14 +27,18 @@ struct GIFImageViewRepresentable: UIViewRepresentable {
   private let urlType: URLType
   private let resize: CGSize?
   
+  private var gifImageView: GIFImageView? = nil
+  
   init(urlType: URLType, resize: CGSize? = nil) {
     self.urlType = urlType
     self.resize = resize
   }
 
-  func makeUIView(context: Context) -> UIView {
+  func makeUIView(context: Context) -> GIFImageView {
     return GIFImageView(url: urlType.url)
   }
 
-  func updateUIView(_ uiView: UIView, context: Context) { }
+  func updateUIView(_ uiView: GIFImageView, context: Context) {
+    uiView.refreshGIF()
+  }
 }
