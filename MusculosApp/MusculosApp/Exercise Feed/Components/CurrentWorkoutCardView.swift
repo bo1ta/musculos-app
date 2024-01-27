@@ -22,8 +22,8 @@ struct CurrentWorkoutCardView: View {
       if showDetails {
         VStack {
           Spacer()
-          bottomSection
-          topSection
+          detailsPills
+          detailsRectangle
         }
       }
     }
@@ -47,7 +47,7 @@ struct CurrentWorkoutCardView: View {
   }
   
   @ViewBuilder
-  private var topSection: some View {
+  private var detailsRectangle: some View {
     Rectangle()
       .foregroundStyle(Color.black.opacity(0.9))
       .frame(width: 360, height: 100)
@@ -66,12 +66,11 @@ struct CurrentWorkoutCardView: View {
               .shadow(radius: 1)
           }
         }
-        .padding([.top, .leading], 10)
       }
   }
   
   @ViewBuilder
-  private var bottomSection: some View {
+  private var detailsPills: some View {
     HStack {
       let options = self.exercise.secondaryMuscles
       if !options.isEmpty {
