@@ -51,17 +51,22 @@ struct ExerciseResourceManager {
     } catch {
       MusculosLogger.logError(error: error, message: "image already exists", category: .supabase)
     }
-  }
+  }                
   
   func createSignedUrl(
     fileName: String,
     format: ImageFormat = .gif,
     path: String = SupabaseConstants.Bucket.exerciseImage.rawValue,
     transformOptions: TransformOptions? = nil
-  ) async throws -> URL {
-    return try await supabaseStorage
-      .from(path)
-      .createSignedURL(path: "public/\(fileName).\(format.rawValue)", expiresIn: 180, transform: transformOptions)
+  ) async -> URL? {
+    do {
+      return try await supabaseStorage
+        .from(path)
+        .createSignedURL(path: "public/\(fileName).\(format.rawValue)", expiresIn: 180, transform: transformOptions)
+    } catch {
+      MusculosLogger.logError(error: error, message: "signed url problem", category: .supabase)
+      return nil
+    }
   }
   
   func saveExercise(
@@ -86,8 +91,8 @@ struct ExerciseResourceManager {
   
   func fetchExercise(id: String) async throws -> Exercise? {
     if var exercise: Exercise = try await SupabaseWrapper.shared.fetchById(id: id, table: .exercise) {
-      let signedUrl = try await createSignedUrl(fileName: exercise.id)
-      exercise.gifUrl = signedUrl.absoluteString
+      let signedUrl = await createSignedUrl(fileName: exercise.id)
+      exercise.gifUrl = signedUrl?.absoluteString ?? exercise.gifUrl
       return exercise
     }
     return nil
@@ -102,9 +107,12 @@ struct ExerciseResourceManager {
     }
   }
   
-  func fetchFavoriteExercises() async throws -> [FavoriteExercise] {
+  func fetchFavoriteExercises() async throws -> [Exercise] {
     do {
-      let exercises: [FavoriteExercise] = try await SupabaseWrapper.shared.fetchAll(table: .favoriteExercise)
+      let favoriteExercises: [FavoriteExercise] = try await SupabaseWrapper.shared.fetchAll(table: .favoriteExercise)
+      let exercises: [Exercise] = try await favoriteExercises.asyncCompactMap { favoriteExercise in
+        return try await fetchExercise(id: favoriteExercise.exerciseId)
+      }
       return exercises
     } catch {
       MusculosLogger.logError(error: error, message: "Could not fetch favorite exercises", category: .supabase)

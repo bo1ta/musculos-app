@@ -141,11 +141,13 @@ final class ExerciseFeedViewModel: ObservableObject {
 
   func filterFavoriteExercises() {
     Task {
-        self.isLoading = true
-        defer { self.isLoading = false }
-        
-        let exercises = try await exerciseResourceManager.fetchFavoriteExercises()
-      print(exercises)
+      self.isLoading = true
+      defer { self.isLoading = false }
+      do {
+        self.currentExercises = try await exerciseResourceManager.fetchFavoriteExercises()
+      } catch {
+        MusculosLogger.logError(error: error, message: "cannot filter exercises", category: .supabase)
+      }
     }
   }
 

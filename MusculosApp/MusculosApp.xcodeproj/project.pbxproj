@@ -114,6 +114,7 @@
 		BCD372492A57410800C0F161 /* HorizontalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD372482A57410800C0F161 /* HorizontalPicker.swift */; };
 		BCD3C4662AACA96800614ED8 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD3C4652AACA96800614ED8 /* APIRequest.swift */; };
 		BCD3C4682AACAE7A00614ED8 /* DecodableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD3C4672AACAE7A00614ED8 /* DecodableModel.swift */; };
+		BCD837BC2B64902D0069CECB /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */; };
 		BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */; };
 		BCE417102A7D73380088D975 /* AddTabBarButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4170F2A7D73380088D975 /* AddTabBarButtonView.swift */; };
 		BCF7DE712A7DB2EC00FC960B /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */; };
@@ -253,6 +254,7 @@
 		BCD372482A57410800C0F161 /* HorizontalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPicker.swift; sourceTree = "<group>"; };
 		BCD3C4652AACA96800614ED8 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		BCD3C4672AACAE7A00614ED8 /* DecodableModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodableModel.swift; sourceTree = "<group>"; };
+		BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
 		BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BCE4170F2A7D73380088D975 /* AddTabBarButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTabBarButtonView.swift; sourceTree = "<group>"; };
 		BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
@@ -850,6 +852,7 @@
 				BC96C2FC2AC83B1C00F11CAB /* Array+Extension.swift */,
 				BC8E86DC2AED2DB9008E3CE4 /* UIImage+Extension.swift */,
 				BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */,
+				BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1080,6 +1083,7 @@
 				BCCBEC782AD89505002F5E41 /* DynamicTextFieldListView.swift in Sources */,
 				BC3FB0FF2A89A3E700C3F9B1 /* SliderView.swift in Sources */,
 				BC5C56EF2AC348EF00AFDBFE /* StringHolder+CoreDataProperties.swift in Sources */,
+				BCD837BC2B64902D0069CECB /* Sequence+Extension.swift in Sources */,
 				BCCBEC722AD85158002F5E41 /* CustomTextFieldView.swift in Sources */,
 				BC96C2FB2AC8310500F11CAB /* SelectMuscleView.swift in Sources */,
 				BCA87E592AE83B3800453E4B /* ChallengeView.swift in Sources */,
