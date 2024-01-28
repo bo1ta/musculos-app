@@ -155,11 +155,10 @@ final class ExerciseFeedViewModel: ObservableObject {
 
   func searchExercise(with query: String) {
     guard query.count > 0 else { return }
-
+    
     self.isLoading = true
-    defer { self.isLoading = false }
 
-    let publisher = self.exerciseModule.searchExercise(by: query)
+    let publisher = self.exerciseModule.searchExercise(by: query.lowercased())
     publisher.sink { [weak self] completion in
       switch completion {
       case .finished:
@@ -169,6 +168,7 @@ final class ExerciseFeedViewModel: ObservableObject {
       }
     } receiveValue: { [weak self] results in
       self?.currentExercises = results
+      self?.isLoading = false
     }
     .store(in: &cancellables)
   }
