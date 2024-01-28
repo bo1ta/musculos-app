@@ -75,18 +75,22 @@ struct ExerciseFeedView: View {
   @ViewBuilder
   private var exerciseCards: some View {
     let enumeratedExercises = Array(viewModel.currentExercises.enumerated())
-    List(enumeratedExercises, id: \.element.id) { index, item in
-      Button {
-        self.viewModel.selectedExercise = item
-        self.viewModel.isExerciseDetailPresented = true
-      } label: {
-        CurrentWorkoutCardView(exercise: item)
-          .task {
-            await viewModel.maybeRequestMoreExercises(index: index)
+    
+    ScrollView {
+      LazyVStack {
+        ForEach(enumeratedExercises, id: \.element.hashValue) { index, item in
+          Button {
+            self.viewModel.selectedExercise = item
+            self.viewModel.isExerciseDetailPresented = true
+          } label: {
+            CurrentWorkoutCardView(exercise: item, isGif: false)
+              .task {
+                await viewModel.maybeRequestMoreExercises(index: index)
+              }
+              .padding(.bottom, 10)
           }
+        }
       }
-      .listRowBackground(Color.clear)
-      .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
     }
     .frame(maxHeight: .infinity)
     .scrollContentBackground(.hidden)

@@ -32,7 +32,7 @@ struct ExerciseView: View {
         if viewModel.shouldShowAnatomyView {
           anatomyView
         } else {
-          CurrentWorkoutCardView(exercise: exercise, showDetails: false)
+          CurrentWorkoutCardView(exercise: exercise, showDetails: false, isGif: true)
             .padding(.bottom, 5)
           exerciseCallouts
           Divider()

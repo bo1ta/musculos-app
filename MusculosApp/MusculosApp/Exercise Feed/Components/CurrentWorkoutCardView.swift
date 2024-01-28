@@ -10,10 +10,12 @@ import SwiftUI
 struct CurrentWorkoutCardView: View {
   let exercise: Exercise
   let showDetails: Bool // there are some cases where we don't want to show the details like on ExerciseView
+  let isGif: Bool
 
-  init(exercise: Exercise, showDetails: Bool = true) {
+  init(exercise: Exercise, showDetails: Bool = true, isGif: Bool = false) {
     self.exercise = exercise
     self.showDetails = showDetails
+    self.isGif = isGif
   }
 
   var body: some View {
@@ -38,8 +40,13 @@ struct CurrentWorkoutCardView: View {
   @ViewBuilder
   private var backgroundView: some View {
     if let gifUrl = URL(string: exercise.gifUrl) {
-      GIFImageViewRepresentable(urlType: .url(gifUrl))
-        .frame(width: 360, height: 250)
+      if isGif {
+        GIFImageViewRepresentable(urlType: .url(gifUrl))
+          .frame(width: 360, height: 250)
+      } else {
+        AsyncImage(url: gifUrl)
+          .frame(width: 360, height: 250)
+      }
     } else {
       Color.black
         .frame(width: 700, height: 700)
