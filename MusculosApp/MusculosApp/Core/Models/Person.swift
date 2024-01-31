@@ -10,11 +10,11 @@ import Foundation
 struct Person {
   let uuid = UUID()
   let avatar: String?
-  let fullName: String
+  let fullName: String?
   let username: String
   let email: String
 
-  init(email: String, fullName: String, username: String, avatar: String? = nil) {
+  init(email: String, fullName: String? = nil, username: String, avatar: String? = nil) {
     self.email = email
     self.fullName = fullName
     self.username = username

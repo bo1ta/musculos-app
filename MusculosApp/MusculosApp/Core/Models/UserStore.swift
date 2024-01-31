@@ -24,6 +24,7 @@ class UserStore: ObservableObject {
   
   init(module: AuthenticationModuleProtocol = AuthenticationModule()) {
     self.module = module
+    self.isLoggedIn = UserDefaultsWrapper.shared.isAuthenticated
   }
   
   func signIn(email: String, password: String) {
@@ -39,6 +40,7 @@ class UserStore: ObservableObject {
         self.isLoggedIn = true
       } catch {
         self.error = error
+        MusculosLogger.logError(error: error, message: "Sign in failed", category: .supabase)
       }
     }
   }
@@ -59,6 +61,7 @@ class UserStore: ObservableObject {
         self.isLoggedIn = true
       } catch {
         self.error = error
+        MusculosLogger.logError(error: error, message: "Sign up failed", category: .supabase)
       }
     }
   }

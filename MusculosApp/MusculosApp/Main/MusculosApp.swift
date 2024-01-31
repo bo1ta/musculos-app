@@ -16,12 +16,10 @@ struct MusculosApp: App {
     return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
   }
 
-  @State private var isAuthenticated = false
-
   var body: some Scene {
     WindowGroup {
       GeometryReader { proxy in
-        if isAuthenticated {
+        if userStore.isLoggedIn {
           ContentView()
             .environment(\.managedObjectContext, self.coreDataStack.mainContext)
             .environment(\.mainWindowSize, isPreview ? CGSize(width: 375, height: 667) : proxy.size)

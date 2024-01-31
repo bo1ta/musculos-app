@@ -104,6 +104,8 @@
 		BCA24BFA2B69D6D900124EC3 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCA24BF22B69D46E00124EC3 /* Roboto-Regular.ttf */; };
 		BCA24BFC2B6AB9AF00124EC3 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BFB2B6AB9AF00124EC3 /* SignInView.swift */; };
 		BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BFD2B6AD33200124EC3 /* UserStore.swift */; };
+		BCA24C002B6AE68500124EC3 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BFF2B6AE68500124EC3 /* RegisterView.swift */; };
+		BCA24C032B6AE77E00124EC3 /* ImageRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C022B6AE77E00124EC3 /* ImageRectangleView.swift */; };
 		BCA87E592AE83B3800453E4B /* ChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E582AE83B3800453E4B /* ChallengeView.swift */; };
 		BCA87E5C2AE8606F00453E4B /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5B2AE8606F00453E4B /* Challenge.swift */; };
 		BCA87E5F2AE865A600453E4B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5E2AE865A600453E4B /* Person.swift */; };
@@ -254,6 +256,8 @@
 		BCA24BF52B69D46F00124EC3 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		BCA24BFB2B6AB9AF00124EC3 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		BCA24BFD2B6AD33200124EC3 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
+		BCA24BFF2B6AE68500124EC3 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		BCA24C022B6AE77E00124EC3 /* ImageRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRectangleView.swift; sourceTree = "<group>"; };
 		BCA87E582AE83B3800453E4B /* ChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeView.swift; sourceTree = "<group>"; };
 		BCA87E5B2AE8606F00453E4B /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		BCA87E5E2AE865A600453E4B /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
@@ -351,9 +355,9 @@
 		BC0D76A32B6525B700917680 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				BC1160D32A2CFB830028D8FC /* Assets.xcassets */,
 				BCA24BF02B69D44600124EC3 /* Fonts */,
 				BC0D76A42B6525C800917680 /* GIF */,
-				BC1160D32A2CFB830028D8FC /* Assets.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -769,8 +773,10 @@
 		BC9937252B6426EB0067E556 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BCA24C012B6AE74F00124EC3 /* Components */,
 				BCA24BEE2B69D3AE00124EC3 /* GetStartedView.swift */,
 				BCA24BFB2B6AB9AF00124EC3 /* SignInView.swift */,
+				BCA24BFF2B6AE68500124EC3 /* RegisterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -793,6 +799,14 @@
 				BCA24BF52B69D46F00124EC3 /* Roboto-Thin.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		BCA24C012B6AE74F00124EC3 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BCA24C022B6AE77E00124EC3 /* ImageRectangleView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		BCA87E532AE83B0A00453E4B /* Challenge */ = {
@@ -1161,6 +1175,7 @@
 				BCB6BF522AFBF7FF00B6CBCE /* SocialFeedView.swift in Sources */,
 				BC5C56EE2AC348EF00AFDBFE /* StringHolder+CoreDataClass.swift in Sources */,
 				BC182ECA2A589A81003DEA30 /* MusculosDataStore.xcdatamodeld in Sources */,
+				BCA24C032B6AE77E00124EC3 /* ImageRectangleView.swift in Sources */,
 				BC63A5A42AC33896006B1894 /* MuscleData.swift in Sources */,
 				BCD372472A5736EE00C0F161 /* HorizontalPickerViewCell.swift in Sources */,
 				BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */,
@@ -1221,6 +1236,7 @@
 				BCB6BF552AFBFB8D00B6CBCE /* FeedCardView.swift in Sources */,
 				BCCBEC6A2AD75E20002F5E41 /* AddExerciseView.swift in Sources */,
 				BCA87E5F2AE865A600453E4B /* Person.swift in Sources */,
+				BCA24C002B6AE68500124EC3 /* RegisterView.swift in Sources */,
 				BCD3C4682AACAE7A00614ED8 /* DecodableModel.swift in Sources */,
 				BC0170FE2AE9B948005876EE /* CircleTimerViewModel.swift in Sources */,
 				BC96C3012AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataClass.swift in Sources */,
