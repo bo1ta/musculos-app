@@ -51,7 +51,12 @@ struct ExerciseView: View {
     .padding(10)
     .onAppear {
       viewModel.loadLocalData()
-        tabBarSettings.isTabBarHidden = true
+      tabBarSettings.isTabBarHidden = true
+      
+      for family in UIFont.familyNames.sorted() {
+          let names = UIFont.fontNames(forFamilyName: family)
+          print("Family: \(family) Font names: \(names)")
+      }
     }
     .onDisappear {
       tabBarSettings.isTabBarHidden = false

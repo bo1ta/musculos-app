@@ -25,13 +25,12 @@ struct MusculosApp: App {
             .environment(\.managedObjectContext, self.coreDataStack.mainContext)
             .environment(\.mainWindowSize, isPreview ? CGSize(width: 375, height: 667) : proxy.size)
         } else {
-          AuthenticationView(performPostLogin: {
-            isAuthenticated = true
-          })
+          GetStartedView()
+            .environment(\.mainWindowSize, proxy.size)
         }
       }
       .onAppear(perform: {
-        isAuthenticated = UserDefaultsWrapper.shared.isAuthenticated
+//        isAuthenticated = UserDefaultsWrapper.shared.isAuthenticated
       })
     }
   }

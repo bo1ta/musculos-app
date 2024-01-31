@@ -11,5 +11,13 @@
 	<string>${SUPABASE_APP_KEY}</string>
 	<key>SUPABASE_APP_URL</key>
 	<string>${SUPABASE_APP_URL}</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Roboto-Bold.ttf</string>
+		<string>Roboto-Regular.ttf</string>
+		<string>Roboto-Light.ttf</string>
+		<string>Roboto-Medium.ttf</string>
+		<string>Roboto-Thin.ttf</string>
+	</array>
 </dict>
 </plist>

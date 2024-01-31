@@ -97,6 +97,12 @@
 		BC9937222B64199A0067E556 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9937212B64199A0067E556 /* AppConstants.swift */; };
 		BC9937242B6426300067E556 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC9937232B6426300067E556 /* Config.xcconfig */; };
 		BC9937292B6441D90067E556 /* ExerciseResourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9937282B6441D90067E556 /* ExerciseResourceManager.swift */; };
+		BCA24BEF2B69D3AE00124EC3 /* GetStartedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BEE2B69D3AE00124EC3 /* GetStartedView.swift */; };
+		BCA24BF62B69D6CC00124EC3 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCA24BF42B69D46F00124EC3 /* Roboto-Bold.ttf */; };
+		BCA24BF72B69D6D100124EC3 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCA24BF32B69D46F00124EC3 /* Roboto-Light.ttf */; };
+		BCA24BF82B69D6D500124EC3 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCA24BF12B69D46E00124EC3 /* Roboto-Medium.ttf */; };
+		BCA24BF92B69D6D700124EC3 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCA24BF52B69D46F00124EC3 /* Roboto-Thin.ttf */; };
+		BCA24BFA2B69D6D900124EC3 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCA24BF22B69D46E00124EC3 /* Roboto-Regular.ttf */; };
 		BCA87E592AE83B3800453E4B /* ChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E582AE83B3800453E4B /* ChallengeView.swift */; };
 		BCA87E5C2AE8606F00453E4B /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5B2AE8606F00453E4B /* Challenge.swift */; };
 		BCA87E5F2AE865A600453E4B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5E2AE865A600453E4B /* Person.swift */; };
@@ -241,6 +247,12 @@
 		BC9937212B64199A0067E556 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		BC9937232B6426300067E556 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Config.xcconfig; path = ../../../../../../Desktop/Config.xcconfig; sourceTree = "<group>"; };
 		BC9937282B6441D90067E556 /* ExerciseResourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseResourceManager.swift; sourceTree = "<group>"; };
+		BCA24BEE2B69D3AE00124EC3 /* GetStartedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedView.swift; sourceTree = "<group>"; };
+		BCA24BF12B69D46E00124EC3 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		BCA24BF22B69D46E00124EC3 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		BCA24BF32B69D46F00124EC3 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
+		BCA24BF42B69D46F00124EC3 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		BCA24BF52B69D46F00124EC3 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		BCA87E582AE83B3800453E4B /* ChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeView.swift; sourceTree = "<group>"; };
 		BCA87E5B2AE8606F00453E4B /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		BCA87E5E2AE865A600453E4B /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
@@ -339,18 +351,19 @@
 		BC0D76A32B6525B700917680 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				BC0D76A42B6525C800917680 /* gifs */,
+				BCA24BF02B69D44600124EC3 /* Fonts */,
+				BC0D76A42B6525C800917680 /* GIF */,
 				BC1160D32A2CFB830028D8FC /* Assets.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
 		};
-		BC0D76A42B6525C800917680 /* gifs */ = {
+		BC0D76A42B6525C800917680 /* GIF */ = {
 			isa = PBXGroup;
 			children = (
 				BC0D76A52B6525DD00917680 /* loading-animated.gif */,
 			);
-			path = gifs;
+			path = GIF;
 			sourceTree = "<group>";
 		};
 		BC10E42C2A3B8AB00008A72E /* Authentication */ = {
@@ -758,6 +771,7 @@
 			isa = PBXGroup;
 			children = (
 				BC352AEF2A327E3300DAA3AB /* AuthenticationView.swift */,
+				BCA24BEE2B69D3AE00124EC3 /* GetStartedView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -776,6 +790,18 @@
 				BCCE85E52A33D658001BEE8B /* AuthenticationModule.swift */,
 			);
 			path = Module;
+			sourceTree = "<group>";
+		};
+		BCA24BF02B69D44600124EC3 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				BCA24BF42B69D46F00124EC3 /* Roboto-Bold.ttf */,
+				BCA24BF32B69D46F00124EC3 /* Roboto-Light.ttf */,
+				BCA24BF12B69D46E00124EC3 /* Roboto-Medium.ttf */,
+				BCA24BF22B69D46E00124EC3 /* Roboto-Regular.ttf */,
+				BCA24BF52B69D46F00124EC3 /* Roboto-Thin.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		BCA87E532AE83B0A00453E4B /* Challenge */ = {
@@ -1100,8 +1126,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA24BF92B69D6D700124EC3 /* Roboto-Thin.ttf in Resources */,
 				BC1160D72A2CFB830028D8FC /* Preview Assets.xcassets in Resources */,
 				BC9937242B6426300067E556 /* Config.xcconfig in Resources */,
+				BCA24BF72B69D6D100124EC3 /* Roboto-Light.ttf in Resources */,
+				BCA24BF82B69D6D500124EC3 /* Roboto-Medium.ttf in Resources */,
+				BCA24BF62B69D6CC00124EC3 /* Roboto-Bold.ttf in Resources */,
+				BCA24BFA2B69D6D900124EC3 /* Roboto-Regular.ttf in Resources */,
 				BC0D76A62B6525DD00917680 /* loading-animated.gif in Resources */,
 				BC1160D42A2CFB830028D8FC /* Assets.xcassets in Resources */,
 			);
@@ -1181,6 +1212,7 @@
 				BC352AED2A32774600DAA3AB /* MusculosClient.swift in Sources */,
 				BCFBB7702A59C6D700896C3C /* QuestionEntity+CoreDataProperties.swift in Sources */,
 				BCF7DE712A7DB2EC00FC960B /* CustomTabBarView.swift in Sources */,
+				BCA24BEF2B69D3AE00124EC3 /* GetStartedView.swift in Sources */,
 				BCF86C3B2A3632BA003293A4 /* SecondaryButton.swift in Sources */,
 				BCFBB76F2A59C6D700896C3C /* PersonEntity+CoreDataClass.swift in Sources */,
 				BC7777362A5DE3CD009A452A /* MiniCardView.swift in Sources */,
