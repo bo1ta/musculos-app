@@ -11,10 +11,15 @@ import SwiftUI
 struct SecondaryButton: ButtonStyle {
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
+      .font(.custom("Roboto-Regular", size: 16))
       .padding(16)
-      .background(Color.gray)
-      .foregroundColor(.white)
-      .clipShape(RoundedRectangle(cornerSize: CGSize(width: 24, height: 20)))
+      .background(.white)
+      .foregroundColor(.black)
+      .overlay(content: {
+        RoundedRectangle(cornerRadius: 30)
+                .inset(by: 1)
+                .stroke(.black, lineWidth: 1)
+      })
       .opacity(0.8)
   }
 }

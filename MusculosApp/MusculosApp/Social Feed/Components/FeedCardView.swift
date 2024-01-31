@@ -54,7 +54,7 @@ struct FeedCardView: View {
         .shadow(radius: 2)
       
       VStack(alignment: .leading) {
-        Text(person.name)
+        Text(person.fullName)
           .font(.body)
           .bold()
         Text("just completed an exercise")

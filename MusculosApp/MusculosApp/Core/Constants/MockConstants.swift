@@ -25,11 +25,12 @@ class MockConstants {
   // MARK: - Person
   
   static let persons = [
-    Person(avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww", name: "Andreea"),
-    Person(avatar: "https://www.masslive.com/resizer/kNl3qvErgJ3B0Cu-WSBWFYc1B8Q=/arc-anglerfish-arc2-prod-advancelocal/public/W5HI6Y4DINDTNP76R6CLA5IWRU.jpeg", name: "Naomi"),
-    Person(avatar: "https://image.cnbcfm.com/api/v1/image/107241090-1684160036619-gettyimages-1255019394-AFP_33F44YL.jpeg?v=1685596344", name: "Elon"),
-    Person(avatar: "https://ebizfiling.com/wp-content/uploads/2017/12/images_29-3.jpg", name: "David"),
-    Person(avatar: "https://www.bentbusinessmarketing.com/wp-content/uploads/2013/02/35844588650_3ebd4096b1_b-1024x683.jpg", name: "Ionut")
+    Person(email: "andreea@email.com", fullName: "Andreea", username: "andreea42", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"),
+    Person(email: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww", fullName: "andreea@email.com", username: "Andreea", avatar: "andreea42"),
+    Person(email: "naomi@email.com", fullName: "Naomi Ft", username: "naomi_fit", avatar: "https://www.masslive.com/resizer/kNl3qvErgJ3B0Cu-WSBWFYc1B8Q=/arc-anglerfish-arc2-prod-advancelocal/public/W5HI6Y4DINDTNP76R6CLA5IWRU.jpeg"),
+    Person(email: "elon@email.com", fullName: "Elon M.", username: "elon", avatar: "https://image.cnbcfm.com/api/v1/image/107241090-1684160036619-gettyimages-1255019394-AFP_33F44YL.jpeg?v=1685596344"),
+    Person(email: "david@email.com", fullName: "david", username: "david", avatar: "https://ebizfiling.com/wp-content/uploads/2017/12/images_29-3.jpg"),
+    Person(email: "ionut@gmail.com", fullName: "Ionut F", username: "ionut", avatar: "https://www.bentbusinessmarketing.com/wp-content/uploads/2013/02/35844588650_3ebd4096b1_b-1024x683.jpg")
   ]
   
   // MARK: - Exercise

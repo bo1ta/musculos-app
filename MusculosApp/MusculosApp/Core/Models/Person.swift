@@ -9,15 +9,20 @@ import Foundation
 
 struct Person {
   let uuid = UUID()
-  let avatar: String
-  let name: String
+  let avatar: String?
+  let fullName: String
+  let username: String
+  let email: String
 
-  init(avatar: String, name: String) {
+  init(email: String, fullName: String, username: String, avatar: String? = nil) {
+    self.email = email
+    self.fullName = fullName
+    self.username = username
     self.avatar = avatar
-    self.name = name
   }
 
   var avatarUrl: URL? {
+    guard let avatar else { return nil }
     return URL(string: avatar)
   }
 }
@@ -25,6 +30,8 @@ struct Person {
 extension Person: Hashable {
   func hash(into hasher: inout Hasher) {
     hasher.combine(avatar)
-    hasher.combine(name)
+    hasher.combine(fullName)
+    hasher.combine(username)
+    hasher.combine(email)
   }
 }

@@ -13,7 +13,7 @@ struct PrimaryButton: ButtonStyle {
     configuration.label
       .padding(16)
       .fixedSize(horizontal: false, vertical: true)
-      .background(Color.appColor(with: .customOrange))
+      .background(Color.appColor(with: .customRed))
       .foregroundColor(.black)
       .fontWeight(.semibold)
       .clipShape(RoundedRectangle(cornerSize: CGSize(width: 24, height: 20)))

@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct MusculosApp: App {
   let coreDataStack = CoreDataStack.shared
+  @State private var userStore = UserStore()
   
   private var isPreview: Bool {
     return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
@@ -29,9 +30,7 @@ struct MusculosApp: App {
             .environment(\.mainWindowSize, proxy.size)
         }
       }
-      .onAppear(perform: {
-//        isAuthenticated = UserDefaultsWrapper.shared.isAuthenticated
-      })
+      .environmentObject(userStore)
     }
   }
 }

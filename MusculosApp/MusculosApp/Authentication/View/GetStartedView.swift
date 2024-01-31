@@ -9,7 +9,8 @@ import SwiftUI
 
 struct GetStartedView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize: CGSize
-  @State private var showAuthenticationView: Bool = false
+  @State private var showSignIn: Bool = false
+
   var body: some View {
     VStack(alignment: .center) {
       Image("jogger-cartoon")
@@ -23,7 +24,7 @@ struct GetStartedView: View {
         .padding(.bottom, 30)
         .shadow(radius: 0.5)
       Button(action: {
-        showAuthenticationView = true
+        showSignIn = true
       }, label: {
         Circle()
           .frame(width: 60, height: 60)
@@ -37,8 +38,8 @@ struct GetStartedView: View {
       })
       .shadow(radius: 1)
     }
-    .popover(isPresented: $showAuthenticationView, content: {
-      AuthenticationView(performPostLogin: {})
+    .popover(isPresented: $showSignIn, content: {
+      SignInView()
     })
     .frame(width: mainWindowSize.width, height: mainWindowSize.height)
   }
