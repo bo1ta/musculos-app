@@ -38,12 +38,6 @@ struct CircleTimerView: View {
     }
   }
   
-  private var animation: Animation {
-    Animation
-      .linear(duration: Double(durationInSeconds))
-      .repeatForever(autoreverses: false)
-  }
-  
   // MARK: - Views
   
   @ViewBuilder
@@ -54,11 +48,7 @@ struct CircleTimerView: View {
       }
       .onAppear {
         guard !viewModel.isAnimating else { return }
-        withAnimation(animation) {
-          if !viewModel.isAnimating {
-            viewModel.initializeTimer()
-          }
-        }
+        viewModel.initializeTimer()
       }
       .onChange(of: viewModel.isTimerComplete) { isComplete in
         if isComplete {

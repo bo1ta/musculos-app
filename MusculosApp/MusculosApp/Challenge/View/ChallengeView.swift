@@ -209,4 +209,5 @@ extension ChallengeView {
 
 #Preview {
   ChallengeView(challenge: MockConstants.challenge, onBack: {})
+    .environmentObject(TabBarSettings(isTabBarHidden: true))
 }

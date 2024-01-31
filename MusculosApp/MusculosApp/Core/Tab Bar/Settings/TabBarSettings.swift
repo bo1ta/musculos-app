@@ -9,5 +9,9 @@ import Foundation
 import SwiftUI
 
 class TabBarSettings: ObservableObject {
-  @Published var isTabBarHidden: Bool = false
+  @Published var isTabBarHidden: Bool
+  
+  init(isTabBarHidden: Bool = false) {
+    self.isTabBarHidden = isTabBarHidden
+  }
 }

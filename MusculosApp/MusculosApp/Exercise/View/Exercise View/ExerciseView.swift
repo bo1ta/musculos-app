@@ -27,6 +27,7 @@ struct ExerciseView: View {
   var body: some View {
     VStack(spacing: 5) {
       header
+        .padding(.bottom, 10)
       
       ScrollView {
         if viewModel.shouldShowAnatomyView {
@@ -34,6 +35,7 @@ struct ExerciseView: View {
         } else {
           CurrentWorkoutCardView(exercise: exercise, showDetails: false, isGif: true)
             .padding(.bottom, 5)
+            .shadow(radius: 2)
           exerciseCallouts
           Divider()
             .padding([.leading, .trailing], 20)
@@ -49,7 +51,7 @@ struct ExerciseView: View {
     .padding(10)
     .onAppear {
       viewModel.loadLocalData()
-      tabBarSettings.isTabBarHidden = true
+        tabBarSettings.isTabBarHidden = true
     }
     .onDisappear {
       tabBarSettings.isTabBarHidden = false
@@ -57,6 +59,7 @@ struct ExerciseView: View {
     .navigationBarBackButtonHidden()
     .navigationTitle("")
     .toolbar(.hidden, for: .tabBar)
+    .background(Color.white)
   }
   
   // MARK: - Views
@@ -114,7 +117,7 @@ struct ExerciseView: View {
         .padding(.leading, -15)
         .padding(.trailing, 15)
         .lineLimit(0)
-      
+        .shadow(radius: 1)
       Spacer()
     }
   }
@@ -143,31 +146,46 @@ struct ExerciseView: View {
 
   @ViewBuilder
   private func createListItem(index: Int, instruction: String) -> some View {
-    let rectangleHeight: CGFloat = index == exercise.instructions.count - 1 ? 0 : 45
-    
-    VStack(alignment: .leading, spacing: 0) {
-      HStack {
-        Circle()
-          .frame(width: 25, height: 25)
-          .foregroundStyle(.black)
-          .overlay {
-            VStack {
-              Text("\(index + 1)")
-                .foregroundStyle(.white)
-                .font(.caption)
-            }
-          }
-        Text(instruction)
-          .font(.body)
-          .padding(.leading, 5)
-        Spacer()
+    let rectangleHeight: CGFloat = instruction.count < 30 ? 30 : CGFloat(instruction.count / 2)
+    RoundedRectangle(cornerRadius: 12)
+      .frame(height: rectangleHeight)
+      .foregroundStyle(.white)
+      .shadow(radius: 2)
+      .border(Color.appColor(with: .grassGreen).opacity(0.1))
+      .overlay {
+        HStack {
+          Text(instruction)
+            .font(.caption)
+            .lineLimit(nil)
+            .padding(.leading, 10)
+            .shadow(radius: 4)
+          Spacer()
+        }
       }
-      Rectangle()
-        .fill(.blue)
-        .frame(width: 1, height: rectangleHeight, alignment: .leading)
-        .padding(.leading, 12)
-    }
-    .padding(2)
+//
+//    VStack(alignment: .leading, spacing: 0) {
+//      HStack {
+//        Circle()
+//          .frame(width: 25, height: 25)
+//          .foregroundStyle(.black)
+//          .overlay {
+//            VStack {
+//              Text("\(index + 1)")
+//                .foregroundStyle(.white)
+//                .font(.caption)
+//            }
+//          }
+//        Text(instruction)
+//          .font(.body)
+//          .padding(.leading, 5)
+//        Spacer()
+//      }
+//      Rectangle()
+//        .fill(.blue)
+//        .frame(width: 1, height: rectangleHeight, alignment: .leading)
+//        .padding(.leading, 12)
+//    }
+//    .padding(2)
 
   }
 }
@@ -175,5 +193,6 @@ struct ExerciseView: View {
 struct ExerciseView_Previews: PreviewProvider {
   static var previews: some View {
     ExerciseView(exercise: MockConstants.exercise, onBack: {})
+      .environmentObject(TabBarSettings(isTabBarHidden: true))
   }
 }
