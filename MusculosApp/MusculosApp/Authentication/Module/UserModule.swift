@@ -9,12 +9,12 @@ import Foundation
 import Combine
 import Supabase
 
-protocol AuthenticationModuleProtocol {
+protocol UserModuleProtocol {
   func registerUser(email: String, password: String, extraData: [String: AnyJSON]?) async throws
   func loginUser(email: String, password: String) async throws
 }
 
-public class AuthenticationModule: AuthenticationModuleProtocol {
+public class UserModule: UserModuleProtocol {
   func registerUser(email: String, password: String, extraData: [String: AnyJSON]? = nil) async throws {
     try await SupabaseWrapper.shared.auth.signUp(email: email, password: password, data: extraData)
   }

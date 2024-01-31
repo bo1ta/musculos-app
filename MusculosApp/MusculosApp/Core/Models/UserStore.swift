@@ -19,10 +19,10 @@ class UserStore: ObservableObject {
     }
   }
   
-  private let module: AuthenticationModuleProtocol
+  private let module: UserModuleProtocol
   private(set) var authTask: Task<Void, Never>?
   
-  init(module: AuthenticationModuleProtocol = AuthenticationModule()) {
+  init(module: UserModuleProtocol = UserModule()) {
     self.module = module
     self.isLoggedIn = UserDefaultsWrapper.shared.isAuthenticated
   }
