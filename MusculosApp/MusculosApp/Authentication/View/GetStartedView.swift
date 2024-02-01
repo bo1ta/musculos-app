@@ -9,6 +9,8 @@ import SwiftUI
 
 struct GetStartedView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize: CGSize
+  @EnvironmentObject private var userStore: UserStore
+  
   @State private var showSignIn: Bool = false
 
   var body: some View {

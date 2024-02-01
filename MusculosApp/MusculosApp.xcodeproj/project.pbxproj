@@ -106,6 +106,12 @@
 		BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BFD2B6AD33200124EC3 /* UserStore.swift */; };
 		BCA24C002B6AE68500124EC3 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BFF2B6AE68500124EC3 /* RegisterView.swift */; };
 		BCA24C032B6AE77E00124EC3 /* ImageRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C022B6AE77E00124EC3 /* ImageRectangleView.swift */; };
+		BCA24C082B6AFF8200124EC3 /* OnboardingWizardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C072B6AFF8200124EC3 /* OnboardingWizardView.swift */; };
+		BCA24C0B2B6B005B00124EC3 /* SelectGenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0A2B6B005B00124EC3 /* SelectGenderView.swift */; };
+		BCA24C0D2B6B14EE00124EC3 /* SelectSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */; };
+		BCA24C0F2B6B2B5D00124EC3 /* SelectGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */; };
+		BCA24C122B6B33B400124EC3 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C112B6B33B400124EC3 /* Goal.swift */; };
+		BCA24C142B6C203600124EC3 /* SizePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C132B6C203600124EC3 /* SizePickerView.swift */; };
 		BCA87E592AE83B3800453E4B /* ChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E582AE83B3800453E4B /* ChallengeView.swift */; };
 		BCA87E5C2AE8606F00453E4B /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5B2AE8606F00453E4B /* Challenge.swift */; };
 		BCA87E5F2AE865A600453E4B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5E2AE865A600453E4B /* Person.swift */; };
@@ -258,6 +264,12 @@
 		BCA24BFD2B6AD33200124EC3 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 		BCA24BFF2B6AE68500124EC3 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		BCA24C022B6AE77E00124EC3 /* ImageRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRectangleView.swift; sourceTree = "<group>"; };
+		BCA24C072B6AFF8200124EC3 /* OnboardingWizardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWizardView.swift; sourceTree = "<group>"; };
+		BCA24C0A2B6B005B00124EC3 /* SelectGenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderView.swift; sourceTree = "<group>"; };
+		BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSizeView.swift; sourceTree = "<group>"; };
+		BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGoalView.swift; sourceTree = "<group>"; };
+		BCA24C112B6B33B400124EC3 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
+		BCA24C132B6C203600124EC3 /* SizePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePickerView.swift; sourceTree = "<group>"; };
 		BCA87E582AE83B3800453E4B /* ChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeView.swift; sourceTree = "<group>"; };
 		BCA87E5B2AE8606F00453E4B /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		BCA87E5E2AE865A600453E4B /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
@@ -374,7 +386,6 @@
 			isa = PBXGroup;
 			children = (
 				BC9937252B6426EB0067E556 /* View */,
-				BC9937272B6426FD0067E556 /* Module */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -409,6 +420,7 @@
 			children = (
 				BC5834252B1CE34500BD7690 /* Main */,
 				BC10E42C2A3B8AB00008A72E /* Authentication */,
+				BCA24C052B6AFF7000124EC3 /* Onboarding */,
 				BC0171052AEC6A45005876EE /* Home */,
 				BCB6BF502AFBF7EB00B6CBCE /* Social Feed */,
 				BCA87E532AE83B0A00453E4B /* Challenge */,
@@ -416,6 +428,7 @@
 				BC5BAC7E2AAFD745003C880E /* Exercise */,
 				BCE3B6942A5AEC23001D04EB /* Exercise Feed */,
 				BCE3B6932A5AEBF9001D04EB /* Workout */,
+				BCA24C042B6AFF5100124EC3 /* User */,
 				BC352AE32A326D6C00DAA3AB /* Core */,
 				BC9937232B6426300067E556 /* Config.xcconfig */,
 				BC1160DD2A2CFB830028D8FC /* Info.plist */,
@@ -468,7 +481,6 @@
 			isa = PBXGroup;
 			children = (
 				BC8E86DE2AED2F14008E3CE4 /* Environment */,
-				BCA87E5D2AE8659F00453E4B /* Models */,
 				BC63A5A22AC3388D006B1894 /* Constants */,
 				BC3FB0F92A899A7900C3F9B1 /* Layout */,
 				BC182ECB2A589BC7003DEA30 /* Core Data */,
@@ -773,20 +785,12 @@
 		BC9937252B6426EB0067E556 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BCA24C012B6AE74F00124EC3 /* Components */,
 				BCA24BEE2B69D3AE00124EC3 /* GetStartedView.swift */,
 				BCA24BFB2B6AB9AF00124EC3 /* SignInView.swift */,
 				BCA24BFF2B6AE68500124EC3 /* RegisterView.swift */,
+				BCA24C012B6AE74F00124EC3 /* Components */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		BC9937272B6426FD0067E556 /* Module */ = {
-			isa = PBXGroup;
-			children = (
-				BCCE85E52A33D658001BEE8B /* UserModule.swift */,
-			);
-			path = Module;
 			sourceTree = "<group>";
 		};
 		BCA24BF02B69D44600124EC3 /* Fonts */ = {
@@ -809,6 +813,53 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		BCA24C042B6AFF5100124EC3 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				BCA24BFD2B6AD33200124EC3 /* UserStore.swift */,
+				BCCE85E52A33D658001BEE8B /* UserModule.swift */,
+				BCA87E5D2AE8659F00453E4B /* Model */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		BCA24C052B6AFF7000124EC3 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				BCA24C062B6AFF7A00124EC3 /* View */,
+				BCA24C102B6B338B00124EC3 /* Model */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		BCA24C062B6AFF7A00124EC3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BCA24C072B6AFF8200124EC3 /* OnboardingWizardView.swift */,
+				BCA24C092B6B003500124EC3 /* Components */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BCA24C092B6B003500124EC3 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BCA24C0A2B6B005B00124EC3 /* SelectGenderView.swift */,
+				BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */,
+				BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */,
+				BCA24C132B6C203600124EC3 /* SizePickerView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		BCA24C102B6B338B00124EC3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BCA24C112B6B33B400124EC3 /* Goal.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		BCA87E532AE83B0A00453E4B /* Challenge */ = {
 			isa = PBXGroup;
 			children = (
@@ -826,13 +877,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		BCA87E5D2AE8659F00453E4B /* Models */ = {
+		BCA87E5D2AE8659F00453E4B /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				BCA87E5E2AE865A600453E4B /* Person.swift */,
-				BCA24BFD2B6AD33200124EC3 /* UserStore.swift */,
 			);
-			path = Models;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		BCB6BF502AFBF7EB00B6CBCE /* Social Feed */ = {
@@ -1174,6 +1224,7 @@
 				BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */,
 				BCB6BF522AFBF7FF00B6CBCE /* SocialFeedView.swift in Sources */,
 				BC5C56EE2AC348EF00AFDBFE /* StringHolder+CoreDataClass.swift in Sources */,
+				BCA24C0B2B6B005B00124EC3 /* SelectGenderView.swift in Sources */,
 				BC182ECA2A589A81003DEA30 /* MusculosDataStore.xcdatamodeld in Sources */,
 				BCA24C032B6AE77E00124EC3 /* ImageRectangleView.swift in Sources */,
 				BC63A5A42AC33896006B1894 /* MuscleData.swift in Sources */,
@@ -1184,6 +1235,7 @@
 				BC3FB0FF2A89A3E700C3F9B1 /* SliderView.swift in Sources */,
 				BC5C56EF2AC348EF00AFDBFE /* StringHolder+CoreDataProperties.swift in Sources */,
 				BCD837BC2B64902D0069CECB /* Sequence+Extension.swift in Sources */,
+				BCA24C122B6B33B400124EC3 /* Goal.swift in Sources */,
 				BCCBEC722AD85158002F5E41 /* CustomTextFieldView.swift in Sources */,
 				BC96C2FB2AC8310500F11CAB /* SelectMuscleView.swift in Sources */,
 				BCA87E592AE83B3800453E4B /* ChallengeView.swift in Sources */,
@@ -1233,6 +1285,7 @@
 				BC3FB0EA2A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift in Sources */,
 				BCFBB7882A59F96100896C3C /* HorizontalSelectPillView.swift in Sources */,
 				BC3FB0EE2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift in Sources */,
+				BCA24C082B6AFF8200124EC3 /* OnboardingWizardView.swift in Sources */,
 				BCB6BF552AFBFB8D00B6CBCE /* FeedCardView.swift in Sources */,
 				BCCBEC6A2AD75E20002F5E41 /* AddExerciseView.swift in Sources */,
 				BCA87E5F2AE865A600453E4B /* Person.swift in Sources */,
@@ -1256,6 +1309,7 @@
 				BC59720C2A3507F500EBB075 /* HearTipView.swift in Sources */,
 				BC352AEB2A32713300DAA3AB /* MusculosError.swift in Sources */,
 				BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */,
+				BCA24C0F2B6B2B5D00124EC3 /* SelectGoalView.swift in Sources */,
 				BC5BACD72ABA403F003C880E /* ExerciseFeedViewModel.swift in Sources */,
 				BCFBB78A2A5A020700896C3C /* SearchBarView.swift in Sources */,
 				BC96C3022AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataProperties.swift in Sources */,
@@ -1264,6 +1318,8 @@
 				BC11BC5A2A7D74CB00D96440 /* TabBarItem.swift in Sources */,
 				BC8E86DD2AED2DB9008E3CE4 /* UIImage+Extension.swift in Sources */,
 				BC96C2FD2AC83B1C00F11CAB /* Array+Extension.swift in Sources */,
+				BCA24C142B6C203600124EC3 /* SizePickerView.swift in Sources */,
+				BCA24C0D2B6B14EE00124EC3 /* SelectSizeView.swift in Sources */,
 				BC0170FA2AE9A355005876EE /* ChallengeExerciseView.swift in Sources */,
 				BC182ECD2A589BE7003DEA30 /* CoreDataStack.swift in Sources */,
 				BC9937292B6441D90067E556 /* ExerciseResourceManager.swift in Sources */,

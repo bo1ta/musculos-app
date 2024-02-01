@@ -13,9 +13,19 @@ class UserStore: ObservableObject {
   @Published var currentPerson: Person? = nil
   @Published var error: Error? = nil
   @Published var isLoading: Bool = false
+
   @Published var isLoggedIn: Bool = false {
     didSet {
-      UserDefaultsWrapper.shared.isAuthenticated = isLoggedIn
+      DispatchQueue.main.async {
+        UserDefaultsWrapper.shared.setBool(value: self.isLoggedIn, key: UserDefaultsKey.isAuthenticated)
+      }
+    }
+  }
+  @Published var isOnboarded: Bool = false {
+    didSet {
+      DispatchQueue.main.async {
+        UserDefaultsWrapper.shared.setBool(value: self.isOnboarded, key: UserDefaultsKey.isOnboarded)
+      }
     }
   }
   
@@ -24,7 +34,8 @@ class UserStore: ObservableObject {
   
   init(module: UserModuleProtocol = UserModule()) {
     self.module = module
-    self.isLoggedIn = UserDefaultsWrapper.shared.isAuthenticated
+    self.isLoggedIn = UserDefaultsWrapper.shared.getBool(UserDefaultsKey.isAuthenticated)
+    self.isOnboarded = UserDefaultsWrapper.shared.getBool(UserDefaultsKey.isOnboarded)
   }
   
   func signIn(email: String, password: String) {

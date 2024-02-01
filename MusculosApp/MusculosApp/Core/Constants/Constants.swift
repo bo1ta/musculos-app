@@ -33,3 +33,8 @@ public class SupabaseConstants: NSObject {
     case favoriteExercise = "favorite_exercise"
   }
 }
+
+public enum UserDefaultsKey: String {
+  case isAuthenticated = "is_authenticated"
+  case isOnboarded = "is_onboarded"
+}
