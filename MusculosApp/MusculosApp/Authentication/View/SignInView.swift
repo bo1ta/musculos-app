@@ -39,6 +39,9 @@ struct SignInView: View {
       }
       .tint(.black)
     }
+    .onDisappear {
+      userStore.cancelTask()
+    }
   }
   
   private var detailsForm: some View {
