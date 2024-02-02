@@ -85,14 +85,15 @@ struct DashboardView: View {
   }
   
   private var quickWorkoutsSection: some View {
-    VStack(alignment: .leading) {
+    let smallCardWidth: CGFloat = 200
+    return VStack(alignment: .leading) {
       Text("Quick muscle-building workouts")
         .font(.custom(AppFont.bold, size: 18))
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 20) {
-          CurrentWorkoutCardView(exercise: MockConstants.exercise)
-          CurrentWorkoutCardView(exercise: MockConstants.exercise)
-          CurrentWorkoutCardView(exercise: MockConstants.exercise)
+          CurrentWorkoutCardView(exercise: MockConstants.exercise, cardWidth: smallCardWidth)
+          CurrentWorkoutCardView(exercise: MockConstants.exercise, cardWidth: smallCardWidth)
+          CurrentWorkoutCardView(exercise: MockConstants.exercise, cardWidth: smallCardWidth)
         }
       }
     }

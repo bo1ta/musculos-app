@@ -12,13 +12,14 @@ struct CurrentWorkoutCardView: View {
   let showDetails: Bool // there are some cases where we don't want to show the details like on ExerciseView
   let isGif: Bool
   
-  private let cardWidth: CGFloat = 300
   private let cardHeight: CGFloat = 200
+  private var cardWidth: CGFloat
 
-  init(exercise: Exercise, showDetails: Bool = true, isGif: Bool = false) {
+  init(exercise: Exercise, showDetails: Bool = true, isGif: Bool = false, cardWidth: CGFloat = 300) {
     self.exercise = exercise
     self.showDetails = showDetails
     self.isGif = isGif
+    self.cardWidth = cardWidth
   }
 
   var body: some View {
@@ -33,6 +34,7 @@ struct CurrentWorkoutCardView: View {
     }
     .cornerRadius(40)
     .padding()
+    .shadow(radius: 2)
     .frame(width: cardWidth, height: cardHeight)
   }
   
@@ -59,7 +61,7 @@ struct CurrentWorkoutCardView: View {
     RoundedRectangle(cornerRadius: 30)
       .foregroundStyle(.white)
       .shadow(radius: 40, y: 30)
-      .frame(width: cardWidth, height: cardHeight - 100)
+      .frame(width: cardWidth, height: 80)
       .overlay {
         HStack {
           VStack(alignment: .leading) {
