@@ -9,23 +9,25 @@ import SwiftUI
 
 @main
 struct MusculosApp: App {
+  @ObservedObject private var userStore = UserStore()
   let coreDataStack = CoreDataStack.shared
-  @State private var userStore = UserStore()
-  
-  private var isPreview: Bool {
-    return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
-  }
+  let coreDataManager = CoreDataManager()
 
   var body: some Scene {
     WindowGroup {
       GeometryReader { proxy in
-        if userStore.isLoggedIn {
-          ContentView()
+        if userStore.isOnboarded && userStore.isLoggedIn {
+          AppTabView()
             .environment(\.managedObjectContext, self.coreDataStack.mainContext)
-            .environment(\.mainWindowSize, isPreview ? CGSize(width: 375, height: 667) : proxy.size)
-        } else {
-          GetStartedView()
             .environment(\.mainWindowSize, proxy.size)
+        } else {
+          if !userStore.isLoggedIn {
+            GetStartedView()
+              .environment(\.mainWindowSize, proxy.size)
+          } else {
+            OnboardingWizardView()
+              .environment(\.mainWindowSize, proxy.size)
+          }
         }
       }
       .environmentObject(userStore)

@@ -9,13 +9,24 @@ import Foundation
 import SwiftUI
 import Supabase
 
+
 class UserStore: ObservableObject {
   @Published var currentPerson: Person? = nil
   @Published var error: Error? = nil
   @Published var isLoading: Bool = false
+  
   @Published var isLoggedIn: Bool = false {
     didSet {
-      UserDefaultsWrapper.shared.isAuthenticated = isLoggedIn
+      DispatchQueue.main.async {
+        UserDefaultsWrapper.shared.setBool(value: self.isLoggedIn, key: UserDefaultsKey.isAuthenticated)
+      }
+    }
+  }
+  @Published var isOnboarded: Bool = false {
+    didSet {
+      DispatchQueue.main.async {
+        UserDefaultsWrapper.shared.setBool(value: self.isOnboarded, key: UserDefaultsKey.isOnboarded)
+      }
     }
   }
   
@@ -24,9 +35,18 @@ class UserStore: ObservableObject {
   
   init(module: UserModuleProtocol = UserModule()) {
     self.module = module
-    self.isLoggedIn = UserDefaultsWrapper.shared.isAuthenticated
+    self.isLoggedIn = UserDefaultsWrapper.shared.getBool(UserDefaultsKey.isAuthenticated)
+    self.isOnboarded = UserDefaultsWrapper.shared.getBool(UserDefaultsKey.isOnboarded)
   }
   
+  func cancelTask() {
+    authTask?.cancel()
+  }
+}
+
+// MARK: - Networking
+
+extension UserStore {
   func signIn(email: String, password: String) {
     authTask = Task { @MainActor [weak self] in
       guard let self else { return }
@@ -54,19 +74,15 @@ class UserStore: ObservableObject {
       defer { self.isLoading = false }
       
       do {
-        let extraData: [String: AnyJSON] = [
-          "username": .string(person.username)
-        ]
+        let extraData: [String: AnyJSON] = ["username": .string(person.username)]
         try await self.module.registerUser(email: person.email, password: password, extraData: extraData)
         self.isLoggedIn = true
+        
+        CoreDataManager.createUserProfile(person: person)
       } catch {
         self.error = error
         MusculosLogger.logError(error: error, message: "Sign up failed", category: .supabase)
       }
     }
-  }
-  
-  func cancelTask() {
-    authTask?.cancel()
   }
 }

@@ -8,6 +8,10 @@
 import Foundation
 
 public class UserDefaultsWrapper: NSObject {
+  private override init() {
+    self.userDefaults = UserDefaults.standard
+  }
+  
   private static var sharedWrapper: UserDefaultsWrapper = {
     return UserDefaultsWrapper()
   }()
@@ -22,18 +26,12 @@ public class UserDefaultsWrapper: NSObject {
   }
 
   private let userDefaults: UserDefaults
-
-  private let IS_AUTHENTICATED = "authenticated"
-  var isAuthenticated: Bool {
-    get {
-      return self.userDefaults.bool(forKey: IS_AUTHENTICATED)
-    }
-    set {
-      self.userDefaults.setValue(newValue, forKey: IS_AUTHENTICATED)
-    }
+  
+  func setBool(value: Bool, key: UserDefaultsKey) {
+    userDefaults.setValue(value, forKey: key.rawValue)
   }
-
-  private override init() {
-    self.userDefaults = UserDefaults.standard
+  
+  func getBool(_ key: UserDefaultsKey) -> Bool {
+    userDefaults.bool(forKey: key.rawValue)
   }
 }

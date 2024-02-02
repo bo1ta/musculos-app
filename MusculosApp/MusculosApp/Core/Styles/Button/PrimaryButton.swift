@@ -14,8 +14,9 @@ struct PrimaryButton: ButtonStyle {
       .padding(16)
       .fixedSize(horizontal: false, vertical: true)
       .background(Color.appColor(with: .customRed))
-      .foregroundColor(.black)
+      .foregroundColor(.white)
       .fontWeight(.semibold)
       .clipShape(RoundedRectangle(cornerSize: CGSize(width: 24, height: 20)))
+      .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
   }
 }
