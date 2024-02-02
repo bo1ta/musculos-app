@@ -38,3 +38,11 @@ public enum UserDefaultsKey: String {
   case isAuthenticated = "is_authenticated"
   case isOnboarded = "is_onboarded"
 }
+
+public class AppFont: NSObject {
+  static let bold = "Roboto-Bold"
+  static let light = "Roboto-Light"
+  static let regular = "Roboto-Regular"
+  static let medium = "Roboto-Medium"
+  static let thin = "Roboto-Thin"
+}

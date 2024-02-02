@@ -17,6 +17,7 @@ enum AppColorName: String {
   case navyBlue      = "NavyBlue"
   case customOrange  = "CustomOrange"
   case customRed     = "CustomRed"
+  case lightGrey     = "LightGrey"
 }
 
 extension Color {

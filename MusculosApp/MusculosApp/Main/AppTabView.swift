@@ -21,7 +21,7 @@ struct AppTabView: View {
       case .workout:
         ExerciseFeedView()
       case .add:
-        EmptyView()
+        DashboardView()
       }
     }
     .environmentObject(tabBarSettings)
