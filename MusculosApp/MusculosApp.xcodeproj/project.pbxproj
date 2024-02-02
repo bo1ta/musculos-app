@@ -27,6 +27,7 @@
 		BC11BC5A2A7D74CB00D96440 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC11BC592A7D74CB00D96440 /* TabBarItem.swift */; };
 		BC182ECA2A589A81003DEA30 /* MusculosDataStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */; };
 		BC182ECD2A589BE7003DEA30 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */; };
+		BC261AAF2B6D6F1A0018E21F /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC261AAE2B6D6F1A0018E21F /* Config.xcconfig */; };
 		BC352AEB2A32713300DAA3AB /* MusculosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEA2A32713300DAA3AB /* MusculosError.swift */; };
 		BC352AED2A32774600DAA3AB /* MusculosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC352AEC2A32774600DAA3AB /* MusculosClient.swift */; };
 		BC372A632AC06AF300F67D19 /* FLAnimatedImage in Frameworks */ = {isa = PBXBuildFile; productRef = BC372A622AC06AF300F67D19 /* FLAnimatedImage */; };
@@ -93,7 +94,6 @@
 		BC96C3012AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96C2FF2AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataClass.swift */; };
 		BC96C3022AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96C3002AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataProperties.swift */; };
 		BC9937222B64199A0067E556 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9937212B64199A0067E556 /* AppConstants.swift */; };
-		BC9937242B6426300067E556 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC9937232B6426300067E556 /* Config.xcconfig */; };
 		BC9937292B6441D90067E556 /* ExerciseResourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9937282B6441D90067E556 /* ExerciseResourceManager.swift */; };
 		BCA24BEF2B69D3AE00124EC3 /* GetStartedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BEE2B69D3AE00124EC3 /* GetStartedView.swift */; };
 		BCA24BF62B69D6CC00124EC3 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCA24BF42B69D46F00124EC3 /* Roboto-Bold.ttf */; };
@@ -190,6 +190,7 @@
 		BC11BC592A7D74CB00D96440 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		BC182EC92A589A81003DEA30 /* Musculos.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Musculos.xcdatamodel; sourceTree = "<group>"; };
 		BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		BC261AAE2B6D6F1A0018E21F /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		BC352AEA2A32713300DAA3AB /* MusculosError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosError.swift; sourceTree = "<group>"; };
 		BC352AEC2A32774600DAA3AB /* MusculosClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosClient.swift; sourceTree = "<group>"; };
 		BC372A642AC06B0100F67D19 /* GIFImageViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFImageViewRepresentable.swift; sourceTree = "<group>"; };
@@ -245,7 +246,6 @@
 		BC96C2FF2AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExerciseManagedObject+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BC96C3002AD0B6F200F11CAB /* ExerciseManagedObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExerciseManagedObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BC9937212B64199A0067E556 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
-		BC9937232B6426300067E556 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Config.xcconfig; path = ../../../../../../Desktop/Config.xcconfig; sourceTree = "<group>"; };
 		BC9937282B6441D90067E556 /* ExerciseResourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseResourceManager.swift; sourceTree = "<group>"; };
 		BCA24BEE2B69D3AE00124EC3 /* GetStartedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedView.swift; sourceTree = "<group>"; };
 		BCA24BF12B69D46E00124EC3 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
@@ -413,7 +413,7 @@
 				BCE3B6942A5AEC23001D04EB /* Exercise Feed */,
 				BCE3B6932A5AEBF9001D04EB /* Workout */,
 				BC352AE32A326D6C00DAA3AB /* Core */,
-				BC9937232B6426300067E556 /* Config.xcconfig */,
+				BC261AAE2B6D6F1A0018E21F /* Config.xcconfig */,
 				BC1160DD2A2CFB830028D8FC /* Info.plist */,
 				BC0D76A32B6525B700917680 /* Assets */,
 				BC1160D52A2CFB830028D8FC /* Preview Content */,
@@ -1174,10 +1174,10 @@
 			files = (
 				BCA24BF92B69D6D700124EC3 /* Roboto-Thin.ttf in Resources */,
 				BC1160D72A2CFB830028D8FC /* Preview Assets.xcassets in Resources */,
-				BC9937242B6426300067E556 /* Config.xcconfig in Resources */,
 				BCA24BF72B69D6D100124EC3 /* Roboto-Light.ttf in Resources */,
 				BCA24BF82B69D6D500124EC3 /* Roboto-Medium.ttf in Resources */,
 				BCA24BF62B69D6CC00124EC3 /* Roboto-Bold.ttf in Resources */,
+				BC261AAF2B6D6F1A0018E21F /* Config.xcconfig in Resources */,
 				BCA24BFA2B69D6D900124EC3 /* Roboto-Regular.ttf in Resources */,
 				BC0D76A62B6525DD00917680 /* loading-animated.gif in Resources */,
 				BC1160D42A2CFB830028D8FC /* Assets.xcassets in Resources */,
@@ -1362,7 +1362,6 @@
 /* Begin XCBuildConfiguration section */
 		BC1160F42A2CFB840028D8FC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC9937232B6426300067E556 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1423,7 +1422,6 @@
 		};
 		BC1160F52A2CFB840028D8FC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC9937232B6426300067E556 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1478,7 +1476,6 @@
 		};
 		BC1160F72A2CFB840028D8FC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC9937232B6426300067E556 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1511,7 +1508,6 @@
 		};
 		BC1160F82A2CFB840028D8FC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC9937232B6426300067E556 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

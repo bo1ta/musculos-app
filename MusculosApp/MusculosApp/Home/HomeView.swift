@@ -24,12 +24,6 @@ struct HomeView: View {
           isChallengePresented.toggle()
         }
       }
-      .onAppear {
-        Task {
-          let userProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.backgroundContext)
-          print(userProfile)
-        }
-      }
     }
   }
   
