@@ -86,7 +86,7 @@ extension OnboardingWizardView {
     } else if wizardStep == .heightAndWeight {
       wizardStep = .goal
     } else {
-      userStore.isOnboarded = true
+      handleSubmit()
     }
   }
   
@@ -96,6 +96,11 @@ extension OnboardingWizardView {
     } else {
       wizardStep = .heightAndWeight
     }
+  }
+  
+  private func handleSubmit() {
+    userStore.isOnboarded = true
+    CoreDataManager.updateUserProfile(gender: selectedGender, weight: selectedWeight, height: selectedHeight, goalId: selectedGoal?.rawValue)
   }
 }
 

@@ -11,12 +11,13 @@ import SwiftUI
 struct MusculosApp: App {
   @ObservedObject private var userStore = UserStore()
   let coreDataStack = CoreDataStack.shared
+  let coreDataManager = CoreDataManager()
 
   var body: some Scene {
     WindowGroup {
       GeometryReader { proxy in
         if userStore.isOnboarded && userStore.isLoggedIn {
-          ContentView()
+          AppTabView()
             .environment(\.managedObjectContext, self.coreDataStack.mainContext)
             .environment(\.mainWindowSize, proxy.size)
         } else {

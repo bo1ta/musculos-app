@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Goal {
+enum Goal: Int {
   case loseWeight, getFitter, gainMuscles
 
   var title: String {

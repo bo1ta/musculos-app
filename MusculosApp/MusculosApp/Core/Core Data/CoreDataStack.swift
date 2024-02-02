@@ -34,26 +34,26 @@ class CoreDataStack {
     self.backgroundContext.parent = self.mainContext
   }
 
-  func saveMainContext() async throws {
+  func saveMainContext() async {
     let context = self.mainContext
-    try await context.perform {
+    await context.perform {
       do {
         try context.save()
       } catch {
         MusculosLogger.logError(error: error, message: "Failed to save main context", category: .coreData)
-        throw error
+        return
       }
     }
   }
 
-  func saveBackgroundContext() async throws {
+  func saveBackgroundContext() async {
     let context = self.backgroundContext
-    try await context.perform {
+    await context.perform {
       do {
         try context.save()
       } catch {
         MusculosLogger.logError(error: error, message: "Failed to save backgroundContext context", category: .coreData)
-        throw error
+        return
       }
     }
 

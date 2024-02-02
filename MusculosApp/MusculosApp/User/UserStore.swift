@@ -9,11 +9,12 @@ import Foundation
 import SwiftUI
 import Supabase
 
+
 class UserStore: ObservableObject {
   @Published var currentPerson: Person? = nil
   @Published var error: Error? = nil
   @Published var isLoading: Bool = false
-
+  
   @Published var isLoggedIn: Bool = false {
     didSet {
       DispatchQueue.main.async {
@@ -38,6 +39,14 @@ class UserStore: ObservableObject {
     self.isOnboarded = UserDefaultsWrapper.shared.getBool(UserDefaultsKey.isOnboarded)
   }
   
+  func cancelTask() {
+    authTask?.cancel()
+  }
+}
+
+// MARK: - Networking
+
+extension UserStore {
   func signIn(email: String, password: String) {
     authTask = Task { @MainActor [weak self] in
       guard let self else { return }
@@ -65,19 +74,15 @@ class UserStore: ObservableObject {
       defer { self.isLoading = false }
       
       do {
-        let extraData: [String: AnyJSON] = [
-          "username": .string(person.username)
-        ]
+        let extraData: [String: AnyJSON] = ["username": .string(person.username)]
         try await self.module.registerUser(email: person.email, password: password, extraData: extraData)
         self.isLoggedIn = true
+        
+        CoreDataManager.createUserProfile(person: person)
       } catch {
         self.error = error
         MusculosLogger.logError(error: error, message: "Sign up failed", category: .supabase)
       }
     }
-  }
-  
-  func cancelTask() {
-    authTask?.cancel()
   }
 }
