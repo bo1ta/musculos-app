@@ -15,10 +15,14 @@ struct SelectedButton: ButtonStyle {
     configuration.label
       .padding(16)
       .lineLimit(0)
-      .background(isSelected ? Color.appColor(with: .grassGreen) : .black)
+      .background(.white)
+      .foregroundColor(isSelected ? Color.appColor(with: .customRed) : .black)
+      .fontWeight(.light)
+      .overlay(content: {
+        RoundedRectangle(cornerRadius: 30)
+                .inset(by: 1)
+                .stroke(isSelected ? Color.appColor(with: .customRed) : .black)
+      })
       .opacity(0.8)
-      .bold()
-      .clipShape(RoundedRectangle(cornerSize: CGSize(width: 24, height: 20)))
-      .opacity(isSelected ? 1.0 : UIConstants.componentOpacity)
   }
 }

@@ -11,6 +11,7 @@ struct DashboardView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize: CGSize
   @State private var selectedSection: CategorySection = .discover
   @State private var searchQuery: String = ""
+  @State private var showFilterView: Bool = false
   
   var body: some View {
     VStack {
@@ -25,10 +26,15 @@ struct DashboardView: View {
         quickWorkoutsSection
       }
     }
+    .popover(isPresented: $showFilterView, content: {
+      SearchFilterView()
+    })
     .background(Image("white-patterns-background").resizable(resizingMode: .tile).opacity(0.1))
     .ignoresSafeArea()
 //    .frame(width: mainWindowSize.width, height: mainWindowSize.height)
   }
+  
+  // MARK: - Views
   
   private var header: some View {
     Rectangle()
@@ -115,14 +121,18 @@ struct DashboardView: View {
     HStack {
       CustomTextFieldView(text: $searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
         .shadow(radius: 2, y: 1)
-      Circle()
-        .frame(width: 50, height: 50)
-        .foregroundStyle(Color.appColor(with: .customRed))
-        .overlay {
-          Image(systemName: "line.3.horizontal")
-            .foregroundStyle(.white)
-        }
-        .shadow(radius: 1)
+      Button(action: {
+        showFilterView = true
+      }, label: {
+        Circle()
+          .frame(width: 50, height: 50)
+          .foregroundStyle(Color.appColor(with: .customRed))
+          .overlay {
+            Image(systemName: "line.3.horizontal")
+              .foregroundStyle(.white)
+          }
+          .shadow(radius: 1)
+      })
     }
     .padding([.leading, .trailing], 10)
   }
