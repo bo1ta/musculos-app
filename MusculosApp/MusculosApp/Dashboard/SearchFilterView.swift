@@ -90,18 +90,19 @@ struct SearchFilterView: View {
       }
   }
   
+  @ViewBuilder
   private var durationSection: some View {
     VStack {
-      HStack {
-        Text("Duration")
-          .font(.custom(AppFont.bold, size: 18))
-        Spacer()
-        
         Button {
           showDurationFilter.toggle()
         } label: {
-          Image(systemName: showDurationFilter ? "chevron.up" : "chevron.down")
-            .foregroundStyle(.black)
+          HStack {
+            Text("Duration")
+              .font(.custom(AppFont.bold, size: 18))
+            Spacer()
+            Image(systemName: showDurationFilter ? "chevron.up" : "chevron.down")
+          }
+          .foregroundStyle(.black)
         }
       }
       
@@ -111,7 +112,6 @@ struct SearchFilterView: View {
         Text("\(selectedDuration)")
       }
     }
-  }
   
   private var backButton: some View {
     Button {

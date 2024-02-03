@@ -14,34 +14,35 @@ struct FiltersSectionView: View {
   var title: String
   var filters: [String]
   
-    var body: some View {
-      VStack {
+  var body: some View {
+    VStack {
+      
+      Button {
+        showFilters.toggle()
+      } label: {
         HStack {
           Text(title)
             .font(.custom(AppFont.bold, size: 18))
           Spacer()
-          Button {
-            showFilters.toggle()
-          } label: {
-            Image(systemName: showFilters ? "chevron.up" : "chevron.down")
-              .foregroundStyle(.black)
-          }
+          Image(systemName: showFilters ? "chevron.up" : "chevron.down")
         }
-        
-        if showFilters {
-          LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 5) {
-            ForEach(filters, id: \.self) { filter in
-              Button {
-                selectedFilters.append(filter)
-              } label: {
-                Text(filter)
-              }
-              .buttonStyle(SelectedButton(isSelected: selectedFilters.contains(filter)))
+        .foregroundStyle(.black)
+      }
+      
+      if showFilters {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 5) {
+          ForEach(filters, id: \.self) { filter in
+            Button {
+              selectedFilters.append(filter)
+            } label: {
+              Text(filter)
             }
+            .buttonStyle(SelectedButton(isSelected: selectedFilters.contains(filter)))
           }
         }
       }
     }
+  }
 }
 
 #Preview {
