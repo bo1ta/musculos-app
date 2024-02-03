@@ -23,6 +23,7 @@ class SearchFilterViewModel: ObservableObject {
   @Published var showEquipmentFilter: Bool = true
   
   private var cancellables: Set<AnyCancellable> = []
+  private(set) var task: Task<Void, Never>?
   
   init() {
     self.setupFiltersPublisher()
@@ -33,6 +34,7 @@ class SearchFilterViewModel: ObservableObject {
     selectedFilters.combineLatest($searchQuery)
       .debounce(for: 1, scheduler: DispatchQueue.main)
       .sink { [weak self] _ in
+        self?.resetTask()
         self?.maybeHandleSearch()
       }
       .store(in: &cancellables)
@@ -47,10 +49,15 @@ class SearchFilterViewModel: ObservableObject {
   private func maybeHandleSearch() {
     guard shouldHandleSearch else { return }
     
-    Task { @MainActor [weak self] in
+    task = Task { @MainActor [weak self] in
       guard let self else { return }
       print("ceva se intampla!")
     }
+  }
+  
+  private func resetTask() {
+    task?.cancel()
+    task = nil
   }
   
   private var shouldHandleSearch: Bool {
