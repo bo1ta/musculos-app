@@ -33,7 +33,11 @@ struct FiltersSectionView: View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 5) {
           ForEach(filters, id: \.self) { filter in
             Button {
-              selectedFilters.append(filter)
+              if let index = selectedFilters.firstIndex(of: filter) {
+                selectedFilters.remove(at: index)
+              } else {
+                selectedFilters.append(filter)
+              }
             } label: {
               Text(filter)
             }

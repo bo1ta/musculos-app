@@ -9,19 +9,7 @@ import SwiftUI
 
 struct SearchFilterView: View {
   @Environment(\.dismiss) private var dismiss
-  
-  @State private var searchQuery: String = ""
-
-  @State private var showMuscleFilters: Bool = true
-  @State private var showWorkoutFilters: Bool = true
-  @State private var showDifficultyFilters: Bool = true
-  @State private var showDurationFilter: Bool = true
-  @State private var showEquipmentFilter: Bool = true
-  
-  @State private var selectedMuscleFilters: [String] = []
-  @State private var selectedWorkoutFilters: [String] = []
-  @State private var selectedDifficultyFilters: [String] = []
-  @State private var selectedDuration: Float = 0
+  @StateObject private var viewModel = SearchFilterViewModel()
   
   private var muscleFilters: [String] = ["Abs", "Shoulders", "Back", "Quadriceps", "Triceps", "Chest", "Lower Back", "Calves", "Hamstrings"]
   private var workoutFilters: [String] = ["Bodyweight", "Weighted Exercise", "Stretching", "Yoga", ]
@@ -33,16 +21,15 @@ struct SearchFilterView: View {
       header
       
       VStack {
-        CustomTextFieldView(text: $searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
+        CustomTextFieldView(text: $viewModel.searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
           .shadow(radius: 2, y: 1)
         ScrollView {
           VStack(spacing: 20) {
-            FiltersSectionView(showFilters: $showMuscleFilters, selectedFilters: $selectedMuscleFilters, title: "Muscles", filters: muscleFilters)
-              .padding(.top, 10)
-            FiltersSectionView(showFilters: $showWorkoutFilters, selectedFilters: $selectedWorkoutFilters, title: "Workout Types", filters: workoutFilters)
-            FiltersSectionView(showFilters: $showDifficultyFilters, selectedFilters: $selectedDifficultyFilters, title: "Difficulty", filters: difficultyFilters)
+            FiltersSectionView(showFilters: $viewModel.showMuscleFilters, selectedFilters: $viewModel.selectedMuscleFilters, title: "Muscles", filters: muscleFilters)
+            FiltersSectionView(showFilters: $viewModel.showWorkoutFilters, selectedFilters: $viewModel.selectedWorkoutFilters, title: "Workout Types", filters: workoutFilters)
+            FiltersSectionView(showFilters: $viewModel.showDifficultyFilters, selectedFilters: $viewModel.selectedDifficultyFilters, title: "Difficulty", filters: difficultyFilters)
             durationSection
-            FiltersSectionView(showFilters: $showEquipmentFilter, selectedFilters: $selectedWorkoutFilters, title: "Equipment", filters: equipmentFilters)
+            FiltersSectionView(showFilters: $viewModel.showEquipmentFilter, selectedFilters: $viewModel.selectedWorkoutFilters, title: "Equipment", filters: equipmentFilters)
           }
           .padding(.top, 10)
         }
@@ -93,25 +80,25 @@ struct SearchFilterView: View {
   @ViewBuilder
   private var durationSection: some View {
     VStack {
-        Button {
-          showDurationFilter.toggle()
-        } label: {
-          HStack {
-            Text("Duration")
-              .font(.custom(AppFont.bold, size: 18))
-            Spacer()
-            Image(systemName: showDurationFilter ? "chevron.up" : "chevron.down")
-          }
-          .foregroundStyle(.black)
+      Button {
+        viewModel.showDurationFilter.toggle()
+      } label: {
+        HStack {
+          Text("Duration")
+            .font(.custom(AppFont.bold, size: 18))
+          Spacer()
+          Image(systemName: viewModel.showDurationFilter ? "chevron.up" : "chevron.down")
         }
-      }
-      
-      if showDurationFilter {
-        Slider(value: $selectedDuration)
-          .tint(Color.appColor(with: .customRed))
-        Text("\(selectedDuration)")
+        .foregroundStyle(.black)
       }
     }
+    
+    if viewModel.showDurationFilter {
+      Slider(value: $viewModel.selectedDuration)
+        .tint(Color.appColor(with: .customRed))
+      Text("\(viewModel.selectedDuration)")
+    }
+  }
   
   private var backButton: some View {
     Button {
@@ -125,18 +112,12 @@ struct SearchFilterView: View {
   
   private var resetButton: some View {
     Button {
-      resetFilters()
+      viewModel.resetFilters()
     } label: {
       Text("Reset")
         .foregroundStyle(.black)
         .font(.custom(AppFont.regular, size: 15))
     }
-  }
-  
-  private func resetFilters() {
-    selectedMuscleFilters = []
-    selectedWorkoutFilters = []
-    selectedDifficultyFilters = []
   }
 }
 

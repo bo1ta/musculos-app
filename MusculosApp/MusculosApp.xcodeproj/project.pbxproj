@@ -48,6 +48,7 @@
 		BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */; };
 		BC3FB1042A89C56800C3F9B1 /* ExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB1032A89C56800C3F9B1 /* ExerciseView.swift */; };
 		BC4326812AFC017900A2D5A1 /* ExerciseFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4326802AFC017900A2D5A1 /* ExerciseFeedView.swift */; };
+		BC43D33B2B6EAD8D008C1062 /* SearchFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D33A2B6EAD8D008C1062 /* SearchFilterViewModel.swift */; };
 		BC5834182B1BFBCF00BD7690 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = BC5834172B1BFBCF00BD7690 /* Functions */; };
 		BC58341A2B1BFBCF00BD7690 /* GoTrue in Frameworks */ = {isa = PBXBuildFile; productRef = BC5834192B1BFBCF00BD7690 /* GoTrue */; };
 		BC58341C2B1BFBCF00BD7690 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = BC58341B2B1BFBCF00BD7690 /* PostgREST */; };
@@ -214,6 +215,7 @@
 		BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkButton.swift; sourceTree = "<group>"; };
 		BC3FB1032A89C56800C3F9B1 /* ExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseView.swift; sourceTree = "<group>"; };
 		BC4326802AFC017900A2D5A1 /* ExerciseFeedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseFeedView.swift; sourceTree = "<group>"; };
+		BC43D33A2B6EAD8D008C1062 /* SearchFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterViewModel.swift; sourceTree = "<group>"; };
 		BC5834232B1C00AA00BD7690 /* SupabaseWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseWrapper.swift; sourceTree = "<group>"; };
 		BC5924FE2A5C527F000F1941 /* ButtonHorizontalStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonHorizontalStackView.swift; sourceTree = "<group>"; };
 		BC5925002A5C8B72000F1941 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
@@ -475,7 +477,7 @@
 			isa = PBXGroup;
 			children = (
 				BC261AB12B6D71BC0018E21F /* DashboardView.swift */,
-				BC261AB72B6DA0EF0018E21F /* SearchFilterView.swift */,
+				BC43D3392B6EAD77008C1062 /* Search Filter */,
 				BC261AB92B6DAF490018E21F /* Components */,
 			);
 			path = Dashboard;
@@ -570,6 +572,15 @@
 				BC3FB0FA2A899A8500C3F9B1 /* EqualWidthHStack.swift */,
 			);
 			path = Layout;
+			sourceTree = "<group>";
+		};
+		BC43D3392B6EAD77008C1062 /* Search Filter */ = {
+			isa = PBXGroup;
+			children = (
+				BC261AB72B6DA0EF0018E21F /* SearchFilterView.swift */,
+				BC43D33A2B6EAD8D008C1062 /* SearchFilterViewModel.swift */,
+			);
+			path = "Search Filter";
 			sourceTree = "<group>";
 		};
 		BC5834252B1CE34500BD7690 /* Main */ = {
@@ -1282,6 +1293,7 @@
 				BCFBB7772A59D25300896C3C /* CurrentWorkoutCardView.swift in Sources */,
 				BCA24C182B6C5ABE00124EC3 /* UserProfile+CoreDataProperties.swift in Sources */,
 				BCE417102A7D73380088D975 /* AddTabBarButtonView.swift in Sources */,
+				BC43D33B2B6EAD8D008C1062 /* SearchFilterViewModel.swift in Sources */,
 				BC3FB0FB2A899A8500C3F9B1 /* EqualWidthHStack.swift in Sources */,
 				BC3FB0EC2A85565400C3F9B1 /* View+Extension.swift in Sources */,
 				BCF86C422A3678E4003293A4 /* ProgressBarView.swift in Sources */,
