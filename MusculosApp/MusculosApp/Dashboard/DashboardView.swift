@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DashboardView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize: CGSize
+  @EnvironmentObject private var userStore: UserStore
   @State private var selectedSection: CategorySection = .discover
   @State private var searchQuery: String = ""
   @State private var showFilterView: Bool = false
@@ -29,9 +30,16 @@ struct DashboardView: View {
     .popover(isPresented: $showFilterView, content: {
       SearchFilterView()
     })
+    .task {
+      await userStore.fetchUserProfile()
+    }
+    .overlay(content: {
+      if userStore.isLoading {
+        LoadingOverlayView()
+      }
+    })
     .background(Image("white-patterns-background").resizable(resizingMode: .tile).opacity(0.1))
     .ignoresSafeArea()
-//    .frame(width: mainWindowSize.width, height: mainWindowSize.height)
   }
   
   // MARK: - Views
@@ -55,8 +63,10 @@ struct DashboardView: View {
                 Text("Hello,")
                   .font(.custom(AppFont.bold, size: 20))
                   
-                Text("Alexandru")
-                  .font(.custom(AppFont.regular, size: 15))
+                if let userProfile = userStore.currentUserProfile {
+                  Text(userProfile.fullName ?? userProfile.username ?? "champ")
+                    .font(.custom(AppFont.regular, size: 15))
+                }
               }
               .foregroundStyle(.black)
             }
@@ -160,7 +170,7 @@ struct DashboardView: View {
 }
 
 #Preview {
-  DashboardView()
+  DashboardView().environmentObject(UserStore())
 }
 
 extension DashboardView {

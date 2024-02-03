@@ -11,7 +11,7 @@ import Supabase
 
 
 class UserStore: ObservableObject {
-  @Published var currentPerson: Person? = nil
+  @Published var currentUserProfile: UserProfile? = nil
   @Published var error: Error? = nil
   @Published var isLoading: Bool = false
   
@@ -84,5 +84,16 @@ extension UserStore {
         MusculosLogger.logError(error: error, message: "Sign up failed", category: .supabase)
       }
     }
+  }
+}
+
+// MARK: - Core Data
+
+extension UserStore {
+  @MainActor
+  func fetchUserProfile() async {
+    isLoading = true
+    currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)
+    isLoading = false
   }
 }
