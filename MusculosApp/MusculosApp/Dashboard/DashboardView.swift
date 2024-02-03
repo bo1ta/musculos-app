@@ -17,7 +17,7 @@ struct DashboardView: View {
   var body: some View {
     VStack {
       header
-      ScrollView {
+      ScrollView(showsIndicators: false) {
         ProgressCardView(title: "You've completed 3 muscles", description: "75% of your weekly muscle building goal", progress: 0.75)
           .padding([.leading, .trailing], 10)
           .padding(.top, 20)

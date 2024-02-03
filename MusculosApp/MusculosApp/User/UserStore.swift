@@ -92,8 +92,6 @@ extension UserStore {
 extension UserStore {
   @MainActor
   func fetchUserProfile() async {
-    isLoading = true
     currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)
-    isLoading = false
   }
 }

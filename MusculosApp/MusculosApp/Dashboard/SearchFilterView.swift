@@ -11,19 +11,22 @@ struct SearchFilterView: View {
   @Environment(\.dismiss) private var dismiss
   
   @State private var searchQuery: String = ""
+
   @State private var showMuscleFilters: Bool = true
   @State private var showWorkoutFilters: Bool = true
   @State private var showDifficultyFilters: Bool = true
-  @State private var showWorkoutDuration: Bool = false
-  @State private var showEquipment: Bool = false
-  
-  private var muscleFilters: [String] = ["Abs", "Shoulders", "Back", "Quadriceps", "Triceps", "Chest", "Lower Back", "Calves", "Hamstrings"]
-  private var workoutFilters: [String] = ["Bodyweight", "Weighted Exercise", "Stretching", "Yoga", ]
-  private var difficultyFilters: [String] = ["Easy", "Medium", "Hard", "Very Hard"]
+  @State private var showDurationFilter: Bool = true
+  @State private var showEquipmentFilter: Bool = true
   
   @State private var selectedMuscleFilters: [String] = []
   @State private var selectedWorkoutFilters: [String] = []
   @State private var selectedDifficultyFilters: [String] = []
+  @State private var selectedDuration: Float = 0
+  
+  private var muscleFilters: [String] = ["Abs", "Shoulders", "Back", "Quadriceps", "Triceps", "Chest", "Lower Back", "Calves", "Hamstrings"]
+  private var workoutFilters: [String] = ["Bodyweight", "Weighted Exercise", "Stretching", "Yoga", ]
+  private var difficultyFilters: [String] = ["Beginner", "Intermediate", "Expert"]
+  private var equipmentFilters: [String] = ["body only", "machine", "other", "foam roll", "kettlebells", "dumbbell", "cable", "barbell", "bands", "medicine ball", "exercise ball", "e-z curl bar"]
   
   var body: some View {
     VStack(spacing: 10) {
@@ -32,16 +35,22 @@ struct SearchFilterView: View {
       VStack {
         CustomTextFieldView(text: $searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
           .shadow(radius: 2, y: 1)
-        VStack(spacing: 20) {
-          FiltersSectionView(showFilters: $showMuscleFilters, selectedFilters: $selectedMuscleFilters, title: "Muscles", filters: muscleFilters)
-            .padding(.top, 10)
-          FiltersSectionView(showFilters: $showWorkoutFilters, selectedFilters: $selectedWorkoutFilters, title: "Workout Types", filters: workoutFilters)
-          FiltersSectionView(showFilters: $showDifficultyFilters, selectedFilters: $selectedDifficultyFilters, title: "Difficulty", filters: difficultyFilters)
+        ScrollView {
+          VStack(spacing: 20) {
+            FiltersSectionView(showFilters: $showMuscleFilters, selectedFilters: $selectedMuscleFilters, title: "Muscles", filters: muscleFilters)
+              .padding(.top, 10)
+            FiltersSectionView(showFilters: $showWorkoutFilters, selectedFilters: $selectedWorkoutFilters, title: "Workout Types", filters: workoutFilters)
+            FiltersSectionView(showFilters: $showDifficultyFilters, selectedFilters: $selectedDifficultyFilters, title: "Difficulty", filters: difficultyFilters)
+            durationSection
+            FiltersSectionView(showFilters: $showEquipmentFilter, selectedFilters: $selectedWorkoutFilters, title: "Equipment", filters: equipmentFilters)
+          }
+          .padding(.top, 10)
         }
-        .padding(.top, 10)
+        .scrollIndicators(.hidden)
+        .padding([.leading, .trailing], 10)
+        .padding()
+        Spacer()
       }
-      .padding([.leading, .trailing], 10)
-      Spacer()
     }
     .safeAreaInset(edge: .bottom, content: {
       Button(action: {
@@ -79,6 +88,29 @@ struct SearchFilterView: View {
         }
         .padding()
       }
+  }
+  
+  private var durationSection: some View {
+    VStack {
+      HStack {
+        Text("Duration")
+          .font(.custom(AppFont.bold, size: 18))
+        Spacer()
+        
+        Button {
+          showDurationFilter.toggle()
+        } label: {
+          Image(systemName: showDurationFilter ? "chevron.up" : "chevron.down")
+            .foregroundStyle(.black)
+        }
+      }
+      
+      if showDurationFilter {
+        Slider(value: $selectedDuration)
+          .tint(Color.appColor(with: .customRed))
+        Text("\(selectedDuration)")
+      }
+    }
   }
   
   private var backButton: some View {

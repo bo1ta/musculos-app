@@ -410,11 +410,11 @@
 		BC1160CE2A2CFB830028D8FC /* MusculosApp */ = {
 			isa = PBXGroup;
 			children = (
-				BC261AB02B6D71A90018E21F /* Dashboard */,
 				BC5834252B1CE34500BD7690 /* Main */,
 				BCA24C042B6AFF5100124EC3 /* User */,
 				BC10E42C2A3B8AB00008A72E /* Authentication */,
 				BCA24C052B6AFF7000124EC3 /* Onboarding */,
+				BC261AB02B6D71A90018E21F /* Dashboard */,
 				BC0171052AEC6A45005876EE /* Home */,
 				BCA87E532AE83B0A00453E4B /* Challenge */,
 				BC5BACDA2ABB7596003C880E /* Anatomy */,
@@ -475,7 +475,6 @@
 			isa = PBXGroup;
 			children = (
 				BC261AB12B6D71BC0018E21F /* DashboardView.swift */,
-				BC261AB52B6D75BE0018E21F /* ProgressCardView.swift */,
 				BC261AB72B6DA0EF0018E21F /* SearchFilterView.swift */,
 				BC261AB92B6DAF490018E21F /* Components */,
 			);
@@ -486,6 +485,7 @@
 			isa = PBXGroup;
 			children = (
 				BC261ABA2B6DAF600018E21F /* FiltersSectionView.swift */,
+				BC261AB52B6D75BE0018E21F /* ProgressCardView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
