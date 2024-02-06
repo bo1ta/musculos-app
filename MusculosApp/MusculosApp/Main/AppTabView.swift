@@ -19,7 +19,7 @@ struct AppTabView: View {
       case .dashboard:
         HomeView(challenge: MockConstants.challenge)
       case .workout:
-        ExerciseFeedView()
+        EmptyView()
       case .add:
         DashboardView()
       }

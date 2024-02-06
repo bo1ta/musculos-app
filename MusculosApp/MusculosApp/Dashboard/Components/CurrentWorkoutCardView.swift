@@ -42,14 +42,9 @@ struct CurrentWorkoutCardView: View {
   
   @ViewBuilder
   private var backgroundView: some View {
-    if let gifUrl = URL(string: exercise.gifUrl) {
-      if isGif {
-        GIFImageViewRepresentable(urlType: .url(gifUrl))
-          .frame(width: cardWidth, height: cardHeight)
-      } else {
-        AsyncImage(url: gifUrl)
-          .frame(width: cardWidth, height: cardHeight)
-      }
+    if let imageUrl = exercise.imageUrl {
+      AsyncImage(url: imageUrl)
+        .frame(width: cardWidth, height: cardHeight)
     } else {
       Color.black
         .frame(width: 700, height: 700)
@@ -68,9 +63,11 @@ struct CurrentWorkoutCardView: View {
             Text(exercise.name)
               .font(.custom(AppFont.bold, size: 18))
               .foregroundStyle(.black)
-            Text(exercise.equipment)
-              .font(.custom(AppFont.regular, size: 15))
-              .foregroundStyle(.black)
+            if let equipment = exercise.equipment {
+              Text(equipment)
+                .font(.custom(AppFont.regular, size: 15))
+                .foregroundStyle(.black)
+            }
           }
           Spacer()
         }
@@ -97,7 +94,7 @@ struct CurrentWorkoutCardView: View {
 
 struct WorkoutCardView_Preview: PreviewProvider {
   static var previews: some View {
-    CurrentWorkoutCardView(exercise: Exercise(bodyPart: "back", equipment: "dumbbell", gifUrl: "https://v2.exercisedb.io/image/qr3qX7hFMVj2ZT", id: "1", name: "Back workout", target: "back", secondaryMuscles: ["back", "chest"], instructions: ["Get up", "Get down"]))
+    CurrentWorkoutCardView(exercise: Exercise(id: UUID(), primaryMuscles: ["back", "shoulder"], secondaryMuscles: ["back", "chest"], equipment: "dumbbell", instructions: ["Get up", "Get down"], name: "Back workout"))
       .previewLayout(.sizeThatFits)
   }
 }

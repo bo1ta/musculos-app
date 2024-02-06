@@ -10,9 +10,15 @@ import SwiftUI
 struct DashboardView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize: CGSize
   @EnvironmentObject private var userStore: UserStore
+  @EnvironmentObject private var exerciseStore: ExerciseStore
+  
   @State private var selectedSection: CategorySection = .discover
   @State private var searchQuery: String = ""
   @State private var showFilterView: Bool = false
+  
+  private var shouldShowLoadingOverlay: Bool {
+    exerciseStore.isLoading || userStore.isLoading
+  }
   
   var body: some View {
     VStack {
@@ -33,12 +39,18 @@ struct DashboardView: View {
     .task {
       await userStore.fetchUserProfile()
     }
+    .onAppear(perform: {
+      exerciseStore.loadExercises()
+    })
+    .onDisappear(perform: {
+      exerciseStore.cleanUp()
+    })
+    .background(Image("white-patterns-background").resizable(resizingMode: .tile).opacity(0.1))
     .overlay(content: {
-      if userStore.isLoading {
+      if shouldShowLoadingOverlay {
         LoadingOverlayView()
       }
     })
-    .background(Image("white-patterns-background").resizable(resizingMode: .tile).opacity(0.1))
     .ignoresSafeArea()
   }
   
@@ -62,11 +74,8 @@ struct DashboardView: View {
               Group {
                 Text("Hello,")
                   .font(.custom(AppFont.bold, size: 20))
-                  
-                if let userProfile = userStore.currentUserProfile {
-                  Text(userProfile.fullName ?? userProfile.username ?? "champ")
-                    .font(.custom(AppFont.regular, size: 15))
-                }
+                Text(userStore.displayName)
+                  .font(.custom(AppFont.regular, size: 15))
               }
               .foregroundStyle(.black)
             }
@@ -90,14 +99,18 @@ struct DashboardView: View {
       Text("Most popular")
         .font(.custom(AppFont.bold, size: 18))
       ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 20) {
-          CurrentWorkoutCardView(exercise: MockConstants.exercise)
-          CurrentWorkoutCardView(exercise: MockConstants.exercise)
-          CurrentWorkoutCardView(exercise: MockConstants.exercise)
-        }
+        exerciseCardsStack
       }
     }
     .padding()
+  }
+  
+  private var exerciseCardsStack: some View {
+    HStack(spacing: 20) {
+      ForEach(exerciseStore.results, id: \.id) { exercise in
+        CurrentWorkoutCardView(exercise: exercise)
+      }
+    }
   }
   
   private var quickWorkoutsSection: some View {
@@ -106,11 +119,7 @@ struct DashboardView: View {
       Text("Quick muscle-building workouts")
         .font(.custom(AppFont.bold, size: 18))
       ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 20) {
-          CurrentWorkoutCardView(exercise: MockConstants.exercise, cardWidth: smallCardWidth)
-          CurrentWorkoutCardView(exercise: MockConstants.exercise, cardWidth: smallCardWidth)
-          CurrentWorkoutCardView(exercise: MockConstants.exercise, cardWidth: smallCardWidth)
-        }
+        
       }
     }
     .padding()

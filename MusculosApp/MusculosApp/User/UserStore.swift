@@ -39,6 +39,10 @@ class UserStore: ObservableObject {
     self.isOnboarded = UserDefaultsWrapper.shared.getBool(UserDefaultsKey.isOnboarded)
   }
   
+  var displayName: String {
+    currentUserProfile?.fullName ?? currentUserProfile?.username ?? "champ"
+  }
+  
   func cancelTask() {
     authTask?.cancel()
   }

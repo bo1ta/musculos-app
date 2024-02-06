@@ -26,6 +26,7 @@ public class UIConstants: NSObject {
 public class SupabaseConstants: NSObject {
   enum Bucket: String {
     case exerciseImage = "exercise_image"
+    case workoutImage = "workout_image"
   }
   
   enum Table: String {
