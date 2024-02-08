@@ -23,10 +23,10 @@ struct SearchFilterView: View {
         ScrollView {
           VStack(spacing: 20) {
             FiltersSectionView(showFilters: $viewModel.showMuscleFilters, selectedFilters: $viewModel.selectedMuscleFilters, title: "Muscles", filters: viewModel.muscleFilters)
-            FiltersSectionView(showFilters: $viewModel.showWorkoutFilters, selectedFilters: $viewModel.selectedWorkoutFilters, title: "Workout Types", filters: viewModel.categoryFilters)
-            FiltersSectionView(showFilters: $viewModel.showDifficultyFilters, selectedFilters: $viewModel.selectedDifficultyFilters, title: "Difficulty", filters: viewModel.levelFilters)
+            FiltersSectionView(showFilters: $viewModel.showWorkoutFilters, selectedFilters: $viewModel.selectedCategoryFilters, title: "Workout Types", filters: viewModel.categoryFilters)
+            FiltersSectionView(showFilters: $viewModel.showDifficultyFilters, selectedFilters: $viewModel.selectedDifficultyFilters, title: "Difficulty", filters: viewModel.levelFilters, isSingleSelect: true)
             durationSection
-            FiltersSectionView(showFilters: $viewModel.showEquipmentFilter, selectedFilters: $viewModel.selectedWorkoutFilters, title: "Equipment", filters: viewModel.equipmentFilters)
+            FiltersSectionView(showFilters: $viewModel.showEquipmentFilter, selectedFilters: $viewModel.selectedCategoryFilters, title: "Equipment", filters: viewModel.equipmentFilters)
           }
           .padding(.top, 10)
         }
@@ -38,8 +38,7 @@ struct SearchFilterView: View {
     }
     .safeAreaInset(edge: .bottom, content: {
       Button(action: {
-        let exerciseFilter = ExerciseFilter.equipmentType(viewModel.selectedWorkoutFilters.first!)
-        exerciseStore.loadFilteredExercises(by: exerciseFilter.buildFilterText())
+       searchFilters()
         dismiss()
       }, label: {
         Text("Search")
@@ -118,32 +117,26 @@ struct SearchFilterView: View {
         .font(.custom(AppFont.regular, size: 15))
     }
   }
+  
+  private func searchFilters() {
+    var filters: [String: [String]] = [:]
+    if viewModel.selectedCategoryFilters.count > 0 {
+      filters["category"] = viewModel.selectedCategoryFilters
+    }
+    if viewModel.selectedMuscleFilters.count > 0 {
+      filters["muscles"] = viewModel.selectedMuscleFilters
+    }
+    if viewModel.selectedDifficultyFilters.count > 0 {
+      filters["level"] = viewModel.selectedDifficultyFilters
+    }
+    if viewModel.selectedEquipmentFilters.count > 0 {
+      filters["equipment"] = viewModel.selectedEquipmentFilters
+    }
+    
+    exerciseStore.loadFilteredExercises(with: filters)
+  }
 }
 
 #Preview {
   SearchFilterView()
-}
-
-enum ExerciseFilter {
-  case muscleGroup(String)
-  case equipmentType(String)
-  case primaryMuscles([String])
-  
-  func buildFilterText() -> String {
-    switch self {
-    case .muscleGroup(let muscle):
-      return "{muscle_group = '\(muscle)'}"
-    case .equipmentType(let equipment):
-      return equipment
-    case .primaryMuscles(let muscles):
-      return "{\(muscles.map { "\($0.lowercased())" }.joined(separator: ", "))}"
-    }
-  }
-}
-
-class FilterBuilder {
-  static func buildFilter(filters: [ExerciseFilter]) -> String {
-    let filterTexts = filters.map { $0.buildFilterText() }
-    return filterTexts.joined(separator: " AND ")
-  }
 }

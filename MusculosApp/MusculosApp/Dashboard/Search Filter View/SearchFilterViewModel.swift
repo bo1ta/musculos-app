@@ -12,7 +12,8 @@ import Combine
 class SearchFilterViewModel: ObservableObject {
   @Published var searchQuery: String = ""
   @Published var selectedMuscleFilters: [String] = []
-  @Published var selectedWorkoutFilters: [String] = []
+  @Published var selectedCategoryFilters: [String] = []
+  @Published var selectedEquipmentFilters: [String] = []
   @Published var selectedDifficultyFilters: [String] = []
   @Published var selectedDuration: Float = 0
   
@@ -30,14 +31,14 @@ class SearchFilterViewModel: ObservableObject {
   
   func resetFilters() {
     selectedMuscleFilters = []
-    selectedWorkoutFilters = []
+    selectedCategoryFilters = []
     selectedDifficultyFilters = []
   }
 
   private var shouldHandleSearch: Bool {
     searchQuery.count > 0 &&
     selectedMuscleFilters.count > 0 &&
-    selectedWorkoutFilters.count > 0 &&
+    selectedCategoryFilters.count > 0 &&
     selectedDifficultyFilters.count > 0 &&
     selectedDuration > 0
   }

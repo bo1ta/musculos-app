@@ -10,8 +10,8 @@ import Supabase
 
 protocol ExerciseModuleProtocol {
   func getExercises() async throws -> [Exercise]
-  func getFilteredExercises(filter: String) async throws -> [Exercise]
-  func loadImageUrl(for exercises: [Exercise]) async throws -> [Exercise] 
+  func getFilteredExercises(filters: [String: [String]]) async throws -> [Exercise]
+  func loadImageUrl(for exercises: [Exercise]) async throws -> [Exercise]
   func getImageUrl(exercise: Exercise) async -> URL?
 }
 
@@ -46,13 +46,29 @@ struct ExerciseModule: ExerciseModuleProtocol {
     }
   }
   
-  func getFilteredExercises(filter: String) async throws -> [Exercise] {
-    let exercises: [Exercise] = try await SupabaseWrapper.shared.database
+  func getFilteredExercises(filters: [String: [String]]) async throws -> [Exercise] {
+    var query = await SupabaseWrapper.shared.database
       .from(SupabaseConstants.Table.exercises.rawValue)
       .select()
-      .eq("equipment", value: filter)
-      .execute()
-      .value
+    
+    if let equipment = filters["equipment"] {
+      query = query.filter("equipment", operator: .cs, value: createFilterQueryString(equipment))
+    }
+    if let muscles = filters["muscles"] {
+      query = query.filter("primary_muscles", operator: .cs, value: createFilterQueryString(muscles))
+    }
+    if let category = filters["category"] {
+      query = query.filter("category", operator: .cs, value: createFilterQueryString(category))
+    }
+    if let level = filters["level"]?.first {
+      query = query.eq("level", value: level)
+    }
+
+    let exercises: [Exercise] = try await query.execute().value
     return loadImageUrl(for: exercises)
+  }
+  
+  private func createFilterQueryString(_ list: [String]) -> URLQueryRepresentable {
+    return StringListQueryRepresentable(list: list)
   }
 }

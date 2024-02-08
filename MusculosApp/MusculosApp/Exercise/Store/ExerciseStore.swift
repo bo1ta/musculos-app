@@ -37,7 +37,7 @@ class ExerciseStore: ObservableObject {
     }
   }
   
-  func loadFilteredExercises(by filter: String) {
+  func loadFilteredExercises(with filters: [String: [String]]) {
     filterExercisesTask = Task { @MainActor [weak self] in
       guard let self else { return }
       
@@ -45,8 +45,7 @@ class ExerciseStore: ObservableObject {
       defer { isLoading = false }
       
       do {
-        let someresults = try await self.module.getFilteredExercises(filter: filter)
-        self.results = someresults
+        self.results = try await self.module.getFilteredExercises(filters: filters)
       } catch {
         self.error = error
       }

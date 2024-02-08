@@ -13,6 +13,7 @@ struct FiltersSectionView: View {
   
   var title: String
   var filters: [String]
+  var isSingleSelect: Bool = false
   
   var body: some View {
     VStack {
@@ -23,6 +24,7 @@ struct FiltersSectionView: View {
         HStack {
           Text(title)
             .font(.custom(AppFont.bold, size: 18))
+            .frame(maxWidth: .infinity)
           Spacer()
           Image(systemName: showFilters ? "chevron.up" : "chevron.down")
         }
@@ -33,17 +35,29 @@ struct FiltersSectionView: View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 5) {
           ForEach(filters, id: \.self) { filter in
             Button {
-              if let index = selectedFilters.firstIndex(of: filter) {
-                selectedFilters.remove(at: index)
-              } else {
-                selectedFilters.append(filter)
-              }
+              handleFilterTap(filter)
             } label: {
               Text(filter)
             }
             .buttonStyle(SelectedButton(isSelected: selectedFilters.contains(filter)))
           }
         }
+      }
+    }
+  }
+  
+  private func handleFilterTap(_ filter: String) {
+    if let index = selectedFilters.firstIndex(of: filter) {
+      if isSingleSelect {
+        selectedFilters = []
+      } else {
+        selectedFilters.remove(at: index)
+      }
+    } else {
+      if isSingleSelect {
+        selectedFilters = [filter]
+      } else {
+        selectedFilters.append(filter)
       }
     }
   }
