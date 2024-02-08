@@ -179,7 +179,7 @@ struct DashboardView: View {
 }
 
 #Preview {
-  DashboardView().environmentObject(UserStore())
+  DashboardView().environmentObject(UserStore()).environmentObject(ExerciseStore())
 }
 
 extension DashboardView {

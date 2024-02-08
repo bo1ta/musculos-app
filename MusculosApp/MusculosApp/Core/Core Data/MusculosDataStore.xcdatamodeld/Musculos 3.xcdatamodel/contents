@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22222" systemVersion="22G74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="ExerciseManagedObject" representedClassName=".ExerciseManagedObject" syncable="YES">
-        <attribute name="bodyPart" attributeType="String"/>
-        <attribute name="equipment" attributeType="String"/>
-        <attribute name="gifUrl" attributeType="String"/>
-        <attribute name="id" attributeType="String"/>
-        <attribute name="isFavorite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO"/>
-        <attribute name="name" attributeType="String"/>
-        <attribute name="target" attributeType="String"/>
-        <relationship name="instructions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StringHolder"/>
-        <relationship name="secondaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StringHolder"/>
-    </entity>
     <entity name="StringHolder" representedClassName="StringHolder" syncable="YES">
         <attribute name="string" attributeType="String"/>
     </entity>

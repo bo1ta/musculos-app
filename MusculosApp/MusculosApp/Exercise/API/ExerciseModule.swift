@@ -10,29 +10,31 @@ import Supabase
 
 protocol ExerciseModuleProtocol {
   func getExercises() async throws -> [Exercise]
-  func fetchWithImageUrl() async throws -> [Exercise]
+  func getFilteredExercises(filter: String) async throws -> [Exercise]
+  func loadImageUrl(for exercises: [Exercise]) async throws -> [Exercise] 
   func getImageUrl(exercise: Exercise) async -> URL?
 }
 
 struct ExerciseModule: ExerciseModuleProtocol {
   private let supabaseStorage = SupabaseWrapper.shared.storage
-
+  private let supabaseDatabase = SupabaseWrapper.shared.database
+  
   func getExercises() async throws -> [Exercise] {
-    return try await SupabaseWrapper.shared.database.rpc("get_exercises").execute().value
+    let exercises: [Exercise] = try await SupabaseWrapper.shared.database.rpc("get_exercises").execute().value
+    return loadImageUrl(for: exercises)
   }
   
-  func fetchWithImageUrl() async throws -> [Exercise] {
-    let exercises = try await getExercises()
-    return await exercises.asyncCompactMap { exercise in
-      let imageUrl = await getImageUrl(exercise: exercise)
-
+  func loadImageUrl(for exercises: [Exercise]) -> [Exercise] {
+    return exercises.compactMap { exercise in
+      let imageUrl = getImageUrl(exercise: exercise)
+      
       var newExercise = exercise
       newExercise.setImageUrl(imageUrl)
       return newExercise
     }
   }
   
-  func getImageUrl(exercise: Exercise) async -> URL? {
+  func getImageUrl(exercise: Exercise) -> URL? {
     do {
       let newFileName = "\(exercise.imagePath)/images/0.jpg"
       return try supabaseStorage
@@ -42,5 +44,15 @@ struct ExerciseModule: ExerciseModuleProtocol {
       MusculosLogger.logError(error: error, message: "signed url problem", category: .supabase)
       return nil
     }
+  }
+  
+  func getFilteredExercises(filter: String) async throws -> [Exercise] {
+    let exercises: [Exercise] = try await SupabaseWrapper.shared.database
+      .from(SupabaseConstants.Table.exercises.rawValue)
+      .select()
+      .eq("equipment", value: filter)
+      .execute()
+      .value
+    return loadImageUrl(for: exercises)
   }
 }

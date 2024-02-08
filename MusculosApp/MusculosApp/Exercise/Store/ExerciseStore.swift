@@ -12,22 +12,41 @@ class ExerciseStore: ObservableObject {
   @Published var isLoading: Bool = false
   @Published var results: [Exercise] = []
   @Published var error: Error? = nil
-
+  
   private let module: ExerciseModuleProtocol
   
-  private(set) var task: Task<Void, Never>?
-
+  private(set) var loadExercisesTask: Task<Void, Never>?
+  private(set) var filterExercisesTask: Task<Void, Never>?
+  
   init(module: ExerciseModuleProtocol = ExerciseModule()) {
     self.module = module
   }
   
   func loadExercises() {
-    task = Task { @MainActor [weak self] in
+    loadExercisesTask = Task { @MainActor [weak self] in
       guard let self else { return }
+      
       self.isLoading = true
       defer { self.isLoading = false }
+      
       do {
-        self.results = try await self.module.fetchWithImageUrl()
+        self.results = try await self.module.getExercises()
+      } catch {
+        self.error = error
+      }
+    }
+  }
+  
+  func loadFilteredExercises(by filter: String) {
+    filterExercisesTask = Task { @MainActor [weak self] in
+      guard let self else { return }
+      
+      self.isLoading = true
+      defer { isLoading = false }
+      
+      do {
+        let someresults = try await self.module.getFilteredExercises(filter: filter)
+        self.results = someresults
       } catch {
         self.error = error
       }
@@ -35,7 +54,10 @@ class ExerciseStore: ObservableObject {
   }
   
   func cleanUp() {
-    task?.cancel()
-    task = nil
+    filterExercisesTask?.cancel()
+    filterExercisesTask = nil
+    
+    loadExercisesTask?.cancel()
+    loadExercisesTask = nil
   }
 }

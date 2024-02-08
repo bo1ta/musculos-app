@@ -22,44 +22,18 @@ class SearchFilterViewModel: ObservableObject {
   @Published var showDurationFilter: Bool = true
   @Published var showEquipmentFilter: Bool = true
   
-  private var cancellables: Set<AnyCancellable> = []
-  private(set) var task: Task<Void, Never>?
-  
-  init() {
-    self.setupFiltersPublisher()
-  }
-  
-  private func setupFiltersPublisher() {
-    let selectedFilters = Publishers.CombineLatest4($selectedMuscleFilters, $selectedWorkoutFilters, $selectedDifficultyFilters, $selectedDuration)
-    selectedFilters.combineLatest($searchQuery)
-      .debounce(for: 1, scheduler: DispatchQueue.main)
-      .sink { [weak self] _ in
-        self?.resetTask()
-        self?.maybeHandleSearch()
-      }
-      .store(in: &cancellables)
-  }
+  let muscleFilters = MuscleType.allCases.map { $0.rawValue }
+  let forceFilters = ForceType.allCases.map { $0.rawValue }
+  let levelFilters = LevelType.allCases.map { $0.rawValue }
+  let equipmentFilters = EquipmentType.allCases.map { $0.rawValue }
+  let categoryFilters = CategoryType.allCases.map { $0.rawValue }
   
   func resetFilters() {
     selectedMuscleFilters = []
     selectedWorkoutFilters = []
     selectedDifficultyFilters = []
   }
-  
-  private func maybeHandleSearch() {
-    guard shouldHandleSearch else { return }
-    
-    task = Task { @MainActor [weak self] in
-      guard let self else { return }
-      print("ceva se intampla!")
-    }
-  }
-  
-  private func resetTask() {
-    task?.cancel()
-    task = nil
-  }
-  
+
   private var shouldHandleSearch: Bool {
     searchQuery.count > 0 &&
     selectedMuscleFilters.count > 0 &&
