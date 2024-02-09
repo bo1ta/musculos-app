@@ -15,6 +15,8 @@ struct DashboardView: View {
   @State private var searchQuery: String = ""
   @State private var showFilterView: Bool = false
   
+  @StateObject private var debouncedQueryObserver = DebouncedQueryObserver()
+  
   var body: some View {
     VStack {
       header
@@ -36,10 +38,8 @@ struct DashboardView: View {
       userStore.fetchUserProfile()
       exerciseStore.loadExercises()
     })
-    .onChange(of: searchQuery, perform: { query in
-      if query.count > 5 {
-        exerciseStore.searchFor(query: query)
-      }
+    .onChange(of: debouncedQueryObserver.debouncedQuery, perform: { query in
+      exerciseStore.searchFor(query: query)
     })
     .onDisappear(perform: {
       exerciseStore.cleanUp()
@@ -106,7 +106,7 @@ struct DashboardView: View {
   
   private var searchAndFilter: some View {
     HStack {
-      CustomTextFieldView(text: $searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
+      CustomTextFieldView(text: $debouncedQueryObserver.searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
         .shadow(radius: 2, y: 1)
       Button(action: {
         showFilterView = true

@@ -75,5 +75,8 @@ class ExerciseStore: ObservableObject {
     
     loadExercisesTask?.cancel()
     loadExercisesTask = nil
+    
+    searchTask?.cancel()
+    searchTask = nil
   }
 }
