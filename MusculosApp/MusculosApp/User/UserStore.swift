@@ -32,6 +32,7 @@ class UserStore: ObservableObject {
   
   private let module: UserModuleProtocol
   private(set) var authTask: Task<Void, Never>?
+  private(set) var fetchUserProfileTask: Task<Void, Never>?
   
   init(module: UserModuleProtocol = UserModule()) {
     self.module = module
@@ -94,8 +95,9 @@ extension UserStore {
 // MARK: - Core Data
 
 extension UserStore {
-  @MainActor
-  func fetchUserProfile() async {
-    currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)
+  func fetchUserProfile() {
+    fetchUserProfileTask = Task { @MainActor [weak self] in
+      self?.currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)
+    }
   }
 }

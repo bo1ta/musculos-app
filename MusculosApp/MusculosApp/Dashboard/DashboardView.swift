@@ -16,10 +16,6 @@ struct DashboardView: View {
   @State private var searchQuery: String = ""
   @State private var showFilterView: Bool = false
   
-  private var shouldShowLoadingOverlay: Bool {
-    exerciseStore.isLoading || userStore.isLoading
-  }
-  
   var body: some View {
     VStack {
       header
@@ -37,10 +33,8 @@ struct DashboardView: View {
     .popover(isPresented: $showFilterView, content: {
       SearchFilterView()
     })
-    .task {
-      await userStore.fetchUserProfile()
-    }
     .onAppear(perform: {
+      userStore.fetchUserProfile()
       exerciseStore.loadExercises()
     })
     .onChange(of: searchQuery, perform: { query in
@@ -53,7 +47,7 @@ struct DashboardView: View {
     })
     .background(Image("white-patterns-background").resizable(resizingMode: .tile).opacity(0.1))
     .overlay(content: {
-      if shouldShowLoadingOverlay {
+      if userStore.isLoading || exerciseStore.isLoading {
         LoadingOverlayView()
       }
     })
