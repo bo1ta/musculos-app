@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct DashboardView: View {
-  @Environment(\.mainWindowSize) private var mainWindowSize: CGSize
   @EnvironmentObject private var userStore: UserStore
   @EnvironmentObject private var exerciseStore: ExerciseStore
   
