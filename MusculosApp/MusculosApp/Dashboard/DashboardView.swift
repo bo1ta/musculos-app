@@ -27,10 +27,11 @@ struct DashboardView: View {
         ProgressCardView(title: "You've completed 3 muscles", description: "75% of your weekly muscle building goal", progress: 0.75)
           .padding([.leading, .trailing], 10)
           .padding(.top, 20)
-        categorySections
+        categoryTab
         searchAndFilter
-        mostPopularSection
-        quickWorkoutsSection
+
+        createWorkoutCardSection(title: "Most popular", exercises: exerciseStore.results)
+        createWorkoutCardSection(title: "Quick muscle-building workouts", exercises: exerciseStore.results, isSmallCard: true)
       }
     }
     .popover(isPresented: $showFilterView, content: {
@@ -99,38 +100,7 @@ struct DashboardView: View {
       }
   }
   
-  private var mostPopularSection: some View {
-    VStack(alignment: .leading) {
-      Text("Most popular")
-        .font(.custom(AppFont.bold, size: 18))
-      ScrollView(.horizontal, showsIndicators: false) {
-        exerciseCardsStack
-      }
-    }
-    .padding()
-  }
-  
-  private var exerciseCardsStack: some View {
-    HStack(spacing: 20) {
-      ForEach(exerciseStore.results, id: \.id) { exercise in
-        CurrentWorkoutCardView(exercise: exercise)
-      }
-    }
-  }
-  
-  private var quickWorkoutsSection: some View {
-    let smallCardWidth: CGFloat = 200
-    return VStack(alignment: .leading) {
-      Text("Quick muscle-building workouts")
-        .font(.custom(AppFont.bold, size: 18))
-      ScrollView(.horizontal, showsIndicators: false) {
-        
-      }
-    }
-    .padding()
-  }
-  
-  private var categorySections: some View {
+  private var categoryTab: some View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 50) {
         createSectionItem(category: .discover)
@@ -160,8 +130,28 @@ struct DashboardView: View {
     }
     .padding([.leading, .trailing], 10)
   }
+}
+
+// MARK: - Helper methods
+
+extension DashboardView {
+  private func createWorkoutCardSection(title: String,
+                                        exercises: [Exercise],
+                                        isSmallCard: Bool = false) -> some View {
+    VStack(alignment: .leading) {
+      Text(title)
+        .font(.custom(AppFont.bold, size: 18))
+      ScrollView(.horizontal, showsIndicators: false) {
+        HStack(spacing: 20) {
+          ForEach(exercises, id: \.id) { exercise in
+            CurrentWorkoutCardView(exercise: exercise, cardWidth: isSmallCard ? 200 : 300)
+          }
+        }
+      }
+    }
+    .padding()
+  }
   
-  @ViewBuilder
   private func createSectionItem(category: CategorySection) -> some View {
     Button(action: {
       selectedSection = category
