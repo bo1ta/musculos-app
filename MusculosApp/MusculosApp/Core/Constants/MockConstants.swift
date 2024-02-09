@@ -34,6 +34,4 @@ class MockConstants {
   ]
   
   // MARK: - Exercise
-  
-  static let exercise = Exercise(bodyPart: "back", equipment: "dumbbell", gifUrl: "https://v2.exercisedb.io/image/qr3qX7hFMVj2ZT", id: "1", name: "Back workout", target: "back", secondaryMuscles: [""], instructions: ["Get up", "When doing squats maintain your back in alignment, by keeping your chest up and your hips back.", "Engage your abs, loosen your shoulders and turn the rope only with your wrists, not the entire arms.", "Keep your breathing pattern as natural as possible and exhale as you jump. Maintain your back in alignment by keeping your chest up and your hips back"])
 }

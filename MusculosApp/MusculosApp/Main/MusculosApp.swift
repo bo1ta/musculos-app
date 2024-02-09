@@ -10,6 +10,8 @@ import SwiftUI
 @main
 struct MusculosApp: App {
   @ObservedObject private var userStore = UserStore()
+  @ObservedObject private var exerciseStore = ExerciseStore()
+
   let coreDataStack = CoreDataStack.shared
   let coreDataManager = CoreDataManager()
 
@@ -31,6 +33,7 @@ struct MusculosApp: App {
         }
       }
       .environmentObject(userStore)
+      .environmentObject(exerciseStore)
     }
   }
 }

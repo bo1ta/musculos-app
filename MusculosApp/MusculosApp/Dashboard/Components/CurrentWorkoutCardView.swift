@@ -11,42 +11,40 @@ struct CurrentWorkoutCardView: View {
   let exercise: Exercise
   let showDetails: Bool // there are some cases where we don't want to show the details like on ExerciseView
   let isGif: Bool
+  
+  private let cardHeight: CGFloat = 200
+  private var cardWidth: CGFloat
 
-  init(exercise: Exercise, showDetails: Bool = true, isGif: Bool = false) {
+  init(exercise: Exercise, showDetails: Bool = true, isGif: Bool = false, cardWidth: CGFloat = 300) {
     self.exercise = exercise
     self.showDetails = showDetails
     self.isGif = isGif
+    self.cardWidth = cardWidth
   }
 
   var body: some View {
     ZStack {
       backgroundView
       if showDetails {
-        VStack {
-          Spacer()
-          detailsPills
-          detailsRectangle
-        }
+        Spacer()
+        detailsRectangle
+          .frame(alignment: .bottom)
+          .padding(.top, 120)
       }
     }
     .cornerRadius(40)
     .padding()
-    .shadow(color: Color.black.opacity(0.6), radius: 4, x: 0, y: 2)
-    .frame(width: 360, height: 250)
+    .shadow(radius: 2)
+    .frame(width: cardWidth, height: cardHeight)
   }
   
   // MARK: - Views
   
   @ViewBuilder
   private var backgroundView: some View {
-    if let gifUrl = URL(string: exercise.gifUrl) {
-      if isGif {
-        GIFImageViewRepresentable(urlType: .url(gifUrl))
-          .frame(width: 360, height: 250)
-      } else {
-        AsyncImage(url: gifUrl)
-          .frame(width: 360, height: 250)
-      }
+    if let imageUrl = exercise.imageUrl {
+      AsyncImage(url: imageUrl)
+        .frame(width: cardWidth, height: cardHeight)
     } else {
       Color.black
         .frame(width: 700, height: 700)
@@ -55,24 +53,25 @@ struct CurrentWorkoutCardView: View {
   
   @ViewBuilder
   private var detailsRectangle: some View {
-    Rectangle()
-      .foregroundStyle(Color.black.opacity(0.9))
-      .frame(width: 360, height: 100)
+    RoundedRectangle(cornerRadius: 30)
+      .foregroundStyle(.white)
+      .shadow(radius: 40, y: 30)
+      .frame(width: cardWidth, height: 80)
       .overlay {
         HStack {
-          VStack {
+          VStack(alignment: .leading) {
             Text(exercise.name)
-              .font(.title3)
-              .fontWeight(.heavy)
-              .foregroundStyle(.white)
-              .shadow(radius: 1)
-            Text(exercise.equipment)
-              .font(.body)
-              .fontWeight(.regular)
-              .foregroundStyle(.white)
-              .shadow(radius: 1)
+              .font(.custom(AppFont.bold, size: 18))
+              .foregroundStyle(.black)
+            if let equipment = exercise.equipment {
+              Text(equipment)
+                .font(.custom(AppFont.regular, size: 15))
+                .foregroundStyle(.black)
+            }
           }
+          Spacer()
         }
+        .padding()
       }
   }
   
@@ -95,7 +94,7 @@ struct CurrentWorkoutCardView: View {
 
 struct WorkoutCardView_Preview: PreviewProvider {
   static var previews: some View {
-    CurrentWorkoutCardView(exercise: Exercise(bodyPart: "back", equipment: "dumbbell", gifUrl: "https://v2.exercisedb.io/image/qr3qX7hFMVj2ZT", id: "1", name: "Back workout", target: "back", secondaryMuscles: ["back", "chest"], instructions: ["Get up", "Get down"]))
+    CurrentWorkoutCardView(exercise: Exercise(id: UUID(), primaryMuscles: ["back", "shoulder"], secondaryMuscles: ["back", "chest"], equipment: "dumbbell", instructions: ["Get up", "Get down"], name: "Back workout"))
       .previewLayout(.sizeThatFits)
   }
 }

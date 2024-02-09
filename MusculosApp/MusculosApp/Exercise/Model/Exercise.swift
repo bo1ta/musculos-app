@@ -2,78 +2,43 @@
 //  Exercise.swift
 //  MusculosApp
 //
-//  Created by Solomon Alexandru on 26.09.2023.
+//  Created by Solomon Alexandru on 04.02.2024.
 //
 
 import Foundation
-import CoreData
 
 struct Exercise: Codable {
-  var exerciseId: Int?
-  var bodyPart: String
-  var equipment: String
-  var gifUrl: String
-  var id: String
-  var name: String
-  var target: String
+  var id: UUID
+  var primaryMuscles: [String]
   var secondaryMuscles: [String]
+  var force: ForceType?
+  var level: Level?
+  var equipment: String?
+  var category: String?
   var instructions: [String]
+  let name: String
+  var imageUrl: URL?
   
   enum CodingKeys: String, CodingKey {
-    case exerciseId = "exercise_id"
-    case bodyPart, equipment, gifUrl, id, name, target, secondaryMuscles, instructions
+    case id, force, level, equipment, category, instructions, name
+    case primaryMuscles = "primary_muscles"
+    case secondaryMuscles = "secondary_muscles"
   }
-}
-
-extension Exercise: DecodableModel {
-  init(from entity: ExerciseManagedObject) {
-    self.id = entity.id
-    self.name = entity.name
-    self.target = entity.target
-    self.bodyPart = entity.bodyPart
-    self.equipment = entity.equipment
-    self.gifUrl = entity.gifUrl
-
-    if let secondaryMuscles = entity.secondaryMuscles as? Set<StringHolder> {
-      self.secondaryMuscles = secondaryMuscles.map { $0.string }
-    } else {
-      self.secondaryMuscles = []
-    }
-
-    if let instructions = entity.instructions as? Set<StringHolder> {
-      self.instructions = instructions.map { $0.string }
-    } else {
-      self.instructions = []
-    }
+  
+  enum ForceType: String, Codable {
+    case pull, push, stay = "static"
+  }
+  
+  enum Level: String, Codable {
+    case intermediate, beginner, expert
   }
 
-  @discardableResult func toEntity(context: NSManagedObjectContext) -> ExerciseManagedObject {
-    let entity = ExerciseManagedObject(context: context)
-    entity.bodyPart = self.bodyPart
-    entity.equipment = self.equipment
-    entity.gifUrl = self.gifUrl
-    entity.id = self.id
-    entity.name = self.name
-    entity.target = self.target
-    entity.secondaryMuscles = toEntitySet(strings: self.secondaryMuscles, context: context) as NSSet
-    entity.instructions = toEntitySet(strings: self.instructions, context: context) as NSSet
-    entity.isFavorite = false
-    return entity
+  var imagePath: String {
+    let formatted = name.replacingOccurrences(of: " ", with: "_")
+    return formatted.replacingOccurrences(of: "/", with: "_")
   }
-
-  private func toEntitySet(strings: [String], context: NSManagedObjectContext) -> Set<StringHolder> {
-    return Set(strings.map { string in
-      let stringHolderEntity = StringHolder(context: context)
-      stringHolderEntity.string = string
-      return stringHolderEntity
-    })
-  }
-}
-
-extension Exercise: Identifiable { }
-
-extension Exercise: Hashable {
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(self.id)
+  
+  mutating func setImageUrl(_ imageUrl: URL?) {
+    self.imageUrl = imageUrl
   }
 }

@@ -11,7 +11,7 @@ import Supabase
 
 
 class UserStore: ObservableObject {
-  @Published var currentPerson: Person? = nil
+  @Published var currentUserProfile: UserProfile? = nil
   @Published var error: Error? = nil
   @Published var isLoading: Bool = false
   
@@ -32,11 +32,16 @@ class UserStore: ObservableObject {
   
   private let module: UserModuleProtocol
   private(set) var authTask: Task<Void, Never>?
+  private(set) var fetchUserProfileTask: Task<Void, Never>?
   
   init(module: UserModuleProtocol = UserModule()) {
     self.module = module
     self.isLoggedIn = UserDefaultsWrapper.shared.getBool(UserDefaultsKey.isAuthenticated)
     self.isOnboarded = UserDefaultsWrapper.shared.getBool(UserDefaultsKey.isOnboarded)
+  }
+  
+  var displayName: String {
+    currentUserProfile?.fullName ?? currentUserProfile?.username ?? "champ"
   }
   
   func cancelTask() {
@@ -83,6 +88,16 @@ extension UserStore {
         self.error = error
         MusculosLogger.logError(error: error, message: "Sign up failed", category: .supabase)
       }
+    }
+  }
+}
+
+// MARK: - Core Data
+
+extension UserStore {
+  func fetchUserProfile() {
+    fetchUserProfileTask = Task { @MainActor [weak self] in
+      self?.currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)
     }
   }
 }

@@ -19,9 +19,9 @@ struct AppTabView: View {
       case .dashboard:
         HomeView(challenge: MockConstants.challenge)
       case .workout:
-        ExerciseFeedView()
-      case .add:
         EmptyView()
+      case .add:
+        DashboardView()
       }
     }
     .environmentObject(tabBarSettings)

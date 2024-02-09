@@ -39,7 +39,7 @@ struct CustomTextFieldView: View {
       }
     }
     .padding()
-    .background(Capsule().fill(.white).shadow(radius: 2))
+    .background(Capsule().fill(.white))
   }
 }
 
