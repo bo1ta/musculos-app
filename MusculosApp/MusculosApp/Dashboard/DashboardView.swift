@@ -21,7 +21,7 @@ struct DashboardView: View {
     VStack {
       header
       ScrollView(showsIndicators: false) {
-        ProgressCardView(title: "You've completed 3 muscles", description: "75% of your weekly muscle building goal", progress: 0.75)
+        ProgressCardView(title: "You've completed 3 exercises", description: "75% of your weekly muscle building goal", progress: 0.75)
           .padding([.leading, .trailing], 10)
           .padding(.top, 20)
         categoryTabs
@@ -31,29 +31,35 @@ struct DashboardView: View {
         createWorkoutCardSection(title: "Quick muscle-building workouts", exercises: exerciseStore.results, isSmallCard: true)
       }
     }
-    .popover(isPresented: $showFilterView, content: {
-      SearchFilterView()
-    })
-    .onAppear(perform: {
+    .onChange(of: debouncedQueryObserver.debouncedQuery) { query in
+      exerciseStore.searchFor(query: query)
+    }
+    .onAppear {
       userStore.fetchUserProfile()
       exerciseStore.loadExercises()
-    })
-    .onChange(of: debouncedQueryObserver.debouncedQuery, perform: { query in
-      exerciseStore.searchFor(query: query)
-    })
-    .onDisappear(perform: {
+    }
+    .onDisappear {
       exerciseStore.cleanUp()
-    })
-    .background(Image("white-patterns-background").resizable(resizingMode: .tile).opacity(0.1))
-    .overlay(content: {
+    }
+    .popover(isPresented: $showFilterView) {
+      SearchFilterView()
+    }
+    .background(backgroundImage)
+    .overlay {
       if userStore.isLoading || exerciseStore.isLoading {
         LoadingOverlayView()
       }
-    })
+    }
     .ignoresSafeArea()
   }
   
   // MARK: - Views
+  
+  private var backgroundImage: some View {
+    Image("white-patterns-background")
+      .resizable(resizingMode: .tile)
+      .opacity(0.1)
+  }
   
   private var header: some View {
     Rectangle()
