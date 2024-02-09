@@ -24,7 +24,7 @@ struct DashboardView: View {
         ProgressCardView(title: "You've completed 3 muscles", description: "75% of your weekly muscle building goal", progress: 0.75)
           .padding([.leading, .trailing], 10)
           .padding(.top, 20)
-        categoryTab
+        categoryTabs
         searchAndFilter
 
         createWorkoutCardSection(title: "Most popular", exercises: exerciseStore.results)
@@ -93,12 +93,12 @@ struct DashboardView: View {
       }
   }
   
-  private var categoryTab: some View {
+  private var categoryTabs: some View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 50) {
-        createSectionItem(category: .discover)
-        createSectionItem(category: .workout)
-        createSectionItem(category: .myFavorites)
+        ForEach(CategorySection.allCases, id: \.title) { categorySection in
+          createSectionItem(category: categorySection)
+        }
       }
       .padding()
     }
@@ -171,7 +171,7 @@ extension DashboardView {
 }
 
 extension DashboardView {
-  enum CategorySection: String {
+  enum CategorySection: String, CaseIterable {
     case discover, workout, myFavorites
     
     var title: String {
