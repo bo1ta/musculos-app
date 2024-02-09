@@ -42,6 +42,11 @@ struct DashboardView: View {
     .onAppear(perform: {
       exerciseStore.loadExercises()
     })
+    .onChange(of: searchQuery, perform: { query in
+      if query.count > 5 {
+        exerciseStore.searchFor(query: query)
+      }
+    })
     .onDisappear(perform: {
       exerciseStore.cleanUp()
     })

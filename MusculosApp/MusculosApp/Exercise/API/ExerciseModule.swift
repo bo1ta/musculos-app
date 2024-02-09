@@ -13,6 +13,7 @@ protocol ExerciseModuleProtocol {
   func getFilteredExercises(filters: [String: [String]]) async throws -> [Exercise]
   func loadImageUrl(for exercises: [Exercise]) async throws -> [Exercise]
   func getImageUrl(exercise: Exercise) async -> URL?
+  func searchFor(query: String) async throws -> [Exercise]
 }
 
 struct ExerciseModule: ExerciseModuleProtocol {
@@ -65,6 +66,17 @@ struct ExerciseModule: ExerciseModuleProtocol {
     }
 
     let exercises: [Exercise] = try await query.execute().value
+    return loadImageUrl(for: exercises)
+  }
+  
+  func searchFor(query: String) async throws -> [Exercise] {
+    let exercises: [Exercise] = try await SupabaseWrapper.shared.database
+      .from(SupabaseConstants.Table.exercises.rawValue)
+      .select()
+      .textSearch("name", query: query, config: nil, type: .none)
+      .limit(10)
+      .execute()
+      .value
     return loadImageUrl(for: exercises)
   }
   
