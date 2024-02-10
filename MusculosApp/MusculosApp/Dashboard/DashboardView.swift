@@ -122,7 +122,7 @@ struct DashboardView: View {
   
   private var searchAndFilter: some View {
     HStack {
-      CustomTextFieldView(text: $debouncedQueryObserver.searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
+      RoundedTextField(text: $debouncedQueryObserver.searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
         .shadow(radius: 2, y: 1)
       Button(action: {
         showFilterView = true

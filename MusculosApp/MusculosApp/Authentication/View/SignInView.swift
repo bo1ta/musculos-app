@@ -51,8 +51,8 @@ struct SignInView: View {
           .font(.custom("Roboto-Regular", size: 25))
         Spacer()
       }
-      CustomTextFieldView(text: $email, textHint: "Email", systemImageName: "envelope.fill")
-      CustomTextFieldView(text: $password, textHint: "Password", systemImageName: "lock.fill", isSecureField: true)
+      RoundedTextField(text: $email, textHint: "Email", systemImageName: "envelope.fill")
+      RoundedTextField(text: $password, textHint: "Password", systemImageName: "lock.fill", isSecureField: true)
       
       maybeShowErrorText()
 

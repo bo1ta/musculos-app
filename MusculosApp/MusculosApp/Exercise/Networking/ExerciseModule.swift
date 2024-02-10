@@ -12,43 +12,42 @@ protocol ExerciseModuleProtocol {
   func getExercises() async throws -> [Exercise]
   func getFilteredExercises(filters: [String: [String]]) async throws -> [Exercise]
   func loadImageUrl(for exercises: [Exercise]) async throws -> [Exercise]
-  func getImageUrl(exercise: Exercise) async -> URL?
   func searchFor(query: String) async throws -> [Exercise]
 }
 
-struct ExerciseModule: ExerciseModuleProtocol {
-  private let supabaseStorage = SupabaseWrapper.shared.storage
-  private let supabaseDatabase = SupabaseWrapper.shared.database
-  
+struct ExerciseModule: ExerciseModuleProtocol, SupabaseModule {
   func getExercises() async throws -> [Exercise] {
-    let exercises: [Exercise] = try await SupabaseWrapper.shared.database.rpc("get_exercises").execute().value
-    return loadImageUrl(for: exercises)
+    let exercises: [Exercise] = try await supabaseDatabase.rpc("get_exercises").execute().value
+    return try await loadImageUrl(for: exercises)
   }
   
-  func loadImageUrl(for exercises: [Exercise]) -> [Exercise] {
-    return exercises.compactMap { exercise in
-      let imageUrl = getImageUrl(exercise: exercise)
-      
+  func loadImageUrl(for exercises: [Exercise]) async throws -> [Exercise] {
+    return try await exercises.asyncCompactMap { exercise in
       var newExercise = exercise
-      newExercise.setImageUrl(imageUrl)
+      
+      let imagesCount = try await getImagesCount(exercise)
+      let imagesPaths = exercise.getImagesPaths(imagesCount)
+      imagesPaths.forEach { path in
+        let imageUrl = getImageUrl(path: path)
+        newExercise.addImageUrl(imageUrl)
+      }
       return newExercise
     }
   }
   
-  func getImageUrl(exercise: Exercise) -> URL? {
+  func getImageUrl(path: String) -> URL? {
     do {
-      let newFileName = "\(exercise.imagePath)/images/0.jpg"
       return try supabaseStorage
         .from(SupabaseConstants.Bucket.workoutImage.rawValue)
-        .getPublicURL(path: newFileName)
+        .getPublicURL(path: path)
     } catch {
-      MusculosLogger.logError(error: error, message: "signed url problem", category: .supabase)
+      MusculosLogger.logError(error: error, message: "could not get image url", category: .supabase)
       return nil
     }
   }
   
   func getFilteredExercises(filters: [String: [String]]) async throws -> [Exercise] {
-    var query = await SupabaseWrapper.shared.database
+    var query = await supabaseDatabase
       .from(SupabaseConstants.Table.exercises.rawValue)
       .select()
     
@@ -66,21 +65,28 @@ struct ExerciseModule: ExerciseModuleProtocol {
     }
 
     let exercises: [Exercise] = try await query.execute().value
-    return loadImageUrl(for: exercises)
+    return try await loadImageUrl(for: exercises)
   }
   
   func searchFor(query: String) async throws -> [Exercise] {
-    let exercises: [Exercise] = try await SupabaseWrapper.shared.database
+    let exercises: [Exercise] = try await supabaseDatabase
       .from(SupabaseConstants.Table.exercises.rawValue)
       .select()
       .textSearch("name", query: query, config: nil, type: .none)
       .limit(10)
       .execute()
       .value
-    return loadImageUrl(for: exercises)
+    return try await loadImageUrl(for: exercises)
   }
   
   private func createFilterQueryString(_ list: [String]) -> URLQueryRepresentable {
     return StringListQueryRepresentable(list: list)
+  }
+  
+  private func getImagesCount(_ exercise: Exercise) async throws -> Int {
+    let files = try await supabaseStorage
+      .from(SupabaseConstants.Bucket.workoutImage.rawValue)
+      .list(path: exercise.imageFolder)
+    return files.count
   }
 }

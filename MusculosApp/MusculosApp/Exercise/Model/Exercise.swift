@@ -17,7 +17,10 @@ struct Exercise: Codable {
   var category: String?
   var instructions: [String]
   let name: String
-  var imageUrl: URL?
+  var imageUrl: URL? {
+    return images.first
+  }
+  var images: [URL] = []
   
   enum CodingKeys: String, CodingKey {
     case id, force, level, equipment, category, instructions, name
@@ -32,13 +35,30 @@ struct Exercise: Codable {
   enum Level: String, Codable {
     case intermediate, beginner, expert
   }
-
-  var imagePath: String {
-    let formatted = name.replacingOccurrences(of: " ", with: "_")
-    return formatted.replacingOccurrences(of: "/", with: "_")
+  
+  var imageFolder: String {
+    let formatted = name.replacingOccurrences(of: " ", with: "_").replacingOccurrences(of: "/", with: "_")
+    return  "\(formatted)/images"
   }
   
-  mutating func setImageUrl(_ imageUrl: URL?) {
-    self.imageUrl = imageUrl
+  var firstImagePath: String {
+    "\(imageFolder)/0.jpg"
+  }
+
+  func getImagesPaths(_ filesCount: Int) -> [String] {
+    var pathList: [String] = []
+    
+    if filesCount > 0 {
+      for i in 0...filesCount {
+        let imagePath = "\(imageFolder)/\(i).jpg"
+        pathList.append(imagePath)
+      }
+    }
+    return pathList
+  }
+  
+  mutating func addImageUrl(_ imageUrl: URL?) {
+    guard let imageUrl else { return }
+    images.append(imageUrl)
   }
 }
