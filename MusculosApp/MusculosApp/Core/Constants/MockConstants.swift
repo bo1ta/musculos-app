@@ -34,4 +34,5 @@ class MockConstants {
   ]
   
   // MARK: - Exercise
+  static let exercise = Exercise(id: UUID(), primaryMuscles: ["back", "shoulder"], secondaryMuscles: ["back", "chest"], equipment: "dumbbell", instructions: ["Get up", "Get down"], name: "Back workout", imageUrl: URL(string: "https://wqgqgfospzhwoqeqdzbo.supabase.co/storage/v1/object/public/workout_image/Ab_Roller/images/0.jpg?t=2024-02-09T21%3A26%3A22.329Z"))
 }

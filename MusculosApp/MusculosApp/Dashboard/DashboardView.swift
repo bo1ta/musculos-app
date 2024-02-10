@@ -13,44 +13,54 @@ struct DashboardView: View {
   
   @State private var selectedSection: CategorySection = .discover
   @State private var searchQuery: String = ""
+  
   @State private var showFilterView: Bool = false
+  @State private var showExerciseDetails: Bool = false
+  @State private var selectedExercise: Exercise? = nil
   
   @StateObject private var debouncedQueryObserver = DebouncedQueryObserver()
   
   var body: some View {
-    VStack {
-      header
-      ScrollView(showsIndicators: false) {
-        ProgressCardView(title: "You've completed 3 exercises", description: "75% of your weekly muscle building goal", progress: 0.75)
-          .padding([.leading, .trailing], 10)
-          .padding(.top, 20)
-        categoryTabs
-        searchAndFilter
-
-        createWorkoutCardSection(title: "Most popular", exercises: exerciseStore.results)
-        createWorkoutCardSection(title: "Quick muscle-building workouts", exercises: exerciseStore.results, isSmallCard: true)
+    NavigationStack {
+      VStack {
+        header
+        ScrollView(showsIndicators: false) {
+          ProgressCardView(title: "You've completed 3 exercises", description: "75% of your weekly muscle building goal", progress: 0.75)
+            .padding([.leading, .trailing], 10)
+            .padding(.top, 20)
+          categoryTabs
+          searchAndFilter
+          
+          createWorkoutCardSection(title: "Most popular", exercises: exerciseStore.results)
+          createWorkoutCardSection(title: "Quick muscle-building workouts", exercises: exerciseStore.results, isSmallCard: true)
+        }
       }
-    }
-    .onChange(of: debouncedQueryObserver.debouncedQuery) { query in
-      exerciseStore.searchFor(query: query)
-    }
-    .onAppear {
-      userStore.fetchUserProfile()
-      exerciseStore.loadExercises()
-    }
-    .onDisappear {
-      exerciseStore.cleanUp()
-    }
-    .popover(isPresented: $showFilterView) {
-      SearchFilterView()
-    }
-    .background(backgroundImage)
-    .overlay {
-      if userStore.isLoading || exerciseStore.isLoading {
-        LoadingOverlayView()
+      .onChange(of: debouncedQueryObserver.debouncedQuery) { query in
+        exerciseStore.searchFor(query: query)
       }
+      .onAppear {
+        userStore.fetchUserProfile()
+        exerciseStore.loadExercises()
+      }
+      .onDisappear {
+        exerciseStore.cleanUp()
+      }
+      .popover(isPresented: $showFilterView) {
+        SearchFilterView()
+      }
+      .background(backgroundImage)
+      .overlay {
+        if userStore.isLoading || exerciseStore.isLoading {
+          LoadingOverlayView()
+        }
+      }
+      .navigationDestination(isPresented: $showExerciseDetails) {
+        if let selectedExercise {
+          ExerciseDetailsView(exercise: selectedExercise)
+        }
+      }
+      .ignoresSafeArea()
     }
-    .ignoresSafeArea()
   }
   
   // MARK: - Views
@@ -143,7 +153,12 @@ extension DashboardView {
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 20) {
           ForEach(exercises, id: \.id) { exercise in
-            CurrentWorkoutCardView(exercise: exercise, cardWidth: isSmallCard ? 200 : 300)
+            Button(action: {
+              selectedExercise = exercise
+              showExerciseDetails = true
+            }, label: {
+              CurrentWorkoutCardView(exercise: exercise, cardWidth: isSmallCard ? 200 : 300)
+            })
           }
         }
       }
