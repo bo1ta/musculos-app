@@ -62,3 +62,9 @@ struct Exercise: Codable {
     images.append(imageUrl)
   }
 }
+
+extension Exercise: Equatable {
+  static func ==(_ lhs: Exercise, rhs: Exercise) -> Bool {
+    return lhs.id == rhs.id
+  }
+}

@@ -13,14 +13,20 @@ class ExerciseStore: ObservableObject {
   @Published var results: [Exercise] = []
   @Published var error: Error? = nil
   
-  private let module: ExerciseModuleProtocol
+  @Published var exerciseWithAllImages: Exercise? = nil
+  @Published var exerciseHasAllImages: Bool = false
+  
+  private let exerciseModule: ExerciseModuleProtocol
+  private let exerciseImageModule: ExerciseImageModule
   
   private(set) var loadExercisesTask: Task<Void, Never>?
   private(set) var filterExercisesTask: Task<Void, Never>?
   private(set) var searchTask: Task<Void, Never>?
+  private(set) var loadAllImagesTask: Task<Void, Never>?
   
-  init(module: ExerciseModuleProtocol = ExerciseModule()) {
-    self.module = module
+  init(exerciseModule: ExerciseModuleProtocol = ExerciseModule(), exerciseImageModule: ExerciseImageModule = ExerciseImageModule()) {
+    self.exerciseModule = exerciseModule
+    self.exerciseImageModule = exerciseImageModule
   }
   
   func loadExercises() {
@@ -31,7 +37,8 @@ class ExerciseStore: ObservableObject {
       defer { self.isLoading = false }
       
       do {
-        self.results = try await self.module.getExercises()
+        var exercises = try await self.exerciseModule.getExercises()
+        self.results = try await loadInitialImage(for: exercises)
       } catch {
         self.error = error
       }
@@ -46,10 +53,34 @@ class ExerciseStore: ObservableObject {
       defer { isLoading = false }
       
       do {
-        self.results = try await self.module.getFilteredExercises(filters: filters)
+        var exercises =  try await self.exerciseModule.getFilteredExercises(filters: filters)
+        self.results = try await loadInitialImage(for: exercises)
       } catch {
         self.error = error
       }
+    }
+  }
+  
+  func loadAllImagesForExercise(_ exercise: Exercise) {
+    loadAllImagesTask = Task { [weak self] in
+      guard let self else { return }
+      
+      do {
+        let exerciseWithAllImages = try await exerciseImageModule.loadAllImages(for: exercise)
+        DispatchQueue.main.async {
+          self.exerciseHasAllImages = true
+          self.exerciseWithAllImages = exerciseWithAllImages
+        }
+      } catch {
+        self.error = error
+      }
+    }
+  }
+  
+  private func loadInitialImage(for exercises: [Exercise]) async throws -> [Exercise] {
+    var newExercises = exercises
+    return try await newExercises.asyncCompactMap { exercise in
+      return try await self.exerciseImageModule.loadInitialImage(for: exercise)
     }
   }
   
@@ -61,7 +92,7 @@ class ExerciseStore: ObservableObject {
       defer { self.isLoading = false }
       
       do {
-        let exercises = try await self.module.searchFor(query: query)
+        let exercises = try await self.exerciseModule.searchFor(query: query)
         self.results = exercises
       } catch {
         self.error = error
@@ -78,5 +109,8 @@ class ExerciseStore: ObservableObject {
     
     searchTask?.cancel()
     searchTask = nil
+    
+    loadAllImagesTask?.cancel()
+    loadAllImagesTask = nil
   }
 }

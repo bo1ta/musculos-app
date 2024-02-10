@@ -11,9 +11,10 @@ struct ExerciseDetailsView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var tabBarSettings: TabBarSettings
+  @EnvironmentObject private var exerciseStore: ExerciseStore
   @State private var stepSelection: [Int: Bool] = [:]
   
-  let exercise: Exercise
+  @State var exercise: Exercise
   
   var body: some View {
     VStack(spacing: 10) {
@@ -27,9 +28,16 @@ struct ExerciseDetailsView: View {
     }
     .onAppear {
       tabBarSettings.isTabBarHidden = true
+      exerciseStore.loadAllImagesForExercise(exercise)
     }
     .onDisappear {
       tabBarSettings.isTabBarHidden = false
+    }
+    .onChange(of: exerciseStore.exerciseHasAllImages) { _ in
+      if let exercise = exerciseStore.exerciseWithAllImages {
+        self.exercise = exercise
+        print(exercise.images)
+      }
     }
     .navigationBarBackButtonHidden()
   }
@@ -127,5 +135,5 @@ struct ExerciseDetailsView: View {
 }
 
 #Preview {
-  ExerciseDetailsView(exercise: MockConstants.exercise).environmentObject(TabBarSettings())
+  ExerciseDetailsView(exercise: MockConstants.exercise).environmentObject(TabBarSettings()).environmentObject(ExerciseStore())
 }
