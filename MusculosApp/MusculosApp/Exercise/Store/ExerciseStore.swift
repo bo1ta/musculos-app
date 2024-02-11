@@ -99,7 +99,7 @@ class ExerciseStore: ObservableObject {
       
       do {
         let exercises = try await self.exerciseModule.searchFor(query: query)
-        self.results = exercises
+        self.results = try await loadInitialImage(for: exercises)
       } catch {
         self.error = error
       }

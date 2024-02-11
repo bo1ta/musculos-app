@@ -13,10 +13,8 @@ struct ExerciseDetailsView: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var tabBarSettings: TabBarSettings
   @EnvironmentObject private var exerciseStore: ExerciseStore
-  @State private var stepSelection: [Int: Bool] = [:]
 
   @State var exercise: Exercise
-  @State private var isImageLoading: Bool = false
   
   var body: some View {
     VStack(spacing: 10) {
@@ -119,12 +117,7 @@ struct ExerciseDetailsView: View {
   private var stepsSection: some View {
     ScrollView {
       ForEach(Array(exercise.instructions.enumerated()), id: \.element) { index, instruction in
-        let displayText = "Step \(index + 1): \(instruction)"
-        DetailCardView(title: displayText, isSelected: Binding(get: {
-          self.stepSelection[index, default: false]
-        }, set: { newValue in
-          self.stepSelection[index] = newValue
-        }))
+        DetailCardView(title: instruction, index: index + 1)
       }
     }
     .padding()

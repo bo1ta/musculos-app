@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DetailCardView: View {
   var title: String
-  @Binding var isSelected: Bool
+  var index: Int
   
   var body: some View {
     RoundedRectangle(cornerRadius: 5)
@@ -20,21 +20,18 @@ struct DetailCardView: View {
       .shadow(radius: 1)
       .overlay {
         HStack {
-          Button(action: {
-            isSelected.toggle()
-          }, label: {
             Circle()
               .frame(width: 40, height: 40)
               .foregroundStyle(.white)
               .shadow(radius: 1)
               .overlay {
-                if isSelected {
-                  Image(systemName: "checkmark")
-                }
+                Text("\(index)")
+                  .font(.custom(AppFont.regular, size: 15))
+                  .foregroundStyle(.gray)
+                  .opacity(0.8)
               }
-          })
           Text(title)
-            .font(.custom(isSelected ? AppFont.bold : AppFont.regular, size: 14))
+            .font(.custom(AppFont.regular, size: 14))
           Spacer()
         }
         .padding(.leading, 35)
@@ -43,6 +40,6 @@ struct DetailCardView: View {
 }
 
 #Preview {
-  DetailCardView(title: "Step 1: Stand with your feet", isSelected: .constant(true))
+  DetailCardView(title: "Stand with your feet", index: 1)
     .previewLayout(.sizeThatFits)
 }

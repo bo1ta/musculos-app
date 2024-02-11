@@ -40,12 +40,6 @@ struct AnimatedURLImageView: View {
     }
   }
   
-  @ViewBuilder
-  private var rectangleView: some View {
-    return Rectangle()
-      .foregroundStyle(.red)
-  }
-  
   private func startAnimating() {
     guard timer == nil, currentIndex == 0 else { return }
 
