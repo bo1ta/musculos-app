@@ -62,19 +62,25 @@ class ExerciseStore: ObservableObject {
   }
   
   func loadAllImagesForExercise(_ exercise: Exercise) {
-    loadAllImagesTask = Task { [weak self] in
+    loadAllImagesTask = Task { @MainActor [weak self] in
       guard let self else { return }
+      
+      self.isLoading = true
+      defer { isLoading = false }
       
       do {
         let exerciseWithAllImages = try await exerciseImageModule.loadAllImages(for: exercise)
-        DispatchQueue.main.async {
-          self.exerciseHasAllImages = true
-          self.exerciseWithAllImages = exerciseWithAllImages
-        }
+        self.exerciseHasAllImages = true
+        self.exerciseWithAllImages = exerciseWithAllImages
       } catch {
         self.error = error
       }
     }
+  }
+  
+  func cleanExerciseImages() {
+    self.exerciseHasAllImages = false
+    self.exerciseWithAllImages = nil
   }
   
   private func loadInitialImage(for exercises: [Exercise]) async throws -> [Exercise] {

@@ -16,15 +16,16 @@ struct ExerciseImageModule: SupabaseModule {
   }
   
   func loadAllImages(for exercise: Exercise) async throws -> Exercise {
-      var newExercise = exercise
-      
-      let imagesCount = try await getImagesCount(exercise)
-      let imagesPaths = exercise.getImagesPaths(imagesCount)
-      imagesPaths.forEach { path in
-        let imageUrl = getImageUrl(path: path)
-        newExercise.addImageUrl(imageUrl)
-      }
-      return newExercise
+    var newExercise = exercise
+    newExercise.clearImages()
+
+    let imagesCount = try await getImagesCount(exercise)
+    let imagesPaths = exercise.getImagesPaths(imagesCount)
+    imagesPaths.forEach { path in
+      let imageUrl = getImageUrl(path: path)
+      newExercise.addImageUrl(imageUrl)
+    }
+    return newExercise
   }
   
   func loadInitialImage(for exercise: Exercise) async throws -> Exercise {

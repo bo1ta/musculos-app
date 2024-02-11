@@ -49,7 +49,7 @@ struct Exercise: Codable {
     var pathList: [String] = []
     
     if filesCount > 0 {
-      for i in 0...filesCount {
+      for i in 0..<filesCount {
         let imagePath = "\(imageFolder)/\(i).jpg"
         pathList.append(imagePath)
       }
@@ -60,6 +60,10 @@ struct Exercise: Codable {
   mutating func addImageUrl(_ imageUrl: URL?) {
     guard let imageUrl else { return }
     images.append(imageUrl)
+  }
+  
+  mutating func clearImages() {
+    images = []
   }
 }
 

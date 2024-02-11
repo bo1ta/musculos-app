@@ -40,7 +40,9 @@ struct DashboardView: View {
       }
       .onAppear {
         userStore.fetchUserProfile()
-        exerciseStore.loadExercises()
+        if exerciseStore.results.count == 0 {
+          exerciseStore.loadExercises()
+        }
       }
       .onDisappear {
         exerciseStore.cleanUp()

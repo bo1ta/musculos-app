@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ExerciseDetailsView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize
@@ -13,26 +14,23 @@ struct ExerciseDetailsView: View {
   @EnvironmentObject private var tabBarSettings: TabBarSettings
   @EnvironmentObject private var exerciseStore: ExerciseStore
   @State private var stepSelection: [Int: Bool] = [:]
-  
+
   @State var exercise: Exercise
+  @State private var isImageLoading: Bool = false
   
   var body: some View {
     VStack(spacing: 10) {
       imageSection
       detailsSection
-      
       stepsSection
       
       
       Spacer()
     }
-    .onAppear {
-      tabBarSettings.isTabBarHidden = true
+    .onAppear(perform: {
       exerciseStore.loadAllImagesForExercise(exercise)
-    }
-    .onDisappear {
-      tabBarSettings.isTabBarHidden = false
-    }
+      tabBarSettings.isTabBarHidden = true
+    })
     .onChange(of: exerciseStore.exerciseHasAllImages) { _ in
       if let exercise = exerciseStore.exerciseWithAllImages {
         self.exercise = exercise
@@ -42,50 +40,50 @@ struct ExerciseDetailsView: View {
     .navigationBarBackButtonHidden()
   }
   
+  @ViewBuilder
   private var imageSection: some View {
-    AsyncImage(url: exercise.imageUrl) { imagePhase in
-      if let image = imagePhase.image {
-           image.resizable()
-            .ignoresSafeArea()
-            .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: .infinity)
-            .frame(minHeight: 300)
-            .overlay {
-              VStack {
-                HStack {
-                  Button(action: {
-                    dismiss()
-                  }, label: {
-                    Circle()
-                      .frame(width: 40, height: 40)
-                      .foregroundStyle(.white)
-                      .overlay {
-                        Image(systemName: "arrow.left")
-                          .foregroundStyle(.gray)
-                          .bold()
-                      }
-                  })
-                  Spacer()
-                }
-                .padding(.top, 50)
-                .padding(.leading, 10)
-                Spacer()
-                HStack {
-                  if let primaryMuscle = exercise.primaryMuscles.first {
-                    IconPill(option: IconPillOption(title: primaryMuscle))
-                  }
-                  ForEach(exercise.secondaryMuscles, id: \.self) { secondaryMuscle in
-                    IconPill(option: IconPillOption(title: secondaryMuscle))
-                  }
-                  Spacer()
-                }
-                .padding(.bottom, 40)
-                .padding(.leading, 10)
-              }
-            }
-      }
+    if let exerciseWithAllImages = exerciseStore.exerciseWithAllImages {
+      AnimatedURLImageView(imageURLs: exerciseWithAllImages.images)
+        .overlay {
+          imageOverlay
+        }
+        .ignoresSafeArea()
     }
-    .ignoresSafeArea()
+  }
+  
+  private var imageOverlay: some View {
+    VStack {
+      HStack {
+        Button(action: {
+          exerciseStore.exerciseWithAllImages = nil
+          dismiss()
+        }, label: {
+          Circle()
+            .frame(width: 40, height: 40)
+            .foregroundStyle(.white)
+            .overlay {
+              Image(systemName: "arrow.left")
+                .foregroundStyle(.gray)
+                .bold()
+            }
+        })
+        Spacer()
+      }
+      .padding(.top, 50)
+      .padding(.leading, 10)
+      Spacer()
+      HStack {
+        if let primaryMuscle = exercise.primaryMuscles.first {
+          IconPill(option: IconPillOption(title: primaryMuscle))
+        }
+        ForEach(exercise.secondaryMuscles, id: \.self) { secondaryMuscle in
+          IconPill(option: IconPillOption(title: secondaryMuscle))
+        }
+        Spacer()
+      }
+      .padding(.bottom, 40)
+      .padding(.leading, 10)
+    }
   }
   
   private var detailsSection: some View {

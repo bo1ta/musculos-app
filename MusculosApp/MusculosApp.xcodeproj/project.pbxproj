@@ -46,6 +46,8 @@
 		BC3F13E52B77D8E600E9E98E /* ExerciseEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13E32B77D8E600E9E98E /* ExerciseEntity+CoreDataProperties.swift */; };
 		BC3F13E82B7803D500E9E98E /* SupabaseModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13E72B7803D500E9E98E /* SupabaseModule.swift */; };
 		BC3F13EB2B78060D00E9E98E /* MusculosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13EA2B78060D00E9E98E /* MusculosError.swift */; };
+		BC3F13ED2B78169300E9E98E /* TransitionImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13EC2B78169300E9E98E /* TransitionImagesView.swift */; };
+		BC3F13F02B7825ED00E9E98E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BC3F13EF2B7825ED00E9E98E /* Kingfisher */; };
 		BC3FB0EA2A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0E92A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift */; };
 		BC3FB0EC2A85565400C3F9B1 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0EB2A85565400C3F9B1 /* View+Extension.swift */; };
 		BC3FB0EE2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0ED2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift */; };
@@ -189,6 +191,7 @@
 		BC3F13E32B77D8E600E9E98E /* ExerciseEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExerciseEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BC3F13E72B7803D500E9E98E /* SupabaseModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseModule.swift; sourceTree = "<group>"; };
 		BC3F13EA2B78060D00E9E98E /* MusculosError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusculosError.swift; sourceTree = "<group>"; };
+		BC3F13EC2B78169300E9E98E /* TransitionImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionImagesView.swift; sourceTree = "<group>"; };
 		BC3FB0E92A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
 		BC3FB0EB2A85565400C3F9B1 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		BC3FB0ED2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemViewModifier.swift; sourceTree = "<group>"; };
@@ -271,6 +274,7 @@
 				BC58341A2B1BFBCF00BD7690 /* GoTrue in Frameworks */,
 				BC5834182B1BFBCF00BD7690 /* Functions in Frameworks */,
 				BC5834202B1BFBCF00BD7690 /* Storage in Frameworks */,
+				BC3F13F02B7825ED00E9E98E /* Kingfisher in Frameworks */,
 				BC372A632AC06AF300F67D19 /* FLAnimatedImage in Frameworks */,
 				BC5834222B1BFBCF00BD7690 /* Supabase in Frameworks */,
 				BC58341E2B1BFBCF00BD7690 /* Realtime in Frameworks */,
@@ -519,6 +523,7 @@
 			isa = PBXGroup;
 			children = (
 				BC3454632B76E1140074106A /* DetailCardView.swift */,
+				BC3F13EC2B78169300E9E98E /* TransitionImagesView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -999,6 +1004,7 @@
 				BC58341D2B1BFBCF00BD7690 /* Realtime */,
 				BC58341F2B1BFBCF00BD7690 /* Storage */,
 				BC5834212B1BFBCF00BD7690 /* Supabase */,
+				BC3F13EF2B7825ED00E9E98E /* Kingfisher */,
 			);
 			productName = MusculosApp;
 			productReference = BC1160CC2A2CFB830028D8FC /* MusculosApp.app */;
@@ -1076,6 +1082,7 @@
 				BC372A612AC06AF300F67D19 /* XCRemoteSwiftPackageReference "FLAnimatedImage" */,
 				BC74A8C52AC3655E0005A7A8 /* XCRemoteSwiftPackageReference "SwiftyGif" */,
 				BC5834162B1BFBCF00BD7690 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				BC3F13EE2B7825ED00E9E98E /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = BC1160CD2A2CFB830028D8FC /* Products */;
 			projectDirPath = "";
@@ -1180,6 +1187,7 @@
 				BCA24BEF2B69D3AE00124EC3 /* GetStartedView.swift in Sources */,
 				BCF86C3B2A3632BA003293A4 /* SecondaryButton.swift in Sources */,
 				BCCE85E92A33D7B5001BEE8B /* Encodable+Extension.swift in Sources */,
+				BC3F13ED2B78169300E9E98E /* TransitionImagesView.swift in Sources */,
 				BC5925012A5C8B72000F1941 /* String+Extension.swift in Sources */,
 				BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */,
 				BC3FB0EA2A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift in Sources */,
@@ -1572,6 +1580,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		BC3F13EE2B7825ED00E9E98E /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.10.2;
+			};
+		};
 		BC5834162B1BFBCF00BD7690 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/supabase-community/supabase-swift.git";
@@ -1595,6 +1611,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BC372A612AC06AF300F67D19 /* XCRemoteSwiftPackageReference "FLAnimatedImage" */;
 			productName = FLAnimatedImage;
+		};
+		BC3F13EF2B7825ED00E9E98E /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC3F13EE2B7825ED00E9E98E /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		BC5834172B1BFBCF00BD7690 /* Functions */ = {
 			isa = XCSwiftPackageProductDependency;
