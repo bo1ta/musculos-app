@@ -513,8 +513,8 @@
 		BC3454612B76E0E60074106A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BC3454622B76E0FD0074106A /* Components */,
 				BC34545F2B76CD780074106A /* ExerciseDetailsView.swift */,
+				BC3454622B76E0FD0074106A /* Components */,
 			);
 			path = View;
 			sourceTree = "<group>";

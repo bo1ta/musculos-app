@@ -12,9 +12,8 @@ struct ExerciseDetailsView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var tabBarSettings: TabBarSettings
-  @EnvironmentObject private var exerciseStore: ExerciseStore
 
-  @State var exercise: Exercise
+  var exercise: Exercise
   
   var body: some View {
     VStack(spacing: 10) {
@@ -22,26 +21,18 @@ struct ExerciseDetailsView: View {
       detailsSection
       stepsSection
       
-      
       Spacer()
     }
     .onAppear(perform: {
-      exerciseStore.loadAllImagesForExercise(exercise)
       tabBarSettings.isTabBarHidden = true
     })
-    .onChange(of: exerciseStore.exerciseHasAllImages) { _ in
-      if let exercise = exerciseStore.exerciseWithAllImages {
-        self.exercise = exercise
-        print(exercise.images)
-      }
-    }
     .navigationBarBackButtonHidden()
   }
   
   @ViewBuilder
   private var imageSection: some View {
-    if let exerciseWithAllImages = exerciseStore.exerciseWithAllImages {
-      AnimatedURLImageView(imageURLs: exerciseWithAllImages.images)
+    if exercise.images.count > 0 {
+      AnimatedURLImageView(imageURLs: exercise.images)
         .overlay {
           imageOverlay
         }
@@ -53,7 +44,6 @@ struct ExerciseDetailsView: View {
     VStack {
       HStack {
         Button(action: {
-          exerciseStore.exerciseWithAllImages = nil
           dismiss()
         }, label: {
           Circle()

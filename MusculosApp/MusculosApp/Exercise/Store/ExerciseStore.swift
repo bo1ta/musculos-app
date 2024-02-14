@@ -13,8 +13,8 @@ class ExerciseStore: ObservableObject {
   @Published var results: [Exercise] = []
   @Published var error: Error? = nil
   
-  @Published var exerciseWithAllImages: Exercise? = nil
-  @Published var exerciseHasAllImages: Bool = false
+  @Published var exerciseDetail: Exercise? = nil
+  @Published var showExerciseDetail: Bool = false
   
   private let exerciseModule: ExerciseModuleProtocol
   private let exerciseImageModule: ExerciseImageModule
@@ -53,7 +53,7 @@ class ExerciseStore: ObservableObject {
       defer { isLoading = false }
       
       do {
-        var exercises =  try await self.exerciseModule.getFilteredExercises(filters: filters)
+        let exercises =  try await self.exerciseModule.getFilteredExercises(filters: filters)
         self.results = try await loadInitialImage(for: exercises)
       } catch {
         self.error = error
@@ -70,8 +70,8 @@ class ExerciseStore: ObservableObject {
       
       do {
         let exerciseWithAllImages = try await exerciseImageModule.loadAllImages(for: exercise)
-        self.exerciseHasAllImages = true
-        self.exerciseWithAllImages = exerciseWithAllImages
+        self.exerciseDetail = exerciseWithAllImages
+        self.showExerciseDetail = true
       } catch {
         self.error = error
       }
@@ -79,8 +79,8 @@ class ExerciseStore: ObservableObject {
   }
   
   func cleanExerciseImages() {
-    self.exerciseHasAllImages = false
-    self.exerciseWithAllImages = nil
+    self.exerciseDetail = nil
+    self.showExerciseDetail = false
   }
   
   private func loadInitialImage(for exercises: [Exercise]) async throws -> [Exercise] {

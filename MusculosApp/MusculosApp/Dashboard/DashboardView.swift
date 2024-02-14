@@ -16,7 +16,6 @@ struct DashboardView: View {
   
   @State private var showFilterView: Bool = false
   @State private var showExerciseDetails: Bool = false
-  @State private var selectedExercise: Exercise? = nil
   
   @StateObject private var debouncedQueryObserver = DebouncedQueryObserver()
   
@@ -56,9 +55,12 @@ struct DashboardView: View {
           LoadingOverlayView()
         }
       }
-      .navigationDestination(isPresented: $showExerciseDetails) {
-        if let selectedExercise {
-          ExerciseDetailsView(exercise: selectedExercise)
+      .navigationDestination(isPresented: $exerciseStore.showExerciseDetail) {
+        if let exerciseDetail = exerciseStore.exerciseDetail {
+          ExerciseDetailsView(exercise: exerciseDetail)
+            .onDisappear {
+              exerciseStore.cleanExerciseImages()
+            }
         }
       }
       .ignoresSafeArea()
@@ -156,8 +158,7 @@ extension DashboardView {
         HStack(spacing: 20) {
           ForEach(exercises, id: \.id) { exercise in
             Button(action: {
-              selectedExercise = exercise
-              showExerciseDetails = true
+              exerciseStore.loadAllImagesForExercise(exercise)
             }, label: {
               CurrentWorkoutCardView(exercise: exercise, cardWidth: isSmallCard ? 200 : 300)
             })

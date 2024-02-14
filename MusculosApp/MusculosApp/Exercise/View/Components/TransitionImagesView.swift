@@ -19,34 +19,40 @@ struct AnimatedURLImageView: View {
     AsyncImage(url: imageURLs[currentIndex]) { phase in
       switch phase {
       case .empty:
-        LoadingOverlayView()
+        handleFailure()
       case .success(let image):
         image.resizable()
           .ignoresSafeArea()
           .aspectRatio(contentMode: .fit)
           .frame(maxWidth: .infinity)
           .frame(minHeight: 300)
-          .onAppear {
-            startAnimating()
-          }
-      case .failure(_):
-        LoadingOverlayView()
+      case .failure(let error):
+        handleFailure(error)
       @unknown default:
         fatalError("")
       }
       }
+    .onAppear {
+      startAnimating()
+    }
     .onDisappear {
       stopAnimating()
     }
   }
   
+  @ViewBuilder
+  private func handleFailure(_ error: Error? = nil) -> some View {
+    print(error ?? MusculosError.badRequest)
+    print(currentIndex)
+    print(imageURLs[currentIndex])
+    return LoadingOverlayView()
+  }
+  
   private func startAnimating() {
-    guard timer == nil, currentIndex == 0 else { return }
+    guard timer == nil, currentIndex == 0, imageURLs.count > 1 else { return }
 
     timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
-      withAnimation {
-        currentIndex = (currentIndex + 1) % imageURLs.count
-      }
+      currentIndex = (currentIndex + 1) % imageURLs.count
     }
   }
   

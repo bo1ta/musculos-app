@@ -12,14 +12,15 @@ struct DetailCardView: View {
   var index: Int
   
   var body: some View {
-    RoundedRectangle(cornerRadius: 5)
-      .frame(maxWidth: .infinity)
-      .frame(minHeight: 80)
-      .padding([.leading, .trailing])
-      .foregroundStyle(.white)
-      .shadow(radius: 1)
-      .overlay {
-        HStack {
+    ViewThatFits {
+      RoundedRectangle(cornerRadius: 5)
+        .frame(maxWidth: .infinity)
+        .frame(minHeight: 80)
+        .padding([.leading, .trailing])
+        .foregroundStyle(.white)
+        .shadow(radius: 1)
+        .overlay {
+          HStack {
             Circle()
               .frame(width: 40, height: 40)
               .foregroundStyle(.white)
@@ -30,12 +31,14 @@ struct DetailCardView: View {
                   .foregroundStyle(.gray)
                   .opacity(0.8)
               }
-          Text(title)
-            .font(.custom(AppFont.regular, size: 14))
-          Spacer()
+            Text(title)
+              .font(.custom(AppFont.regular, size: 14))
+              .lineLimit(nil)
+            Spacer()
+          }
+          .padding(.leading, 35)
         }
-        .padding(.leading, 35)
-      }
+    }
   }
 }
 
