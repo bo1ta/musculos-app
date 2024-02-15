@@ -19,15 +19,24 @@ struct AnimatedURLImageView: View {
     AsyncImage(url: imageURLs[currentIndex]) { phase in
       switch phase {
       case .empty:
-        handleFailure()
+        Color
+          .white
+          .ignoresSafeArea()
+          .frame(maxWidth: .infinity)
+          .frame(minHeight: 300)
       case .success(let image):
-        image.resizable()
+        image
+          .resizable()
           .ignoresSafeArea()
           .aspectRatio(contentMode: .fit)
           .frame(maxWidth: .infinity)
           .frame(minHeight: 300)
-      case .failure(let error):
-        handleFailure(error)
+      case .failure(_):
+        Color
+          .white
+          .ignoresSafeArea()
+          .frame(maxWidth: .infinity)
+          .frame(minHeight: 300)
       @unknown default:
         fatalError("")
       }
@@ -38,14 +47,6 @@ struct AnimatedURLImageView: View {
     .onDisappear {
       stopAnimating()
     }
-  }
-  
-  @ViewBuilder
-  private func handleFailure(_ error: Error? = nil) -> some View {
-    print(error ?? MusculosError.badRequest)
-    print(currentIndex)
-    print(imageURLs[currentIndex])
-    return LoadingOverlayView()
   }
   
   private func startAnimating() {
