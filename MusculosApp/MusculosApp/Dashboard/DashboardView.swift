@@ -13,44 +13,58 @@ struct DashboardView: View {
   
   @State private var selectedSection: CategorySection = .discover
   @State private var searchQuery: String = ""
+  
   @State private var showFilterView: Bool = false
+  @State private var showExerciseDetails: Bool = false
   
   @StateObject private var debouncedQueryObserver = DebouncedQueryObserver()
   
   var body: some View {
-    VStack {
-      header
-      ScrollView(showsIndicators: false) {
-        ProgressCardView(title: "You've completed 3 exercises", description: "75% of your weekly muscle building goal", progress: 0.75)
-          .padding([.leading, .trailing], 10)
-          .padding(.top, 20)
-        categoryTabs
-        searchAndFilter
-
-        createWorkoutCardSection(title: "Most popular", exercises: exerciseStore.results)
-        createWorkoutCardSection(title: "Quick muscle-building workouts", exercises: exerciseStore.results, isSmallCard: true)
+    NavigationStack {
+      VStack {
+        header
+        ScrollView(showsIndicators: false) {
+          ProgressCardView(title: "You've completed 3 exercises", description: "75% of your weekly muscle building goal", progress: 0.75)
+            .padding([.leading, .trailing], 10)
+            .padding(.top, 20)
+          categoryTabs
+          searchAndFilter
+          
+          createWorkoutCardSection(title: "Most popular", exercises: exerciseStore.results)
+          createWorkoutCardSection(title: "Quick muscle-building workouts", exercises: exerciseStore.results, isSmallCard: true)
+        }
       }
-    }
-    .onChange(of: debouncedQueryObserver.debouncedQuery) { query in
-      exerciseStore.searchFor(query: query)
-    }
-    .onAppear {
-      userStore.fetchUserProfile()
-      exerciseStore.loadExercises()
-    }
-    .onDisappear {
-      exerciseStore.cleanUp()
-    }
-    .popover(isPresented: $showFilterView) {
-      SearchFilterView()
-    }
-    .background(backgroundImage)
-    .overlay {
-      if userStore.isLoading || exerciseStore.isLoading {
-        LoadingOverlayView()
+      .onChange(of: debouncedQueryObserver.debouncedQuery) { query in
+        exerciseStore.searchFor(query: query)
       }
+      .onAppear {
+        userStore.fetchUserProfile()
+        if exerciseStore.results.count == 0 {
+          exerciseStore.loadExercises()
+        }
+      }
+      .onDisappear {
+        exerciseStore.cleanUp()
+      }
+      .popover(isPresented: $showFilterView) {
+        SearchFilterView()
+      }
+      .background(backgroundImage)
+      .overlay {
+        if userStore.isLoading || exerciseStore.isLoading {
+          LoadingOverlayView()
+        }
+      }
+      .navigationDestination(isPresented: $exerciseStore.showExerciseDetail) {
+        if let exerciseDetail = exerciseStore.exerciseDetail {
+          ExerciseDetailsView(exercise: exerciseDetail)
+            .onDisappear {
+              exerciseStore.cleanExerciseImages()
+            }
+        }
+      }
+      .ignoresSafeArea()
     }
-    .ignoresSafeArea()
   }
   
   // MARK: - Views
@@ -112,7 +126,7 @@ struct DashboardView: View {
   
   private var searchAndFilter: some View {
     HStack {
-      CustomTextFieldView(text: $debouncedQueryObserver.searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
+      RoundedTextField(text: $debouncedQueryObserver.searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
         .shadow(radius: 2, y: 1)
       Button(action: {
         showFilterView = true
@@ -143,7 +157,11 @@ extension DashboardView {
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 20) {
           ForEach(exercises, id: \.id) { exercise in
-            CurrentWorkoutCardView(exercise: exercise, cardWidth: isSmallCard ? 200 : 300)
+            Button(action: {
+              exerciseStore.loadAllImagesForExercise(exercise)
+            }, label: {
+              CurrentWorkoutCardView(exercise: exercise, cardWidth: isSmallCard ? 200 : 300)
+            })
           }
         }
       }

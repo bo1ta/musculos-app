@@ -47,9 +47,6 @@ struct ChallengeView: View {
       self.currentExercise = self.currentExercise ?? challenge.exercises.first
       tabBarSettings.isTabBarHidden = true
     })
-    .onDisappear(perform: {
-      tabBarSettings.isTabBarHidden = false
-    })
     .navigationBarBackButtonHidden()
     .navigationTitle("")
     .toolbar(.hidden, for: .tabBar)

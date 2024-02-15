@@ -1,5 +1,5 @@
 //
-//  CustomTextFieldView.swift
+//  RoundedTextField.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 12.10.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomTextFieldView: View {
+struct RoundedTextField: View {
   var text: Binding<String> = .constant("")
   var textHint: String
   var systemImageName: String?
@@ -45,7 +45,7 @@ struct CustomTextFieldView: View {
 
 struct CustomTextFieldViewPreview: PreviewProvider {
   static var previews: some View {
-    CustomTextFieldView(text: Binding<String>.constant(""), textHint: "Name")
+    RoundedTextField(text: Binding<String>.constant(""), textHint: "Name")
       .previewLayout(.sizeThatFits)
   }
 }

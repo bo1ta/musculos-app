@@ -47,10 +47,10 @@ struct RegisterView: View {
       .padding(.bottom, 10)
       
       Group {
-        CustomTextFieldView(text: $email, textHint: "Email")
-        CustomTextFieldView(text: $password, textHint: "Password", isSecureField: true)
-        CustomTextFieldView(text: $username, textHint: "Username")
-        CustomTextFieldView(text: $fullName, textHint: "Full Name (Optional)")
+        RoundedTextField(text: $email, textHint: "Email")
+        RoundedTextField(text: $password, textHint: "Password", isSecureField: true)
+        RoundedTextField(text: $username, textHint: "Username")
+        RoundedTextField(text: $fullName, textHint: "Full Name (Optional)")
       }
       
       maybeShowErrorText()

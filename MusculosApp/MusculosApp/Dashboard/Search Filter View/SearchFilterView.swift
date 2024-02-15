@@ -18,7 +18,7 @@ struct SearchFilterView: View {
       header
       
       VStack {
-        CustomTextFieldView(text: $viewModel.searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
+        RoundedTextField(text: $viewModel.searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
           .shadow(radius: 2, y: 1)
         ScrollView {
           VStack(spacing: 20) {

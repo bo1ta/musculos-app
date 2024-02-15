@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 struct AppTabView: View {
-  @ObservedObject private var tabBarSettings = TabBarSettings()
+  @StateObject private var tabBarSettings = TabBarSettings()
   @State private var selection: String = "workout"
   @State private var tabSelection: TabBarItem = .dashboard
   
