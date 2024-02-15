@@ -19,12 +19,19 @@ struct ExerciseDetailsView: View {
     VStack(spacing: 10) {
       imageSection
       detailsSection
-      stepsSection
+      
+      ScrollView {
+        stepsSection
+      }
+      .scrollIndicators(.hidden)
       
       Spacer()
     }
     .onAppear(perform: {
       tabBarSettings.isTabBarHidden = true
+    })
+    .onDisappear(perform: {
+      tabBarSettings.isTabBarHidden = false
     })
     .navigationBarBackButtonHidden()
   }
@@ -105,13 +112,11 @@ struct ExerciseDetailsView: View {
   
   @ViewBuilder
   private var stepsSection: some View {
-    ScrollView {
+    LazyVStack {
       ForEach(Array(exercise.instructions.enumerated()), id: \.element) { index, instruction in
         DetailCardView(title: instruction, index: index + 1)
       }
     }
-    .padding()
-    .scrollIndicators(.hidden)
   }
 }
 

@@ -11,38 +11,53 @@ struct DetailCardView: View {
   var title: String
   var index: Int
   
+  @State var textHeight: CGFloat = 0
+  
   var body: some View {
-    ViewThatFits {
-      RoundedRectangle(cornerRadius: 5)
-        .frame(maxWidth: .infinity)
-        .frame(minHeight: 80)
-        .padding([.leading, .trailing])
-        .foregroundStyle(.white)
-        .shadow(radius: 1)
-        .overlay {
-          HStack {
-            Circle()
-              .frame(width: 40, height: 40)
-              .foregroundStyle(.white)
-              .shadow(radius: 1)
-              .overlay {
-                Text("\(index)")
-                  .font(.custom(AppFont.regular, size: 15))
-                  .foregroundStyle(.gray)
-                  .opacity(0.8)
+    RoundedRectangle(cornerRadius: 5)
+      .frame(maxWidth: .infinity)
+      .frame(minHeight: textHeight)
+      .padding([.leading, .trailing])
+      .foregroundStyle(.white)
+      .shadow(radius: 1)
+      .overlay {
+        HStack {
+          Circle()
+            .frame(width: 40, height: 40)
+            .foregroundStyle(.white)
+            .shadow(radius: 1)
+            .overlay {
+              Text("\(index)")
+                .font(.custom(AppFont.regular, size: 15))
+                .foregroundStyle(.gray)
+                .opacity(0.8)
+            }
+          Text(title)
+            .font(.custom(AppFont.regular, size: 14))
+            .padding(.trailing, 5)
+            .fixedSize(horizontal: false, vertical: true)
+            .lineLimit(nil)
+            .overlay {
+              GeometryReader { proxy in
+                Color
+                  .clear
+                  .preference(key: ContentLengthPreferenceKey.self, value: proxy.size.height + 40)
               }
-            Text(title)
-              .font(.custom(AppFont.regular, size: 14))
-              .lineLimit(nil)
-            Spacer()
-          }
-          .padding(.leading, 35)
+            }
+            .padding()
+          Spacer()
         }
-    }
+        .padding(.leading, 35)
+      }
+      .onPreferenceChange(ContentLengthPreferenceKey.self, perform: { value in
+        DispatchQueue.main.async {
+          self.textHeight = value
+        }
+      })
   }
 }
 
 #Preview {
-  DetailCardView(title: "Stand with your feet", index: 1)
+  DetailCardView(title: "Stand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feet", index: 1)
     .previewLayout(.sizeThatFits)
 }
