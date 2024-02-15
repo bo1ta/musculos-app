@@ -33,10 +33,11 @@ struct DetailCardView: View {
                 .opacity(0.8)
             }
           Text(title)
-            .font(.custom(AppFont.regular, size: 14))
+            .font(.custom(AppFont.light, size: 13))
             .padding(.trailing, 5)
             .fixedSize(horizontal: false, vertical: true)
             .lineLimit(nil)
+            .shadow(radius: 0.5)
             .overlay {
               GeometryReader { proxy in
                 Color

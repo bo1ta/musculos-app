@@ -22,6 +22,7 @@ struct ExerciseDetailsView: View {
       
       ScrollView {
         stepsSection
+          .padding([.top, .bottom], 10)
       }
       .scrollIndicators(.hidden)
       
