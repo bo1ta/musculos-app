@@ -27,12 +27,11 @@ struct ExerciseDetailsView: View {
       
       Spacer()
     }
-    .onAppear(perform: {
-      tabBarSettings.isTabBarHidden = true
-    })
-    .onDisappear(perform: {
-      tabBarSettings.isTabBarHidden = false
-    })
+    .onAppear {
+      DispatchQueue.main.async {
+        tabBarSettings.isTabBarHidden = true
+      }
+    }
     .navigationBarBackButtonHidden()
   }
   

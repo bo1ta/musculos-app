@@ -101,9 +101,8 @@ extension UserStore {
     UserDefaults.standard.setValue(jwt, forKey: UserDefaultsKey.authToken.rawValue)
   }
   
-  func fetchUserProfile() {
-    fetchUserProfileTask = Task { @MainActor [weak self] in
-      self?.currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)
-    }
+  @MainActor
+  func fetchUserProfile() async {
+    currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)
   }
 }

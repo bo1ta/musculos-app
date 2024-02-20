@@ -10,11 +10,19 @@ import SwiftUI
 struct DashboardView: View {
   @EnvironmentObject private var userStore: UserStore
   @EnvironmentObject private var exerciseStore: ExerciseStore
+  @EnvironmentObject private var tabBarSettings: TabBarSettings
   
   @State private var selectedSection: CategorySection = .discover
   @State private var searchQuery: String = ""
   
   @State private var showFilterView: Bool = false
+  @State private var selectedExercise: Exercise? = nil {
+    didSet {
+      if selectedExercise != nil {
+        showExerciseDetails = true
+      }
+    }
+  }
   @State private var showExerciseDetails: Bool = false
   
   @StateObject private var debouncedQueryObserver = DebouncedQueryObserver()
@@ -30,37 +38,48 @@ struct DashboardView: View {
           categoryTabs
           searchAndFilter
           
-          createWorkoutCardSection(title: "Most popular", exercises: exerciseStore.results)
-          createWorkoutCardSection(title: "Quick muscle-building workouts", exercises: exerciseStore.results, isSmallCard: true)
+          switch exerciseStore.state {
+          case .loading:
+            Group {
+              ExerciseCardSection(title: "Most popular", exercises: [MockConstants.exercise, MockConstants.exercise], onExerciseTap: { _ in })
+              ExerciseCardSection(title: "Quick muscle-building workouts", exercises: [MockConstants.exercise, MockConstants.exercise], isSmallCard: true, onExerciseTap: { _ in })
+            }
+            .shimmering()
+            .task {
+              await userStore.fetchUserProfile()
+              await exerciseStore.loadExercises()
+            }
+          case .loaded(let exercises):
+            ExerciseCardSection(title: "Most popular", exercises: exercises, onExerciseTap: {
+              exercise in
+              selectedExercise = exercise
+            })
+            ExerciseCardSection(title: "Quick muscle-building workouts", exercises: exercises, isSmallCard: true, onExerciseTap: {
+              exercise in
+              selectedExercise = exercise
+            })
+          case .empty(_):
+            EmptyView()
+          case .error(_):
+            EmptyView()
+          }
         }
       }
       .onChange(of: debouncedQueryObserver.debouncedQuery) { query in
         exerciseStore.searchFor(query: query)
       }
-      .onAppear {
-        userStore.fetchUserProfile()
-        if exerciseStore.results.count == 0 {
-          exerciseStore.loadExercises()
-        }
-      }
-      .onDisappear {
-        exerciseStore.cleanUp()
-      }
       .popover(isPresented: $showFilterView) {
         SearchFilterView()
       }
       .background(backgroundImage)
-      .overlay {
-        if userStore.isLoading || exerciseStore.isLoading {
-          LoadingOverlayView()
+      .navigationDestination(isPresented: $showExerciseDetails) {
+        if let exercise = selectedExercise {
+          ExerciseDetailsView(exercise: exercise)
         }
       }
-      .navigationDestination(isPresented: $exerciseStore.showExerciseDetail) {
-        if let exerciseDetail = exerciseStore.exerciseDetail {
-          ExerciseDetailsView(exercise: exerciseDetail)
-            .onDisappear {
-              exerciseStore.cleanExerciseImages()
-            }
+      .onAppear {
+        DispatchQueue.main.async {
+          tabBarSettings.isTabBarHidden = false
         }
       }
       .ignoresSafeArea()
@@ -148,28 +167,6 @@ struct DashboardView: View {
 // MARK: - Helper methods
 
 extension DashboardView {
-  private func createWorkoutCardSection(title: String,
-                                        exercises: [Exercise],
-                                        isSmallCard: Bool = false) -> some View {
-    VStack(alignment: .leading) {
-      Text(title)
-        .font(.custom(AppFont.bold, size: 18))
-      ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 20) {
-          ForEach(exercises, id: \.id) { exercise in
-            Button(action: {
-              exerciseStore.exerciseDetail = exercise
-              exerciseStore.showExerciseDetail = true
-            }, label: {
-              CurrentWorkoutCardView(exercise: exercise, cardWidth: isSmallCard ? 200 : 300)
-            })
-          }
-        }
-      }
-    }
-    .padding()
-  }
-  
   private func createSectionItem(category: CategorySection) -> some View {
     Button(action: {
       selectedSection = category

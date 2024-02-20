@@ -14,8 +14,8 @@ struct AnimatedURLImageView: View {
   
   @State private var currentIndex = 0
   @State private var timer: Timer?
-      
-  var body: some View {    
+  
+  var body: some View {
     AsyncImage(url: imageURLs[currentIndex]) { phase in
       switch phase {
       case .empty:
@@ -24,6 +24,7 @@ struct AnimatedURLImageView: View {
           .ignoresSafeArea()
           .frame(maxWidth: .infinity)
           .frame(minHeight: 300)
+          .shimmering()
       case .success(let image):
         image
           .resizable()
@@ -40,7 +41,7 @@ struct AnimatedURLImageView: View {
       @unknown default:
         fatalError("")
       }
-      }
+    }
     .onAppear {
       startAnimating()
     }
@@ -51,7 +52,7 @@ struct AnimatedURLImageView: View {
   
   private func startAnimating() {
     guard timer == nil, currentIndex == 0, imageURLs.count > 1 else { return }
-
+    
     timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
       currentIndex = (currentIndex + 1) % imageURLs.count
     }
@@ -65,7 +66,7 @@ struct AnimatedURLImageView: View {
 
 #Preview {
   AnimatedURLImageView(imageURLs: [
-//    URL(string: "https://wqgqgfospzhwoqeqdzbo.supabase.co/storage/v1/object/public/workout_image/Lateral_Raise_-_With_Bands/images/0.jpg")!,
-//    URL(string: "https://wqgqgfospzhwoqeqdzbo.supabase.co/storage/v1/object/public/workout_image/Lateral_Raise_-_With_Bands/images/1.jpg")!
+    //    URL(string: "https://wqgqgfospzhwoqeqdzbo.supabase.co/storage/v1/object/public/workout_image/Lateral_Raise_-_With_Bands/images/0.jpg")!,
+    //    URL(string: "https://wqgqgfospzhwoqeqdzbo.supabase.co/storage/v1/object/public/workout_image/Lateral_Raise_-_With_Bands/images/1.jpg")!
   ])
 }
