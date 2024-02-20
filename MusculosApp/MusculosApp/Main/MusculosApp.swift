@@ -32,6 +32,9 @@ struct MusculosApp: App {
           }
         }
       }
+      .onAppear {
+        userStore.initialLoad()
+      }
       .environmentObject(userStore)
       .environmentObject(exerciseStore)
     }

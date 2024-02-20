@@ -13,7 +13,7 @@ protocol DecodableModel {
 }
 
 extension DecodableModel where Self: Codable {
-  static func createFrom(_ data: Data) async throws -> Self {
+  static func createFrom(_ data: Data) throws -> Self {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
 
@@ -21,6 +21,7 @@ extension DecodableModel where Self: Codable {
       let decoded = try decoder.decode(Self.self, from: data)
       return decoded
     } catch {
+      debugPrint(error)
       throw error
     }
   }
@@ -33,6 +34,7 @@ extension DecodableModel where Self: Codable {
       let decoded = try decoder.decode([Self].self, from: data)
       return decoded
     } catch {
+      debugPrint(error)
       throw MusculosError.decodingError
     }
   }

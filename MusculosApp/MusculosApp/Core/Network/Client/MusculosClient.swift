@@ -19,14 +19,10 @@ struct MusculosClient: MusculosClientProtocol {
       throw MusculosError.badRequest
     }
 
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-
     let (data, response) = try await self.urlSession.data(for: urlRequest)
     if let response = response as? HTTPURLResponse, !(200...299).contains(response.statusCode) {
       throw MusculosError.httpError(response.statusCode)
     }
-
     return data
   }
 

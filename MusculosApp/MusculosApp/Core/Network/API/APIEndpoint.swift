@@ -8,39 +8,18 @@
 import Foundation
 
 enum Endpoint: CustomStringConvertible {
-  case authentication
+  case login
   case register
-  case persons
-  case questions
-  case userAnswers
-  case muscle
-  case equipment
-  case exercise
-  case searchExercise(name: String)
-  case exercisesByMuscle(name: String)
+  case exercises
 
   var description: String {
     switch self {
-    case .authentication:
-      return "/user/login"
+    case .login:
+      return "/me/login"
     case .register:
-      return "/user/register"
-    case .persons:
-      return "/persons"
-    case .questions:
-      return "/api/questions"
-    case .userAnswers:
-      return "/user-answers"
-    case .muscle:
-      return "/muscle"
-    case .equipment:
-      return "/equipment"
-    case .exercise:
-      return "/exercises"
-    case let .searchExercise(name):
-      return "/exercises/name/\(name)"
-    case let .exercisesByMuscle(name):
-      return "/exercises/bodyPart/\(name)"
+      return "/me/register"
+    case .exercises:
+      return "/db0/exercises"
     }
   }
 }

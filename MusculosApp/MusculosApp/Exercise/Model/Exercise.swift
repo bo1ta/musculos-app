@@ -17,16 +17,7 @@ struct Exercise: Codable {
   var category: String?
   var instructions: [String]
   let name: String
-  var imageUrl: URL? {
-    return images.first
-  }
-  var images: [URL] = []
-  
-  enum CodingKeys: String, CodingKey {
-    case id, force, level, equipment, category, instructions, name
-    case primaryMuscles = "primary_muscles"
-    case secondaryMuscles = "secondary_muscles"
-  }
+  let imageUrls: [String]
   
   enum ForceType: String, Codable {
     case pull, push, stay = "static"
@@ -36,36 +27,16 @@ struct Exercise: Codable {
     case intermediate, beginner, expert
   }
   
-  var imageFolder: String {
-    let formatted = name.replacingOccurrences(of: " ", with: "_").replacingOccurrences(of: "/", with: "_")
-    return  "\(formatted)/images"
-  }
-  
-  var firstImagePath: String {
-    "\(imageFolder)/0.jpg"
-  }
-
-  func getImagesPaths(_ filesCount: Int) -> [String] {
-    var pathList: [String] = []
+  func getImagesURLs() -> [URL] {
+    guard imageUrls.count > 0 else { return [] }
     
-    if filesCount > 0 {
-      for i in 0..<filesCount {
-        let imagePath = "\(imageFolder)/\(i).jpg"
-        pathList.append(imagePath)
-      }
+    return imageUrls.compactMap { imageUrlString in
+      URL(string: imageUrlString)
     }
-    return pathList
-  }
-  
-  mutating func addImageUrl(_ imageUrl: URL?) {
-    guard let imageUrl else { return }
-    images.append(imageUrl)
-  }
-  
-  mutating func clearImages() {
-    images = []
   }
 }
+
+extension Exercise: DecodableModel { }
 
 extension Exercise: Equatable {
   static func ==(_ lhs: Exercise, rhs: Exercise) -> Bool {

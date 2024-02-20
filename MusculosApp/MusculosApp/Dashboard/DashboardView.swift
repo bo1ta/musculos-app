@@ -158,7 +158,8 @@ extension DashboardView {
         HStack(spacing: 20) {
           ForEach(exercises, id: \.id) { exercise in
             Button(action: {
-              exerciseStore.loadAllImagesForExercise(exercise)
+              exerciseStore.exerciseDetail = exercise
+              exerciseStore.showExerciseDetail = true
             }, label: {
               CurrentWorkoutCardView(exercise: exercise, cardWidth: isSmallCard ? 200 : 300)
             })

@@ -23,20 +23,9 @@ public class UIConstants: NSObject {
   static let componentOpacity: Double = 0.95
 }
 
-public class SupabaseConstants: NSObject {
-  enum Bucket: String {
-    case exerciseImage = "exercise_image"
-    case workoutImage = "workout_image"
-  }
-  
-  enum Table: String {
-    case exercises
-    case favoriteExercise = "favorite_exercise"
-  }
-}
-
 public enum UserDefaultsKey: String {
   case isAuthenticated = "is_authenticated"
+  case authToken = "auth_token"
   case isOnboarded = "is_onboarded"
 }
 

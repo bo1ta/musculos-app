@@ -7,25 +7,16 @@
 
 import Foundation
 import SwiftUI
-import Supabase
-
 
 class UserStore: ObservableObject {
   @Published var currentUserProfile: UserProfile? = nil
   @Published var error: Error? = nil
   @Published var isLoading: Bool = false
-  
-  @Published var isLoggedIn: Bool = false {
-    didSet {
-      DispatchQueue.main.async {
-        UserDefaultsWrapper.shared.setBool(value: self.isLoggedIn, key: UserDefaultsKey.isAuthenticated)
-      }
-    }
-  }
+  @Published var isLoggedIn: Bool = false
   @Published var isOnboarded: Bool = false {
     didSet {
       DispatchQueue.main.async {
-        UserDefaultsWrapper.shared.setBool(value: self.isOnboarded, key: UserDefaultsKey.isOnboarded)
+        UserDefaults.standard.setValue(self.isOnboarded, forKey: UserDefaultsKey.isOnboarded.rawValue)
       }
     }
   }
@@ -36,12 +27,22 @@ class UserStore: ObservableObject {
   
   init(module: UserModuleProtocol = UserModule()) {
     self.module = module
-    self.isLoggedIn = UserDefaultsWrapper.shared.getBool(UserDefaultsKey.isAuthenticated)
-    self.isOnboarded = UserDefaultsWrapper.shared.getBool(UserDefaultsKey.isOnboarded)
   }
   
   var displayName: String {
     currentUserProfile?.fullName ?? currentUserProfile?.username ?? "champ"
+  }
+  
+  @MainActor
+  func initialLoad() {
+    if let _ = UserDefaults.standard.string(forKey: UserDefaultsKey.authToken.rawValue) {
+      self.isLoggedIn = true
+    }
+    
+    let isOnboarded = UserDefaults.standard.bool(forKey: UserDefaultsKey.isOnboarded.rawValue)
+    if isOnboarded {
+      self.isOnboarded = true
+    }
   }
   
   func cancelTask() {
@@ -61,11 +62,12 @@ extension UserStore {
       defer { self.isLoading = false }
       
       do {
-        try await self.module.loginUser(email: email, password: password)
+        let result = try await self.module.loginUser(email: email, password: password)
+        self.setAuthToken(result.token)
         self.isLoggedIn = true
       } catch {
         self.error = error
-        MusculosLogger.logError(error: error, message: "Sign in failed", category: .supabase)
+        MusculosLogger.logError(error: error, message: "Sign in failed", category: .networking)
       }
     }
   }
@@ -79,22 +81,26 @@ extension UserStore {
       defer { self.isLoading = false }
       
       do {
-        let extraData: [String: AnyJSON] = ["username": .string(person.username)]
-        try await self.module.registerUser(email: person.email, password: password, extraData: extraData)
+        let result = try await self.module
+          .registerUser(email: person.email, password: password, username: person.username, fullName: person.fullName)
+        self.setAuthToken(result.token)
         self.isLoggedIn = true
-        
         CoreDataManager.createUserProfile(person: person)
       } catch {
         self.error = error
-        MusculosLogger.logError(error: error, message: "Sign up failed", category: .supabase)
+        MusculosLogger.logError(error: error, message: "Sign up failed", category: .networking)
       }
     }
   }
 }
 
-// MARK: - Core Data
+// MARK: - Core Data + User Defaults
 
 extension UserStore {
+  private func setAuthToken(_ jwt: String) {
+    UserDefaults.standard.setValue(jwt, forKey: UserDefaultsKey.authToken.rawValue)
+  }
+  
   func fetchUserProfile() {
     fetchUserProfileTask = Task { @MainActor [weak self] in
       self?.currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)

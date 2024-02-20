@@ -41,8 +41,8 @@ struct APIRequest {
 
     var newHeaders: [String: String] = [:]
     newHeaders[HTTPHeaderConstants.contentType] = self.contentType
-    if let authToken = self.authToken {
-      newHeaders[HTTPHeaderConstants.authorization] = authToken
+    if let authToken = self.authToken ?? UserDefaults.standard.string(forKey: UserDefaultsKey.authToken.rawValue) {
+      newHeaders[HTTPHeaderConstants.authorization] = "Bearer \(authToken)"
     }
     request.allHTTPHeaderFields = newHeaders
 

@@ -17,16 +17,13 @@ class ExerciseStore: ObservableObject {
   @Published var showExerciseDetail: Bool = false
   
   private let exerciseModule: ExerciseModuleProtocol
-  private let exerciseImageModule: ExerciseImageModule
   
   private(set) var loadExercisesTask: Task<Void, Never>?
   private(set) var filterExercisesTask: Task<Void, Never>?
   private(set) var searchTask: Task<Void, Never>?
-  private(set) var loadAllImagesTask: Task<Void, Never>?
   
-  init(exerciseModule: ExerciseModuleProtocol = ExerciseModule(), exerciseImageModule: ExerciseImageModule = ExerciseImageModule()) {
+  init(exerciseModule: ExerciseModuleProtocol = ExerciseModule()) {
     self.exerciseModule = exerciseModule
-    self.exerciseImageModule = exerciseImageModule
   }
   
   func loadExercises() {
@@ -38,7 +35,7 @@ class ExerciseStore: ObservableObject {
       
       do {
         var exercises = try await self.exerciseModule.getExercises()
-        self.results = try await loadInitialImage(for: exercises)
+        self.results = exercises
       } catch {
         self.error = error
       }
@@ -52,42 +49,18 @@ class ExerciseStore: ObservableObject {
       self.isLoading = true
       defer { isLoading = false }
       
-      do {
-        let exercises =  try await self.exerciseModule.getFilteredExercises(filters: filters)
-        self.results = try await loadInitialImage(for: exercises)
-      } catch {
-        self.error = error
-      }
-    }
-  }
-  
-  func loadAllImagesForExercise(_ exercise: Exercise) {
-    loadAllImagesTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-      
-      self.isLoading = true
-      defer { isLoading = false }
-      
-      do {
-        let exerciseWithAllImages = try await exerciseImageModule.loadAllImages(for: exercise)
-        self.exerciseDetail = exerciseWithAllImages
-        self.showExerciseDetail = true
-      } catch {
-        self.error = error
-      }
+//      do {
+//        let exercises =  try await self.exerciseModule.getFilteredExercises(filters: filters)
+//        self.results = exercises
+//      } catch {
+//        self.error = error
+//      }
     }
   }
   
   func cleanExerciseImages() {
     self.exerciseDetail = nil
     self.showExerciseDetail = false
-  }
-  
-  private func loadInitialImage(for exercises: [Exercise]) async throws -> [Exercise] {
-    var newExercises = exercises
-    return try await newExercises.asyncCompactMap { exercise in
-      return try await self.exerciseImageModule.loadInitialImage(for: exercise)
-    }
   }
   
   func searchFor(query: String) {
@@ -97,12 +70,12 @@ class ExerciseStore: ObservableObject {
       self.isLoading = true
       defer { self.isLoading = false }
       
-      do {
-        let exercises = try await self.exerciseModule.searchFor(query: query)
-        self.results = try await loadInitialImage(for: exercises)
-      } catch {
-        self.error = error
-      }
+//      do {
+//        let exercises = try await self.exerciseModule.searchFor(query: query)
+//        self.results = exercises
+//      } catch {
+//        self.error = error
+//      }
     }
   }
   
@@ -115,8 +88,5 @@ class ExerciseStore: ObservableObject {
     
     searchTask?.cancel()
     searchTask = nil
-    
-    loadAllImagesTask?.cancel()
-    loadAllImagesTask = nil
   }
 }

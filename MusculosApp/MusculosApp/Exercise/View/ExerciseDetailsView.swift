@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct ExerciseDetailsView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize
@@ -39,8 +38,9 @@ struct ExerciseDetailsView: View {
   
   @ViewBuilder
   private var imageSection: some View {
-    if exercise.images.count > 0 {
-      AnimatedURLImageView(imageURLs: exercise.images)
+    if exercise.imageUrls.count > 0 {
+      let images = exercise.getImagesURLs()
+      AnimatedURLImageView(imageURLs: images)
         .overlay {
           imageOverlay
         }
