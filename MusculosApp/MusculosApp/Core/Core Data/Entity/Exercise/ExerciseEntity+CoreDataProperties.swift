@@ -15,15 +15,7 @@ extension ExerciseEntity {
         return NSFetchRequest<ExerciseEntity>(entityName: "ExerciseEntity")
     }
 
-    @NSManaged public var id: UUID?
-    @NSManaged public var force: String?
-    @NSManaged public var level: String?
-    @NSManaged public var equipment: String?
-    @NSManaged public var category: String?
-    @NSManaged public var name: String?
-    @NSManaged public var primaryMuscles: NSSet?
-    @NSManaged public var secondaryMuscles: NSSet?
-    @NSManaged public var instructions: NSOrderedSet?
+   
 
 }
 

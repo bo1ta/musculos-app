@@ -40,6 +40,7 @@ class CoreDataStack {
       do {
         try context.save()
       } catch {
+        context.rollback()
         MusculosLogger.logError(error: error, message: "Failed to save main context", category: .coreData)
         return
       }
@@ -52,6 +53,7 @@ class CoreDataStack {
       do {
         try context.save()
       } catch {
+        context.rollback()
         MusculosLogger.logError(error: error, message: "Failed to save backgroundContext context", category: .coreData)
         return
       }

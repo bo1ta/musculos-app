@@ -24,15 +24,9 @@ class CoreDataManager {
       guard let userProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.backgroundContext) else { return }
 
       userProfile.gender = gender?.rawValue
-      if let weight {
-        userProfile.weight = NSNumber(integerLiteral: weight)
-      }
-      if let height {
-        userProfile.height = NSNumber(integerLiteral: height)
-      }
-      if let goalId {
-        userProfile.goalId = NSNumber(integerLiteral: goalId)
-      }
+      userProfile.weight = weight ?? 0
+      userProfile.height = height ?? 0
+      userProfile.goalId = goalId ?? 0
   
       await CoreDataStack.shared.saveBackgroundContext()
       await CoreDataStack.shared.saveMainContext()

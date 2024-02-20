@@ -55,6 +55,11 @@
 		BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */; };
 		BC43D33B2B6EAD8D008C1062 /* SearchFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D33A2B6EAD8D008C1062 /* SearchFilterViewModel.swift */; };
 		BC43D33D2B6EFB29008C1062 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D33C2B6EFB29008C1062 /* Exercise.swift */; };
+		BC52DDCB2B85144C005A4587 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDCA2B85144C005A4587 /* APIEndpoint.swift */; };
+		BC52DDCE2B85164D005A4587 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDCD2B85164D005A4587 /* APIRequest.swift */; };
+		BC52DDD12B8516B8005A4587 /* MusculosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDD02B8516B8005A4587 /* MusculosClient.swift */; };
+		BC52DDD42B8516F9005A4587 /* MuscleClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDD32B8516F9005A4587 /* MuscleClientProtocol.swift */; };
+		BC52DDD62B851722005A4587 /* DecodableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDD52B851722005A4587 /* DecodableModel.swift */; };
 		BC5834182B1BFBCF00BD7690 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = BC5834172B1BFBCF00BD7690 /* Functions */; };
 		BC58341A2B1BFBCF00BD7690 /* GoTrue in Frameworks */ = {isa = PBXBuildFile; productRef = BC5834192B1BFBCF00BD7690 /* GoTrue */; };
 		BC58341C2B1BFBCF00BD7690 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = BC58341B2B1BFBCF00BD7690 /* PostgREST */; };
@@ -81,6 +86,9 @@
 		BC5BACD92ABB6694003C880E /* ExerciseModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACD82ABB6694003C880E /* ExerciseModuleTests.swift */; };
 		BC5BACDC2ABB75AA003C880E /* AnatomyOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACDB2ABB75AA003C880E /* AnatomyOverlayView.swift */; };
 		BC5FAA622B7D8B4E00B79D4B /* ContentLengthPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5FAA612B7D8B4E00B79D4B /* ContentLengthPreferenceKey.swift */; };
+		BC5FAA642B7EBD7900B79D4B /* DataImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5FAA632B7EBD7900B79D4B /* DataImporter.swift */; };
+		BC5FAA662B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5FAA652B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift */; };
+		BC5FAA682B7ED0C000B79D4B /* SynchronizationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5FAA672B7ED0C000B79D4B /* SynchronizationState.swift */; };
 		BC63A5A42AC33896006B1894 /* MuscleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC63A5A32AC33896006B1894 /* MuscleData.swift */; };
 		BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */; };
 		BC8E86DD2AED2DB9008E3CE4 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8E86DC2AED2DB9008E3CE4 /* UIImage+Extension.swift */; };
@@ -107,8 +115,7 @@
 		BCA24C0F2B6B2B5D00124EC3 /* SelectGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */; };
 		BCA24C122B6B33B400124EC3 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C112B6B33B400124EC3 /* Goal.swift */; };
 		BCA24C142B6C203600124EC3 /* SizePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C132B6C203600124EC3 /* SizePickerView.swift */; };
-		BCA24C172B6C5ABE00124EC3 /* UserProfile+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C152B6C5ABE00124EC3 /* UserProfile+CoreDataClass.swift */; };
-		BCA24C182B6C5ABE00124EC3 /* UserProfile+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C162B6C5ABE00124EC3 /* UserProfile+CoreDataProperties.swift */; };
+		BCA24C172B6C5ABE00124EC3 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C152B6C5ABE00124EC3 /* UserProfile.swift */; };
 		BCA24C1A2B6C722F00124EC3 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C192B6C722F00124EC3 /* CoreDataManager.swift */; };
 		BCA87E592AE83B3800453E4B /* ChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E582AE83B3800453E4B /* ChallengeView.swift */; };
 		BCA87E5C2AE8606F00453E4B /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5B2AE8606F00453E4B /* Challenge.swift */; };
@@ -200,6 +207,11 @@
 		BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkButton.swift; sourceTree = "<group>"; };
 		BC43D33A2B6EAD8D008C1062 /* SearchFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterViewModel.swift; sourceTree = "<group>"; };
 		BC43D33C2B6EFB29008C1062 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
+		BC52DDCA2B85144C005A4587 /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
+		BC52DDCD2B85164D005A4587 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		BC52DDD02B8516B8005A4587 /* MusculosClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosClient.swift; sourceTree = "<group>"; };
+		BC52DDD32B8516F9005A4587 /* MuscleClientProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleClientProtocol.swift; sourceTree = "<group>"; };
+		BC52DDD52B851722005A4587 /* DecodableModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodableModel.swift; sourceTree = "<group>"; };
 		BC5834232B1C00AA00BD7690 /* SupabaseWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseWrapper.swift; sourceTree = "<group>"; };
 		BC5925002A5C8B72000F1941 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BC5972102A351B0F00EBB075 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
@@ -216,6 +228,9 @@
 		BC5BACD82ABB6694003C880E /* ExerciseModuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseModuleTests.swift; sourceTree = "<group>"; };
 		BC5BACDB2ABB75AA003C880E /* AnatomyOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnatomyOverlayView.swift; sourceTree = "<group>"; };
 		BC5FAA612B7D8B4E00B79D4B /* ContentLengthPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLengthPreferenceKey.swift; sourceTree = "<group>"; };
+		BC5FAA632B7EBD7900B79D4B /* DataImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataImporter.swift; sourceTree = "<group>"; };
+		BC5FAA652B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodingUserInfoKey+Extension.swift"; sourceTree = "<group>"; };
+		BC5FAA672B7ED0C000B79D4B /* SynchronizationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizationState.swift; sourceTree = "<group>"; };
 		BC63A5A32AC33896006B1894 /* MuscleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleData.swift; sourceTree = "<group>"; };
 		BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		BC8E86DC2AED2DB9008E3CE4 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -243,8 +258,7 @@
 		BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGoalView.swift; sourceTree = "<group>"; };
 		BCA24C112B6B33B400124EC3 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		BCA24C132B6C203600124EC3 /* SizePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePickerView.swift; sourceTree = "<group>"; };
-		BCA24C152B6C5ABE00124EC3 /* UserProfile+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfile+CoreDataClass.swift"; sourceTree = "<group>"; };
-		BCA24C162B6C5ABE00124EC3 /* UserProfile+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfile+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BCA24C152B6C5ABE00124EC3 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		BCA24C192B6C722F00124EC3 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		BCA87E582AE83B3800453E4B /* ChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeView.swift; sourceTree = "<group>"; };
 		BCA87E5B2AE8606F00453E4B /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
@@ -422,10 +436,12 @@
 		BC182ECB2A589BC7003DEA30 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				BC5FAA632B7EBD7900B79D4B /* DataImporter.swift */,
 				BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */,
 				BCA24C192B6C722F00124EC3 /* CoreDataManager.swift */,
 				BCFBB7662A59C6D700896C3C /* Entity */,
 				BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */,
+				BC5FAA672B7ED0C000B79D4B /* SynchronizationState.swift */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -553,6 +569,9 @@
 		BC352AE42A326D7C00DAA3AB /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				BC52DDCF2B8516AE005A4587 /* Client */,
+				BC52DDCC2B851640005A4587 /* API */,
+				BC52DDD22B8516E2005A4587 /* Protocol */,
 				BC3F13E92B78052B00E9E98E /* Supabase */,
 			);
 			path = Network;
@@ -620,6 +639,32 @@
 				BC43D33A2B6EAD8D008C1062 /* SearchFilterViewModel.swift */,
 			);
 			path = "Search Filter View";
+			sourceTree = "<group>";
+		};
+		BC52DDCC2B851640005A4587 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				BC52DDCA2B85144C005A4587 /* APIEndpoint.swift */,
+				BC52DDCD2B85164D005A4587 /* APIRequest.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		BC52DDCF2B8516AE005A4587 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				BC52DDD02B8516B8005A4587 /* MusculosClient.swift */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
+		BC52DDD22B8516E2005A4587 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				BC52DDD32B8516F9005A4587 /* MuscleClientProtocol.swift */,
+				BC52DDD52B851722005A4587 /* DecodableModel.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		BC5834252B1CE34500BD7690 /* Main */ = {
@@ -914,8 +959,7 @@
 		BCBCB8B92B6D52C6004A5B44 /* UserProfile */ = {
 			isa = PBXGroup;
 			children = (
-				BCA24C152B6C5ABE00124EC3 /* UserProfile+CoreDataClass.swift */,
-				BCA24C162B6C5ABE00124EC3 /* UserProfile+CoreDataProperties.swift */,
+				BCA24C152B6C5ABE00124EC3 /* UserProfile.swift */,
 			);
 			path = UserProfile;
 			sourceTree = "<group>";
@@ -944,6 +988,7 @@
 				BC8E86DC2AED2DB9008E3CE4 /* UIImage+Extension.swift */,
 				BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */,
 				BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */,
+				BC5FAA652B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1152,12 +1197,15 @@
 				BC63A5A42AC33896006B1894 /* MuscleData.swift in Sources */,
 				BCCE85EB2A33DCA6001BEE8B /* UserDefaultsWrapper.swift in Sources */,
 				BC0171012AEC3E0A005876EE /* CongratulationView.swift in Sources */,
+				BC5FAA662B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift in Sources */,
+				BC5FAA682B7ED0C000B79D4B /* SynchronizationState.swift in Sources */,
 				BC5FAA622B7D8B4E00B79D4B /* ContentLengthPreferenceKey.swift in Sources */,
 				BC261ABB2B6DAF600018E21F /* FiltersSectionView.swift in Sources */,
 				BC43D33D2B6EFB29008C1062 /* Exercise.swift in Sources */,
 				BC261AB62B6D75BE0018E21F /* ProgressCardView.swift in Sources */,
 				BCD837BC2B64902D0069CECB /* Sequence+Extension.swift in Sources */,
 				BCA24C122B6B33B400124EC3 /* Goal.swift in Sources */,
+				BC52DDD12B8516B8005A4587 /* MusculosClient.swift in Sources */,
 				BCCBEC722AD85158002F5E41 /* RoundedTextField.swift in Sources */,
 				BC96C2FB2AC8310500F11CAB /* SelectMuscleView.swift in Sources */,
 				BCA87E592AE83B3800453E4B /* ChallengeView.swift in Sources */,
@@ -1165,6 +1213,7 @@
 				BC3454592B75706A0074106A /* GIFImageViewRepresentable.swift in Sources */,
 				BC0171092AEC6A71005876EE /* HomeView.swift in Sources */,
 				BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */,
+				BC52DDD62B851722005A4587 /* DecodableModel.swift in Sources */,
 				BC3F13E42B77D8E600E9E98E /* ExerciseEntity+CoreDataClass.swift in Sources */,
 				BCCE85ED2A35008C001BEE8B /* Color+Extension.swift in Sources */,
 				BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */,
@@ -1172,7 +1221,6 @@
 				BC8E86E02AED2F21008E3CE4 /* EnvironmentValues+Extension.swift in Sources */,
 				BCA24BFC2B6AB9AF00124EC3 /* SignInView.swift in Sources */,
 				BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */,
-				BCA24C182B6C5ABE00124EC3 /* UserProfile+CoreDataProperties.swift in Sources */,
 				BCE417102A7D73380088D975 /* AddTabBarButtonView.swift in Sources */,
 				BC3454602B76CD780074106A /* ExerciseDetailsView.swift in Sources */,
 				BC3F13E52B77D8E600E9E98E /* ExerciseEntity+CoreDataProperties.swift in Sources */,
@@ -1185,8 +1233,10 @@
 				BCA87E5C2AE8606F00453E4B /* Challenge.swift in Sources */,
 				BC3454642B76E1140074106A /* DetailCardView.swift in Sources */,
 				BC261AB82B6DA0EF0018E21F /* SearchFilterView.swift in Sources */,
+				BC52DDD42B8516F9005A4587 /* MuscleClientProtocol.swift in Sources */,
+				BC52DDCE2B85164D005A4587 /* APIRequest.swift in Sources */,
 				BC5834242B1C00AA00BD7690 /* SupabaseWrapper.swift in Sources */,
-				BCA24C172B6C5ABE00124EC3 /* UserProfile+CoreDataClass.swift in Sources */,
+				BCA24C172B6C5ABE00124EC3 /* UserProfile.swift in Sources */,
 				BCF7DE712A7DB2EC00FC960B /* CustomTabBarView.swift in Sources */,
 				BCA24BEF2B69D3AE00124EC3 /* GetStartedView.swift in Sources */,
 				BCF86C3B2A3632BA003293A4 /* SecondaryButton.swift in Sources */,
@@ -1197,6 +1247,7 @@
 				BC3FB0EA2A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift in Sources */,
 				BC3FB0EE2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift in Sources */,
 				BCA24C082B6AFF8200124EC3 /* OnboardingWizardView.swift in Sources */,
+				BC52DDCB2B85144C005A4587 /* APIEndpoint.swift in Sources */,
 				BCA87E5F2AE865A600453E4B /* Person.swift in Sources */,
 				BCA24C002B6AE68500124EC3 /* RegisterView.swift in Sources */,
 				BC0170FE2AE9B948005876EE /* CircleTimerViewModel.swift in Sources */,
@@ -1205,6 +1256,7 @@
 				BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */,
 				BC1160D22A2CFB830028D8FC /* AppTabView.swift in Sources */,
 				BC01710D2AEC6FDF005876EE /* GreenGrassButton.swift in Sources */,
+				BC5FAA642B7EBD7900B79D4B /* DataImporter.swift in Sources */,
 				BCD837BF2B651F750069CECB /* LoadingOverlayView.swift in Sources */,
 				BCB6BF4F2AFAE84B00B6CBCE /* URL+Extension.swift in Sources */,
 				BC0171042AEC64B8005876EE /* MockConstants.swift in Sources */,
