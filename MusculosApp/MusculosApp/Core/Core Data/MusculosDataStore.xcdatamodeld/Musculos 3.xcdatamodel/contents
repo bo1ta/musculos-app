@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22222" systemVersion="22G74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="ExerciseEntity" representedClassName="ExerciseEntity" syncable="YES">
+    <entity name="Exercise" representedClassName="Exercise" syncable="YES">
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="equipment" optional="YES" attributeType="String"/>
         <attribute name="force" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="imageUrls" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="instructions" optional="YES" attributeType="Transformable" customClassName="[String]"/>
         <attribute name="level" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="instructions" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="StringHolder"/>
-        <relationship name="primaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StringHolder"/>
-        <relationship name="secondaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StringHolder"/>
+        <attribute name="primaryMuscles" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="secondaryMuscles" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="synchronized" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <entity name="StringHolder" representedClassName="StringHolder" syncable="YES" codeGenerationType="class">
         <attribute name="text" optional="YES" attributeType="String"/>

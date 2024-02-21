@@ -13,7 +13,7 @@ class ExerciseStore: ObservableObject {
   
   private let exerciseModule: ExerciseModuleProtocol
   
-  init(exerciseModule: ExerciseModuleProtocol = ExerciseModule()) {
+  init(exerciseModule: ExerciseModuleProtocol = ExerciseModule(dataImporter: DataImporter(context: CoreDataStack.shared.backgroundContext))) {
     self.exerciseModule = exerciseModule
   }
   
@@ -23,7 +23,7 @@ class ExerciseStore: ObservableObject {
       let exercises = try await exerciseModule.getExercises()
       state = .loaded(exercises)
     } catch {
-      state = .error("Could not load exercies")
+      state = .error(error.localizedDescription)
     }
   }
   

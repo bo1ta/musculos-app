@@ -189,7 +189,7 @@ extension DashboardView {
 }
 
 #Preview {
-  DashboardView().environmentObject(UserStore()).environmentObject(ExerciseStore())
+  DashboardView().environmentObject(UserStore()).environmentObject(ExerciseStore()).environmentObject(TabBarSettings(isTabBarHidden: false))
 }
 
 extension DashboardView {

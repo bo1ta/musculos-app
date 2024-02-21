@@ -34,5 +34,17 @@ class MockConstants {
   ]
   
   // MARK: - Exercise
-  static let exercise = Exercise(id: UUID(), primaryMuscles: ["back", "shoulder"], secondaryMuscles: ["back", "chest"], equipment: "dumbbell", instructions: ["Get upGet upGet upGet upGet upGet upGet upGet upGet upGet upGet upGet upGet upGet up", "Stand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feet"], name: "Back workout", imageUrls: [ "https://wqgqgfospzhwoqeqdzbo.supabase.co/storage/v1/object/public/workout_image/Ab_Roller/images/0.jpg?t=2024-02-09T21%3A26%3A22.329Z"])
+  static var exercise: Exercise  {
+    let exercise = Exercise(context: CoreDataStack.shared.mainContext)
+    exercise.name = "Exercise Name"
+    exercise.id = UUID()
+    exercise.equipment = "equipment"
+    exercise.instructions = ["Step 1 instruction", "Step 2 instruction"]
+    exercise.category = "category"
+    exercise.force = "force"
+    exercise.level = "expert"
+    exercise.primaryMuscles = ["biceps"]
+    exercise.secondaryMuscles = ["abs"]
+    return exercise
+  }
 }

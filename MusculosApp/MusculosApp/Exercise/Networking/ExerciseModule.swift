@@ -13,14 +13,16 @@ protocol ExerciseModuleProtocol {
 
 struct ExerciseModule: ExerciseModuleProtocol, MusculosModuleProtocol {
   var client: MusculosClientProtocol
+  var dataImporter: DataImporter
 
-  init(client: MusculosClientProtocol = MusculosClient()) {
+  init(client: MusculosClientProtocol = MusculosClient(), dataImporter: DataImporter) {
     self.client = client
+    self.dataImporter = dataImporter
   }
   
   func getExercises() async throws -> [Exercise] {
     let request = APIRequest(method: .get, path: .exercises)
     let data = try await client.dispatch(request)
-    return try await Exercise.createArrayFrom(data)
+    return dataImporter.importExercisesUsingData(data)
   }
 }

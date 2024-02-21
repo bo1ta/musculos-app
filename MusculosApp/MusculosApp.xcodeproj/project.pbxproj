@@ -38,8 +38,6 @@
 		BC34545E2B76C3EA0074106A /* DebouncedQueryObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */; };
 		BC3454602B76CD780074106A /* ExerciseDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC34545F2B76CD780074106A /* ExerciseDetailsView.swift */; };
 		BC3454642B76E1140074106A /* DetailCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3454632B76E1140074106A /* DetailCardView.swift */; };
-		BC3F13E42B77D8E600E9E98E /* ExerciseEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13E22B77D8E600E9E98E /* ExerciseEntity+CoreDataClass.swift */; };
-		BC3F13E52B77D8E600E9E98E /* ExerciseEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13E32B77D8E600E9E98E /* ExerciseEntity+CoreDataProperties.swift */; };
 		BC3F13EB2B78060D00E9E98E /* MusculosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13EA2B78060D00E9E98E /* MusculosError.swift */; };
 		BC3F13ED2B78169300E9E98E /* TransitionImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13EC2B78169300E9E98E /* TransitionImagesView.swift */; };
 		BC3FB0EA2A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0E92A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift */; };
@@ -58,6 +56,8 @@
 		BC52DDDA2B85431C005A4587 /* LoadingViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDD92B85431C005A4587 /* LoadingViewState.swift */; };
 		BC52DDDC2B8560DB005A4587 /* Shimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDDB2B8560DB005A4587 /* Shimmer.swift */; };
 		BC52DDDE2B856169005A4587 /* ExerciseCardSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDDD2B856169005A4587 /* ExerciseCardSection.swift */; };
+		BC52DDE12B856E64005A4587 /* Exercise+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDDF2B856E64005A4587 /* Exercise+CoreDataClass.swift */; };
+		BC52DDE22B856E64005A4587 /* Exercise+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDE02B856E64005A4587 /* Exercise+CoreDataProperties.swift */; };
 		BC5925012A5C8B72000F1941 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5925002A5C8B72000F1941 /* String+Extension.swift */; };
 		BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972102A351B0F00EBB075 /* PrimaryButton.swift */; };
 		BC5B12042B658A1F00B344A0 /* TabBarSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5B12032B658A1F00B344A0 /* TabBarSettings.swift */; };
@@ -181,8 +181,6 @@
 		BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebouncedQueryObserver.swift; sourceTree = "<group>"; };
 		BC34545F2B76CD780074106A /* ExerciseDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsView.swift; sourceTree = "<group>"; };
 		BC3454632B76E1140074106A /* DetailCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCardView.swift; sourceTree = "<group>"; };
-		BC3F13E22B77D8E600E9E98E /* ExerciseEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExerciseEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		BC3F13E32B77D8E600E9E98E /* ExerciseEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExerciseEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BC3F13EA2B78060D00E9E98E /* MusculosError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusculosError.swift; sourceTree = "<group>"; };
 		BC3F13EC2B78169300E9E98E /* TransitionImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionImagesView.swift; sourceTree = "<group>"; };
 		BC3FB0E92A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
@@ -201,6 +199,8 @@
 		BC52DDD92B85431C005A4587 /* LoadingViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewState.swift; sourceTree = "<group>"; };
 		BC52DDDB2B8560DB005A4587 /* Shimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shimmer.swift; sourceTree = "<group>"; };
 		BC52DDDD2B856169005A4587 /* ExerciseCardSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCardSection.swift; sourceTree = "<group>"; };
+		BC52DDDF2B856E64005A4587 /* Exercise+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Exercise+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BC52DDE02B856E64005A4587 /* Exercise+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Exercise+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BC5925002A5C8B72000F1941 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BC5972102A351B0F00EBB075 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		BC5B12032B658A1F00B344A0 /* TabBarSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarSettings.swift; sourceTree = "<group>"; };
@@ -552,15 +552,6 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		BC3F13E62B77D92400E9E98E /* Exercise */ = {
-			isa = PBXGroup;
-			children = (
-				BC3F13E22B77D8E600E9E98E /* ExerciseEntity+CoreDataClass.swift */,
-				BC3F13E32B77D8E600E9E98E /* ExerciseEntity+CoreDataProperties.swift */,
-			);
-			path = Exercise;
-			sourceTree = "<group>";
-		};
 		BC3FB0EF2A855D9100C3F9B1 /* Preference Key */ = {
 			isa = PBXGroup;
 			children = (
@@ -633,6 +624,15 @@
 				BC52DDD72B852AB2005A4587 /* MuscleModuleProtocol.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		BC52DDE32B856E7D005A4587 /* Exercise */ = {
+			isa = PBXGroup;
+			children = (
+				BC52DDDF2B856E64005A4587 /* Exercise+CoreDataClass.swift */,
+				BC52DDE02B856E64005A4587 /* Exercise+CoreDataProperties.swift */,
+			);
+			path = Exercise;
 			sourceTree = "<group>";
 		};
 		BC5834252B1CE34500BD7690 /* Main */ = {
@@ -979,7 +979,7 @@
 		BCFBB7662A59C6D700896C3C /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				BC3F13E62B77D92400E9E98E /* Exercise */,
+				BC52DDE32B856E7D005A4587 /* Exercise */,
 				BCBCB8B92B6D52C6004A5B44 /* UserProfile */,
 			);
 			path = Entity;
@@ -1167,7 +1167,6 @@
 				BC0171092AEC6A71005876EE /* HomeView.swift in Sources */,
 				BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */,
 				BC52DDD62B851722005A4587 /* DecodableModel.swift in Sources */,
-				BC3F13E42B77D8E600E9E98E /* ExerciseEntity+CoreDataClass.swift in Sources */,
 				BCCE85ED2A35008C001BEE8B /* Color+Extension.swift in Sources */,
 				BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */,
 				BCF86C332A362105003293A4 /* CustomNavigationBarView.swift in Sources */,
@@ -1176,7 +1175,6 @@
 				BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */,
 				BCE417102A7D73380088D975 /* AddTabBarButtonView.swift in Sources */,
 				BC3454602B76CD780074106A /* ExerciseDetailsView.swift in Sources */,
-				BC3F13E52B77D8E600E9E98E /* ExerciseEntity+CoreDataProperties.swift in Sources */,
 				BC43D33B2B6EAD8D008C1062 /* SearchFilterViewModel.swift in Sources */,
 				BC3FB0FB2A899A8500C3F9B1 /* EqualWidthHStack.swift in Sources */,
 				BC34545E2B76C3EA0074106A /* DebouncedQueryObserver.swift in Sources */,
@@ -1231,8 +1229,10 @@
 				BC3454532B72DF4B0074106A /* ExerciseStore.swift in Sources */,
 				BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */,
 				BC8E86E32AED2F56008E3CE4 /* MainWndowSizeKey.swift in Sources */,
+				BC52DDE12B856E64005A4587 /* Exercise+CoreDataClass.swift in Sources */,
 				BC01710B2AEC6DBD005876EE /* PersonAvatarCircle.swift in Sources */,
 				BC5BACDC2ABB75AA003C880E /* AnatomyOverlayView.swift in Sources */,
+				BC52DDE22B856E64005A4587 /* Exercise+CoreDataProperties.swift in Sources */,
 				BC5BACCA2AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift in Sources */,
 				BC52DDDA2B85431C005A4587 /* LoadingViewState.swift in Sources */,
 			);
