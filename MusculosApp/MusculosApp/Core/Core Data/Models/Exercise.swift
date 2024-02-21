@@ -1,5 +1,5 @@
 //
-//  Exercise+CoreDataClass.swift
+//  Exercise.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 21.02.2024.
