@@ -11,6 +11,7 @@ enum Endpoint: CustomStringConvertible {
   case login
   case register
   case exercises
+  case exercisesByMuscle
 
   var description: String {
     switch self {
@@ -20,6 +21,8 @@ enum Endpoint: CustomStringConvertible {
       return "/me/register"
     case .exercises:
       return "/db0/exercises"
+    case .exercisesByMuscle:
+      return "/db0/searchMuscle"
     }
   }
 }

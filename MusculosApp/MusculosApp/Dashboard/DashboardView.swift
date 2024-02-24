@@ -36,7 +36,7 @@ struct DashboardView: View {
           categoryTabs
           
           SearchFilterFieldView(showFilterView: $showFilterView, hasObservedQuery: { query in
-            exerciseStore.searchFor(query: query)
+            exerciseStore.searchByMuscleQuery(query)
           })
           
           switch exerciseStore.state {
@@ -75,6 +75,9 @@ struct DashboardView: View {
         DispatchQueue.main.async {
           tabBarSettings.isTabBarHidden = false
         }
+      }
+      .onDisappear {
+        exerciseStore.cleanUp()
       }
       .ignoresSafeArea()
     }

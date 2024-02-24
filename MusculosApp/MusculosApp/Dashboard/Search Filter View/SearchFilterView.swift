@@ -133,7 +133,7 @@ struct SearchFilterView: View {
       filters["equipment"] = viewModel.selectedEquipmentFilters
     }
     
-    exerciseStore.loadFilteredExercises(with: filters)
+//    exerciseStore.loadFilteredExercises(with: filters)
   }
 }
 
