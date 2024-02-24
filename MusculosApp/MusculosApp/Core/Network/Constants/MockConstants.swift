@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MockConstants {
   
@@ -34,17 +35,34 @@ class MockConstants {
   ]
   
   // MARK: - Exercise
-  static var exercise: Exercise  {
-    let exercise = Exercise(context: CoreDataStack.shared.mainContext)
-    exercise.name = "Exercise Name"
+  static func createMockExercise(
+    name: String = "Power Stairs",
+    primaryMuscles: [String] = ["hamstrings"],
+    secondaryMuscles: [String] = ["calves", "glutes", "traps"],
+    equipment: String = "barbell",
+    category: String = "powerlifting",
+    force: String = "pull",
+    level: String = "intermediate",
+    instructions: [String] =
+    [
+      "In the power stairs, implements are moved up a staircase. For training purposes, these can be performed with a tire or box.",
+      "Begin by taking the implement with both hands. Set your feet wide, with your head and chest up. Drive through the ground with your heels, extending your knees and hips to raise the weight from the ground.",
+      "As you lean back, attempt to swing the weight onto the stairs, which are usually around 16-18\" high. You can use your legs to help push the weight onto the stair.",
+      "Repeat for 3-5 repetitions, and continue with a heavier weight, moving as fast as possible."
+    ]
+  ) -> Exercise {
+    let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+    let exercise = Exercise(context: context)
+    
+    exercise.name = name
     exercise.id = UUID()
-    exercise.equipment = "equipment"
-    exercise.instructions = ["Step 1 instruction", "Step 2 instruction"]
-    exercise.category = "category"
-    exercise.force = "force"
-    exercise.level = "expert"
-    exercise.primaryMuscles = ["biceps"]
-    exercise.secondaryMuscles = ["abs"]
+    exercise.equipment = equipment
+    exercise.instructions = instructions
+    exercise.category = category
+    exercise.force = force
+    exercise.level = level
+    exercise.primaryMuscles = primaryMuscles
+    exercise.secondaryMuscles = secondaryMuscles
     return exercise
   }
 }

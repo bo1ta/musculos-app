@@ -14,8 +14,9 @@ struct DashboardView: View {
   
   @State private var selectedSection: CategorySection = .discover
   @State private var searchQuery: String = ""
-  
   @State private var showFilterView: Bool = false
+  @State private var showExerciseDetails: Bool = false
+    
   @State private var selectedExercise: Exercise? = nil {
     didSet {
       if selectedExercise != nil {
@@ -23,10 +24,7 @@ struct DashboardView: View {
       }
     }
   }
-  @State private var showExerciseDetails: Bool = false
-  
-  @StateObject private var debouncedQueryObserver = DebouncedQueryObserver()
-  
+
   var body: some View {
     NavigationStack {
       VStack {
@@ -36,18 +34,17 @@ struct DashboardView: View {
             .padding([.leading, .trailing], 10)
             .padding(.top, 20)
           categoryTabs
-          searchAndFilter
+          
+          SearchFilterFieldView(showFilterView: $showFilterView, hasObservedQuery: { query in
+            exerciseStore.searchFor(query: query)
+          })
           
           switch exerciseStore.state {
           case .loading:
-            Group {
-              ExerciseCardSection(title: "Most popular", exercises: [MockConstants.exercise, MockConstants.exercise], onExerciseTap: { _ in })
-              ExerciseCardSection(title: "Quick muscle-building workouts", exercises: [MockConstants.exercise, MockConstants.exercise], isSmallCard: true, onExerciseTap: { _ in })
-            }
-            .shimmering()
+           DashboardLoadingView()
             .task {
               await userStore.fetchUserProfile()
-              await exerciseStore.loadExercises()
+              exerciseStore.loadLocalExercises()
             }
           case .loaded(let exercises):
             ExerciseCardSection(title: "Most popular", exercises: exercises, onExerciseTap: {
@@ -59,14 +56,11 @@ struct DashboardView: View {
               selectedExercise = exercise
             })
           case .empty(_):
-            EmptyView()
+            Text("No data found!")
           case .error(_):
             EmptyView()
           }
         }
-      }
-      .onChange(of: debouncedQueryObserver.debouncedQuery) { query in
-        exerciseStore.searchFor(query: query)
       }
       .popover(isPresented: $showFilterView) {
         SearchFilterView()
@@ -141,26 +135,6 @@ struct DashboardView: View {
       }
       .padding()
     }
-  }
-  
-  private var searchAndFilter: some View {
-    HStack {
-      RoundedTextField(text: $debouncedQueryObserver.searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
-        .shadow(radius: 2, y: 1)
-      Button(action: {
-        showFilterView = true
-      }, label: {
-        Circle()
-          .frame(width: 50, height: 50)
-          .foregroundStyle(Color.appColor(with: .customRed))
-          .overlay {
-            Image(systemName: "line.3.horizontal")
-              .foregroundStyle(.white)
-          }
-          .shadow(radius: 1)
-      })
-    }
-    .padding([.leading, .trailing], 10)
   }
 }
 

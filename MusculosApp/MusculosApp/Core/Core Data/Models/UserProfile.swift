@@ -15,20 +15,20 @@ public class UserProfile: NSManagedObject, Codable {
   @NSManaged public var fullName: String?
   @NSManaged public var username: String?
   @NSManaged public var email: String?
-  @NSManaged public var weight: Int
-  @NSManaged public var height: Int
-  @NSManaged public var goalId: Int
+  @NSManaged public var weight: NSNumber?
+  @NSManaged public var height: NSNumber?
+  @NSManaged public var goalId: NSNumber?
   @NSManaged public var isCurrentUser: Bool
-  @NSManaged public var synchronized: Int
+  @NSManaged public var synchronized: NSNumber
   @NSManaged public var updatedAt: Date
   
   public var synchronizationState: SynchronizationState {
     get {
-      SynchronizationState(rawValue: synchronized) ?? .notSynchronized
+      SynchronizationState(rawValue: synchronized.intValue) ?? .notSynchronized
     }
 
     set {
-      synchronized = newValue.rawValue
+      synchronized = NSNumber(integerLiteral: newValue.rawValue)
     }
   }
   
@@ -51,13 +51,13 @@ public class UserProfile: NSManagedObject, Codable {
     self.username = try container.decode(String.self, forKey: .username)
   
     if let weight = try? container.decode(Int.self, forKey: .weight) {
-      self.weight = weight
+      self.weight = NSNumber(integerLiteral: weight)
     }
     if let height = try? container.decode(Int.self, forKey: .height) {
-      self.height = height
+      self.height = NSNumber(integerLiteral: height)
     }
     if let goalId = try? container.decode(Int.self, forKey: .goalId) {
-      self.goalId = goalId
+      self.goalId = NSNumber(integerLiteral: goalId)
     }
   }
   
@@ -66,9 +66,9 @@ public class UserProfile: NSManagedObject, Codable {
     try container.encode(fullName, forKey: .fullName)
     try container.encode(email, forKey: .email)
     try container.encode(username, forKey: .username)
-    try container.encode(weight, forKey: .username)
-    try container.encode(weight, forKey: .weight)
-    try container.encode(height, forKey: .height)
+    try container.encode(goalId?.intValue, forKey: .goalId)
+    try container.encode(weight?.intValue, forKey: .weight)
+    try container.encode(height?.intValue, forKey: .height)
   }
   
   public class func fetchRequest() -> NSFetchRequest<UserProfile> {

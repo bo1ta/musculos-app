@@ -15,7 +15,7 @@ struct ExerciseModule: ExerciseModuleProtocol, MusculosModuleProtocol {
   var client: MusculosClientProtocol
   var dataImporter: DataImporter
 
-  init(client: MusculosClientProtocol = MusculosClient(), dataImporter: DataImporter) {
+  init(client: MusculosClientProtocol = MusculosClient(), dataImporter: DataImporter = DataImporter()) {
     self.client = client
     self.dataImporter = dataImporter
   }

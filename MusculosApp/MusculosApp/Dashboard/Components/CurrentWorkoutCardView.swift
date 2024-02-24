@@ -95,7 +95,7 @@ struct CurrentWorkoutCardView: View {
 
 struct WorkoutCardView_Preview: PreviewProvider {
   static var previews: some View {
-    CurrentWorkoutCardView(exercise: MockConstants.exercise)
+    CurrentWorkoutCardView(exercise: MockConstants.createMockExercise())
       .previewLayout(.sizeThatFits)
   }
 }

@@ -11,19 +11,21 @@ struct ExerciseDetailsView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var tabBarSettings: TabBarSettings
-
+  
+  private let client = MusculosClient()
+  
   var exercise: Exercise
   
   var body: some View {
     VStack(spacing: 10) {
       imageSection
-      detailsSection
-      
       ScrollView {
+        detailsSection
         stepsSection
           .padding([.top, .bottom], 10)
       }
       .scrollIndicators(.hidden)
+      .padding(.top, -50)
       
       Spacer()
     }
@@ -96,7 +98,7 @@ struct ExerciseDetailsView: View {
         
       }
       .padding(.leading, 20)
-      .padding(.top, -50)
+      .padding(.top)
       Spacer()
     }
   }
@@ -121,5 +123,7 @@ struct ExerciseDetailsView: View {
 }
 
 #Preview {
-  ExerciseDetailsView(exercise: MockConstants.exercise).environmentObject(TabBarSettings()).environmentObject(ExerciseStore())
+  ExerciseDetailsView(exercise: MockConstants.createMockExercise())
+    .environmentObject(TabBarSettings())
+    .environmentObject(ExerciseStore())
 }

@@ -18,26 +18,16 @@ public class Exercise: NSManagedObject, Decodable {
   @NSManaged public var category: String
   @NSManaged public var equipment: String?
   @NSManaged public var force: String?
-  @NSManaged public var id: UUID
+  @NSManaged public var id: UUID?
   @NSManaged public var level: String
   @NSManaged public var name: String
   @NSManaged public var primaryMuscles: [String]
   @NSManaged public var secondaryMuscles: [String]
   @NSManaged public var instructions: [String]
   @NSManaged public var imageUrls: [String]
-  @NSManaged public var synchronized: Int
-  
-  public var synchronizationState: SynchronizationState {
-    get {
-      SynchronizationState(rawValue: synchronized) ?? .notSynchronized
-    }
-    set {
-      synchronized = newValue.rawValue
-    }
-  }
   
   enum CodingKeys: String, CodingKey {
-    case category, equipment, force, id, level, name, primaryMuscles, secondaryMuscles, instructions, imageUrls, synchronized
+    case category, equipment, force, id, level, name, primaryMuscles, secondaryMuscles, instructions, imageUrls
   }
   
   public required convenience init(from decoder: Decoder) throws {
@@ -48,17 +38,16 @@ public class Exercise: NSManagedObject, Decodable {
     self.init(context: context)
     
     let container = try decoder.container(keyedBy: CodingKeys.self)
+    self.id = try container.decode(UUID.self, forKey: .id)
+    self.name = try container.decode(String.self, forKey: .name)
     self.category = try container.decode(String.self, forKey: .category)
     self.equipment = try container.decode(String.self, forKey: .equipment)
     self.force = try container.decode(String.self, forKey: .force)
-    self.id = try container.decode(UUID.self, forKey: .id)
     self.level = try container.decode(String.self, forKey: .level)
-    self.name = try container.decode(String.self, forKey: .name)
     self.primaryMuscles = try container.decode([String].self, forKey: .primaryMuscles)
     self.secondaryMuscles = try container.decode([String].self, forKey: .secondaryMuscles)
     self.instructions = try container.decode([String].self, forKey: .instructions)
     self.imageUrls = try container.decode([String].self, forKey: .imageUrls)
-    self.synchronized = 1
   }
   
   static func findOrInsert(using identifier: UUID, in context: NSManagedObjectContext) -> Exercise {
@@ -80,7 +69,6 @@ public class Exercise: NSManagedObject, Decodable {
       URL(string: imageUrlString)
     }
   }
-
 }
 
 extension Exercise {

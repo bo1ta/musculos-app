@@ -63,7 +63,8 @@ extension UserStore {
       
       do {
         let result = try await self.module.loginUser(email: email, password: password)
-        self.setAuthToken(result.token)
+        
+        UserDefaults.standard.setValue(result.token, forKey: UserDefaultsKey.authToken.rawValue)
         self.isLoggedIn = true
       } catch {
         self.error = error
@@ -83,9 +84,11 @@ extension UserStore {
       do {
         let result = try await self.module
           .registerUser(email: person.email, password: password, username: person.username, fullName: person.fullName)
-        self.setAuthToken(result.token)
-        self.isLoggedIn = true
+  
+        UserDefaults.standard.setValue(result.token, forKey: UserDefaultsKey.authToken.rawValue)
         CoreDataManager.createUserProfile(person: person)
+        
+        self.isLoggedIn = true
       } catch {
         self.error = error
         MusculosLogger.logError(error: error, message: "Sign up failed", category: .networking)
@@ -97,10 +100,6 @@ extension UserStore {
 // MARK: - Core Data + User Defaults
 
 extension UserStore {
-  private func setAuthToken(_ jwt: String) {
-    UserDefaults.standard.setValue(jwt, forKey: UserDefaultsKey.authToken.rawValue)
-  }
-  
   @MainActor
   func fetchUserProfile() async {
     currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)

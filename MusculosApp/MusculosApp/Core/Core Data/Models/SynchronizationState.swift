@@ -8,5 +8,5 @@
 import Foundation
 
 public enum SynchronizationState: Int {
-case notSynchronized = 0, synchronizationPending, synchronized
+  case notSynchronized = 0, synchronizationPending, synchronized
 }

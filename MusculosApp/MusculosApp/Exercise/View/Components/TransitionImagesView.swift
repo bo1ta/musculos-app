@@ -7,43 +7,40 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 struct AnimatedURLImageView: View {
   let imageURLs: [URL]
-  let interval: TimeInterval = .init(floatLiteral: 0.8)
+  let interval: TimeInterval
+  
+  init(imageURLs: [URL], interval: TimeInterval = .init(floatLiteral: 1)) {
+    self.imageURLs = imageURLs
+    self.interval = interval
+  }
   
   @State private var currentIndex = 0
+  @State private var cachedImages: [URL: UIImage] = [:]
   @State private var timer: Timer?
-  
+    
   var body: some View {
-    AsyncImage(url: imageURLs[currentIndex]) { phase in
-      switch phase {
-      case .empty:
-        Color
-          .white
-          .ignoresSafeArea()
-          .frame(maxWidth: .infinity)
-          .frame(minHeight: 300)
-          .shimmering()
-      case .success(let image):
-        image
+    VStack {
+      if let image = cachedImages[imageURLs[currentIndex]] {
+        Image(uiImage: image)
           .resizable()
           .ignoresSafeArea()
           .aspectRatio(contentMode: .fit)
           .frame(maxWidth: .infinity)
           .frame(minHeight: 300)
-      case .failure(_):
-        Color
-          .white
-          .ignoresSafeArea()
+      } else {
+        Color.white
           .frame(maxWidth: .infinity)
           .frame(minHeight: 300)
-      @unknown default:
-        fatalError("")
+          .ignoresSafeArea()
+          .task {
+            await downloadImages()
+          }
+          .shimmering()
       }
-    }
-    .onAppear {
-      startAnimating()
     }
     .onDisappear {
       stopAnimating()
@@ -61,6 +58,21 @@ struct AnimatedURLImageView: View {
   private func stopAnimating() {
     timer?.invalidate()
     timer = nil
+  }
+  
+  @MainActor
+  private func downloadImages() async {
+    await imageURLs.asyncForEach { url in
+      do {
+        let (data, _) = try await URLSession.shared.data(from: url)
+        if let image = UIImage(data: data) {
+          cachedImages[url] = image
+        }
+      } catch {
+        MusculosLogger.logError(error: error, message: "Error downloading images", category: .networking)
+      }
+    }
+    startAnimating()
   }
 }
 
