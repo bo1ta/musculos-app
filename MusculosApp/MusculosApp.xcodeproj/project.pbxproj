@@ -61,6 +61,9 @@
 		BC52DDEB2B880E80005A4587 /* ExerciseDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDEA2B880E80005A4587 /* ExerciseDataStore.swift */; };
 		BC52DDED2B8977B8005A4587 /* DashboardLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDEC2B8977B8005A4587 /* DashboardLoadingView.swift */; };
 		BC52DDEF2B8A8B6B005A4587 /* SearchFilterFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDEE2B8A8B6B005A4587 /* SearchFilterFieldView.swift */; };
+		BC52DDF12B8AA9D6005A4587 /* HintIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDF02B8AA9D6005A4587 /* HintIconView.swift */; };
+		BC52DDF32B8AAD28005A4587 /* DashboardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDF22B8AAD28005A4587 /* DashboardHeaderView.swift */; };
+		BC52DDF52B8AC54D005A4587 /* DashboardCategorySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDF42B8AC54D005A4587 /* DashboardCategorySection.swift */; };
 		BC5925012A5C8B72000F1941 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5925002A5C8B72000F1941 /* String+Extension.swift */; };
 		BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972102A351B0F00EBB075 /* PrimaryButton.swift */; };
 		BC5B12042B658A1F00B344A0 /* TabBarSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5B12032B658A1F00B344A0 /* TabBarSettings.swift */; };
@@ -208,6 +211,9 @@
 		BC52DDEA2B880E80005A4587 /* ExerciseDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataStore.swift; sourceTree = "<group>"; };
 		BC52DDEC2B8977B8005A4587 /* DashboardLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardLoadingView.swift; sourceTree = "<group>"; };
 		BC52DDEE2B8A8B6B005A4587 /* SearchFilterFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterFieldView.swift; sourceTree = "<group>"; };
+		BC52DDF02B8AA9D6005A4587 /* HintIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintIconView.swift; sourceTree = "<group>"; };
+		BC52DDF22B8AAD28005A4587 /* DashboardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardHeaderView.swift; sourceTree = "<group>"; };
+		BC52DDF42B8AC54D005A4587 /* DashboardCategorySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCategorySection.swift; sourceTree = "<group>"; };
 		BC5925002A5C8B72000F1941 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BC5972102A351B0F00EBB075 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		BC5B12032B658A1F00B344A0 /* TabBarSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarSettings.swift; sourceTree = "<group>"; };
@@ -594,6 +600,8 @@
 				BC261AB72B6DA0EF0018E21F /* SearchFilterView.swift */,
 				BC43D33A2B6EAD8D008C1062 /* SearchFilterViewModel.swift */,
 				BC52DDEE2B8A8B6B005A4587 /* SearchFilterFieldView.swift */,
+				BC52DDF22B8AAD28005A4587 /* DashboardHeaderView.swift */,
+				BC52DDF42B8AC54D005A4587 /* DashboardCategorySection.swift */,
 			);
 			path = "Search Filter View";
 			sourceTree = "<group>";
@@ -642,6 +650,7 @@
 				BC5A41022A7C55AB00F671F5 /* Navigation */,
 				BCFBB7842A59EDB500896C3C /* IconPill */,
 				BCCBEC712AD85158002F5E41 /* RoundedTextField.swift */,
+				BC52DDF02B8AA9D6005A4587 /* HintIconView.swift */,
 			);
 			path = "View Components";
 			sourceTree = "<group>";
@@ -1152,8 +1161,10 @@
 				BC0171092AEC6A71005876EE /* HomeView.swift in Sources */,
 				BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */,
 				BC52DDD62B851722005A4587 /* DecodableModel.swift in Sources */,
+				BC52DDF52B8AC54D005A4587 /* DashboardCategorySection.swift in Sources */,
 				BCCE85ED2A35008C001BEE8B /* Color+Extension.swift in Sources */,
 				BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */,
+				BC52DDF12B8AA9D6005A4587 /* HintIconView.swift in Sources */,
 				BCF86C332A362105003293A4 /* CustomNavigationBarView.swift in Sources */,
 				BC8E86E02AED2F21008E3CE4 /* EnvironmentValues+Extension.swift in Sources */,
 				BCA24BFC2B6AB9AF00124EC3 /* SignInView.swift in Sources */,
@@ -1214,6 +1225,7 @@
 				BC182ECD2A589BE7003DEA30 /* CoreDataStack.swift in Sources */,
 				BC9937292B6441D90067E556 /* ExerciseModule.swift in Sources */,
 				BC3454532B72DF4B0074106A /* ExerciseStore.swift in Sources */,
+				BC52DDF32B8AAD28005A4587 /* DashboardHeaderView.swift in Sources */,
 				BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */,
 				BC8E86E32AED2F56008E3CE4 /* MainWndowSizeKey.swift in Sources */,
 				BC52DDE12B856E64005A4587 /* Exercise.swift in Sources */,

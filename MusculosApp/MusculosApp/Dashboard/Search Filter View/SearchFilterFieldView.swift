@@ -37,7 +37,9 @@ struct SearchFilterFieldView: View {
       })
     }
     .onChange(of: debouncedQueryObserver.debouncedQuery) { query in
-      hasObservedQuery(query)
+      if query.count > 2 {
+        hasObservedQuery(query)
+      }
     }
     .padding([.leading, .trailing], 10)
   }
