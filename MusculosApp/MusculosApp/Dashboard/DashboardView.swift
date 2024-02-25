@@ -57,6 +57,7 @@ struct DashboardView: View {
           }
         }
         .scrollIndicators(.hidden)
+        .padding(.bottom, 100)
       }
       .popover(isPresented: $showFilterView) {
         SearchFilterView()
