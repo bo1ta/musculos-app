@@ -8,29 +8,36 @@
 import SwiftUI
 
 struct CurrentWorkoutCardView: View {
-  let exercise: Exercise
-  let showDetails: Bool // there are some cases where we don't want to show the details like on ExerciseView
-  let isGif: Bool
+  private let title: String
+  private let description: String?
+  private let options: [String]
+  private let imageURL: URL?
   
-  private let cardHeight: CGFloat = 200
+  private let cardHeight: CGFloat
   private var cardWidth: CGFloat
-
-  init(exercise: Exercise, showDetails: Bool = true, isGif: Bool = false, cardWidth: CGFloat = 300) {
-    self.exercise = exercise
-    self.showDetails = showDetails
-    self.isGif = isGif
+  
+  init(title: String,
+       description: String? = nil,
+       imageURL: URL? = nil,
+       options: [String] = [],
+       cardWidth: CGFloat = 300,
+       cardHeight: CGFloat = 200
+  ) {
+    self.title = title
+    self.description = description
+    self.imageURL = imageURL
+    self.options = options
+    self.cardHeight = cardHeight
     self.cardWidth = cardWidth
   }
-
+  
   var body: some View {
     ZStack {
       backgroundView
-      if showDetails {
-        Spacer()
-        detailsRectangle
-          .frame(alignment: .bottom)
-          .padding(.top, 120)
-      }
+      Spacer()
+      detailsRectangle
+        .frame(alignment: .bottom)
+        .padding(.top, 120)
     }
     .cornerRadius(40)
     .padding()
@@ -42,14 +49,29 @@ struct CurrentWorkoutCardView: View {
   
   @ViewBuilder
   private var backgroundView: some View {
-    let images = exercise.getImagesURLs()
-    if let imageUrl = images.first {
-      AsyncImage(url: imageUrl)
-        .frame(width: cardWidth, height: cardHeight)
+    if let imageURL {
+      AsyncCachedImage(url: imageURL, content: { imagePhase in
+        switch imagePhase {
+        case .success(let image):
+          image
+            .frame(width: cardWidth, height: cardHeight)
+        case .empty:
+          defaultBackgroundView
+            .shimmering()
+        case .failure(_):
+          defaultBackgroundView
+        @unknown default:
+          fatalError("Fatal error loading AsyncCachedImage")
+        }
+      })
     } else {
-      Color.black
-        .frame(width: 700, height: 700)
+      defaultBackgroundView
     }
+  }
+  
+  private var defaultBackgroundView: some View {
+    Color.black
+      .frame(width: cardWidth, height: cardHeight)
   }
   
   @ViewBuilder
@@ -61,11 +83,11 @@ struct CurrentWorkoutCardView: View {
       .overlay {
         HStack {
           VStack(alignment: .leading) {
-            Text(exercise.name)
+            Text(title)
               .font(.custom(AppFont.bold, size: 18))
               .foregroundStyle(.black)
-            if let equipment = exercise.equipment {
-              Text(equipment)
+            if let description {
+              Text(description)
                 .font(.custom(AppFont.regular, size: 15))
                 .foregroundStyle(.black)
             }
@@ -79,7 +101,6 @@ struct CurrentWorkoutCardView: View {
   @ViewBuilder
   private var detailsPills: some View {
     HStack {
-      let options = self.exercise.secondaryMuscles
       if !options.isEmpty {
         HStack {
           Spacer()
@@ -95,7 +116,7 @@ struct CurrentWorkoutCardView: View {
 
 struct WorkoutCardView_Preview: PreviewProvider {
   static var previews: some View {
-    CurrentWorkoutCardView(exercise: MockConstants.createMockExercise())
+    CurrentWorkoutCardView(title: "Chest workout", description: "Some description")
       .previewLayout(.sizeThatFits)
   }
 }

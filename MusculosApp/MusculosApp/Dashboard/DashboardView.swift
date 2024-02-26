@@ -94,7 +94,10 @@ struct DashboardView: View {
   }
   
   @ViewBuilder
-  private func makeCategoryItems(_ categorySection: CategorySection, exercises: [Exercise]) -> some View {
+  private func makeCategoryItems(
+    _ categorySection: CategorySection,
+    exercises: [Exercise]
+  ) -> some View {
     VStack {
       switch categorySection {
       case .discover:
@@ -115,11 +118,11 @@ struct DashboardView: View {
       case .myFavorites:
         HintIconView(systemImage: "dumbbell", textHint: "Favorite exercises!")
       case .workout:
-          ForEach(exercises, id: \.id) { exercise in
+          ForEach(exercises, id: \.hashValue) { exercise in
             Button(action: {
               selectedExercise = exercise
             }, label: {
-              CurrentWorkoutCardView(exercise: exercise, cardWidth: 350)
+              CurrentWorkoutCardView(title: exercise.name, description: exercise.equipment, imageURL: exercise.getImagesURLs().first, cardWidth: 350)
             })
         }
       }
