@@ -36,24 +36,25 @@ struct DashboardView: View {
           )
           .padding([.leading, .trailing], 10)
           .padding(.top, 20)
-          .task {
-            await userStore.fetchUserProfile()
-            exerciseStore.loadLocalExercises()
-          }
           
           switch exerciseStore.state {
           case .loading:
            DashboardLoadingView()
+              .task {
+                await userStore.fetchUserProfile()
+                await exerciseStore.loadExercises()
+              }
           case .loaded(let exercises):
             DashboardCategorySection(content: { categorySection in
-              makeCategoryItems(categorySection, exercises: exercises)
-            }, hasChangedSection: { section in
-              exerciseStore.loadLocalExercises()
-            })
+              makeCategoryItems(
+                categorySection,
+                exercises: exercises
+              )
+            }, hasChangedSection: { handleChangeCategorySection($0) })
           case .empty(_):
             HintIconView(systemImage: "alert", textHint: "No data found!")
           case .error(_):
-            EmptyView()
+            HintIconView(systemImage: "alert", textHint: "Could not fetch exercises!")
           }
         }
         .scrollIndicators(.hidden)
@@ -84,6 +85,14 @@ struct DashboardView: View {
     }
   }
   
+  private func handleChangeCategorySection(_ categorySection: CategorySection) {
+    if categorySection == .myFavorites || categorySection == .workout {
+      exerciseStore.loadLocalExercises()
+    } else {
+      Task { await exerciseStore.loadExercises() }
+    }
+  }
+  
   @ViewBuilder
   private func makeCategoryItems(_ categorySection: CategorySection, exercises: [Exercise]) -> some View {
     VStack {
@@ -95,18 +104,24 @@ struct DashboardView: View {
               exerciseStore.searchByMuscleQuery(query)
             })
           
-          ExerciseCardSection(title: "Most popular", exercises: exercises, onExerciseTap: {
+        ExerciseCardSection(title: "Most popular", exercises: exerciseStore.discoverExercises.first ?? [], onExerciseTap: {
             exercise in
             selectedExercise = exercise
           })
-          ExerciseCardSection(title: "Quick muscle-building workouts", exercises: exercises, isSmallCard: true, onExerciseTap: {
+          ExerciseCardSection(title: "Quick muscle-building workouts", exercises: exerciseStore.discoverExercises[safe: 1] ?? [], isSmallCard: true, onExerciseTap: {
             exercise in
             selectedExercise = exercise
           })
       case .myFavorites:
         HintIconView(systemImage: "dumbbell", textHint: "Favorite exercises!")
       case .workout:
-        Text("hinting")
+          ForEach(exercises, id: \.id) { exercise in
+            Button(action: {
+              selectedExercise = exercise
+            }, label: {
+              CurrentWorkoutCardView(exercise: exercise, cardWidth: 350)
+            })
+        }
       }
     }
   }

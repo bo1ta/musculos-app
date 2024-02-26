@@ -21,10 +21,15 @@ class ExerciseStore: ObservableObject {
   
   private(set) var searchTask: Task<Void, Never>?
   
+  var discoverExercises: [[Exercise]] {
+    if case let LoadingViewState.loaded(exercises) = state {
+      return exercises.chunked(into: 5)
+    }
+    return [[]]
+  }
+  
   @MainActor
   func loadExercises() async {
-    state = .loading
-    
     do {
       let exercises = try await exerciseModule.getExercises()
       await exerciseDataStore.saveLocalChanges()
@@ -36,8 +41,6 @@ class ExerciseStore: ObservableObject {
   }
   
   func loadLocalExercises() {
-    state = .loading
-    
     do {
       let exercises = try exerciseDataStore.fetchExercises()
       state = .loaded(exercises)
@@ -49,8 +52,6 @@ class ExerciseStore: ObservableObject {
   func searchByMuscleQuery(_ query: String) {
     searchTask = Task { @MainActor [weak self] in
       guard let self else { return }
-      
-      self.state = .loading
       do {
         let exercises = try await self.exerciseModule.searchByMuscleQuery(query)
         self.state = .loaded(exercises)

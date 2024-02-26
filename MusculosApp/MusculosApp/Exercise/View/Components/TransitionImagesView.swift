@@ -9,38 +9,46 @@ import Foundation
 import SwiftUI
 import Combine
 
+// Animates images to appear as "GIFs"
 struct AnimatedURLImageView: View {
   let imageURLs: [URL]
   let interval: TimeInterval
+  
+  @State private var currentIndex = 0
+  @State private var cachedImages: [URL: UIImage] = [:]
+  @State private var timer: Timer?
   
   init(imageURLs: [URL], interval: TimeInterval = .init(floatLiteral: 1)) {
     self.imageURLs = imageURLs
     self.interval = interval
   }
-  
-  @State private var currentIndex = 0
-  @State private var cachedImages: [URL: UIImage] = [:]
-  @State private var timer: Timer?
     
   var body: some View {
     VStack {
-      if let image = cachedImages[imageURLs[currentIndex]] {
-        Image(uiImage: image)
-          .resizable()
-          .ignoresSafeArea()
-          .aspectRatio(contentMode: .fit)
-          .frame(maxWidth: .infinity)
-          .frame(minHeight: 300)
-      } else {
-        Color.white
-          .frame(maxWidth: .infinity)
-          .frame(minHeight: 300)
-          .ignoresSafeArea()
-          .task {
-            await downloadImages()
+      if let imageUrl = imageURLs[safe: currentIndex] {
+        AsyncCachedImage(url: imageUrl) { imagePhase in
+          switch imagePhase {
+          case .success(let image):
+            image
+              .resizable()
+              .ignoresSafeArea()
+              .aspectRatio(contentMode: .fit)
+              .frame(maxWidth: .infinity)
+              .frame(minHeight: 300)
+          case .empty, .failure(_):
+            Color.white
+              .frame(maxWidth: .infinity)
+              .frame(minHeight: 300)
+              .ignoresSafeArea()
+              .shimmering()
+          @unknown default:
+            fatalError("AsyncCachedImage fatal error")
           }
-          .shimmering()
+        }
       }
+    }
+    .onAppear {
+      startAnimating()
     }
     .onDisappear {
       stopAnimating()
@@ -59,26 +67,8 @@ struct AnimatedURLImageView: View {
     timer?.invalidate()
     timer = nil
   }
-  
-  @MainActor
-  private func downloadImages() async {
-    await imageURLs.asyncForEach { url in
-      do {
-        let (data, _) = try await URLSession.shared.data(from: url)
-        if let image = UIImage(data: data) {
-          cachedImages[url] = image
-        }
-      } catch {
-        MusculosLogger.logError(error: error, message: "Error downloading images", category: .networking)
-      }
-    }
-    startAnimating()
-  }
 }
 
 #Preview {
-  AnimatedURLImageView(imageURLs: [
-    //    URL(string: "https://wqgqgfospzhwoqeqdzbo.supabase.co/storage/v1/object/public/workout_image/Lateral_Raise_-_With_Bands/images/0.jpg")!,
-    //    URL(string: "https://wqgqgfospzhwoqeqdzbo.supabase.co/storage/v1/object/public/workout_image/Lateral_Raise_-_With_Bands/images/1.jpg")!
-  ])
+  AnimatedURLImageView(imageURLs: [])
 }

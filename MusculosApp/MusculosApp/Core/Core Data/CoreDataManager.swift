@@ -22,7 +22,7 @@ class CoreDataManager {
 
     Task {
       await CoreDataStack.saveContext(managedObjectContext)
-      CoreDataStack.shared.asyncSaveMainContext()
+      await CoreDataStack.shared.saveMainContext()
     }
   }
   
@@ -42,7 +42,7 @@ class CoreDataManager {
       }
   
       await CoreDataStack.saveContext(managedObjectContext)
-      CoreDataStack.shared.asyncSaveMainContext()
+      await CoreDataStack.shared.saveMainContext()
     }
   }
 }

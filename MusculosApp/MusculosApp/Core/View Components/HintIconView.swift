@@ -28,12 +28,14 @@ struct HintIconView: View {
             .scaledToFit()
         } else if let systemImage {
           Image(systemName: systemImage)
+            .resizable()
+            .scaledToFit()
         }
       }
-      .frame(width: 80, height: 100)
+      .frame(width: 40, height: 40)
       .opacity(0.3)
       .foregroundStyle(.gray)
-      Text("No challenges completed yet!")
+      Text(textHint)
         .font(.callout)
         .fontWeight(.regular)
         .italic()

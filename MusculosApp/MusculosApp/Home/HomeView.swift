@@ -16,7 +16,7 @@ struct HomeView: View {
     NavigationStack {
       VStack(alignment: .center) {
         challengeCard
-        HintIconView(imageName: "yoga-position", textHint: "No challenges completed yet!")
+        HintIconView(systemImage: "dumbbell", textHint: "No challenges completed yet!")
         Spacer()
       }
       .navigationDestination(isPresented: $isChallengePresented) {
