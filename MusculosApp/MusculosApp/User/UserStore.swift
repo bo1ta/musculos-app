@@ -45,8 +45,12 @@ class UserStore: ObservableObject {
     }
   }
   
-  func cancelTask() {
+  func cleanUp() {
     authTask?.cancel()
+    authTask = nil
+    
+    fetchUserProfileTask?.cancel()
+    fetchUserProfileTask = nil
   }
 }
 

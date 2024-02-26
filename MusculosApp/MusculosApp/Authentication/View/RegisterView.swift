@@ -26,7 +26,7 @@ struct RegisterView: View {
         dismiss()
       }
     })
-    .onDisappear(perform: userStore.cancelTask)
+    .onDisappear(perform: userStore.cleanUp)
     .frame(width: mainWindowSize.width, height: mainWindowSize.height)
     .toolbarRole(.editor)
     .toolbarBackground(.hidden, for: .navigationBar)

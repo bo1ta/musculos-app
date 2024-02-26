@@ -89,6 +89,9 @@ class ExerciseStore: ObservableObject {
     
     favoriteTask?.cancel()
     favoriteTask = nil
+    
+    exerciseTask?.cancel()
+    exerciseTask = nil
   }
   
   @MainActor

@@ -40,7 +40,7 @@ struct SignInView: View {
       .tint(.black)
     }
     .onDisappear {
-      userStore.cancelTask()
+      userStore.cleanUp()
     }
   }
   
