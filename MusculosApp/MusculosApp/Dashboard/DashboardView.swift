@@ -115,12 +115,14 @@ struct DashboardView: View {
       case .myFavorites:
         HintIconView(systemImage: "dumbbell", textHint: "Favorite exercises!")
       case .workout:
-          ForEach(exercises, id: \.id) { exercise in
+        LazyVStack {
+          ForEach(exercises, id: \.hashValue) { exercise in
             Button(action: {
               selectedExercise = exercise
             }, label: {
               CurrentWorkoutCardView(exercise: exercise, cardWidth: 350)
             })
+          }
         }
       }
     }

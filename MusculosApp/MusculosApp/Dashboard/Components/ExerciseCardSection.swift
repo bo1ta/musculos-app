@@ -26,8 +26,8 @@ struct ExerciseCardSection: View {
       Text(title)
         .font(.custom(AppFont.bold, size: 18))
       ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 20) {
-          ForEach(exercises, id: \.id) { exercise in
+        LazyHStack(spacing: 20) {
+          ForEach(exercises, id: \.hashValue) { exercise in
             Button(action: {
               onExerciseTap(exercise)
             }, label: {

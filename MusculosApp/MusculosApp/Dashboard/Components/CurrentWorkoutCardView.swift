@@ -9,28 +9,22 @@ import SwiftUI
 
 struct CurrentWorkoutCardView: View {
   let exercise: Exercise
-  let showDetails: Bool // there are some cases where we don't want to show the details like on ExerciseView
-  let isGif: Bool
   
   private let cardHeight: CGFloat = 200
   private var cardWidth: CGFloat
 
-  init(exercise: Exercise, showDetails: Bool = true, isGif: Bool = false, cardWidth: CGFloat = 300) {
+  init(exercise: Exercise, cardWidth: CGFloat = 300) {
     self.exercise = exercise
-    self.showDetails = showDetails
-    self.isGif = isGif
     self.cardWidth = cardWidth
   }
 
   var body: some View {
     ZStack {
       backgroundView
-      if showDetails {
         Spacer()
         detailsRectangle
           .frame(alignment: .bottom)
           .padding(.top, 120)
-      }
     }
     .cornerRadius(40)
     .padding()
@@ -47,8 +41,9 @@ struct CurrentWorkoutCardView: View {
       AsyncImage(url: imageUrl)
         .frame(width: cardWidth, height: cardHeight)
     } else {
-      Color.black
-        .frame(width: 700, height: 700)
+      Color.gray
+        .frame(width: cardWidth, height: cardWidth)
+        .shimmering()
     }
   }
   
