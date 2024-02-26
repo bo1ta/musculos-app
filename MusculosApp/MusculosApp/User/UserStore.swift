@@ -100,8 +100,9 @@ extension UserStore {
 // MARK: - Core Data + User Defaults
 
 extension UserStore {
-  @MainActor
-  func fetchUserProfile() async {
-    currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)
+  func fetchUserProfile() {
+    fetchUserProfileTask = Task { @MainActor [weak self] in
+      self?.currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)
+    }
   }
 }

@@ -15,12 +15,22 @@ class ExerciseDataStore {
     let fetchRequest = Exercise.fetchRequest()
     fetchRequest.fetchLimit = limit
     fetchRequest.fetchOffset = offset
-    fetchRequest.returnsObjectsAsFaults = false
     return try mainContext.fetch(fetchRequest)
   }
   
   func saveLocalChanges() async {
     await CoreDataStack.saveContext(syncPrivateContext)
     await CoreDataStack.saveContext(mainContext)
+  }
+  
+  func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async {
+    exercise.isFavorite = isFavorite
+    await saveLocalChanges()
+  }
+  
+  func fetchFavoriteExercises() throws -> [Exercise] {
+    let fetchRequest = Exercise.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "isFavorite == true")
+    return try mainContext.fetch(fetchRequest)
   }
 }

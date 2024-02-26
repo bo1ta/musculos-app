@@ -11,6 +11,8 @@ struct ExerciseDetailsView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var tabBarSettings: TabBarSettings
+  @EnvironmentObject private var exerciseStore: ExerciseStore
+  @State private var isFavorite: Bool = false
   
   private let client = MusculosClient()
   
@@ -32,8 +34,12 @@ struct ExerciseDetailsView: View {
     .onAppear {
       DispatchQueue.main.async {
         tabBarSettings.isTabBarHidden = true
+        isFavorite = exercise.isFavorite
       }
     }
+    .onDisappear(perform: {
+      exerciseStore.cleanUp()
+    })
     .navigationBarBackButtonHidden()
   }
   
@@ -77,10 +83,23 @@ struct ExerciseDetailsView: View {
           IconPill(option: IconPillOption(title: secondaryMuscle))
         }
         Spacer()
+        favoriteButton
       }
       .padding(.bottom, 40)
-      .padding(.leading, 10)
+      .padding([.trailing, .leading], 10)
     }
+  }
+  
+  private var favoriteButton: some View {
+    Button(action: {
+      isFavorite.toggle()
+      exerciseStore.favoriteExercise(exercise, isFavorite: isFavorite)
+    }, label: {
+      Image(systemName: isFavorite ? "heart.fill" : "heart")
+        .resizable()
+        .frame(width: 25, height: 25)
+        .foregroundStyle(isFavorite ? .red : .gray)
+    })
   }
   
   private var detailsSection: some View {

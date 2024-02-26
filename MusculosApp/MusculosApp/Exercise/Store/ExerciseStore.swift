@@ -19,7 +19,9 @@ class ExerciseStore: ObservableObject {
     self.exerciseDataStore = exerciseDataStore
   }
   
+  private(set) var exerciseTask: Task<Void, Never>?
   private(set) var searchTask: Task<Void, Never>?
+  private(set) var favoriteTask: Task<Void, Never>?
   
   var discoverExercises: [[Exercise]] {
     if case let LoadingViewState.loaded(exercises) = state {
@@ -28,21 +30,34 @@ class ExerciseStore: ObservableObject {
     return [[]]
   }
   
-  @MainActor
-  func loadExercises() async {
-    do {
-      let exercises = try await exerciseModule.getExercises()
-      await exerciseDataStore.saveLocalChanges()
+  func loadExercises() {
+    exerciseTask = Task { @MainActor [weak self] in
+      guard let self else { return }
+      do {
+        let exercises = try await self.exerciseModule.getExercises()
+        await self.exerciseDataStore.saveLocalChanges()
+        
+        self.state = .loaded(exercises)
+      } catch {
+        self.state = .error(error.localizedDescription)
+      }
+    }
+  }
   
+  @MainActor
+  func loadLocalExercises() {
+    do {
+      let exercises = try exerciseDataStore.fetchExercises()
       state = .loaded(exercises)
     } catch {
       state = .error(error.localizedDescription)
     }
   }
   
-  func loadLocalExercises() {
+  @MainActor
+  func loadFavoriteExercises() {
     do {
-      let exercises = try exerciseDataStore.fetchExercises()
+      let exercises = try exerciseDataStore.fetchFavoriteExercises()
       state = .loaded(exercises)
     } catch {
       state = .error(error.localizedDescription)
@@ -61,9 +76,19 @@ class ExerciseStore: ObservableObject {
     }
   }
   
+  func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
+    favoriteTask = Task { @MainActor [ weak self] in
+      guard let self else { return }
+      await self.exerciseDataStore.favoriteExercise(exercise, isFavorite: isFavorite)
+    }
+  }
+  
   func cleanUp() {
     searchTask?.cancel()
     searchTask = nil
+    
+    favoriteTask?.cancel()
+    favoriteTask = nil
   }
   
   @MainActor

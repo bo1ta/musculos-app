@@ -25,6 +25,7 @@ public class Exercise: NSManagedObject, Decodable {
   @NSManaged public var secondaryMuscles: [String]
   @NSManaged public var instructions: [String]
   @NSManaged public var imageUrls: [String]
+  @NSManaged public var isFavorite: Bool
   
   enum CodingKeys: String, CodingKey {
     case category, equipment, force, id, level, name, primaryMuscles, secondaryMuscles, instructions, imageUrls

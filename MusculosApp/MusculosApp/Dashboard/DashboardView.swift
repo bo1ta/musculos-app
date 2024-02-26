@@ -40,9 +40,9 @@ struct DashboardView: View {
           switch exerciseStore.state {
           case .loading:
            DashboardLoadingView()
-              .task {
-                await userStore.fetchUserProfile()
-                await exerciseStore.loadExercises()
+              .onAppear {
+                userStore.fetchUserProfile()
+                exerciseStore.loadExercises()
               }
           case .loaded(let exercises):
             DashboardCategorySection(content: { categorySection in
@@ -86,10 +86,13 @@ struct DashboardView: View {
   }
   
   private func handleChangeCategorySection(_ categorySection: CategorySection) {
-    if categorySection == .myFavorites || categorySection == .workout {
+    switch categorySection {
+    case .myFavorites:
+      exerciseStore.loadFavoriteExercises()
+    case .workout:
       exerciseStore.loadLocalExercises()
-    } else {
-      Task { await exerciseStore.loadExercises() }
+    case .discover:
+      exerciseStore.loadExercises()
     }
   }
   
@@ -113,17 +116,21 @@ struct DashboardView: View {
             selectedExercise = exercise
           })
       case .myFavorites:
-        HintIconView(systemImage: "dumbbell", textHint: "Favorite exercises!")
+        createExerciseVStack(exercises)
       case .workout:
-        LazyVStack {
-          ForEach(exercises, id: \.hashValue) { exercise in
-            Button(action: {
-              selectedExercise = exercise
-            }, label: {
-              CurrentWorkoutCardView(exercise: exercise, cardWidth: 350)
-            })
-          }
-        }
+        createExerciseVStack(exercises)
+      }
+    }
+  }
+  
+  private func createExerciseVStack(_ exercises: [Exercise]) -> some View {
+    LazyVStack {
+      ForEach(exercises, id: \.hashValue) { exercise in
+        Button(action: {
+          selectedExercise = exercise
+        }, label: {
+          CurrentWorkoutCardView(exercise: exercise, cardWidth: 350)
+        })
       }
     }
   }
