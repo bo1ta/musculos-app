@@ -6,41 +6,42 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct ExerciseDetailsView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var tabBarSettings: TabBarSettings
-
+  
+  private let client = MusculosClient()
+  
   var exercise: Exercise
   
   var body: some View {
     VStack(spacing: 10) {
       imageSection
-      detailsSection
-      
       ScrollView {
+        detailsSection
         stepsSection
           .padding([.top, .bottom], 10)
       }
       .scrollIndicators(.hidden)
+      .padding(.top, -50)
       
       Spacer()
     }
-    .onAppear(perform: {
-      tabBarSettings.isTabBarHidden = true
-    })
-    .onDisappear(perform: {
-      tabBarSettings.isTabBarHidden = false
-    })
+    .onAppear {
+      DispatchQueue.main.async {
+        tabBarSettings.isTabBarHidden = true
+      }
+    }
     .navigationBarBackButtonHidden()
   }
   
   @ViewBuilder
   private var imageSection: some View {
-    if exercise.images.count > 0 {
-      AnimatedURLImageView(imageURLs: exercise.images)
+    if exercise.imageUrls.count > 0 {
+      let images = exercise.getImagesURLs()
+      AnimatedURLImageView(imageURLs: images)
         .overlay {
           imageOverlay
         }
@@ -97,7 +98,7 @@ struct ExerciseDetailsView: View {
         
       }
       .padding(.leading, 20)
-      .padding(.top, -50)
+      .padding(.top)
       Spacer()
     }
   }
@@ -122,5 +123,7 @@ struct ExerciseDetailsView: View {
 }
 
 #Preview {
-  ExerciseDetailsView(exercise: MockConstants.exercise).environmentObject(TabBarSettings()).environmentObject(ExerciseStore())
+  ExerciseDetailsView(exercise: MockConstants.createMockExercise())
+    .environmentObject(TabBarSettings())
+    .environmentObject(ExerciseStore())
 }

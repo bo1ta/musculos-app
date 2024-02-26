@@ -9,21 +9,28 @@ import Foundation
 import CoreData
 
 class CoreDataManager {
+  private static var managedObjectContext: NSManagedObjectContext {
+    CoreDataStack.shared.userPrivateContext
+  }
+  
   static func createUserProfile(person: Person) {
-    let userProfile = UserProfile(context: CoreDataStack.shared.backgroundContext)
+    let userProfile = UserProfile(context: managedObjectContext)
     userProfile.username = person.username
     userProfile.email = person.email
     userProfile.fullName = person.fullName
     userProfile.isCurrentUser = true
 
-    Task { await CoreDataStack.shared.saveBackgroundContext() }
+    Task {
+      await CoreDataStack.saveContext(managedObjectContext)
+      await CoreDataStack.shared.saveMainContext()
+    }
   }
   
   static func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) {
     Task {
-      guard let userProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.backgroundContext) else { return }
-
+      guard let userProfile = await UserProfile.currentUserProfile(context: managedObjectContext) else { return }
       userProfile.gender = gender?.rawValue
+      
       if let weight {
         userProfile.weight = NSNumber(integerLiteral: weight)
       }
@@ -34,7 +41,7 @@ class CoreDataManager {
         userProfile.goalId = NSNumber(integerLiteral: goalId)
       }
   
-      await CoreDataStack.shared.saveBackgroundContext()
+      await CoreDataStack.saveContext(managedObjectContext)
       await CoreDataStack.shared.saveMainContext()
     }
   }

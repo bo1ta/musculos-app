@@ -5,15 +5,12 @@
         <attribute name="equipment" optional="YES" attributeType="String"/>
         <attribute name="force" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="imageUrls" optional="YES" attributeType="Transformable" customClassName="[String]"/>
-        <attribute name="instructions" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="imageUrls" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="instructions" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="level" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="primaryMuscles" optional="YES" attributeType="Transformable" customClassName="[String]"/>
-        <attribute name="secondaryMuscles" optional="YES" attributeType="Transformable" customClassName="[String]"/>
-    </entity>
-    <entity name="StringHolder" representedClassName="StringHolder" syncable="YES" codeGenerationType="class">
-        <attribute name="text" optional="YES" attributeType="String"/>
+        <attribute name="primaryMuscles" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="secondaryMuscles" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
     </entity>
     <entity name="UserProfile" representedClassName="UserProfile" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String"/>

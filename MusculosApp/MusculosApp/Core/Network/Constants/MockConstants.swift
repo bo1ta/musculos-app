@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MockConstants {
   
@@ -34,5 +35,34 @@ class MockConstants {
   ]
   
   // MARK: - Exercise
-  static let exercise = Exercise(id: UUID(), primaryMuscles: ["back", "shoulder"], secondaryMuscles: ["back", "chest"], equipment: "dumbbell", instructions: ["Get upGet upGet upGet upGet upGet upGet upGet upGet upGet upGet upGet upGet upGet up", "Stand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feet"], name: "Back workout", images: [URL(string: "https://wqgqgfospzhwoqeqdzbo.supabase.co/storage/v1/object/public/workout_image/Ab_Roller/images/0.jpg?t=2024-02-09T21%3A26%3A22.329Z")!])
+  static func createMockExercise(
+    name: String = "Power Stairs",
+    primaryMuscles: [String] = ["hamstrings"],
+    secondaryMuscles: [String] = ["calves", "glutes", "traps"],
+    equipment: String = "barbell",
+    category: String = "powerlifting",
+    force: String = "pull",
+    level: String = "intermediate",
+    instructions: [String] =
+    [
+      "In the power stairs, implements are moved up a staircase. For training purposes, these can be performed with a tire or box.",
+      "Begin by taking the implement with both hands. Set your feet wide, with your head and chest up. Drive through the ground with your heels, extending your knees and hips to raise the weight from the ground.",
+      "As you lean back, attempt to swing the weight onto the stairs, which are usually around 16-18\" high. You can use your legs to help push the weight onto the stair.",
+      "Repeat for 3-5 repetitions, and continue with a heavier weight, moving as fast as possible."
+    ]
+  ) -> Exercise {
+    let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+    let exercise = Exercise(context: context)
+    
+    exercise.name = name
+    exercise.id = UUID()
+    exercise.equipment = equipment
+    exercise.instructions = instructions
+    exercise.category = category
+    exercise.force = force
+    exercise.level = level
+    exercise.primaryMuscles = primaryMuscles
+    exercise.secondaryMuscles = secondaryMuscles
+    return exercise
+  }
 }

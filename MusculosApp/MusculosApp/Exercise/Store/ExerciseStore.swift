@@ -9,114 +9,64 @@ import Foundation
 import SwiftUI
 
 class ExerciseStore: ObservableObject {
-  @Published var isLoading: Bool = false
-  @Published var results: [Exercise] = []
-  @Published var error: Error? = nil
-  
-  @Published var exerciseDetail: Exercise? = nil
-  @Published var showExerciseDetail: Bool = false
+  @Published var state: LoadingViewState<[Exercise]> = .loading
   
   private let exerciseModule: ExerciseModuleProtocol
-  private let exerciseImageModule: ExerciseImageModule
+  private let exerciseDataStore: ExerciseDataStore
   
-  private(set) var loadExercisesTask: Task<Void, Never>?
-  private(set) var filterExercisesTask: Task<Void, Never>?
-  private(set) var searchTask: Task<Void, Never>?
-  private(set) var loadAllImagesTask: Task<Void, Never>?
-  
-  init(exerciseModule: ExerciseModuleProtocol = ExerciseModule(), exerciseImageModule: ExerciseImageModule = ExerciseImageModule()) {
+  init(exerciseModule: ExerciseModuleProtocol = ExerciseModule(), exerciseDataStore: ExerciseDataStore = ExerciseDataStore()) {
     self.exerciseModule = exerciseModule
-    self.exerciseImageModule = exerciseImageModule
+    self.exerciseDataStore = exerciseDataStore
   }
   
-  func loadExercises() {
-    loadExercisesTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-      
-      self.isLoading = true
-      defer { self.isLoading = false }
-      
-      do {
-        var exercises = try await self.exerciseModule.getExercises()
-        self.results = try await loadInitialImage(for: exercises)
-      } catch {
-        self.error = error
-      }
+  private(set) var searchTask: Task<Void, Never>?
+  
+  var discoverExercises: [[Exercise]] {
+    if case let LoadingViewState.loaded(exercises) = state {
+      return exercises.chunked(into: 5)
+    }
+    return [[]]
+  }
+  
+  @MainActor
+  func loadExercises() async {
+    do {
+      let exercises = try await exerciseModule.getExercises()
+      await exerciseDataStore.saveLocalChanges()
+  
+      state = .loaded(exercises)
+    } catch {
+      state = .error(error.localizedDescription)
     }
   }
   
-  func loadFilteredExercises(with filters: [String: [String]]) {
-    filterExercisesTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-      
-      self.isLoading = true
-      defer { isLoading = false }
-      
-      do {
-        let exercises =  try await self.exerciseModule.getFilteredExercises(filters: filters)
-        self.results = try await loadInitialImage(for: exercises)
-      } catch {
-        self.error = error
-      }
+  func loadLocalExercises() {
+    do {
+      let exercises = try exerciseDataStore.fetchExercises()
+      state = .loaded(exercises)
+    } catch {
+      state = .error(error.localizedDescription)
     }
   }
   
-  func loadAllImagesForExercise(_ exercise: Exercise) {
-    loadAllImagesTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-      
-      self.isLoading = true
-      defer { isLoading = false }
-      
-      do {
-        let exerciseWithAllImages = try await exerciseImageModule.loadAllImages(for: exercise)
-        self.exerciseDetail = exerciseWithAllImages
-        self.showExerciseDetail = true
-      } catch {
-        self.error = error
-      }
-    }
-  }
-  
-  func cleanExerciseImages() {
-    self.exerciseDetail = nil
-    self.showExerciseDetail = false
-  }
-  
-  private func loadInitialImage(for exercises: [Exercise]) async throws -> [Exercise] {
-    var newExercises = exercises
-    return try await newExercises.asyncCompactMap { exercise in
-      return try await self.exerciseImageModule.loadInitialImage(for: exercise)
-    }
-  }
-  
-  func searchFor(query: String) {
+  func searchByMuscleQuery(_ query: String) {
     searchTask = Task { @MainActor [weak self] in
       guard let self else { return }
-      
-      self.isLoading = true
-      defer { self.isLoading = false }
-      
       do {
-        let exercises = try await self.exerciseModule.searchFor(query: query)
-        self.results = try await loadInitialImage(for: exercises)
+        let exercises = try await self.exerciseModule.searchByMuscleQuery(query)
+        self.state = .loaded(exercises)
       } catch {
-        self.error = error
+        self.state = .error(error.localizedDescription)
       }
     }
   }
   
   func cleanUp() {
-    filterExercisesTask?.cancel()
-    filterExercisesTask = nil
-    
-    loadExercisesTask?.cancel()
-    loadExercisesTask = nil
-    
     searchTask?.cancel()
     searchTask = nil
-    
-    loadAllImagesTask?.cancel()
-    loadAllImagesTask = nil
+  }
+  
+  @MainActor
+  func searchFor(query: String) {
   }
 }

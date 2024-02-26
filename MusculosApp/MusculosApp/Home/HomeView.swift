@@ -16,7 +16,7 @@ struct HomeView: View {
     NavigationStack {
       VStack(alignment: .center) {
         challengeCard
-        hintChallengeView
+        HintIconView(systemImage: "dumbbell", textHint: "No challenges completed yet!")
         Spacer()
       }
       .navigationDestination(isPresented: $isChallengePresented) {
@@ -24,24 +24,6 @@ struct HomeView: View {
           isChallengePresented.toggle()
         }
       }
-    }
-  }
-  
-  @ViewBuilder
-  var hintChallengeView: some View {
-    VStack {
-      Image("yoga-position")
-        .renderingMode(.template)
-        .resizable()
-        .scaledToFit()
-        .frame(width: 80, height: 100)
-        .opacity(0.3)
-        .foregroundStyle(.gray)
-      Text("No challenges completed yet!")
-        .font(.callout)
-        .fontWeight(.regular)
-        .italic()
-        .opacity(0.3)
     }
   }
   

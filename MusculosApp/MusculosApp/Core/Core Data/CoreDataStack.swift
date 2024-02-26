@@ -11,54 +11,86 @@ import CoreData
 class CoreDataStack {
   let persistentContainer: NSPersistentContainer
   let mainContext: NSManagedObjectContext
-  let backgroundContext: NSManagedObjectContext
-
+  let userPrivateContext: NSManagedObjectContext
+  let syncPrivateContext: NSManagedObjectContext
+  
   private init() {
-    self.persistentContainer = NSPersistentContainer(name: "MusculosDataStore")
-    let description = self.persistentContainer.persistentStoreDescriptions.first
+    persistentContainer = NSPersistentContainer(name: "MusculosDataStore")
+    let description = persistentContainer.persistentStoreDescriptions.first
     description?.type = NSSQLiteStoreType
     description?.shouldMigrateStoreAutomatically = true
     description?.shouldInferMappingModelAutomatically = true
-
     self.persistentContainer.loadPersistentStores { _, error in
       if let error = error {
         MusculosLogger.logError(error: error, message: "Failed to load persistent store", category: .coreData)
       }
     }
 
-    self.mainContext = self.persistentContainer.viewContext
-    self.mainContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-
-    self.backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-    self.backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-    self.backgroundContext.parent = self.mainContext
+    mainContext = persistentContainer.viewContext
+    mainContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    
+    userPrivateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+    userPrivateContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    userPrivateContext.parent = mainContext
+    
+    syncPrivateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+    syncPrivateContext.parent = mainContext
   }
+}
 
+// MARK: - Helper methods
+
+extension CoreDataStack {
+  static func saveContext(_ context: NSManagedObjectContext) async {
+    await context.perform {
+      guard context.hasChanges else { return }
+      
+      do {
+        try context.save()
+      } catch {
+        context.rollback()
+        MusculosLogger.logError(error: error, message: "Failed to save context", category: .coreData)
+      }
+    }
+  }
+  
+  static func asyncSaveContext(_ context: NSManagedObjectContext) {
+    context.perform {
+      guard context.hasChanges else { return }
+      
+      do {
+        try context.save()
+      } catch {
+        context.rollback()
+        MusculosLogger.logError(error: error, message: "Failed to save context", category: .coreData)
+      }
+    }
+  }
+  
   func saveMainContext() async {
-    let context = self.mainContext
-    await context.perform {
-      do {
-        try context.save()
-      } catch {
-        MusculosLogger.logError(error: error, message: "Failed to save main context", category: .coreData)
-        return
-      }
-    }
+    await CoreDataStack.saveContext(mainContext)
+  }
+  
+  func asyncSaveMainContext() {
+    CoreDataStack.asyncSaveContext(mainContext)
+  }
+  
+  func fetchAllEntities<T: NSManagedObject>(entityName: String) throws -> [T]? {
+    let request = NSFetchRequest<T>(entityName: entityName)
+    return try self.mainContext.fetch(request)
   }
 
-  func saveBackgroundContext() async {
-    let context = self.backgroundContext
-    await context.perform {
-      do {
-        try context.save()
-      } catch {
-        MusculosLogger.logError(error: error, message: "Failed to save backgroundContext context", category: .coreData)
-        return
-      }
-    }
-
+  func fetchEntitiesByIds<T: NSManagedObject>(entityName: String, by ids: [Int]) throws -> [T]? {
+    let request = NSFetchRequest<T>(entityName: entityName)
+    let predicate = NSPredicate(format: "id IN %@", ids)
+    request.predicate = predicate
+    return try self.mainContext.fetch(request)
   }
+}
 
+// MARK: - Clean up -- rarely used
+
+extension CoreDataStack {
   func deleteSql() {
     let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("MusculosDataStore.sqlite")
 
@@ -76,33 +108,13 @@ class CoreDataStack {
   }
 
   func deleteAll() async {
-    let container = self.persistentContainer
-    for e in container.persistentStoreCoordinator.managedObjectModel.entities {
+    for e in persistentContainer.persistentStoreCoordinator.managedObjectModel.entities {
       let r = NSBatchDeleteRequest(
-        fetchRequest: NSFetchRequest(entityName: e.name ?? ""))
-      _ = try? container.viewContext.execute(r)
+        fetchRequest: NSFetchRequest(entityName: e.name ?? "")
+      )
+      _ = try? mainContext.execute(r)
     }
-
-    do {
-      try await self.saveMainContext()
-    } catch {
-      MusculosLogger.logError(error: error, message: "Could not save after deleting all", category: .coreData)
-      return
-    }
-  }
-}
-
-extension CoreDataStack {
-  func fetchAllEntities<T: NSManagedObject>(entityName: String) throws -> [T]? {
-    let request = NSFetchRequest<T>(entityName: entityName)
-    return try self.mainContext.fetch(request)
-  }
-
-  func fetchEntitiesByIds<T: NSManagedObject>(entityName: String, by ids: [Int]) throws -> [T]? {
-    let request = NSFetchRequest<T>(entityName: entityName)
-    let predicate = NSPredicate(format: "id IN %@", ids)
-    request.predicate = predicate
-    return try self.mainContext.fetch(request)
+    await saveMainContext()
   }
 }
 
