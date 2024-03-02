@@ -8,18 +8,19 @@
 import SwiftUI
 import CoreData
 
-struct AppTabView: View {
+struct AppTabView: View {  
   @StateObject private var tabBarSettings = TabBarSettings()
+
   @State private var selection: String = "workout"
   @State private var tabSelection: TabBarItem = .dashboard
   
   var body: some View {
-    CustomTabBarContainerView(selection: $tabSelection, tabBarItems: [.dashboard, .add, .workout]) {
+    CustomTabBarContainerView(selection: $tabSelection, tabBarItems: [.dashboard, .add, .profile]) {
       switch tabSelection {
       case .dashboard:
         HomeView(challenge: MockConstants.challenge)
-      case .workout:
-        EmptyView()
+      case .profile:
+        ProfileView()
       case .add:
         DashboardView()
       }

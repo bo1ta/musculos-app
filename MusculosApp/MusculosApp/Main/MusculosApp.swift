@@ -13,7 +13,7 @@ struct MusculosApp: App {
   @ObservedObject private var exerciseStore = ExerciseStore()
 
   let coreDataStack = CoreDataStack.shared
-  let coreDataManager = CoreDataManager()
+  let coreDataManager = UserDataStore()
 
   var body: some Scene {
     WindowGroup {
@@ -22,6 +22,9 @@ struct MusculosApp: App {
           AppTabView()
             .environment(\.managedObjectContext, self.coreDataStack.mainContext)
             .environment(\.mainWindowSize, proxy.size)
+            .onAppear {
+              userStore.fetchUserProfile()
+            }
         } else {
           if !userStore.isLoggedIn {
             GetStartedView()

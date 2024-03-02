@@ -16,10 +16,12 @@ class CoreDataStack {
   
   private init() {
     persistentContainer = NSPersistentContainer(name: "MusculosDataStore")
+    
     let description = persistentContainer.persistentStoreDescriptions.first
     description?.type = NSSQLiteStoreType
     description?.shouldMigrateStoreAutomatically = true
     description?.shouldInferMappingModelAutomatically = true
+
     self.persistentContainer.loadPersistentStores { _, error in
       if let error = error {
         MusculosLogger.logError(error: error, message: "Failed to load persistent store", category: .coreData)
@@ -36,58 +38,11 @@ class CoreDataStack {
     syncPrivateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     syncPrivateContext.parent = mainContext
   }
-}
-
-// MARK: - Helper methods
-
-extension CoreDataStack {
-  static func saveContext(_ context: NSManagedObjectContext) async {
-    await context.perform {
-      guard context.hasChanges else { return }
-      
-      do {
-        try context.save()
-      } catch {
-        context.rollback()
-        MusculosLogger.logError(error: error, message: "Failed to save context", category: .coreData)
-      }
-    }
-  }
-  
-  static func asyncSaveContext(_ context: NSManagedObjectContext) {
-    context.perform {
-      guard context.hasChanges else { return }
-      
-      do {
-        try context.save()
-      } catch {
-        context.rollback()
-        MusculosLogger.logError(error: error, message: "Failed to save context", category: .coreData)
-      }
-    }
-  }
   
   func saveMainContext() async {
-    await CoreDataStack.saveContext(mainContext)
-  }
-  
-  func asyncSaveMainContext() {
-    CoreDataStack.asyncSaveContext(mainContext)
-  }
-  
-  func fetchAllEntities<T: NSManagedObject>(entityName: String) throws -> [T]? {
-    let request = NSFetchRequest<T>(entityName: entityName)
-    return try self.mainContext.fetch(request)
-  }
-
-  func fetchEntitiesByIds<T: NSManagedObject>(entityName: String, by ids: [Int]) throws -> [T]? {
-    let request = NSFetchRequest<T>(entityName: entityName)
-    let predicate = NSPredicate(format: "id IN %@", ids)
-    request.predicate = predicate
-    return try self.mainContext.fetch(request)
+    await mainContext.saveContext()
   }
 }
-
 // MARK: - Clean up -- rarely used
 
 extension CoreDataStack {
@@ -103,7 +58,6 @@ extension CoreDataStack {
       try self.persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, type: .sqlite)
     } catch {
       MusculosLogger.logError(error: error, message: "Could not destroy persistent store", category: .coreData)
-      return
     }
   }
 
@@ -114,7 +68,7 @@ extension CoreDataStack {
       )
       _ = try? mainContext.execute(r)
     }
-    await saveMainContext()
+    await mainContext.saveContext()
   }
 }
 

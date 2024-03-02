@@ -41,7 +41,6 @@ struct DashboardView: View {
           case .loading:
            DashboardLoadingView()
               .onAppear {
-                userStore.fetchUserProfile()
                 exerciseStore.loadExercises()
               }
           case .loaded(let exercises):

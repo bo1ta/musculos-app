@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @objc(Exercise)
-public class Exercise: NSManagedObject, Decodable {
+public class Exercise: NSManagedObject, Decodable, ExerciseProvider {
   @nonobjc public class func fetchRequest() -> NSFetchRequest<Exercise> {
       return NSFetchRequest<Exercise>(entityName: "Exercise")
   }

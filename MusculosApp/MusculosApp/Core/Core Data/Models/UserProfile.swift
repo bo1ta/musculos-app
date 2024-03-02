@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @objc(UserProfile)
-public class UserProfile: NSManagedObject, Codable {
+public class UserProfile: NSManagedObject, Codable, UserProfileProvider {
   @NSManaged public var gender: String?
   @NSManaged public var fullName: String?
   @NSManaged public var username: String?

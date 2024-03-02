@@ -9,18 +9,17 @@ import Foundation
 
 class ExerciseDataStore {
   private let syncPrivateContext = CoreDataStack.shared.syncPrivateContext
-  private let mainContext = CoreDataStack.shared.mainContext
   
   func fetchExercises(limit: Int = 5, offset: Int = 0) throws -> [Exercise] {
     let fetchRequest = Exercise.fetchRequest()
     fetchRequest.fetchLimit = limit
     fetchRequest.fetchOffset = offset
-    return try mainContext.fetch(fetchRequest)
+    return try syncPrivateContext.fetch(fetchRequest)
   }
   
   func saveLocalChanges() async {
-    await CoreDataStack.saveContext(syncPrivateContext)
-    await CoreDataStack.saveContext(mainContext)
+    await syncPrivateContext.saveContext()
+    await CoreDataStack.shared.saveMainContext()
   }
   
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async {
@@ -31,6 +30,6 @@ class ExerciseDataStore {
   func fetchFavoriteExercises() throws -> [Exercise] {
     let fetchRequest = Exercise.fetchRequest()
     fetchRequest.predicate = NSPredicate(format: "isFavorite == true")
-    return try mainContext.fetch(fetchRequest)
+    return try syncPrivateContext.fetch(fetchRequest)
   }
 }

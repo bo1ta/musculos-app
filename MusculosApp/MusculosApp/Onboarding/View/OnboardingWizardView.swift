@@ -100,7 +100,7 @@ extension OnboardingWizardView {
   
   private func handleSubmit() {
     userStore.isOnboarded = true
-    CoreDataManager.updateUserProfile(gender: selectedGender, weight: selectedWeight, height: selectedHeight, goalId: selectedGoal?.rawValue)
+    userStore.updateUserProfile(gender: selectedGender, weight: selectedWeight, height: selectedHeight, goalId: selectedGoal?.rawValue)
   }
 }
 

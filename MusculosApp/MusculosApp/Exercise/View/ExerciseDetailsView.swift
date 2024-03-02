@@ -16,7 +16,7 @@ struct ExerciseDetailsView: View {
   
   private let client = MusculosClient()
   
-  var exercise: Exercise
+  var exercise: ExerciseProvider
   
   var body: some View {
     VStack(spacing: 10) {
@@ -46,7 +46,7 @@ struct ExerciseDetailsView: View {
   @ViewBuilder
   private var imageSection: some View {
     if exercise.imageUrls.count > 0 {
-      let images = exercise.getImagesURLs()
+      let images = exercise.imageUrls.compactMap { URL(string: $0) }
       AnimatedURLImageView(imageURLs: images)
         .overlay {
           imageOverlay
@@ -93,7 +93,10 @@ struct ExerciseDetailsView: View {
   private var favoriteButton: some View {
     Button(action: {
       isFavorite.toggle()
-      exerciseStore.favoriteExercise(exercise, isFavorite: isFavorite)
+      
+      if let exerciseManagedObject = exercise as? Exercise {
+        exerciseStore.favoriteExercise(exerciseManagedObject, isFavorite: isFavorite)
+      }
     }, label: {
       Image(systemName: isFavorite ? "heart.fill" : "heart")
         .resizable()
@@ -142,7 +145,7 @@ struct ExerciseDetailsView: View {
 }
 
 #Preview {
-  ExerciseDetailsView(exercise: MockConstants.createMockExercise())
+  ExerciseDetailsView(exercise: ExerciseFactory.create())
     .environmentObject(TabBarSettings())
     .environmentObject(ExerciseStore())
 }

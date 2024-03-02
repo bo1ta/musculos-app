@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct HomeView: View {
+  @EnvironmentObject private var tabBarSettings: TabBarSettings
+
   let challenge: Challenge
-  
-  @State private var isChallengePresented = false
+  @State private var showChallenge = false
   
   var body: some View {
     NavigationStack {
@@ -19,9 +20,14 @@ struct HomeView: View {
         HintIconView(systemImage: "dumbbell", textHint: "No challenges completed yet!")
         Spacer()
       }
-      .navigationDestination(isPresented: $isChallengePresented) {
+      .onAppear {
+        DispatchQueue.main.async {
+          tabBarSettings.isTabBarHidden = false
+        }
+      }
+      .navigationDestination(isPresented: $showChallenge) {
         ChallengeView(challenge: challenge) {
-          isChallengePresented.toggle()
+          showChallenge.toggle()
         }
       }
     }
@@ -52,12 +58,12 @@ struct HomeView: View {
             .font(.callout)
             .foregroundStyle(.gray)
           GreenGrassButton(action: {
-            isChallengePresented.toggle()
+            showChallenge.toggle()
           }, text: "Learn More")
           .padding()
           
           Spacer()
-
+          
         })
       }
       .padding(10)

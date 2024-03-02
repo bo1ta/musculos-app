@@ -9,8 +9,8 @@ import Foundation
 
 enum TabBarItem: String {
   case dashboard
-  case workout
   case add
+  case profile
 
   var label: String {
     switch self {
@@ -18,8 +18,8 @@ enum TabBarItem: String {
       return "Add"
     case .dashboard:
       return "Dashboard"
-    case .workout:
-      return "Workout"
+    case .profile:
+      return "Profile"
     }
   }
 
@@ -29,8 +29,8 @@ enum TabBarItem: String {
       return "plus"
     case .dashboard:
       return "rectangle.grid.2x2"
-    case .workout:
-      return "dumbbell"
+    case .profile:
+      return "person"
     }
   }
 }
