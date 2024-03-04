@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct StatsCard: View {
+  let weight: Int
+  let height: Int
+  let growth: Int
+  
     var body: some View {
       RoundedRectangle(cornerRadius: 20)
         .frame(maxWidth: .infinity)
@@ -17,13 +21,13 @@ struct StatsCard: View {
         .shadow(radius: 1.5)
         .overlay {
           HStack {
-            StatsItem(title: "Weight", description: "80")
+            StatsItem(title: "Weight", description: String(weight))
             Divider()
               .padding([.leading, .trailing], 20)
-            StatsItem(title: "Height", description: "180")
+            StatsItem(title: "Height", description: String(height))
             Divider()
               .padding([.leading, .trailing], 20)
-            StatsItem(title: "Growth", description: "100")
+            StatsItem(title: "Growth", description: String(growth))
           }
           .padding()
         }
@@ -31,5 +35,5 @@ struct StatsCard: View {
 }
 
 #Preview {
-    StatsCard()
+  StatsCard(weight: 80, height: 180, growth: 100)
 }

@@ -12,7 +12,7 @@ struct ProfileView: View {
   @Environment(\.mainWindowSize) var mainWindowSize: CGSize
   
   private var userProfile: UserProfileProvider? {
-    UserProfileFactory.build(isCurrentUser: true)
+    userStore.currentUserProfile ?? UserProfileFactory.build(isCurrentUser: true)
   }
   
   var body: some View {
@@ -25,7 +25,11 @@ struct ProfileView: View {
                 .padding(.top, 10)
             }
           }
-        StatsCard()
+        StatsCard(
+          weight: userProfile?.weight?.intValue ?? 0,
+          height: userProfile?.height?.intValue ?? 0,
+          growth: 100
+        )
           .padding(.top, -50)
         
         FavoriteSection()
@@ -41,5 +45,5 @@ struct ProfileView: View {
 }
 
 #Preview {
-  ProfileView().environmentObject(UserProfile())
+  ProfileView().environmentObject(UserStore())
 }
