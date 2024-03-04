@@ -30,7 +30,7 @@ struct ProfileView: View {
           height: userProfile?.height?.intValue ?? 0,
           growth: 100
         )
-          .padding(.top, -50)
+        .padding(.top, -50)
         
         FavoriteSection()
           .padding([.top, .bottom], 30)

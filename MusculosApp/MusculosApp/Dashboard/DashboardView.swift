@@ -27,9 +27,9 @@ struct DashboardView: View {
   var body: some View {
     NavigationStack {
       VStack {
-        DashboardHeaderView()
+        DashboardHeaderCard()
         ScrollView {
-          ProgressCardView(
+          ProgressCard(
             title: "You've completed 3 exercises",
             description: "75% of your weekly muscle building goal",
             progress: 0.75
@@ -44,7 +44,7 @@ struct DashboardView: View {
                 exerciseStore.loadExercises()
               }
           case .loaded(let exercises):
-            DashboardCategorySection(content: { categorySection in
+            CategorySectionView(content: { categorySection in
               makeCategoryItems(
                 categorySection,
                 exercises: exercises
@@ -101,17 +101,17 @@ struct DashboardView: View {
     VStack {
       switch categorySection {
       case .discover:
-          SearchFilterFieldView(
+          SearchFilterField(
             showFilterView: $showFilterView,
             hasObservedQuery: { query in
               exerciseStore.searchByMuscleQuery(query)
             })
           
-        ExerciseCardSection(title: "Most popular", exercises: exerciseStore.discoverExercises.first ?? [], onExerciseTap: {
+        ExerciseSectionView(title: "Most popular", exercises: exerciseStore.discoverExercises.first ?? [], onExerciseTap: {
             exercise in
             selectedExercise = exercise
           })
-          ExerciseCardSection(title: "Quick muscle-building workouts", exercises: exerciseStore.discoverExercises[safe: 1] ?? [], isSmallCard: true, onExerciseTap: {
+          ExerciseSectionView(title: "Quick muscle-building workouts", exercises: exerciseStore.discoverExercises[safe: 1] ?? [], isSmallCard: true, onExerciseTap: {
             exercise in
             selectedExercise = exercise
           })
@@ -129,7 +129,7 @@ struct DashboardView: View {
         Button(action: {
           selectedExercise = exercise
         }, label: {
-          CurrentWorkoutCardView(exercise: exercise, cardWidth: 350)
+          ExerciseCard(exercise: exercise, cardWidth: 350)
         })
       }
     }

@@ -1,5 +1,5 @@
 //
-//  WorkoutCardView.swift
+//  ExerciseCard.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 08.07.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CurrentWorkoutCardView: View {
+struct ExerciseCard: View {
   let exercise: Exercise
   
   private let cardHeight: CGFloat = 200
@@ -90,7 +90,7 @@ struct CurrentWorkoutCardView: View {
 
 struct WorkoutCardView_Preview: PreviewProvider {
   static var previews: some View {
-    CurrentWorkoutCardView(exercise: MockConstants.createMockExercise())
+    ExerciseCard(exercise: MockConstants.createMockExercise())
       .previewLayout(.sizeThatFits)
   }
 }

@@ -17,8 +17,8 @@ struct DashboardLoadingView: View {
   
   var body: some View {
     VStack {
-      ExerciseCardSection(title: "Most popular", exercises: mockExercises, onExerciseTap: { _ in })
-      ExerciseCardSection(title: "Quick muscle-building workouts", exercises: mockExercises, isSmallCard: true, onExerciseTap: { _ in })
+      ExerciseSectionView(title: "Most popular", exercises: mockExercises, onExerciseTap: { _ in })
+      ExerciseSectionView(title: "Quick muscle-building workouts", exercises: mockExercises, isSmallCard: true, onExerciseTap: { _ in })
     }
     .shimmering()
   }

@@ -1,5 +1,5 @@
 //
-//  DashboardHeaderView.swift
+//  DashboardHeaderCard.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 25.02.2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DashboardHeaderView: View {
+struct DashboardHeaderCard: View {
   @EnvironmentObject var userStore: UserStore
   
     var body: some View {
@@ -50,5 +50,5 @@ struct DashboardHeaderView: View {
 }
 
 #Preview {
-  DashboardHeaderView().environmentObject(UserStore())
+  DashboardHeaderCard().environmentObject(UserStore())
 }
