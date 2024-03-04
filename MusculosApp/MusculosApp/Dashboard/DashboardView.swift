@@ -28,7 +28,7 @@ struct DashboardView: View {
     NavigationStack {
       VStack {
         DashboardHeaderView()
-        ScrollView() {
+        ScrollView {
           ProgressCardView(
             title: "You've completed 3 exercises",
             description: "75% of your weekly muscle building goal",
@@ -55,9 +55,10 @@ struct DashboardView: View {
           case .error(_):
             HintIconView(systemImage: "alert", textHint: "Could not fetch exercises!")
           }
+          
+          WhiteBackgroundCard()
         }
         .scrollIndicators(.hidden)
-        .padding(.bottom, 100)
       }
       .popover(isPresented: $showFilterView) {
         SearchFilterView()

@@ -20,10 +20,10 @@ struct MeDataView: View {
       VStack(alignment: .center, spacing: 2) {
         if let fullName = userProfile?.fullName, let username = userProfile?.username {
           Text(fullName)
-            .font(.custom(AppFont.bold, size: 16))
+            .font(.custom(AppFont.medium, size: 16))
             .foregroundStyle(.white)
           Text("@\(username)")
-            .font(.custom(AppFont.light, size: 10))
+            .font(.custom(AppFont.regular, size: 10))
             .foregroundStyle(.white)
         }
       }

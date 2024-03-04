@@ -16,7 +16,7 @@ struct ProfileView: View {
   }
   
   var body: some View {
-    VStack() {
+    VStack {
       BlueBackgroundCard()
         .overlay {
           VStack {
@@ -27,11 +27,14 @@ struct ProfileView: View {
       StatsCard()
         .padding(.top, -50)
       
-      MuscleChartSection()
-        .padding([.top, .bottom], 30)
-      FavoriteSection()
-      
-      Spacer()
+      ScrollView {
+        FavoriteSection()
+          .padding([.top, .bottom], 30)
+        MuscleChartSection()
+        
+        WhiteBackgroundCard()
+        Spacer()
+      }
     }
     .ignoresSafeArea()
   }
