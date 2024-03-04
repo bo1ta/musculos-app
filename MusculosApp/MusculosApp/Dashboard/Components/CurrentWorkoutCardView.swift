@@ -28,7 +28,7 @@ struct CurrentWorkoutCardView: View {
     }
     .cornerRadius(40)
     .padding()
-    .shadow(radius: 2)
+    .shadow(color: .gray.opacity(0.4), radius: 2, x: 1, y: 1)
     .frame(width: cardWidth, height: cardHeight)
   }
   
@@ -51,7 +51,7 @@ struct CurrentWorkoutCardView: View {
   private var detailsRectangle: some View {
     RoundedRectangle(cornerRadius: 30)
       .foregroundStyle(.white)
-      .shadow(radius: 40, y: 30)
+      .shadow(color: .gray.opacity(0.4), radius: 2, x: 1, y: 1)
       .frame(width: cardWidth, height: 80)
       .overlay {
         HStack {

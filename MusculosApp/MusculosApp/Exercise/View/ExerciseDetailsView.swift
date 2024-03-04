@@ -100,8 +100,9 @@ struct ExerciseDetailsView: View {
     }, label: {
       Image(systemName: isFavorite ? "heart.fill" : "heart")
         .resizable()
-        .frame(width: 25, height: 25)
-        .foregroundStyle(isFavorite ? .red : .gray)
+        .frame(width: 30, height: 25)
+        .foregroundStyle(isFavorite ? .red : .white)
+        .shadow(radius: 1.0)
     })
   }
   

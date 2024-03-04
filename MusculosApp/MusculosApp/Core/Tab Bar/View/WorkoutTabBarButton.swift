@@ -1,5 +1,5 @@
 //
-//  AddTabBarButtonView.swift
+//  WorkoutTabBarButton.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 04.08.2023.
@@ -8,9 +8,9 @@
 import Foundation
 import SwiftUI
 
-struct AddTabBarButtonView: CustomTabBarButton {
+struct WorkoutTabBarButton: CustomTabBarButton {
+  var tabBarItem: TabBarItem { .workout }
   var onTapGesture: () -> Void
-  var tabBarItem: TabBarItem { .add }
 
   init(onTapGesture: @escaping () -> Void) {
     self.onTapGesture = onTapGesture
@@ -18,13 +18,13 @@ struct AddTabBarButtonView: CustomTabBarButton {
 
   var body: some View {
     Circle()
-      .foregroundStyle(Color(.white))
+      .foregroundStyle(.white)
       .overlay {
         Circle()
           .foregroundStyle(.black)
           .overlay {
             Image(systemName: self.tabBarItem.imageName)
-              .font(Font(CTFont(.menuItem, size: 23)))
+              .font(Font(CTFont(.menuItem, size: 18)))
               .foregroundStyle(Color.appColor(with: .spriteGreen))
               .onTapGesture(perform: self.onTapGesture)
           }
@@ -36,7 +36,7 @@ struct AddTabBarButtonView: CustomTabBarButton {
 
 struct AddTabBarButtonView_Preview: PreviewProvider {
   static var previews: some View {
-    AddTabBarButtonView(onTapGesture: {})
+    WorkoutTabBarButton(onTapGesture: {})
       .previewLayout(.sizeThatFits)
   }
 }

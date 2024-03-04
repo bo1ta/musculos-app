@@ -137,7 +137,7 @@
 		BCD837BC2B64902D0069CECB /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */; };
 		BCD837BF2B651F750069CECB /* LoadingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD837BE2B651F750069CECB /* LoadingOverlayView.swift */; };
 		BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */; };
-		BCE417102A7D73380088D975 /* AddTabBarButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4170F2A7D73380088D975 /* AddTabBarButtonView.swift */; };
+		BCE417102A7D73380088D975 /* WorkoutTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4170F2A7D73380088D975 /* WorkoutTabBarButton.swift */; };
 		BCF7DE712A7DB2EC00FC960B /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */; };
 		BCF86C332A362105003293A4 /* CustomNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C322A362105003293A4 /* CustomNavigationBarView.swift */; };
 		BCF86C3B2A3632BA003293A4 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */; };
@@ -299,7 +299,7 @@
 		BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
 		BCD837BE2B651F750069CECB /* LoadingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlayView.swift; sourceTree = "<group>"; };
 		BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		BCE4170F2A7D73380088D975 /* AddTabBarButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTabBarButtonView.swift; sourceTree = "<group>"; };
+		BCE4170F2A7D73380088D975 /* WorkoutTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTabBarButton.swift; sourceTree = "<group>"; };
 		BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
 		BCF86C322A362105003293A4 /* CustomNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBarView.swift; sourceTree = "<group>"; };
 		BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
@@ -603,7 +603,7 @@
 				BC5A41042A7D6F0D00F671F5 /* Protocol */,
 				BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */,
 				BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */,
-				BCE4170F2A7D73380088D975 /* AddTabBarButtonView.swift */,
+				BCE4170F2A7D73380088D975 /* WorkoutTabBarButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1296,7 +1296,7 @@
 				BCA24BFC2B6AB9AF00124EC3 /* SignInView.swift in Sources */,
 				BC52DDEB2B880E80005A4587 /* ExerciseDataStore.swift in Sources */,
 				BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */,
-				BCE417102A7D73380088D975 /* AddTabBarButtonView.swift in Sources */,
+				BCE417102A7D73380088D975 /* WorkoutTabBarButton.swift in Sources */,
 				BC52DE032B8EB8A8005A4587 /* ExerciseFactory.swift in Sources */,
 				BC3454602B76CD780074106A /* ExerciseDetailsView.swift in Sources */,
 				BC43D33B2B6EAD8D008C1062 /* SearchFilterViewModel.swift in Sources */,

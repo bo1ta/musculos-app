@@ -9,13 +9,13 @@ import Foundation
 
 enum TabBarItem: String {
   case dashboard
-  case add
+  case workout
   case profile
 
   var label: String {
     switch self {
-    case .add:
-      return "Add"
+    case .workout:
+      return "Workout"
     case .dashboard:
       return "Dashboard"
     case .profile:
@@ -25,8 +25,8 @@ enum TabBarItem: String {
 
   var imageName: String {
     switch self {
-    case .add:
-      return "plus"
+    case .workout:
+      return "dumbbell"
     case .dashboard:
       return "rectangle.grid.2x2"
     case .profile:

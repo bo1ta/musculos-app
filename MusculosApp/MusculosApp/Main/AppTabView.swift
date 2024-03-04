@@ -10,19 +10,19 @@ import CoreData
 
 struct AppTabView: View {  
   @StateObject private var tabBarSettings = TabBarSettings()
-
-  @State private var selection: String = "workout"
   @State private var tabSelection: TabBarItem = .dashboard
   
+  private let tabBarItems: [TabBarItem] = [.dashboard, .workout, .profile]
+  
   var body: some View {
-    CustomTabBarContainerView(selection: $tabSelection, tabBarItems: [.dashboard, .add, .profile]) {
+    CustomTabBarContainerView(selection: $tabSelection, tabBarItems: tabBarItems) {
       switch tabSelection {
       case .dashboard:
         HomeView(challenge: MockConstants.challenge)
+      case .workout:
+        DashboardView()
       case .profile:
         ProfileView()
-      case .add:
-        DashboardView()
       }
     }
     .environmentObject(tabBarSettings)

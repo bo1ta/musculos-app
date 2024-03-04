@@ -42,8 +42,8 @@ struct CustomTabBarView: View {
 extension CustomTabBarView {
   private func tabItem(with item: TabBarItem, isSelected: Bool, onTapGesture: @escaping () -> Void) -> some View {
     VStack {
-      if item == .add {
-        AddTabBarButtonView(onTapGesture: onTapGesture)
+      if item == .workout {
+        WorkoutTabBarButton(onTapGesture: onTapGesture)
           .padding(.bottom)
       } else {
         Image(systemName: item.imageName)
@@ -59,7 +59,7 @@ extension CustomTabBarView {
 
 struct CustomTabBarView_Preview: PreviewProvider {
   static var previews: some View {
-    CustomTabBarView(tabBarItems: [.dashboard, .add, .profile], selection: Binding<TabBarItem>.constant(.dashboard))
+    CustomTabBarView(tabBarItems: [.dashboard, .workout, .profile], selection: Binding<TabBarItem>.constant(.dashboard))
       .previewLayout(.sizeThatFits)
   }
 }
