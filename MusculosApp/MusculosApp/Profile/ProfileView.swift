@@ -16,18 +16,18 @@ struct ProfileView: View {
   }
   
   var body: some View {
-    VStack {
-      BlueBackgroundCard()
-        .overlay {
-          VStack {
-            MeDataView(userProfile: userProfile)
-              .padding(.top, 10)
+    ScrollView {
+      VStack {
+        BlueBackgroundCard()
+          .overlay {
+            VStack {
+              MeDataView(userProfile: userProfile)
+                .padding(.top, 10)
+            }
           }
-        }
-      StatsCard()
-        .padding(.top, -50)
-      
-      ScrollView {
+        StatsCard()
+          .padding(.top, -50)
+        
         FavoriteSection()
           .padding([.top, .bottom], 30)
         MuscleChartSection()
