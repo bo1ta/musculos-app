@@ -1,5 +1,5 @@
 //
-//  WorkoutCardView.swift
+//  ExerciseCard.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 08.07.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CurrentWorkoutCardView: View {
+struct ExerciseCard: View {
   let exercise: Exercise
   
   private let cardHeight: CGFloat = 200
@@ -28,7 +28,7 @@ struct CurrentWorkoutCardView: View {
     }
     .cornerRadius(40)
     .padding()
-    .shadow(radius: 2)
+    .shadow(color: .gray.opacity(0.4), radius: 2, x: 1, y: 1)
     .frame(width: cardWidth, height: cardHeight)
   }
   
@@ -51,7 +51,7 @@ struct CurrentWorkoutCardView: View {
   private var detailsRectangle: some View {
     RoundedRectangle(cornerRadius: 30)
       .foregroundStyle(.white)
-      .shadow(radius: 40, y: 30)
+      .shadow(color: .gray.opacity(0.4), radius: 2, x: 1, y: 1)
       .frame(width: cardWidth, height: 80)
       .overlay {
         HStack {
@@ -90,7 +90,7 @@ struct CurrentWorkoutCardView: View {
 
 struct WorkoutCardView_Preview: PreviewProvider {
   static var previews: some View {
-    CurrentWorkoutCardView(exercise: MockConstants.createMockExercise())
+    ExerciseCard(exercise: MockConstants.createMockExercise())
       .previewLayout(.sizeThatFits)
   }
 }

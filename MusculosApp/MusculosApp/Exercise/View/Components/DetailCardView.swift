@@ -14,12 +14,12 @@ struct DetailCardView: View {
   @State var textHeight: CGFloat = 0
   
   var body: some View {
-    RoundedRectangle(cornerRadius: 5)
+    RoundedRectangle(cornerRadius: 10)
       .frame(maxWidth: .infinity)
       .frame(minHeight: textHeight)
       .padding([.leading, .trailing])
       .foregroundStyle(.white)
-      .shadow(radius: 1)
+      .shadow(color: .gray.opacity(0.4), radius: 2, x: 1, y: 1)
       .overlay {
         HStack {
           Circle()

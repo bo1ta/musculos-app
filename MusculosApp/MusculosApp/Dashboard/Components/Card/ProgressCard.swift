@@ -1,5 +1,5 @@
 //
-//  ProgressCardView.swift
+//  ProgressCard.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 02.02.2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProgressCardView: View {
+struct ProgressCard: View {
   var title: String
   var description: String
   var progress: Float
@@ -34,5 +34,5 @@ struct ProgressCardView: View {
 }
 
 #Preview {
-  ProgressCardView(title: "You've completed 3 muscles", description: "75% of your weekly muscle building goal", progress: 0.75)
+  ProgressCard(title: "You've completed 3 muscles", description: "75% of your weekly muscle building goal", progress: 0.75)
 }

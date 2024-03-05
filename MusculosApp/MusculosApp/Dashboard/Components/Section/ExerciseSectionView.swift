@@ -1,5 +1,5 @@
 //
-//  ExerciseCardSection.swift
+//  ExerciseSectionView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 21.02.2024.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct ExerciseCardSection: View {
+struct ExerciseSectionView: View {
   let title: String
   let exercises: [Exercise]
   let isSmallCard: Bool
@@ -31,7 +31,7 @@ struct ExerciseCardSection: View {
             Button(action: {
               onExerciseTap(exercise)
             }, label: {
-              CurrentWorkoutCardView(exercise: exercise, cardWidth: isSmallCard ? 200 : 300)
+              ExerciseCard(exercise: exercise, cardWidth: isSmallCard ? 200 : 300)
             })
           }
         }

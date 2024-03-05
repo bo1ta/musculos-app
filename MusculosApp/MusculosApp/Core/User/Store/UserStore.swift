@@ -22,11 +22,15 @@ class UserStore: ObservableObject {
   }
   
   private let module: UserModuleProtocol
+  private let dataStore: UserDataStore
+  
   private(set) var authTask: Task<Void, Never>?
   private(set) var fetchUserProfileTask: Task<Void, Never>?
+  private(set) var updateUserProfileTask: Task<Void, Never>?
   
-  init(module: UserModuleProtocol = UserModule()) {
+  init(module: UserModuleProtocol = UserModule(), dataStore: UserDataStore = UserDataStore()) {
     self.module = module
+    self.dataStore = dataStore
   }
   
   var displayName: String {
@@ -88,10 +92,8 @@ extension UserStore {
       do {
         let result = try await self.module
           .registerUser(email: person.email, password: password, username: person.username, fullName: person.fullName)
-  
+        await dataStore.createUserProfile(person: person)
         UserDefaults.standard.setValue(result.token, forKey: UserDefaultsKey.authToken.rawValue)
-        CoreDataManager.createUserProfile(person: person)
-        
         self.isLoggedIn = true
       } catch {
         self.error = error
@@ -106,7 +108,15 @@ extension UserStore {
 extension UserStore {
   func fetchUserProfile() {
     fetchUserProfileTask = Task { @MainActor [weak self] in
-      self?.currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)
+      guard let self else { return }
+      self.currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)
+    }
+  }
+  
+  func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) {
+    updateUserProfileTask = Task { @MainActor [weak self] in
+      guard let self else { return }
+      _ = await self.dataStore.updateUserProfile(gender: gender, weight: weight, height: height, goalId: goalId)
     }
   }
 }

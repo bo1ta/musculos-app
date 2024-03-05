@@ -1,5 +1,5 @@
 //
-//  DashboardCategorySection.swift
+//  CategorySectionView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 25.02.2024.
@@ -22,7 +22,7 @@ enum CategorySection: String, CaseIterable {
   }
 }
 
-struct DashboardCategorySection<Content: View>: View {
+struct CategorySectionView<Content: View>: View {
   @State private var selectedSection: CategorySection = .discover
   
   var content: (CategorySection) -> Content
@@ -70,7 +70,7 @@ struct DashboardCategorySection<Content: View>: View {
 }
 
 #Preview {
-  DashboardCategorySection { categorySection in
+  CategorySectionView { categorySection in
     Text(categorySection.rawValue)
   } hasChangedSection: { section in
     print(section)

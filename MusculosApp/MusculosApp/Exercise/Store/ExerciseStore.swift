@@ -93,8 +93,4 @@ class ExerciseStore: ObservableObject {
     exerciseTask?.cancel()
     exerciseTask = nil
   }
-  
-  @MainActor
-  func searchFor(query: String) {
-  }
 }

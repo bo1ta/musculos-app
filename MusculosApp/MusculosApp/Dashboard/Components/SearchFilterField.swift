@@ -1,5 +1,5 @@
 //
-//  SearchFilterFieldView.swift
+//  SearchFilterField.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 24.02.2024.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct SearchFilterFieldView: View {
+struct SearchFilterField: View {
   @StateObject private var debouncedQueryObserver = DebouncedQueryObserver()
   @Binding var showFilterView: Bool
   
@@ -46,7 +46,7 @@ struct SearchFilterFieldView: View {
 }
 
 #Preview {
-  SearchFilterFieldView(showFilterView: .constant(false)) { query in
+  SearchFilterField(showFilterView: .constant(false)) { query in
     print(query)
   }
 }

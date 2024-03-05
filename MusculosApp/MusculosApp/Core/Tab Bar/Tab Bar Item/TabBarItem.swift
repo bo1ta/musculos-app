@@ -10,27 +10,27 @@ import Foundation
 enum TabBarItem: String {
   case dashboard
   case workout
-  case add
+  case profile
 
   var label: String {
     switch self {
-    case .add:
-      return "Add"
-    case .dashboard:
-      return "Dashboard"
     case .workout:
       return "Workout"
+    case .dashboard:
+      return "Dashboard"
+    case .profile:
+      return "Profile"
     }
   }
 
   var imageName: String {
     switch self {
-    case .add:
-      return "plus"
-    case .dashboard:
-      return "rectangle.grid.2x2"
     case .workout:
       return "dumbbell"
+    case .dashboard:
+      return "rectangle.grid.2x2"
+    case .profile:
+      return "person"
     }
   }
 }
