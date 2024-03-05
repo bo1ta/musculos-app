@@ -39,7 +39,7 @@ struct RoundedTextField: View {
       }
     }
     .padding()
-    .background(Capsule().fill(.white))
+    .background(Capsule().fill(.white).shadow(radius: 1.0))
   }
 }
 
