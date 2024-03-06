@@ -21,8 +21,10 @@ struct HomeView: View {
         Spacer()
       }
       .onAppear {
-        DispatchQueue.main.async {
-          tabBarSettings.isTabBarHidden = false
+        if tabBarSettings.isTabBarHidden {
+          DispatchQueue.main.async {
+            tabBarSettings.isTabBarHidden = false
+          }
         }
       }
       .navigationDestination(isPresented: $showChallenge) {
@@ -89,4 +91,5 @@ struct HomeView: View {
 
 #Preview {
   HomeView(challenge: MockConstants.challenge)
+    .environmentObject(TabBarSettings())
 }

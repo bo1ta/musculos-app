@@ -74,8 +74,10 @@ struct DashboardView: View {
         }
       }
       .onAppear {
-        DispatchQueue.main.async {
-          tabBarSettings.isTabBarHidden = false
+        if tabBarSettings.isTabBarHidden {
+          DispatchQueue.main.async {
+            tabBarSettings.isTabBarHidden = false
+          }
         }
       }
       .onDisappear {
