@@ -10,15 +10,15 @@ import CoreData
 
 struct AppTabView: View {  
   @StateObject private var tabBarSettings = TabBarSettings()
-  @State private var tabSelection: TabBarItem = .dashboard
+  @State private var tabSelection: TabBarItem = .overview
   
-  private let tabBarItems: [TabBarItem] = [.dashboard, .workout, .profile]
+  private let tabBarItems: [TabBarItem] = [.overview, .workout, .profile]
   
   var body: some View {
     CustomTabBarContainerView(selection: $tabSelection, tabBarItems: tabBarItems) {
       switch tabSelection {
-      case .dashboard:
-        HomeView(challenge: MockConstants.challenge)
+      case .overview:
+        OverviewView()
       case .workout:
         DashboardView()
       case .profile:
@@ -31,6 +31,6 @@ struct AppTabView: View {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    AppTabView()
+    AppTabView().environmentObject(UserStore())
   }
 }

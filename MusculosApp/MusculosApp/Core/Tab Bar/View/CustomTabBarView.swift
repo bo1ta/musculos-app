@@ -59,7 +59,7 @@ extension CustomTabBarView {
 
 struct CustomTabBarView_Preview: PreviewProvider {
   static var previews: some View {
-    CustomTabBarView(tabBarItems: [.dashboard, .workout, .profile], selection: Binding<TabBarItem>.constant(.dashboard))
+    CustomTabBarView(tabBarItems: [.overview, .workout, .profile], selection: Binding<TabBarItem>.constant(.overview))
       .previewLayout(.sizeThatFits)
   }
 }
