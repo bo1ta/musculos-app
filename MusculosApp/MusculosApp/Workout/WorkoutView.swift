@@ -27,7 +27,6 @@ struct WorkoutView: View {
   var body: some View {
     NavigationStack {
       VStack {
-        DashboardHeaderCard()
         ScrollView {
           ProgressCard(
             title: "You've completed 3 exercises",
@@ -83,7 +82,6 @@ struct WorkoutView: View {
       .onDisappear {
         exerciseStore.cleanUp()
       }
-      .ignoresSafeArea()
     }
   }
   
