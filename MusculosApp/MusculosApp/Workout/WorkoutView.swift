@@ -1,5 +1,5 @@
 //
-//  DashboardView.swift
+//  WorkoutView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 02.02.2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DashboardView: View {
+struct WorkoutView: View {
   @EnvironmentObject private var userStore: UserStore
   @EnvironmentObject private var exerciseStore: ExerciseStore
   @EnvironmentObject private var tabBarSettings: TabBarSettings
@@ -39,7 +39,7 @@ struct DashboardView: View {
           
           switch exerciseStore.state {
           case .loading:
-           DashboardLoadingView()
+            WorkoutLoadingView()
               .onAppear {
                 exerciseStore.loadExercises()
               }
@@ -139,7 +139,7 @@ struct DashboardView: View {
 }
 
 #Preview {
-  DashboardView()
+  WorkoutView()
     .environmentObject(UserStore())
     .environmentObject(ExerciseStore())
     .environmentObject(TabBarSettings(isTabBarHidden: false))

@@ -1,5 +1,5 @@
 //
-//  HomeView.swift
+//  DashboardView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 28.10.2023.
@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct DashboardView: View {
   @EnvironmentObject private var tabBarSettings: TabBarSettings
 
-  let challenge: Challenge
+  private var challenge: Challenge = MockConstants.challenge
   @State private var showChallenge = false
   
   var body: some View {
@@ -90,6 +90,6 @@ struct HomeView: View {
 }
 
 #Preview {
-  HomeView(challenge: MockConstants.challenge)
+  DashboardView()
     .environmentObject(TabBarSettings())
 }

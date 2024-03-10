@@ -1,5 +1,5 @@
 //
-//  DashboardLoadingView.swift
+//  WorkoutLoadingView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 24.02.2024.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct DashboardLoadingView: View {
+struct WorkoutLoadingView: View {
   private var mockExercises: [Exercise] {
     let exercise = MockConstants.createMockExercise()
     let exercise2 = MockConstants.createMockExercise()
@@ -25,5 +25,5 @@ struct DashboardLoadingView: View {
 }
 
 #Preview {
-  DashboardLoadingView()
+  WorkoutLoadingView()
 }
