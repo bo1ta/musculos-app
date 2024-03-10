@@ -21,13 +21,11 @@ struct OnboardingWizardView: View {
       navigationBar
       
       Text(wizardStep.title)
-        .font(.custom("Roboto-Bold", size: 25))
-        .shadow(radius: 1)
+        .font(.header(.bold, size: 25))
         .padding(.top, 20)
-        .padding(.bottom, 10)
       Text("Let's optimize your experience")
-        .font(.custom("Roboto-Regular", size: 18))
-        .shadow(radius: 1)
+        .font(.header(.regular, size: 18))
+        .padding(.top, 5)
       Spacer()
       switch wizardStep {
       case .gender:
@@ -59,22 +57,11 @@ struct OnboardingWizardView: View {
           } label: {
             Image(systemName: "arrow.backward")
               .foregroundStyle(.black)
-              .font(.custom("Roboto-Bold", size: 25))
           }
         }
         Spacer()
-        Button {
-          handleNextStep()
-        } label: {
-          Text("Skip")
-            .foregroundStyle(.black)
-            .font(.custom("Roboto-Regular", size: 20))
-        }
       }
       .padding([.leading, .trailing], 20)
-      Divider()
-        .frame(height: 10)
-        .foregroundStyle(.black)
     }
   }
 }

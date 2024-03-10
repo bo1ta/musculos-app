@@ -39,17 +39,17 @@ struct SelectGenderView: View {
           .foregroundStyle(.white)
           .frame(height: 180)
           .frame(maxWidth: .infinity)
-          .shadow(color: isSelected ? Color.appColor(with: .customRed) : .gray, radius: 4)
+          .shadow(color: isSelected ? Color.AppColor.blue500 : .gray, radius: 4)
           .overlay {
             Text(gender == .male ? "♂" : "♀")
-              .font(.custom("Roboto-Regular", size: 60))
-              .foregroundStyle(isSelected ? Color.appColor(with: .customRed) : .black)
+              .font(.system(size: 64))
+              .foregroundStyle(isSelected ? Color.AppColor.blue500 : .black)
           }
       }
       .scaleEffect(isSelected ? 0.95 : 1.0)
       Text(gender.rawValue.capitalized)
-        .font(.custom("Roboto-Bold", size: 20))
-        .foregroundStyle(selectedGender == gender ? Color.appColor(with: .customRed) : .black)
+        .font(.body(.regular, size: 20))
+        .foregroundStyle(selectedGender == gender ? Color.AppColor.blue500 : .black)
     }
     .padding()
   }

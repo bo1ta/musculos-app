@@ -14,10 +14,10 @@ struct StatsItem: View {
     var body: some View {
         VStack {
           Text(title)
-            .font(.custom(AppFont.bold, size: 14))
+            .font(.header(.bold, size: 14))
             .foregroundStyle(.black)
           Text(description)
-            .font(.custom(AppFont.light, size: 14))
+            .font(.body(.regular, size: 14))
             .foregroundStyle(.gray)
         }
       }

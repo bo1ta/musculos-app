@@ -22,11 +22,11 @@ struct FavoriteSectionItem: View {
           Circle()
             .frame(width: 30, height: 30)
           Text(title)
-            .font(.custom(AppFont.regular, size: 13))
+            .font(.body(.regular, size: 13))
           Spacer()
           Text("x\(value)")
-            .font(.custom(AppFont.bold, size: 13))
-            .foregroundStyle(Color.appColor(with: .customRed))
+            .font(.header(.bold, size: 15))
+            .foregroundStyle(Color.AppColor.blue500)
         }
         .padding([.leading, .trailing], 20)
       }

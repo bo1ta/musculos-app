@@ -22,7 +22,7 @@ struct ScoreBadge: View {
       .font(.system(size: 80))
       .overlay {
         Text(String(value))
-          .font(.custom(AppFont.bold, size: 30))
+          .font(.header(.bold, size: 25))
           .foregroundStyle(.white)
       }
   }

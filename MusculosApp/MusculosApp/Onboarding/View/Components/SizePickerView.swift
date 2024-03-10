@@ -18,23 +18,23 @@ struct SizePickerView: View {
     VStack {
       HStack {
         Text(description)
-          .font(.custom("Roboto-Light", size: 20))
+          .font(.body(.regular, size: 20))
         
         Picker("Picker", selection: $value) {
           ForEach(options, id: \.self) { option in
             Text("\(option)")
-              .font(.custom("Roboto-Light", size: 20))
+              .font(.body(.regular, size: 20))
               .tag(Int?.some(option))
           }
         }
         .pickerStyle(.wheel)
         Text(unit)
-          .font(.custom("Roboto-Light", size: 20))
+          .font(.body(.light, size: 20))
         
         if value != nil {
           Circle()
             .frame(width: 30, height: 30)
-            .foregroundStyle(Color.appColor(with: .customRed))
+            .foregroundStyle(Color.AppColor.blue500)
             .overlay {
               Image(systemName: "checkmark")
                 .foregroundStyle(.white)

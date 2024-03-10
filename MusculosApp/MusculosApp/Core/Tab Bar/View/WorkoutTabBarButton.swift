@@ -25,7 +25,7 @@ struct WorkoutTabBarButton: CustomTabBarButton {
           .overlay {
             Image(systemName: self.tabBarItem.imageName)
               .font(Font(CTFont(.menuItem, size: 18)))
-              .foregroundStyle(Color.appColor(with: .spriteGreen))
+              .foregroundStyle(Color.AppColor.green500)
               .onTapGesture(perform: self.onTapGesture)
           }
           .frame(width: 50, height: 50)

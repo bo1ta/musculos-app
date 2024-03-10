@@ -16,12 +16,12 @@ struct SelectedButton: ButtonStyle {
       .padding(16)
       .lineLimit(0)
       .background(.white)
-      .foregroundColor(isSelected ? Color.appColor(with: .customRed) : .black)
+      .foregroundColor(isSelected ? Color.AppColor.blue500 : .black)
       .fontWeight(.light)
       .overlay(content: {
         RoundedRectangle(cornerRadius: 30)
                 .inset(by: 1)
-                .stroke(isSelected ? Color.appColor(with: .customRed) : .black)
+                .stroke(isSelected ? Color.AppColor.blue500 : .black)
       })
       .opacity(0.8)
   }

@@ -55,7 +55,7 @@ struct ChallengeExerciseView: View {
     Rectangle()
       .ignoresSafeArea()
       .frame(height: 200)
-      .foregroundStyle(Color.appColor(with: .navyBlue))
+      .foregroundStyle(Color.AppColor.blue500)
       .overlay {
         ZStack {
           VStack {
@@ -115,7 +115,7 @@ struct ChallengeExerciseView: View {
       CircleTimerView(
         durationInSeconds: $currentTimerInSeconds,
         subtitle: "min",
-        color: Color.appColor(with: .navyBlue),
+        color: Color.AppColor.blue400,
         onTimerCompleted: handleNextTimer
       )
       .id(UUID())

@@ -21,7 +21,7 @@ struct SelectGoalView: View {
   
   private func createGoalCard(_ goal: Goal) -> some View {
     let isSelected = selectedGoal == goal
-    let color: Color = isSelected ? Color.appColor(with: .customRed) : .black
+    let color: Color = isSelected ? Color.AppColor.blue500 : .black
     
     return Button {
       selectedGoal = goal
@@ -31,7 +31,7 @@ struct SelectGoalView: View {
         .frame(maxWidth: .infinity)
         .frame(height: 130)
         .foregroundStyle(.white)
-        .shadow(color: isSelected ? .appColor(with: .customRed) : .gray, radius: 3)
+        .shadow(color: isSelected ? Color.AppColor.blue500 : .gray, radius: 3)
         .overlay {
           HStack {
             VStack(alignment: .leading, spacing: 5) {
@@ -51,7 +51,7 @@ struct SelectGoalView: View {
             } else {
               Circle()
                 .frame(width: 35, height: 35)
-                .foregroundStyle(Color.appColor(with: .customRed))
+                .foregroundStyle(Color.AppColor.blue500)
                 .overlay {
                   Image(systemName: "checkmark")
                     .foregroundStyle(.white)

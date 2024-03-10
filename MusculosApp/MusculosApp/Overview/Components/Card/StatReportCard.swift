@@ -30,12 +30,12 @@ struct StatReportCard: View {
             Text(emojiIcon)
               .font(.system(size: 25))
             Text(title)
-              .font(.custom(AppFont.regular, size: 20))
+              .font(.body(.regular, size: 18))
             Spacer()
           }
           Spacer()
           Text(value)
-            .font(.custom(AppFont.bold, size: 30))
+            .font(.header(.bold, size: 25))
             .foregroundStyle(.black)
             .opacity(0.7)
         }
