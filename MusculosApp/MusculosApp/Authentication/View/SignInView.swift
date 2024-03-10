@@ -8,54 +8,55 @@
 import SwiftUI
 
 struct SignInView: View {
-  @Environment(\.dismiss) private var dismiss
-  
   @StateObject var viewModel = AuthViewModel()
-    
+  
   var body: some View {
     NavigationStack {
       VStack(alignment: .center) {
-        Text("Welcome! 👋")
-          .font(.header(.bold, size: 25))
-        Text("Sign in to start your fitness journey")
-          .font(.body(.light, size: 14))
-        detailsForm
-          .padding(.top, 20)
+        title
+        loginForm
+          .padding([.top, .bottom], 20)
+        socialLoginSection
       }
       .padding([.leading, .trailing], 20)
       .navigationDestination(isPresented: $viewModel.showRegister) {
         SignUpView()
           .environmentObject(viewModel)
       }
-    }
-    .onDisappear {
-      viewModel.cleanUp()
+      .onDisappear(perform: viewModel.cleanUp)
     }
   }
   
+  private var title: some View {
+    VStack {
+      Text("Welcome! 👋")
+        .font(.header(.bold, size: 25))
+      Text("Sign in to start your fitness journey")
+        .font(.body(.light, size: 14))
+    }
+  }
   
-  
-  private var detailsForm: some View {
+  private var loginForm: some View {
     VStack(alignment: .center, spacing: 15) {
-            
-      RoundedTextField(text: $viewModel.email, label: "Email", textHint: "Enter email")
-      RoundedTextField(text: $viewModel.password, label: "Password", textHint: "Enter password", isSecureField: true)
-        .padding([.top, .bottom], 10)
-  
-      Button(action: {
-        viewModel.signIn()
-      }, label: {
+      RoundedTextField(text: $viewModel.email,
+                       label: "Email",
+                       textHint: "Enter email")
+      RoundedTextField(text: $viewModel.password,
+                       label: "Password",
+                       textHint: "Enter password",
+                       isSecureField: true)
+      .padding([.top, .bottom], 10)
+      
+      Button(action: viewModel.signIn, label: {
         Text("Sign in")
           .frame(maxWidth: .infinity)
           .foregroundStyle(.white)
       })
       .buttonStyle(PrimaryButton())
-      
-      createAccountSection
     }
   }
-
-  private var createAccountSection: some View {
+  
+  private var socialLoginSection: some View {
     VStack {
       HStack {
         Rectangle()
