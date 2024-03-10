@@ -26,7 +26,7 @@ struct FavoriteSectionItem: View {
           Spacer()
           Text("x\(value)")
             .font(.header(.bold, size: 15))
-            .foregroundStyle(AppColor.customRed.color)
+            .foregroundStyle(Color.AppColor.blue500)
         }
         .padding([.leading, .trailing], 20)
       }

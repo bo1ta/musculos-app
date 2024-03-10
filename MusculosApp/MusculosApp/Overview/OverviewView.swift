@@ -52,7 +52,7 @@ struct OverviewView: View {
         .padding(.bottom, 1)
         makeTitleSection("Overview", withButton: "All data", onButtonTap: {})
         ScoreCard(title: "Health Score", description: "Based on your overview health tracking, your score is 87 and considered good", score: 87, onTap: {
-        }, color: AppColor.lightCyan.color, badgeColor: .purple)
+        }, color: Color.AppColor.blue100, badgeColor: Color.AppColor.green600)
       }
       Spacer()
     }

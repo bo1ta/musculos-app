@@ -47,7 +47,7 @@ struct RoundedTextField: View {
             .font(.body(.light, size: 15))
         }
       }
-      .background(Capsule().fill(AppColor.lightGrey.color).frame(height: 40).shadow(radius: 1.0))
+      .background(Capsule().fill(Color.AppColor.blue100).frame(height: 40).shadow(radius: 1.0))
     }
   }
 }

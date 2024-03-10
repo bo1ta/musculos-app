@@ -106,7 +106,7 @@ struct SelectMuscleView: View {
     }, label: {
       RoundedRectangle(cornerRadius: 10.0)
         .frame(minWidth: 100, minHeight: 100)
-        .foregroundStyle(isSelected ? AppColor.mustardYellow.color : .black)
+        .foregroundStyle(isSelected ? Color.AppColor.green600 : .black)
         .overlay {
           HStack {
             Spacer()

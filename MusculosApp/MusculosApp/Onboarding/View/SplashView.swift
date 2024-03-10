@@ -17,7 +17,7 @@ struct SplashView: View {
     VStack {
       WaveShape()
         .fill(LinearGradient(
-          gradient: Gradient(colors: [AppColor.blue500.color, AppColor.blue400.color]),
+          gradient: Gradient(colors: [Color.AppColor.blue500, Color.AppColor.blue400]),
           startPoint: .topTrailing,
           endPoint: .bottomTrailing))
         .overlay(content: {

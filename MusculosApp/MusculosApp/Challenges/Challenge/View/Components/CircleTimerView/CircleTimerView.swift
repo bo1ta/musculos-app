@@ -19,7 +19,7 @@ struct CircleTimerView: View {
   init(
     durationInSeconds: Binding<Int>,
     subtitle: String = "min",
-    color: Color = AppColor.grassGreen.color,
+    color: Color = Color.AppColor.green500,
     onTimerCompleted: @escaping () -> Void
   ) {
     self._durationInSeconds = durationInSeconds

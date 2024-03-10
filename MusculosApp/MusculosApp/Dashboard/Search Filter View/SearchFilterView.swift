@@ -18,8 +18,7 @@ struct SearchFilterView: View {
       header
       
       VStack {
-        RoundedTextField(text: $viewModel.searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
-          .shadow(radius: 2, y: 1)
+        RoundedTextField(text: $viewModel.searchQuery, label: "Search", textHint: "Enter search query")
         ScrollView {
           VStack(spacing: 20) {
             FiltersSectionView(showFilters: $viewModel.showMuscleFilters, selectedFilters: $viewModel.selectedMuscleFilters, title: "Muscles", filters: viewModel.muscleFilters)
@@ -93,7 +92,7 @@ struct SearchFilterView: View {
     
     if viewModel.showDurationFilter {
       Slider(value: $viewModel.selectedDuration)
-        .tint(AppColor.customRed.color)
+        .tint(Color.AppColor.blue500)
       Text("\(viewModel.selectedDuration)")
     }
   }

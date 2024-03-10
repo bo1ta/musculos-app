@@ -12,7 +12,7 @@ struct BlueBackgroundCard: View {
       Rectangle()
         .frame(maxWidth: .infinity)
         .frame(height: 300)
-        .foregroundStyle(AppColor.navyBlue.color)
+        .foregroundStyle(Color.AppColor.blue500)
         .shadow(radius: 1)
     }
 }

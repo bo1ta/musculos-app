@@ -58,7 +58,7 @@ struct ChallengeView: View {
   private var informationBox: some View {
     VStack(alignment: .leading) {
       Rectangle()
-        .foregroundStyle(AppColor.navyBlue.color)
+        .foregroundStyle(Color.AppColor.blue500)
         .ignoresSafeArea()
         .frame(height: 250)
         .overlay {
@@ -147,7 +147,7 @@ extension ChallengeView {
       HStack {
         Circle()
           .frame(width: 30, height: 30)
-          .foregroundStyle(isCurrentExercise ? AppColor.navyBlue.color : .gray)
+          .foregroundStyle(isCurrentExercise ? Color.AppColor.blue600 : .gray)
           .opacity(viewOpacity)
           .overlay {
             VStack(alignment: .center) {

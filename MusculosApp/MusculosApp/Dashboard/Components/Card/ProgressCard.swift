@@ -14,7 +14,7 @@ struct ProgressCard: View {
   
   var body: some View {
     RoundedRectangle(cornerRadius: 25)
-      .foregroundStyle(AppColor.lightGrey.color)
+      .foregroundStyle(Color.AppColor.blue100)
       .frame(maxWidth: .infinity)
       .frame(minHeight: 130)
       .overlay {
@@ -24,7 +24,7 @@ struct ProgressCard: View {
           Text(description)
             .font(.body(.regular, size: 13))
           ProgressView(value: progress)
-            .tint(AppColor.blue500.color)
+            .tint(Color.AppColor.blue500)
             .padding(.top, 5)
         }
         .padding()

@@ -8,48 +8,25 @@
 import Foundation
 import SwiftUI
 
-enum AppColor: String {
-  case mustardYellow = "MustardYellow"
-  case spriteGreen   = "SpriteGreen"
-  case violetBlue    = "VioletBlue"
-  case background    = "Background"
-  case grassGreen    = "GrassGreen"
-  case navyBlue      = "NavyBlue"
-  case customOrange  = "CustomOrange"
-  case customRed     = "CustomRed"
-  case lightGrey     = "LightGrey"
-  case lightCyan     = "LightCyan"
-  
-  // MARK: - Primary colors
-  
-  case blue100 = "Blue100"
-  case blue200 = "Blue200"
-  case blue300 = "Blue300"
-  case blue400 = "Blue400"
-  case blue500 = "Blue500"
-  case blue600 = "Blue600"
-  case blue700 = "Blue700"
-  case blue800 = "Blue800"
-  case blue900 = "Blue900"
-  
-  case green100 = "Green100"
-  case green200 = "Green200"
-  case green300 = "Green300"
-  case green400 = "Green400"
-  case green500 = "Green500"
-  case green600 = "Green600"
-  case green700 = "Green700"
-  case green800 = "Green800"
-  
-  var color: Color {
-    Color(self.rawValue)
-  }
-}
-
 extension Color {
   struct AppColor {
-    struct Blue {
-      static let blue100 = Color("Blue100")
-    }
+    static let blue100 = Color("Blue100")
+    static let blue200 = Color("Blue200")
+    static let blue300 = Color("Blue300")
+    static let blue400 = Color("Blue400")
+    static let blue500 = Color("Blue500")
+    static let blue600 = Color("Blue600")
+    static let blue700 = Color("Blue700")
+    static let blue800 = Color("Blue800")
+    static let blue900 = Color("Blue900")
+    
+    static let green100 = Color("Green100")
+    static let green200 = Color("Green200")
+    static let green300 = Color("Green300")
+    static let green400 = Color("Green400")
+    static let green500 = Color("Green500")
+    static let green600 = Color("Green600")
+    static let green700 = Color("Green700")
+    static let green800 = Color("Green800")
   }
 }

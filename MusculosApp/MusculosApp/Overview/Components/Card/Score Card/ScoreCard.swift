@@ -19,7 +19,7 @@ struct ScoreCard: View {
        description: String,
        score: Int,
        onTap: @escaping () -> Void,
-       color: Color = AppColor.lightGrey.color,
+       color: Color = Color.AppColor.blue100,
        badgeColor: Color = .green
   ) {
     self.title = title

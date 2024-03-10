@@ -62,7 +62,7 @@ struct CategorySectionView<Content: View>: View {
         if isSelected {
           Rectangle()
             .frame(width: widthOfString, height: 2)
-            .foregroundStyle(AppColor.customRed.color)
+            .foregroundStyle(Color.AppColor.blue300)
         }
       }
     })

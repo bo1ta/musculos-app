@@ -16,7 +16,7 @@ struct GreenGrassButton: View {
     Button(action: action, label: {
       Rectangle()
         .frame(height: 50)
-        .foregroundStyle(AppColor.grassGreen.color)
+        .foregroundStyle(Color.AppColor.green600)
         .padding(5)
         .overlay {
           Text(text)
