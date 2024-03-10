@@ -65,7 +65,7 @@ struct SearchFilterView: View {
             Spacer()
             
             Text("Search & filter")
-              .font(.custom(AppFont.bold, size: 18))
+              .font(.header(.bold, size: 18))
             
             Spacer()
             resetButton
@@ -83,7 +83,7 @@ struct SearchFilterView: View {
       } label: {
         HStack {
           Text("Duration")
-            .font(.custom(AppFont.bold, size: 18))
+            .font(.header(.bold, size: 18))
           Spacer()
           Image(systemName: viewModel.showDurationFilter ? "chevron.up" : "chevron.down")
         }
@@ -93,7 +93,7 @@ struct SearchFilterView: View {
     
     if viewModel.showDurationFilter {
       Slider(value: $viewModel.selectedDuration)
-        .tint(Color.appColor(with: .customRed))
+        .tint(AppColor.customRed.color)
       Text("\(viewModel.selectedDuration)")
     }
   }
@@ -103,7 +103,6 @@ struct SearchFilterView: View {
       dismiss()
     } label: {
       Image(systemName: "arrow.left")
-        .font(.custom(AppFont.regular, size: 18))
         .foregroundStyle(.black)
     }
   }
@@ -114,7 +113,7 @@ struct SearchFilterView: View {
     } label: {
       Text("Reset")
         .foregroundStyle(.black)
-        .font(.custom(AppFont.regular, size: 15))
+        .font(.body(.regular, size: 15))
     }
   }
   

@@ -23,7 +23,7 @@ struct ProgressBarView: View {
         if index == currentProgress {
           Image(systemName: "circle.fill")
             .font(.system(size: 11))
-            .foregroundColor(Color.appColor(with: .spriteGreen))
+            .foregroundColor(AppColor.spriteGreen.color)
         } else {
           Image(systemName: "circle.fill")
             .font(.system(size: 10))

@@ -34,7 +34,7 @@ struct SizePickerView: View {
         if value != nil {
           Circle()
             .frame(width: 30, height: 30)
-            .foregroundStyle(Color.appColor(with: .customRed))
+            .foregroundStyle(AppColor.customRed.color)
             .overlay {
               Image(systemName: "checkmark")
                 .foregroundStyle(.white)

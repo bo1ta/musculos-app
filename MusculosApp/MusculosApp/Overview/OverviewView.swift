@@ -43,16 +43,16 @@ struct OverviewView: View {
         HStack {
           Image(systemName: "sun.min")
             .foregroundStyle(.gray)
-            .font(.custom(AppFont.bold, size: 25))
+            .font(.header(.bold, size: 25))
           Text("TUES 11 JUL")
             .foregroundStyle(.gray)
-            .font(.custom(AppFont.medium, size: 15))
+            .font(.body(.semiBold, size: 15))
         }
         .shadow(radius: 0.2)
         .padding(.bottom, 1)
         makeTitleSection("Overview", withButton: "All data", onButtonTap: {})
         ScoreCard(title: "Health Score", description: "Based on your overview health tracking, your score is 87 and considered good", score: 87, onTap: {
-        }, color: Color.appColor(with: .lightCyan), badgeColor: .purple)
+        }, color: AppColor.lightCyan.color, badgeColor: .purple)
       }
       Spacer()
     }
@@ -93,13 +93,13 @@ struct OverviewView: View {
   private func makeTitleSection(_ title: String, withButton buttonText: String? = nil, onButtonTap: (() -> Void)? = nil) -> some View {
     HStack {
       Text(title)
-        .font(.custom(AppFont.bold, size: 23))
+        .font(.header(.bold, size: 23))
         .shadow(radius: 0.5)
       Spacer()
       if let buttonText, let onButtonTap {
         Button(action: onButtonTap, label: {
           Text(buttonText)
-            .font(.custom(AppFont.medium, size: 15))
+            .font(.body(.semiBold, size: 15))
             .shadow(radius: 0.2)
             .foregroundStyle(.gray)
         })

@@ -8,56 +8,42 @@
 import SwiftUI
 
 struct SignInView: View {
-  @Environment(\.mainWindowSize) private var mainWindowSize: CGSize
   @Environment(\.dismiss) private var dismiss
-  @EnvironmentObject private var userStore: UserStore
   
-  @State private var email: String = ""
-  @State private var password: String = ""
-  @State private var showRegister: Bool = false
-  
+  @StateObject var viewModel = AuthViewModel()
+    
   var body: some View {
     NavigationStack {
-      VStack {
-        ImageRectangleView(imageName: "red-patterns-background", rectangleColor: .appColor(with: .customRed))
-        Spacer()
+      VStack(alignment: .center) {
+        Text("Welcome! 👋")
+          .font(.header(.bold, size: 25))
+        Text("Sign in to start your fitness journey")
+          .font(.body(.light, size: 14))
         detailsForm
+          .padding(.top, 20)
       }
-      .onChange(of: userStore.isLoggedIn, perform: { isLoggedIn in
-        if isLoggedIn {
-          dismiss()
-        }
-      })
-      .ignoresSafeArea()
-      .navigationDestination(isPresented: $showRegister) {
-        RegisterView()
+      .padding([.leading, .trailing], 20)
+      .navigationDestination(isPresented: $viewModel.showRegister) {
+        SignUpView()
+          .environmentObject(viewModel)
       }
-      .overlay {
-        if userStore.isLoading {
-          LoadingOverlayView()
-        }
-      }
-      .tint(.black)
     }
     .onDisappear {
-      userStore.cleanUp()
+      viewModel.cleanUp()
     }
   }
   
+  
+  
   private var detailsForm: some View {
     VStack(alignment: .center, spacing: 15) {
-      HStack {
-        Text("Sign in")
-          .font(.custom("Roboto-Regular", size: 25))
-        Spacer()
-      }
-      RoundedTextField(text: $email, textHint: "Email", systemImageName: "envelope.fill")
-      RoundedTextField(text: $password, textHint: "Password", systemImageName: "lock.fill", isSecureField: true)
-      
-      maybeShowErrorText()
-
+            
+      RoundedTextField(text: $viewModel.email, label: "Email", textHint: "Enter email")
+      RoundedTextField(text: $viewModel.password, label: "Password", textHint: "Enter password", isSecureField: true)
+        .padding([.top, .bottom], 10)
+  
       Button(action: {
-        userStore.signIn(email: email, password: password)
+        viewModel.signIn()
       }, label: {
         Text("Sign in")
           .frame(maxWidth: .infinity)
@@ -67,32 +53,22 @@ struct SignInView: View {
       
       createAccountSection
     }
-    .padding(20)
-    .frame(width: mainWindowSize.width, height: mainWindowSize.height)
   }
-  
-  @ViewBuilder
-  private func maybeShowErrorText() -> some View {
-    if userStore.error != nil {
-      Text("Something went wrong. Please try again")
-        .font(.custom("Roboto-Light", size: 13))
-        .foregroundStyle(.black)
-    }
-  }
-  
+
   private var createAccountSection: some View {
     VStack {
       HStack {
         Rectangle()
           .frame(height: 1)
-          .frame(maxWidth: mainWindowSize.width / 2)
+          .frame(maxWidth: .infinity)
           .foregroundStyle(.gray)
           .opacity(0.3)
-        Text("or")
-          .font(.custom("Roboto-Light", size: 19))
+        Text("OR LOG IN WITH")
+          .font(.header(.bold, size: 13))
+          .foregroundStyle(.gray)
         Rectangle()
           .frame(height: 1)
-          .frame(maxWidth: mainWindowSize.width / 2)
+          .frame(maxWidth: .infinity)
           .foregroundStyle(.gray)
           .opacity(0.3)
       }
@@ -108,7 +84,7 @@ struct SignInView: View {
       }
       
       Button(action: {
-        showRegister = true
+        viewModel.showRegister = true
       }, label: {
         Text("Don't have an account? Sign up here").frame(maxWidth: .infinity)
       })

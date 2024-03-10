@@ -16,7 +16,7 @@ struct MuscleChartSection: View {
       return HStack {
         VStack(alignment: .leading) {
           Text("Completed exercise by muscles this week")
-            .font(.custom(AppFont.medium, size: 18))
+            .font(.header(.medium, size: 18))
           Chart {
               BarMark(x: .value(xLabel, "chest"), y: .value(yLabel, 2))
                 .foregroundStyle(.blue)

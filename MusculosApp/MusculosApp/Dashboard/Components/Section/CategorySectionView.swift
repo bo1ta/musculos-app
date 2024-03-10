@@ -53,16 +53,16 @@ struct CategorySectionView<Content: View>: View {
       hasChangedSection(category)
     }, label: {
       let isSelected = category == selectedSection
-      let widthOfString = category.title.widthOfString(usingFont: UIFont(name: AppFont.medium, size: 18) ?? .boldSystemFont(ofSize: 18))
+      let widthOfString = category.title.widthOfString(usingFont: UIFont(name: AppFont.Body.medium.rawValue, size: 18) ?? .boldSystemFont(ofSize: 18))
       
       VStack(spacing: 2) {
         Text(category.title)
-          .font(.custom(isSelected ? AppFont.medium : AppFont.light, size: 18))
+          .font(isSelected ? .body(.medium, size: 16) : .body(.light, size: 15))
           .foregroundStyle(.black)
         if isSelected {
           Rectangle()
             .frame(width: widthOfString, height: 2)
-            .foregroundStyle(Color.appColor(with: .customRed))
+            .foregroundStyle(AppColor.customRed.color)
         }
       }
     })

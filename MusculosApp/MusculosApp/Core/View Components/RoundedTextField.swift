@@ -10,36 +10,45 @@ import SwiftUI
 struct RoundedTextField: View {
   var text: Binding<String> = .constant("")
   var textHint: String
+  var label: String?
   var systemImageName: String?
   var isSecureField: Bool
 
-  init(text: Binding<String>, textHint: String = "", systemImageName: String? = nil, isSecureField: Bool = false) {
+  init(text: Binding<String>, label: String? = nil, textHint: String = "", systemImageName: String? = nil, isSecureField: Bool = false) {
     self.text = text
     self.textHint = textHint
     self.systemImageName = systemImageName
+    self.label = label
     self.isSecureField = isSecureField
   }
 
   var body: some View {
-    HStack {
-      if let systemImageName = self.systemImageName {
-        Image(systemName: systemImageName)
-          .foregroundColor(.secondary)
-      } else {
-        Spacer(minLength: 10)
+    VStack(alignment: .leading, spacing: 20) {
+      if let label {
+        Text(label)
+          .font(.body(.bold, size: 15))
       }
-
-      if self.isSecureField {
-        SecureField(textHint, text: text)
-          .textContentType(.password)
-      } else {
-        TextField(textHint, text: text)
-          .autocapitalization(.none)
-          .disableAutocorrection(true)
+      HStack {
+        if let systemImageName = self.systemImageName {
+          Image(systemName: systemImageName)
+            .foregroundColor(.secondary)
+        } else {
+          Spacer(minLength: 10)
+        }
+        
+        if self.isSecureField {
+          SecureField(textHint, text: text)
+            .textContentType(.password)
+            .font(.body(.light, size: 15))
+        } else {
+          TextField(textHint, text: text)
+            .autocapitalization(.none)
+            .disableAutocorrection(true)
+            .font(.body(.light, size: 15))
+        }
       }
+      .background(Capsule().fill(AppColor.lightGrey.color).frame(height: 40).shadow(radius: 1.0))
     }
-    .padding()
-    .background(Capsule().fill(.white).shadow(radius: 1.0))
   }
 }
 

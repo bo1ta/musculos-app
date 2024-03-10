@@ -28,7 +28,7 @@ struct SearchFilterField: View {
       }, label: {
         Circle()
           .frame(width: 50, height: 50)
-          .foregroundStyle(Color.appColor(with: .customRed))
+          .foregroundStyle(AppColor.customRed.color)
           .overlay {
             Image(systemName: "line.3.horizontal")
               .foregroundStyle(.white)

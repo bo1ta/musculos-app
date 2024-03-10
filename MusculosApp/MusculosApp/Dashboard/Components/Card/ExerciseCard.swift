@@ -57,11 +57,11 @@ struct ExerciseCard: View {
         HStack {
           VStack(alignment: .leading) {
             Text(exercise.name)
-              .font(.custom(AppFont.bold, size: 18))
+              .font(.header(.bold, size: 15))
               .foregroundStyle(.black)
             if let equipment = exercise.equipment {
               Text(equipment)
-                .font(.custom(AppFont.regular, size: 15))
+                .font(.body(.regular, size: 15))
                 .foregroundStyle(.black)
             }
           }

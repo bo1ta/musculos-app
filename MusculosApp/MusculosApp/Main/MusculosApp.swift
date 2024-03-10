@@ -27,7 +27,7 @@ struct MusculosApp: App {
             }
         } else {
           if !userStore.isLoggedIn {
-            GetStartedView()
+            SplashView()
               .environment(\.mainWindowSize, proxy.size)
               .onAppear {
                 userStore.initialLoad()

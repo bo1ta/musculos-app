@@ -28,12 +28,12 @@ struct DetailCardView: View {
             .shadow(radius: 1)
             .overlay {
               Text("\(index)")
-                .font(.custom(AppFont.regular, size: 15))
+                .font(.body(.regular, size: 15))
                 .foregroundStyle(.gray)
                 .opacity(0.8)
             }
           Text(title)
-            .font(.custom(AppFont.light, size: 13))
+            .font(.body(.light, size: 13))
             .padding(.trailing, 5)
             .fixedSize(horizontal: false, vertical: true)
             .lineLimit(nil)

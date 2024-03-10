@@ -12,8 +12,8 @@ struct AuthenticationResult: Codable, DecodableModel {
 }
 
 protocol UserModuleProtocol {
-  func registerUser(email: String, password: String, username: String, fullName: String?) async throws-> AuthenticationResult
-  func loginUser(email: String, password: String) async throws -> AuthenticationResult
+  func registerUser(email: String, password: String, username: String, fullName: String) async throws -> String
+  func loginUser(email: String, password: String) async throws -> String
 }
 
 public class UserModule: MusculosModuleProtocol, UserModuleProtocol {
@@ -23,21 +23,30 @@ public class UserModule: MusculosModuleProtocol, UserModuleProtocol {
     self.client = client
   }
   
-  func registerUser(email: String, password: String, username: String, fullName: String? = nil) async throws -> AuthenticationResult {
-    var body = ["email": email, "password": password, "username": username]
-    if let fullName {
+  func registerUser(email: String, password: String, username: String, fullName: String) async throws -> String {
+    var body = [
+      "email": email,
+      "password": password,
+      "username": username
+    ]
+    if fullName.count > 0 {
       body["fullName"] = fullName
     }
     
     let request = APIRequest(method: .post, path: .register, body: body)
     let data = try await client.dispatch(request)
-    return try AuthenticationResult.createFrom(data)
+    
+    let result = try AuthenticationResult.createFrom(data)
+    return result.token
   }
   
-  func loginUser(email: String, password: String) async throws -> AuthenticationResult {
+  func loginUser(email: String, password: String) async throws -> String {
     let body = ["email": email, "password": password]
+  
     let request = APIRequest(method: .post, path: .login, body: body)
     let data = try await client.dispatch(request)
-    return try AuthenticationResult.createFrom(data)
+  
+    let result = try AuthenticationResult.createFrom(data)
+    return result.token
   }
 }

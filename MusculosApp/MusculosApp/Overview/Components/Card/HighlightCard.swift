@@ -39,11 +39,11 @@ struct HighlightCard: View {
             
             VStack(alignment: .leading, spacing: 3) {
               Text(title)
-                .font(.custom(AppFont.bold, size: 15))
+                .font(.header(.medium, size: 18))
               Text(value)
-                .font(.custom(AppFont.regular, size: 18))
+                .font(.body(.regular, size: 25))
               Text(description)
-                .font(.custom(AppFont.regular, size: 10))
+                .font(.body(.regular, size: 12))
             }
           }
           .padding([.leading, .trailing], 10)

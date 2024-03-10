@@ -23,7 +23,7 @@ struct FiltersSectionView: View {
       } label: {
         HStack {
           Text(title)
-            .font(.custom(AppFont.bold, size: 18))
+            .font(.header(.bold, size: 18))
             .frame(maxWidth: .infinity)
           Spacer()
           Image(systemName: showFilters ? "chevron.up" : "chevron.down")

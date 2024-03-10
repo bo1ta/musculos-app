@@ -1,5 +1,5 @@
 //
-//  RegisterView.swift
+//  SignUpView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 31.01.2024.
@@ -7,34 +7,19 @@
 
 import SwiftUI
 
-struct RegisterView: View {
+struct SignUpView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize: CGSize
   @Environment(\.dismiss) private var dismiss
-  @EnvironmentObject private var userStore: UserStore
-  
-  @State private var email: String = ""
-  @State private var username: String = ""
-  @State private var password: String = ""
-  @State private var fullName: String = ""
+  @EnvironmentObject private var viewModel: AuthViewModel
   
   var body: some View {
     VStack {
       signupForm
     }
-    .onChange(of: userStore.isLoggedIn, perform: { isLoggedIn in
-      if isLoggedIn {
-        dismiss()
-      }
-    })
-    .onDisappear(perform: userStore.cleanUp)
+    .onDisappear(perform: viewModel.cleanUp)
     .frame(width: mainWindowSize.width, height: mainWindowSize.height)
     .toolbarRole(.editor)
     .toolbarBackground(.hidden, for: .navigationBar)
-    .overlay {
-      if userStore.isLoading {
-        LoadingOverlayView()
-      }
-    }
   }
   
   private var signupForm: some View {
@@ -46,18 +31,13 @@ struct RegisterView: View {
       }
       .padding(.bottom, 10)
       
-      Group {
-        RoundedTextField(text: $email, textHint: "Email")
-        RoundedTextField(text: $password, textHint: "Password", isSecureField: true)
-        RoundedTextField(text: $username, textHint: "Username")
-        RoundedTextField(text: $fullName, textHint: "Full Name (Optional)")
-      }
-      
-      maybeShowErrorText()
-      
+      RoundedTextField(text: $viewModel.email, label: "Email", textHint: "Enter email")
+      RoundedTextField(text: $viewModel.password, label: "Password", textHint: "Enter password", isSecureField: true)
+      RoundedTextField(text: $viewModel.username, label: "Username", textHint: "Enter username")
+      RoundedTextField(text: $viewModel.fullName, label: "Full Name (optional)", textHint: "Enter full name")
+
       Button(action: {
-        let person = Person(email: email, fullName: fullName, username: username)
-        userStore.signUp(person: person, password: password)
+        viewModel.signUp()
       }, label: {
         Text("Sign up")
           .frame(maxWidth: .infinity)
@@ -68,15 +48,6 @@ struct RegisterView: View {
       createAccountSection
     }
     .padding([.leading, .trailing], 20)
-  }
-  
-  @ViewBuilder
-  private func maybeShowErrorText() -> some View {
-    if userStore.error != nil {
-      Text("Something went wrong. Please try again")
-        .font(.custom("Roboto-Light", size: 13))
-        .foregroundStyle(.black)
-    }
   }
   
   private var createAccountSection: some View {
@@ -112,5 +83,5 @@ struct RegisterView: View {
 }
 
 #Preview {
-  RegisterView().environmentObject(UserStore())
+  SignUpView().environmentObject(AuthViewModel())
 }

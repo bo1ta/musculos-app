@@ -74,7 +74,7 @@ struct HomeView: View {
   @ViewBuilder
   var topSection: some View {
     Rectangle()
-      .foregroundStyle(Color.appColor(with: .navyBlue))
+      .foregroundStyle(AppColor.navyBlue.color)
       .frame(maxWidth: .infinity)
       .frame(height: 100)
       .overlay {

@@ -110,7 +110,7 @@ struct ExerciseDetailsView: View {
     HStack {
       VStack(alignment: .leading, spacing: 10) {
         Text(exercise.name)
-          .font(.custom(AppFont.regular, size: 22))
+          .font(.header(.regular, size: 22))
         Group {
           if let equipment = exercise.equipment {
             createIconDetail(title: equipment, systemImageName: "dumbbell.fill")
@@ -131,7 +131,7 @@ struct ExerciseDetailsView: View {
       Image(systemName: systemImageName)
         .frame(width: 20, height: 20)
       Text(title)
-        .font(.custom(AppFont.light, size: 14))
+        .font(.body(.light, size: 14))
     }
   }
   

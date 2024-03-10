@@ -14,17 +14,17 @@ struct ProgressCard: View {
   
   var body: some View {
     RoundedRectangle(cornerRadius: 25)
-      .foregroundStyle(Color.appColor(with: .lightGrey))
+      .foregroundStyle(AppColor.lightGrey.color)
       .frame(maxWidth: .infinity)
       .frame(minHeight: 130)
       .overlay {
         VStack(alignment: .leading, spacing: 5) {
           Text(title)
-            .font(.custom(AppFont.medium, size: 19))
+            .font(.body(.medium, size: 15))
           Text(description)
-            .font(.custom(AppFont.regular, size: 16))
+            .font(.body(.regular, size: 13))
           ProgressView(value: progress)
-            .tint(Color.appColor(with: .customRed))
+            .tint(AppColor.blue500.color)
             .padding(.top, 5)
         }
         .padding()

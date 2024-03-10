@@ -27,9 +27,9 @@ struct DashboardHeaderCard: View {
               VStack(alignment: .leading) {
                 Group {
                   Text("Hello,")
-                    .font(.custom(AppFont.bold, size: 20))
+                    .font(.header(.bold, size: 20))
                   Text(userStore.displayName)
-                    .font(.custom(AppFont.regular, size: 15))
+                    .font(.body(.regular, size: 15))
                 }
                 .foregroundStyle(.black)
               }
@@ -39,7 +39,6 @@ struct DashboardHeaderCard: View {
               } label: {
                 Image(systemName: "bell.fill")
                   .foregroundStyle(.black)
-                  .font(.custom(AppFont.regular, size: 20))
               }
             }
           }

@@ -24,7 +24,7 @@ struct ExerciseSectionView: View {
   var body: some View {
     VStack(alignment: .leading) {
       Text(title)
-        .font(.custom(AppFont.bold, size: 18))
+        .font(.header(.bold, size: 18))
       ScrollView(.horizontal, showsIndicators: false) {
         LazyHStack(spacing: 20) {
           ForEach(exercises, id: \.hashValue) { exercise in
