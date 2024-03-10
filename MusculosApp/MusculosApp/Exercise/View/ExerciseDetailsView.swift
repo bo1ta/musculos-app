@@ -13,9 +13,7 @@ struct ExerciseDetailsView: View {
   @EnvironmentObject private var tabBarSettings: TabBarSettings
   @EnvironmentObject private var exerciseStore: ExerciseStore
   @State private var isFavorite: Bool = false
-  
-  private let client = MusculosClient()
-  
+    
   var exercise: ExerciseProvider
   
   var body: some View {
@@ -121,7 +119,6 @@ struct ExerciseDetailsView: View {
         
       }
       .padding(.leading, 20)
-      .padding(.top)
       Spacer()
     }
   }
