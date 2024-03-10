@@ -21,19 +21,31 @@ struct SearchFilterView: View {
         RoundedTextField(text: $viewModel.searchQuery, label: "Search", textHint: "Enter search query")
         ScrollView {
           VStack(spacing: 20) {
-            FiltersSectionView(showFilters: $viewModel.showMuscleFilters, selectedFilters: $viewModel.selectedMuscleFilters, title: "Muscles", filters: viewModel.muscleFilters)
-            FiltersSectionView(showFilters: $viewModel.showWorkoutFilters, selectedFilters: $viewModel.selectedCategoryFilters, title: "Workout Types", filters: viewModel.categoryFilters)
-            FiltersSectionView(showFilters: $viewModel.showDifficultyFilters, selectedFilters: $viewModel.selectedDifficultyFilters, title: "Difficulty", filters: viewModel.levelFilters, isSingleSelect: true)
+            FiltersSectionView(showFilters: $viewModel.showMuscleFilters,
+                               selectedFilters: $viewModel.selectedMuscleFilters,
+                               title: "Muscles",
+                               filters: viewModel.muscleFilters)
+            FiltersSectionView(showFilters: $viewModel.showWorkoutFilters,
+                               selectedFilters: $viewModel.selectedCategoryFilters,
+                               title: "Workout Types",
+                               filters: viewModel.categoryFilters)
+            FiltersSectionView(showFilters: $viewModel.showDifficultyFilters,
+                               selectedFilters: $viewModel.selectedDifficultyFilters,
+                               title: "Difficulty",
+                               filters: viewModel.levelFilters,
+                               isSingleSelect: true)
+            FiltersSectionView(showFilters: $viewModel.showEquipmentFilter,
+                               selectedFilters: $viewModel.selectedCategoryFilters,
+                               title: "Equipment",
+                               filters: viewModel.equipmentFilters)
             durationSection
-            FiltersSectionView(showFilters: $viewModel.showEquipmentFilter, selectedFilters: $viewModel.selectedCategoryFilters, title: "Equipment", filters: viewModel.equipmentFilters)
           }
           .padding(.top, 10)
         }
         .scrollIndicators(.hidden)
-        .padding([.leading, .trailing], 10)
-        .padding()
         Spacer()
       }
+      .padding([.leading, .trailing], 10)
     }
     .safeAreaInset(edge: .bottom, content: {
       Button(action: {
@@ -130,8 +142,6 @@ struct SearchFilterView: View {
     if viewModel.selectedEquipmentFilters.count > 0 {
       filters["equipment"] = viewModel.selectedEquipmentFilters
     }
-    
-//    exerciseStore.loadFilteredExercises(with: filters)
   }
 }
 

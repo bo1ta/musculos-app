@@ -71,11 +71,13 @@ extension SignUpView {
       
         Button(action: {}, label: {
           Text("Sign up using Google")
-            .font(.body(.regular, size: 17))
+            .font(.body(.light, size: 15))
+            .foregroundStyle(Color.AppColor.green700)
         })
         Button(action: {}, label: {
           Text("Sign up using Facebook")
-            .font(.body(.regular, size: 17))
+            .font(.body(.light, size: 15))
+            .foregroundStyle(Color.AppColor.green700)
         })
         .padding(.top, 5)
     }
