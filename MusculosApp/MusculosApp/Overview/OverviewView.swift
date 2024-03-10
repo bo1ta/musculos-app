@@ -20,8 +20,11 @@ struct OverviewView: View {
         .padding(.trailing, 15)
         
         overviewSection
+          .padding(.top, 15)
         highlightsSection
+          .padding(.top, 15)
         reportSection
+          .padding(.top, 15)
         
         WhiteBackgroundCard()
       }
@@ -50,9 +53,14 @@ struct OverviewView: View {
         }
         .shadow(radius: 0.2)
         .padding(.bottom, 1)
+  
         makeTitleSection("Overview", withButton: "All data", onButtonTap: {})
-        ScoreCard(title: "Health Score", description: "Based on your overview health tracking, your score is 87 and considered good", score: 87, onTap: {
-        }, color: Color.AppColor.blue100, badgeColor: Color.AppColor.green600)
+        ScoreCard(title: "Health Score",
+                  description: "Based on your overview health tracking, your score is 87 and considered good",
+                  score: 87,
+                  onTap: {},
+                  color: Color.AppColor.blue100,
+                  badgeColor: Color.AppColor.green600)
       }
       Spacer()
     }
@@ -65,12 +73,27 @@ struct OverviewView: View {
       })
       
       HStack(spacing: 15) {
-        HighlightCard(title: "Steps", value: "11,857", description: "updated 15 min ago", imageName: "figure.run")
-        HighlightCard(title: "Sleep", value: "7h 31 min", description: "updated a day ago", imageName: "sleep", color: .blue)
+        HighlightCard(title: "Steps",
+                      value: "11,857",
+                      description: "updated 15 min ago",
+                      imageName: "figure.run")
+        HighlightCard(title: "Sleep",
+                      value: "7h 31 min",
+                      description: "updated a day ago",
+                      imageName: "sleep",
+                      color: .blue)
       }
       HStack(spacing: 15) {
-        HighlightCard(title: "Nutrition", value: "960 kcal", description: "updated 5 min ago", imageName: "carrot.fill", color: .orange)
-        HighlightCard(title: "Workout tracking", value: "1 day since last workout", description: "updated a day ago", imageName: "dumbbell.fill", color: .green)
+        HighlightCard(title: "Nutrition",
+                      value: "960 kcal",
+                      description: "updated 5 min ago",
+                      imageName: "carrot.fill",
+                      color: .orange)
+        HighlightCard(title: "Workout tracking",
+                      value: "1 day since last workout",
+                      description: "updated a day ago",
+                      imageName: "dumbbell.fill",
+                      color: .green)
       }
     }
   }

@@ -53,7 +53,7 @@ struct CategorySectionView<Content: View>: View {
       hasChangedSection(category)
     }, label: {
       let isSelected = category == selectedSection
-      let widthOfString = category.title.widthOfString(usingFont: UIFont(name: AppFont.Body.medium.rawValue, size: 18) ?? .boldSystemFont(ofSize: 18))
+      let widthOfString = category.title.widthOfString(usingFont: UIFont(name: AppFont.Body.medium.rawValue, size: 16) ?? .boldSystemFont(ofSize: 18))
       
       VStack(spacing: 2) {
         Text(category.title)

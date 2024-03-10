@@ -21,8 +21,7 @@ struct SearchFilterField: View {
   
   var body: some View {
     HStack {
-      RoundedTextField(text: $debouncedQueryObserver.searchQuery, textHint: "Search", systemImageName: "magnifyingglass")
-        .shadow(radius: 2, y: 1)
+      RoundedTextField(text: $debouncedQueryObserver.searchQuery, label: "Search", textHint: "Search by muscle")
       Button(action: {
         showFilterView = true
       }, label: {
@@ -33,7 +32,6 @@ struct SearchFilterField: View {
             Image(systemName: "line.3.horizontal")
               .foregroundStyle(.white)
           }
-          .shadow(radius: 1)
       })
     }
     .onChange(of: debouncedQueryObserver.debouncedQuery) { query in

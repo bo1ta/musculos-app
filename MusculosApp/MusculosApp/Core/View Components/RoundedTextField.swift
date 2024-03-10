@@ -27,6 +27,7 @@ struct RoundedTextField: View {
       if let label {
         Text(label)
           .font(.body(.bold, size: 15))
+          .padding(.leading, 5)
       }
       HStack {
         if let systemImageName = self.systemImageName {
