@@ -12,7 +12,7 @@ protocol ExerciseModuleProtocol {
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise]
 }
 
-struct ExerciseModule: ExerciseModuleProtocol, MusculosModuleProtocol {
+struct ExerciseModule: ExerciseModuleProtocol, MusculosModule {
   var client: MusculosClientProtocol
   var dataImporter: DataImporter
 

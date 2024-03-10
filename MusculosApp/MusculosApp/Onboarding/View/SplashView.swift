@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct SplashView: View {
-  @Environment(\.mainWindowSize) private var mainWindowSize: CGSize
-  @EnvironmentObject private var userStore: UserStore
-  
   @State private var showLoginScreen: Bool = false
-
+  
   var body: some View {
     VStack {
       WaveShape()
@@ -27,7 +24,7 @@ struct SplashView: View {
               .font(.header(.bold, size: 35))
               .foregroundStyle(.white)
             Button(action: {
-                showLoginScreen = true
+              showLoginScreen = true
             }, label: {
               Text("Continue")
                 .frame(maxWidth: .infinity)
@@ -45,7 +42,6 @@ struct SplashView: View {
         .resizable()
         .aspectRatio(contentMode: .fill)
         .ignoresSafeArea()
-        
     }
     .popover(isPresented: $showLoginScreen, content: {
       SignInView()

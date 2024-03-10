@@ -133,6 +133,7 @@
 		BCA87E5C2AE8606F00453E4B /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5B2AE8606F00453E4B /* Challenge.swift */; };
 		BCA87E5F2AE865A600453E4B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA87E5E2AE865A600453E4B /* Person.swift */; };
 		BCA8C5C72B9DFA3E00C273C9 /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA8C5C62B9DFA3E00C273C9 /* AppFont.swift */; };
+		BCA8C5CB2B9E485500C273C9 /* Authenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA8C5CA2B9E485500C273C9 /* Authenticatable.swift */; };
 		BCB6BF4F2AFAE84B00B6CBCE /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */; };
 		BCCA20242B93A5C300E958F5 /* StatsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA20232B93A5C300E958F5 /* StatsItem.swift */; };
 		BCCA20262B93A60E00E958F5 /* StatsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA20252B93A60E00E958F5 /* StatsCard.swift */; };
@@ -142,7 +143,7 @@
 		BCCA20312B93AEBD00E958F5 /* MeDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA20302B93AEBD00E958F5 /* MeDataView.swift */; };
 		BCCA20332B93AF6800E958F5 /* BlueBackgroundCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA20322B93AF6800E958F5 /* BlueBackgroundCard.swift */; };
 		BCCBEC722AD85158002F5E41 /* RoundedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC712AD85158002F5E41 /* RoundedTextField.swift */; };
-		BCCE85E62A33D658001BEE8B /* UserModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E52A33D658001BEE8B /* UserModule.swift */; };
+		BCCE85E62A33D658001BEE8B /* AuthModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E52A33D658001BEE8B /* AuthModule.swift */; };
 		BCCE85E92A33D7B5001BEE8B /* Encodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E82A33D7B5001BEE8B /* Encodable+Extension.swift */; };
 		BCCE85ED2A35008C001BEE8B /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85EC2A35008C001BEE8B /* AppColor.swift */; };
 		BCD837BC2B64902D0069CECB /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */; };
@@ -306,6 +307,7 @@
 		BCA87E5B2AE8606F00453E4B /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		BCA87E5E2AE865A600453E4B /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		BCA8C5C62B9DFA3E00C273C9 /* AppFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
+		BCA8C5CA2B9E485500C273C9 /* Authenticatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticatable.swift; sourceTree = "<group>"; };
 		BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		BCCA20232B93A5C300E958F5 /* StatsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsItem.swift; sourceTree = "<group>"; };
 		BCCA20252B93A60E00E958F5 /* StatsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCard.swift; sourceTree = "<group>"; };
@@ -315,7 +317,7 @@
 		BCCA20302B93AEBD00E958F5 /* MeDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeDataView.swift; sourceTree = "<group>"; };
 		BCCA20322B93AF6800E958F5 /* BlueBackgroundCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueBackgroundCard.swift; sourceTree = "<group>"; };
 		BCCBEC712AD85158002F5E41 /* RoundedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTextField.swift; sourceTree = "<group>"; };
-		BCCE85E52A33D658001BEE8B /* UserModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModule.swift; sourceTree = "<group>"; };
+		BCCE85E52A33D658001BEE8B /* AuthModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModule.swift; sourceTree = "<group>"; };
 		BCCE85E82A33D7B5001BEE8B /* Encodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+Extension.swift"; sourceTree = "<group>"; };
 		BCCE85EC2A35008C001BEE8B /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 			children = (
 				BC9937252B6426EB0067E556 /* View */,
 				BC7827652B9D1D1500DFC02C /* Model */,
+				BCA8C5C82B9E475100C273C9 /* Networking */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -698,7 +701,6 @@
 		BC52DDFA2B8D3832005A4587 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				BCCE85E52A33D658001BEE8B /* UserModule.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -1081,6 +1083,31 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		BCA8C5C82B9E475100C273C9 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				BCA8C5CD2B9E487100C273C9 /* Module */,
+				BCA8C5CC2B9E485E00C273C9 /* Protocol */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		BCA8C5CC2B9E485E00C273C9 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				BCA8C5CA2B9E485500C273C9 /* Authenticatable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		BCA8C5CD2B9E487100C273C9 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				BCCE85E52A33D658001BEE8B /* AuthModule.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
 		BCB6BF562AFBFCA600B6CBCE /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -1333,6 +1360,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA8C5CB2B9E485500C273C9 /* Authenticatable.swift in Sources */,
 				BCF86C3D2A363A92003293A4 /* SelectedButton.swift in Sources */,
 				BC52DDDC2B8560DB005A4587 /* Shimmer.swift in Sources */,
 				BC5B12042B658A1F00B344A0 /* TabBarSettings.swift in Sources */,
@@ -1415,7 +1443,7 @@
 				BCA87E5F2AE865A600453E4B /* Person.swift in Sources */,
 				BCA24C002B6AE68500124EC3 /* SignUpView.swift in Sources */,
 				BC0170FE2AE9B948005876EE /* CircleTimerViewModel.swift in Sources */,
-				BCCE85E62A33D658001BEE8B /* UserModule.swift in Sources */,
+				BCCE85E62A33D658001BEE8B /* AuthModule.swift in Sources */,
 				BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */,
 				BC1160D22A2CFB830028D8FC /* AppTabView.swift in Sources */,
 				BC01710D2AEC6FDF005876EE /* GreenGrassButton.swift in Sources */,

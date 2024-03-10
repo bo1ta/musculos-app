@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol MusculosModuleProtocol {
+protocol MusculosModule {
   var client: MusculosClientProtocol { get set }
 }

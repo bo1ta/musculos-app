@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct SignInView: View {
-  @StateObject var viewModel = AuthViewModel()
-  
+  @EnvironmentObject private var userStore: UserStore
+  @StateObject private var viewModel = AuthViewModel()
+    
   var body: some View {
     NavigationStack {
       VStack(alignment: .center) {
@@ -24,6 +25,20 @@ struct SignInView: View {
       .navigationDestination(isPresented: $viewModel.showRegister) {
         SignUpView()
           .environmentObject(viewModel)
+      }
+      .onChange(of: viewModel.isLoggedIn) { isLoggedIn in
+        if isLoggedIn {
+          DispatchQueue.main.async {
+            userStore.isLoggedIn = true
+          }
+        }
+      }
+    }
+    .overlay {
+      if viewModel.isLoading {
+        LoadingOverlayView()
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .ignoresSafeArea()
       }
     }
   }
@@ -90,7 +105,9 @@ extension SignInView {
       }
       
       Button(action: {
-        viewModel.showRegister = true
+        DispatchQueue.main.async {
+          viewModel.showRegister = true
+        }
       }, label: {
         Text("Don't have an account? Sign up here").frame(maxWidth: .infinity)
       })

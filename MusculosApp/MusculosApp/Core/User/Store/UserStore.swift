@@ -20,16 +20,13 @@ class UserStore: ObservableObject {
       }
     }
   }
-  
-  private let module: UserModuleProtocol
-  private let dataStore: UserDataStore
-  
-  private(set) var authTask: Task<Void, Never>?
+    
   private(set) var fetchUserProfileTask: Task<Void, Never>?
   private(set) var updateUserProfileTask: Task<Void, Never>?
   
-  init(module: UserModuleProtocol = UserModule(), dataStore: UserDataStore = UserDataStore()) {
-    self.module = module
+  private let dataStore: UserDataStore
+  
+  init(dataStore: UserDataStore = UserDataStore()) {
     self.dataStore = dataStore
   }
   
@@ -50,9 +47,6 @@ class UserStore: ObservableObject {
   }
   
   func cleanUp() {
-    authTask?.cancel()
-    authTask = nil
-    
     fetchUserProfileTask?.cancel()
     fetchUserProfileTask = nil
   }
