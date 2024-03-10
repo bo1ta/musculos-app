@@ -56,7 +56,7 @@ class AuthViewModel: ObservableObject {
         await self.updateLocalUser(token)
         self.state = .loaded(token)
       } catch {
-        self.state = .error("Could not sign up. Please try again")
+        self.state = .error("Unable to sign up. Please try again")
         MusculosLogger.logError(error: error, message: "Sign up failed", category: .networking)
       }
     }

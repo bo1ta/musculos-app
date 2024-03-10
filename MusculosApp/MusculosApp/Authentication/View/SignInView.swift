@@ -19,14 +19,19 @@ struct SignInView: View {
         socialLoginSection
       }
       .padding([.leading, .trailing], 20)
+      .onDisappear(perform: viewModel.cleanUp)
+      .navigationTitle("")
       .navigationDestination(isPresented: $viewModel.showRegister) {
         SignUpView()
           .environmentObject(viewModel)
       }
-      .onDisappear(perform: viewModel.cleanUp)
     }
   }
-  
+}
+
+// MARK: - Views
+
+extension SignInView {
   private var title: some View {
     VStack {
       Text("Welcome! 👋")

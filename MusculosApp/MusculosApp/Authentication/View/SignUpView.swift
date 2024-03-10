@@ -20,7 +20,11 @@ struct SignUpView: View {
     .padding([.leading, .trailing], 20)
     .onDisappear(perform: viewModel.cleanUp)
   }
-  
+}
+
+// MARK: - Views
+
+extension SignUpView {
   private var registerForm: some View {
     VStack(alignment: .leading, spacing: 15) {
       RoundedTextField(text: $viewModel.email,
