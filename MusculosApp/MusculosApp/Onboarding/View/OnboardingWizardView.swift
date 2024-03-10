@@ -59,22 +59,11 @@ struct OnboardingWizardView: View {
           } label: {
             Image(systemName: "arrow.backward")
               .foregroundStyle(.black)
-              .font(.custom("Roboto-Bold", size: 25))
           }
         }
         Spacer()
-        Button {
-          handleNextStep()
-        } label: {
-          Text("Skip")
-            .foregroundStyle(.black)
-            .font(.custom("Roboto-Regular", size: 20))
-        }
       }
       .padding([.leading, .trailing], 20)
-      Divider()
-        .frame(height: 10)
-        .foregroundStyle(.black)
     }
   }
 }

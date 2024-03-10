@@ -52,7 +52,7 @@ extension SignUpView {
   }
   
   private var socialLoginSection: some View {
-    VStack {
+    VStack(alignment: .center) {
       HStack {
         Rectangle()
           .frame(height: 1)
@@ -69,15 +69,15 @@ extension SignUpView {
           .opacity(0.3)
       }
       
-      Group {
         Button(action: {}, label: {
-          Text("Sign up using Google").frame(maxWidth: .infinity)
+          Text("Sign up using Google")
+            .font(.body(.regular, size: 17))
         })
         Button(action: {}, label: {
-          Text("Sign up using Facebook").frame(maxWidth: .infinity)
+          Text("Sign up using Facebook")
+            .font(.body(.regular, size: 17))
         })
-      }
-      .buttonStyle(SecondaryButton())
+        .padding(.top, 5)
     }
   }
 }

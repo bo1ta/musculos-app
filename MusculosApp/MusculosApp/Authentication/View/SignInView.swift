@@ -14,10 +14,13 @@ struct SignInView: View {
   var body: some View {
     NavigationStack {
       VStack(alignment: .center) {
+        Spacer()
         title
         loginForm
           .padding([.top, .bottom], 20)
         socialLoginSection
+        Spacer()
+        signUpButton
       }
       .padding([.leading, .trailing], 20)
       .onDisappear(perform: viewModel.cleanUp)
@@ -103,16 +106,25 @@ extension SignInView {
         })
         .buttonStyle(SecondaryButton())
       }
-      
-      Button(action: {
-        DispatchQueue.main.async {
-          viewModel.showRegister = true
-        }
-      }, label: {
-        Text("Don't have an account? Sign up here").frame(maxWidth: .infinity)
-      })
-      .buttonStyle(SecondaryButton())
     }
+  }
+  
+  private var signUpButton: some View {
+    Button(action: {
+      DispatchQueue.main.async {
+        viewModel.showRegister = true
+      }
+    }, label: {
+      HStack(spacing: 5) {
+        Text("Don't have an account?")
+          .font(.body(.light, size: 15))
+        Text("Sign up now")
+          .font(.body(.light, size: 15))
+          .foregroundStyle(Color.AppColor.green700)
+      }
+      
+    })
+    .buttonStyle(SecondaryButton())
   }
 }
 

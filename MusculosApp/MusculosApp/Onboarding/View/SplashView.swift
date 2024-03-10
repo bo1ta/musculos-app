@@ -38,7 +38,7 @@ struct SplashView: View {
         .ignoresSafeArea()
     }
     .background {
-      Image("wellness-background")
+      Image("exercising-energy")
         .resizable()
         .aspectRatio(contentMode: .fill)
         .ignoresSafeArea()
