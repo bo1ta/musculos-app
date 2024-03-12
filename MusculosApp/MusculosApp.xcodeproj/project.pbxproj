@@ -116,6 +116,7 @@
 		BC96C2F82AC3665400F11CAB /* SwiftyGif in Frameworks */ = {isa = PBXBuildFile; productRef = BC96C2F72AC3665400F11CAB /* SwiftyGif */; };
 		BC96C2FB2AC8310500F11CAB /* SelectMuscleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96C2FA2AC8310500F11CAB /* SelectMuscleView.swift */; };
 		BC96C2FD2AC83B1C00F11CAB /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96C2FC2AC83B1C00F11CAB /* Array+Extension.swift */; };
+		BC97C92F2BA0D4DD00AA07C4 /* MusculosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13EA2B78060D00E9E98E /* MusculosError.swift */; };
 		BC9937292B6441D90067E556 /* ExerciseModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9937282B6441D90067E556 /* ExerciseModule.swift */; };
 		BCA24BEF2B69D3AE00124EC3 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BEE2B69D3AE00124EC3 /* SplashView.swift */; };
 		BCA24BFC2B6AB9AF00124EC3 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BFB2B6AB9AF00124EC3 /* SignInView.swift */; };
@@ -1490,6 +1491,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC5BACCB2AB3D44E003C880E /* NSManagedObjectContext+Extension.swift in Sources */,
+				BC97C92F2BA0D4DD00AA07C4 /* MusculosError.swift in Sources */,
 				BC5BACC52AB29C03003C880E /* CoreDataTestStack.swift in Sources */,
 				BC1160E72A2CFB840028D8FC /* MusculosAppTests.swift in Sources */,
 				BC5BACAC2AB26D65003C880E /* MusculosLogger.swift in Sources */,
