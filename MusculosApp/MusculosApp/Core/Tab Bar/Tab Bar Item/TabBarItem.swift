@@ -9,28 +9,24 @@ import Foundation
 
 enum TabBarItem: String {
   case dashboard
-  case workout
+  case explore
   case overview
-
+  case workout
+  
   var label: String {
-    switch self {
-    case .workout:
-      return "Workout"
-    case .dashboard:
-      return "Dashboard"
-    case .overview:
-      return "Overview"
-    }
+    return self.rawValue.capitalized
   }
-
+  
   var imageName: String {
     switch self {
-    case .workout:
-      return "dumbbell"
+    case .explore:
+      "dumbbell"
     case .dashboard:
-      return "rectangle.grid.2x2"
+      "rectangle.grid.2x2"
     case .overview:
-      return "chart.bar.xaxis.ascending"
+      "chart.bar.xaxis.ascending"
+    case .workout:
+      "list.bullet.rectangle"
     }
   }
 }
@@ -39,7 +35,7 @@ extension TabBarItem: Hashable {
   func hash(into hasher: inout Hasher) {
     hasher.combine(self.label)
   }
-
+  
   static func ==(lhs: TabBarItem, rhs: TabBarItem) -> Bool {
     return lhs.label == rhs.label
   }

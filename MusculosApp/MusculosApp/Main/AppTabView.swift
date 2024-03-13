@@ -8,23 +8,32 @@
 import SwiftUI
 import CoreData
 
-struct AppTabView: View {  
+struct AppTabView: View {
   @StateObject private var tabBarSettings = TabBarSettings()
+  @StateObject private var sheetCoordinator = SheetCoordinator<AddSheetEnum>()
   @State private var tabSelection: TabBarItem = .dashboard
-  
-  private let tabBarItems: [TabBarItem] = [.dashboard, .workout, .overview]
+  @State private var showSheet = false
+
+  private let tabBarItems: [TabBarItem] = [.workout, .explore, .dashboard, .overview]
   
   var body: some View {
-    CustomTabBarContainerView(selection: $tabSelection, tabBarItems: tabBarItems) {
+    CustomTabBarContainerView(selection: $tabSelection, tabBarItems: tabBarItems, onAddTapped: {
+      showSheet.toggle()
+    }) {
       switch tabSelection {
-      case .dashboard:
-        DashboardView()
       case .workout:
         WorkoutView()
+      case .dashboard:
+        DashboardView()
+      case .explore:
+        ExploreExerciseView()
       case .overview:
         OverviewView()
       }
     }
+    .sheet(isPresented: $showSheet, content: {
+      CreateItemSheetContainer()
+    })
     .environmentObject(tabBarSettings)
   }
 }
