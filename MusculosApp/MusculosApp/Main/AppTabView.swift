@@ -12,14 +12,14 @@ struct AppTabView: View {
   @StateObject private var tabBarSettings = TabBarSettings()
   @StateObject private var sheetCoordinator = SheetCoordinator<AddSheetEnum>()
   @State private var tabSelection: TabBarItem = .dashboard
-  @State private var showSheet = false
+  @State private var showingSheet = false
 
   private let tabBarItems: [TabBarItem] = [.workout, .explore, .dashboard, .overview]
   
   var body: some View {
-    CustomTabBarContainerView(selection: $tabSelection, tabBarItems: tabBarItems, onAddTapped: {
-      showSheet.toggle()
-    }) {
+    CustomTabBarContainerView(selection: $tabSelection,
+                              tabBarItems: tabBarItems,
+                              onAddTapped: showSheet) {
       switch tabSelection {
       case .workout:
         WorkoutView()
@@ -31,10 +31,15 @@ struct AppTabView: View {
         OverviewView()
       }
     }
-    .sheet(isPresented: $showSheet, content: {
+    .sheet(isPresented: $showingSheet) {
       CreateItemSheetContainer()
-    })
+    }
     .environmentObject(tabBarSettings)
+  }
+  
+  @MainActor
+  private func showSheet() {
+    showingSheet.toggle()
   }
 }
 
