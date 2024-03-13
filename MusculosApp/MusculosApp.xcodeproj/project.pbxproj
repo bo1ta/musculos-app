@@ -94,10 +94,6 @@
 		BC63A5A42AC33896006B1894 /* MuscleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC63A5A32AC33896006B1894 /* MuscleData.swift */; };
 		BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */; };
 		BC777EF32BA0F2E1001669C8 /* WorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777EF22BA0F2E1001669C8 /* WorkoutView.swift */; };
-		BC777EF52BA10F2A001669C8 /* SheetCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777EF42BA10F2A001669C8 /* SheetCoordinator.swift */; };
-		BC777EF82BA10FBB001669C8 /* AddSheetEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777EF72BA10FBB001669C8 /* AddSheetEnum.swift */; };
-		BC777EFB2BA10FE3001669C8 /* SheetEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777EFA2BA10FE3001669C8 /* SheetEnum.swift */; };
-		BC777EFE2BA111B5001669C8 /* SheetCoordinating.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777EFD2BA111B5001669C8 /* SheetCoordinating.swift */; };
 		BC777F012BA127DC001669C8 /* CreateItemSheetContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777F002BA127DC001669C8 /* CreateItemSheetContainer.swift */; };
 		BC777F042BA20901001669C8 /* CreateWorkoutSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777F032BA20901001669C8 /* CreateWorkoutSheet.swift */; };
 		BC781FF62B964E9A009F9FB5 /* WhiteBackgroundCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC781FF52B964E9A009F9FB5 /* WhiteBackgroundCard.swift */; };
@@ -276,10 +272,6 @@
 		BC63A5A32AC33896006B1894 /* MuscleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleData.swift; sourceTree = "<group>"; };
 		BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		BC777EF22BA0F2E1001669C8 /* WorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutView.swift; sourceTree = "<group>"; };
-		BC777EF42BA10F2A001669C8 /* SheetCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetCoordinator.swift; sourceTree = "<group>"; };
-		BC777EF72BA10FBB001669C8 /* AddSheetEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSheetEnum.swift; sourceTree = "<group>"; };
-		BC777EFA2BA10FE3001669C8 /* SheetEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetEnum.swift; sourceTree = "<group>"; };
-		BC777EFD2BA111B5001669C8 /* SheetCoordinating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetCoordinating.swift; sourceTree = "<group>"; };
 		BC777F002BA127DC001669C8 /* CreateItemSheetContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemSheetContainer.swift; sourceTree = "<group>"; };
 		BC777F032BA20901001669C8 /* CreateWorkoutSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWorkoutSheet.swift; sourceTree = "<group>"; };
 		BC781FF52B964E9A009F9FB5 /* WhiteBackgroundCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteBackgroundCard.swift; sourceTree = "<group>"; };
@@ -919,31 +911,6 @@
 			path = Workout;
 			sourceTree = "<group>";
 		};
-		BC777EF62BA10FAD001669C8 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				BC777EF72BA10FBB001669C8 /* AddSheetEnum.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		BC777EF92BA10FD6001669C8 /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				BC777EFA2BA10FE3001669C8 /* SheetEnum.swift */,
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
-		BC777EFC2BA111A5001669C8 /* Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				BC777EF42BA10F2A001669C8 /* SheetCoordinator.swift */,
-				BC777EFD2BA111B5001669C8 /* SheetCoordinating.swift */,
-			);
-			path = Coordinator;
-			sourceTree = "<group>";
-		};
 		BC777EFF2BA111EA001669C8 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1071,9 +1038,6 @@
 			isa = PBXGroup;
 			children = (
 				BC777EFF2BA111EA001669C8 /* View */,
-				BC777EFC2BA111A5001669C8 /* Coordinator */,
-				BC777EF92BA10FD6001669C8 /* Protocol */,
-				BC777EF62BA10FAD001669C8 /* Model */,
 			);
 			path = Sheet;
 			sourceTree = "<group>";
@@ -1574,7 +1538,6 @@
 				BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */,
 				BC52DDF72B8BF5E8005A4587 /* Collection+Extension.swift in Sources */,
 				BC3FB0EA2A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift in Sources */,
-				BC777EFE2BA111B5001669C8 /* SheetCoordinating.swift in Sources */,
 				BC78274E2B9CDDB200DFC02C /* WaveShape.swift in Sources */,
 				BCCA20332B93AF6800E958F5 /* BlueBackgroundCard.swift in Sources */,
 				BC3FB0EE2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift in Sources */,
@@ -1595,10 +1558,8 @@
 				BCD837BF2B651F750069CECB /* LoadingOverlayView.swift in Sources */,
 				BC52DE062B8EBBD2005A4587 /* UserProfileProvider.swift in Sources */,
 				BCB6BF4F2AFAE84B00B6CBCE /* URL+Extension.swift in Sources */,
-				BC777EF82BA10FBB001669C8 /* AddSheetEnum.swift in Sources */,
 				BC0171042AEC64B8005876EE /* MockConstants.swift in Sources */,
 				BC261AB22B6D71BC0018E21F /* ExploreExerciseView.swift in Sources */,
-				BC777EFB2BA10FE3001669C8 /* SheetEnum.swift in Sources */,
 				BC52DDE52B867107005A4587 /* AsyncCachedImage.swift in Sources */,
 				BC3454582B75706A0074106A /* GIFImageView.swift in Sources */,
 				BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */,
@@ -1608,7 +1569,6 @@
 				BC11BC5A2A7D74CB00D96440 /* TabBarItem.swift in Sources */,
 				BC34544C2B72DCFE0074106A /* ExerciseCard.swift in Sources */,
 				BC8E86DD2AED2DB9008E3CE4 /* UIImage+Extension.swift in Sources */,
-				BC777EF52BA10F2A001669C8 /* SheetCoordinator.swift in Sources */,
 				BC96C2FD2AC83B1C00F11CAB /* Array+Extension.swift in Sources */,
 				BC52DDD82B852AB2005A4587 /* MuscleModuleProtocol.swift in Sources */,
 				BC3F13EB2B78060D00E9E98E /* MusculosError.swift in Sources */,

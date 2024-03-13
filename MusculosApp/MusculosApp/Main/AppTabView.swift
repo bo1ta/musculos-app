@@ -10,7 +10,7 @@ import CoreData
 
 struct AppTabView: View {
   @StateObject private var tabBarSettings = TabBarSettings()
-  @StateObject private var sheetCoordinator = SheetCoordinator<AddSheetEnum>()
+  
   @State private var tabSelection: TabBarItem = .dashboard
   @State private var showingSheet = false
 
