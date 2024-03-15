@@ -1,5 +1,5 @@
 //
-//  CreateProcessSheet.swift
+//  AddActionSheetContainer.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 13.03.2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CreateProcessSheet: View {
+struct AddActionSheetContainer: View {
   private enum Step {
     case createItem, createWorkout, createExercise, createGoal, createChallenge
   }
@@ -56,5 +56,5 @@ struct CreateProcessSheet: View {
 }
 
 #Preview {
-  CreateProcessSheet()
+  AddActionSheetContainer()
 }

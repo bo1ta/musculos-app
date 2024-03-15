@@ -23,7 +23,7 @@ struct AppTabView: View {
       tabSelection.view
     }
     .sheet(isPresented: $showingSheet) {
-      CreateProcessSheet()
+      AddActionSheetContainer()
     }
     .environmentObject(tabBarSettings)
   }
@@ -36,6 +36,6 @@ struct AppTabView: View {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    AppTabView().environmentObject(UserStore())
+    AppTabView().environmentObject(UserStore()).environmentObject(ExerciseStore())
   }
 }
