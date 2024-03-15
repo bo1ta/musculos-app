@@ -9,23 +9,65 @@ import SwiftUI
 
 struct CreateWorkoutSheet: View {
   @Environment(\.dismiss) private var dismiss
-  @State private var searchQuery: String = ""
+  @EnvironmentObject private var exerciseStore: ExerciseStore
 
+  @State private var exerciseName: String = ""
+  @StateObject private var categoryObserver = DebouncedQueryObserver()
+  
   let onBack: () -> Void
   
   var body: some View {
+    ScrollView {
+      VStack(alignment: .leading) {
+        topBar
+        
+        RoundedTextField(text: $exerciseName, label: "Name", textHint: "Workout Name")
+          .padding(.top, 25)
+        
+        RoundedTextField(text: $categoryObserver.searchQuery, label: "Type", textHint: "Muscle Type")
+          .padding(.top, 15)
+        
+        cardSection
+          .padding(.top, 20)
+      }
+      .padding([.leading, .trailing, .top], 15)
+      .onChange(of: categoryObserver.debouncedQuery) { categoryQuery in
+        exerciseStore.searchByMuscleQuery(categoryQuery)
+      }
+    }
+    .safeAreaInset(edge: .bottom) {
+      Button(action: {}, label: {
+        Text("Save")
+          .frame(maxWidth: .infinity)
+      })
+      .buttonStyle(PrimaryButton())
+      .padding([.leading, .trailing], 10)
+    }
+  }
+  
+  @ViewBuilder
+  private var cardSection: some View {
     VStack(alignment: .leading) {
-      topBar
-        .padding([.leading, .trailing], 20)
+      Text("Recommended exercises")
+        .font(.body(.bold, size: 15))
       
-      RoundedTextField(text: $searchQuery, textHint: "Search for exercise")
-        .padding(.top, 25)
-      
-      FavoriteSectionItem(title: "Exercise 1", value: 5)
-        .padding(.top, 25)
-      FavoriteSectionItem(title: "Exercise 1", value: 5)
-      FavoriteSectionItem(title: "Exercise 1", value: 5)
-      FavoriteSectionItem(title: "Exercise 1", value: 5)
+      switch exerciseStore.state {
+      case .loading:
+        VStack {
+          CardItemShimmering()
+          CardItemShimmering()
+          CardItemShimmering()
+          CardItemShimmering()
+          CardItemShimmering()
+          CardItemShimmering()
+        }
+      case .loaded(let exercises):
+          ForEach(exercises, id: \.hashValue) { exercise in
+            CardItem(title: exercise.name)
+        }
+      case .empty(_), .error(_):
+        EmptyView()
+      }
     }
   }
   
@@ -39,7 +81,7 @@ struct CreateWorkoutSheet: View {
 
       Spacer()
       
-      Text("Create new exercise")
+      Text("Create a new workout")
         .font(.header(.bold, size: 20))
         .foregroundStyle(.black)
   
@@ -59,4 +101,5 @@ struct CreateWorkoutSheet: View {
 
 #Preview {
   CreateWorkoutSheet(onBack: {})
+    .environmentObject(ExerciseStore())
 }

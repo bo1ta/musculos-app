@@ -14,8 +14,11 @@ class CoreDataStack {
   let userPrivateContext: NSManagedObjectContext
   let syncPrivateContext: NSManagedObjectContext
   
-  private init() {
+  init(inMemory: Bool = false) {
     persistentContainer = NSPersistentContainer(name: "MusculosDataStore")
+    if inMemory {
+      persistentContainer.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
+    }
     
     let description = persistentContainer.persistentStoreDescriptions.first
     description?.type = NSSQLiteStoreType
@@ -39,8 +42,8 @@ class CoreDataStack {
     syncPrivateContext.parent = mainContext
   }
   
-  func saveMainContext() async {
-    await mainContext.saveContext()
+  func saveMainContext() {
+    mainContext.saveContext()
   }
 }
 // MARK: - Clean up -- rarely used
@@ -61,14 +64,14 @@ extension CoreDataStack {
     }
   }
 
-  func deleteAll() async {
+  func deleteAll() {
     for e in persistentContainer.persistentStoreCoordinator.managedObjectModel.entities {
       let r = NSBatchDeleteRequest(
         fetchRequest: NSFetchRequest(entityName: e.name ?? "")
       )
       _ = try? mainContext.execute(r)
     }
-    await mainContext.saveContext()
+    mainContext.saveContext()
   }
 }
 
@@ -86,7 +89,7 @@ extension CoreDataStack {
       return newShared
     }
   }
-
+  
   static func setOverride(_ override: CoreDataStack) {
     _shared = override
   }

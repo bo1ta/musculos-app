@@ -10,11 +10,13 @@ import SwiftUI
 struct ExerciseDetailsView: View {
   @Environment(\.mainWindowSize) private var mainWindowSize
   @Environment(\.dismiss) private var dismiss
+  
   @EnvironmentObject private var tabBarSettings: TabBarSettings
   @EnvironmentObject private var exerciseStore: ExerciseStore
+  
   @State private var isFavorite: Bool = false
-    
-  var exercise: ExerciseProvider
+  
+  var exercise: Exercise
   
   var body: some View {
     VStack(spacing: 10) {
@@ -43,14 +45,11 @@ struct ExerciseDetailsView: View {
   
   @ViewBuilder
   private var imageSection: some View {
-    if exercise.imageUrls.count > 0 {
-      let images = exercise.imageUrls.compactMap { URL(string: $0) }
-      AnimatedURLImageView(imageURLs: images)
-        .overlay {
-          imageOverlay
-        }
-        .ignoresSafeArea()
-    }
+    AnimatedURLImageView(imageURLs: exercise.getImagesURLs())
+      .overlay {
+        imageOverlay
+      }
+      .ignoresSafeArea()
   }
   
   private var imageOverlay: some View {
@@ -91,10 +90,7 @@ struct ExerciseDetailsView: View {
   private var favoriteButton: some View {
     Button(action: {
       isFavorite.toggle()
-      
-      if let exerciseManagedObject = exercise as? Exercise {
-        exerciseStore.favoriteExercise(exerciseManagedObject, isFavorite: isFavorite)
-      }
+      exerciseStore.favoriteExercise(exercise, isFavorite: isFavorite)
     }, label: {
       Image(systemName: isFavorite ? "heart.fill" : "heart")
         .resizable()
@@ -141,9 +137,9 @@ struct ExerciseDetailsView: View {
     }
   }
 }
-
-#Preview {
-  ExerciseDetailsView(exercise: ExerciseFactory.create())
-    .environmentObject(TabBarSettings())
-    .environmentObject(ExerciseStore())
-}
+//
+//#Preview {
+//  ExerciseDetailsView(exercise: ExerciseFactory.create())
+//    .environmentObject(TabBarSettings())
+//    .environmentObject(ExerciseStore())
+//}

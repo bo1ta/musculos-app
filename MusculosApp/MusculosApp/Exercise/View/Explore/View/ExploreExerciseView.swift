@@ -39,9 +39,6 @@ struct ExploreExerciseView: View {
           switch exerciseStore.state {
           case .loading:
             WorkoutLoadingView()
-              .onAppear {
-                exerciseStore.loadExercises()
-              }
           case .loaded(let exercises):
             CategorySectionView(content: { categorySection in
               makeCategoryItems(
@@ -51,6 +48,9 @@ struct ExploreExerciseView: View {
             }, hasChangedSection: { handleChangeCategorySection($0) })
           case .empty(_):
             HintIconView(systemImage: "alert", textHint: "No data found!")
+              .onAppear {
+                exerciseStore.loadExercises()
+              }
           case .error(_):
             HintIconView(systemImage: "alert", textHint: "Could not fetch exercises!")
           }

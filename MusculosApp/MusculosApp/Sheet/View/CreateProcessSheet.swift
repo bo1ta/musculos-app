@@ -1,5 +1,5 @@
 //
-//  CreateItemSheetContainer.swift
+//  CreateProcessSheet.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 13.03.2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CreateItemSheetContainer: View {
+struct CreateProcessSheet: View {
   private enum Step {
     case createItem, createWorkout, createExercise, createGoal, createChallenge
   }
@@ -20,11 +20,10 @@ struct CreateItemSheetContainer: View {
       case .createItem:
         CreateItemSheet(onItemTapped: handleTap(for:))
           .presentationDetents([.height(300)])
-          .transition(.asymmetric(insertion: .move(edge: .top), removal: .push(from: .bottom)))
+          .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom)))
       case .createWorkout:
         CreateWorkoutSheet(onBack: handleBack)
-          .presentationDetents([.height(400)])
-          .transition(.asymmetric(insertion: .push(from: .bottom), removal: .move(edge: .bottom)))
+          .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .push(from: .top)))
       case .createExercise:
         EmptyView()
       case .createGoal:
@@ -33,7 +32,7 @@ struct CreateItemSheetContainer: View {
         EmptyView()
       }
     }
-    .animation(.easeInOut(duration: 0.25), value: currentStep)
+    .animation(.easeInOut(duration: 0.2), value: currentStep)
   }
   
   @MainActor
@@ -57,5 +56,5 @@ struct CreateItemSheetContainer: View {
 }
 
 #Preview {
-  CreateItemSheetContainer()
+  CreateProcessSheet()
 }

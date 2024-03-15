@@ -20,8 +20,8 @@ final class MusculosLogger {
     os_log(.debug, log: log, "%@: %@", category.rawValue, message)
   }
   
-  static func logError(error: Error, message: String, category: LogCategory) {
+  static func logError(error: Error, message: String,  properties: [String: String] = [:], category: LogCategory) {
     let log = OSLog(subsystem: "com.MusculosApp", category: category.rawValue)
-    os_log(.error, log: log, "%@ Error: %@", message, error.localizedDescription)
-  }
+    os_log(.error, log: log, "%@ ERROR: %@", "MESSAGE: \(message)", error.localizedDescription, properties)
+    }
 }

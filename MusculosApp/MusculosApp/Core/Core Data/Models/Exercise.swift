@@ -10,11 +10,11 @@ import Foundation
 import CoreData
 
 @objc(Exercise)
-public class Exercise: NSManagedObject, Decodable, ExerciseProvider {
+public class Exercise: NSManagedObject, Decodable, ExerciseProvider, BaseManagedObject {
   @nonobjc public class func fetchRequest() -> NSFetchRequest<Exercise> {
-      return NSFetchRequest<Exercise>(entityName: "Exercise")
+    return NSFetchRequest<Exercise>(entityName: "Exercise")
   }
-
+  
   @NSManaged public var category: String
   @NSManaged public var equipment: String?
   @NSManaged public var force: String?
@@ -55,17 +55,19 @@ public class Exercise: NSManagedObject, Decodable, ExerciseProvider {
     let request = Exercise.fetchRequest()
     request.predicate = NSPredicate(format: "id == %@", identifier as NSUUID)
     
-    if let exercise = try? context.fetch(request).first {
-      return exercise
-    } else {
-      let exercise = Exercise(context: context)
-      return exercise
+    do {
+      if let exercise = try context.fetch(request).first {
+        return exercise
+      } else {
+        let exercise = Exercise(context: context)
+        return exercise
+      }
+    } catch {
+      fatalError("Failed to fetch exercise: \(error)")
     }
   }
   
   func getImagesURLs() -> [URL] {
-    guard imageUrls.count > 0 else { return [] }
-    
     return imageUrls.compactMap { imageUrlString in
       URL(string: imageUrlString)
     }

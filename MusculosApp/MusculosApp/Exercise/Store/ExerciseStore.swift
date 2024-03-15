@@ -9,14 +9,12 @@ import Foundation
 import SwiftUI
 
 class ExerciseStore: ObservableObject {
-  @Published var state: LoadingViewState<[Exercise]> = .loading
+  @Published var state: LoadingViewState<[Exercise]> = .empty("")
   
-  private let exerciseModule: ExerciseModuleProtocol
-  private let exerciseDataStore: ExerciseDataStore
+  private let module: ExerciseModuleProtocol
   
-  init(exerciseModule: ExerciseModuleProtocol = ExerciseModule(), exerciseDataStore: ExerciseDataStore = ExerciseDataStore()) {
-    self.exerciseModule = exerciseModule
-    self.exerciseDataStore = exerciseDataStore
+  init(module: ExerciseModuleProtocol = ExerciseModule()) {
+    self.module = module
   }
   
   private(set) var exerciseTask: Task<Void, Never>?
@@ -33,10 +31,10 @@ class ExerciseStore: ObservableObject {
   func loadExercises() {
     exerciseTask = Task { @MainActor [weak self] in
       guard let self else { return }
+      self.state = .loading
+      
       do {
-        let exercises = try await self.exerciseModule.getExercises()
-        await self.exerciseDataStore.saveLocalChanges()
-        
+        let exercises = try await self.module.getExercises()
         self.state = .loaded(exercises)
       } catch {
         self.state = .error(error.localizedDescription)
@@ -46,8 +44,10 @@ class ExerciseStore: ObservableObject {
   
   @MainActor
   func loadLocalExercises() {
+    state = .loading
+    
     do {
-      let exercises = try exerciseDataStore.fetchExercises()
+      let exercises = try module.dataStore.fetchExercises()
       state = .loaded(exercises)
     } catch {
       state = .error(error.localizedDescription)
@@ -56,19 +56,24 @@ class ExerciseStore: ObservableObject {
   
   @MainActor
   func loadFavoriteExercises() {
+    state = .loading
+
     do {
-      let exercises = try exerciseDataStore.fetchFavoriteExercises()
+      let exercises = try module.dataStore.fetchFavoriteExercises()
       state = .loaded(exercises)
     } catch {
       state = .error(error.localizedDescription)
     }
   }
   
+  @MainActor
   func searchByMuscleQuery(_ query: String) {
     searchTask = Task { @MainActor [weak self] in
       guard let self else { return }
+      self.state = .loading
+      
       do {
-        let exercises = try await self.exerciseModule.searchByMuscleQuery(query)
+        let exercises = try await self.module.searchByMuscleQuery(query)
         self.state = .loaded(exercises)
       } catch {
         self.state = .error(error.localizedDescription)
@@ -76,10 +81,22 @@ class ExerciseStore: ObservableObject {
     }
   }
   
+  @MainActor
+  func localSearchByMuscleQuery(_ query: String) {
+    state = .loading
+    
+    do {
+      let exercises = try module.dataStore.fetchExercisesByMuscle(query)
+      self.state = .loaded(exercises)
+    } catch {
+      self.state = .error(error.localizedDescription)
+    }
+  }
+  
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
     favoriteTask = Task { @MainActor [ weak self] in
       guard let self else { return }
-      await self.exerciseDataStore.favoriteExercise(exercise, isFavorite: isFavorite)
+      await self.module.dataStore.favoriteExercise(exercise, isFavorite: isFavorite)
     }
   }
   
