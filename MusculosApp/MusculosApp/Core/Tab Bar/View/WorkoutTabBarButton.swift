@@ -8,8 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct WorkoutTabBarButton: CustomTabBarButton {
-  var tabBarItem: TabBarItem { .workout }
+struct WorkoutTabBarButton: View {
   var onTapGesture: () -> Void
 
   init(onTapGesture: @escaping () -> Void) {
@@ -23,7 +22,7 @@ struct WorkoutTabBarButton: CustomTabBarButton {
         Circle()
           .foregroundStyle(.black)
           .overlay {
-            Image(systemName: self.tabBarItem.imageName)
+            Image(systemName: "plus")
               .font(Font(CTFont(.menuItem, size: 18)))
               .foregroundStyle(Color.AppColor.green500)
               .onTapGesture(perform: self.onTapGesture)
@@ -31,12 +30,5 @@ struct WorkoutTabBarButton: CustomTabBarButton {
           .frame(width: 50, height: 50)
       }
       .frame(width: 60, height: 60)
-  }
-}
-
-struct AddTabBarButtonView_Preview: PreviewProvider {
-  static var previews: some View {
-    WorkoutTabBarButton(onTapGesture: {})
-      .previewLayout(.sizeThatFits)
   }
 }

@@ -6,31 +6,40 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum TabBarItem: String {
-  case dashboard
-  case workout
+  
+  
+  case explore
   case overview
-
+//  case workout
+//  case dashboard
+  
   var label: String {
-    switch self {
-    case .workout:
-      return "Workout"
-    case .dashboard:
-      return "Dashboard"
-    case .overview:
-      return "Overview"
-    }
+    return self.rawValue.capitalized
   }
-
+  
   var imageName: String {
     switch self {
-    case .workout:
-      return "dumbbell"
-    case .dashboard:
-      return "rectangle.grid.2x2"
+    case .explore:
+      "dumbbell"
     case .overview:
-      return "chart.bar.xaxis.ascending"
+      "chart.bar.xaxis.ascending"
+//    case .dashboard:
+//      "rectangle.grid.2x2"
+//    case .workout:
+//      "list.bullet.rectangle"
+    }
+  }
+  
+  @ViewBuilder
+  var view: some View {
+    switch self {
+    case .explore:
+      ExploreExerciseView()
+    case .overview:
+      OverviewView()
     }
   }
 }
@@ -39,7 +48,7 @@ extension TabBarItem: Hashable {
   func hash(into hasher: inout Hasher) {
     hasher.combine(self.label)
   }
-
+  
   static func ==(lhs: TabBarItem, rhs: TabBarItem) -> Bool {
     return lhs.label == rhs.label
   }

@@ -8,29 +8,34 @@
 import SwiftUI
 import CoreData
 
-struct AppTabView: View {  
+struct AppTabView: View {
   @StateObject private var tabBarSettings = TabBarSettings()
-  @State private var tabSelection: TabBarItem = .dashboard
   
-  private let tabBarItems: [TabBarItem] = [.dashboard, .workout, .overview]
+  @State private var tabSelection: TabBarItem = .explore
+  @State private var showingSheet = false
+
+  private let tabBarItems: [TabBarItem] = [.explore, .overview]
   
   var body: some View {
-    CustomTabBarContainerView(selection: $tabSelection, tabBarItems: tabBarItems) {
-      switch tabSelection {
-      case .dashboard:
-        DashboardView()
-      case .workout:
-        WorkoutView()
-      case .overview:
-        OverviewView()
-      }
+    CustomTabBarContainerView(selection: $tabSelection,
+                              tabBarItems: tabBarItems,
+                              onAddTapped: showSheet) {
+      tabSelection.view
+    }
+    .sheet(isPresented: $showingSheet) {
+      AddActionSheetContainer()
     }
     .environmentObject(tabBarSettings)
+  }
+  
+  @MainActor
+  private func showSheet() {
+    showingSheet.toggle()
   }
 }
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    AppTabView().environmentObject(UserStore())
+    AppTabView().environmentObject(UserStore()).environmentObject(ExerciseStore())
   }
 }

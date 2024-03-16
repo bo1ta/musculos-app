@@ -36,8 +36,7 @@ struct ExerciseCard: View {
   
   @ViewBuilder
   private var backgroundView: some View {
-    let images = exercise.getImagesURLs()
-    if let imageUrl = images.first {
+    if let imageUrl = exercise.getImagesURLs().first {
       AsyncImage(url: imageUrl)
         .frame(width: cardWidth, height: cardHeight)
     } else {

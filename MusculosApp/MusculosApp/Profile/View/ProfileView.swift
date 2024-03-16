@@ -32,8 +32,6 @@ struct ProfileView: View {
         )
         .padding(.top, -50)
         
-        FavoriteSection()
-          .padding([.top, .bottom], 30)
         MuscleChartSection()
         
         WhiteBackgroundCard()

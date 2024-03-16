@@ -8,24 +8,22 @@
 import Foundation
 import CoreData
 
-class UserDataStore {
-  private let userPrivateContext: NSManagedObjectContext = CoreDataStack.shared.userPrivateContext
-  
+class UserDataStore: BaseDataStore {
   func createUserProfile(person: Person) async {
-    let userProfile = UserProfile(context: userPrivateContext)
+    let userProfile = UserProfile(context: writeOnlyContext)
     userProfile.username = person.username
     userProfile.email = person.email
     userProfile.fullName = person.fullName
     userProfile.isCurrentUser = true
     
-    await userPrivateContext.saveContext()
-    await CoreDataStack.shared.saveMainContext()
+    await writeOnlyContext.saveIfNeeded()
+    await mainContext.saveIfNeeded()
   }
   
   func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async {
-    guard let userProfile = await UserProfile.currentUserProfile(context: userPrivateContext) else { return }
-    userProfile.gender = gender?.rawValue
+    guard let userProfile = await UserProfile.currentUserProfile(context: writeOnlyContext) else { return }
     
+    userProfile.gender = gender?.rawValue
     if let weight {
       userProfile.weight = NSNumber(integerLiteral: weight)
     }
@@ -36,7 +34,7 @@ class UserDataStore {
       userProfile.goalId = NSNumber(integerLiteral: goalId)
     }
     
-    await userPrivateContext.saveContext()
-    await CoreDataStack.shared.saveMainContext()
+    await writeOnlyContext.saveIfNeeded()
+    await mainContext.saveIfNeeded()
   }
 }

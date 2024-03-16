@@ -43,22 +43,21 @@ struct SearchFilterView: View {
           .padding(.top, 10)
         }
         .scrollIndicators(.hidden)
-        Spacer()
+        .safeAreaInset(edge: .bottom, content: {
+          Button(action: {
+           searchFilters()
+            dismiss()
+          }, label: {
+            Text("Search")
+              .frame(maxWidth: .infinity)
+          })
+          .buttonStyle(PrimaryButton())
+          .padding()
+          .padding(.bottom, 10)
+        })
       }
       .padding([.leading, .trailing], 10)
     }
-    .safeAreaInset(edge: .bottom, content: {
-      Button(action: {
-       searchFilters()
-        dismiss()
-      }, label: {
-        Text("Search")
-          .frame(maxWidth: .infinity)
-      })
-      .buttonStyle(PrimaryButton())
-      .padding()
-      .padding(.bottom, 10)
-    })
     .ignoresSafeArea()
   }
   

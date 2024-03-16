@@ -11,11 +11,13 @@ import CoreData
 class CoreDataStack {
   let persistentContainer: NSPersistentContainer
   let mainContext: NSManagedObjectContext
-  let userPrivateContext: NSManagedObjectContext
-  let syncPrivateContext: NSManagedObjectContext
+  let writeOnlyContext: NSManagedObjectContext
   
-  private init() {
+  init(inMemory: Bool = false) {
     persistentContainer = NSPersistentContainer(name: "MusculosDataStore")
+    if inMemory {
+      persistentContainer.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
+    }
     
     let description = persistentContainer.persistentStoreDescriptions.first
     description?.type = NSSQLiteStoreType
@@ -31,19 +33,11 @@ class CoreDataStack {
     mainContext = persistentContainer.viewContext
     mainContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     
-    userPrivateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-    userPrivateContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-    userPrivateContext.parent = mainContext
-    
-    syncPrivateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-    syncPrivateContext.parent = mainContext
-  }
-  
-  func saveMainContext() async {
-    await mainContext.saveContext()
+    writeOnlyContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+    writeOnlyContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+    writeOnlyContext.parent = mainContext
   }
 }
-// MARK: - Clean up -- rarely used
 
 extension CoreDataStack {
   func deleteSql() {
@@ -68,7 +62,7 @@ extension CoreDataStack {
       )
       _ = try? mainContext.execute(r)
     }
-    await mainContext.saveContext()
+    await mainContext.saveIfNeeded()
   }
 }
 
@@ -86,7 +80,7 @@ extension CoreDataStack {
       return newShared
     }
   }
-
+  
   static func setOverride(_ override: CoreDataStack) {
     _shared = override
   }

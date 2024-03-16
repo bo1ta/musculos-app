@@ -21,14 +21,14 @@ extension NSManagedObjectContext {
     return try fetch(request)
   }
   
-  func saveContext() async {
-    await self.perform {
-      guard self.hasChanges else { return }
+  func saveIfNeeded() async  {
+    await perform { [unowned self] in
+      guard hasChanges else { return }
       
       do {
-        try self.save()
+        try save()
       } catch {
-        self.rollback()
+        rollback()
         MusculosLogger.logError(error: error, message: "Failed to save context", category: .coreData)
       }
     }

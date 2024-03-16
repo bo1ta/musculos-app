@@ -8,29 +8,32 @@
 import Foundation
 
 protocol ExerciseModuleProtocol {
+  var dataStore: ExerciseDataStore { get set }
+  
   func getExercises() async throws -> [Exercise]
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise]
 }
 
 struct ExerciseModule: ExerciseModuleProtocol, MusculosModule {
   var client: MusculosClientProtocol
-  var dataImporter: DataImporter
+  var dataStore: ExerciseDataStore
 
-  init(client: MusculosClientProtocol = MusculosClient(), dataImporter: DataImporter = DataImporter()) {
+  init(client: MusculosClientProtocol = MusculosClient(), dataStore: ExerciseDataStore = ExerciseDataStore()) {
     self.client = client
-    self.dataImporter = dataImporter
+    self.dataStore = dataStore
   }
   
   func getExercises() async throws -> [Exercise] {
     let request = APIRequest(method: .get, path: .exercises)
     let data = try await client.dispatch(request)
-    return dataImporter.importExercisesUsingData(data)
+    return await dataStore.importExercisesUsingData(data)
   }
   
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
     var request = APIRequest(method: .get, path: .exercisesByMuscle)
     request.queryParams = [URLQueryItem(name: "query", value: query)]
+
     let data = try await client.dispatch(request)
-    return dataImporter.importExercisesUsingData(data)
+    return await dataStore.importExercisesUsingData(data)
   }
 }
