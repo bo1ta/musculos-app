@@ -13,7 +13,7 @@ extension NSManagedObjectContext {
     let request = NSFetchRequest<T>(entityName: String(describing: self))
     return try self.fetch(request)
   }
-
+  
   func fetchEntitiesByIds<T: NSManagedObject>(entityName: String, by ids: [Int]) async throws -> [T]? {
     let request = NSFetchRequest<T>(entityName: entityName)
     let predicate = NSPredicate(format: "id IN %@", ids)
@@ -21,16 +21,20 @@ extension NSManagedObjectContext {
     return try fetch(request)
   }
   
-  func saveIfNeeded() async  {
-    await perform { [unowned self] in
-      guard hasChanges else { return }
-      
-      do {
-        try save()
-      } catch {
-        rollback()
-        MusculosLogger.logError(error: error, message: "Failed to save context", category: .coreData)
-      }
+  func saveIfNeeded() {
+    guard hasChanges else { return }
+    do {
+      try save()
+    } catch {
+      rollback()
+      MusculosLogger.logError(error: error, message: "Failed to save context", category: .coreData)
+    }
+  }
+  
+  func performSaveIfNeeded() async  {
+    await perform { [weak self] in
+      guard let self else { return }
+      self.saveIfNeeded()
     }
   }
 }

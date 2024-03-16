@@ -16,8 +16,8 @@ class UserDataStore: BaseDataStore {
     userProfile.fullName = person.fullName
     userProfile.isCurrentUser = true
     
-    await writeOnlyContext.saveIfNeeded()
-    await mainContext.saveIfNeeded()
+    await writeOnlyContext.performSaveIfNeeded()
+    await mainContext.performSaveIfNeeded()
   }
   
   func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async {
@@ -34,7 +34,7 @@ class UserDataStore: BaseDataStore {
       userProfile.goalId = NSNumber(integerLiteral: goalId)
     }
     
-    await writeOnlyContext.saveIfNeeded()
-    await mainContext.saveIfNeeded()
+    await writeOnlyContext.performSaveIfNeeded()
+    await mainContext.performSaveIfNeeded()
   }
 }

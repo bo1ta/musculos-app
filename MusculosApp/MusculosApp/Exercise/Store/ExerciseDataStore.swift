@@ -19,11 +19,10 @@ class ExerciseDataStore: BaseDataStore {
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async {
     guard let writableExercise = await maybeSwitchContextFor(exercise, to: writeOnlyContext) else { return }
     
-    await writeOnlyContext.perform {
-        writableExercise.isFavorite = isFavorite
+    await writeOnlyContext.perform { [weak self] in
+      writableExercise.isFavorite = isFavorite
+      self?.writeOnlyContext.saveIfNeeded()
     }
-  
-    await writeOnlyContext.saveIfNeeded()
   }
   
   func fetchFavoriteExercises() throws -> [Exercise] {
@@ -67,13 +66,13 @@ class ExerciseDataStore: BaseDataStore {
         
         exercises.append(exercise)
       }
+      
+      self.writeOnlyContext.saveIfNeeded()
     }
-    
-    await writeOnlyContext.saveIfNeeded()
     
     // change to main context so exercises can be read
     let newExercises = await prepareExercisesForMainContext(exercises)
-    await mainContext.saveIfNeeded()
+    await mainContext.performSaveIfNeeded()
     
     return newExercises
   }

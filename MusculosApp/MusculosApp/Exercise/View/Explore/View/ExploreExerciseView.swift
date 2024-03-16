@@ -36,6 +36,12 @@ struct ExploreExerciseView: View {
           .padding([.leading, .trailing], 10)
           .padding(.top, 20)
           
+          SearchFilterField(
+            showFilterView: $showFilterView,
+            hasObservedQuery: { query in
+              exerciseStore.searchByMuscleQuery(query)
+            })
+          
           switch exerciseStore.state {
           case .loading:
             WorkoutLoadingView()
@@ -47,12 +53,14 @@ struct ExploreExerciseView: View {
               )
             }, hasChangedSection: { handleChangeCategorySection($0) })
           case .empty(_):
-            HintIconView(systemImage: "alert", textHint: "No data found!")
+            HintIconView(systemImage: "exclamationmark.warninglight", textHint: "No data found")
+              .padding(.top, 20)
               .onAppear {
                 exerciseStore.loadExercises()
               }
           case .error(_):
-            HintIconView(systemImage: "alert", textHint: "Could not fetch exercises!")
+            HintIconView(systemImage: "exclamationmark.warninglight", textHint: "Error fetching data")
+              .padding(.top, 20)
           }
           
           WhiteBackgroundCard()
@@ -101,12 +109,6 @@ struct ExploreExerciseView: View {
     VStack {
       switch categorySection {
       case .discover:
-          SearchFilterField(
-            showFilterView: $showFilterView,
-            hasObservedQuery: { query in
-              exerciseStore.searchByMuscleQuery(query)
-            })
-          
         ExerciseSectionView(title: "Most popular", exercises: exerciseStore.discoverExercises.first ?? [], onExerciseTap: {
             exercise in
             selectedExercise = exercise
