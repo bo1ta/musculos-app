@@ -1,5 +1,5 @@
 //
-//  CreateItemSheet.swift
+//  AddActionSheet.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 12.03.2024.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct CreateItemSheet: View {
+struct AddActionSheet: View {
   @Environment(\.dismiss) private var dismiss
   
   let onItemTapped: (ItemType) -> Void
@@ -78,7 +78,7 @@ struct CreateItemSheet: View {
   }
 }
 
-extension CreateItemSheet {
+extension AddActionSheet {
   enum ItemType: String {
     case workout, exercise, goal, challenge
     
@@ -128,5 +128,5 @@ extension CreateItemSheet {
 }
 
 #Preview {
-  CreateItemSheet { _ in }
+  AddActionSheet { _ in }
 }

@@ -1,5 +1,5 @@
 //
-//  CreateWorkoutSheet.swift
+//  AddWorkoutSheet.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 13.03.2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CreateWorkoutSheet: View {
+struct AddWorkoutSheet: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var exerciseStore: ExerciseStore
 
@@ -100,6 +100,6 @@ struct CreateWorkoutSheet: View {
 }
 
 #Preview {
-  CreateWorkoutSheet(onBack: {})
+  AddWorkoutSheet(onBack: {})
     .environmentObject(ExerciseStore())
 }

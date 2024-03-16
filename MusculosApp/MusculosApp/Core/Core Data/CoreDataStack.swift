@@ -12,7 +12,7 @@ class CoreDataStack {
   let persistentContainer: NSPersistentContainer
   let mainContext: NSManagedObjectContext
   let userPrivateContext: NSManagedObjectContext
-  let syncPrivateContext: NSManagedObjectContext
+  let writeOnlyContext: NSManagedObjectContext
   
   init(inMemory: Bool = false) {
     persistentContainer = NSPersistentContainer(name: "MusculosDataStore")
@@ -38,15 +38,11 @@ class CoreDataStack {
     userPrivateContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     userPrivateContext.parent = mainContext
     
-    syncPrivateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-    syncPrivateContext.parent = mainContext
-  }
-  
-  func saveMainContext() {
-    mainContext.saveContext()
+    writeOnlyContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+    writeOnlyContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+    writeOnlyContext.parent = mainContext
   }
 }
-// MARK: - Clean up -- rarely used
 
 extension CoreDataStack {
   func deleteSql() {
@@ -64,14 +60,14 @@ extension CoreDataStack {
     }
   }
 
-  func deleteAll() {
+  func deleteAll() async {
     for e in persistentContainer.persistentStoreCoordinator.managedObjectModel.entities {
       let r = NSBatchDeleteRequest(
         fetchRequest: NSFetchRequest(entityName: e.name ?? "")
       )
       _ = try? mainContext.execute(r)
     }
-    mainContext.saveContext()
+    await mainContext.saveIfNeeded()
   }
 }
 

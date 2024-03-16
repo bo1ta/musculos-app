@@ -18,11 +18,11 @@ struct AddActionSheetContainer: View {
     VStack {
       switch currentStep {
       case .createItem:
-        CreateItemSheet(onItemTapped: handleTap(for:))
+        AddActionSheet(onItemTapped: handleTap(for:))
           .presentationDetents([.height(300)])
           .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom)))
       case .createWorkout:
-        CreateWorkoutSheet(onBack: handleBack)
+        AddWorkoutSheet(onBack: handleBack)
           .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .push(from: .top)))
       case .createExercise:
         EmptyView()
@@ -36,7 +36,7 @@ struct AddActionSheetContainer: View {
   }
   
   @MainActor
-  private func handleTap(for itemType: CreateItemSheet.ItemType) {
+  private func handleTap(for itemType: AddActionSheet.ItemType) {
     switch itemType {
     case .challenge:
       currentStep = .createChallenge

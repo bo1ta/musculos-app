@@ -27,7 +27,7 @@ struct ExerciseModule: ExerciseModuleProtocol, MusculosModule {
     let request = APIRequest(method: .get, path: .exercises)
     let data = try await client.dispatch(request)
     
-    let exercises = dataStore.importExercisesUsingData(data, prepareForViewContext: true)
+    let exercises = await dataStore.importExercisesUsingData(data)
     return exercises
   }
   
@@ -36,7 +36,7 @@ struct ExerciseModule: ExerciseModuleProtocol, MusculosModule {
     request.queryParams = [URLQueryItem(name: "query", value: query)]
 
     let data = try await client.dispatch(request)
-    let exercises = dataStore.importExercisesUsingData(data, prepareForViewContext: true)
+    let exercises = await dataStore.importExercisesUsingData(data)
     return exercises
   }
 }

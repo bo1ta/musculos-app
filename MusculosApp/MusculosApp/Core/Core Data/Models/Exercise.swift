@@ -59,8 +59,7 @@ public class Exercise: NSManagedObject, Decodable, ExerciseProvider, BaseManaged
       if let exercise = try context.fetch(request).first {
         return exercise
       } else {
-        let exercise = Exercise(context: context)
-        return exercise
+        return Exercise(context: context)
       }
     } catch {
       fatalError("Failed to fetch exercise: \(error)")
