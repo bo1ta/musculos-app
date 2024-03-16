@@ -11,7 +11,6 @@ import CoreData
 class CoreDataStack {
   let persistentContainer: NSPersistentContainer
   let mainContext: NSManagedObjectContext
-  let userPrivateContext: NSManagedObjectContext
   let writeOnlyContext: NSManagedObjectContext
   
   init(inMemory: Bool = false) {
@@ -33,10 +32,6 @@ class CoreDataStack {
 
     mainContext = persistentContainer.viewContext
     mainContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-    
-    userPrivateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-    userPrivateContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-    userPrivateContext.parent = mainContext
     
     writeOnlyContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     writeOnlyContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy

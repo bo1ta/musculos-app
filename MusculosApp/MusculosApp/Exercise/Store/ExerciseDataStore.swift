@@ -17,14 +17,12 @@ class ExerciseDataStore: BaseDataStore {
   }
   
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async {
-    await writeOnlyContext.perform { [ weak self] in
-      guard let self else { return }
-  
-      if let newExercise = self.maybeSwitchContextFor(exercise, to: writeOnlyContext) {
-        newExercise.isFavorite = isFavorite
-      }
+    guard let writableExercise = await maybeSwitchContextFor(exercise, to: writeOnlyContext) else { return }
+    
+    await writeOnlyContext.perform {
+        writableExercise.isFavorite = isFavorite
     }
-
+  
     await writeOnlyContext.saveIfNeeded()
   }
   
@@ -43,7 +41,7 @@ class ExerciseDataStore: BaseDataStore {
   public func importExercisesUsingData(_ data: Data) async -> [Exercise] {
     guard let entries = try? JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] else { return [] }
     
-    var exercises: [Exercise] = []
+    var exercises = [Exercise]()
     
     await writeOnlyContext.perform { [weak self] in
       guard let self else { return }
@@ -74,18 +72,34 @@ class ExerciseDataStore: BaseDataStore {
     await writeOnlyContext.saveIfNeeded()
     
     // change to main context so exercises can be read
-    let newExercises = prepareExercisesForMainContext(exercises)
+    let newExercises = await prepareExercisesForMainContext(exercises)
     await mainContext.saveIfNeeded()
     
     return newExercises
   }
   
-  private func prepareExercisesForMainContext(_ exercises: [Exercise]) -> [Exercise] {
-    return exercises.compactMap { maybeSwitchContextFor($0, to: mainContext) }
+  private func prepareExercisesForMainContext(_ exercises: [Exercise]) async -> [Exercise] {
+    let preparedExercises = await withTaskGroup(of: Exercise?.self, returning: [Exercise].self) { [weak self] taskGroup in
+      guard let self else { return [] }
+      
+      for exercise in exercises {
+        taskGroup.addTask { await self.maybeSwitchContextFor(exercise, to: self.mainContext) }
+      }
+      
+      var preparedExercises = [Exercise]()
+      for await result in taskGroup {
+        if let result {
+          preparedExercises.append(result)
+        }
+      }
+      return preparedExercises
+      
+    }
+    return preparedExercises
   }
   
-  private func maybeSwitchContextFor(_ exercise: Exercise, to context: NSManagedObjectContext) -> Exercise? {
+  private func maybeSwitchContextFor(_ exercise: Exercise, to context: NSManagedObjectContext) async -> Exercise? {
     guard exercise.managedObjectContext != context else { return exercise }
-    return exercise.toContext(context)
+    return await exercise.toContext(context)
   }
 }
