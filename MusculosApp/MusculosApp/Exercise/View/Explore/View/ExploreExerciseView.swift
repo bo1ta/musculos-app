@@ -92,18 +92,11 @@ struct ExploreExerciseView: View {
       }
     }
   }
-  
-  private func handleChangeCategorySection(_ categorySection: CategorySection) {
-    switch categorySection {
-    case .myFavorites:
-      exerciseStore.loadFavoriteExercises()
-    case .workout:
-      exerciseStore.loadLocalExercises()
-    case .discover:
-      exerciseStore.loadExercises()
-    }
-  }
-  
+}
+
+// MARK: - Helper merhods
+
+extension ExploreExerciseView {
   @ViewBuilder
   private func makeCategoryItems(_ categorySection: CategorySection, exercises: [Exercise]) -> some View {
     VStack {
@@ -122,6 +115,17 @@ struct ExploreExerciseView: View {
       case .workout:
         createExerciseVStack(exercises)
       }
+    }
+  }
+  
+  private func handleChangeCategorySection(_ categorySection: CategorySection) {
+    switch categorySection {
+    case .myFavorites:
+      exerciseStore.loadFavoriteExercises()
+    case .workout:
+      exerciseStore.loadLocalExercises()
+    case .discover:
+      exerciseStore.loadExercises()
     }
   }
   
