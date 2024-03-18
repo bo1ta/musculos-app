@@ -9,102 +9,93 @@ import SwiftUI
 
 struct OnboardingWizardView: View {
   @EnvironmentObject private var userStore: UserStore
-
-  @State private var wizardStep: OnboardingWizardStep = .gender
-  @State private var selectedGender: Gender? = nil
-  @State private var selectedWeight: Int? = nil
-  @State private var selectedHeight: Int? = nil
-  @State private var selectedGoal: Goal? = nil
+  @StateObject private var viewModel = OnboardingWizardViewModel()
   
   var body: some View {
     VStack {
       navigationBar
-      
-      Text(wizardStep.title)
+  
+      Text(viewModel.wizardStep.title)
         .font(.header(.bold, size: 25))
         .padding(.top, 20)
-      Text("Let's optimize your experience")
+      Text(headerTitle)
         .font(.header(.regular, size: 18))
         .padding(.top, 5)
       Spacer()
-      switch wizardStep {
+      
+      switch viewModel.wizardStep {
       case .gender:
-        SelectGenderView(selectedGender: $selectedGender)
+        SelectGenderView(selectedGender: $viewModel.selectedGender)
       case .heightAndWeight:
-        SelectSizeView(selectedWeight: $selectedWeight, selectedHeight: $selectedHeight)
+        SelectSizeView(selectedWeight: $viewModel.selectedWeight, selectedHeight: $viewModel.selectedHeight)
       case .goal:
-        SelectGoalView(selectedGoal: $selectedGoal)
+        SelectGoalView(selectedGoal: $viewModel.selectedGoal)
       }
+      
       Spacer()
-      Button(action: {
-        handleNextStep()
-      }, label: {
-        Text("Continue")
-          .frame(maxWidth: .infinity)
-      })
-      .buttonStyle(PrimaryButton())
-      .padding(.bottom, 20)
+      primaryButton
     }
     .padding([.leading, .trailing], 10)
   }
-  
+}
+
+// MARK: - Private views
+
+extension OnboardingWizardView {
   private var navigationBar: some View {
     VStack {
       HStack {
-        if wizardStep != .gender {
-          Button {
-            handleBack()
-          } label: {
+        if viewModel.wizardStep != .gender {
+          Button(action: viewModel.handleBack, label: {
             Image(systemName: "arrow.backward")
               .foregroundStyle(.black)
-          }
+          })
         }
         Spacer()
       }
       .padding([.leading, .trailing], 20)
     }
   }
+  
+  private var primaryButton: some View {
+    Button(action: {
+      if viewModel.canHandleNextStep {
+        viewModel.handleNextStep()
+      } else {
+        handleSubmit()
+      }
+    }, label: {
+      Text(buttonTitle)
+        .frame(maxWidth: .infinity)
+    })
+    .buttonStyle(PrimaryButton())
+    .padding(.bottom, 20)
+  }
 }
 
+// MARK: - Helpers
+
 extension OnboardingWizardView {
-  private func handleNextStep() {
-    if wizardStep == .gender {
-      wizardStep = .heightAndWeight
-    } else if wizardStep == .heightAndWeight {
-      wizardStep = .goal
-    } else {
-      handleSubmit()
-    }
-  }
-  
-  private func handleBack() {
-    if wizardStep == .heightAndWeight {
-      wizardStep = .gender
-    } else {
-      wizardStep = .heightAndWeight
-    }
-  }
-  
+
+  @MainActor
   private func handleSubmit() {
     userStore.isOnboarded = true
-    userStore.updateUserProfile(gender: selectedGender, weight: selectedWeight, height: selectedHeight, goalId: selectedGoal?.rawValue)
+    userStore.updateUserProfile(gender: viewModel.selectedGender,
+                                weight: viewModel.selectedWeight,
+                                height: viewModel.selectedHeight,
+                                goalId: viewModel.selectedGoal?.rawValue)
   }
 }
 
-extension OnboardingWizardView {
-  enum OnboardingWizardStep {
-    case gender, heightAndWeight, goal
+// MARK: - Constants
 
-    var title: String {
-      switch self {
-      case .gender:
-        "What is your gender?"
-      case .heightAndWeight:
-        "What is your weight and height?"
-      case .goal:
-        "What is your goal?"
-      }
-    }
+extension OnboardingWizardView {
+  private var headerTitle: String {
+    "Let's optimize your experience"
+  }
+  
+  private var buttonTitle: String {
+    "Continue"
   }
 }
 

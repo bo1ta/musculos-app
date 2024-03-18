@@ -32,7 +32,11 @@ struct OverviewView: View {
     }
     .scrollIndicators(.hidden)
   }
-  
+}
+
+// MARK: - Private views
+
+extension OverviewView {
   private var avatarCircle: some View {
     Circle()
       .frame(width: 60, height: 60)
@@ -55,6 +59,7 @@ struct OverviewView: View {
         .padding(.bottom, 1)
   
         makeTitleSection("Overview", withButton: "All data", onButtonTap: {})
+  
         ScoreCard(title: "Health Score",
                   description: "Based on your overview health tracking, your score is 87 and considered good",
                   score: 87,
@@ -103,14 +108,22 @@ struct OverviewView: View {
       makeTitleSection("This week report", withButton: "View more", onButtonTap: {})
       
       HStack(spacing: 15) {
-        StatReportCard(emojiIcon: "👣", title: "Steps", value: "697,978")
-        StatReportCard(emojiIcon: "💪", title: "Workout", value: "6h 45min")
+        makeStatReportCard(.steps)
+        makeStatReportCard(.workout)
       }
       HStack(spacing: 15) {
-        StatReportCard(emojiIcon: "💧", title: "Water", value: "10,659 ml")
-        StatReportCard(emojiIcon: "😴", title: "Sleep", value: "29h 17min")
+        makeStatReportCard(.water)
+        makeStatReportCard(.sleep)
       }
     }
+  }
+}
+
+// MARK: - Helper methods
+
+extension OverviewView {
+  private func makeStatReportCard(_ statType: OverviewStatType) -> some View {
+    StatReportCard(emojiIcon: statType.emojiIcon, title: statType.title, value: statType.value)
   }
   
   private func makeTitleSection(_ title: String, withButton buttonText: String? = nil, onButtonTap: (() -> Void)? = nil) -> some View {
@@ -129,6 +142,45 @@ struct OverviewView: View {
       }
     }
     .padding(.trailing, 10)
+  }
+}
+
+// MARK: - Constants
+
+extension OverviewView {
+  private enum OverviewStatType: String {
+    case steps, workout, water, sleep
+    
+    var title: String {
+      return rawValue.capitalized
+    }
+    
+    var emojiIcon: String {
+      switch self {
+      case .steps:
+        "👣"
+      case .workout:
+        "💪"
+      case .water:
+        "💧"
+      case .sleep:
+        "😴"
+      }
+    }
+    
+    // hardcoded for now
+    var value: String {
+      switch self {
+      case .steps:
+        "697,978"
+      case .workout:
+        "6h 45min"
+      case .water:
+        "10,659 ml"
+      case .sleep:
+        "29h 17min"
+      }
+    }
   }
 }
 

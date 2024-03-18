@@ -9,16 +9,22 @@ import SwiftUI
 
 struct SignInView: View {
   @EnvironmentObject private var userStore: UserStore
-  @StateObject private var viewModel = AuthViewModel()
+  @ObservedObject private var viewModel = AuthViewModel()
     
   var body: some View {
     NavigationStack {
       VStack(alignment: .center) {
         Spacer()
-        title
+        Text(headerTitle)
+          .font(.header(.bold, size: 25))
+        Text(bodyTitle)
+          .font(.body(.light, size: 14))
+        
         loginForm
           .padding([.top, .bottom], 20)
+        
         socialLoginSection
+        
         Spacer()
         signUpButton
       }
@@ -26,8 +32,7 @@ struct SignInView: View {
       .onDisappear(perform: viewModel.cleanUp)
       .navigationTitle("")
       .navigationDestination(isPresented: $viewModel.showRegister) {
-        SignUpView()
-          .environmentObject(viewModel)
+        SignUpView(viewModel: _viewModel)
       }
       .onChange(of: viewModel.isLoggedIn) { isLoggedIn in
         if isLoggedIn {
@@ -47,18 +52,9 @@ struct SignInView: View {
   }
 }
 
-// MARK: - Views
+// MARK: - Private views
 
 extension SignInView {
-  private var title: some View {
-    VStack {
-      Text("Welcome! 👋")
-        .font(.header(.bold, size: 25))
-      Text("Sign in to start your fitness journey")
-        .font(.body(.light, size: 14))
-    }
-  }
-  
   private var loginForm: some View {
     VStack(alignment: .center, spacing: 15) {
       RoundedTextField(text: $viewModel.email,
@@ -116,9 +112,9 @@ extension SignInView {
       }
     }, label: {
       HStack(spacing: 5) {
-        Text("Don't have an account?")
+        Text(dontHaveAnAccountTitle)
           .font(.body(.light, size: 15))
-        Text("Sign up now")
+        Text(signUpButtonTitle)
           .font(.body(.light, size: 15))
           .foregroundStyle(Color.AppColor.green700)
       }
@@ -127,6 +123,27 @@ extension SignInView {
     .buttonStyle(SecondaryButton())
   }
 }
+
+// MARK: - Constants
+
+extension SignInView {
+  private var headerTitle: String {
+    "Welcome! 👋"
+  }
+  
+  private var bodyTitle: String {
+    "Sign in to start your fitness journey"
+  }
+  
+  private var signUpButtonTitle: String {
+    "Sign up now"
+  }
+  
+  private var dontHaveAnAccountTitle: String {
+    "Don't have an account?"
+  }
+}
+
 
 #Preview {
   SignInView()
