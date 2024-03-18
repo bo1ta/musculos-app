@@ -45,9 +45,8 @@ struct SelectGoalView: View {
             Spacer()
             
             if !isSelected {
-              Image(goal.imageName)
-                .resizable()
-                .frame(width: 35, height: 35)
+              goal.image
+                .font(.system(size: 25))
             } else {
               Circle()
                 .frame(width: 35, height: 35)

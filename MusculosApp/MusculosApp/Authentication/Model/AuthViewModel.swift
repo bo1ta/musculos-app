@@ -28,6 +28,7 @@ class AuthViewModel: ObservableObject {
     self.dataStore = dataStore
   }
   
+  @MainActor
   func signIn() {
     authTask = Task { @MainActor [weak self] in
       guard let self else { return }
@@ -47,6 +48,7 @@ class AuthViewModel: ObservableObject {
     }
   }
   
+  @MainActor
   func signUp() {
     authTask = Task { @MainActor [weak self] in
       guard let self else { return }

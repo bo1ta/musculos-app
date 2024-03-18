@@ -62,7 +62,7 @@ extension CoreDataStack {
       )
       _ = try? mainContext.execute(r)
     }
-    await mainContext.performSaveIfNeeded()
+    await mainContext.performAndSaveIfNeeded()
   }
 }
 

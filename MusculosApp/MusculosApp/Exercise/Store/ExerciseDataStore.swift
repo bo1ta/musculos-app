@@ -72,7 +72,7 @@ class ExerciseDataStore: BaseDataStore {
     
     // change to main context so exercises can be read
     let newExercises = await prepareExercisesForMainContext(exercises)
-    await mainContext.performSaveIfNeeded()
+    await mainContext.performAndSaveIfNeeded()
     
     return newExercises
   }

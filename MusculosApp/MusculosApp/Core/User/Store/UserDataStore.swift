@@ -10,31 +10,35 @@ import CoreData
 
 class UserDataStore: BaseDataStore {
   func createUserProfile(person: Person) async {
-    let userProfile = UserProfile(context: writeOnlyContext)
-    userProfile.username = person.username
-    userProfile.email = person.email
-    userProfile.fullName = person.fullName
-    userProfile.isCurrentUser = true
+    await writeOnlyContext.performAndSaveIfNeeded { [weak self] in
+      guard let self else { return }
+      
+      let userProfile = UserProfile(context: self.writeOnlyContext)
+      userProfile.username = person.username
+      userProfile.email = person.email
+      userProfile.fullName = person.fullName
+      userProfile.isCurrentUser = true
+    }
     
-    await writeOnlyContext.performSaveIfNeeded()
-    await mainContext.performSaveIfNeeded()
+    await mainContext.performAndSaveIfNeeded()
   }
   
   func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async {
     guard let userProfile = await UserProfile.currentUserProfile(context: writeOnlyContext) else { return }
     
-    userProfile.gender = gender?.rawValue
-    if let weight {
-      userProfile.weight = NSNumber(integerLiteral: weight)
+    await writeOnlyContext.performAndSaveIfNeeded {
+      userProfile.gender = gender?.rawValue
+      if let weight {
+        userProfile.weight = NSNumber(integerLiteral: weight)
+      }
+      if let height {
+        userProfile.height = NSNumber(integerLiteral: height)
+      }
+      if let goalId {
+        userProfile.goalId = NSNumber(integerLiteral: goalId)
+      }
     }
-    if let height {
-      userProfile.height = NSNumber(integerLiteral: height)
-    }
-    if let goalId {
-      userProfile.goalId = NSNumber(integerLiteral: goalId)
-    }
-    
-    await writeOnlyContext.performSaveIfNeeded()
-    await mainContext.performSaveIfNeeded()
+       
+    await mainContext.performAndSaveIfNeeded()
   }
 }

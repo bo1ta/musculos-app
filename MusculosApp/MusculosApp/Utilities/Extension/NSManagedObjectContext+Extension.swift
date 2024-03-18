@@ -31,10 +31,12 @@ extension NSManagedObjectContext {
     }
   }
   
-  func performSaveIfNeeded() async  {
+  func performAndSaveIfNeeded(block: (() -> Void)? = nil) async  {
     await perform { [weak self] in
-      guard let self else { return }
-      self.saveIfNeeded()
+      if let block {
+        block()
+      }
+      self?.saveIfNeeded()
     }
   }
 }

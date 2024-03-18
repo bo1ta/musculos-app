@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum Goal: Int {
   case loseWeight, getFitter, gainMuscles
@@ -32,14 +33,14 @@ enum Goal: Int {
     }
   }
   
-  var imageName: String {
+  var image: Image {
     switch self {
     case .loseWeight:
-      "icon-fire"
+      Image(systemName: "flame")
     case .getFitter:
-      "icon-heartbeat"
+      Image(systemName: "bolt.heart")
     case .gainMuscles:
-      "icon-dumbbell"
+      Image(systemName: "dumbbell")
     }
   }
 }

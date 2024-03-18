@@ -76,7 +76,6 @@ public class UserProfile: NSManagedObject, Codable, UserProfileProvider {
   }
 
   static func currentUserProfile(context: NSManagedObjectContext) async -> UserProfile? {
-    await context.perform {
       let fetchRequest = UserProfile.fetchRequest()
       fetchRequest.predicate = NSPredicate(format: "isCurrentUser == true")
       do {
@@ -86,6 +85,5 @@ public class UserProfile: NSManagedObject, Codable, UserProfileProvider {
         MusculosLogger.logError(error: error, message: "Current user profile error", category: .coreData)
         return nil
       }
-    }
   }
 }
