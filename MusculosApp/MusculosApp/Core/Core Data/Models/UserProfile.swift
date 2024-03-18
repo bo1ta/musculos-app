@@ -74,7 +74,8 @@ public class UserProfile: NSManagedObject, Codable, UserProfileProvider {
   public class func fetchRequest() -> NSFetchRequest<UserProfile> {
     return NSFetchRequest<UserProfile>(entityName: "UserProfile")
   }
-
+  
+  @MainActor
   static func currentUserProfile(context: NSManagedObjectContext) async -> UserProfile? {
       let fetchRequest = UserProfile.fetchRequest()
       fetchRequest.predicate = NSPredicate(format: "isCurrentUser == true")

@@ -31,7 +31,7 @@ class UserStore: ObservableObject {
   }
   
   var displayName: String {
-    currentUserProfile?.fullName ?? currentUserProfile?.username ?? "champ"
+    currentUserProfile?.fullName ?? currentUserProfile?.username ?? "User"
   }
   
   @MainActor
@@ -49,10 +49,13 @@ class UserStore: ObservableObject {
   func cleanUp() {
     fetchUserProfileTask?.cancel()
     fetchUserProfileTask = nil
+    
+    updateUserProfileTask?.cancel()
+    updateUserProfileTask = nil
   }
 }
 
-// MARK: - Core Data + User Defaults
+// MARK: - Core Data
 
 extension UserStore {
   func fetchUserProfile() {

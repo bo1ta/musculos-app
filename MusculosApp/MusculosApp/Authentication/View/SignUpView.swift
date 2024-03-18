@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct SignUpView: View {
-  @EnvironmentObject private var viewModel: AuthViewModel
+  @ObservedObject private var viewModel: AuthViewModel
+  
+  init(viewModel: ObservedObject<AuthViewModel>) {
+    self._viewModel = viewModel
+  }
   
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
-      Text("Sign up")
+      Text(headerTitle)
         .font(.header(.regular, size: 25))
       registerForm
       socialLoginSection
@@ -42,7 +46,7 @@ extension SignUpView {
                        textHint: "Enter full name")
       
       Button(action: viewModel.signUp, label: {
-        Text("Sign up")
+        Text(headerTitle)
           .frame(maxWidth: .infinity)
           .foregroundStyle(.white)
       })
@@ -70,12 +74,13 @@ extension SignUpView {
       }
       
         Button(action: {}, label: {
-          Text("Sign up using Google")
+          Text(googleButtonTitle)
             .font(.body(.light, size: 15))
             .foregroundStyle(Color.AppColor.green700)
         })
+  
         Button(action: {}, label: {
-          Text("Sign up using Facebook")
+          Text(facebookButtonTitle)
             .font(.body(.light, size: 15))
             .foregroundStyle(Color.AppColor.green700)
         })
@@ -84,6 +89,21 @@ extension SignUpView {
   }
 }
 
+extension SignUpView {
+  private var headerTitle: String {
+    "Sign up"
+  }
+  
+  private var googleButtonTitle: String {
+    "Sign up using Google"
+  }
+  
+  private var facebookButtonTitle: String {
+    "Sign up using Facebook"
+  }
+}
+
 #Preview {
-  SignUpView().environmentObject(AuthViewModel())
+  SignUpView(viewModel: .init(initialValue: AuthViewModel()))
+    .environmentObject(AuthViewModel())
 }
