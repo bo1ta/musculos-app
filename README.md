@@ -1,2 +1,2 @@
-# Coming soon
+# Workout App built in SwiftUI
 
