@@ -20,7 +20,7 @@ struct ExerciseCardsSection: View {
         Button(action: {
           onTappedExercise(exercise)
         }, label: {
-          CardItem(title: exercise.name)
+          CardItem(title: exercise.name, isSelected: false, onSelect: {})
         })
       }
     }

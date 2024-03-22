@@ -42,7 +42,7 @@ class ExerciseDataStore: BaseDataStore {
     
     var exercises = [Exercise]()
     
-    await writeOnlyContext.perform { [weak self] in
+    await writeOnlyContext.performAndSaveIfNeeded { [weak self] in
       guard let self else { return }
       
       for entry in entries {
@@ -66,8 +66,6 @@ class ExerciseDataStore: BaseDataStore {
         
         exercises.append(exercise)
       }
-      
-      self.writeOnlyContext.saveIfNeeded()
     }
     
     // change to main context so exercises can be read

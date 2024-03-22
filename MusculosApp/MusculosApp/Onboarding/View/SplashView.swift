@@ -50,5 +50,5 @@ struct SplashView: View {
 }
 
 #Preview {
-  SplashView().environment(\.mainWindowSize, CGSize(width: 360, height: 450))
+  SplashView()
 }

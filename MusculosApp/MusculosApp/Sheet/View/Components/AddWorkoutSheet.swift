@@ -10,7 +10,9 @@ import SwiftUI
 struct AddWorkoutSheet: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var exerciseStore: ExerciseStore
-
+  
+  @State private var selectedExercises: [Exercise] = []
+  @State private var showExercise: Exercise?
   @State private var exerciseName: String = ""
   @StateObject private var categoryObserver = DebouncedQueryObserver()
   
@@ -18,34 +20,61 @@ struct AddWorkoutSheet: View {
   
   var body: some View {
     ScrollView {
-      VStack(alignment: .leading) {
-        topBar
-        
-        RoundedTextField(text: $exerciseName, label: "Name", textHint: "Workout Name")
-          .padding(.top, 25)
-        
-        RoundedTextField(text: $categoryObserver.searchQuery, label: "Type", textHint: "Muscle Type")
-          .padding(.top, 15)
-        
-        cardSection
-          .padding(.top, 20)
-      }
-      .padding([.leading, .trailing, .top], 15)
-      .onChange(of: categoryObserver.debouncedQuery) { categoryQuery in
-        exerciseStore.searchByMuscleQuery(categoryQuery)
-      }
+      topBar
+      
+      RoundedTextField(text: $exerciseName, label: "Name", textHint: "Workout Name")
+        .padding(.top, 25)
+      
+      RoundedTextField(text: $categoryObserver.searchQuery, label: "Type", textHint: "Muscle Type")
+        .padding(.top, 15)
+      
+      cardSection
+        .padding(.top, 20)
     }
-    .safeAreaInset(edge: .bottom) {
-      Button(action: {}, label: {
-        Text("Save")
-          .frame(maxWidth: .infinity)
+    .padding([.leading, .trailing, .top], 15)
+    .onChange(of: categoryObserver.debouncedQuery) { categoryQuery in
+      exerciseStore.searchByMuscleQuery(categoryQuery)
+    }
+//    .safeAreaInset(edge: .bottom) {
+//      Button(action: {}, label: {
+//        Text("Save")
+//          .frame(maxWidth: .infinity)
+//      })
+//      .buttonStyle(PrimaryButton())
+//      .padding([.leading, .trailing], 10)
+//    }
+  }
+}
+
+// MARK: - Views
+
+extension AddWorkoutSheet {
+  private var topBar: some View {
+    HStack {
+      Button(action: onBack, label: {
+        Image(systemName: "chevron.left")
+          .font(.system(size: 18))
+          .foregroundStyle(.gray)
       })
-      .buttonStyle(PrimaryButton())
-      .padding([.leading, .trailing], 10)
+      
+      Spacer()
+      
+      Text("Create a new workout")
+        .font(.header(.bold, size: 20))
+        .foregroundStyle(.black)
+      
+      Spacer()
+      
+      Button(action: {
+        dismiss()
+      }, label: {
+        Image(systemName: "xmark")
+          .font(.system(size: 18))
+          .foregroundStyle(.gray)
+      })
     }
   }
   
-  @ViewBuilder
   private var cardSection: some View {
     VStack(alignment: .leading) {
       Text("Recommended exercises")
@@ -62,40 +91,39 @@ struct AddWorkoutSheet: View {
           CardItemShimmering()
         }
       case .loaded(let exercises):
-          ForEach(exercises, id: \.hashValue) { exercise in
-            CardItem(title: exercise.name)
+        ForEach(combineWithSelected(exercises), id: \.hashValue) { exercise in
+          makeCardItem(exercise: exercise)
         }
       case .empty(_), .error(_):
         EmptyView()
       }
     }
   }
-  
-  private var topBar: some View {
-    HStack {
-      Button(action: onBack, label: {
-        Image(systemName: "chevron.left")
-          .font(.system(size: 18))
-          .foregroundStyle(.gray)
-      })
+}
 
-      Spacer()
-      
-      Text("Create a new workout")
-        .font(.header(.bold, size: 20))
-        .foregroundStyle(.black)
+// MARK: - Functions
+
+extension AddWorkoutSheet {
+  private func makeCardItem(exercise: Exercise) -> some View {
+    CardItem(title: exercise.name,
+             isSelected: selectedExercises.contains(exercise),
+             onSelect: { didSelectExercise(exercise) })
+    .onLongPressGesture { showExercise = exercise }
+  }
   
-      Spacer()
-      
-      Button(action: {
-          dismiss()
-      }, label: {
-        Image(systemName: "xmark")
-          .font(.system(size: 18))
-          .foregroundStyle(.gray)
-      })
-      
+  private func didSelectExercise(_ exercise: Exercise) {
+    if let index = selectedExercises.firstIndex(of: exercise) {
+      selectedExercises.remove(at: index)
+    } else {
+      selectedExercises.append(exercise)
     }
+  }
+  
+  private func combineWithSelected(_ loadedExercises: [Exercise]) -> [Exercise] {
+    var exercises = selectedExercises
+    let noDuplicates = loadedExercises.compactMap { exercises.contains($0) ? nil : $0 }
+    exercises.append(contentsOf: noDuplicates)
+    return exercises
   }
 }
 

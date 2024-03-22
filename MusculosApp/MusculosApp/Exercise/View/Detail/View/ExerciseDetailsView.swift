@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ExerciseDetailsView: View {
-  @Environment(\.mainWindowSize) private var mainWindowSize
   @Environment(\.dismiss) private var dismiss
   
   @EnvironmentObject private var tabBarSettings: TabBarSettings

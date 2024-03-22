@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ProfileView: View {
   @EnvironmentObject private var userStore: UserStore
-  @Environment(\.mainWindowSize) var mainWindowSize: CGSize
   
   private var userProfile: UserProfileProvider? {
     userStore.currentUserProfile ?? UserProfileFactory.build(isCurrentUser: true)

@@ -13,4 +13,9 @@ extension Array {
       Array(self[$0 ..< Swift.min($0 + size, count)])
     }
   }
+  
+  /// Combines multiple arrays without duplicates
+  static func combine<T>(_ arrays: Array<T>?...) -> Set<T> {
+      return arrays.compactMap{$0}.compactMap{Set($0)}.reduce(Set<T>()){$0.union($1)}
+  }
 }

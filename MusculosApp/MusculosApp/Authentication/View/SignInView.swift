@@ -147,6 +147,5 @@ extension SignInView {
 
 #Preview {
   SignInView()
-    .environment(\.mainWindowSize, CGSize(width: 360, height: 550))
     .environmentObject(UserStore())
 }

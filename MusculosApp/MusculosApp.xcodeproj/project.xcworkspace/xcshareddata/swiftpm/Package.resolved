@@ -1,4 +1,5 @@
 {
+  "originHash" : "45d0852d8a90225b75f5d6da17904da8e1010dcd00d0c143a09ebc5539263592",
   "pins" : [
     {
       "identity" : "swiftygif",
@@ -10,5 +11,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

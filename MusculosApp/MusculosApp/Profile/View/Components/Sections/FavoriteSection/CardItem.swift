@@ -9,13 +9,9 @@ import SwiftUI
 
 struct CardItem: View {
   let title: String
-  let value: Int?
-  
-  init(title: String, value: Int? = nil) {
-    self.title = title
-    self.value = value
-  }
-  
+  let isSelected: Bool
+  let onSelect: () -> Void
+
   var body: some View {
     RoundedRectangle(cornerRadius: 10)
       .foregroundStyle(.white)
@@ -28,11 +24,15 @@ struct CardItem: View {
             .font(.body(.regular, size: 13))
           Spacer()
           
-          if let value {
-            Text("x\(value)")
-              .font(.header(.bold, size: 15))
-              .foregroundStyle(Color.AppColor.blue500)
-          }
+          Button(action: onSelect, label: {
+            Circle()
+              .frame(width: 20, height: 20)
+              .foregroundStyle(isSelected ? Color.AppColor.blue500 : .white)
+              .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                  .stroke(.gray, lineWidth: 1)
+              )
+          })
         }
         .padding([.leading, .trailing], 20)
       }
@@ -40,7 +40,7 @@ struct CardItem: View {
 }
 
 #Preview {
-  CardItem(title: "100 miles running", value: 10)
+  CardItem(title: "100 miles running", isSelected: true, onSelect: {})
 }
 
 struct CardItemShimmering: View {
