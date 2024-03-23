@@ -9,12 +9,16 @@ import Foundation
 import HealthKit
 
 class HealthKitManager {
-  private var anchor: HKQueryAnchor?
+  private var queryAnchor: HKQueryAnchor?
   
   init() {
-    anchor = getStoredAnchor()
+    setUpQueryAnchor()
   }
-  
+}
+
+// MARK: - Setup
+
+extension HealthKitManager {
   func setUpPermissions(healthStore: HKHealthStore) async {
     guard HKHealthStore.isHealthDataAvailable() else { return }
     
@@ -23,6 +27,17 @@ class HealthKitManager {
       try await healthStore.requestAuthorization(toShare: [stepsCount], read: [stepsCount])
     } catch {
       MusculosLogger.logError(error: error, message: "Error setting up health kit", category: .healthKit)
+    }
+  }
+  
+  private func setUpQueryAnchor() {
+    guard let data = UserDefaults.standard.object(forKey: UserDefaultsConstants.healthKitAnchor.rawValue) as? Data else { return }
+    
+    do {
+      let anchor = try NSKeyedUnarchiver.unarchivedObject(ofClass: HKQueryAnchor.self, from: data)
+      self.queryAnchor = anchor
+    } catch {
+      MusculosLogger.logError(error: error, message: "Could not unarchive query anchor", category: .healthKit)
     }
   }
 }
@@ -37,7 +52,7 @@ extension HealthKitManager {
     let anchorDescription = HKAnchoredObjectQueryDescriptor(predicates: [.quantitySample(type: stepsCount, predicate: predicate)], anchor: nil)
     
     let results = try await anchorDescription.result(for: healthStore)
-    setStoredAnchor(results.newAnchor)
+    updateQueryAnchor(results.newAnchor)
     
     return results.addedSamples.first?.quantity.doubleValue(for: .count())
   }
@@ -46,20 +61,8 @@ extension HealthKitManager {
 // MARK: - Private helpers
 
 extension HealthKitManager {
-  private func getStoredAnchor() -> HKQueryAnchor? {
-    guard let data = UserDefaults.standard.object(forKey: UserDefaultsConstants.healthKitAnchor.rawValue) as? Data else { return nil }
-    
-    do {
-      let anchor = try NSKeyedUnarchiver.unarchivedObject(ofClass: HKQueryAnchor.self, from: data)
-      return anchor
-    } catch {
-      MusculosLogger.logError(error: error, message: "Could not unarchive query anchor", category: .healthKit)
-    }
-    return nil
-  }
-  
-  private func setStoredAnchor(_ anchor: HKQueryAnchor) {
-    self.anchor = anchor
+  private func updateQueryAnchor(_ anchor: HKQueryAnchor) {
+    self.queryAnchor = anchor
     
     if let anchorData = try? NSKeyedArchiver.archivedData(withRootObject: anchor as Any, requiringSecureCoding: false) {
       UserDefaults.standard.setValue(anchorData, forKey: UserDefaultsConstants.healthKitAnchor.rawValue)

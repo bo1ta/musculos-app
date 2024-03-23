@@ -21,18 +21,18 @@ class HealthKitViewModel: ObservableObject {
   func requestPermissions() async {
     guard !isAuthorized else { return }
     
-    await manager.setUpPermissions(healthStore: self.healthStore)
+    await manager.setUpPermissions(healthStore: healthStore)
     updateAuthorizationStatus()
   }
   
   @MainActor
   func loadUserSteps() async {
     do {
-      if let stepsCount = try await self.manager.readStepCount(healthStore: self.healthStore) {
-        self.userStepsCount = String(stepsCount)
+      if let stepsCount = try await manager.readStepCount(healthStore: healthStore) {
+        userStepsCount = String(stepsCount)
       }
     } catch {
-      self.errorMessage = "Could not load data"
+      errorMessage = "Could not load data"
     }
   }
 }
