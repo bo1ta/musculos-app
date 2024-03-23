@@ -11,9 +11,7 @@ import HealthKitUI
 struct OnboardingWizardView: View {
   @EnvironmentObject private var userStore: UserStore
   @StateObject private var viewModel = OnboardingWizardViewModel()
-  
-  @State private var showHealthKitPermissions: Bool = false
-  
+    
   var body: some View {
     VStack {
       navigationBar
@@ -37,11 +35,6 @@ struct OnboardingWizardView: View {
       
       Spacer()
       primaryButton
-    }
-    .onAppear {
-      if HKHealthStore.isHealthDataAvailable() {
-        showHealthKitPermissions.toggle()
-      }
     }
     .padding([.leading, .trailing], 10)
   }
