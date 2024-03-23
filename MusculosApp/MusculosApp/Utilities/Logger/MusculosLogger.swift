@@ -13,6 +13,7 @@ final class MusculosLogger {
     case networking
     case coreData
     case ui
+    case healthKit
   }
   
   static func logInfo(message: String, category: LogCategory) {

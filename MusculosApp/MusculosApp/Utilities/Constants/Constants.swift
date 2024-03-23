@@ -96,3 +96,9 @@ enum CategoryType: String {
     case olympicWeightlifting = "olympic weightlifting"
 }
 extension CategoryType: CaseIterable {}
+
+// MARK: - User Defaults Constants
+
+enum UserDefaultsConstants: String {
+  case healthKitAnchor
+}

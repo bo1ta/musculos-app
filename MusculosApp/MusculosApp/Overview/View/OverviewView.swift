@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OverviewView: View {
   @EnvironmentObject private var userStore: UserStore
+  @EnvironmentObject private var healthKitViewModel: HealthKitViewModel
   
   var body: some View {
     ScrollView {
@@ -29,6 +30,10 @@ struct OverviewView: View {
         WhiteBackgroundCard()
       }
       .padding([.leading, .trailing], 15)
+    }
+    .task {
+      await healthKitViewModel.requestPermissions()
+      await healthKitViewModel.loadUserSteps()
     }
     .scrollIndicators(.hidden)
   }
@@ -79,7 +84,7 @@ extension OverviewView {
       
       HStack(spacing: 15) {
         HighlightCard(title: "Steps",
-                      value: "11,857",
+                      value: healthKitViewModel.userStepsCount ?? "11,857",
                       description: "updated 15 min ago",
                       imageName: "figure.run")
         HighlightCard(title: "Sleep",
@@ -185,5 +190,7 @@ extension OverviewView {
 }
 
 #Preview {
-  OverviewView().environmentObject(UserStore())
+  OverviewView()
+    .environmentObject(UserStore())
+    .environmentObject(HealthKitViewModel())
 }
