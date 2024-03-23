@@ -11,25 +11,39 @@ import HealthKit
 
 class HealthKitViewModel: ObservableObject {
   @Published var userStepsCount: String = ""
+  @Published var sleepTime: String = ""
   @Published var isAuthorized: Bool = false
   @Published var errorMessage: String = ""
   
   private let healthStore = HKHealthStore()
-  private let manager = HealthKitManager()
+  private let manager: HealthKitManager
+  
+  init() {
+    self.manager = HealthKitManager(healthStore: healthStore)
+  }
   
   @MainActor
   func requestPermissions() async {
-    guard !isAuthorized else { return }
-    
-    await manager.setUpPermissions(healthStore: healthStore)
+    await manager.setUpPermissions()
     updateAuthorizationStatus()
   }
   
   @MainActor
   func loadUserSteps() async {
     do {
-      if let stepsCount = try await manager.readStepCount(healthStore: healthStore) {
+      if let stepsCount = try await manager.readStepCount() {
         userStepsCount = String(stepsCount)
+      }
+    } catch {
+      errorMessage = "Could not load data"
+    }
+  }
+  
+  @MainActor
+  func loadSleepAnalysis() async {
+    do {
+      if let sleepAnalysis = try await manager.readSleepAnalysis() {
+        sleepTime = String(sleepAnalysis)
       }
     } catch {
       errorMessage = "Could not load data"
@@ -41,7 +55,7 @@ class HealthKitViewModel: ObservableObject {
 
 extension HealthKitViewModel {
   private func updateAuthorizationStatus() {
-    let stepQuantity = HKQuantityType(.stepCount)
+    let stepQuantity = HKCategoryType(.sleepAnalysis)
     
     let status = healthStore.authorizationStatus(for: stepQuantity)
     switch status {

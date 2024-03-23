@@ -9,9 +9,20 @@ import Foundation
 import HealthKit
 
 class HealthKitManager {
+  static let toSharePermissions: Set<HKSampleType> = [
+    HKQuantityType(.stepCount),
+    HKCategoryType(.sleepAnalysis)
+  ]
+  static let toReadPermissions: Set<HKSampleType> = [
+    HKQuantityType(.stepCount),
+    HKCategoryType(.sleepAnalysis)
+  ]
+  
+  private let healthStore: HKHealthStore
   private var queryAnchor: HKQueryAnchor?
   
-  init() {
+  init(healthStore: HKHealthStore) {
+    self.healthStore = healthStore
     setUpQueryAnchor()
   }
 }
@@ -19,12 +30,11 @@ class HealthKitManager {
 // MARK: - Setup
 
 extension HealthKitManager {
-  func setUpPermissions(healthStore: HKHealthStore) async {
+  func setUpPermissions() async {
     guard HKHealthStore.isHealthDataAvailable() else { return }
-    
-    let stepsCount = HKQuantityType(.stepCount)
+ 
     do {
-      try await healthStore.requestAuthorization(toShare: [stepsCount], read: [stepsCount])
+      try await healthStore.requestAuthorization(toShare: Self.toSharePermissions, read: Self.toReadPermissions)
     } catch {
       MusculosLogger.logError(error: error, message: "Error setting up health kit", category: .healthKit)
     }
@@ -45,16 +55,44 @@ extension HealthKitManager {
 // MARK: - Read methods
 
 extension HealthKitManager {
-  func readStepCount(day: Date = Date(), healthStore: HKHealthStore) async throws -> Double? {
-    let stepsCount = HKQuantityType(.stepCount)
-    let startOfDay = Calendar.current.startOfDay(for: day)
-    let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: day, options: .strictStartDate)
-    let anchorDescription = HKAnchoredObjectQueryDescriptor(predicates: [.quantitySample(type: stepsCount, predicate: predicate)], anchor: nil)
+  func readStepCount(day: Date = Date()) async throws -> Double? {
+    let predicate = HKQuery.predicateForSamples(
+      withStart: Date.yesterday,
+      end: day,
+      options: .strictEndDate
+    )
+    let anchorDescription = HKAnchoredObjectQueryDescriptor(
+      predicates: [
+        .quantitySample(type: HKQuantityType(.stepCount), predicate: predicate)
+      ],
+      anchor: queryAnchor
+    )
     
     let results = try await anchorDescription.result(for: healthStore)
+    let sample = results.addedSamples.first?.quantity.doubleValue(for: .count())
+    MusculosLogger.logInfo(message: "Steps count: \(sample)", category: .healthKit)
+    
     updateQueryAnchor(results.newAnchor)
     
-    return results.addedSamples.first?.quantity.doubleValue(for: .count())
+    return sample
+  }
+  
+  func readSleepAnalysis(startDate: Date = Date.yesterday, endDate: Date = Date()) async throws -> Int? {
+    let predicate = HKQuery.predicateForCategorySamples(
+      with: .equalTo,
+      value: HKCategoryValueSleepAnalysis.inBed.rawValue
+    )
+    let anchorDescription = HKAnchoredObjectQueryDescriptor(
+      predicates: [
+        .categorySample(type: HKCategoryType(.sleepAnalysis), predicate: predicate)
+      ],
+      anchor: queryAnchor
+    )
+    
+    let results = try await anchorDescription.result(for: healthStore)
+    let sample = results.addedSamples.first?.value
+    MusculosLogger.logInfo(message: "Sleep analysis: \(sample)", category: .healthKit)
+    return sample
   }
 }
 

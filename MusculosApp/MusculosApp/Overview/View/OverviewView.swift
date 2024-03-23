@@ -34,6 +34,7 @@ struct OverviewView: View {
     .task {
       await healthKitViewModel.requestPermissions()
       await healthKitViewModel.loadUserSteps()
+      await healthKitViewModel.loadSleepAnalysis()
     }
     .scrollIndicators(.hidden)
   }
