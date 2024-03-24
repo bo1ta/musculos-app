@@ -24,9 +24,9 @@ class UserDataStore: BaseDataStore {
   }
   
   func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async {
-    guard let userProfile = await UserProfile.currentUserProfile(context: writeOnlyContext) else { return }
-    
-    await writeOnlyContext.performAndSaveIfNeeded {
+    await writeOnlyContext.performAndSaveIfNeeded { [weak self] in
+      guard let self, let userProfile = UserProfile.currentUserProfile(context: self.writeOnlyContext) else { return }
+  
       userProfile.gender = gender?.rawValue
       if let weight {
         userProfile.weight = NSNumber(integerLiteral: weight)
