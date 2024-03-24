@@ -32,11 +32,11 @@ class HealthKitManager {
 extension HealthKitManager {
   func setUpPermissions() async {
     guard HKHealthStore.isHealthDataAvailable() else { return }
- 
+    
     do {
       try await healthStore.requestAuthorization(toShare: Self.toSharePermissions, read: Self.toReadPermissions)
     } catch {
-      MusculosLogger.logError(error: error, message: "Error setting up health kit", category: .healthKit)
+      MusculosLogger.logError(error, message: "Error setting up health kit", category: .healthKit)
     }
   }
   
@@ -47,7 +47,7 @@ extension HealthKitManager {
       let anchor = try NSKeyedUnarchiver.unarchivedObject(ofClass: HKQueryAnchor.self, from: data)
       self.queryAnchor = anchor
     } catch {
-      MusculosLogger.logError(error: error, message: "Could not unarchive query anchor", category: .healthKit)
+      MusculosLogger.logError(error, message: "Could not unarchive query anchor", category: .healthKit)
     }
   }
 }
@@ -69,11 +69,10 @@ extension HealthKitManager {
     )
     
     let results = try await anchorDescription.result(for: healthStore)
-    let sample = results.addedSamples.first?.quantity.doubleValue(for: .count())
-    MusculosLogger.logInfo(message: "Steps count: \(sample)", category: .healthKit)
-    
     updateQueryAnchor(results.newAnchor)
     
+    let sample = results.addedSamples.first?.quantity.doubleValue(for: .count())
+    MusculosLogger.logInfo(message: "Steps count", category: .healthKit, properties: ["step_count": sample as Any])
     return sample
   }
   
@@ -90,8 +89,10 @@ extension HealthKitManager {
     )
     
     let results = try await anchorDescription.result(for: healthStore)
+    updateQueryAnchor(results.newAnchor)
+    
     let sample = results.addedSamples.first?.value
-    MusculosLogger.logInfo(message: "Sleep analysis: \(sample)", category: .healthKit)
+    MusculosLogger.logInfo(message: "Sleep analysis", category: .healthKit, properties: ["bedtime_sleep": sample as Any])
     return sample
   }
 }

@@ -26,7 +26,7 @@ class CoreDataStack {
 
     self.persistentContainer.loadPersistentStores { _, error in
       if let error = error {
-        MusculosLogger.logError(error: error, message: "Failed to load persistent store", category: .coreData)
+        MusculosLogger.logError(error, message: "Failed to load persistent store", category: .coreData)
       }
     }
 
@@ -44,14 +44,14 @@ extension CoreDataStack {
     let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("MusculosDataStore.sqlite")
 
     guard FileManager.default.fileExists(atPath: url.path) else {
-      MusculosLogger.logError(error: MusculosError.notFound, message: "Could not find sqlite db", category: .coreData)
+      MusculosLogger.logError(MusculosError.notFound, message: "Could not find sqlite db", category: .coreData)
       return
     }
 
     do {
       try self.persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, type: .sqlite)
     } catch {
-      MusculosLogger.logError(error: error, message: "Could not destroy persistent store", category: .coreData)
+      MusculosLogger.logError(error, message: "Could not destroy persistent store", category: .coreData)
     }
   }
 

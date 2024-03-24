@@ -83,7 +83,7 @@ public class UserProfile: NSManagedObject, Codable, UserProfileProvider {
         let userProfiles: [UserProfile]? = try context.fetch(fetchRequest)
         return userProfiles?.first
       } catch {
-        MusculosLogger.logError(error: error, message: "Current user profile error", category: .coreData)
+        MusculosLogger.logError(error, message: "Current user profile error", category: .coreData)
         return nil
       }
   }
