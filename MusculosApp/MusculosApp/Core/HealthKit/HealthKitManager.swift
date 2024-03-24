@@ -11,11 +11,13 @@ import HealthKit
 class HealthKitManager {
   static let toSharePermissions: Set<HKSampleType> = [
     HKQuantityType(.stepCount),
-    HKCategoryType(.sleepAnalysis)
+    HKCategoryType(.sleepAnalysis),
+    HKQuantityType(.dietaryWater)
   ]
   static let toReadPermissions: Set<HKSampleType> = [
     HKQuantityType(.stepCount),
-    HKCategoryType(.sleepAnalysis)
+    HKCategoryType(.sleepAnalysis),
+    HKQuantityType(.dietaryWater)
   ]
   
   private let healthStore: HKHealthStore
@@ -69,8 +71,6 @@ extension HealthKitManager {
     )
     
     let results = try await anchorDescription.result(for: healthStore)
-    updateQueryAnchor(results.newAnchor)
-    
     let sample = results.addedSamples.first?.quantity.doubleValue(for: .count())
     MusculosLogger.logInfo(message: "Steps count", category: .healthKit, properties: ["step_count": sample as Any])
     return sample
@@ -95,6 +95,28 @@ extension HealthKitManager {
     MusculosLogger.logInfo(message: "Sleep analysis", category: .healthKit, properties: ["bedtime_sleep": sample as Any])
     return sample
   }
+  
+  func readDietaryWater(startDate: Date = Date.yesterday, endDate: Date = Date()) async throws -> Double? {
+    let predicate = HKQuery
+      .predicateForSamples(
+        withStart: startDate,
+        end: endDate,
+        options: .strictEndDate
+      )
+    let anchorDescription = HKAnchoredObjectQueryDescriptor(
+      predicates: [
+        .quantitySample(type: HKQuantityType(.dietaryWater))
+      ],
+      anchor: queryAnchor
+    )
+    
+    let results = try await anchorDescription.result(for: healthStore)
+    let sample = results.addedSamples.first?.quantity.doubleValue(for: .fluidOunceImperial())
+    MusculosLogger.logInfo(message: "Water analysis", category: .healthKit, properties: ["water_drank": sample as Any])
+    return sample
+  }
+  
+  
 }
 
 // MARK: - Private helpers
