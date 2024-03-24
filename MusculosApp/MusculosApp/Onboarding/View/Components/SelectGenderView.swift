@@ -31,6 +31,8 @@ struct SelectGenderView: View {
 
   func createGenderCard(_ gender: Gender) -> some View {
     let isSelected = selectedGender == gender
+    let selectedColor = isSelected ? Color.AppColor.blue600 : .black
+  
     return VStack(spacing: 20) {
       Button {
         selectedGender = gender
@@ -39,17 +41,17 @@ struct SelectGenderView: View {
           .foregroundStyle(.white)
           .frame(height: 180)
           .frame(maxWidth: .infinity)
-          .shadow(color: isSelected ? Color.AppColor.blue500 : .gray, radius: 4)
+          .shadow(color: selectedColor, radius: 4)
           .overlay {
             Text(gender == .male ? "♂" : "♀")
               .font(.system(size: 64))
-              .foregroundStyle(isSelected ? Color.AppColor.blue500 : .black)
+              .foregroundStyle(selectedColor)
           }
       }
       .scaleEffect(isSelected ? 0.95 : 1.0)
       Text(gender.rawValue.capitalized)
         .font(.body(.regular, size: 20))
-        .foregroundStyle(selectedGender == gender ? Color.AppColor.blue500 : .black)
+        .foregroundStyle(selectedColor)
     }
     .padding()
   }

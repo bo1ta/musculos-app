@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import HealthKit
 
 @main
 struct MusculosApp: App {
   @ObservedObject private var userStore = UserStore()
   @ObservedObject private var exerciseStore = ExerciseStore()
-
+  @ObservedObject private var healthKitViewModel = HealthKitViewModel()
+  
   var body: some Scene {
     WindowGroup {
       GeometryReader { proxy in
@@ -33,6 +35,7 @@ struct MusculosApp: App {
         }
       }
       .environmentObject(userStore)
+      .environmentObject(healthKitViewModel)
     }
   }
 }

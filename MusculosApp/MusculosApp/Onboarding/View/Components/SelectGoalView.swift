@@ -47,6 +47,7 @@ struct SelectGoalView: View {
             if !isSelected {
               goal.image
                 .font(.system(size: 25))
+                .foregroundStyle(color)
             } else {
               Circle()
                 .frame(width: 35, height: 35)

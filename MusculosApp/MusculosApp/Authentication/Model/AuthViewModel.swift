@@ -43,7 +43,7 @@ class AuthViewModel: ObservableObject {
         self.isLoggedIn = true
       } catch {
         self.errorMessage = "Unable to sign in. Please try again"
-        MusculosLogger.logError(error: error, message: "Sign in failed", category: .networking)
+        MusculosLogger.logError(error, message: "Sign in failed", category: .networking)
       }
     }
   }
@@ -64,7 +64,7 @@ class AuthViewModel: ObservableObject {
         self.isLoggedIn = true
       } catch {
         self.errorMessage = "Unable to sign up. Please try again"
-        MusculosLogger.logError(error: error, message: "Sign up failed", category: .networking)
+        MusculosLogger.logError(error, message: "Sign up failed", category: .networking)
       }
     }
   }

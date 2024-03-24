@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import HealthKitUI
 
 struct OnboardingWizardView: View {
   @EnvironmentObject private var userStore: UserStore
   @StateObject private var viewModel = OnboardingWizardViewModel()
-  
+    
   var body: some View {
     VStack {
       navigationBar

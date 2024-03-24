@@ -27,7 +27,7 @@ extension NSManagedObjectContext {
       try save()
     } catch {
       rollback()
-      MusculosLogger.logError(error: error, message: "Failed to save context", category: .coreData)
+      MusculosLogger.logError(error, message: "Failed to save context", category: .coreData)
     }
   }
   

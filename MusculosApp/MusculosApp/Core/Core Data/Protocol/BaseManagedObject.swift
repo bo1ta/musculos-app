@@ -22,7 +22,7 @@ extension BaseManagedObject {
           result = existingObject
         }
       } catch {
-        MusculosLogger.logError(error: error, message: "Could not convert context", category: .coreData)
+        MusculosLogger.logError(error, message: "Could not convert context", category: .coreData)
       }
     }
     return result

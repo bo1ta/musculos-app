@@ -17,7 +17,7 @@ class OnboardingWizardViewModel: ObservableObject {
   
   // false if we are at the last step -- at that point we have to submit the data
   var canHandleNextStep: Bool {
-    wizardStep == .goal
+    wizardStep != .goal
   }
   
   func handleNextStep() {
