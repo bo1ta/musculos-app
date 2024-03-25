@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct SelectMuscleView: View {
+  typealias MuscleInfo = MuscleConstant.MuscleInfo
+  typealias MuscleName = MuscleConstant.MuscleName
+  typealias MuscleData = MuscleConstant.MuscleData
+  
   @Environment(\.dismiss) var dismiss
 
   @State private var frontMusclesIds: [Int]

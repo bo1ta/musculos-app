@@ -10,10 +10,7 @@ import os.log
 
 final class MusculosLogger {
   enum LogCategory: String {
-    case networking
-    case coreData
-    case ui
-    case healthKit
+    case networking, coreData, ui, healthKit
   }
   
   enum AccessLevel: String {
@@ -46,7 +43,6 @@ extension MusculosLogger {
                                           category: LogCategory,
                                           properties: [String: Any]) -> String {
     var logMessage: String
-    
     if let error = error {
       logMessage = "🟥 \(category.rawValue.uppercased()) ERROR: \(error.localizedDescription) INFO: \(message)"
     } else {

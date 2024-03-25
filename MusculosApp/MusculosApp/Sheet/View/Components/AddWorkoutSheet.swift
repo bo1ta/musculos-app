@@ -31,18 +31,19 @@ struct AddWorkoutSheet: View {
       cardSection
         .padding(.top, 20)
     }
+    .scrollIndicators(.hidden)
     .padding([.leading, .trailing, .top], 15)
     .onChange(of: categoryObserver.debouncedQuery) { categoryQuery in
       exerciseStore.searchByMuscleQuery(categoryQuery)
     }
-//    .safeAreaInset(edge: .bottom) {
-//      Button(action: {}, label: {
-//        Text("Save")
-//          .frame(maxWidth: .infinity)
-//      })
-//      .buttonStyle(PrimaryButton())
-//      .padding([.leading, .trailing], 10)
-//    }
+    .safeAreaInset(edge: .bottom) {
+      Button(action: {}, label: {
+        Text("Save")
+          .frame(maxWidth: .infinity)
+      })
+      .buttonStyle(PrimaryButton())
+      .padding([.leading, .trailing], 10)
+    }
   }
 }
 
@@ -82,14 +83,12 @@ extension AddWorkoutSheet {
       
       switch exerciseStore.state {
       case .loading:
-        VStack {
-          CardItemShimmering()
-          CardItemShimmering()
-          CardItemShimmering()
-          CardItemShimmering()
-          CardItemShimmering()
-          CardItemShimmering()
-        }
+        CardItemShimmering()
+        CardItemShimmering()
+        CardItemShimmering()
+        CardItemShimmering()
+        CardItemShimmering()
+        CardItemShimmering()
       case .loaded(let exercises):
         ForEach(combineWithSelected(exercises), id: \.hashValue) { exercise in
           makeCardItem(exercise: exercise)
@@ -108,8 +107,8 @@ extension AddWorkoutSheet {
     CardItem(title: exercise.name,
              isSelected: selectedExercises.contains(exercise),
              onSelect: { didSelectExercise(exercise) })
-    .onLongPressGesture { showExercise = exercise }
   }
+  
   
   private func didSelectExercise(_ exercise: Exercise) {
     if let index = selectedExercises.firstIndex(of: exercise) {

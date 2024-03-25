@@ -23,11 +23,11 @@ class SearchFilterViewModel: ObservableObject {
   @Published var showDurationFilter: Bool = true
   @Published var showEquipmentFilter: Bool = true
   
-  let muscleFilters = MuscleType.allCases.map { $0.rawValue }
-  let forceFilters = ForceType.allCases.map { $0.rawValue }
-  let levelFilters = LevelType.allCases.map { $0.rawValue }
-  let equipmentFilters = EquipmentType.allCases.map { $0.rawValue }
-  let categoryFilters = CategoryType.allCases.map { $0.rawValue }
+  let muscleFilters = ExerciseConstant.MuscleType.allCases.map { $0.rawValue }
+  let forceFilters = ExerciseConstant.ForceType.allCases.map { $0.rawValue }
+  let levelFilters = ExerciseConstant.LevelType.allCases.map { $0.rawValue }
+  let equipmentFilters = ExerciseConstant.EquipmentType.allCases.map { $0.rawValue }
+  let categoryFilters = ExerciseConstant.CategoryType.allCases.map { $0.rawValue }
   
   func resetFilters() {
     selectedMuscleFilters = []

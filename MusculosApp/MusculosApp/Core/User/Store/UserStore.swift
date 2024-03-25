@@ -16,7 +16,7 @@ class UserStore: ObservableObject {
   @Published var isOnboarded: Bool = false {
     didSet {
       DispatchQueue.main.async {
-        UserDefaults.standard.setValue(self.isOnboarded, forKey: UserDefaultsKey.isOnboarded.rawValue)
+        UserDefaults.standard.setValue(self.isOnboarded, forKey: UserDefaultsKeyConstant.isOnboarded.rawValue)
       }
     }
   }
@@ -36,11 +36,11 @@ class UserStore: ObservableObject {
   
   @MainActor
   func initialLoad() {
-    if let _ = UserDefaults.standard.string(forKey: UserDefaultsKey.authToken.rawValue) {
+    if let _ = UserDefaults.standard.string(forKey: UserDefaultsKeyConstant.authToken.rawValue) {
       self.isLoggedIn = true
     }
     
-    let isOnboarded = UserDefaults.standard.bool(forKey: UserDefaultsKey.isOnboarded.rawValue)
+    let isOnboarded = UserDefaults.standard.bool(forKey: UserDefaultsKeyConstant.isOnboarded.rawValue)
     if isOnboarded {
       self.isOnboarded = true
     }

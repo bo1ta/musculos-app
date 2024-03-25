@@ -43,7 +43,7 @@ extension HealthKitManager {
   }
   
   private func setUpQueryAnchor() {
-    guard let data = UserDefaults.standard.object(forKey: UserDefaultsConstants.healthKitAnchor.rawValue) as? Data else { return }
+    guard let data = UserDefaults.standard.object(forKey: UserDefaultsKeyConstant.healthKitAnchor.rawValue) as? Data else { return }
     
     do {
       let anchor = try NSKeyedUnarchiver.unarchivedObject(ofClass: HKQueryAnchor.self, from: data)
@@ -97,12 +97,6 @@ extension HealthKitManager {
   }
   
   func readDietaryWater(startDate: Date = Date.yesterday, endDate: Date = Date()) async throws -> Double? {
-    let predicate = HKQuery
-      .predicateForSamples(
-        withStart: startDate,
-        end: endDate,
-        options: .strictEndDate
-      )
     let anchorDescription = HKAnchoredObjectQueryDescriptor(
       predicates: [
         .quantitySample(type: HKQuantityType(.dietaryWater))
@@ -126,7 +120,7 @@ extension HealthKitManager {
     self.queryAnchor = anchor
     
     if let anchorData = try? NSKeyedArchiver.archivedData(withRootObject: anchor as Any, requiringSecureCoding: false) {
-      UserDefaults.standard.setValue(anchorData, forKey: UserDefaultsConstants.healthKitAnchor.rawValue)
+      UserDefaults.standard.setValue(anchorData, forKey: UserDefaultsKeyConstant.healthKitAnchor.rawValue)
     }
   }
 }

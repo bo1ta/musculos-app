@@ -82,6 +82,6 @@ extension AuthViewModel {
     let person = Person(email: self.email, fullName: self.fullName, username: self.username)
     await dataStore.createUserProfile(person: person)
     
-    UserDefaults.standard.setValue(token, forKey: UserDefaultsKey.authToken.rawValue)
+    UserDefaults.standard.setValue(token, forKey: UserDefaultsKeyConstant.authToken.rawValue)
   }
 }
