@@ -25,20 +25,18 @@ extension AuthModule: Authenticatable {
     if fullName.count > 0 {
       body["fullName"] = fullName
     }
-    
     let request = APIRequest(method: .post, path: .register, body: body)
-    let data = try await client.dispatch(request)
     
+    let data = try await client.dispatch(request)
     let result = try AuthenticationResult.createFrom(data)
     return result.token
   }
   
   func loginUser(email: String, password: String) async throws -> String {
     let body = ["email": email, "password": password]
-  
     let request = APIRequest(method: .post, path: .login, body: body)
+    
     let data = try await client.dispatch(request)
-  
     let result = try AuthenticationResult.createFrom(data)
     return result.token
   }

@@ -13,8 +13,11 @@ class ExerciseStore: ObservableObject {
   
   private let module: ExerciseModuleProtocol
   
+  private let exerciseFetchedResultsController: ResultsController<ExerciseEntity>?
+  
   init(module: ExerciseModuleProtocol = ExerciseModule()) {
     self.module = module
+    self.exerciseFetchedResultsController = ResultsController<ExerciseEntity>(storageManager: CoreDataStack.shared, sortedBy: [])
   }
   
   private(set) var exerciseTask: Task<Void, Never>?
@@ -53,7 +56,7 @@ class ExerciseStore: ObservableObject {
       state = .error(error.localizedDescription)
     }
   }
-  
+    
   @MainActor
   func loadFavoriteExercises() {
     state = .loading
@@ -79,6 +82,11 @@ class ExerciseStore: ObservableObject {
         self.state = .error(error.localizedDescription)
       }
     }
+  }
+  
+  @MainActor
+  func checkIsFavorite(exercise: Exercise) -> Bool {
+    return module.dataStore.isFavoriteExercise(exercise)
   }
   
   @MainActor

@@ -33,7 +33,7 @@ struct ExerciseDetailsView: View {
     .onAppear {
       DispatchQueue.main.async {
         tabBarSettings.isTabBarHidden = true
-        isFavorite = exercise.isFavorite
+        isFavorite = exerciseStore.checkIsFavorite(exercise: exercise)
       }
     }
     .onDisappear(perform: {

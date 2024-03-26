@@ -7,6 +7,9 @@
 
 import Foundation
 
+/// Utility that decodes Data into  a Codable object
+/// Supports single objects or arrays
+///
 protocol DecodableModel {
   static func createFrom(_ data: Data) async throws -> Self
   static func createArrayFrom(_ data: Data) async throws -> [Self]
@@ -26,7 +29,7 @@ extension DecodableModel where Self: Codable {
     }
   }
 
-  static func createArrayFrom(_ data: Data) async throws -> [Self] {
+  static func createArrayFrom(_ data: Data) throws -> [Self] {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
 

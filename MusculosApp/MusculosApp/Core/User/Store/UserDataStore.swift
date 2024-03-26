@@ -10,22 +10,19 @@ import CoreData
 
 class UserDataStore: BaseDataStore {
   func createUserProfile(person: Person) async {
-    await writeOnlyContext.performAndSaveIfNeeded { [weak self] in
-      guard let self else { return }
-      
-      let userProfile = UserProfile(context: self.writeOnlyContext)
+    await writerDerivedStorage.performAndSave { [unowned self] in
+      let userProfile = writerDerivedStorage.insertNewObject(ofType: UserProfile.self)
       userProfile.username = person.username
       userProfile.email = person.email
       userProfile.fullName = person.fullName
       userProfile.isCurrentUser = true
     }
-    
-    await mainContext.performAndSaveIfNeeded()
+    await viewStorage.performAndSave { }
   }
   
   func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async {
-    await writeOnlyContext.performAndSaveIfNeeded { [weak self] in
-      guard let self, let userProfile = UserProfile.currentUserProfile(context: self.writeOnlyContext) else { return }
+    await writerDerivedStorage.performAndSave { [unowned self] in
+      guard let userProfile = UserProfile.currentUserProfile(storage: writerDerivedStorage) else { return }
   
       userProfile.gender = gender?.rawValue
       if let weight {
@@ -39,6 +36,6 @@ class UserDataStore: BaseDataStore {
       }
     }
        
-    await mainContext.performAndSaveIfNeeded()
+    await viewStorage.performAndSave { }
   }
 }

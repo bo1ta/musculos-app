@@ -10,21 +10,23 @@ import Combine
 
 struct MusculosClient: MusculosClientProtocol {
   var urlSession: URLSession
+  
   init(urlSession: URLSession = .shared) {
     self.urlSession = urlSession
   }
-
+  
   func dispatch(_ request: APIRequest) async throws -> Data {
     guard let urlRequest = request.asURLRequest() else {
       throw MusculosError.badRequest
     }
-
+    
     let (data, response) = try await self.urlSession.data(for: urlRequest)
-    if let response = response as? HTTPURLResponse, !(200...299).contains(response.statusCode) {
-      throw MusculosError.httpError(response.statusCode)
+    if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+      throw MusculosError.httpError(httpResponse.statusCode)
     }
     return data
   }
+
 
   func dispatchPublisher<T: Codable>(_ request: APIRequest) -> AnyPublisher<T, MusculosError> {
     guard let urlRequest = request.asURLRequest() else {
