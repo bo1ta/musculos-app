@@ -9,23 +9,6 @@ import Foundation
 import CoreData
 
 class ExerciseDataStore: BaseDataStore {
-  func fetchExercises(limit: Int = 5, offset: Int = 0) -> [Exercise] {
-    let results = self.viewStorage.allObjects(ofType: ExerciseEntity.self, fetchLimit: limit, matching: nil, sortedBy: nil)
-    return results.map { $0.toReadOnly() }
-  }
-  
-  func fetchFavoriteExercises() -> [Exercise] {
-    let predicate = NSPredicate(format: "isFavorite == true")
-    let results = viewStorage.allObjects(ofType: ExerciseEntity.self, matching: predicate, sortedBy: nil)
-    return results.map { $0.toReadOnly() }
-  }
-  
-  func fetchExercisesByMuscle(_ muscle: String) -> [Exercise] {
-    let predicate = NSPredicate(format: "ANY primaryMuscles CONTAINS[c] %@ OR ANY secondaryMuscles CONTAINS[c] %@", muscle, muscle)
-    let results = viewStorage.allObjects(ofType: ExerciseEntity.self, matching: predicate, sortedBy: nil)
-    return results.map { $0.toReadOnly() }
-  }
-  
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async {
     await writerDerivedStorage.performAndSave { [weak self] in
       guard let self, let uuid = exercise.id else { return }
