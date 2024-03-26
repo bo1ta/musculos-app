@@ -171,6 +171,7 @@
 		BCF86C422A3678E4003293A4 /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C412A3678E4003293A4 /* ProgressBarView.swift */; };
 		BCFA25B12BB268D400F07A67 /* ResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B02BB268D400F07A67 /* ResultsController.swift */; };
 		BCFA25B32BB269F800F07A67 /* ReadOnlyConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B22BB269F800F07A67 /* ReadOnlyConvertible.swift */; };
+		BCFA25B52BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */; };
 		BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB77B2A59DF2800896C3C /* IconPill.swift */; };
 		BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7852A59EDC400896C3C /* IconPillOption.swift */; };
 /* End PBXBuildFile section */
@@ -364,6 +365,7 @@
 		BCF86C412A3678E4003293A4 /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		BCFA25B02BB268D400F07A67 /* ResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsController.swift; sourceTree = "<group>"; };
 		BCFA25B22BB269F800F07A67 /* ReadOnlyConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadOnlyConvertible.swift; sourceTree = "<group>"; };
+		BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedResultsDelegateWrapper.swift; sourceTree = "<group>"; };
 		BCFBB77B2A59DF2800896C3C /* IconPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPill.swift; sourceTree = "<group>"; };
 		BCFBB7852A59EDC400896C3C /* IconPillOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPillOption.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -605,6 +607,7 @@
 				BCCE85E72A33D7A8001BEE8B /* Extension */,
 				BC5B11FD2B65392700B344A0 /* Logger */,
 				BC52DE012B8EB8A1005A4587 /* Mocks */,
+				BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1647,6 +1650,7 @@
 				BC0170FE2AE9B948005876EE /* CircleTimerViewModel.swift in Sources */,
 				BCCE85E62A33D658001BEE8B /* AuthModule.swift in Sources */,
 				BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */,
+				BCFA25B52BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift in Sources */,
 				BCB7F2E52BB1E8A5002CB2DE /* ExerciseConstant.swift in Sources */,
 				BC1160D22A2CFB830028D8FC /* AppTabView.swift in Sources */,
 				BC01710D2AEC6FDF005876EE /* GreenGrassButton.swift in Sources */,

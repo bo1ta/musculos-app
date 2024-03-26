@@ -93,7 +93,7 @@ extension AddWorkoutSheet {
         ForEach(combineWithSelected(exercises), id: \.hashValue) { exercise in
           makeCardItem(exercise: exercise)
         }
-      case .empty(_), .error(_):
+      case .empty, .error(_):
         EmptyView()
       }
     }

@@ -14,23 +14,29 @@ class ExerciseDataStore: BaseDataStore {
     return results.map { $0.toReadOnly() }
   }
   
-  func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async {
-    await writerDerivedStorage.performAndSave { [weak self] in
-      guard let self, let uuid = exercise.id else { return }
-      
-      let exercise = writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: uuid)
-      exercise.isFavorite = isFavorite
-    }
-    await viewStorage.performAndSave { }
-  }
-  
   func fetchFavoriteExercises() -> [Exercise] {
     let predicate = NSPredicate(format: "isFavorite == true")
     let results = viewStorage.allObjects(ofType: ExerciseEntity.self, matching: predicate, sortedBy: nil)
     return results.map { $0.toReadOnly() }
   }
   
-  func isFavoriteExercise(_ exercise: Exercise) -> Bool {
+  func fetchExercisesByMuscle(_ muscle: String) -> [Exercise] {
+    let predicate = NSPredicate(format: "ANY primaryMuscles CONTAINS[c] %@ OR ANY secondaryMuscles CONTAINS[c] %@", muscle, muscle)
+    let results = viewStorage.allObjects(ofType: ExerciseEntity.self, matching: predicate, sortedBy: nil)
+    return results.map { $0.toReadOnly() }
+  }
+  
+  func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async {
+    await writerDerivedStorage.performAndSave { [weak self] in
+      guard let self, let uuid = exercise.id else { return }
+      
+      let exercise = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: uuid)
+      exercise.isFavorite = isFavorite
+    }
+    await viewStorage.performAndSave { }
+  }
+  
+  func isFavorite(exercise: Exercise) -> Bool {
     let exercise = self.viewStorage.findOrInsert(of: ExerciseEntity.self, using: exercise.id!)
     return exercise.isFavorite
   }
@@ -56,11 +62,5 @@ class ExerciseDataStore: BaseDataStore {
     await viewStorage.performAndSave {}
     
     return exercises
-  }
-  
-  func fetchExercisesByMuscle(_ muscle: String) -> [Exercise] {
-    let predicate = NSPredicate(format: "ANY primaryMuscles CONTAINS[c] %@ OR ANY secondaryMuscles CONTAINS[c] %@", muscle, muscle)
-    let results = viewStorage.allObjects(ofType: ExerciseEntity.self, matching: predicate, sortedBy: nil)
-    return results.map { $0.toReadOnly() }
   }
 }
