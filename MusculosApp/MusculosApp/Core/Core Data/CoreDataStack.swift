@@ -8,34 +8,47 @@
 import Foundation
 import CoreData
 
-class CoreDataStack {
-  let persistentContainer: NSPersistentContainer
-  let mainContext: NSManagedObjectContext
-  let writeOnlyContext: NSManagedObjectContext
-  
-  init(inMemory: Bool = false) {
-    persistentContainer = NSPersistentContainer(name: "MusculosDataStore")
-    if inMemory {
-      persistentContainer.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
-    }
+class CoreDataStack: StorageManagerType {
+  public lazy var persistentContainer: NSPersistentContainer = {
+    let container = NSPersistentContainer(name: "MusculosDataStore")
     
-    let description = persistentContainer.persistentStoreDescriptions.first
+    let description = container.persistentStoreDescriptions.first
     description?.type = NSSQLiteStoreType
     description?.shouldMigrateStoreAutomatically = true
     description?.shouldInferMappingModelAutomatically = true
-
-    self.persistentContainer.loadPersistentStores { _, error in
+    
+    container.loadPersistentStores { _, error in
       if let error = error {
         MusculosLogger.logError(error, message: "Failed to load persistent store", category: .coreData)
       }
     }
-
-    mainContext = persistentContainer.viewContext
-    mainContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     
-    writeOnlyContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-    writeOnlyContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-    writeOnlyContext.parent = mainContext
+    return container
+  }()
+  
+  public var viewStorage: StorageType {
+    return persistentContainer.viewContext
+  }
+  
+  public lazy var writerDerivedStorage: StorageType = {
+    let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+    managedObjectContext.parent = persistentContainer.viewContext
+    managedObjectContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    return managedObjectContext
+  }()
+  
+  func saveDerivedType(_ derivedStorage: StorageType) async {
+    await derivedStorage.performAndSave { }
+    await viewStorage.performAndSave { }
+  }
+  
+  func reset() {
+    let viewContext = persistentContainer.viewContext
+    viewContext.performAndWait {
+      viewContext.reset()
+      self.deleteAllStoredObjects()
+      MusculosLogger.logInfo(message: "CoreDataStack DESTROYED ! 💣", category: .coreData)
+    }
   }
 }
 
@@ -55,14 +68,16 @@ extension CoreDataStack {
     }
   }
 
-  func deleteAll() async {
+  func deleteAllStoredObjects() {
+    let viewContext = persistentContainer.viewContext
+    
     for e in persistentContainer.persistentStoreCoordinator.managedObjectModel.entities {
       let r = NSBatchDeleteRequest(
         fetchRequest: NSFetchRequest(entityName: e.name ?? "")
       )
-      _ = try? mainContext.execute(r)
+      _ = try? viewContext.execute(r)
     }
-    await mainContext.performAndSaveIfNeeded()
+    viewContext.saveIfNeeded()
   }
 }
 

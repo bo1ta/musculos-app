@@ -9,12 +9,15 @@ import Foundation
 import SwiftUI
 
 class ExerciseStore: ObservableObject {
-  @Published var state: LoadingViewState<[Exercise]> = .empty("")
+  @Published var state: LoadingViewState<[Exercise]> = .empty
   
   private let module: ExerciseModuleProtocol
+  private let fetchedResultsController: ResultsController<ExerciseEntity>
   
   init(module: ExerciseModuleProtocol = ExerciseModule()) {
     self.module = module
+    self.fetchedResultsController = ResultsController<ExerciseEntity>(storageManager: CoreDataStack.shared, sortedBy: [])
+    self.setUpFetchedResultsController()
   }
   
   private(set) var exerciseTask: Task<Void, Never>?
@@ -27,8 +30,13 @@ class ExerciseStore: ObservableObject {
     }
     return [[]]
   }
-  
-  func loadExercises() {
+}
+
+// MARK: - Networking
+
+extension ExerciseStore {
+
+  func loadRemoteExercises() {
     exerciseTask = Task { @MainActor [weak self] in
       guard let self else { return }
       self.state = .loading
@@ -42,31 +50,6 @@ class ExerciseStore: ObservableObject {
     }
   }
   
-  @MainActor
-  func loadLocalExercises() {
-    state = .loading
-    
-    do {
-      let exercises = try module.dataStore.fetchExercises()
-      state = .loaded(exercises)
-    } catch {
-      state = .error(error.localizedDescription)
-    }
-  }
-  
-  @MainActor
-  func loadFavoriteExercises() {
-    state = .loading
-
-    do {
-      let exercises = try module.dataStore.fetchFavoriteExercises()
-      state = .loaded(exercises)
-    } catch {
-      state = .error(error.localizedDescription)
-    }
-  }
-  
-  @MainActor
   func searchByMuscleQuery(_ query: String) {
     searchTask = Task { @MainActor [weak self] in
       guard let self else { return }
@@ -81,25 +64,6 @@ class ExerciseStore: ObservableObject {
     }
   }
   
-  @MainActor
-  func localSearchByMuscleQuery(_ query: String) {
-    state = .loading
-    
-    do {
-      let exercises = try module.dataStore.fetchExercisesByMuscle(query)
-      self.state = .loaded(exercises)
-    } catch {
-      self.state = .error(error.localizedDescription)
-    }
-  }
-  
-  func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
-    favoriteTask = Task { @MainActor [ weak self] in
-      guard let self else { return }
-      await self.module.dataStore.favoriteExercise(exercise, isFavorite: isFavorite)
-    }
-  }
-  
   func cleanUp() {
     searchTask?.cancel()
     searchTask = nil
@@ -109,5 +73,83 @@ class ExerciseStore: ObservableObject {
     
     exerciseTask?.cancel()
     exerciseTask = nil
+  }
+}
+
+// MARK: - Core Data
+
+extension ExerciseStore {
+  
+  @MainActor
+  func loadLocalExercises() {
+    fetchedResultsController.predicate = makePredicate(.all)
+    updateLocalResults()
+  }
+  
+  @MainActor
+  func loadFavoriteExercises() {
+    fetchedResultsController.predicate = makePredicate(.isFavorite)
+    updateLocalResults()
+  }
+  
+  @MainActor
+  func checkIsFavorite(exercise: Exercise) -> Bool {
+    return module.dataStore.isFavorite(exercise: exercise)
+  }
+  
+  @MainActor
+  func localSearchByMuscleQuery(_ query: String) {
+    fetchedResultsController.predicate = makePredicate(.byMuscle(query))
+    updateLocalResults()
+  }
+  
+  func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
+    favoriteTask = Task { @MainActor [ weak self] in
+      guard let self else { return }
+      await self.module.dataStore.favoriteExercise(exercise, isFavorite: isFavorite)
+    }
+  }
+}
+
+// MARK: - Fetched Results Controller Helpers
+
+extension ExerciseStore {
+  private func setUpFetchedResultsController() {
+    fetchedResultsController.onDidChangeContent = { [weak self] in
+      self?.updateLocalResults()
+    }
+    fetchedResultsController.onDidResetContent = { [weak self] in
+      self?.updateLocalResults()
+    }
+    
+    do {
+      try fetchedResultsController.performFetch()
+      updateLocalResults()
+    } catch {
+      MusculosLogger.logError(error, message: "Could not perform fetch for results controller!", category: .coreData)
+    }
+  }
+  
+  private func updateLocalResults() {
+    state = .loaded(fetchedResultsController.fetchedObjects)
+  }
+}
+
+// MARK: - Predicates
+
+extension ExerciseStore {
+  private enum ExercisePredicate {
+    case isFavorite, all, byMuscle(String)
+  }
+  
+  private func makePredicate(_ exercisePredicate: ExercisePredicate) -> NSPredicate? {
+    switch exercisePredicate {
+    case .all:
+      return nil
+    case .byMuscle(let muscle):
+      return NSPredicate(format: "ANY primaryMuscles CONTAINS[c] %@ OR ANY secondaryMuscles CONTAINS[c] %@", muscle, muscle)
+    case .isFavorite:
+      return NSPredicate(format: "isFavorite == true")
+    }
   }
 }

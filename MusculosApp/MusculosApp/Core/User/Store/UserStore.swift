@@ -61,7 +61,7 @@ extension UserStore {
   func fetchUserProfile() {
     fetchUserProfileTask = Task { @MainActor [weak self] in
       guard let self else { return }
-      self.currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.mainContext)
+//      self.currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.viewStorage)
     }
   }
   

@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ExerciseCardsSection: View {
   let title: String
-  let exercises: [ExerciseProvider]
-  let onTappedExercise: (ExerciseProvider) -> Void
+  let exercises: [Exercise]
+  let onTappedExercise: (Exercise) -> Void
 
   var body: some View {
     VStack(alignment: .leading) {
@@ -29,6 +29,6 @@ struct ExerciseCardsSection: View {
 
 #Preview {
   ExerciseCardsSection(title: "Recommended exercises",
-                       exercises: [MockConstants.createMockExercise()],
+                       exercises: [ExerciseFactory.createMockExercise()],
                        onTappedExercise: { _ in })
 }

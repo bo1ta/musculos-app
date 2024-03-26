@@ -52,11 +52,11 @@ struct ExploreExerciseView: View {
                 exercises: exercises
               )
             }, hasChangedSection: { handleChangeCategorySection($0) })
-          case .empty(_):
+          case .empty:
             HintIconView(systemImage: "exclamationmark.warninglight", textHint: "No data found")
               .padding(.top, 20)
               .onAppear {
-                exerciseStore.loadExercises()
+                exerciseStore.loadRemoteExercises()
               }
           case .error(_):
             HintIconView(systemImage: "exclamationmark.warninglight", textHint: "Error fetching data")
@@ -120,12 +120,12 @@ extension ExploreExerciseView {
   
   private func handleChangeCategorySection(_ categorySection: CategorySection) {
     switch categorySection {
-    case .myFavorites:
-      exerciseStore.loadFavoriteExercises()
     case .workout:
       exerciseStore.loadLocalExercises()
     case .discover:
-      exerciseStore.loadExercises()
+      exerciseStore.loadRemoteExercises()
+    case .myFavorites:
+      exerciseStore.loadFavoriteExercises()
     }
   }
   

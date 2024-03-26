@@ -9,16 +9,16 @@ import Foundation
 import CoreData
 
 protocol BaseDataStore {
-  var writeOnlyContext: NSManagedObjectContext { get }
-  var mainContext: NSManagedObjectContext { get }
+  var writerDerivedStorage: StorageType { get }
+  var viewStorage: StorageType { get }
 }
 
 extension BaseDataStore {
-  var writeOnlyContext: NSManagedObjectContext {
-    CoreDataStack.shared.writeOnlyContext
+  var writerDerivedStorage: StorageType {
+    CoreDataStack.shared.writerDerivedStorage
   }
   
-  var mainContext: NSManagedObjectContext {
-    CoreDataStack.shared.mainContext
+  var viewStorage: StorageType {
+    CoreDataStack.shared.viewStorage
   }
 }

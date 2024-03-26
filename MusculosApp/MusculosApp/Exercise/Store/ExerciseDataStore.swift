@@ -9,94 +9,41 @@ import Foundation
 import CoreData
 
 class ExerciseDataStore: BaseDataStore {
-  func fetchExercises(limit: Int = 5, offset: Int = 0) throws -> [Exercise] {
-    let fetchRequest = Exercise.fetchRequest()
-    fetchRequest.fetchLimit = limit
-    fetchRequest.fetchOffset = offset
-    return try mainContext.fetch(fetchRequest)
-  }
-  
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async {
-    guard let writableExercise = await maybeSwitchContextFor(exercise, to: writeOnlyContext) else { return }
-    
-    await writeOnlyContext.perform { [weak self] in
-      writableExercise.isFavorite = isFavorite
-      self?.writeOnlyContext.saveIfNeeded()
+    await writerDerivedStorage.performAndSave { [weak self] in
+      guard let self, let uuid = exercise.id else { return }
+      
+      let exercise = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: uuid)
+      exercise.isFavorite = isFavorite
     }
+    await viewStorage.performAndSave { }
   }
   
-  func fetchFavoriteExercises() throws -> [Exercise] {
-    let fetchRequest = Exercise.fetchRequest()
-    fetchRequest.predicate = NSPredicate(format: "isFavorite == true")
-    return try mainContext.fetch(fetchRequest)
+  func isFavorite(exercise: Exercise) -> Bool {
+    let exercise = self.viewStorage.findOrInsert(of: ExerciseEntity.self, using: exercise.id!)
+    return exercise.isFavorite
   }
   
-  func fetchExercisesByMuscle(_ muscle: String) throws -> [Exercise] {
-    let fetchRequest = Exercise.fetchRequest()
-    fetchRequest.predicate = NSPredicate(format: "ANY primaryMuscles CONTAINS[c] %@ OR ANY secondaryMuscles CONTAINS[c] %@", muscle, muscle)
-    return try mainContext.fetch(fetchRequest)
-  }
-  
-  public func importExercisesUsingData(_ data: Data) async -> [Exercise] {
-    guard let entries = try? JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] else { return [] }
-    
-    var exercises = [Exercise]()
-    
-    await writeOnlyContext.performAndSaveIfNeeded { [weak self] in
+  func importExercises(_ exercises: [Exercise]) async -> [Exercise] {
+    await writerDerivedStorage.performAndSave { [weak self] in
       guard let self else { return }
       
-      for entry in entries {
-        let uuid = UUID(uuidString: entry["id"] as! String)!
-        let exercise = Exercise.findOrInsert(using: uuid, in: self.writeOnlyContext)
-        
-        if exercise.objectID.isTemporaryID {
-          exercise.id = uuid
-          exercise.name = entry["name"] as! String
-          exercise.equipment = entry["equipment"] as? String
-          exercise.instructions = entry["instructions"] as! [String]
-          exercise.primaryMuscles = entry["primary_muscles"] as! [String]
-          exercise.secondaryMuscles = entry["secondary_muscles"] as! [String]
-          exercise.category = entry["category"] as! String
-          exercise.force = entry["force"] as? String
-          exercise.imageUrls = entry["image_urls"] as! [String]
-          exercise.level = entry["level"] as! String
-        } else {
-          // we already have local changes, no need to update
-        }
-        
-        exercises.append(exercise)
+      _ = exercises.map { exercise in
+        let exerciseEntity = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: exercise.id)
+        exerciseEntity.id = exercise.id
+        exerciseEntity.name = exercise.name
+        exerciseEntity.equipment = exercise.equipment
+        exerciseEntity.category = exercise.category
+        exerciseEntity.force = exercise.force
+        exerciseEntity.imageUrls = exercise.imageUrls
+        exerciseEntity.instructions = exercise.instructions
+        exerciseEntity.level = exercise.level
+        exerciseEntity.primaryMuscles = exercise.primaryMuscles
+        exerciseEntity.secondaryMuscles = exercise.secondaryMuscles
       }
     }
+    await viewStorage.performAndSave {}
     
-    // change to main context so exercises can be read
-    let newExercises = await prepareExercisesForMainContext(exercises)
-    await mainContext.performAndSaveIfNeeded()
-    
-    return newExercises
-  }
-  
-  private func prepareExercisesForMainContext(_ exercises: [Exercise]) async -> [Exercise] {
-    let preparedExercises = await withTaskGroup(of: Exercise?.self, returning: [Exercise].self) { [weak self] taskGroup in
-      guard let self else { return [] }
-      
-      for exercise in exercises {
-        taskGroup.addTask { await self.maybeSwitchContextFor(exercise, to: self.mainContext) }
-      }
-      
-      var preparedExercises = [Exercise]()
-      for await result in taskGroup {
-        if let result {
-          preparedExercises.append(result)
-        }
-      }
-      return preparedExercises
-      
-    }
-    return preparedExercises
-  }
-  
-  private func maybeSwitchContextFor(_ exercise: Exercise, to context: NSManagedObjectContext) async -> Exercise? {
-    guard exercise.managedObjectContext != context else { return exercise }
-    return await exercise.toContext(context)
+    return exercises
   }
 }

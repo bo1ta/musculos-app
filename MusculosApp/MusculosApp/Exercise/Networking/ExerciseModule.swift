@@ -9,7 +9,6 @@ import Foundation
 
 protocol ExerciseModuleProtocol {
   var dataStore: ExerciseDataStore { get set }
-  
   func getExercises() async throws -> [Exercise]
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise]
 }
@@ -25,8 +24,10 @@ struct ExerciseModule: ExerciseModuleProtocol, MusculosModule {
   
   func getExercises() async throws -> [Exercise] {
     let request = APIRequest(method: .get, path: .exercises)
+    
     let data = try await client.dispatch(request)
-    return await dataStore.importExercisesUsingData(data)
+    let results = try Exercise.createArrayFrom(data)
+    return await dataStore.importExercises(results)
   }
   
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
@@ -34,6 +35,7 @@ struct ExerciseModule: ExerciseModuleProtocol, MusculosModule {
     request.queryParams = [URLQueryItem(name: "query", value: query)]
 
     let data = try await client.dispatch(request)
-    return await dataStore.importExercisesUsingData(data)
+    let results = try Exercise.createArrayFrom(data)
+    return await dataStore.importExercises(results)
   }
 }

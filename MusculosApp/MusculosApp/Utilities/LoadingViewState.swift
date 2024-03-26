@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum LoadingViewState<Result> {
+enum LoadingViewState<T> {
   case loading
-  case loaded(Result)
-  case empty(String)
+  case loaded(T)
+  case empty
   case error(String)
 }

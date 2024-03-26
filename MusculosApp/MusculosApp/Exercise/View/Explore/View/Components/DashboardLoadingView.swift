@@ -9,11 +9,7 @@ import Foundation
 import SwiftUI
 
 struct WorkoutLoadingView: View {
-  private var mockExercises: [Exercise] {
-    let exercise = MockConstants.createMockExercise()
-    let exercise2 = MockConstants.createMockExercise()
-    return [exercise, exercise2]
-  }
+  let mockExercises = [ExerciseFactory.createMockExercise(), ExerciseFactory.createMockExercise(), ExerciseFactory.createMockExercise()]
   
   var body: some View {
     VStack {

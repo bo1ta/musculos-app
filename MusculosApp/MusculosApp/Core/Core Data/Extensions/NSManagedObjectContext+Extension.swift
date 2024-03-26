@@ -20,23 +20,4 @@ extension NSManagedObjectContext {
     request.predicate = predicate
     return try fetch(request)
   }
-  
-  func saveIfNeeded() {
-    guard hasChanges else { return }
-    do {
-      try save()
-    } catch {
-      rollback()
-      MusculosLogger.logError(error, message: "Failed to save context", category: .coreData)
-    }
-  }
-  
-  func performAndSaveIfNeeded(block: (() -> Void)? = nil) async  {
-    await perform { [weak self] in
-      if let block {
-        block()
-      }
-      self?.saveIfNeeded()
-    }
-  }
 }

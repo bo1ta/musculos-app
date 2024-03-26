@@ -26,7 +26,7 @@ public class UserProfile: NSManagedObject, Codable, UserProfileProvider {
     get {
       SynchronizationState(rawValue: synchronized.intValue) ?? .notSynchronized
     }
-
+    
     set {
       synchronized = NSNumber(integerLiteral: newValue.rawValue)
     }
@@ -49,7 +49,7 @@ public class UserProfile: NSManagedObject, Codable, UserProfileProvider {
     self.fullName = try container.decode(String.self, forKey: .fullName)
     self.email = try container.decode(String.self, forKey: .email)
     self.username = try container.decode(String.self, forKey: .username)
-  
+    
     if let weight = try? container.decode(Int.self, forKey: .weight) {
       self.weight = NSNumber(integerLiteral: weight)
     }
@@ -75,15 +75,8 @@ public class UserProfile: NSManagedObject, Codable, UserProfileProvider {
     return NSFetchRequest<UserProfile>(entityName: "UserProfile")
   }
   
-  static func currentUserProfile(context: NSManagedObjectContext) -> UserProfile? {
-      let fetchRequest = UserProfile.fetchRequest()
-      fetchRequest.predicate = NSPredicate(format: "isCurrentUser == true")
-      do {
-        let userProfiles: [UserProfile]? = try context.fetch(fetchRequest)
-        return userProfiles?.first
-      } catch {
-        MusculosLogger.logError(error, message: "Current user profile error", category: .coreData)
-        return nil
-      }
+  static func currentUserProfile(storage: StorageType) -> UserProfile? {
+    let predicate = NSPredicate(format: "isCurrentUser == true")
+    return storage.firstObject(of: UserProfile.self, matching: predicate)
   }
 }

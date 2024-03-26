@@ -45,7 +45,6 @@
 		BC3FB0FB2A899A8500C3F9B1 /* EqualWidthHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0FA2A899A8500C3F9B1 /* EqualWidthHStack.swift */; };
 		BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */; };
 		BC43D33B2B6EAD8D008C1062 /* SearchFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D33A2B6EAD8D008C1062 /* SearchFilterViewModel.swift */; };
-		BC49248F2BA4D15A00344A55 /* BaseManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC49248E2BA4D15A00344A55 /* BaseManagedObject.swift */; };
 		BC52DDCB2B85144C005A4587 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDCA2B85144C005A4587 /* APIEndpoint.swift */; };
 		BC52DDCE2B85164D005A4587 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDCD2B85164D005A4587 /* APIRequest.swift */; };
 		BC52DDD12B8516B8005A4587 /* MusculosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDD02B8516B8005A4587 /* MusculosClient.swift */; };
@@ -67,7 +66,6 @@
 		BC52DDF72B8BF5E8005A4587 /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDF62B8BF5E8005A4587 /* Collection+Extension.swift */; };
 		BC52DDFD2B8D384F005A4587 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDFC2B8D384F005A4587 /* ProfileView.swift */; };
 		BC52DE002B8EB7A0005A4587 /* ExerciseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDFF2B8EB7A0005A4587 /* ExerciseProvider.swift */; };
-		BC52DE032B8EB8A8005A4587 /* ExerciseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DE022B8EB8A8005A4587 /* ExerciseFactory.swift */; };
 		BC52DE062B8EBBD2005A4587 /* UserProfileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DE052B8EBBD2005A4587 /* UserProfileProvider.swift */; };
 		BC52DE082B8EBCFA005A4587 /* UserProfileFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DE072B8EBCFA005A4587 /* UserProfileFactory.swift */; };
 		BC583B0D2BA8C76500236C0D /* OnboardingWizardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC583B0C2BA8C76500236C0D /* OnboardingWizardViewModel.swift */; };
@@ -75,16 +73,12 @@
 		BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972102A351B0F00EBB075 /* PrimaryButton.swift */; };
 		BC5B12042B658A1F00B344A0 /* TabBarSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5B12032B658A1F00B344A0 /* TabBarSettings.swift */; };
 		BC5BAC8A2AB221FC003C880E /* MusculosLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC892AB221FC003C880E /* MusculosLogger.swift */; };
-		BC5BACA52AB26CF3003C880E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */; };
 		BC5BACAC2AB26D65003C880E /* MusculosLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC892AB221FC003C880E /* MusculosLogger.swift */; };
 		BC5BACB72AB26F40003C880E /* XCTestCase+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACB62AB26F40003C880E /* XCTestCase+Extension.swift */; };
 		BC5BACBB2AB270C2003C880E /* getMuscles.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACBA2AB270C2003C880E /* getMuscles.json */; };
 		BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACBC2AB2769B003C880E /* MockURLProtocol.swift */; };
 		BC5BACC32AB280C5003C880E /* getEquipment.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACC22AB280C5003C880E /* getEquipment.json */; };
-		BC5BACC52AB29C03003C880E /* CoreDataTestStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC42AB29C03003C880E /* CoreDataTestStack.swift */; };
-		BC5BACC72AB29E07003C880E /* WorkoutManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC62AB29E07003C880E /* WorkoutManagerTests.swift */; };
 		BC5BACCA2AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC92AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift */; };
-		BC5BACCB2AB3D44E003C880E /* NSManagedObjectContext+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACC92AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift */; };
 		BC5BACCC2AB9270E003C880E /* MusculosDataStore.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */; };
 		BC5BACD52ABA28A7003C880E /* getExercises.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACD42ABA28A7003C880E /* getExercises.json */; };
 		BC5BACD92ABB6694003C880E /* ExerciseModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACD82ABB6694003C880E /* ExerciseModuleTests.swift */; };
@@ -143,6 +137,14 @@
 		BCA8C5CB2B9E485500C273C9 /* Authenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA8C5CA2B9E485500C273C9 /* Authenticatable.swift */; };
 		BCB6BF4F2AFAE84B00B6CBCE /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */; };
 		BCB7F2E52BB1E8A5002CB2DE /* ExerciseConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F2E42BB1E8A5002CB2DE /* ExerciseConstant.swift */; };
+		BCB7F2E82BB21433002CB2DE /* StorageManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F2E72BB21433002CB2DE /* StorageManagerType.swift */; };
+		BCB7F2EB2BB215FC002CB2DE /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F2EA2BB215FC002CB2DE /* StorageType.swift */; };
+		BCB7F2ED2BB2169A002CB2DE /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F2EC2BB2169A002CB2DE /* Object.swift */; };
+		BCB7F2F02BB21D68002CB2DE /* NSManagedObjectContext+Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F2EF2BB21D68002CB2DE /* NSManagedObjectContext+Storage.swift */; };
+		BCB7F2F42BB22D4C002CB2DE /* NSManagedObject+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F2F32BB22D4C002CB2DE /* NSManagedObject+Extension.swift */; };
+		BCB7F3032BB24ED6002CB2DE /* ExerciseEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F3012BB24ED6002CB2DE /* ExerciseEntity+CoreDataClass.swift */; };
+		BCB7F3042BB24ED6002CB2DE /* ExerciseEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F3022BB24ED6002CB2DE /* ExerciseEntity+CoreDataProperties.swift */; };
+		BCB7F3082BB24F87002CB2DE /* ExerciseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F3072BB24F87002CB2DE /* ExerciseFactory.swift */; };
 		BCCA20242B93A5C300E958F5 /* StatsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA20232B93A5C300E958F5 /* StatsItem.swift */; };
 		BCCA20262B93A60E00E958F5 /* StatsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA20252B93A60E00E958F5 /* StatsCard.swift */; };
 		BCCA20292B93AD6800E958F5 /* ExerciseCardsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA20282B93AD6800E958F5 /* ExerciseCardsSection.swift */; };
@@ -164,6 +166,9 @@
 		BCF86C3B2A3632BA003293A4 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */; };
 		BCF86C3D2A363A92003293A4 /* SelectedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C3C2A363A92003293A4 /* SelectedButton.swift */; };
 		BCF86C422A3678E4003293A4 /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C412A3678E4003293A4 /* ProgressBarView.swift */; };
+		BCFA25B12BB268D400F07A67 /* ResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B02BB268D400F07A67 /* ResultsController.swift */; };
+		BCFA25B32BB269F800F07A67 /* ReadOnlyConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B22BB269F800F07A67 /* ReadOnlyConvertible.swift */; };
+		BCFA25B52BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */; };
 		BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB77B2A59DF2800896C3C /* IconPill.swift */; };
 		BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7852A59EDC400896C3C /* IconPillOption.swift */; };
 /* End PBXBuildFile section */
@@ -228,7 +233,6 @@
 		BC3FB0FA2A899A8500C3F9B1 /* EqualWidthHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualWidthHStack.swift; sourceTree = "<group>"; };
 		BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkButton.swift; sourceTree = "<group>"; };
 		BC43D33A2B6EAD8D008C1062 /* SearchFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterViewModel.swift; sourceTree = "<group>"; };
-		BC49248E2BA4D15A00344A55 /* BaseManagedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseManagedObject.swift; sourceTree = "<group>"; };
 		BC52DDCA2B85144C005A4587 /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		BC52DDCD2B85164D005A4587 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		BC52DDD02B8516B8005A4587 /* MusculosClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosClient.swift; sourceTree = "<group>"; };
@@ -253,7 +257,6 @@
 		BC52DDF82B8D24F1005A4587 /* Musculos 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 6.xcdatamodel"; sourceTree = "<group>"; };
 		BC52DDFC2B8D384F005A4587 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		BC52DDFF2B8EB7A0005A4587 /* ExerciseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseProvider.swift; sourceTree = "<group>"; };
-		BC52DE022B8EB8A8005A4587 /* ExerciseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFactory.swift; sourceTree = "<group>"; };
 		BC52DE052B8EBBD2005A4587 /* UserProfileProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileProvider.swift; sourceTree = "<group>"; };
 		BC52DE072B8EBCFA005A4587 /* UserProfileFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileFactory.swift; sourceTree = "<group>"; };
 		BC583B0C2BA8C76500236C0D /* OnboardingWizardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWizardViewModel.swift; sourceTree = "<group>"; };
@@ -265,8 +268,6 @@
 		BC5BACBA2AB270C2003C880E /* getMuscles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getMuscles.json; sourceTree = "<group>"; };
 		BC5BACBC2AB2769B003C880E /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		BC5BACC22AB280C5003C880E /* getEquipment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getEquipment.json; sourceTree = "<group>"; };
-		BC5BACC42AB29C03003C880E /* CoreDataTestStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTestStack.swift; sourceTree = "<group>"; };
-		BC5BACC62AB29E07003C880E /* WorkoutManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManagerTests.swift; sourceTree = "<group>"; };
 		BC5BACC92AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Extension.swift"; sourceTree = "<group>"; };
 		BC5BACD42ABA28A7003C880E /* getExercises.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getExercises.json; sourceTree = "<group>"; };
 		BC5BACD82ABB6694003C880E /* ExerciseModuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseModuleTests.swift; sourceTree = "<group>"; };
@@ -326,6 +327,15 @@
 		BCA8C5CA2B9E485500C273C9 /* Authenticatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticatable.swift; sourceTree = "<group>"; };
 		BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		BCB7F2E42BB1E8A5002CB2DE /* ExerciseConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseConstant.swift; sourceTree = "<group>"; };
+		BCB7F2E72BB21433002CB2DE /* StorageManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManagerType.swift; sourceTree = "<group>"; };
+		BCB7F2EA2BB215FC002CB2DE /* StorageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageType.swift; sourceTree = "<group>"; };
+		BCB7F2EC2BB2169A002CB2DE /* Object.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
+		BCB7F2EF2BB21D68002CB2DE /* NSManagedObjectContext+Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Storage.swift"; sourceTree = "<group>"; };
+		BCB7F2F32BB22D4C002CB2DE /* NSManagedObject+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Extension.swift"; sourceTree = "<group>"; };
+		BCB7F2F72BB24C61002CB2DE /* Musculos 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 7.xcdatamodel"; sourceTree = "<group>"; };
+		BCB7F3012BB24ED6002CB2DE /* ExerciseEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExerciseEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BCB7F3022BB24ED6002CB2DE /* ExerciseEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExerciseEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BCB7F3072BB24F87002CB2DE /* ExerciseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFactory.swift; sourceTree = "<group>"; };
 		BCC33E682BAE005E00488123 /* MusculosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MusculosApp.entitlements; sourceTree = "<group>"; };
 		BCCA20232B93A5C300E958F5 /* StatsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsItem.swift; sourceTree = "<group>"; };
 		BCCA20252B93A60E00E958F5 /* StatsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCard.swift; sourceTree = "<group>"; };
@@ -348,6 +358,9 @@
 		BCF86C3A2A3632BA003293A4 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		BCF86C3C2A363A92003293A4 /* SelectedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedButton.swift; sourceTree = "<group>"; };
 		BCF86C412A3678E4003293A4 /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
+		BCFA25B02BB268D400F07A67 /* ResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsController.swift; sourceTree = "<group>"; };
+		BCFA25B22BB269F800F07A67 /* ReadOnlyConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadOnlyConvertible.swift; sourceTree = "<group>"; };
+		BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedResultsDelegateWrapper.swift; sourceTree = "<group>"; };
 		BCFBB77B2A59DF2800896C3C /* IconPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPill.swift; sourceTree = "<group>"; };
 		BCFBB7852A59EDC400896C3C /* IconPillOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPillOption.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -455,10 +468,10 @@
 				BC5834252B1CE34500BD7690 /* Main */,
 				BC10E42C2A3B8AB00008A72E /* Authentication */,
 				BCA24C052B6AFF7000124EC3 /* Onboarding */,
+				BC34544F2B72DEFE0074106A /* Exercise */,
 				BC97C9302BA0D57200AA07C4 /* Sheet */,
 				BC781FFA2B9B5E2F009F9FB5 /* Overview */,
 				BC52DDFB2B8D3844005A4587 /* Profile */,
-				BC34544F2B72DEFE0074106A /* Exercise */,
 				BC0171052AEC6A45005876EE /* Dashboard */,
 				BC777EF12BA0F2D9001669C8 /* Workout */,
 				BC5BACDA2ABB7596003C880E /* Anatomy */,
@@ -482,7 +495,7 @@
 		BC1160E52A2CFB840028D8FC /* MusculosAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				BC5BACD12ABA2272003C880E /* Workout */,
+				BC5BACBE2AB28030003C880E /* Exercise */,
 				BC5BAC932AB26350003C880E /* Core */,
 				BC5BACB82AB26FC8003C880E /* Supporting Files */,
 				BC1160E62A2CFB840028D8FC /* MusculosAppTests.swift */,
@@ -505,6 +518,7 @@
 				BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */,
 				BCFBB7662A59C6D700896C3C /* Models */,
 				BC49248D2BA4D0BA00344A55 /* Protocol */,
+				BCB7F2EE2BB21D4A002CB2DE /* Extensions */,
 				BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */,
 			);
 			path = "Core Data";
@@ -532,6 +546,7 @@
 		BC34544F2B72DEFE0074106A /* Exercise */ = {
 			isa = PBXGroup;
 			children = (
+				BCB7F3052BB24F62002CB2DE /* Model */,
 				BC97C9362BA0F04900AA07C4 /* View */,
 				BC3454512B72DF3A0074106A /* Store */,
 				BC3454502B72DF190074106A /* Networking */,
@@ -577,16 +592,17 @@
 		BC34545A2B758AE10074106A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				BCA8C5C62B9DFA3E00C273C9 /* AppFont.swift */,
-				BCCE85EC2A35008C001BEE8B /* AppColor.swift */,
+				BCB7F3062BB24F7A002CB2DE /* Factory */,
 				BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */,
 				BC52DDD92B85431C005A4587 /* LoadingViewState.swift */,
 				BC52DDDB2B8560DB005A4587 /* Shimmer.swift */,
 				BC52DDE42B867107005A4587 /* AsyncCachedImage.swift */,
+				BCFA25B02BB268D400F07A67 /* ResultsController.swift */,
 				BC63A5A22AC3388D006B1894 /* Constants */,
 				BCCE85E72A33D7A8001BEE8B /* Extension */,
 				BC5B11FD2B65392700B344A0 /* Logger */,
 				BC52DE012B8EB8A1005A4587 /* Mocks */,
+				BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -685,8 +701,9 @@
 		BC49248D2BA4D0BA00344A55 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				BC49248E2BA4D15A00344A55 /* BaseManagedObject.swift */,
 				BC61A2E82BA5274500493311 /* BaseDataStore.swift */,
+				BCFA25B22BB269F800F07A67 /* ReadOnlyConvertible.swift */,
+				BCB7F2E92BB215F0002CB2DE /* Storage */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -747,7 +764,6 @@
 		BC52DE012B8EB8A1005A4587 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				BC52DE022B8EB8A8005A4587 /* ExerciseFactory.swift */,
 				BC52DE072B8EBCFA005A4587 /* UserProfileFactory.swift */,
 			);
 			path = Mocks;
@@ -841,7 +857,6 @@
 			children = (
 				BC5BACB62AB26F40003C880E /* XCTestCase+Extension.swift */,
 				BC5BACBC2AB2769B003C880E /* MockURLProtocol.swift */,
-				BC5BACC42AB29C03003C880E /* CoreDataTestStack.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -872,15 +887,6 @@
 			path = Exercise;
 			sourceTree = "<group>";
 		};
-		BC5BACD12ABA2272003C880E /* Workout */ = {
-			isa = PBXGroup;
-			children = (
-				BC5BACBE2AB28030003C880E /* Exercise */,
-				BC5BACC62AB29E07003C880E /* WorkoutManagerTests.swift */,
-			);
-			path = Workout;
-			sourceTree = "<group>";
-		};
 		BC5BACDA2ABB7596003C880E /* Anatomy */ = {
 			isa = PBXGroup;
 			children = (
@@ -893,6 +899,8 @@
 		BC63A5A22AC3388D006B1894 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				BCA8C5C62B9DFA3E00C273C9 /* AppFont.swift */,
+				BCCE85EC2A35008C001BEE8B /* AppColor.swift */,
 				BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */,
 				BC63A5A32AC33896006B1894 /* MuscleConstant.swift */,
 				BCB7F2E42BB1E8A5002CB2DE /* ExerciseConstant.swift */,
@@ -1241,6 +1249,51 @@
 			path = Mock;
 			sourceTree = "<group>";
 		};
+		BCB7F2E92BB215F0002CB2DE /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				BCB7F2E72BB21433002CB2DE /* StorageManagerType.swift */,
+				BCB7F2EA2BB215FC002CB2DE /* StorageType.swift */,
+				BCB7F2EC2BB2169A002CB2DE /* Object.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		BCB7F2EE2BB21D4A002CB2DE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BCB7F2EF2BB21D68002CB2DE /* NSManagedObjectContext+Storage.swift */,
+				BC5BACC92AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift */,
+				BCB7F2F32BB22D4C002CB2DE /* NSManagedObject+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		BCB7F2FE2BB24EA7002CB2DE /* ExerciseEntity */ = {
+			isa = PBXGroup;
+			children = (
+				BCB7F3012BB24ED6002CB2DE /* ExerciseEntity+CoreDataClass.swift */,
+				BCB7F3022BB24ED6002CB2DE /* ExerciseEntity+CoreDataProperties.swift */,
+			);
+			path = ExerciseEntity;
+			sourceTree = "<group>";
+		};
+		BCB7F3052BB24F62002CB2DE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BC52DDDF2B856E64005A4587 /* Exercise.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BCB7F3062BB24F7A002CB2DE /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				BCB7F3072BB24F87002CB2DE /* ExerciseFactory.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
 		BCCA20222B93A5B600E958F5 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -1296,7 +1349,6 @@
 				BCCE85E82A33D7B5001BEE8B /* Encodable+Extension.swift */,
 				BC5925002A5C8B72000F1941 /* String+Extension.swift */,
 				BC3FB0EB2A85565400C3F9B1 /* View+Extension.swift */,
-				BC5BACC92AB3CA2A003C880E /* NSManagedObjectContext+Extension.swift */,
 				BC96C2FC2AC83B1C00F11CAB /* Array+Extension.swift */,
 				BC8E86DC2AED2DB9008E3CE4 /* UIImage+Extension.swift */,
 				BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */,
@@ -1319,9 +1371,9 @@
 		BCFBB7662A59C6D700896C3C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				BCB7F2FE2BB24EA7002CB2DE /* ExerciseEntity */,
 				BCA24C152B6C5ABE00124EC3 /* UserProfile.swift */,
 				BC52DDE72B86C765005A4587 /* SynchronizationState.swift */,
-				BC52DDDF2B856E64005A4587 /* Exercise.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1486,6 +1538,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCA8C5CB2B9E485500C273C9 /* Authenticatable.swift in Sources */,
+				BCB7F3082BB24F87002CB2DE /* ExerciseFactory.swift in Sources */,
 				BCF86C3D2A363A92003293A4 /* SelectedButton.swift in Sources */,
 				BC52DDDC2B8560DB005A4587 /* Shimmer.swift in Sources */,
 				BC583B0D2BA8C76500236C0D /* OnboardingWizardViewModel.swift in Sources */,
@@ -1500,6 +1553,7 @@
 				BC0171012AEC3E0A005876EE /* CongratulationView.swift in Sources */,
 				BC52DE002B8EB7A0005A4587 /* ExerciseProvider.swift in Sources */,
 				BC5FAA662B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift in Sources */,
+				BCB7F3042BB24ED6002CB2DE /* ExerciseEntity+CoreDataProperties.swift in Sources */,
 				BC7820062B9B8F91009F9FB5 /* StatReportCard.swift in Sources */,
 				BC781FFC2B9B5E3E009F9FB5 /* OverviewView.swift in Sources */,
 				BC5FAA622B7D8B4E00B79D4B /* ContentLengthPreferenceKey.swift in Sources */,
@@ -1512,7 +1566,9 @@
 				BCA24C122B6B33B400124EC3 /* Goal.swift in Sources */,
 				BC52DDD12B8516B8005A4587 /* MusculosClient.swift in Sources */,
 				BCCBEC722AD85158002F5E41 /* RoundedTextField.swift in Sources */,
+				BCB7F2EB2BB215FC002CB2DE /* StorageType.swift in Sources */,
 				BC781FF62B964E9A009F9FB5 /* WhiteBackgroundCard.swift in Sources */,
+				BCB7F2F42BB22D4C002CB2DE /* NSManagedObject+Extension.swift in Sources */,
 				BCA8C5C72B9DFA3E00C273C9 /* AppFont.swift in Sources */,
 				BC96C2FB2AC8310500F11CAB /* SelectMuscleView.swift in Sources */,
 				BCA87E592AE83B3800453E4B /* ChallengeView.swift in Sources */,
@@ -1534,11 +1590,12 @@
 				BC52DDEB2B880E80005A4587 /* ExerciseDataStore.swift in Sources */,
 				BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */,
 				BCE417102A7D73380088D975 /* WorkoutTabBarButton.swift in Sources */,
-				BC52DE032B8EB8A8005A4587 /* ExerciseFactory.swift in Sources */,
 				BC3454602B76CD780074106A /* ExerciseDetailsView.swift in Sources */,
 				BC43D33B2B6EAD8D008C1062 /* SearchFilterViewModel.swift in Sources */,
 				BC3FB0FB2A899A8500C3F9B1 /* EqualWidthHStack.swift in Sources */,
 				BC34545E2B76C3EA0074106A /* DebouncedQueryObserver.swift in Sources */,
+				BCFA25B32BB269F800F07A67 /* ReadOnlyConvertible.swift in Sources */,
+				BCB7F2E82BB21433002CB2DE /* StorageManagerType.swift in Sources */,
 				BC3FB0EC2A85565400C3F9B1 /* View+Extension.swift in Sources */,
 				BC7820012B9B64F1009F9FB5 /* ScoreBadge.swift in Sources */,
 				BC777F012BA127DC001669C8 /* AddActionSheetContainer.swift in Sources */,
@@ -1549,6 +1606,8 @@
 				BCA87E5C2AE8606F00453E4B /* Challenge.swift in Sources */,
 				BCCA20312B93AEBD00E958F5 /* MeDataView.swift in Sources */,
 				BC3454642B76E1140074106A /* DetailCardView.swift in Sources */,
+				BCB7F2ED2BB2169A002CB2DE /* Object.swift in Sources */,
+				BCFA25B12BB268D400F07A67 /* ResultsController.swift in Sources */,
 				BC261AB82B6DA0EF0018E21F /* SearchFilterView.swift in Sources */,
 				BC52DDD42B8516F9005A4587 /* MuscleClientProtocol.swift in Sources */,
 				BC52DDCE2B85164D005A4587 /* APIRequest.swift in Sources */,
@@ -1559,10 +1618,12 @@
 				BCCE85E92A33D7B5001BEE8B /* Encodable+Extension.swift in Sources */,
 				BC3F13ED2B78169300E9E98E /* TransitionImagesView.swift in Sources */,
 				BC5925012A5C8B72000F1941 /* String+Extension.swift in Sources */,
+				BCB7F3032BB24ED6002CB2DE /* ExerciseEntity+CoreDataClass.swift in Sources */,
 				BCCA20262B93A60E00E958F5 /* StatsCard.swift in Sources */,
 				BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */,
 				BC52DDF72B8BF5E8005A4587 /* Collection+Extension.swift in Sources */,
 				BC3FB0EA2A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift in Sources */,
+				BCB7F2F02BB21D68002CB2DE /* NSManagedObjectContext+Storage.swift in Sources */,
 				BC78274E2B9CDDB200DFC02C /* WaveShape.swift in Sources */,
 				BCCA20332B93AF6800E958F5 /* BlueBackgroundCard.swift in Sources */,
 				BC3FB0EE2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift in Sources */,
@@ -1574,6 +1635,7 @@
 				BC0170FE2AE9B948005876EE /* CircleTimerViewModel.swift in Sources */,
 				BCCE85E62A33D658001BEE8B /* AuthModule.swift in Sources */,
 				BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */,
+				BCFA25B52BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift in Sources */,
 				BCB7F2E52BB1E8A5002CB2DE /* ExerciseConstant.swift in Sources */,
 				BC1160D22A2CFB830028D8FC /* AppTabView.swift in Sources */,
 				BC01710D2AEC6FDF005876EE /* GreenGrassButton.swift in Sources */,
@@ -1588,7 +1650,6 @@
 				BC261AB22B6D71BC0018E21F /* ExploreExerciseView.swift in Sources */,
 				BC52DDE52B867107005A4587 /* AsyncCachedImage.swift in Sources */,
 				BC3454582B75706A0074106A /* GIFImageView.swift in Sources */,
-				BC49248F2BA4D15A00344A55 /* BaseManagedObject.swift in Sources */,
 				BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */,
 				BCA24C0F2B6B2B5D00124EC3 /* SelectGoalView.swift in Sources */,
 				BC5BAC8A2AB221FC003C880E /* MusculosLogger.swift in Sources */,
@@ -1622,15 +1683,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC5BACCB2AB3D44E003C880E /* NSManagedObjectContext+Extension.swift in Sources */,
 				BC97C92F2BA0D4DD00AA07C4 /* MusculosError.swift in Sources */,
-				BC5BACC52AB29C03003C880E /* CoreDataTestStack.swift in Sources */,
 				BC1160E72A2CFB840028D8FC /* MusculosAppTests.swift in Sources */,
 				BC5BACAC2AB26D65003C880E /* MusculosLogger.swift in Sources */,
 				BC5BACB72AB26F40003C880E /* XCTestCase+Extension.swift in Sources */,
-				BC5BACC72AB29E07003C880E /* WorkoutManagerTests.swift in Sources */,
 				BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */,
-				BC5BACA52AB26CF3003C880E /* CoreDataStack.swift in Sources */,
 				BC5BACD92ABB6694003C880E /* ExerciseModuleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1990,6 +2047,7 @@
 		BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				BCB7F2F72BB24C61002CB2DE /* Musculos 7.xcdatamodel */,
 				BC52DDF82B8D24F1005A4587 /* Musculos 6.xcdatamodel */,
 				BC52DDE92B86C7CD005A4587 /* Musculos 5.xcdatamodel */,
 				BC52DDE62B86C168005A4587 /* Musculos 4.xcdatamodel */,
@@ -1997,7 +2055,7 @@
 				BC96C2F92AC386BB00F11CAB /* Musculos 2.xcdatamodel */,
 				BC182EC92A589A81003DEA30 /* Musculos.xcdatamodel */,
 			);
-			currentVersion = BC52DDF82B8D24F1005A4587 /* Musculos 6.xcdatamodel */;
+			currentVersion = BCB7F2F72BB24C61002CB2DE /* Musculos 7.xcdatamodel */;
 			path = MusculosDataStore.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
