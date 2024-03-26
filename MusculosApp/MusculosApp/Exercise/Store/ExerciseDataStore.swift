@@ -40,7 +40,7 @@ class ExerciseDataStore: BaseDataStore {
       guard let self else { return }
       
       _ = exercises.map { exercise in
-        let exerciseEntity = self.writerDerivedStorage.insertNewObject(ofType: ExerciseEntity.self)
+        let exerciseEntity = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: exercise.id)
         exerciseEntity.id = exercise.id
         exerciseEntity.name = exercise.name
         exerciseEntity.equipment = exercise.equipment

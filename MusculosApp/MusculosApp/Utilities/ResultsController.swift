@@ -8,9 +8,9 @@
 import Foundation
 import CoreData
 
-public typealias ResultsControllerMutableType = NSManagedObject & ReadOnlyConvertible
+typealias ResultsControllerMutableType = NSManagedObject & ReadOnlyConvertible
 
-public class ResultsController<T: ResultsControllerMutableType> {
+class ResultsController<T: ResultsControllerMutableType> {
   
   private let viewStorage: StorageType
   
@@ -187,7 +187,7 @@ public class ResultsController<T: ResultsControllerMutableType> {
   }
 }
 
-public extension ResultsController {
+extension ResultsController {
   typealias ChangeType = NSFetchedResultsChangeType
 
   final class SectionInfo {

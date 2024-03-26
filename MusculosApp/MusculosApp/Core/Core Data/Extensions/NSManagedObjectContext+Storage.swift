@@ -110,14 +110,11 @@ extension NSManagedObjectContext: StorageType {
     return nil
   }
   
-  func findOrInsert<T: Object>(of type: T.Type, using identifier: UUID) -> T {
-    let predicate = NSPredicate(format: "id == %@", identifier as NSUUID)
-    
-    if let existingObject = firstObject(of: type, matching: predicate) {
+  func findOrInsert<T: Object>(of type: T.Type, using identifier: UUID?) -> T {
+    if let identifier, let existingObject = firstObject(of: type, matching: NSPredicate(format: "id == %@", identifier as NSUUID)) {
       return existingObject
-    } else {
-      return insertNewObject(ofType: type)
     }
+    return insertNewObject(ofType: type)
   }
   
   func performAndSave(_ closure: @escaping () -> Void) async {
