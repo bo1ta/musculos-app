@@ -16,7 +16,7 @@ final class AuthModule: MusculosModule {
 }
 
 extension AuthModule: Authenticatable {
-  func registerUser(email: String, password: String, username: String, fullName: String) async throws -> String {
+  func register(email: String, password: String, username: String, fullName: String) async throws -> String {
     var body = [
       "email": email,
       "password": password,
@@ -32,7 +32,7 @@ extension AuthModule: Authenticatable {
     return result.token
   }
   
-  func loginUser(email: String, password: String) async throws -> String {
+  func login(email: String, password: String) async throws -> String {
     let body = ["email": email, "password": password]
     let request = APIRequest(method: .post, path: .login, body: body)
     

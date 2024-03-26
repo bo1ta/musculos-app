@@ -169,6 +169,8 @@
 		BCFA25B12BB268D400F07A67 /* ResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B02BB268D400F07A67 /* ResultsController.swift */; };
 		BCFA25B32BB269F800F07A67 /* ReadOnlyConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B22BB269F800F07A67 /* ReadOnlyConvertible.swift */; };
 		BCFA25B52BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */; };
+		BCFA25BA2BB37A9D00F07A67 /* AuthModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B92BB37A9D00F07A67 /* AuthModuleTests.swift */; };
+		BCFA25BC2BB37B2900F07A67 /* authenticationResult.json in Resources */ = {isa = PBXBuildFile; fileRef = BCFA25BB2BB37B2900F07A67 /* authenticationResult.json */; };
 		BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB77B2A59DF2800896C3C /* IconPill.swift */; };
 		BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB7852A59EDC400896C3C /* IconPillOption.swift */; };
 /* End PBXBuildFile section */
@@ -361,6 +363,8 @@
 		BCFA25B02BB268D400F07A67 /* ResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsController.swift; sourceTree = "<group>"; };
 		BCFA25B22BB269F800F07A67 /* ReadOnlyConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadOnlyConvertible.swift; sourceTree = "<group>"; };
 		BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedResultsDelegateWrapper.swift; sourceTree = "<group>"; };
+		BCFA25B92BB37A9D00F07A67 /* AuthModuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModuleTests.swift; sourceTree = "<group>"; };
+		BCFA25BB2BB37B2900F07A67 /* authenticationResult.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = authenticationResult.json; sourceTree = "<group>"; };
 		BCFBB77B2A59DF2800896C3C /* IconPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPill.swift; sourceTree = "<group>"; };
 		BCFBB7852A59EDC400896C3C /* IconPillOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPillOption.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -495,6 +499,7 @@
 		BC1160E52A2CFB840028D8FC /* MusculosAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				BCFA25B82BB37A8B00F07A67 /* Auth */,
 				BC5BACBE2AB28030003C880E /* Exercise */,
 				BC5BAC932AB26350003C880E /* Core */,
 				BC5BACB82AB26FC8003C880E /* Supporting Files */,
@@ -872,6 +877,7 @@
 		BC5BACB92AB26FD0003C880E /* API */ = {
 			isa = PBXGroup;
 			children = (
+				BCFA25BB2BB37B2900F07A67 /* authenticationResult.json */,
 				BC5BACBA2AB270C2003C880E /* getMuscles.json */,
 				BC5BACC22AB280C5003C880E /* getEquipment.json */,
 				BC5BACD42ABA28A7003C880E /* getExercises.json */,
@@ -1368,6 +1374,14 @@
 			path = "Loading View";
 			sourceTree = "<group>";
 		};
+		BCFA25B82BB37A8B00F07A67 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				BCFA25B92BB37A9D00F07A67 /* AuthModuleTests.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		BCFBB7662A59C6D700896C3C /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1517,6 +1531,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC5BACD52ABA28A7003C880E /* getExercises.json in Resources */,
+				BCFA25BC2BB37B2900F07A67 /* authenticationResult.json in Resources */,
 				BC5BACCC2AB9270E003C880E /* MusculosDataStore.xcdatamodeld in Resources */,
 				BC5BACBB2AB270C2003C880E /* getMuscles.json in Resources */,
 				BC5BACC32AB280C5003C880E /* getEquipment.json in Resources */,
@@ -1689,6 +1704,7 @@
 				BC5BACB72AB26F40003C880E /* XCTestCase+Extension.swift in Sources */,
 				BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */,
 				BC5BACD92ABB6694003C880E /* ExerciseModuleTests.swift in Sources */,
+				BCFA25BA2BB37A9D00F07A67 /* AuthModuleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

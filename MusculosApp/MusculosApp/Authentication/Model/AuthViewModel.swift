@@ -37,7 +37,7 @@ class AuthViewModel: ObservableObject {
       defer { self.isLoading = false }
       
       do {
-        let token = try await self.module.loginUser(email: self.email, password: self.password)
+        let token = try await self.module.login(email: self.email, password: self.password)
         await self.saveLocalUser(token)
         
         self.isLoggedIn = true
@@ -56,7 +56,7 @@ class AuthViewModel: ObservableObject {
       defer { self.isLoading = false }
       
       do {
-        let token = try await self.module.registerUser(email: self.email,
+        let token = try await self.module.register(email: self.email,
                                                        password: self.password,
                                                        username: self.username,
                                                        fullName: self.fullName)

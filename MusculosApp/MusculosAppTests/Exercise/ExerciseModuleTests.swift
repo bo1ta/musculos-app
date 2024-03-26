@@ -94,7 +94,7 @@ class ExerciseModuleTests: XCTestCase {
     let module = ExerciseModule(client: client)
     
     do {
-      let exercises = try await module.searchByMuscleQuery("muscle")
+      _ = try await module.searchByMuscleQuery("muscle")
       XCTFail("Should not succeed!")
     } catch {
       expectation.fulfill()
