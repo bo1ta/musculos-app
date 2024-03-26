@@ -73,7 +73,6 @@
 		BC5972112A351B0F00EBB075 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972102A351B0F00EBB075 /* PrimaryButton.swift */; };
 		BC5B12042B658A1F00B344A0 /* TabBarSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5B12032B658A1F00B344A0 /* TabBarSettings.swift */; };
 		BC5BAC8A2AB221FC003C880E /* MusculosLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC892AB221FC003C880E /* MusculosLogger.swift */; };
-		BC5BACA52AB26CF3003C880E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */; };
 		BC5BACAC2AB26D65003C880E /* MusculosLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BAC892AB221FC003C880E /* MusculosLogger.swift */; };
 		BC5BACB72AB26F40003C880E /* XCTestCase+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACB62AB26F40003C880E /* XCTestCase+Extension.swift */; };
 		BC5BACBB2AB270C2003C880E /* getMuscles.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACBA2AB270C2003C880E /* getMuscles.json */; };
@@ -1701,7 +1700,6 @@
 				BC5BACB72AB26F40003C880E /* XCTestCase+Extension.swift in Sources */,
 				BC5BACC72AB29E07003C880E /* WorkoutManagerTests.swift in Sources */,
 				BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */,
-				BC5BACA52AB26CF3003C880E /* CoreDataStack.swift in Sources */,
 				BC5BACD92ABB6694003C880E /* ExerciseModuleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
