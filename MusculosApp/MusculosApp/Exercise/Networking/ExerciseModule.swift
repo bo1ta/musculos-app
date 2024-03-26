@@ -9,7 +9,6 @@ import Foundation
 
 protocol ExerciseModuleProtocol {
   var dataStore: ExerciseDataStore { get set }
-  
   func getExercises() async throws -> [Exercise]
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise]
 }
