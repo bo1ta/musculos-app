@@ -64,7 +64,6 @@
 		BC52DDF32B8AAD28005A4587 /* DashboardHeaderCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDF22B8AAD28005A4587 /* DashboardHeaderCard.swift */; };
 		BC52DDF52B8AC54D005A4587 /* CategorySectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDF42B8AC54D005A4587 /* CategorySectionView.swift */; };
 		BC52DDF72B8BF5E8005A4587 /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDF62B8BF5E8005A4587 /* Collection+Extension.swift */; };
-		BC52DDFD2B8D384F005A4587 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDFC2B8D384F005A4587 /* ProfileView.swift */; };
 		BC52DE002B8EB7A0005A4587 /* ExerciseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDFF2B8EB7A0005A4587 /* ExerciseProvider.swift */; };
 		BC52DE062B8EBBD2005A4587 /* UserProfileProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DE052B8EBBD2005A4587 /* UserProfileProvider.swift */; };
 		BC52DE082B8EBCFA005A4587 /* UserProfileFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DE072B8EBCFA005A4587 /* UserProfileFactory.swift */; };
@@ -88,6 +87,8 @@
 		BC61A2E92BA5274500493311 /* BaseDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC61A2E82BA5274500493311 /* BaseDataStore.swift */; };
 		BC63A5A42AC33896006B1894 /* MuscleConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC63A5A32AC33896006B1894 /* MuscleConstant.swift */; };
 		BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */; };
+		BC6F365A2BB4E14D000F6CFA /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */; };
+		BC6F365D2BB4E2A3000F6CFA /* CardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F365C2BB4E2A3000F6CFA /* CardItem.swift */; };
 		BC777EF32BA0F2E1001669C8 /* WorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777EF22BA0F2E1001669C8 /* WorkoutView.swift */; };
 		BC777F012BA127DC001669C8 /* AddActionSheetContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777F002BA127DC001669C8 /* AddActionSheetContainer.swift */; };
 		BC777F042BA20901001669C8 /* AddWorkoutSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777F032BA20901001669C8 /* AddWorkoutSheet.swift */; };
@@ -145,12 +146,6 @@
 		BCB7F3032BB24ED6002CB2DE /* ExerciseEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F3012BB24ED6002CB2DE /* ExerciseEntity+CoreDataClass.swift */; };
 		BCB7F3042BB24ED6002CB2DE /* ExerciseEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F3022BB24ED6002CB2DE /* ExerciseEntity+CoreDataProperties.swift */; };
 		BCB7F3082BB24F87002CB2DE /* ExerciseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F3072BB24F87002CB2DE /* ExerciseFactory.swift */; };
-		BCCA20242B93A5C300E958F5 /* StatsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA20232B93A5C300E958F5 /* StatsItem.swift */; };
-		BCCA20262B93A60E00E958F5 /* StatsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA20252B93A60E00E958F5 /* StatsCard.swift */; };
-		BCCA20292B93AD6800E958F5 /* ExerciseCardsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA20282B93AD6800E958F5 /* ExerciseCardsSection.swift */; };
-		BCCA202C2B93AD9400E958F5 /* CardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA202B2B93AD9400E958F5 /* CardItem.swift */; };
-		BCCA202F2B93AE2B00E958F5 /* MuscleChartSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA202E2B93AE2B00E958F5 /* MuscleChartSection.swift */; };
-		BCCA20312B93AEBD00E958F5 /* MeDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA20302B93AEBD00E958F5 /* MeDataView.swift */; };
 		BCCA20332B93AF6800E958F5 /* BlueBackgroundCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA20322B93AF6800E958F5 /* BlueBackgroundCard.swift */; };
 		BCCBEC722AD85158002F5E41 /* RoundedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC712AD85158002F5E41 /* RoundedTextField.swift */; };
 		BCCE85E62A33D658001BEE8B /* AuthModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E52A33D658001BEE8B /* AuthModule.swift */; };
@@ -257,7 +252,6 @@
 		BC52DDF42B8AC54D005A4587 /* CategorySectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySectionView.swift; sourceTree = "<group>"; };
 		BC52DDF62B8BF5E8005A4587 /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
 		BC52DDF82B8D24F1005A4587 /* Musculos 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 6.xcdatamodel"; sourceTree = "<group>"; };
-		BC52DDFC2B8D384F005A4587 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		BC52DDFF2B8EB7A0005A4587 /* ExerciseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseProvider.swift; sourceTree = "<group>"; };
 		BC52DE052B8EBBD2005A4587 /* UserProfileProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileProvider.swift; sourceTree = "<group>"; };
 		BC52DE072B8EBCFA005A4587 /* UserProfileFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileFactory.swift; sourceTree = "<group>"; };
@@ -279,6 +273,8 @@
 		BC61A2E82BA5274500493311 /* BaseDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataStore.swift; sourceTree = "<group>"; };
 		BC63A5A32AC33896006B1894 /* MuscleConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleConstant.swift; sourceTree = "<group>"; };
 		BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
+		BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
+		BC6F365C2BB4E2A3000F6CFA /* CardItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardItem.swift; sourceTree = "<group>"; };
 		BC777EF22BA0F2E1001669C8 /* WorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutView.swift; sourceTree = "<group>"; };
 		BC777F002BA127DC001669C8 /* AddActionSheetContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddActionSheetContainer.swift; sourceTree = "<group>"; };
 		BC777F032BA20901001669C8 /* AddWorkoutSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkoutSheet.swift; sourceTree = "<group>"; };
@@ -339,12 +335,6 @@
 		BCB7F3022BB24ED6002CB2DE /* ExerciseEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExerciseEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BCB7F3072BB24F87002CB2DE /* ExerciseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFactory.swift; sourceTree = "<group>"; };
 		BCC33E682BAE005E00488123 /* MusculosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MusculosApp.entitlements; sourceTree = "<group>"; };
-		BCCA20232B93A5C300E958F5 /* StatsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsItem.swift; sourceTree = "<group>"; };
-		BCCA20252B93A60E00E958F5 /* StatsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCard.swift; sourceTree = "<group>"; };
-		BCCA20282B93AD6800E958F5 /* ExerciseCardsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCardsSection.swift; sourceTree = "<group>"; };
-		BCCA202B2B93AD9400E958F5 /* CardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardItem.swift; sourceTree = "<group>"; };
-		BCCA202E2B93AE2B00E958F5 /* MuscleChartSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleChartSection.swift; sourceTree = "<group>"; };
-		BCCA20302B93AEBD00E958F5 /* MeDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeDataView.swift; sourceTree = "<group>"; };
 		BCCA20322B93AF6800E958F5 /* BlueBackgroundCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueBackgroundCard.swift; sourceTree = "<group>"; };
 		BCCBEC712AD85158002F5E41 /* RoundedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTextField.swift; sourceTree = "<group>"; };
 		BCCE85E52A33D658001BEE8B /* AuthModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModule.swift; sourceTree = "<group>"; };
@@ -470,20 +460,13 @@
 				BC82446E2BAE6AE700CFA645 /* MusculosAppDebug.entitlements */,
 				BCC33E682BAE005E00488123 /* MusculosApp.entitlements */,
 				BC5834252B1CE34500BD7690 /* Main */,
-				BC10E42C2A3B8AB00008A72E /* Authentication */,
-				BCA24C052B6AFF7000124EC3 /* Onboarding */,
-				BC34544F2B72DEFE0074106A /* Exercise */,
-				BC97C9302BA0D57200AA07C4 /* Sheet */,
-				BC781FFA2B9B5E2F009F9FB5 /* Overview */,
-				BC52DDFB2B8D3844005A4587 /* Profile */,
-				BC0171052AEC6A45005876EE /* Dashboard */,
-				BC777EF12BA0F2D9001669C8 /* Workout */,
-				BC5BACDA2ABB7596003C880E /* Anatomy */,
+				BC6F365B2BB4E205000F6CFA /* Feature */,
+				BC6F365E2BB4E2BB000F6CFA /* Shared Components */,
 				BC352AE32A326D6C00DAA3AB /* Core */,
 				BC34545A2B758AE10074106A /* Utilities */,
-				BC1160DD2A2CFB830028D8FC /* Info.plist */,
 				BC0D76A32B6525B700917680 /* Assets */,
 				BC1160D52A2CFB830028D8FC /* Preview Content */,
+				BC1160DD2A2CFB830028D8FC /* Info.plist */,
 			);
 			path = MusculosApp;
 			sourceTree = "<group>";
@@ -521,9 +504,12 @@
 			isa = PBXGroup;
 			children = (
 				BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */,
+				BCB7F2EE2BB21D4A002CB2DE /* Extensions */,
+				BC6F365F2BB4E33C000F6CFA /* Helpers */,
+				BCFA25B02BB268D400F07A67 /* ResultsController.swift */,
+				BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */,
 				BCFBB7662A59C6D700896C3C /* Models */,
 				BC49248D2BA4D0BA00344A55 /* Protocol */,
-				BCB7F2EE2BB21D4A002CB2DE /* Extensions */,
 				BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */,
 			);
 			path = "Core Data";
@@ -597,17 +583,15 @@
 		BC34545A2B758AE10074106A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				BCB7F3062BB24F7A002CB2DE /* Factory */,
+				BC52DDE42B867107005A4587 /* AsyncCachedImage.swift */,
 				BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */,
 				BC52DDD92B85431C005A4587 /* LoadingViewState.swift */,
 				BC52DDDB2B8560DB005A4587 /* Shimmer.swift */,
-				BC52DDE42B867107005A4587 /* AsyncCachedImage.swift */,
-				BCFA25B02BB268D400F07A67 /* ResultsController.swift */,
 				BC63A5A22AC3388D006B1894 /* Constants */,
 				BCCE85E72A33D7A8001BEE8B /* Extension */,
+				BCB7F3062BB24F7A002CB2DE /* Factory */,
 				BC5B11FD2B65392700B344A0 /* Logger */,
 				BC52DE012B8EB8A1005A4587 /* Mocks */,
-				BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -633,16 +617,16 @@
 		BC352AE32A326D6C00DAA3AB /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				BC82446F2BAF251500CFA645 /* HealthKit */,
-				BCA24C042B6AFF5100124EC3 /* User */,
 				BC182ECB2A589BC7003DEA30 /* Core Data */,
 				BC8E86DE2AED2F14008E3CE4 /* Environment */,
+				BC82446F2BAF251500CFA645 /* HealthKit */,
 				BC3FB0F92A899A7900C3F9B1 /* Layout */,
+				BC352AE42A326D7C00DAA3AB /* Network */,
+				BC3454542B7570430074106A /* UIKit */,
+				BCA24C042B6AFF5100124EC3 /* User */,
 				BC59720F2A351AEF00EBB075 /* Styles */,
 				BC5A41032A7D6EF300F671F5 /* Tab Bar */,
 				BC5972082A35074E00EBB075 /* View Components */,
-				BC3454542B7570430074106A /* UIKit */,
-				BC352AE42A326D7C00DAA3AB /* Network */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -750,14 +734,6 @@
 			path = Store;
 			sourceTree = "<group>";
 		};
-		BC52DDFB2B8D3844005A4587 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				BC777EF02BA0F1C1001669C8 /* View */,
-			);
-			path = Profile;
-			sourceTree = "<group>";
-		};
 		BC52DDFE2B8E9450005A4587 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -785,8 +761,8 @@
 		BC5834252B1CE34500BD7690 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */,
 				BC1160CF2A2CFB830028D8FC /* MusculosApp.swift */,
-				BC1160D12A2CFB830028D8FC /* AppTabView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -915,20 +891,49 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		BC6F365B2BB4E205000F6CFA /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				BC6F36612BB4E4D3000F6CFA /* App Tab View */,
+				BC5BACDA2ABB7596003C880E /* Anatomy */,
+				BC10E42C2A3B8AB00008A72E /* Authentication */,
+				BC0171052AEC6A45005876EE /* Dashboard */,
+				BC34544F2B72DEFE0074106A /* Exercise */,
+				BCA24C052B6AFF7000124EC3 /* Onboarding */,
+				BC781FFA2B9B5E2F009F9FB5 /* Overview */,
+				BC777EF12BA0F2D9001669C8 /* Workout */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
+		BC6F365E2BB4E2BB000F6CFA /* Shared Components */ = {
+			isa = PBXGroup;
+			children = (
+				BC97C9302BA0D57200AA07C4 /* Sheet */,
+			);
+			path = "Shared Components";
+			sourceTree = "<group>";
+		};
+		BC6F365F2BB4E33C000F6CFA /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		BC6F36612BB4E4D3000F6CFA /* App Tab View */ = {
+			isa = PBXGroup;
+			children = (
+				BC1160D12A2CFB830028D8FC /* AppTabView.swift */,
+			);
+			path = "App Tab View";
+			sourceTree = "<group>";
+		};
 		BC777EEF2BA0F1B3001669C8 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				BC781FFB2B9B5E3E009F9FB5 /* OverviewView.swift */,
 				BC781FFD2B9B6057009F9FB5 /* Components */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		BC777EF02BA0F1C1001669C8 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				BC52DDFC2B8D384F005A4587 /* ProfileView.swift */,
-				BCCA20222B93A5B600E958F5 /* Components */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -955,6 +960,7 @@
 			children = (
 				BC97C9312BA0D5D500AA07C4 /* AddActionSheet.swift */,
 				BC777F032BA20901001669C8 /* AddWorkoutSheet.swift */,
+				BC6F365C2BB4E2A3000F6CFA /* CardItem.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1300,43 +1306,6 @@
 			path = Factory;
 			sourceTree = "<group>";
 		};
-		BCCA20222B93A5B600E958F5 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				BCCA202D2B93AE0700E958F5 /* StatsCard */,
-				BCCA20272B93AD5200E958F5 /* Sections */,
-				BCCA20302B93AEBD00E958F5 /* MeDataView.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		BCCA20272B93AD5200E958F5 /* Sections */ = {
-			isa = PBXGroup;
-			children = (
-				BCCA202E2B93AE2B00E958F5 /* MuscleChartSection.swift */,
-				BCCA202A2B93AD8800E958F5 /* FavoriteSection */,
-			);
-			path = Sections;
-			sourceTree = "<group>";
-		};
-		BCCA202A2B93AD8800E958F5 /* FavoriteSection */ = {
-			isa = PBXGroup;
-			children = (
-				BCCA20282B93AD6800E958F5 /* ExerciseCardsSection.swift */,
-				BCCA202B2B93AD9400E958F5 /* CardItem.swift */,
-			);
-			path = FavoriteSection;
-			sourceTree = "<group>";
-		};
-		BCCA202D2B93AE0700E958F5 /* StatsCard */ = {
-			isa = PBXGroup;
-			children = (
-				BCCA20252B93A60E00E958F5 /* StatsCard.swift */,
-				BCCA20232B93A5C300E958F5 /* StatsItem.swift */,
-			);
-			path = StatsCard;
-			sourceTree = "<group>";
-		};
 		BCCBEC6B2AD84C69002F5E41 /* Button */ = {
 			isa = PBXGroup;
 			children = (
@@ -1590,7 +1559,6 @@
 				BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */,
 				BC52DDED2B8977B8005A4587 /* DashboardLoadingView.swift in Sources */,
 				BC3454592B75706A0074106A /* GIFImageViewRepresentable.swift in Sources */,
-				BCCA20292B93AD6800E958F5 /* ExerciseCardsSection.swift in Sources */,
 				BC0171092AEC6A71005876EE /* DashboardView.swift in Sources */,
 				BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */,
 				BC52DDD62B851722005A4587 /* DecodableModel.swift in Sources */,
@@ -1614,12 +1582,10 @@
 				BC3FB0EC2A85565400C3F9B1 /* View+Extension.swift in Sources */,
 				BC7820012B9B64F1009F9FB5 /* ScoreBadge.swift in Sources */,
 				BC777F012BA127DC001669C8 /* AddActionSheetContainer.swift in Sources */,
-				BCCA202C2B93AD9400E958F5 /* CardItem.swift in Sources */,
 				BC97C9322BA0D5D500AA07C4 /* AddActionSheet.swift in Sources */,
 				BCF86C422A3678E4003293A4 /* ProgressBarView.swift in Sources */,
 				BC0170FC2AE9B7A9005876EE /* CircleTimerView.swift in Sources */,
 				BCA87E5C2AE8606F00453E4B /* Challenge.swift in Sources */,
-				BCCA20312B93AEBD00E958F5 /* MeDataView.swift in Sources */,
 				BC3454642B76E1140074106A /* DetailCardView.swift in Sources */,
 				BCB7F2ED2BB2169A002CB2DE /* Object.swift in Sources */,
 				BCFA25B12BB268D400F07A67 /* ResultsController.swift in Sources */,
@@ -1634,15 +1600,14 @@
 				BC3F13ED2B78169300E9E98E /* TransitionImagesView.swift in Sources */,
 				BC5925012A5C8B72000F1941 /* String+Extension.swift in Sources */,
 				BCB7F3032BB24ED6002CB2DE /* ExerciseEntity+CoreDataClass.swift in Sources */,
-				BCCA20262B93A60E00E958F5 /* StatsCard.swift in Sources */,
 				BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */,
+				BC6F365D2BB4E2A3000F6CFA /* CardItem.swift in Sources */,
 				BC52DDF72B8BF5E8005A4587 /* Collection+Extension.swift in Sources */,
 				BC3FB0EA2A85552C00C3F9B1 /* TabBarItemsPreferenceKey.swift in Sources */,
 				BCB7F2F02BB21D68002CB2DE /* NSManagedObjectContext+Storage.swift in Sources */,
 				BC78274E2B9CDDB200DFC02C /* WaveShape.swift in Sources */,
 				BCCA20332B93AF6800E958F5 /* BlueBackgroundCard.swift in Sources */,
 				BC3FB0EE2A855D7E00C3F9B1 /* TabBarItemViewModifier.swift in Sources */,
-				BCCA20242B93A5C300E958F5 /* StatsItem.swift in Sources */,
 				BCA24C082B6AFF8200124EC3 /* OnboardingWizardView.swift in Sources */,
 				BC52DDCB2B85144C005A4587 /* APIEndpoint.swift in Sources */,
 				BCA87E5F2AE865A600453E4B /* Person.swift in Sources */,
@@ -1654,10 +1619,10 @@
 				BCB7F2E52BB1E8A5002CB2DE /* ExerciseConstant.swift in Sources */,
 				BC1160D22A2CFB830028D8FC /* AppTabView.swift in Sources */,
 				BC01710D2AEC6FDF005876EE /* GreenGrassButton.swift in Sources */,
-				BCCA202F2B93AE2B00E958F5 /* MuscleChartSection.swift in Sources */,
 				BC52DE082B8EBCFA005A4587 /* UserProfileFactory.swift in Sources */,
 				BC61A2E92BA5274500493311 /* BaseDataStore.swift in Sources */,
 				BC52DDDE2B856169005A4587 /* ExerciseSectionView.swift in Sources */,
+				BC6F365A2BB4E14D000F6CFA /* AppLauncher.swift in Sources */,
 				BCD837BF2B651F750069CECB /* LoadingOverlayView.swift in Sources */,
 				BC52DE062B8EBBD2005A4587 /* UserProfileProvider.swift in Sources */,
 				BCB6BF4F2AFAE84B00B6CBCE /* URL+Extension.swift in Sources */,
@@ -1683,7 +1648,6 @@
 				BC9937292B6441D90067E556 /* ExerciseModule.swift in Sources */,
 				BC3454532B72DF4B0074106A /* ExerciseStore.swift in Sources */,
 				BC52DDF32B8AAD28005A4587 /* DashboardHeaderCard.swift in Sources */,
-				BC52DDFD2B8D384F005A4587 /* ProfileView.swift in Sources */,
 				BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */,
 				BC52DDE12B856E64005A4587 /* Exercise.swift in Sources */,
 				BC01710B2AEC6DBD005876EE /* PersonAvatarCircle.swift in Sources */,

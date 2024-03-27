@@ -8,7 +8,6 @@
 import SwiftUI
 import HealthKit
 
-@main
 struct MusculosApp: App {
   @ObservedObject private var userStore = UserStore()
   @ObservedObject private var exerciseStore = ExerciseStore()

@@ -57,9 +57,9 @@ class AuthViewModel: ObservableObject {
       
       do {
         let token = try await self.module.register(email: self.email,
-                                                       password: self.password,
-                                                       username: self.username,
-                                                       fullName: self.fullName)
+                                                   password: self.password,
+                                                   username: self.username,
+                                                   fullName: self.fullName)
         await self.saveLocalUser(token)
         self.isLoggedIn = true
       } catch {
