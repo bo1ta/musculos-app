@@ -30,3 +30,6 @@ public enum UserDefaultsKeyConstant: String {
   case healthKitAnchor = "health_kit_anchor"
 }
 
+public enum MessageConstant: String {
+  case genericErrorMessage = "Something went wrong. Please try again"
+}
