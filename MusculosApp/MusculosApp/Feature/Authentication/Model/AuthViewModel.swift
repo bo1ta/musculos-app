@@ -21,9 +21,9 @@ class AuthViewModel: ObservableObject {
   private(set) var authTask: Task<Void, Never>?
   
   private let module: Authenticatable
-  private let dataStore: UserDataStore
+  private let dataStore: UserDataStore?
   
-  init(module: Authenticatable = AuthModule(), dataStore: UserDataStore = UserDataStore()) {
+  init(module: Authenticatable = AuthModule(), dataStore: UserDataStore? = UserDataStore()) {
     self.module = module
     self.dataStore = dataStore
   }
@@ -79,9 +79,10 @@ class AuthViewModel: ObservableObject {
 
 extension AuthViewModel {
   private func saveLocalUser(_ token: String) async {
+    guard let dataStore else { return }
+    
     let person = Person(email: self.email, fullName: self.fullName, username: self.username)
     await dataStore.createUserProfile(person: person)
-    
     UserDefaults.standard.setValue(token, forKey: UserDefaultsKeyConstant.authToken.rawValue)
   }
 }

@@ -16,25 +16,10 @@ class ExerciseModuleTests: XCTestCase {
     super.tearDown()
   }
   
-  private func setupNetworkConfiguration(shouldFail: Bool = false, expectation: XCTestExpectation? = nil) -> URLSessionConfiguration {
-    MockURLProtocol.expectation = expectation
-    MockURLProtocol.requestHandler = { request in
-      guard !shouldFail, let url = request.url else { throw MusculosError.badRequest }
-      
-      let response = try XCTUnwrap(HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil))
-      let data = try XCTUnwrap(self.readFromFile(name: "getExercises"))
-      return (response, data)
-    }
-    
-    let configuration = URLSessionConfiguration.default
-    configuration.protocolClasses = [MockURLProtocol.self]
-    return configuration
-  }
-  
   func testGetExercisesSucceeds() async throws {
     let expectation = self.expectation(description: "should make a network request")
-    let configuration = setupNetworkConfiguration(expectation: expectation)
     
+    let configuration = self.createMockSession(jsonFileName: "getExercises", expectation: expectation)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
     let module = ExerciseModule(client: client)
@@ -51,7 +36,7 @@ class ExerciseModuleTests: XCTestCase {
   
   func testGetExercisesFails() async throws {
     let expectation = self.expectation(description: "should fail")
-    let configuration = setupNetworkConfiguration(shouldFail: true)
+    let configuration = self.createMockSession(expectation: expectation, shouldFail: true)
     
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
@@ -69,7 +54,7 @@ class ExerciseModuleTests: XCTestCase {
   
   func testSearchByMuscleQuerySucceeds() async throws {
     let expectation = self.expectation(description: "should succeed")
-    let configuration = setupNetworkConfiguration(expectation: expectation)
+    let configuration = self.createMockSession(jsonFileName: "getExercises", expectation: expectation)
     
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
@@ -87,7 +72,7 @@ class ExerciseModuleTests: XCTestCase {
   
   func testSearchByMuscleQueryFails() async throws {
     let expectation = self.expectation(description: "should fail")
-    let configuration = setupNetworkConfiguration(shouldFail: true)
+    let configuration = self.createMockSession(shouldFail: true)
     
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
