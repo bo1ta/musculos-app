@@ -34,16 +34,22 @@ struct SignInView: View {
       .navigationDestination(isPresented: $viewModel.showRegister) {
         SignUpView(viewModel: _viewModel)
       }
-      .onChange(of: viewModel.isLoggedIn) { isLoggedIn in
-        if isLoggedIn {
+      .onChange(of: viewModel.state) { state in
+        switch state {
+        case .error(let errorMessage):
+          // show error toast
+          break
+        case .loaded(_):
           DispatchQueue.main.async {
             userStore.isLoggedIn = true
           }
+        default:
+          break
         }
       }
     }
     .overlay {
-      if viewModel.isLoading {
+      if viewModel.state == .loading {
         LoadingOverlayView()
           .frame(maxWidth: .infinity, maxHeight: .infinity)
           .ignoresSafeArea()

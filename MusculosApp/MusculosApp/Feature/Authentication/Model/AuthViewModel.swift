@@ -9,14 +9,12 @@ import Foundation
 import Combine
 
 class AuthViewModel: ObservableObject {
+  @Published var state: LoadingViewState<Bool> = .empty
   @Published var email: String = ""
   @Published var password: String = ""
   @Published var username: String = ""
   @Published var fullName: String = ""
   @Published var showRegister: Bool = false
-  @Published var isLoading: Bool = false
-  @Published var isLoggedIn: Bool = false
-  @Published var errorMessage: String? = nil
   
   private(set) var authTask: Task<Void, Never>?
   
@@ -28,32 +26,27 @@ class AuthViewModel: ObservableObject {
     self.dataStore = dataStore
   }
   
-  @MainActor
   func signIn() {
     authTask = Task { @MainActor [weak self] in
       guard let self else { return }
-      
-      self.isLoading = true
-      defer { self.isLoading = false }
+      self.state = .loading
       
       do {
         let token = try await self.module.login(email: self.email, password: self.password)
         await self.saveLocalUser(token)
         
-        self.isLoggedIn = true
+        self.state = .loaded(true)
       } catch {
-        self.errorMessage = "Unable to sign in. Please try again"
+        self.state = .error(MessageConstant.genericErrorMessage.rawValue)
         MusculosLogger.logError(error, message: "Sign in failed", category: .networking)
       }
     }
   }
   
-  @MainActor
   func signUp() {
     authTask = Task { @MainActor [weak self] in
       guard let self else { return }
-      self.isLoading = true
-      defer { self.isLoading = false }
+      self.state = .loading
       
       do {
         let token = try await self.module.register(email: self.email,
@@ -61,9 +54,10 @@ class AuthViewModel: ObservableObject {
                                                    username: self.username,
                                                    fullName: self.fullName)
         await self.saveLocalUser(token)
-        self.isLoggedIn = true
+        
+        self.state = .loaded(true)
       } catch {
-        self.errorMessage = "Unable to sign up. Please try again"
+        self.state = .error(MessageConstant.genericErrorMessage.rawValue)
         MusculosLogger.logError(error, message: "Sign up failed", category: .networking)
       }
     }

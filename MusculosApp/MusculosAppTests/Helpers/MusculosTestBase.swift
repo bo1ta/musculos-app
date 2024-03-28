@@ -1,5 +1,5 @@
 //
-//  XCTestCase+Extension.swift
+//  MusculosTestBase.swift
 //  MusculosAppTests
 //
 //  Created by Solomon Alexandru on 14.09.2023.
@@ -16,7 +16,7 @@ protocol MusculosTestBase: AnyObject {
   ///
   func readFromFile(name: String, withExtension: String) throws -> Data
   
-  /// Creates a mock session configuration which we'll use for our network client
+  /// Creates a mock session configuration which that works with the `MusculosClient`
   /// `expectation` - Fulfilled when the request ended
   /// `srcFileName` - The JSON file name used for the mock response
   /// `shouldFail` - If true, the request will throw a badRequest exception. Default: false
