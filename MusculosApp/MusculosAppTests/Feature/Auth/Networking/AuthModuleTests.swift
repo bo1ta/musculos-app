@@ -9,7 +9,7 @@ import XCTest
 
 @testable import MusculosApp
 
-final class AuthModuleTests: XCTestCase {
+final class AuthModuleTests: XCTestCase, MusculosTestBase {
   override class func tearDown() {
     MockURLProtocol.clear()
     super.tearDown()

@@ -8,12 +8,24 @@
 import Foundation
 import XCTest
 
-extension XCTestCase {
+protocol MusculosTestBase: AnyObject {
   
   /// Parses a file into Data
   ///`name` - The name of the file
   ///`withExtension` - The file extension. Default json
   ///
+  func readFromFile(name: String, withExtension: String) throws -> Data
+  
+  /// Creates a mock session configuration which we'll use for our network client
+  /// `expectation` - Fulfilled when the request ended
+  /// `srcFileName` - The JSON file name used for the mock response
+  /// `shouldFail` - If true, the request will throw a badRequest exception. Default: false
+  ///
+  func createMockSession(jsonFileName: String?, expectation: XCTestExpectation?, shouldFail: Bool) -> URLSessionConfiguration
+}
+
+extension MusculosTestBase {
+  
   func readFromFile(name: String, withExtension: String = "json") throws -> Data {
     let bundle = Bundle(for: (type(of: self)))
     let fileUrl = bundle.url(forResource: name, withExtension: withExtension)
@@ -21,11 +33,6 @@ extension XCTestCase {
     return data
   }
   
-  /// Creates a mock session configuration which we'll use for our network client
-  /// `expectation` - Fulfilled when the request ended
-  /// `srcFileName` - The JSON file name used for the mock response
-  /// `shouldFail` - If true, the request will throw a badRequest exception. Default: false
-  ///
   func createMockSession(jsonFileName: String? = nil, expectation: XCTestExpectation? = nil, shouldFail: Bool = false) -> URLSessionConfiguration {
     MockURLProtocol.expectation = expectation
     MockURLProtocol.requestHandler = { request in
