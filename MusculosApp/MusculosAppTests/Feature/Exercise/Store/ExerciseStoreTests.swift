@@ -8,8 +8,24 @@
 import XCTest
 @testable import MusculosApp
 
-final class ExerciseStoreTests: XCTestCase {
-
+final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
+  func testInitialValues() {
+    let store = ExerciseStore()
+    XCTAssertEqual(store.state, .empty)
+    XCTAssertNil(store.exerciseTask)
+    XCTAssertNil(store.searchTask)
+    XCTAssertNil(store.favoriteTask)
+  }
+  
+  func testLoadRemoteExercies() throws {
+    let data = try self.readFromFile(name: "getExercises")
+    let expectedResults = try Exercise.createArrayFrom(data)
+    let expectation = self.expectation(description: "should load exercises")
+    
+    let mockModule = MockExerciseModule()
+    mockModule.expectation = expectation
+    mockModule.expectedResults = expectedResults
+  }
 }
 
 extension ExerciseStoreTests {

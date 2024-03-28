@@ -14,7 +14,7 @@ public class ExerciseEntity: NSManagedObject {
   func toReadOnly() -> Exercise {
     return Exercise(category: self.category!,
                     equipment: self.equipment,
-                    id: self.id,
+                    id: self.exerciseId,
                     level: self.level!,
                     name: self.name!,
                     primaryMuscles: self.primaryMuscles!,
@@ -22,6 +22,10 @@ public class ExerciseEntity: NSManagedObject {
                     instructions: self.instructions!,
                     imageUrls: self.imageUrls!
     )
+  }
+  
+  static func predicateForId(_ id: UUID) -> NSPredicate {
+    NSPredicate(format: "%K == %@", #keyPath(ExerciseEntity.exerciseId), id as NSUUID)
   }
 }
 

@@ -110,8 +110,8 @@ extension NSManagedObjectContext: StorageType {
     return nil
   }
   
-  func findOrInsert<T: Object>(of type: T.Type, using identifier: UUID?) -> T {
-    if let identifier, let existingObject = firstObject(of: type, matching: NSPredicate(format: "id == %@", identifier as NSUUID)) {
+  func findOrInsert<T: Object>(of type: T.Type, using predicate: NSPredicate) -> T {
+    if let existingObject = firstObject(of: type, matching: predicate) {
       return existingObject
     }
     return insertNewObject(ofType: type)

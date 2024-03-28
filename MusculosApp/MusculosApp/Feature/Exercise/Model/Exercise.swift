@@ -42,6 +42,10 @@ final class Exercise: Codable {
       URL(string: imageUrlString)
     }
   }
+  
+  private var wrappedId: NSUUID {
+    return self.id! as NSUUID
+  }
 }
 
 extension Exercise {

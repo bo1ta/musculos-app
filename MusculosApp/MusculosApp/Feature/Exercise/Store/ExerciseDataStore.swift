@@ -13,14 +13,16 @@ class ExerciseDataStore: BaseDataStore {
     await writerDerivedStorage.performAndSave { [weak self] in
       guard let self, let uuid = exercise.id else { return }
       
-      let exercise = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: uuid)
+      let predicate = ExerciseEntity.predicateForId(uuid)
+      let exercise = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: predicate)
       exercise.isFavorite = isFavorite
     }
     await viewStorage.performAndSave { }
   }
   
   func isFavorite(exercise: Exercise) -> Bool {
-    let exercise = self.viewStorage.findOrInsert(of: ExerciseEntity.self, using: exercise.id!)
+    let predicate = ExerciseEntity.predicateForId(exercise.id!)
+    let exercise = self.viewStorage.findOrInsert(of: ExerciseEntity.self, using: predicate)
     return exercise.isFavorite
   }
   
@@ -29,8 +31,9 @@ class ExerciseDataStore: BaseDataStore {
       guard let self else { return }
       
       _ = exercises.map { exercise in
-        let exerciseEntity = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: exercise.id)
-        exerciseEntity.id = exercise.id
+        let predicate = ExerciseEntity.predicateForId(exercise.id!)
+        let exerciseEntity = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: predicate)
+        exerciseEntity.exerciseId = exercise.id
         exerciseEntity.name = exercise.name
         exerciseEntity.equipment = exercise.equipment
         exerciseEntity.category = exercise.category

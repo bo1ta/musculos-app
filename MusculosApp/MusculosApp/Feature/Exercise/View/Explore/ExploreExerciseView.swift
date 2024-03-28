@@ -56,7 +56,7 @@ struct ExploreExerciseView: View {
             HintIconView(systemImage: "exclamationmark.warninglight", textHint: "No data found")
               .padding(.top, 20)
               .onAppear {
-                exerciseStore.loadRemoteExercises()
+                exerciseStore.loadLocalExercises()
               }
           case .error(_):
             HintIconView(systemImage: "exclamationmark.warninglight", textHint: "Error fetching data")

@@ -18,7 +18,7 @@ extension ExerciseEntity {
     @NSManaged public var category: String?
     @NSManaged public var equipment: String?
     @NSManaged public var force: String?
-    @NSManaged public var id: UUID?
+    @NSManaged public var exerciseId: UUID?
     @NSManaged public var imageUrls: [String]?
     @NSManaged public var instructions: [String]?
     @NSManaged public var isFavorite: Bool
