@@ -9,26 +9,82 @@ import XCTest
 @testable import MusculosApp
 
 final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
+  override class func setUp() {
+    CoreDataStack.setOverride(DummyStack())
+  }
+  
+  override class func tearDown() {
+    CoreDataStack.resetOverride()
+    super.tearDown()
+  }
+  
   func testInitialValues() {
     let store = ExerciseStore()
-    XCTAssertEqual(store.state, .empty)
+    XCTAssertEqual(store.state, .loaded([]))
     XCTAssertNil(store.exerciseTask)
     XCTAssertNil(store.searchTask)
     XCTAssertNil(store.favoriteTask)
   }
   
-  func testLoadRemoteExercies() throws {
+  func testLoadRemoteExercies() async throws {
     let data = try self.readFromFile(name: "getExercises")
+    
     let expectedResults = try Exercise.createArrayFrom(data)
     let expectation = self.expectation(description: "should load exercises")
     
     let mockModule = MockExerciseModule()
     mockModule.expectation = expectation
     mockModule.expectedResults = expectedResults
+    
+    let store = ExerciseStore(module: mockModule)
+    store.loadRemoteExercises()
+    
+    let task = try XCTUnwrap(store.exerciseTask)
+    await task.value
+    await fulfillment(of: [expectation], timeout: 1)
+    
+    XCTAssertEqual(store.state, .loaded(expectedResults))
+  }
+  
+  func testLoadLocalExercises() async throws {
+    let store = ExerciseStore(module: MockExerciseModule())
+    XCTAssertEqual(store.state, .loaded([]))
+    
+    let mockExercise = ExerciseFactory.createMockExercise()
+    
+    await populateStorageWithMockData()
+    await store.loadLocalExercises()
+    
+    guard case let LoadingViewState.loaded(exercises) = store.state, let storedExercise = exercises.first else {
+      XCTFail("Should find exercise")
+      return
+    }
+
+    XCTAssertEqual(storedExercise.category, mockExercise.category)
+    XCTAssertEqual(storedExercise.name, mockExercise.name)
   }
 }
 
 extension ExerciseStoreTests {
+  private func populateStorageWithMockData() async {
+    let context = CoreDataStack.shared.viewStorage
+    await context.perform {
+      let entity = context.insertNewObject(ofType: ExerciseEntity.self)
+      
+      let exercise = ExerciseFactory.createMockExercise()
+      entity.exerciseId = exercise.id
+      entity.name = exercise.name
+      entity.category = exercise.category
+      entity.instructions = exercise.instructions
+      entity.equipment = exercise.equipment
+      entity.instructions = exercise.instructions
+      entity.imageUrls = exercise.imageUrls
+      entity.primaryMuscles = exercise.primaryMuscles
+      entity.secondaryMuscles = exercise.secondaryMuscles
+      entity.level = exercise.level
+    }
+  }
+  
   private class MockExerciseModule: ExerciseModuleProtocol {
     var expectation: XCTestExpectation?
     var shouldFail: Bool = false

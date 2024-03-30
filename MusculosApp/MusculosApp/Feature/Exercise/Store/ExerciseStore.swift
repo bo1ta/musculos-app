@@ -49,7 +49,7 @@ extension ExerciseStore {
       }
     }
   }
-  
+
   func searchByMuscleQuery(_ query: String) {
     searchTask = Task { @MainActor [weak self] in
       guard let self else { return }
@@ -97,12 +97,6 @@ extension ExerciseStore {
     return module.dataStore.isFavorite(exercise: exercise)
   }
   
-  @MainActor
-  func localSearchByMuscleQuery(_ query: String) {
-    fetchedResultsController.predicate = makePredicate(.byMuscle(query))
-    updateLocalResults()
-  }
-  
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
     favoriteTask = Task { @MainActor [ weak self] in
       guard let self else { return }
@@ -139,17 +133,15 @@ extension ExerciseStore {
 
 extension ExerciseStore {
   private enum ExercisePredicate {
-    case isFavorite, all, byMuscle(String)
+    case isFavorite, all
   }
   
   private func makePredicate(_ exercisePredicate: ExercisePredicate) -> NSPredicate? {
     switch exercisePredicate {
     case .all:
       return nil
-    case .byMuscle(let muscle):
-      return NSPredicate(format: "ANY primaryMuscles CONTAINS[c] %@ OR ANY secondaryMuscles CONTAINS[c] %@", muscle, muscle)
     case .isFavorite:
-      return NSPredicate(format: "isFavorite == true")
+      return NSPredicate(format: "%K == true", #keyPath(ExerciseEntity.isFavorite))
     }
   }
 }

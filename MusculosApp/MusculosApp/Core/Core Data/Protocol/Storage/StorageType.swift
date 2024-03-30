@@ -58,7 +58,7 @@ protocol StorageType {
   ///
   func saveIfNeeded()
   
-  /// Perform block
+  /// Perform sync block
   ///
   func perform(_ closure: @escaping () -> Void) async
   

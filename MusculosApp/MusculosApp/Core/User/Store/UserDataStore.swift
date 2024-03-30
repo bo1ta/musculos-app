@@ -1,5 +1,5 @@
 //
-//  CoreDataManager.swift
+//  UserDataStore.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 02.02.2024.

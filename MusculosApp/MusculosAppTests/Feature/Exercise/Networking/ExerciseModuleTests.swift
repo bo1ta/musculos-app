@@ -11,8 +11,13 @@ import XCTest
 @testable import MusculosApp
 
 class ExerciseModuleTests: XCTestCase, MusculosTestBase {
+  override class func setUp() {
+    CoreDataStack.setOverride(DummyStack())
+  }
+  
   override class func tearDown() {
     MockURLProtocol.clear()
+    CoreDataStack.resetOverride()
     super.tearDown()
   }
   

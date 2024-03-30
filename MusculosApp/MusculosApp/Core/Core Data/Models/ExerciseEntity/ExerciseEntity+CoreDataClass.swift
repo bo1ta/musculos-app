@@ -17,8 +17,8 @@ public class ExerciseEntity: NSManagedObject {
                     id: self.exerciseId,
                     level: self.level!,
                     name: self.name!,
-                    primaryMuscles: self.primaryMuscles!,
-                    secondaryMuscles: self.secondaryMuscles!,
+                    primaryMuscles: self.primaryMuscles,
+                    secondaryMuscles: self.secondaryMuscles,
                     instructions: self.instructions!,
                     imageUrls: self.imageUrls!
     )

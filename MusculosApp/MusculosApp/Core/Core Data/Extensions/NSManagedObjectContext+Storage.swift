@@ -16,7 +16,7 @@ extension NSManagedObjectContext: StorageType {
   func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T] {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
-    request.sortDescriptors = descriptors
+//    request.sortDescriptors = descriptors
     
     return loadObjects(ofType: type, with: request)
   }
@@ -24,7 +24,7 @@ extension NSManagedObjectContext: StorageType {
   func allObjects<T: Object>(ofType type: T.Type, fetchLimit: Int, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T] {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
-    request.sortDescriptors = descriptors
+//    request.sortDescriptors = descriptors
     request.fetchLimit = fetchLimit
     
     return loadObjects(ofType: type, with: request)
@@ -149,7 +149,9 @@ extension NSManagedObjectContext: StorageType {
   private func loadObjects<T: Object>(ofType type: T.Type, with request: NSFetchRequest<NSFetchRequestResult>) -> [T] {
     var objects: [T]?
     
-    performAndWait { [unowned self] in
+    performAndWait { [weak self] in
+      guard let self else { return }
+      
       do {
         objects = try self.fetch(request) as? [T]
       } catch {

@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 
 extension ExerciseEntity {
-  
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ExerciseEntity> {
         return NSFetchRequest<ExerciseEntity>(entityName: "ExerciseEntity")
     }
@@ -24,8 +23,8 @@ extension ExerciseEntity {
     @NSManaged public var isFavorite: Bool
     @NSManaged public var level: String?
     @NSManaged public var name: String?
-    @NSManaged public var primaryMuscles: [String]?
-    @NSManaged public var secondaryMuscles: [String]?
+    @NSManaged public var primaryMuscles: [String]
+    @NSManaged public var secondaryMuscles: [String]
 }
 
 extension ExerciseEntity : Identifiable {

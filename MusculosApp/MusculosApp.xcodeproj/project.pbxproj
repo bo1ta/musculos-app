@@ -152,6 +152,7 @@
 		BCD59AAF2BB628700039F662 /* DetailCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59AAB2BB628700039F662 /* DetailCardView.swift */; };
 		BCD59AB02BB628700039F662 /* TransitionImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59AAC2BB628700039F662 /* TransitionImagesView.swift */; };
 		BCD59AB12BB628700039F662 /* ExerciseDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59AAE2BB628700039F662 /* ExerciseDetailsView.swift */; };
+		BCD59AB52BB631B30039F662 /* DummyStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59AB42BB631B30039F662 /* DummyStack.swift */; };
 		BCD837BC2B64902D0069CECB /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */; };
 		BCD837BF2B651F750069CECB /* LoadingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD837BE2B651F750069CECB /* LoadingOverlayView.swift */; };
 		BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */; };
@@ -343,6 +344,8 @@
 		BCD59AAB2BB628700039F662 /* DetailCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCardView.swift; sourceTree = "<group>"; };
 		BCD59AAC2BB628700039F662 /* TransitionImagesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionImagesView.swift; sourceTree = "<group>"; };
 		BCD59AAE2BB628700039F662 /* ExerciseDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsView.swift; sourceTree = "<group>"; };
+		BCD59AB42BB631B30039F662 /* DummyStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyStack.swift; sourceTree = "<group>"; };
+		BCD59AB62BB84A710039F662 /* Musculos 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 9.xcdatamodel"; sourceTree = "<group>"; };
 		BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
 		BCD837BE2B651F750069CECB /* LoadingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlayView.swift; sourceTree = "<group>"; };
 		BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -505,8 +508,6 @@
 				BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */,
 				BCB7F2EE2BB21D4A002CB2DE /* Extensions */,
 				BC6F365F2BB4E33C000F6CFA /* Helpers */,
-				BCFA25B02BB268D400F07A67 /* ResultsController.swift */,
-				BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */,
 				BCFBB7662A59C6D700896C3C /* Models */,
 				BC49248D2BA4D0BA00344A55 /* Protocol */,
 				BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */,
@@ -717,6 +718,7 @@
 		BC52DE012B8EB8A1005A4587 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				BC0171032AEC64B8005876EE /* MockConstants.swift */,
 				BC52DE072B8EBCFA005A4587 /* UserProfileFactory.swift */,
 			);
 			path = Mocks;
@@ -812,6 +814,7 @@
 				BC5BACB62AB26F40003C880E /* MusculosTestBase.swift */,
 				BC5BACBC2AB2769B003C880E /* MockURLProtocol.swift */,
 				BC5BACB82AB26FC8003C880E /* Supporting Files */,
+				BCD59AB42BB631B30039F662 /* DummyStack.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -861,7 +864,6 @@
 				BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */,
 				BC63A5A32AC33896006B1894 /* MuscleConstant.swift */,
 				BCB7F2E42BB1E8A5002CB2DE /* ExerciseConstant.swift */,
-				BCB7F2E62BB1E942002CB2DE /* Mock */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -884,6 +886,8 @@
 		BC6F365F2BB4E33C000F6CFA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BCFA25B02BB268D400F07A67 /* ResultsController.swift */,
+				BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1223,14 +1227,6 @@
 				BC01710A2AEC6DBD005876EE /* PersonAvatarCircle.swift */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		BCB7F2E62BB1E942002CB2DE /* Mock */ = {
-			isa = PBXGroup;
-			children = (
-				BC0171032AEC64B8005876EE /* MockConstants.swift */,
-			);
-			path = Mock;
 			sourceTree = "<group>";
 		};
 		BCB7F2E92BB215F0002CB2DE /* Storage */ = {
@@ -1681,6 +1677,7 @@
 				BC6F36672BB4E79F000F6CFA /* AuthViewModelTests.swift in Sources */,
 				BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */,
 				BC5BACD92ABB6694003C880E /* ExerciseModuleTests.swift in Sources */,
+				BCD59AB52BB631B30039F662 /* DummyStack.swift in Sources */,
 				BCFA25BA2BB37A9D00F07A67 /* AuthModuleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2040,6 +2037,7 @@
 		BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				BCD59AB62BB84A710039F662 /* Musculos 9.xcdatamodel */,
 				BC4913AA2BB6247400E7D5F7 /* Musculos 8.xcdatamodel */,
 				BCB7F2F72BB24C61002CB2DE /* Musculos 7.xcdatamodel */,
 				BC52DDF82B8D24F1005A4587 /* Musculos 6.xcdatamodel */,
@@ -2049,7 +2047,7 @@
 				BC96C2F92AC386BB00F11CAB /* Musculos 2.xcdatamodel */,
 				BC182EC92A589A81003DEA30 /* Musculos.xcdatamodel */,
 			);
-			currentVersion = BC4913AA2BB6247400E7D5F7 /* Musculos 8.xcdatamodel */;
+			currentVersion = BCD59AB62BB84A710039F662 /* Musculos 9.xcdatamodel */;
 			path = MusculosDataStore.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
