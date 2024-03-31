@@ -35,6 +35,7 @@
 		BC3FB0FB2A899A8500C3F9B1 /* EqualWidthHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0FA2A899A8500C3F9B1 /* EqualWidthHStack.swift */; };
 		BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */; };
 		BC43D33B2B6EAD8D008C1062 /* SearchFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D33A2B6EAD8D008C1062 /* SearchFilterViewModel.swift */; };
+		BC473ED42BB978C3004D02D7 /* SwiftyGif in Frameworks */ = {isa = PBXBuildFile; productRef = BC473ED32BB978C3004D02D7 /* SwiftyGif */; };
 		BC52DDCB2B85144C005A4587 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDCA2B85144C005A4587 /* APIEndpoint.swift */; };
 		BC52DDCE2B85164D005A4587 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDCD2B85164D005A4587 /* APIRequest.swift */; };
 		BC52DDD12B8516B8005A4587 /* MusculosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDD02B8516B8005A4587 /* MusculosClient.swift */; };
@@ -100,7 +101,6 @@
 		BC8244732BAF2F7B00CFA645 /* HealthKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8244722BAF2F7B00CFA645 /* HealthKitViewModel.swift */; };
 		BC8244762BAF64FA00CFA645 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8244752BAF64FA00CFA645 /* Date+Extension.swift */; };
 		BC8E86DD2AED2DB9008E3CE4 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8E86DC2AED2DB9008E3CE4 /* UIImage+Extension.swift */; };
-		BC96C2F82AC3665400F11CAB /* SwiftyGif in Frameworks */ = {isa = PBXBuildFile; productRef = BC96C2F72AC3665400F11CAB /* SwiftyGif */; };
 		BC96C2FB2AC8310500F11CAB /* SelectMuscleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96C2FA2AC8310500F11CAB /* SelectMuscleView.swift */; };
 		BC96C2FD2AC83B1C00F11CAB /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC96C2FC2AC83B1C00F11CAB /* Array+Extension.swift */; };
 		BC97C92F2BA0D4DD00AA07C4 /* MusculosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13EA2B78060D00E9E98E /* MusculosError.swift */; };
@@ -366,7 +366,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC96C2F82AC3665400F11CAB /* SwiftyGif in Frameworks */,
+				BC473ED42BB978C3004D02D7 /* SwiftyGif in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1381,7 +1381,7 @@
 			);
 			name = MusculosApp;
 			packageProductDependencies = (
-				BC96C2F72AC3665400F11CAB /* SwiftyGif */,
+				BC473ED32BB978C3004D02D7 /* SwiftyGif */,
 			);
 			productName = MusculosApp;
 			productReference = BC1160CC2A2CFB830028D8FC /* MusculosApp.app */;
@@ -1456,7 +1456,7 @@
 			);
 			mainGroup = BC1160C32A2CFB820028D8FC;
 			packageReferences = (
-				BC74A8C52AC3655E0005A7A8 /* XCRemoteSwiftPackageReference "SwiftyGif" */,
+				BC473ED22BB978C3004D02D7 /* XCRemoteSwiftPackageReference "SwiftyGif" */,
 			);
 			productRefGroup = BC1160CD2A2CFB830028D8FC /* Products */;
 			projectDirPath = "";
@@ -1999,20 +1999,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BC74A8C52AC3655E0005A7A8 /* XCRemoteSwiftPackageReference "SwiftyGif" */ = {
+		BC473ED22BB978C3004D02D7 /* XCRemoteSwiftPackageReference "SwiftyGif" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kirualex/SwiftyGif";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.4.4;
+				kind = exactVersion;
+				version = 5.4.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BC96C2F72AC3665400F11CAB /* SwiftyGif */ = {
+		BC473ED32BB978C3004D02D7 /* SwiftyGif */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BC74A8C52AC3655E0005A7A8 /* XCRemoteSwiftPackageReference "SwiftyGif" */;
+			package = BC473ED22BB978C3004D02D7 /* XCRemoteSwiftPackageReference "SwiftyGif" */;
 			productName = SwiftyGif;
 		};
 /* End XCSwiftPackageProductDependency section */
