@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class UserDataStore: BaseDataStore {
+final class UserDataStore: BaseDataStore, Sendable {
   func createUserProfile(person: Person) async {
     await writerDerivedStorage.performAndSave { [unowned self] in
       let userProfile = writerDerivedStorage.insertNewObject(ofType: UserProfile.self)

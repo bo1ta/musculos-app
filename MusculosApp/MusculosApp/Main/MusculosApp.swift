@@ -18,9 +18,6 @@ struct MusculosApp: App {
       GeometryReader { proxy in
         if userStore.isOnboarded && userStore.isLoggedIn {
           AppTabView()
-            .onAppear {
-              userStore.fetchUserProfile()
-            }
             .environmentObject(exerciseStore)
         } else {
           if !userStore.isLoggedIn {

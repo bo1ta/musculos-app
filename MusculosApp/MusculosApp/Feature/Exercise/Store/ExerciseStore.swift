@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class ExerciseStore: ObservableObject {
+class ExerciseStore: ObservableObject, @unchecked Sendable {
   @Published var state: LoadingViewState<[Exercise]> = .empty
   
   private let module: ExerciseModuleProtocol
@@ -35,7 +35,6 @@ class ExerciseStore: ObservableObject {
 // MARK: - Networking
 
 extension ExerciseStore {
-
   func loadRemoteExercises() {
     exerciseTask = Task { @MainActor [weak self] in
       guard let self else { return }

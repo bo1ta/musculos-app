@@ -26,7 +26,7 @@ struct AnatomyOverlayView: View {
         : Image("muscular_system_back")
         .resizable()
 
-      ForEach(0..<self.musclesIds.count) { muscleId in
+      ForEach(0..<self.musclesIds.count, id: \.hashValue) { muscleId in
         self.muscleImage(with: self.musclesIds[muscleId])
           .resizable()
       }.id(musclesIds)

@@ -76,3 +76,5 @@ struct CategorySectionView<Content: View>: View {
     print(section)
   }
 }
+
+

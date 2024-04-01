@@ -12,7 +12,7 @@ import CoreData
 @objc(ExerciseEntity)
 public class ExerciseEntity: NSManagedObject {
   func toReadOnly() -> Exercise {
-    return Exercise(category: self.category!,
+    return Exercise(category: self.category ?? "",
                     equipment: self.equipment,
                     id: self.exerciseId,
                     level: self.level!,

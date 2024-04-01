@@ -19,7 +19,7 @@ struct ProgressBarView: View {
   var body: some View {
     HStack {
       Spacer()
-      ForEach(0..<self.progressCount) { index in
+      ForEach(0..<self.progressCount, id: \.self) { index in
         if index == currentProgress {
           Image(systemName: "circle.fill")
             .font(.system(size: 11))

@@ -9,8 +9,9 @@ import Foundation
 import SwiftUI
 import Combine
 
-// Animates images to appear as "GIFs"
-struct AnimatedURLImageView: View {
+/// Animates images list and make them appear  as "GIFs"
+///
+struct AnimatedURLImageView: View, @unchecked Sendable {
   let imageURLs: [URL]
   let interval: TimeInterval
   

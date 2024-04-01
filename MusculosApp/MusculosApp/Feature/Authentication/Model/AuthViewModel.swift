@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class AuthViewModel: ObservableObject {
+class AuthViewModel: ObservableObject, @unchecked Sendable {
   @Published var state: LoadingViewState<Bool> = .empty
   @Published var email: String = ""
   @Published var password: String = ""

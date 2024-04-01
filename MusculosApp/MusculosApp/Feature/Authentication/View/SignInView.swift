@@ -37,7 +37,7 @@ struct SignInView: View {
       .onChange(of: viewModel.state) { state in
         switch state {
         case .error(let errorMessage):
-          // show error toast
+          MusculosLogger.logError(MusculosError.badRequest, message: errorMessage, category: .networking)
           break
         case .loaded(_):
           DispatchQueue.main.async {

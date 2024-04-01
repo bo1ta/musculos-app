@@ -9,8 +9,6 @@ import Foundation
 import SwiftUI
 
 enum TabBarItem: String {
-  
-  
   case explore
   case overview
 //  case workout

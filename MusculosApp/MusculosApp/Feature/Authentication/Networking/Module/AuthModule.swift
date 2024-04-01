@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class AuthModule: MusculosModule {
+final class AuthModule: MusculosModule, @unchecked Sendable {
   var client: MusculosClientProtocol
   
   init(client: MusculosClientProtocol = MusculosClient()) {

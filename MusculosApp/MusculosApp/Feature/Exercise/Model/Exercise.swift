@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class Exercise: Codable {
+struct Exercise: Codable {
   public var category: String
   public var equipment: String?
   public var force: String?

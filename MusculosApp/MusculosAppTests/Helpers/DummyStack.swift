@@ -12,9 +12,9 @@ import CoreData
 class DummyStack: StorageManagerType {
   public lazy var persistentContainer: NSPersistentContainer = {
     let container = NSPersistentContainer(name: "MusculosDataStore")
-    
     let description = container.persistentStoreDescriptions.first
-    description?.url = URL(fileURLWithPath: "/dev/null")
+    description?.type = NSInMemoryStoreType
+    description?.shouldAddStoreAsynchronously = false
     
     container.loadPersistentStores { _, error in
       if let error = error {

@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+@MainActor 
 struct CircleTimerView: View {
   @StateObject var viewModel: CircleTimerViewModel
   @Binding var durationInSeconds: Int
@@ -15,8 +16,8 @@ struct CircleTimerView: View {
   private let subtitle: String
   private var color: Color
   private var onTimerCompleted: () -> Void
-  
-  init(
+    
+  @MainActor init(
     durationInSeconds: Binding<Int>,
     subtitle: String = "min",
     color: Color = Color.AppColor.green500,

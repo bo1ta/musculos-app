@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 import HealthKit
 
-class HealthKitViewModel: ObservableObject {
+@MainActor
+final class HealthKitViewModel: ObservableObject, @unchecked Sendable {
   @Published var stepsCount: String = ""
   @Published var sleepTime: String = ""
   @Published var dietaryWater: String = ""
@@ -62,8 +63,7 @@ class HealthKitViewModel: ObservableObject {
     }
   }
   
-  @MainActor
-  func loadAllData() async {
+  nonisolated func loadAllData() async {
     await withTaskGroup(of: Void.self) { [weak self] group in
       guard let self else { return }
       

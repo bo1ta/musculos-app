@@ -8,7 +8,7 @@
 import Foundation
 import HealthKit
 
-class HealthKitManager {
+class HealthKitManager: @unchecked Sendable {
   static let toSharePermissions: Set<HKSampleType> = [
     HKQuantityType(.stepCount),
     HKCategoryType(.sleepAnalysis),
@@ -32,6 +32,7 @@ class HealthKitManager {
 // MARK: - Setup
 
 extension HealthKitManager {
+  @MainActor
   func setUpPermissions() async {
     guard HKHealthStore.isHealthDataAvailable() else { return }
     

@@ -8,10 +8,10 @@
 import Foundation
 import CoreData
 
-class ExerciseDataStore: BaseDataStore {
+struct ExerciseDataStore: BaseDataStore {
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async {
-    await writerDerivedStorage.performAndSave { [weak self] in
-      guard let self, let uuid = exercise.id else { return }
+    await writerDerivedStorage.performAndSave {
+      guard let uuid = exercise.id else { return }
       
       let predicate = ExerciseEntity.predicateForId(uuid)
       let exercise = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: predicate)
@@ -27,9 +27,7 @@ class ExerciseDataStore: BaseDataStore {
   }
   
   func importExercises(_ exercises: [Exercise]) async -> [Exercise] {
-    await writerDerivedStorage.performAndSave { [weak self] in
-      guard let self else { return }
-      
+    await writerDerivedStorage.performAndSave {
       _ = exercises.map { exercise in
         let predicate = ExerciseEntity.predicateForId(exercise.id!)
         let exerciseEntity = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: predicate)
