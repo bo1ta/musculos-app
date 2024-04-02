@@ -24,8 +24,8 @@ extension DecodableModel where Self: Codable {
       let decoded = try decoder.decode(Self.self, from: data)
       return decoded
     } catch {
-      debugPrint(error)
-      throw error
+      MusculosLogger.logError(error, message: "Could not decode object", category: .networking, properties: ["object": String(describing: Self.self)])
+      throw MusculosError.decodingError
     }
   }
 
@@ -37,7 +37,7 @@ extension DecodableModel where Self: Codable {
       let decoded = try decoder.decode([Self].self, from: data)
       return decoded
     } catch {
-      debugPrint(error)
+      MusculosLogger.logError(error, message: "Could not decode object", category: .networking, properties: ["object": String(describing: Self.self)])
       throw MusculosError.decodingError
     }
   }
