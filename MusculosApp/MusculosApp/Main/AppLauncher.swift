@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-/// Returns a mock app when launched by a unit tests
+/// Returns a mock app when launched by unit tests
 ///
 @main
 struct AppLauncher {

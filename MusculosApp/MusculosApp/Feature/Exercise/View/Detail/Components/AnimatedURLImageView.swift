@@ -1,5 +1,5 @@
 //
-//  TransitionImagesView.swift
+//  AnimatedURLImageView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 10.02.2024.
@@ -11,7 +11,7 @@ import Combine
 
 /// Animates images list and make them appear  as "GIFs"
 ///
-struct AnimatedURLImageView: View, @unchecked Sendable {
+struct AnimatedURLImageView: View {
   let imageURLs: [URL]
   let interval: TimeInterval
   
@@ -69,6 +69,8 @@ struct AnimatedURLImageView: View, @unchecked Sendable {
     timer = nil
   }
 }
+
+extension AnimatedURLImageView: @unchecked Sendable {}
 
 #Preview {
   AnimatedURLImageView(imageURLs: [])

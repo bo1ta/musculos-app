@@ -36,6 +36,13 @@ struct OverviewView: View {
       await healthKitViewModel.loadAllData()
     }
     .scrollIndicators(.hidden)
+    .overlay {
+      if healthKitViewModel.isLoading {
+        LoadingOverlayView()
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .ignoresSafeArea()
+      }
+    }
   }
 }
 

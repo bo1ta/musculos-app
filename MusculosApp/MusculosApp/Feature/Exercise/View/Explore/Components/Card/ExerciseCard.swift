@@ -33,12 +33,16 @@ struct ExerciseCard: View {
   }
   
   // MARK: - Views
-  
   @ViewBuilder
   private var backgroundView: some View {
     if let imageUrl = exercise.getImagesURLs().first {
-      AsyncImage(url: imageUrl)
-        .frame(width: cardWidth, height: cardHeight)
+      if let cachedImage = ImageCacheManager.shared[imageUrl] {
+        cachedImage        
+          .frame(width: cardWidth, height: cardHeight)
+      } else {
+        AsyncImage(url: imageUrl)
+          .frame(width: cardWidth, height: cardHeight)
+      }
     } else {
       Color.gray
         .frame(width: cardWidth, height: cardWidth)

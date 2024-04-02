@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class UserStore: ObservableObject, @unchecked Sendable {
+class UserStore: ObservableObject {
   @Published var currentUserProfile: UserProfile? = nil
   @Published var error: Error? = nil
   @Published var isLoading: Bool = false
@@ -57,3 +57,5 @@ class UserStore: ObservableObject, @unchecked Sendable {
     }
   }
 }
+
+extension UserStore: @unchecked Sendable {}

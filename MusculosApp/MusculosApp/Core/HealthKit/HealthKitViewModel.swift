@@ -15,6 +15,7 @@ final class HealthKitViewModel: ObservableObject {
   @Published var dietaryWater: String = ""
   @Published var isAuthorized: Bool = false
   @Published var errorMessage: String = ""
+  @Published var isLoading: Bool = false
     
   private let healthStore = HKHealthStore()
   private let manager: HealthKitManager
@@ -30,41 +31,12 @@ final class HealthKitViewModel: ObservableObject {
   }
   
   @MainActor
-  func loadUserSteps() async {
-    do {
-      if let stepsCount = try await manager.readStepCount() {
-        self.stepsCount = String(stepsCount)
-      }
-    } catch {
-      errorMessage = "Could not load data"
-    }
-  }
-  
-  @MainActor
-  func loadSleepAnalysis() async {
-    do {
-      if let sleepTime = try await manager.readSleepAnalysis() {
-        self.sleepTime = String(sleepTime)
-      }
-    } catch {
-      errorMessage = "Could not load data"
-    }
-  }
-  
-  @MainActor
-  func loadDietaryWater() async {
-    do {
-      if let dietaryWater = try await manager.readDietaryWater() {
-        self.dietaryWater = String(dietaryWater)
-      }
-    } catch {
-      errorMessage = "Could not load data"
-    }
-  }
-  
-  nonisolated func loadAllData() async {
+  func loadAllData() async {
     await withTaskGroup(of: Void.self) { [weak self] group in
       guard let self else { return }
+      
+      self.isLoading = true
+      defer { self.isLoading = false }
       
       group.addTask { await self.loadUserSteps() }
       group.addTask { await self.loadSleepAnalysis() }
@@ -88,6 +60,39 @@ extension HealthKitViewModel {
       isAuthorized = false
     @unknown default:
       MusculosLogger.logError(MusculosError.badRequest, message: "Cannot update authorization status", category: .healthKit)
+    }
+  }
+  
+  @MainActor
+  private func loadUserSteps() async {
+    do {
+      if let stepsCount = try await manager.readStepCount() {
+        self.stepsCount = String(stepsCount)
+      }
+    } catch {
+      errorMessage = "Could not load data"
+    }
+  }
+
+  @MainActor
+  private func loadSleepAnalysis() async {
+    do {
+      if let sleepTime = try await manager.readSleepAnalysis() {
+        self.sleepTime = String(sleepTime)
+      }
+    } catch {
+      errorMessage = "Could not load data"
+    }
+  }
+  
+  @MainActor
+  private func loadDietaryWater() async {
+    do {
+      if let dietaryWater = try await manager.readDietaryWater() {
+        self.dietaryWater = String(dietaryWater)
+      }
+    } catch {
+      errorMessage = "Could not load data"
     }
   }
 }

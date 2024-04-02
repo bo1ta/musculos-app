@@ -136,9 +136,9 @@ struct ExerciseDetailsView: View {
     }
   }
 }
-//
-//#Preview {
-//  ExerciseDetailsView(exercise: ExerciseFactory.create())
-//    .environmentObject(TabBarSettings())
-//    .environmentObject(ExerciseStore())
-//}
+
+#Preview {
+  ExerciseDetailsView(exercise: ExerciseFactory.createExercise())
+    .environmentObject(TabBarSettings())
+    .environmentObject(ExerciseStore())
+}

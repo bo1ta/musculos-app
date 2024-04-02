@@ -15,6 +15,7 @@ struct SignInView: View {
     NavigationStack {
       VStack(alignment: .center) {
         Spacer()
+        
         Text(headerTitle)
           .font(.header(.bold, size: 25))
         Text(bodyTitle)
@@ -38,7 +39,6 @@ struct SignInView: View {
         switch state {
         case .error(let errorMessage):
           MusculosLogger.logError(MusculosError.badRequest, message: errorMessage, category: .networking)
-          break
         case .loaded(_):
           DispatchQueue.main.async {
             userStore.isLoggedIn = true
@@ -58,7 +58,7 @@ struct SignInView: View {
   }
 }
 
-// MARK: - Private views
+// MARK: - Views
 
 extension SignInView {
   private var loginForm: some View {
