@@ -6,7 +6,7 @@
 //
 
 import Foundation
-@preconcurrency import CoreData
+import CoreData
 
 final class CoreDataStack: StorageManagerType {
   public lazy var persistentContainer: NSPersistentContainer = {

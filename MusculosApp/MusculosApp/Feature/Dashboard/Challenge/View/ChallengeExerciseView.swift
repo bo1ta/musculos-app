@@ -110,7 +110,6 @@ struct ChallengeExerciseView: View {
     .padding([.leading, .trailing], 10)
   }
   
-  @MainActor
   @ViewBuilder
   private var circleView: some View {
     if timerType == TimerType.active {

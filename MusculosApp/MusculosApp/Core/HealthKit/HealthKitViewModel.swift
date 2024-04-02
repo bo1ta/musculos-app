@@ -32,7 +32,7 @@ final class HealthKitViewModel: ObservableObject {
   
   @MainActor
   func loadAllData() async {
-    await withTaskGroup(of: Void.self) { [weak self] group in
+    await withTaskGroup(of: Void.self) { @MainActor [weak self] group in
       guard let self else { return }
       
       self.isLoading = true
@@ -41,6 +41,7 @@ final class HealthKitViewModel: ObservableObject {
       group.addTask { await self.loadUserSteps() }
       group.addTask { await self.loadSleepAnalysis() }
       group.addTask { await self.loadDietaryWater()}
+      
       await group.waitForAll()
     }
   }
