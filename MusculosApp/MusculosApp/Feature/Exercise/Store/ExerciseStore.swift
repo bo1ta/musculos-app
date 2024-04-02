@@ -14,10 +14,10 @@ class ExerciseStore: ObservableObject {
   private let module: ExerciseModuleProtocol
   private let fetchedResultsController: ResultsController<ExerciseEntity>
   
-  init(module: ExerciseModuleProtocol = ExerciseModule()) {
+  init(module: ExerciseModuleProtocol = ExerciseModule(), shouldLoadFromCache: Bool = true) {
     self.module = module
     self.fetchedResultsController = ResultsController<ExerciseEntity>(storageManager: CoreDataStack.shared, sortedBy: [])
-    self.setUpFetchedResultsController()
+    self.setUpFetchedResultsController(shouldLoadFromCache: shouldLoadFromCache)
   }
   
   private(set) var exerciseTask: Task<Void, Never>?
@@ -44,7 +44,8 @@ extension ExerciseStore {
         let exercises = try await self.module.getExercises()
         self.state = .loaded(exercises)
       } catch {
-        self.state = .error(error.localizedDescription)
+        MusculosLogger.logError(error, message: "Could not load remote exercises", category: .networking)
+        self.state = .error(MessageConstant.genericErrorMessage.rawValue)
       }
     }
   }
@@ -58,7 +59,8 @@ extension ExerciseStore {
         let exercises = try await self.module.searchByMuscleQuery(query)
         self.state = .loaded(exercises)
       } catch {
-        self.state = .error(error.localizedDescription)
+        MusculosLogger.logError(error, message: "Could not search by muscle query", category: .networking, properties: ["query": query])
+        self.state = .error(MessageConstant.genericErrorMessage.rawValue)
       }
     }
   }
@@ -107,7 +109,7 @@ extension ExerciseStore {
 // MARK: - Fetched Results Controller Helpers
 
 extension ExerciseStore {
-  private func setUpFetchedResultsController() {
+  private func setUpFetchedResultsController(shouldLoadFromCache: Bool) {
     fetchedResultsController.onDidChangeContent = { [weak self] in
       self?.updateLocalResults()
     }
@@ -115,6 +117,7 @@ extension ExerciseStore {
       self?.updateLocalResults()
     }
     
+    guard shouldLoadFromCache else { return }
     do {
       try fetchedResultsController.performFetch()
       updateLocalResults()
