@@ -8,7 +8,7 @@
 import Foundation
 import HealthKit
 
-class HealthKitManager: @unchecked Sendable {
+class HealthKitManager {
   static let toSharePermissions: Set<HKSampleType> = [
     HKQuantityType(.stepCount),
     HKCategoryType(.sleepAnalysis),

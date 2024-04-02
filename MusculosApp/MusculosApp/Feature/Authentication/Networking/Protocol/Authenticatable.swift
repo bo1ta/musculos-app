@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Authenticatable: Sendable {  
+protocol Authenticatable {  
   func register(email: String, password: String, username: String, fullName: String) async throws -> String
   func login(email: String, password: String) async throws -> String
 }

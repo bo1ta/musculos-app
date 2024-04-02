@@ -97,5 +97,3 @@ extension HealthKitViewModel {
     }
   }
 }
-
-extension HealthKitViewModel: @unchecked Sendable {}

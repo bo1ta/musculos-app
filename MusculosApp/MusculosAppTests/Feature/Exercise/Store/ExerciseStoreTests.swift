@@ -151,7 +151,7 @@ extension ExerciseStoreTests {
     }
   }
   
-  private class MockExerciseModule: ExerciseModuleProtocol, @unchecked Sendable {
+  private class MockExerciseModule: ExerciseModuleProtocol {
     var expectation: XCTestExpectation?
     var shouldFail: Bool = false
     var expectedResults: [Exercise] = []

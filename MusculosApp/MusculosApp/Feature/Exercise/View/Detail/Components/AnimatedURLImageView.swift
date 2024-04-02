@@ -70,8 +70,6 @@ struct AnimatedURLImageView: View {
   }
 }
 
-extension AnimatedURLImageView: @unchecked Sendable {}
-
 #Preview {
   AnimatedURLImageView(imageURLs: [])
 }

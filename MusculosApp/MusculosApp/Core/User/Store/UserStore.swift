@@ -57,5 +57,3 @@ class UserStore: ObservableObject {
     }
   }
 }
-
-extension UserStore: @unchecked Sendable {}

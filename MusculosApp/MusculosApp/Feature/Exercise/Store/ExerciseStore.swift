@@ -130,5 +130,3 @@ extension ExerciseStore {
     state = .loaded(fetchedResultsController.fetchedObjects)
   }
 }
-
-extension ExerciseStore: @unchecked Sendable {}

@@ -47,5 +47,3 @@ extension AuthModule {
     var token: String
   }
 }
-
-extension AuthModule: @unchecked Sendable {} 

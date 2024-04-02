@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol ExerciseModuleProtocol: Sendable {
+protocol ExerciseModuleProtocol {
   var dataStore: ExerciseDataStore { get set }
   func getExercises() async throws -> [Exercise]
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise]
 }
 
-struct ExerciseModule: ExerciseModuleProtocol, MusculosModule, @unchecked Sendable {
+struct ExerciseModule: ExerciseModuleProtocol, MusculosModule {
   var client: MusculosClientProtocol
   var dataStore: ExerciseDataStore
 

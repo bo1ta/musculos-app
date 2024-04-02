@@ -10,7 +10,7 @@ import SwiftUI
 
 /// Shared instance of cached images
 ///
-final class ImageCacheManager: @unchecked Sendable {
+final class ImageCacheManager {
   static let shared = ImageCacheManager()
   
   private var cache: [URL: Image] = [:]

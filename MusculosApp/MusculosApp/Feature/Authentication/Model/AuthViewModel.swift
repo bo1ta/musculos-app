@@ -79,5 +79,3 @@ extension AuthViewModel {
     UserDefaults.standard.setValue(token, forKey: UserDefaultsKeyConstant.authToken.rawValue)
   }
 }
-
-extension AuthViewModel: @unchecked Sendable {}
