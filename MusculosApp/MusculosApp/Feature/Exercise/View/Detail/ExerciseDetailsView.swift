@@ -75,7 +75,7 @@ struct ExerciseDetailsView: View {
         if let primaryMuscle = exercise.primaryMuscles.first {
           IconPill(option: IconPillOption(title: primaryMuscle))
         }
-        ForEach(exercise.secondaryMuscles, id: \.self) { secondaryMuscle in
+        ForEach(exercise.secondaryMuscles.chunked(into: 2).first ?? [], id: \.self) { secondaryMuscle in
           IconPill(option: IconPillOption(title: secondaryMuscle))
         }
         Spacer()
