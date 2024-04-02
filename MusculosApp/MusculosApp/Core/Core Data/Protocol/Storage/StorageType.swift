@@ -44,7 +44,7 @@ protocol StorageType {
   
   /// Finds or inserts object from a identifier, given a Type
   ///
-  func findOrInsert<T: Object>(of type: T.Type, using identifier: UUID?) -> T
+  func findOrInsert<T: Object>(of type: T.Type, using predicate: NSPredicate) -> T
   
   /// Inserts a new object of a given type
   ///
@@ -58,7 +58,7 @@ protocol StorageType {
   ///
   func saveIfNeeded()
   
-  /// Perform block
+  /// Perform sync block
   ///
   func perform(_ closure: @escaping () -> Void) async
   

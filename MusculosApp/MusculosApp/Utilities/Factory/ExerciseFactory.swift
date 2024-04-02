@@ -28,7 +28,7 @@ struct ExerciseFactory {
              imageUrls: imageUrls)
   }
   
-  static func createMockExercise(
+  static func createExercise(
     name: String = "Power Stairs",
     primaryMuscles: [String] = ["hamstrings"],
     secondaryMuscles: [String] = ["calves", "glutes", "traps"],

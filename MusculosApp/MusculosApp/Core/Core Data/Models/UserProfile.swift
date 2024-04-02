@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @objc(UserProfile)
-public class UserProfile: NSManagedObject, Codable, UserProfileProvider {
+public class UserProfile: NSManagedObject {
   @NSManaged public var gender: String?
   @NSManaged public var fullName: String?
   @NSManaged public var username: String?
@@ -32,51 +32,31 @@ public class UserProfile: NSManagedObject, Codable, UserProfileProvider {
     }
   }
   
-  enum CodingKeys: String, CodingKey {
-    case gender, username, email, weight, height, goalId, isCurrentUser, synchronized
-    case updatedAt = "updated_at"
-    case fullName = "full_name"
-  }
-  
-  public required convenience init(from decoder: Decoder) throws {
-    guard let context = decoder.userInfo[.managedObjectContext] as? NSManagedObjectContext else {
-      fatalError("Managed object context not found!")
-    }
-    
-    self.init(context: context)
-    
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.fullName = try container.decode(String.self, forKey: .fullName)
-    self.email = try container.decode(String.self, forKey: .email)
-    self.username = try container.decode(String.self, forKey: .username)
-    
-    if let weight = try? container.decode(Int.self, forKey: .weight) {
-      self.weight = NSNumber(integerLiteral: weight)
-    }
-    if let height = try? container.decode(Int.self, forKey: .height) {
-      self.height = NSNumber(integerLiteral: height)
-    }
-    if let goalId = try? container.decode(Int.self, forKey: .goalId) {
-      self.goalId = NSNumber(integerLiteral: goalId)
-    }
-  }
-  
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(fullName, forKey: .fullName)
-    try container.encode(email, forKey: .email)
-    try container.encode(username, forKey: .username)
-    try container.encode(goalId?.intValue, forKey: .goalId)
-    try container.encode(weight?.intValue, forKey: .weight)
-    try container.encode(height?.intValue, forKey: .height)
-  }
-  
   public class func fetchRequest() -> NSFetchRequest<UserProfile> {
     return NSFetchRequest<UserProfile>(entityName: "UserProfile")
   }
   
+  /// Should be used only on main thread
+  ///
+  static var currentUserProfile: UserProfile? {
+    let viewStorage = CoreDataStack.shared.viewStorage
+    return viewStorage.firstObject(of: UserProfile.self, matching: CommonPredicate.currentUser.nsPredicate)
+  }
+  
   static func currentUserProfile(storage: StorageType) -> UserProfile? {
-    let predicate = NSPredicate(format: "isCurrentUser == true")
-    return storage.firstObject(of: UserProfile.self, matching: predicate)
+    return storage.firstObject(of: UserProfile.self, matching: CommonPredicate.currentUser.nsPredicate)
+  }
+}
+
+extension UserProfile {
+  enum CommonPredicate {
+    case currentUser
+    
+    var nsPredicate: NSPredicate {
+      switch self {
+      case .currentUser:
+        NSPredicate(format: "isCurrentUser == true")
+      }
+    }
   }
 }

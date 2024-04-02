@@ -21,7 +21,6 @@ class UserStore: ObservableObject {
     }
   }
     
-  private(set) var fetchUserProfileTask: Task<Void, Never>?
   private(set) var updateUserProfileTask: Task<Void, Never>?
   
   private let dataStore: UserDataStore
@@ -47,22 +46,8 @@ class UserStore: ObservableObject {
   }
   
   func cleanUp() {
-    fetchUserProfileTask?.cancel()
-    fetchUserProfileTask = nil
-    
     updateUserProfileTask?.cancel()
     updateUserProfileTask = nil
-  }
-}
-
-// MARK: - Core Data
-
-extension UserStore {
-  func fetchUserProfile() {
-    fetchUserProfileTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-//      self.currentUserProfile = await UserProfile.currentUserProfile(context: CoreDataStack.shared.viewStorage)
-    }
   }
   
   func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) {

@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class CoreDataStack: StorageManagerType {
+final class CoreDataStack: StorageManagerType {
   public lazy var persistentContainer: NSPersistentContainer = {
     let container = NSPersistentContainer(name: "MusculosDataStore")
     
@@ -33,7 +33,7 @@ class CoreDataStack: StorageManagerType {
   public lazy var writerDerivedStorage: StorageType = {
     let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     managedObjectContext.parent = persistentContainer.viewContext
-    managedObjectContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    managedObjectContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
     return managedObjectContext
   }()
   
@@ -81,12 +81,10 @@ extension CoreDataStack {
   }
 }
 
-// MARK: - Tests helper
-
 extension CoreDataStack {
-  private static var _shared: CoreDataStack?
+  private static var _shared: StorageManagerType?
 
-  static var shared: CoreDataStack {
+  static var shared: StorageManagerType {
     if let existingShared = _shared {
       return existingShared
     } else {
@@ -96,7 +94,7 @@ extension CoreDataStack {
     }
   }
   
-  static func setOverride(_ override: CoreDataStack) {
+  static func setOverride(_ override: StorageManagerType) {
     _shared = override
   }
 
