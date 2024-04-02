@@ -25,14 +25,11 @@
 		BC182ECD2A589BE7003DEA30 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */; };
 		BC261AB82B6DA0EF0018E21F /* SearchFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC261AB72B6DA0EF0018E21F /* SearchFilterView.swift */; };
 		BC3454532B72DF4B0074106A /* ExerciseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3454522B72DF4B0074106A /* ExerciseStore.swift */; };
-		BC3454582B75706A0074106A /* GIFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3454562B75706A0074106A /* GIFImageView.swift */; };
-		BC3454592B75706A0074106A /* GIFImageViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3454572B75706A0074106A /* GIFImageViewRepresentable.swift */; };
 		BC34545E2B76C3EA0074106A /* DebouncedQueryObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */; };
 		BC3F13EB2B78060D00E9E98E /* MusculosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13EA2B78060D00E9E98E /* MusculosError.swift */; };
 		BC3FB0FB2A899A8500C3F9B1 /* EqualWidthHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB0FA2A899A8500C3F9B1 /* EqualWidthHStack.swift */; };
 		BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */; };
 		BC43D33B2B6EAD8D008C1062 /* SearchFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D33A2B6EAD8D008C1062 /* SearchFilterViewModel.swift */; };
-		BC473ED42BB978C3004D02D7 /* SwiftyGif in Frameworks */ = {isa = PBXBuildFile; productRef = BC473ED32BB978C3004D02D7 /* SwiftyGif */; };
 		BC52DDCB2B85144C005A4587 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDCA2B85144C005A4587 /* APIEndpoint.swift */; };
 		BC52DDCE2B85164D005A4587 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDCD2B85164D005A4587 /* APIRequest.swift */; };
 		BC52DDD12B8516B8005A4587 /* MusculosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDD02B8516B8005A4587 /* MusculosClient.swift */; };
@@ -148,7 +145,6 @@
 		BCD59AB12BB628700039F662 /* ExerciseDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59AAE2BB628700039F662 /* ExerciseDetailsView.swift */; };
 		BCD59AB52BB631B30039F662 /* DummyStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59AB42BB631B30039F662 /* DummyStack.swift */; };
 		BCD837BC2B64902D0069CECB /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */; };
-		BCD837BF2B651F750069CECB /* LoadingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD837BE2B651F750069CECB /* LoadingOverlayView.swift */; };
 		BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */; };
 		BCE417102A7D73380088D975 /* WorkoutTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4170F2A7D73380088D975 /* WorkoutTabBarButton.swift */; };
 		BCE484A42BB07A4C00BC8268 /* loading-animated.gif in Resources */ = {isa = PBXBuildFile; fileRef = BCE484A32BB07A4C00BC8268 /* loading-animated.gif */; };
@@ -194,18 +190,14 @@
 		BC1160DD2A2CFB830028D8FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC1160E22A2CFB840028D8FC /* MusculosAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusculosAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC11BC592A7D74CB00D96440 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
-		BC182EC92A589A81003DEA30 /* Musculos.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Musculos.xcdatamodel; sourceTree = "<group>"; };
 		BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		BC261AB72B6DA0EF0018E21F /* SearchFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterView.swift; sourceTree = "<group>"; };
 		BC3454522B72DF4B0074106A /* ExerciseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseStore.swift; sourceTree = "<group>"; };
-		BC3454562B75706A0074106A /* GIFImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFImageView.swift; sourceTree = "<group>"; };
-		BC3454572B75706A0074106A /* GIFImageViewRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFImageViewRepresentable.swift; sourceTree = "<group>"; };
 		BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebouncedQueryObserver.swift; sourceTree = "<group>"; };
 		BC3F13EA2B78060D00E9E98E /* MusculosError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusculosError.swift; sourceTree = "<group>"; };
 		BC3FB0FA2A899A8500C3F9B1 /* EqualWidthHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualWidthHStack.swift; sourceTree = "<group>"; };
 		BC3FB1002A89A87400C3F9B1 /* DarkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkButton.swift; sourceTree = "<group>"; };
 		BC43D33A2B6EAD8D008C1062 /* SearchFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterViewModel.swift; sourceTree = "<group>"; };
-		BC4913AA2BB6247400E7D5F7 /* Musculos 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 8.xcdatamodel"; sourceTree = "<group>"; };
 		BC52DDCA2B85144C005A4587 /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		BC52DDCD2B85164D005A4587 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		BC52DDD02B8516B8005A4587 /* MusculosClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosClient.swift; sourceTree = "<group>"; };
@@ -216,13 +208,10 @@
 		BC52DDDB2B8560DB005A4587 /* Shimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shimmer.swift; sourceTree = "<group>"; };
 		BC52DDDF2B856E64005A4587 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		BC52DDE42B867107005A4587 /* AsyncCachedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncCachedImage.swift; sourceTree = "<group>"; };
-		BC52DDE62B86C168005A4587 /* Musculos 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 4.xcdatamodel"; sourceTree = "<group>"; };
 		BC52DDE72B86C765005A4587 /* SynchronizationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynchronizationState.swift; sourceTree = "<group>"; };
-		BC52DDE92B86C7CD005A4587 /* Musculos 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 5.xcdatamodel"; sourceTree = "<group>"; };
 		BC52DDEA2B880E80005A4587 /* ExerciseDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataStore.swift; sourceTree = "<group>"; };
 		BC52DDF02B8AA9D6005A4587 /* HintIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintIconView.swift; sourceTree = "<group>"; };
 		BC52DDF62B8BF5E8005A4587 /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
-		BC52DDF82B8D24F1005A4587 /* Musculos 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 6.xcdatamodel"; sourceTree = "<group>"; };
 		BC583B0C2BA8C76500236C0D /* OnboardingWizardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWizardViewModel.swift; sourceTree = "<group>"; };
 		BC5925002A5C8B72000F1941 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BC5972102A351B0F00EBB075 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
@@ -271,11 +260,8 @@
 		BC8244722BAF2F7B00CFA645 /* HealthKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitViewModel.swift; sourceTree = "<group>"; };
 		BC8244752BAF64FA00CFA645 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		BC8E86DC2AED2DB9008E3CE4 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
-		BC8F4CDC2BBC9FAA004F13FA /* Musculos 10.xcdatamodel */ = {isa = PBXFileReference; explicitFileType = wrapper.xcdatamodeld; path = "Musculos 10.xcdatamodel"; sourceTree = "<group>"; };
-		BC96C2F92AC386BB00F11CAB /* Musculos 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 2.xcdatamodel"; sourceTree = "<group>"; };
 		BC96C2FA2AC8310500F11CAB /* SelectMuscleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMuscleView.swift; sourceTree = "<group>"; };
 		BC96C2FC2AC83B1C00F11CAB /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
-		BC96C2FE2ACE18C700F11CAB /* Musculos 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 3.xcdatamodel"; sourceTree = "<group>"; };
 		BC97C9312BA0D5D500AA07C4 /* AddActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddActionSheet.swift; sourceTree = "<group>"; };
 		BC9937282B6441D90067E556 /* ExerciseModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseModule.swift; sourceTree = "<group>"; };
 		BCA24BEE2B69D3AE00124EC3 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
@@ -302,7 +288,6 @@
 		BCB7F2EC2BB2169A002CB2DE /* Object.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
 		BCB7F2EF2BB21D68002CB2DE /* NSManagedObjectContext+Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Storage.swift"; sourceTree = "<group>"; };
 		BCB7F2F32BB22D4C002CB2DE /* NSManagedObject+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Extension.swift"; sourceTree = "<group>"; };
-		BCB7F2F72BB24C61002CB2DE /* Musculos 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 7.xcdatamodel"; sourceTree = "<group>"; };
 		BCB7F3012BB24ED6002CB2DE /* ExerciseEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExerciseEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BCB7F3022BB24ED6002CB2DE /* ExerciseEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExerciseEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BCB7F3072BB24F87002CB2DE /* ExerciseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFactory.swift; sourceTree = "<group>"; };
@@ -328,7 +313,6 @@
 		BCD59AB42BB631B30039F662 /* DummyStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyStack.swift; sourceTree = "<group>"; };
 		BCD59AB62BB84A710039F662 /* Musculos 9.xcdatamodel */ = {isa = PBXFileReference; explicitFileType = wrapper.xcdatamodel; path = "Musculos 9.xcdatamodel"; sourceTree = "<group>"; };
 		BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
-		BCD837BE2B651F750069CECB /* LoadingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlayView.swift; sourceTree = "<group>"; };
 		BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BCE4170F2A7D73380088D975 /* WorkoutTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTabBarButton.swift; sourceTree = "<group>"; };
 		BCE484A32BB07A4C00BC8268 /* loading-animated.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "loading-animated.gif"; sourceTree = "<group>"; };
@@ -351,7 +335,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC473ED42BB978C3004D02D7 /* SwiftyGif in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,23 +498,6 @@
 			path = Store;
 			sourceTree = "<group>";
 		};
-		BC3454542B7570430074106A /* UIKit */ = {
-			isa = PBXGroup;
-			children = (
-				BC3454552B7570570074106A /* GIF Image */,
-			);
-			path = UIKit;
-			sourceTree = "<group>";
-		};
-		BC3454552B7570570074106A /* GIF Image */ = {
-			isa = PBXGroup;
-			children = (
-				BC3454562B75706A0074106A /* GIFImageView.swift */,
-				BC3454572B75706A0074106A /* GIFImageViewRepresentable.swift */,
-			);
-			path = "GIF Image";
-			sourceTree = "<group>";
-		};
 		BC34545A2B758AE10074106A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -557,7 +523,6 @@
 				BC82446F2BAF251500CFA645 /* HealthKit */,
 				BC3FB0F92A899A7900C3F9B1 /* Layout */,
 				BC352AE42A326D7C00DAA3AB /* Network */,
-				BC3454542B7570430074106A /* UIKit */,
 				BCA24C042B6AFF5100124EC3 /* User */,
 				BC59720F2A351AEF00EBB075 /* Styles */,
 				BC5A41032A7D6EF300F671F5 /* Tab Bar */,
@@ -690,7 +655,6 @@
 			children = (
 				BC7827622B9D1CF000DFC02C /* Shapes */,
 				BC97C9302BA0D57200AA07C4 /* Sheet */,
-				BCD837BD2B651F5A0069CECB /* Loading View */,
 				BC5A41022A7C55AB00F671F5 /* Navigation */,
 				BCFBB7842A59EDB500896C3C /* IconPill */,
 				BCCBEC712AD85158002F5E41 /* RoundedTextField.swift */,
@@ -1301,14 +1265,6 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		BCD837BD2B651F5A0069CECB /* Loading View */ = {
-			isa = PBXGroup;
-			children = (
-				BCD837BE2B651F750069CECB /* LoadingOverlayView.swift */,
-			);
-			path = "Loading View";
-			sourceTree = "<group>";
-		};
 		BCFA25B82BB37A8B00F07A67 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -1354,7 +1310,6 @@
 			);
 			name = MusculosApp;
 			packageProductDependencies = (
-				BC473ED32BB978C3004D02D7 /* SwiftyGif */,
 			);
 			productName = MusculosApp;
 			productReference = BC1160CC2A2CFB830028D8FC /* MusculosApp.app */;
@@ -1407,7 +1362,6 @@
 			);
 			mainGroup = BC1160C32A2CFB820028D8FC;
 			packageReferences = (
-				BC473ED22BB978C3004D02D7 /* XCRemoteSwiftPackageReference "SwiftyGif" */,
 			);
 			productRefGroup = BC1160CD2A2CFB830028D8FC /* Products */;
 			projectDirPath = "";
@@ -1492,7 +1446,6 @@
 				BC96C2FB2AC8310500F11CAB /* SelectMuscleView.swift in Sources */,
 				BCA87E592AE83B3800453E4B /* ChallengeView.swift in Sources */,
 				BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */,
-				BC3454592B75706A0074106A /* GIFImageViewRepresentable.swift in Sources */,
 				BC0171092AEC6A71005876EE /* DashboardView.swift in Sources */,
 				BC3FB1012A89A87400C3F9B1 /* DarkButton.swift in Sources */,
 				BC52DDD62B851722005A4587 /* DecodableModel.swift in Sources */,
@@ -1556,11 +1509,9 @@
 				BC01710D2AEC6FDF005876EE /* GreenGrassButton.swift in Sources */,
 				BC61A2E92BA5274500493311 /* BaseDataStore.swift in Sources */,
 				BC6F365A2BB4E14D000F6CFA /* AppLauncher.swift in Sources */,
-				BCD837BF2B651F750069CECB /* LoadingOverlayView.swift in Sources */,
 				BCB6BF4F2AFAE84B00B6CBCE /* URL+Extension.swift in Sources */,
 				BC0171042AEC64B8005876EE /* MockConstants.swift in Sources */,
 				BC52DDE52B867107005A4587 /* AsyncCachedImage.swift in Sources */,
-				BC3454582B75706A0074106A /* GIFImageView.swift in Sources */,
 				BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */,
 				BCA24C0F2B6B2B5D00124EC3 /* SelectGoalView.swift in Sources */,
 				BC5BAC8A2AB221FC003C880E /* MusculosLogger.swift in Sources */,
@@ -1880,30 +1831,11 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		BC473ED22BB978C3004D02D7 /* XCRemoteSwiftPackageReference "SwiftyGif" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kirualex/SwiftyGif";
-			requirement = {
-				kind = exactVersion;
-				version = 5.4.4;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		BC473ED32BB978C3004D02D7 /* SwiftyGif */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BC473ED22BB978C3004D02D7 /* XCRemoteSwiftPackageReference "SwiftyGif" */;
-			productName = SwiftyGif;
-		};
-/* End XCSwiftPackageProductDependency section */
-
 /* Begin XCVersionGroup section */
 		BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				BCD59AB62BB84A710039F662 /* Musculos 9.xcdatamodel */
+				BCD59AB62BB84A710039F662 /* Musculos 9.xcdatamodel */,
 			);
 			currentVersion = BCD59AB62BB84A710039F662 /* Musculos 9.xcdatamodel */;
 			path = MusculosDataStore.xcdatamodeld;

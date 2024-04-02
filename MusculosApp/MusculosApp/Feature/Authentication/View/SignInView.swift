@@ -48,13 +48,6 @@ struct SignInView: View {
         }
       }
     }
-    .overlay {
-      if viewModel.state == .loading {
-        LoadingOverlayView()
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
-          .ignoresSafeArea()
-      }
-    }
   }
 }
 
