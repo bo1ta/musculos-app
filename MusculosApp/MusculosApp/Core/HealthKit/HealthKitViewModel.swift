@@ -9,8 +9,7 @@ import Foundation
 import SwiftUI
 import HealthKit
 
-@MainActor
-final class HealthKitViewModel: ObservableObject, @unchecked Sendable {
+final class HealthKitViewModel: ObservableObject {
   @Published var stepsCount: String = ""
   @Published var sleepTime: String = ""
   @Published var dietaryWater: String = ""
@@ -88,7 +87,9 @@ extension HealthKitViewModel {
     case .notDetermined, .sharingDenied:
       isAuthorized = false
     @unknown default:
-      fatalError("Unknown status")
+      MusculosLogger.logError(MusculosError.badRequest, message: "Cannot update authorization status", category: .healthKit)
     }
   }
 }
+
+extension HealthKitViewModel: @unchecked Sendable {}

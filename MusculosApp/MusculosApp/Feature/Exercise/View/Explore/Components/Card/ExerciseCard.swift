@@ -89,7 +89,7 @@ struct ExerciseCard: View {
 
 struct WorkoutCardView_Preview: PreviewProvider {
   static var previews: some View {
-    ExerciseCard(exercise: ExerciseFactory.createMockExercise())
+    ExerciseCard(exercise: ExerciseFactory.createExercise())
       .previewLayout(.sizeThatFits)
   }
 }

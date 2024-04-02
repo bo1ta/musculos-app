@@ -8,23 +8,20 @@
 import Foundation
 import SwiftUI
 
-/// Pulls Image from the cache if exists
-/// or uses AsyncImage to download it
+/// Pulls Image from cache if exists
+/// or uses AsyncImage to download it and cache it
 ///
 struct AsyncCachedImage<Content>: View where Content: View {
   private let url: URL?
   private let scale: CGFloat
-  private let transaction: Transaction
   private let contentPhase: ((AsyncImagePhase) -> Content)
   
   init(url: URL?,
        scale: CGFloat = 1.0,
-       transaction: Transaction = Transaction(),
        @ViewBuilder content: @escaping (AsyncImagePhase) -> Content
   ) where Content: View {
     self.url = url
     self.scale = scale
-    self.transaction = transaction
     self.contentPhase = content
   }
   
@@ -36,7 +33,6 @@ struct AsyncCachedImage<Content>: View where Content: View {
         AsyncImage(
           url: url,
           scale: scale,
-          transaction: transaction,
           content: { cacheAndRender(phase: $0) }
         )
       }

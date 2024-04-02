@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class ExerciseStore: ObservableObject, @unchecked Sendable {
+class ExerciseStore: ObservableObject {
   @Published var state: LoadingViewState<[Exercise]> = .empty
   
   private let module: ExerciseModuleProtocol
@@ -81,13 +81,13 @@ extension ExerciseStore {
   
   @MainActor
   func loadLocalExercises() {
-    fetchedResultsController.predicate = makePredicate(.all)
+    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.all.nsPredicate
     updateLocalResults()
   }
   
   @MainActor
   func loadFavoriteExercises() {
-    fetchedResultsController.predicate = makePredicate(.isFavorite)
+    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.isFavorite.nsPredicate
     updateLocalResults()
   }
   
@@ -128,19 +128,4 @@ extension ExerciseStore {
   }
 }
 
-// MARK: - Predicates
-
-extension ExerciseStore {
-  private enum ExercisePredicate {
-    case isFavorite, all
-  }
-  
-  private func makePredicate(_ exercisePredicate: ExercisePredicate) -> NSPredicate? {
-    switch exercisePredicate {
-    case .all:
-      return nil
-    case .isFavorite:
-      return NSPredicate(format: "%K == true", #keyPath(ExerciseEntity.isFavorite))
-    }
-  }
-}
+extension ExerciseStore: @unchecked Sendable {}

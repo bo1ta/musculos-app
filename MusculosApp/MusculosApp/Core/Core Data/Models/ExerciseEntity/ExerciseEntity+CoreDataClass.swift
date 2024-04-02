@@ -23,12 +23,29 @@ public class ExerciseEntity: NSManagedObject {
                     imageUrls: self.imageUrls!
     )
   }
-  
-  static func predicateForId(_ id: UUID) -> NSPredicate {
-    NSPredicate(format: "%K == %@", #keyPath(ExerciseEntity.exerciseId), id as NSUUID)
-  }
 }
 
 extension ExerciseEntity: ReadOnlyConvertible {
    func update(with entity: Exercise) { }
+}
+
+// MARK: - Common Predicate
+
+extension ExerciseEntity {
+  enum CommonPredicate {
+    case byId(UUID)
+    case all
+    case isFavorite
+    
+    var nsPredicate: NSPredicate? {
+      switch self {
+      case .byId(let uuid):
+        return NSPredicate(format: "%K == %@", #keyPath(ExerciseEntity.exerciseId), uuid as NSUUID)
+      case .all:
+        return nil
+      case .isFavorite:
+        return NSPredicate(format: "%K == true", #keyPath(ExerciseEntity.isFavorite))
+      }
+    }
+  }
 }

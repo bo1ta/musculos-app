@@ -8,6 +8,8 @@
 import Foundation
 import Combine
 
+/// Helper observable object with a query subscriber
+///
 class DebouncedQueryObserver: ObservableObject {
   @Published var searchQuery: String = ""
   @Published var debouncedQuery: String = ""

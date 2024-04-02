@@ -8,9 +8,9 @@
 import Foundation
 import CoreData
 
-final class UserDataStore: BaseDataStore, Sendable {
+struct UserDataStore: BaseDataStore {
   func createUserProfile(person: Person) async {
-    await writerDerivedStorage.performAndSave { [unowned self] in
+    await writerDerivedStorage.performAndSave {
       let userProfile = writerDerivedStorage.insertNewObject(ofType: UserProfile.self)
       userProfile.username = person.username
       userProfile.email = person.email
@@ -21,7 +21,7 @@ final class UserDataStore: BaseDataStore, Sendable {
   }
   
   func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async {
-    await writerDerivedStorage.performAndSave { [unowned self] in
+    await writerDerivedStorage.performAndSave {
       guard let userProfile = UserProfile.currentUserProfile(storage: writerDerivedStorage) else { return }
   
       userProfile.gender = gender?.rawValue

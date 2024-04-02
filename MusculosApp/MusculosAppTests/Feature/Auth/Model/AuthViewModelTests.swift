@@ -109,7 +109,7 @@ final class AuthViewModelTests: XCTestCase, MusculosTestBase {
 /// MARK: - Mocks
 ///
 extension AuthViewModelTests {
-  class MockAuthModule: Authenticatable {
+  class MockAuthModule: Authenticatable, @unchecked Sendable {
     var expectation: XCTestExpectation?
     var expectedResult: String?
     var shouldFail: Bool = false

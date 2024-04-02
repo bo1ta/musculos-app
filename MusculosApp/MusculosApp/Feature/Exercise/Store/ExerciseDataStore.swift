@@ -11,25 +11,37 @@ import CoreData
 struct ExerciseDataStore: BaseDataStore {
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async {
     await writerDerivedStorage.performAndSave {
-      guard let uuid = exercise.id else { return }
+      guard
+        let exerciseId = exercise.id,
+        let predicate = ExerciseEntity.CommonPredicate.byId(exerciseId).nsPredicate,
+        let exercise = self.writerDerivedStorage.firstObject(of: ExerciseEntity.self, matching: predicate)
+      else { return }
       
-      let predicate = ExerciseEntity.predicateForId(uuid)
-      let exercise = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: predicate)
       exercise.isFavorite = isFavorite
     }
     await viewStorage.performAndSave { }
   }
   
   func isFavorite(exercise: Exercise) -> Bool {
-    let predicate = ExerciseEntity.predicateForId(exercise.id!)
-    let exercise = self.viewStorage.findOrInsert(of: ExerciseEntity.self, using: predicate)
+    guard
+      let exerciseId = exercise.id,
+      let predicate = ExerciseEntity.CommonPredicate.byId(exerciseId).nsPredicate,
+      let exercise = self.viewStorage.firstObject(of: ExerciseEntity.self, matching: predicate)
+    else {
+      return false
+    }
+    
     return exercise.isFavorite
   }
   
   func importExercises(_ exercises: [Exercise]) async -> [Exercise] {
     await writerDerivedStorage.performAndSave {
       _ = exercises.map { exercise in
-        let predicate = ExerciseEntity.predicateForId(exercise.id!)
+        guard
+          let exerciseId = exercise.id,
+          let predicate = ExerciseEntity.CommonPredicate.byId(exerciseId).nsPredicate
+        else { return }
+        
         let exerciseEntity = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: predicate)
         exerciseEntity.exerciseId = exercise.id
         exerciseEntity.name = exercise.name

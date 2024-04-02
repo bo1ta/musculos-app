@@ -46,32 +46,32 @@ final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
     XCTAssertEqual(store.state, .loaded(expectedResults))
   }
   
-  func testLoadLocalExercises() async throws {
-    let store = ExerciseStore(module: MockExerciseModule())
-    XCTAssertEqual(store.state, .loaded([]))
-    
-    let mockExercise = ExerciseFactory.createMockExercise()
-    
+  func testFetchedControllerLoadsLocalExercises() async throws {
+    /// Populate core data store
     await populateStorageWithMockData()
-    await store.loadLocalExercises()
-    
+  
+    let store = ExerciseStore(module: MockExerciseModule())
     guard case let LoadingViewState.loaded(exercises) = store.state, let storedExercise = exercises.first else {
       XCTFail("Should find exercise")
       return
     }
 
+    let mockExercise = ExerciseFactory.createExercise()
     XCTAssertEqual(storedExercise.category, mockExercise.category)
     XCTAssertEqual(storedExercise.name, mockExercise.name)
   }
 }
 
+// MARK: - Helpers
+
 extension ExerciseStoreTests {
+  
   private func populateStorageWithMockData() async {
     let context = CoreDataStack.shared.viewStorage
     await context.perform {
       let entity = context.insertNewObject(ofType: ExerciseEntity.self)
       
-      let exercise = ExerciseFactory.createMockExercise()
+      let exercise = ExerciseFactory.createExercise()
       entity.exerciseId = exercise.id
       entity.name = exercise.name
       entity.category = exercise.category
@@ -85,7 +85,7 @@ extension ExerciseStoreTests {
     }
   }
   
-  private class MockExerciseModule: ExerciseModuleProtocol {
+  private class MockExerciseModule: ExerciseModuleProtocol, @unchecked Sendable {
     var expectation: XCTestExpectation?
     var shouldFail: Bool = false
     var expectedResults: [Exercise] = []

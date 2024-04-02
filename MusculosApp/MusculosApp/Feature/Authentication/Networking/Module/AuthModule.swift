@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class AuthModule: MusculosModule, @unchecked Sendable {
+struct AuthModule: MusculosModule {
   var client: MusculosClientProtocol
   
   init(client: MusculosClientProtocol = MusculosClient()) {
@@ -47,3 +47,5 @@ extension AuthModule {
     var token: String
   }
 }
+
+extension AuthModule: @unchecked Sendable {} 

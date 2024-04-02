@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct ExerciseContentLoadingView: View {
-  let mockExercises = [ExerciseFactory.createMockExercise(), ExerciseFactory.createMockExercise(), ExerciseFactory.createMockExercise()]
+  let mockExercises = [ExerciseFactory.createExercise(), ExerciseFactory.createExercise(), ExerciseFactory.createExercise()]
   
   var body: some View {
     VStack {

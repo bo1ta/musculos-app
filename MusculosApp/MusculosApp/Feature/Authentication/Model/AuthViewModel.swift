@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class AuthViewModel: ObservableObject, @unchecked Sendable {
+class AuthViewModel: ObservableObject {
   @Published var state: LoadingViewState<Bool> = .empty
   @Published var email: String = ""
   @Published var password: String = ""
@@ -54,7 +54,6 @@ class AuthViewModel: ObservableObject, @unchecked Sendable {
                                                    username: self.username,
                                                    fullName: self.fullName)
         await self.saveLocalUser(token)
-        
         self.state = .loaded(true)
       } catch {
         self.state = .error(MessageConstant.genericErrorMessage.rawValue)
@@ -80,3 +79,5 @@ extension AuthViewModel {
     UserDefaults.standard.setValue(token, forKey: UserDefaultsKeyConstant.authToken.rawValue)
   }
 }
+
+extension AuthViewModel: @unchecked Sendable {}
