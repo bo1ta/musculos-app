@@ -271,6 +271,7 @@
 		BC8244722BAF2F7B00CFA645 /* HealthKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitViewModel.swift; sourceTree = "<group>"; };
 		BC8244752BAF64FA00CFA645 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		BC8E86DC2AED2DB9008E3CE4 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		BC8F4CDC2BBC9FAA004F13FA /* Musculos 10.xcdatamodel */ = {isa = PBXFileReference; explicitFileType = wrapper.xcdatamodeld; path = "Musculos 10.xcdatamodel"; sourceTree = "<group>"; };
 		BC96C2F92AC386BB00F11CAB /* Musculos 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 2.xcdatamodel"; sourceTree = "<group>"; };
 		BC96C2FA2AC8310500F11CAB /* SelectMuscleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMuscleView.swift; sourceTree = "<group>"; };
 		BC96C2FC2AC83B1C00F11CAB /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
@@ -325,7 +326,7 @@
 		BCD59AAC2BB628700039F662 /* AnimatedURLImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedURLImageView.swift; sourceTree = "<group>"; };
 		BCD59AAE2BB628700039F662 /* ExerciseDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsView.swift; sourceTree = "<group>"; };
 		BCD59AB42BB631B30039F662 /* DummyStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyStack.swift; sourceTree = "<group>"; };
-		BCD59AB62BB84A710039F662 /* Musculos 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 9.xcdatamodel"; sourceTree = "<group>"; };
+		BCD59AB62BB84A710039F662 /* Musculos 9.xcdatamodel */ = {isa = PBXFileReference; explicitFileType = wrapper.xcdatamodel; path = "Musculos 9.xcdatamodel"; sourceTree = "<group>"; };
 		BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
 		BCD837BE2B651F750069CECB /* LoadingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlayView.swift; sourceTree = "<group>"; };
 		BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -1902,15 +1903,7 @@
 		BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				BCD59AB62BB84A710039F662 /* Musculos 9.xcdatamodel */,
-				BC4913AA2BB6247400E7D5F7 /* Musculos 8.xcdatamodel */,
-				BCB7F2F72BB24C61002CB2DE /* Musculos 7.xcdatamodel */,
-				BC52DDF82B8D24F1005A4587 /* Musculos 6.xcdatamodel */,
-				BC52DDE92B86C7CD005A4587 /* Musculos 5.xcdatamodel */,
-				BC52DDE62B86C168005A4587 /* Musculos 4.xcdatamodel */,
-				BC96C2FE2ACE18C700F11CAB /* Musculos 3.xcdatamodel */,
-				BC96C2F92AC386BB00F11CAB /* Musculos 2.xcdatamodel */,
-				BC182EC92A589A81003DEA30 /* Musculos.xcdatamodel */,
+				BCD59AB62BB84A710039F662 /* Musculos 9.xcdatamodel */
 			);
 			currentVersion = BCD59AB62BB84A710039F662 /* Musculos 9.xcdatamodel */;
 			path = MusculosDataStore.xcdatamodeld;
