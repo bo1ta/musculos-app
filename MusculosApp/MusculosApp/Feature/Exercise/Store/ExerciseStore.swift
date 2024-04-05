@@ -14,7 +14,7 @@ class ExerciseStore: ObservableObject {
   private let module: ExerciseModuleProtocol
   private let fetchedResultsController: ResultsController<ExerciseEntity>
   
-  init(module: ExerciseModuleProtocol = ExerciseModule(), shouldLoadFromCache: Bool = true) {
+  init(module: ExerciseModuleProtocol = ExerciseModule(), shouldLoadFromCache: Bool = false) {
     self.module = module
     self.fetchedResultsController = ResultsController<ExerciseEntity>(storageManager: CoreDataStack.shared, sortedBy: [])
     self.setUpFetchedResultsController(shouldLoadFromCache: shouldLoadFromCache)

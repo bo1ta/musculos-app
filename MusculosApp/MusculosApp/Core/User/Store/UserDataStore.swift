@@ -8,31 +8,36 @@
 import Foundation
 import CoreData
 
-struct UserDataStore: BaseDataStore {
-  func createUserProfile(person: Person) async {
+protocol UserDataStoreProtocol: BaseDataStore {
+  func createUser(person: Person) async
+  func updateUser(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async
+}
+
+struct UserDataStore: UserDataStoreProtocol {
+  func createUser(person: Person) async {
     await writerDerivedStorage.performAndSave {
-      let userProfile = writerDerivedStorage.insertNewObject(ofType: UserProfile.self)
-      userProfile.username = person.username
-      userProfile.email = person.email
-      userProfile.fullName = person.fullName
-      userProfile.isCurrentUser = true
+      let userEntity = writerDerivedStorage.insertNewObject(ofType: UserEntity.self)
+      userEntity.username = person.username
+      userEntity.email = person.email
+      userEntity.fullName = person.fullName
+      userEntity.isCurrentUser = true
     }
     await viewStorage.performAndSave { }
   }
   
-  func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async {
+  func updateUser(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async {
     await writerDerivedStorage.performAndSave {
-      guard let userProfile = UserProfile.currentUserProfile(storage: writerDerivedStorage) else { return }
+      guard let userEntity = UserEntity.currentUser(with: writerDerivedStorage) else { return }
   
-      userProfile.gender = gender?.rawValue
+      userEntity.gender = gender?.rawValue
       if let weight {
-        userProfile.weight = NSNumber(integerLiteral: weight)
+        userEntity.weight = NSNumber(integerLiteral: weight)
       }
       if let height {
-        userProfile.height = NSNumber(integerLiteral: height)
+        userEntity.height = NSNumber(integerLiteral: height)
       }
       if let goalId {
-        userProfile.goalId = NSNumber(integerLiteral: goalId)
+        userEntity.goalId = NSNumber(integerLiteral: goalId)
       }
     }
        

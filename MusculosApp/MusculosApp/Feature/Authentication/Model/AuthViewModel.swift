@@ -19,11 +19,9 @@ class AuthViewModel: ObservableObject {
   private(set) var authTask: Task<Void, Never>?
   
   private let module: Authenticatable
-  private let dataStore: UserDataStore?
   
-  init(module: Authenticatable = AuthModule(), dataStore: UserDataStore? = UserDataStore()) {
+  init(module: Authenticatable = AuthModule()) {
     self.module = module
-    self.dataStore = dataStore
   }
   
   func signIn() {
@@ -32,9 +30,8 @@ class AuthViewModel: ObservableObject {
       self.state = .loading
       
       do {
-        let token = try await self.module.login(email: self.email, password: self.password)
-        await self.saveLocalUser(token)
-        
+        try await self.module.login(email: self.email,
+                                    password: self.password)
         self.state = .loaded(true)
       } catch {
         self.state = .error(MessageConstant.genericErrorMessage.rawValue)
@@ -49,11 +46,10 @@ class AuthViewModel: ObservableObject {
       self.state = .loading
       
       do {
-        let token = try await self.module.register(email: self.email,
-                                                   password: self.password,
-                                                   username: self.username,
-                                                   fullName: self.fullName)
-        await self.saveLocalUser(token)
+        try await self.module.register(email: self.email,
+                                       password: self.password,
+                                       username: self.username,
+                                       fullName: self.fullName)
         self.state = .loaded(true)
       } catch {
         self.state = .error(MessageConstant.genericErrorMessage.rawValue)
@@ -65,17 +61,5 @@ class AuthViewModel: ObservableObject {
   func cleanUp() {
     authTask?.cancel()
     authTask = nil
-  }
-}
-
-// MARK: Private helpers
-
-extension AuthViewModel {
-  private func saveLocalUser(_ token: String) async {
-    guard let dataStore else { return }
-    
-    let person = Person(email: self.email, fullName: self.fullName, username: self.username)
-    await dataStore.createUserProfile(person: person)
-    UserDefaults.standard.setValue(token, forKey: UserDefaultsKeyConstant.authToken.rawValue)
   }
 }

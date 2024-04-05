@@ -25,8 +25,7 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     let module = AuthModule(client: client)
   
     do {
-      let token = try await module.login(email: "email", password: "password")
-      XCTAssertEqual(token, "secret-token")
+      try await module.login(email: "email", password: "password")
       succeedsExpectation.fulfill()
     } catch {
       XCTFail("Should not fail!")
@@ -64,8 +63,7 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     let module = AuthModule(client: client)
     
     do {
-      let token = try await module.register(email: "email", password: "password", username: "username", fullName: "full name")
-      XCTAssertEqual(token, "secret-token")
+      try await module.register(email: "email", password: "password", username: "username", fullName: "full name")
       succeedsExpectation.fulfill()
     } catch {
       XCTFail("Should not fail!")
