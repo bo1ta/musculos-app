@@ -21,6 +21,14 @@ extension NSManagedObjectContext: StorageType {
     return loadObjects(ofType: type, with: request)
   }
   
+  func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, relationshipKeyPathsForPrefetching: [String]) -> [T] {
+    let request = fetchRequest(forType: type)
+    request.predicate = predicate
+    request.relationshipKeyPathsForPrefetching = relationshipKeyPathsForPrefetching
+    
+    return loadObjects(ofType: type, with: request)
+  }
+  
   func allObjects<T: Object>(ofType type: T.Type, fetchLimit: Int, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T] {
     let request = fetchRequest(forType: type)
     request.predicate = predicate

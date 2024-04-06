@@ -12,9 +12,7 @@ struct ExerciseDataStore: BaseDataStore {
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async {
     await writerDerivedStorage.performAndSave {
       guard
-        let exerciseId = exercise.id,
-        let predicate = ExerciseEntity.CommonPredicate.byId(exerciseId).nsPredicate,
-        let exercise = self.writerDerivedStorage.firstObject(of: ExerciseEntity.self, matching: predicate)
+        let exercise = self.writerDerivedStorage.firstObject(of: ExerciseEntity.self, matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate)
       else { return }
       
       exercise.isFavorite = isFavorite
@@ -23,26 +21,16 @@ struct ExerciseDataStore: BaseDataStore {
   }
   
   func isFavorite(exercise: Exercise) -> Bool {
-    guard
-      let exerciseId = exercise.id,
-      let predicate = ExerciseEntity.CommonPredicate.byId(exerciseId).nsPredicate,
-      let exercise = self.viewStorage.firstObject(of: ExerciseEntity.self, matching: predicate)
-    else {
-      return false
-    }
-    
-    return exercise.isFavorite
+    return self.viewStorage
+      .firstObject(of: ExerciseEntity.self, matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate)?.isFavorite
+    ?? false
   }
   
   func importExercises(_ exercises: [Exercise]) async -> [Exercise] {
     await writerDerivedStorage.performAndSave {
       _ = exercises.map { exercise in
-        guard
-          let exerciseId = exercise.id,
-          let predicate = ExerciseEntity.CommonPredicate.byId(exerciseId).nsPredicate
-        else { return }
-        
-        let exerciseEntity = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: predicate)
+
+        let exerciseEntity = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate)
         exerciseEntity.exerciseId = exercise.id
         exerciseEntity.name = exercise.name
         exerciseEntity.equipment = exercise.equipment

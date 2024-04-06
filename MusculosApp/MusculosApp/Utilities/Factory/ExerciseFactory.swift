@@ -20,6 +20,7 @@ struct ExerciseFactory {
   
   func create() -> Exercise {
     Exercise(category: category ?? "home workout",
+             id: UUID(),
              level: level ?? "beginner",
              name: name ?? "3/4 Sit-ups",
              primaryMuscles: primaryMuscles.count > 0 ? primaryMuscles : ["legs", "abs"],

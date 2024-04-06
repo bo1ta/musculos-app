@@ -11,6 +11,8 @@ struct AddWorkoutSheet: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var exerciseStore: ExerciseStore
   
+  private let dataStore = WorkoutDataStore()
+  
   @State private var selectedExercises: [Exercise] = []
   @State private var showExercise: Exercise?
   @State private var exerciseName: String = ""
@@ -37,12 +39,24 @@ struct AddWorkoutSheet: View {
       exerciseStore.searchByMuscleQuery(categoryQuery)
     }
     .safeAreaInset(edge: .bottom) {
-      Button(action: {}, label: {
+      Button(action: {
+        guard selectedExercises.count > 0, exerciseName.count > 0, categoryObserver.searchQuery.count > 0 else { return }
+        
+        Task {
+          let workout = Workout(name: exerciseName, targetMuscles: [categoryObserver.searchQuery], workoutType: "mixed", createdBy: UserEntity.currentUser!.toReadOnly(), exercises: selectedExercises)
+          let task = await dataStore.createWorkout(workout)
+          print("upsis!")
+        }
+      }, label: {
         Text("Save")
           .frame(maxWidth: .infinity)
       })
       .buttonStyle(PrimaryButton())
       .padding([.leading, .trailing], 10)
+    }
+    .task {
+      let workouts = await dataStore.getAllWorkouts()
+      print(workouts)
     }
   }
 }

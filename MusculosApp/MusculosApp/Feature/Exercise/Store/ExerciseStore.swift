@@ -83,7 +83,7 @@ extension ExerciseStore {
   
   @MainActor
   func loadLocalExercises() {
-    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.all.nsPredicate
+    fetchedResultsController.predicate = nil
     updateLocalResults()
   }
   

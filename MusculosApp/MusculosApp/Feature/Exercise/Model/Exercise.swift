@@ -12,7 +12,7 @@ struct Exercise: Codable {
   public var category: String
   public var equipment: String?
   public var force: String?
-  public var id: UUID?
+  public var id: UUID
   public var level: String
   public var name: String
   public var primaryMuscles: [String]
@@ -20,7 +20,7 @@ struct Exercise: Codable {
   public var instructions: [String]
   public var imageUrls: [String]
   
-  init(category: String, equipment: String? = nil, force: String? = nil, id: UUID? = nil, level: String, name: String, primaryMuscles: [String], secondaryMuscles: [String], instructions: [String], imageUrls: [String]) {
+  init(category: String, equipment: String? = nil, force: String? = nil, id: UUID, level: String, name: String, primaryMuscles: [String], secondaryMuscles: [String], instructions: [String], imageUrls: [String]) {
     self.category = category
     self.equipment = equipment
     self.force = force
@@ -41,10 +41,6 @@ struct Exercise: Codable {
     return imageUrls.compactMap { imageUrlString in
       URL(string: imageUrlString)
     }
-  }
-  
-  private var wrappedId: NSUUID {
-    return self.id! as NSUUID
   }
 }
 
