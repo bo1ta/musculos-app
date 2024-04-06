@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-/// Animates images list and make them appear  as "GIFs"
+/// Animates images list and make them appear as "GIFs"
 ///
 struct AnimatedURLImageView: View {
   let imageURLs: [URL]
@@ -48,12 +48,8 @@ struct AnimatedURLImageView: View {
         }
       }
     }
-    .onAppear {
-      startAnimating()
-    }
-    .onDisappear {
-      stopAnimating()
-    }
+    .onAppear(perform: startAnimating)
+    .onDisappear(perform: stopAnimating)
   }
   
   private func startAnimating() {

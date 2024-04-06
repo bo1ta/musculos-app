@@ -11,12 +11,7 @@ struct AddWorkoutSheet: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var exerciseStore: ExerciseStore
   
-  private let dataStore = WorkoutDataStore()
-  
-  @State private var selectedExercises: [Exercise] = []
-  @State private var showExercise: Exercise?
-  @State private var exerciseName: String = ""
-  @StateObject private var categoryObserver = DebouncedQueryObserver()
+  @StateObject var viewModel = AddWorkoutSheetViewModel()
   
   let onBack: () -> Void
   
@@ -24,10 +19,10 @@ struct AddWorkoutSheet: View {
     ScrollView {
       topBar
       
-      RoundedTextField(text: $exerciseName, label: "Name", textHint: "Workout Name")
+      RoundedTextField(text: $viewModel.exerciseName, label: "Name", textHint: "Workout Name")
         .padding(.top, 25)
       
-      RoundedTextField(text: $categoryObserver.searchQuery, label: "Type", textHint: "Muscle Type")
+      RoundedTextField(text: $viewModel.searchQuery, label: "Type", textHint: "Muscle Type")
         .padding(.top, 15)
       
       cardSection
@@ -35,29 +30,19 @@ struct AddWorkoutSheet: View {
     }
     .scrollIndicators(.hidden)
     .padding([.leading, .trailing, .top], 15)
-    .onChange(of: categoryObserver.debouncedQuery) { categoryQuery in
+    .onChange(of: viewModel.debouncedQuery) { categoryQuery in
       exerciseStore.searchByMuscleQuery(categoryQuery)
     }
     .safeAreaInset(edge: .bottom) {
-      Button(action: {
-        guard selectedExercises.count > 0, exerciseName.count > 0, categoryObserver.searchQuery.count > 0 else { return }
-        
-        Task {
-          let workout = Workout(name: exerciseName, targetMuscles: [categoryObserver.searchQuery], workoutType: "mixed", createdBy: UserEntity.currentUser!.toReadOnly(), exercises: selectedExercises)
-          let task = await dataStore.createWorkout(workout)
-          print("upsis!")
-        }
-      }, label: {
+      Button(action: viewModel.submitWorkout, label: {
         Text("Save")
           .frame(maxWidth: .infinity)
       })
       .buttonStyle(PrimaryButton())
       .padding([.leading, .trailing], 10)
     }
-    .task {
-      let workouts = await dataStore.getAllWorkouts()
-      print(workouts)
-    }
+    .onAppear(perform: viewModel.getAll)
+    .onDisappear(perform: viewModel.cleanUp)
   }
 }
 
@@ -97,15 +82,16 @@ extension AddWorkoutSheet {
       
       switch exerciseStore.state {
       case .loading:
-        CardItemShimmering()
-        CardItemShimmering()
-        CardItemShimmering()
-        CardItemShimmering()
-        CardItemShimmering()
-        CardItemShimmering()
+        ForEach(0..<5, id: \.self) { _ in
+          CardItemShimmering()
+        }
       case .loaded(let exercises):
         ForEach(combineWithSelected(exercises), id: \.hashValue) { exercise in
-          makeCardItem(exercise: exercise)
+          CardItem(
+            title: exercise.name,
+            isSelected: viewModel.selectedExercises.contains(exercise),
+            onSelect: { viewModel.didSelectExercise(exercise) }
+          )
         }
       case .empty, .error(_):
         EmptyView()
@@ -117,23 +103,9 @@ extension AddWorkoutSheet {
 // MARK: - Functions
 
 extension AddWorkoutSheet {
-  private func makeCardItem(exercise: Exercise) -> some View {
-    CardItem(title: exercise.name,
-             isSelected: selectedExercises.contains(exercise),
-             onSelect: { didSelectExercise(exercise) })
-  }
-  
-  
-  private func didSelectExercise(_ exercise: Exercise) {
-    if let index = selectedExercises.firstIndex(of: exercise) {
-      selectedExercises.remove(at: index)
-    } else {
-      selectedExercises.append(exercise)
-    }
-  }
   
   private func combineWithSelected(_ loadedExercises: [Exercise]) -> [Exercise] {
-    var exercises = selectedExercises
+    var exercises = viewModel.selectedExercises
     let noDuplicates = loadedExercises.compactMap { exercises.contains($0) ? nil : $0 }
     exercises.append(contentsOf: noDuplicates)
     return exercises

@@ -8,32 +8,32 @@
 import Foundation
 
 struct WorkoutDataStore: BaseDataStore {
-  func createWorkout(_ workout: Workout) async {
-    await self.writerDerivedStorage.performAndSave {
-      let workoutEntity = self.writerDerivedStorage.insertNewObject(ofType: WorkoutEntity.self)
+  func create(_ workout: Workout) async {
+    await writerDerivedStorage.performAndSave {
+      guard let user = UserEntity.currentUser(with: writerDerivedStorage) else { return }
+      
+      let workoutEntity = writerDerivedStorage.insertNewObject(ofType: WorkoutEntity.self)
       workoutEntity.name = workout.name
       workoutEntity.targetMuscles = workout.targetMuscles
-      workoutEntity.createdBy = UserEntity.currentUser(with: self.writerDerivedStorage)!
       workoutEntity.workoutType = workout.workoutType
+      workoutEntity.createdBy = user
       
       /// Fetch the  `Exercise` entity and insert it into  `workoutEntity.exercises`
       ///
       workout.exercises
         .compactMap {
-          self.writerDerivedStorage.firstObject(
-            of: ExerciseEntity.self,
-            matching: ExerciseEntity.CommonPredicate.byId($0.id).nsPredicate
-          )
+          writerDerivedStorage.firstObject(of: ExerciseEntity.self,
+                                           matching: ExerciseEntity.CommonPredicate.byId($0.id).nsPredicate)
         }
         .forEach { workoutEntity.addToExercises($0) }
     }
 
-    await self.viewStorage.performAndSave {}
+    await viewStorage.performAndSave {}
   }
   
   @MainActor
-  func getAllWorkouts() async -> [Workout] {
-    return self.viewStorage
+  func getAll() async -> [Workout] {
+    return viewStorage
       .allObjects(ofType: WorkoutEntity.self, matching: nil, sortedBy: nil)
       .map { $0.toReadOnly() }
   }

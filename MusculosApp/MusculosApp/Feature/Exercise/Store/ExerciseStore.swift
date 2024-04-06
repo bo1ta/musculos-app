@@ -101,7 +101,7 @@ extension ExerciseStore {
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
     favoriteTask = Task { @MainActor [ weak self] in
       guard let self else { return }
-      await self.module.dataStore.favoriteExercise(exercise, isFavorite: isFavorite)
+      await self.module.dataStore.markAsFavorite(exercise, isFavorite: isFavorite)
     }
   }
 }
@@ -117,7 +117,9 @@ extension ExerciseStore {
       self?.updateLocalResults()
     }
     
+    /// perform initial fetch from data store. Default `true`
     guard shouldLoadFromCache else { return }
+
     do {
       try fetchedResultsController.performFetch()
       updateLocalResults()

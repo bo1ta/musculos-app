@@ -9,28 +9,36 @@ import Foundation
 import CoreData
 
 struct ExerciseDataStore: BaseDataStore {
-  func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async {
+  func markAsFavorite(_ exercise: Exercise, isFavorite: Bool) async {
     await writerDerivedStorage.performAndSave {
-      guard
-        let exercise = self.writerDerivedStorage.firstObject(of: ExerciseEntity.self, matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate)
-      else { return }
-      
-      exercise.isFavorite = isFavorite
+      if let exercise = self.writerDerivedStorage.firstObject(
+        of: ExerciseEntity.self,
+        matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
+      ) {
+        exercise.isFavorite = isFavorite
+      }
     }
     await viewStorage.performAndSave { }
   }
   
   func isFavorite(exercise: Exercise) -> Bool {
     return self.viewStorage
-      .firstObject(of: ExerciseEntity.self, matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate)?.isFavorite
+      .firstObject(
+        of: ExerciseEntity.self,
+        matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
+      )?.isFavorite
     ?? false
   }
   
-  func importExercises(_ exercises: [Exercise]) async -> [Exercise] {
+  func importFrom(_ exercises: [Exercise]) async -> [Exercise] {
     await writerDerivedStorage.performAndSave {
       _ = exercises.map { exercise in
-
-        let exerciseEntity = self.writerDerivedStorage.findOrInsert(of: ExerciseEntity.self, using: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate)
+        
+        let exerciseEntity = self.writerDerivedStorage.findOrInsert(
+          of: ExerciseEntity.self,
+          using: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
+        )
+    
         exerciseEntity.exerciseId = exercise.id
         exerciseEntity.name = exercise.name
         exerciseEntity.equipment = exercise.equipment
@@ -46,5 +54,12 @@ struct ExerciseDataStore: BaseDataStore {
     await viewStorage.performAndSave {}
     
     return exercises
+  }
+  
+  @MainActor
+  func getAll() -> [Exercise] {
+    return viewStorage
+      .allObjects(ofType: ExerciseEntity.self, matching: nil, sortedBy: nil)
+      .map { $0.toReadOnly() }
   }
 }

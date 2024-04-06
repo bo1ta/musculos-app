@@ -43,8 +43,16 @@ struct Workout {
   let name: String
   let targetMuscles: [String]
   let workoutType: String
-  let createdBy: Person
+  let createdBy: Person?
   let exercises: [Exercise]
+  
+  init(name: String, targetMuscles: [String], workoutType: String, createdBy: Person? = nil, exercises: [Exercise]) {
+    self.name = name
+    self.targetMuscles = targetMuscles
+    self.workoutType = workoutType
+    self.createdBy = createdBy
+    self.exercises = exercises
+  }
 }
 
 extension WorkoutEntity: Identifiable {}
