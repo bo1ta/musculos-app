@@ -71,7 +71,6 @@ extension AddWorkoutSheetViewModel {
       guard let self else { return }
       
       self.workouts = await self.dataStore.getAll()
-      print(self.workouts)
     }
   }
   
