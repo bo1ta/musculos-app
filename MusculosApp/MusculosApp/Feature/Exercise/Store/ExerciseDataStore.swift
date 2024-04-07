@@ -32,8 +32,7 @@ struct ExerciseDataStore: BaseDataStore {
   
   func importFrom(_ exercises: [Exercise]) async -> [Exercise] {
     await writerDerivedStorage.performAndSave {
-      _ = exercises.map { exercise in
-        
+      for exercise in exercises {
         let exerciseEntity = self.writerDerivedStorage.findOrInsert(
           of: ExerciseEntity.self,
           using: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
