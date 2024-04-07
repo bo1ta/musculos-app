@@ -12,7 +12,6 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="primaryMuscles" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="secondaryMuscles" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
-        <relationship name="workouts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutEntity"/>
     </entity>
     <entity name="UserEntity" representedClassName="UserEntity" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String"/>
@@ -31,6 +30,11 @@
         <attribute name="targetMuscles" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="workoutType" attributeType="String"/>
         <relationship name="createdBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserEntity"/>
-        <relationship name="exercises" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseEntity"/>
+        <relationship name="workoutExercises" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutExerciseEntity" inverseName="workout" inverseEntity="WorkoutExerciseEntity"/>
+    </entity>
+    <entity name="WorkoutExerciseEntity" representedClassName="WorkoutExerciseEntity" syncable="YES">
+        <attribute name="numberOfReps" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="exercise" maxCount="1" deletionRule="Nullify" destinationEntity="ExerciseEntity"/>
+        <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutEntity" inverseName="workoutExercises" inverseEntity="WorkoutEntity"/>
     </entity>
 </model>

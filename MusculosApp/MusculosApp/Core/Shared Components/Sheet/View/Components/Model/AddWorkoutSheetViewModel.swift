@@ -9,13 +9,22 @@ import Foundation
 import SwiftUI
 
 final class AddWorkoutSheetViewModel: ObservableObject {
-  @Published var showExerciseDetail: Exercise? = nil
   @Published var exerciseName: String = ""
-  @Published var selectedExercises: [Exercise] = []
+  @Published var selectedExercises: [WorkoutExercise] = []
   @Published var searchQuery: String = ""
   @Published var debouncedQuery: String = ""
-  
   @Published var workouts: [Workout] = []
+  @Published var showRepsDialog: Bool = false
+  
+  @Published var currentSelectedExercise: Exercise? = nil {
+    didSet {
+      if currentSelectedExercise != nil {
+        showRepsDialog = true
+      } else {
+        showRepsDialog = false
+      }
+    }
+  }
   
   private(set) var submitWorkoutTask: Task<Void, Never>?
   private(set) var getAllTask: Task<Void, Never>?
@@ -33,11 +42,15 @@ final class AddWorkoutSheetViewModel: ObservableObject {
       .assign(to: &$debouncedQuery)
   }
   
-  func didSelectExercise(_ exercise: Exercise) {
-    if let index = selectedExercises.firstIndex(of: exercise) {
+  func isExerciseSelected(_ exercise: Exercise) -> Bool {
+    return selectedExercises.first(where: { $0.exercise == exercise }) != nil
+  }
+  
+  func didSelectExercise(_ exercise: Exercise, numberOfReps: Int = 1) {
+    if let index = selectedExercises.firstIndex(where: { $0.exercise == exercise }) {
       selectedExercises.remove(at: index)
     } else {
-      selectedExercises.append(exercise)
+      selectedExercises.append(WorkoutExercise(numberOfReps: numberOfReps, exercise: exercise))
     }
   }
   
@@ -58,6 +71,7 @@ extension AddWorkoutSheetViewModel {
       guard let self else { return }
       
       self.workouts = await self.dataStore.getAll()
+      print(self.workouts)
     }
   }
   
@@ -71,7 +85,7 @@ extension AddWorkoutSheetViewModel {
         name: self.exerciseName,
         targetMuscles: [self.searchQuery],
         workoutType: "mixed",
-        exercises: self.selectedExercises
+        workoutExercises: self.selectedExercises
       )
       await self.dataStore.create(workout)
     }

@@ -41,6 +41,14 @@ struct AddWorkoutSheet: View {
       .buttonStyle(PrimaryButton())
       .padding([.leading, .trailing], 10)
     }
+    .sheet(isPresented: $viewModel.showRepsDialog, content: {
+      DialogSelectView(title: "How many reps?", onButtonTap: { numberOfReps in
+        if let currentSelectedExercise = viewModel.currentSelectedExercise {
+          viewModel.didSelectExercise(currentSelectedExercise, numberOfReps: numberOfReps)
+          viewModel.currentSelectedExercise = nil
+        }
+      })
+    })
     .onAppear(perform: viewModel.getAll)
     .onDisappear(perform: viewModel.cleanUp)
   }
@@ -89,8 +97,10 @@ extension AddWorkoutSheet {
         ForEach(combineWithSelected(exercises), id: \.hashValue) { exercise in
           CardItem(
             title: exercise.name,
-            isSelected: viewModel.selectedExercises.contains(exercise),
-            onSelect: { viewModel.didSelectExercise(exercise) }
+            isSelected: viewModel.isExerciseSelected(exercise),
+            onSelect: {
+              viewModel.currentSelectedExercise = exercise
+            }
           )
         }
       case .empty, .error(_):
@@ -105,7 +115,7 @@ extension AddWorkoutSheet {
 extension AddWorkoutSheet {
   
   private func combineWithSelected(_ loadedExercises: [Exercise]) -> [Exercise] {
-    var exercises = viewModel.selectedExercises
+    var exercises = viewModel.selectedExercises.compactMap { $0.exercise }
     let noDuplicates = loadedExercises.compactMap { exercises.contains($0) ? nil : $0 }
     exercises.append(contentsOf: noDuplicates)
     return exercises

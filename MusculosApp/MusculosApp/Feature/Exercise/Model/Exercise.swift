@@ -59,10 +59,12 @@ extension Exercise: Hashable {
     hasher.combine(self.name)
     hasher.combine(self.id)
   }
-  
-  public static func ==(_ lhs: Exercise, rhs: Exercise) -> Bool {
-    return lhs.id == rhs.id
-  }
 }
 
 extension Exercise: DecodableModel { }
+
+extension Exercise: Identifiable {
+  static func ==(_ lhs: Exercise, rhs: Exercise) -> Bool {
+    return lhs.id == rhs.id
+  }
+}

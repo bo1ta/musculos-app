@@ -2,7 +2,7 @@
 //  WorkoutEntity+CoreDataClass.swift
 //  MusculosApp
 //
-//  Created by Solomon Alexandru on 05.04.2024.
+//  Created by Solomon Alexandru on 07.04.2024.
 //
 //
 

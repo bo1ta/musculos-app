@@ -18,14 +18,28 @@ struct WorkoutDataStore: BaseDataStore {
       workoutEntity.workoutType = workout.workoutType
       workoutEntity.createdBy = user
       
-      /// Fetch the  `Exercise` entity and insert it into  `workoutEntity.exercises`
+      /// 1. Fetch the `ExerciseEntity` and return it with the workoutExercise number of reps
+      /// 2. Create `WorkoutExerciseEntity` with a one-to-one relationship to the exercise + the number of reps
+      /// 3. Insert it into `workoutEntity.workoutExercises`
       ///
-      workout.exercises
-        .compactMap {
-          writerDerivedStorage.firstObject(of: ExerciseEntity.self,
-                                           matching: ExerciseEntity.CommonPredicate.byId($0.id).nsPredicate)
+      workout.workoutExercises
+        .compactMap { workoutExercise -> (ExerciseEntity, Int)? in
+          guard let exerciseEntity = writerDerivedStorage.firstObject(
+            of: ExerciseEntity.self,
+            matching: ExerciseEntity.CommonPredicate.byId(workoutExercise.exercise.id).nsPredicate
+          ) else { return nil }
+          
+          return (exerciseEntity, workoutExercise.numberOfReps)
         }
-        .forEach { workoutEntity.addToExercises($0) }
+        .map { (exerciseEntity, numberOfReps) -> WorkoutExerciseEntity in
+          let workoutExerciseEntity = writerDerivedStorage.insertNewObject(ofType: WorkoutExerciseEntity.self)
+          workoutExerciseEntity.exercise = exerciseEntity
+          workoutExerciseEntity.numberOfReps = NSNumber(value: numberOfReps)
+          return workoutExerciseEntity
+        }
+        .forEach { workoutExerciseEntity in
+          workoutEntity.addToWorkoutExercises(workoutExerciseEntity)
+        }
     }
 
     await viewStorage.performAndSave {}

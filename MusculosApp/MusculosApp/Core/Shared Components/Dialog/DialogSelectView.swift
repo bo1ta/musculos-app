@@ -13,7 +13,7 @@ struct DialogSelectView: View {
   let title: String
   let description: String?
   let buttonTitle: String
-  let onButtonTap: ((Float) -> Void)
+  let onButtonTap: ((Int) -> Void)
   
   @State private var selectedValue: Float = 1
   
@@ -21,7 +21,7 @@ struct DialogSelectView: View {
     title: String,
     description: String? = nil,
     buttonTitle: String = "Continue",
-    onButtonTap: @escaping (Float) -> Void
+    onButtonTap: @escaping (Int) -> Void
   ) {
     self.title = title
     self.description = description
@@ -62,7 +62,7 @@ struct DialogSelectView: View {
             .padding(.bottom, 10)
           
           Button {
-            onButtonTap(selectedValue)
+            onButtonTap(Int(selectedValue))
             dismiss()
           } label: {
             Text(buttonTitle)
