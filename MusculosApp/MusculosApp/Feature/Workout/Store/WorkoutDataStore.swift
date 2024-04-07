@@ -18,28 +18,22 @@ struct WorkoutDataStore: BaseDataStore {
       workoutEntity.workoutType = workout.workoutType
       workoutEntity.createdBy = user
       
-      /// 1. Fetch the `ExerciseEntity` and return it with the workoutExercise number of reps
+      /// 1. Fetch the `ExerciseEntity`
       /// 2. Create `WorkoutExerciseEntity` with a one-to-one relationship to the exercise + the number of reps
       /// 3. Insert it into `workoutEntity.workoutExercises`
       ///
-      workout.workoutExercises
-        .compactMap { workoutExercise -> (ExerciseEntity, Int)? in
-          guard let exerciseEntity = writerDerivedStorage.firstObject(
-            of: ExerciseEntity.self,
-            matching: ExerciseEntity.CommonPredicate.byId(workoutExercise.exercise.id).nsPredicate
-          ) else { return nil }
-          
-          return (exerciseEntity, workoutExercise.numberOfReps)
-        }
-        .map { (exerciseEntity, numberOfReps) -> WorkoutExerciseEntity in
-          let workoutExerciseEntity = writerDerivedStorage.insertNewObject(ofType: WorkoutExerciseEntity.self)
-          workoutExerciseEntity.exercise = exerciseEntity
-          workoutExerciseEntity.numberOfReps = NSNumber(value: numberOfReps)
-          return workoutExerciseEntity
-        }
-        .forEach { workoutExerciseEntity in
-          workoutEntity.addToWorkoutExercises(workoutExerciseEntity)
-        }
+      for workoutExercise in workout.workoutExercises {
+        guard let exerciseEntity = writerDerivedStorage.firstObject(
+          of: ExerciseEntity.self,
+          matching: ExerciseEntity.CommonPredicate.byId(workoutExercise.exercise.id).nsPredicate
+        ) else { return }
+        
+        let workoutExerciseEntity = writerDerivedStorage.insertNewObject(ofType: WorkoutExerciseEntity.self)
+        workoutExerciseEntity.exercise = exerciseEntity
+        workoutExerciseEntity.numberOfReps = NSNumber(value: workoutExercise.numberOfReps)
+        
+        workoutEntity.addToWorkoutExercises(workoutExerciseEntity)
+      }
     }
 
     await viewStorage.performAndSave {}
