@@ -33,10 +33,12 @@ extension UserEntity : Identifiable {}
 
 extension UserEntity: ReadOnlyConvertible {
   func toReadOnly() -> Person {
-    return Person(email: self.email ?? "",
-                  fullName: self.fullName,
-                  username: self.username ?? "",
-                  avatar: "")
+    return Person(
+      email: self.email ?? "",
+      fullName: self.fullName,
+      username: self.username ?? "",
+      avatar: ""
+    )
   }
   
   func update(with entity: Person) {

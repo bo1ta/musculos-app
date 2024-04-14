@@ -9,6 +9,23 @@ import Foundation
 import CoreData
 
 struct ExerciseDataStore: BaseDataStore {
+  @MainActor
+  func isFavorite(exercise: Exercise) -> Bool {
+    return self.viewStorage
+      .firstObject(
+        of: ExerciseEntity.self,
+        matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
+      )?.isFavorite
+    ?? false
+  }
+  
+  @MainActor
+  func getAll() -> [Exercise] {
+    return viewStorage
+      .allObjects(ofType: ExerciseEntity.self, matching: nil, sortedBy: nil)
+      .map { $0.toReadOnly() }
+  }
+  
   func markAsFavorite(_ exercise: Exercise, isFavorite: Bool) async {
     await writerDerivedStorage.performAndSave {
       if let exercise = self.writerDerivedStorage.firstObject(
@@ -19,15 +36,6 @@ struct ExerciseDataStore: BaseDataStore {
       }
     }
     await viewStorage.performAndSave { }
-  }
-  
-  func isFavorite(exercise: Exercise) -> Bool {
-    return self.viewStorage
-      .firstObject(
-        of: ExerciseEntity.self,
-        matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
-      )?.isFavorite
-    ?? false
   }
   
   func importFrom(_ exercises: [Exercise]) async -> [Exercise] {
@@ -53,12 +61,5 @@ struct ExerciseDataStore: BaseDataStore {
     await viewStorage.performAndSave {}
     
     return exercises
-  }
-  
-  @MainActor
-  func getAll() -> [Exercise] {
-    return viewStorage
-      .allObjects(ofType: ExerciseEntity.self, matching: nil, sortedBy: nil)
-      .map { $0.toReadOnly() }
   }
 }

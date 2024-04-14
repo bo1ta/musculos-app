@@ -42,7 +42,10 @@ extension UserEntity {
     var nsPredicate: NSPredicate {
       switch self {
       case .currentUser:
-        NSPredicate(format: "isCurrentUser == true")
+        NSPredicate(
+          format: "%K == true",
+          #keyPath(UserEntity.isCurrentUser)
+        )
       }
     }
   }

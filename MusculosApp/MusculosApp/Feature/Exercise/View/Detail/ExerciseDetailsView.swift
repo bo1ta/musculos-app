@@ -36,13 +36,14 @@ struct ExerciseDetailsView: View {
         isFavorite = exerciseStore.checkIsFavorite(exercise: exercise)
       }
     }
-    .onDisappear(perform: {
-      exerciseStore.cleanUp()
-    })
+    .onDisappear(perform: exerciseStore.cleanUp)
     .navigationBarBackButtonHidden()
   }
-  
-  @ViewBuilder
+}
+
+// MARK: - Views
+
+extension ExerciseDetailsView {
   private var imageSection: some View {
     AnimatedURLImageView(imageURLs: exercise.getImagesURLs())
       .overlay {
@@ -127,7 +128,6 @@ struct ExerciseDetailsView: View {
     }
   }
   
-  @ViewBuilder
   private var stepsSection: some View {
     LazyVStack {
       ForEach(Array(exercise.instructions.enumerated()), id: \.element) { index, instruction in

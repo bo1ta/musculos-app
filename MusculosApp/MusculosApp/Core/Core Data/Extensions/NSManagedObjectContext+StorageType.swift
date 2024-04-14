@@ -1,5 +1,5 @@
 //
-//  NSManagedObjectContext+Storage.swift
+//  NSManagedObjectContext+StorageType.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 25.03.2024.

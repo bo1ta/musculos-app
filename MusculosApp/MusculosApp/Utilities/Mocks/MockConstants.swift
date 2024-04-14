@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class MockConstants {
+struct MockConstants {
   
   // MARK: - Challenge
   

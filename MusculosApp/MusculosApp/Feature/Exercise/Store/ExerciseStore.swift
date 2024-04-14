@@ -99,9 +99,8 @@ extension ExerciseStore {
   }
   
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
-    favoriteTask = Task { @MainActor [ weak self] in
-      guard let self else { return }
-      await self.module.dataStore.markAsFavorite(exercise, isFavorite: isFavorite)
+    favoriteTask = Task { @MainActor [weak self] in
+      await self?.module.dataStore.markAsFavorite(exercise, isFavorite: isFavorite)
     }
   }
 }

@@ -8,17 +8,10 @@
 import Foundation
 
 enum MusculosError: LocalizedError, CustomStringConvertible {
-  case invalidRequest
-  case badRequest
-  case unauthorized
-  case forbidden
-  case notFound
+  case invalidRequest, badRequest, unauthorized, forbidden, notFound, serverError, decodingError, unknownError
   case error4xx(_ code: Int)
-  case serverError
   case error5xx(_ code: Int)
-  case decodingError
   case urlSessionFailed(_ error: URLError)
-  case unknownError
   case sdkError(_ error: Error)
   
   var description: String {
