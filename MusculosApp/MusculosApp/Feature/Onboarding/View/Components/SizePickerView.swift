@@ -13,6 +13,7 @@ struct SizePickerView: View {
   var description: String
   var unit: String
   var options: [Int]
+  var showCheckMark: Bool = true
   
   var body: some View {
     VStack {
@@ -31,7 +32,7 @@ struct SizePickerView: View {
         Text(unit)
           .font(.body(.light, size: 20))
         
-        if value != nil {
+        if value != nil && showCheckMark {
           Circle()
             .frame(width: 30, height: 30)
             .foregroundStyle(Color.AppColor.blue500)

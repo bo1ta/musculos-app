@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Helper for handling the synchronization state of objects
+///
 public enum SynchronizationState: Int {
   case notSynchronized = 0, synchronizationPending, synchronized
 }

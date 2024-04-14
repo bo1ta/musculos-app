@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public class AppFont {
+struct AppFont {
   enum Header: String {
     case regular = "Epilogue-Regular"
     case medium = "Epilogue-Medium"

@@ -16,6 +16,11 @@ protocol StorageType {
   ///
   func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T]
   
+  /// Returns all of the available objects given a Type
+  /// Matching the predicate and prefetching a given key path
+  ///
+  func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, relationshipKeyPathsForPrefetching: [String]) -> [T]
+  
   /// Returns objects with a given limit count
   ///
   func allObjects<T: Object>(ofType type: T.Type, fetchLimit: Int, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T]

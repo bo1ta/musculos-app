@@ -14,7 +14,7 @@ class ExerciseStore: ObservableObject {
   private let module: ExerciseModuleProtocol
   private let fetchedResultsController: ResultsController<ExerciseEntity>
   
-  init(module: ExerciseModuleProtocol = ExerciseModule(), shouldLoadFromCache: Bool = true) {
+  init(module: ExerciseModuleProtocol = ExerciseModule(), shouldLoadFromCache: Bool = false) {
     self.module = module
     self.fetchedResultsController = ResultsController<ExerciseEntity>(storageManager: CoreDataStack.shared, sortedBy: [])
     self.setUpFetchedResultsController(shouldLoadFromCache: shouldLoadFromCache)
@@ -83,7 +83,7 @@ extension ExerciseStore {
   
   @MainActor
   func loadLocalExercises() {
-    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.all.nsPredicate
+    fetchedResultsController.predicate = nil
     updateLocalResults()
   }
   
@@ -99,9 +99,8 @@ extension ExerciseStore {
   }
   
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
-    favoriteTask = Task { @MainActor [ weak self] in
-      guard let self else { return }
-      await self.module.dataStore.favoriteExercise(exercise, isFavorite: isFavorite)
+    favoriteTask = Task { @MainActor [weak self] in
+      await self?.module.dataStore.markAsFavorite(exercise, isFavorite: isFavorite)
     }
   }
 }
@@ -117,7 +116,9 @@ extension ExerciseStore {
       self?.updateLocalResults()
     }
     
+    /// perform initial fetch from data store. Default `true`
     guard shouldLoadFromCache else { return }
+
     do {
       try fetchedResultsController.performFetch()
       updateLocalResults()

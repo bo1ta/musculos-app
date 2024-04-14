@@ -8,6 +8,7 @@
 import Foundation
 
 protocol Authenticatable {  
-  func register(email: String, password: String, username: String, fullName: String) async throws -> String
-  func login(email: String, password: String) async throws -> String
+  var dataStore: UserDataStoreProtocol { get set }
+  func register(email: String, password: String, username: String, fullName: String) async throws
+  func login(email: String, password: String) async throws
 }

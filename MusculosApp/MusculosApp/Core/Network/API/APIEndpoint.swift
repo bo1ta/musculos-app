@@ -7,13 +7,10 @@
 
 import Foundation
 
-enum Endpoint: CustomStringConvertible {
-  case login
-  case register
-  case exercises
-  case exercisesByMuscle
+enum Endpoint {
+  case login, register, exercises, exercisesByMuscle
 
-  var description: String {
+  var path: String {
     switch self {
     case .login:
       return "/me/login"
@@ -27,10 +24,12 @@ enum Endpoint: CustomStringConvertible {
   }
 }
 
-public class APIEndpoint {
-  static let base = "http://49.13.172.88:3000"
+struct APIEndpoint {
+  private static let base = "http://49.13.172.88:3000"
 
-  static func baseWithEndpoint(endpoint: Endpoint) -> String {
-    return Self.base + endpoint.description
+  static func baseWithEndpoint(endpoint: Endpoint) -> URL? {
+    return URL(
+      string: Self.base + endpoint.path
+    )
   }
 }

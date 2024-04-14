@@ -11,7 +11,7 @@ struct CardItem: View {
   let title: String
   let isSelected: Bool
   let onSelect: () -> Void
-
+  
   var body: some View {
     RoundedRectangle(cornerRadius: 10)
       .foregroundStyle(.white)
@@ -19,12 +19,13 @@ struct CardItem: View {
       .frame(height: 40)
       .shadow(color: .gray.opacity(0.4), radius: 2, x: 1, y: 1)
       .overlay {
-        HStack {
-          Text(title)
-            .font(.body(.regular, size: 13))
-          Spacer()
-          
-          Button(action: onSelect, label: {
+        Button(action: onSelect, label: {
+          HStack {
+            Text(title)
+              .font(.body(.regular, size: 13))
+              .foregroundStyle(Color.AppColor.blue800)
+            Spacer()
+            
             Circle()
               .frame(width: 20, height: 20)
               .foregroundStyle(isSelected ? Color.AppColor.blue500 : .white)
@@ -32,9 +33,9 @@ struct CardItem: View {
                 RoundedRectangle(cornerRadius: 16)
                   .stroke(.gray, lineWidth: 1)
               )
-          })
-        }
-        .padding([.leading, .trailing], 20)
+          }
+          .padding([.leading, .trailing], 20)
+        })
       }
   }
 }
@@ -52,7 +53,7 @@ struct CardItemShimmering: View {
       .shadow(color: .gray.opacity(0.4), radius: 2, x: 1, y: 1)
       .overlay {
         HStack {
-         Rectangle()
+          Rectangle()
             .foregroundStyle(.gray)
             .frame(maxWidth: .infinity)
             .frame(height: 20)

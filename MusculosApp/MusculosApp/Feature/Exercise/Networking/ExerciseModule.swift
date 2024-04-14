@@ -27,7 +27,7 @@ struct ExerciseModule: ExerciseModuleProtocol, MusculosModule {
     
     let data = try await client.dispatch(request)
     let results = try Exercise.createArrayFrom(data)
-    return await dataStore.importExercises(results)
+    return await dataStore.importFrom(results)
   }
   
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
@@ -36,6 +36,6 @@ struct ExerciseModule: ExerciseModuleProtocol, MusculosModule {
 
     let data = try await client.dispatch(request)
     let results = try Exercise.createArrayFrom(data)
-    return await dataStore.importExercises(results)
+    return await dataStore.importFrom(results)
   }
 }

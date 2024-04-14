@@ -54,8 +54,8 @@ struct ExploreExerciseView: View {
       }
       .background(
         Image("white-patterns-background")
-        .resizable(resizingMode: .tile)
-        .opacity(0.1)
+          .resizable(resizingMode: .tile)
+          .opacity(0.1)
       )
       .navigationDestination(isPresented: $showExerciseDetails) {
         if let exercise = selectedExercise {
@@ -69,9 +69,7 @@ struct ExploreExerciseView: View {
           }
         }
       }
-      .onDisappear {
-        exerciseStore.cleanUp()
-      }
+      .onDisappear(perform: exerciseStore.cleanUp)
     }
   }
 }

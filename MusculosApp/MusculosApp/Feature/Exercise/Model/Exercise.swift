@@ -12,7 +12,7 @@ struct Exercise: Codable {
   public var category: String
   public var equipment: String?
   public var force: String?
-  public var id: UUID?
+  public var id: UUID
   public var level: String
   public var name: String
   public var primaryMuscles: [String]
@@ -20,7 +20,7 @@ struct Exercise: Codable {
   public var instructions: [String]
   public var imageUrls: [String]
   
-  init(category: String, equipment: String? = nil, force: String? = nil, id: UUID? = nil, level: String, name: String, primaryMuscles: [String], secondaryMuscles: [String], instructions: [String], imageUrls: [String]) {
+  init(category: String, equipment: String? = nil, force: String? = nil, id: UUID, level: String, name: String, primaryMuscles: [String], secondaryMuscles: [String], instructions: [String], imageUrls: [String]) {
     self.category = category
     self.equipment = equipment
     self.force = force
@@ -42,10 +42,6 @@ struct Exercise: Codable {
       URL(string: imageUrlString)
     }
   }
-  
-  private var wrappedId: NSUUID {
-    return self.id! as NSUUID
-  }
 }
 
 extension Exercise {
@@ -63,10 +59,12 @@ extension Exercise: Hashable {
     hasher.combine(self.name)
     hasher.combine(self.id)
   }
-  
-  public static func ==(_ lhs: Exercise, rhs: Exercise) -> Bool {
-    return lhs.id == rhs.id
-  }
 }
 
 extension Exercise: DecodableModel { }
+
+extension Exercise: Identifiable {
+  static func ==(_ lhs: Exercise, rhs: Exercise) -> Bool {
+    return lhs.id == rhs.id
+  }
+}

@@ -1,5 +1,5 @@
 //
-//  NSManagedObjectContext+Storage.swift
+//  NSManagedObjectContext+StorageType.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 25.03.2024.
@@ -17,6 +17,14 @@ extension NSManagedObjectContext: StorageType {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.sortDescriptors = descriptors
+    
+    return loadObjects(ofType: type, with: request)
+  }
+  
+  func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, relationshipKeyPathsForPrefetching: [String]) -> [T] {
+    let request = fetchRequest(forType: type)
+    request.predicate = predicate
+    request.relationshipKeyPathsForPrefetching = relationshipKeyPathsForPrefetching
     
     return loadObjects(ofType: type, with: request)
   }

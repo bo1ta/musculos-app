@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 class UserStore: ObservableObject {
-  @Published var currentUserProfile: UserProfile? = nil
+  @Published var currentPerson: Person? = nil
   @Published var error: Error? = nil
   @Published var isLoading: Bool = false
   @Published var isLoggedIn: Bool = false
@@ -21,7 +21,7 @@ class UserStore: ObservableObject {
     }
   }
     
-  private(set) var updateUserProfileTask: Task<Void, Never>?
+  private(set) var updateUserTask: Task<Void, Never>?
   
   private let dataStore: UserDataStore
   
@@ -30,7 +30,7 @@ class UserStore: ObservableObject {
   }
   
   var displayName: String {
-    currentUserProfile?.fullName ?? currentUserProfile?.username ?? "User"
+    currentPerson?.fullName ?? currentPerson?.username ?? "User"
   }
   
   @MainActor
@@ -46,14 +46,14 @@ class UserStore: ObservableObject {
   }
   
   func cleanUp() {
-    updateUserProfileTask?.cancel()
-    updateUserProfileTask = nil
+    updateUserTask?.cancel()
+    updateUserTask = nil
   }
   
   func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) {
-    updateUserProfileTask = Task { @MainActor [weak self] in
+    updateUserTask = Task { @MainActor [weak self] in
       guard let self else { return }
-      _ = await self.dataStore.updateUserProfile(gender: gender, weight: weight, height: height, goalId: goalId)
+      _ = await self.dataStore.updateUser(gender: gender, weight: weight, height: height, goalId: goalId)
     }
   }
 }

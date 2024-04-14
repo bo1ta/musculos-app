@@ -18,13 +18,13 @@ struct APIRequest {
   var contentType: String { return "application/json" }
 
   func asURLRequest() -> URLRequest? {
-    guard var baseURL = URL(string: APIEndpoint.baseWithEndpoint(endpoint: path)) else { return nil }
+    guard var baseURL = APIEndpoint.baseWithEndpoint(endpoint: path) else { return nil }
 
-    if let opk = opk {
+    if let opk {
       baseURL.appendPathComponent(opk)
     }
 
-    if let queryParams = self.queryParams {
+    if let queryParams {
       var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
       components?.queryItems = queryParams
       if let urlWithQuery = components?.url {
