@@ -8,25 +8,24 @@
 import SwiftUI
 
 struct DialogSelectView: View {
-  @Environment(\.dismiss) var dismiss
-  
   let title: String
-  let description: String?
   let buttonTitle: String
-  let onButtonTap: ((Int) -> Void)
+  let onSelectedValue: ((Int) -> Void)
+  
+  @Binding var isPresented: Bool
   
   @State private var selectedValue: Float = 1
   
   init(
     title: String,
-    description: String? = nil,
     buttonTitle: String = "Continue",
-    onButtonTap: @escaping (Int) -> Void
+    isPresented: Binding<Bool>,
+    onSelectedValue: @escaping (Int) -> Void
   ) {
     self.title = title
-    self.description = description
     self.buttonTitle = buttonTitle
-    self.onButtonTap = onButtonTap
+    self.onSelectedValue = onSelectedValue
+    self._isPresented = isPresented
   }
   
   var body: some View {
@@ -40,13 +39,6 @@ struct DialogSelectView: View {
             .font(.header(.bold, size: 14))
             .foregroundStyle(Color.AppColor.blue800)
             .padding(.top, 20)
-          
-          if let description {
-            Text(description)
-              .font(.body(.regular, size: 10))
-              .foregroundStyle(.black)
-              .padding([.leading, .trailing], 60)
-          }
           
           Slider(
             value: $selectedValue,
@@ -62,8 +54,8 @@ struct DialogSelectView: View {
             .padding(.bottom, 10)
           
           Button {
-            onButtonTap(Int(selectedValue))
-            dismiss()
+            isPresented = false
+            onSelectedValue(Int(selectedValue))
           } label: {
             Text(buttonTitle)
               .font(.body(.regular))
@@ -78,7 +70,7 @@ struct DialogSelectView: View {
 }
 
 #Preview {
-  DialogSelectView(title: "How many reps?", onButtonTap: {
-      print($0)
+  DialogSelectView(title: "How many reps?", isPresented: .constant(true), onSelectedValue: {
+    print($0)
   })
 }

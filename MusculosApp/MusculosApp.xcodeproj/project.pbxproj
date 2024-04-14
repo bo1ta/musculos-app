@@ -87,6 +87,10 @@
 		BC7827602B9CF1F400DFC02C /* Epilogue-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC78275F2B9CF1F300DFC02C /* Epilogue-Bold.ttf */; };
 		BC7827642B9D1D1000DFC02C /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7827632B9D1D1000DFC02C /* AuthViewModel.swift */; };
 		BC7888332BB9CADA005DF8CE /* ExerciseSectionsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7888322BB9CADA005DF8CE /* ExerciseSectionsContentView.swift */; };
+		BC81E5C02BCC66410005891D /* NavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81E5BF2BCC66410005891D /* NavigationCoordinator.swift */; };
+		BC81E5C42BCC66810005891D /* NavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81E5C32BCC66810005891D /* NavigationRouter.swift */; };
+		BC81E5C62BCC73FA0005891D /* ExerciseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81E5C52BCC73FA0005891D /* ExerciseRouter.swift */; };
+		BC81E5C82BCC77630005891D /* View+Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81E5C72BCC77630005891D /* View+Dialog.swift */; };
 		BC8244712BAF252100CFA645 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8244702BAF252100CFA645 /* HealthKitManager.swift */; };
 		BC8244732BAF2F7B00CFA645 /* HealthKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8244722BAF2F7B00CFA645 /* HealthKitViewModel.swift */; };
 		BC8244762BAF64FA00CFA645 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8244752BAF64FA00CFA645 /* Date+Extension.swift */; };
@@ -263,6 +267,10 @@
 		BC78275F2B9CF1F300DFC02C /* Epilogue-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Epilogue-Bold.ttf"; sourceTree = "<group>"; };
 		BC7827632B9D1D1000DFC02C /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		BC7888322BB9CADA005DF8CE /* ExerciseSectionsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSectionsContentView.swift; sourceTree = "<group>"; };
+		BC81E5BF2BCC66410005891D /* NavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
+		BC81E5C32BCC66810005891D /* NavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
+		BC81E5C52BCC73FA0005891D /* ExerciseRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseRouter.swift; sourceTree = "<group>"; };
+		BC81E5C72BCC77630005891D /* View+Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Dialog.swift"; sourceTree = "<group>"; };
 		BC82446E2BAE6AE700CFA645 /* MusculosAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MusculosAppDebug.entitlements; sourceTree = "<group>"; };
 		BC8244702BAF252100CFA645 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		BC8244722BAF2F7B00CFA645 /* HealthKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitViewModel.swift; sourceTree = "<group>"; };
@@ -953,6 +961,31 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		BC81E5C12BCC66620005891D /* Navigation Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				BC81E5BF2BCC66410005891D /* NavigationCoordinator.swift */,
+				BC81E5C22BCC66740005891D /* Protocol */,
+			);
+			path = "Navigation Coordinator";
+			sourceTree = "<group>";
+		};
+		BC81E5C22BCC66740005891D /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				BC81E5C32BCC66810005891D /* NavigationRouter.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		BC81E5C92BCC7EDE0005891D /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				BC81E5C72BCC77630005891D /* View+Dialog.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		BC82446F2BAF251500CFA645 /* HealthKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -974,6 +1007,7 @@
 		BC8E86DE2AED2F14008E3CE4 /* Environment */ = {
 			isa = PBXGroup;
 			children = (
+				BC81E5C12BCC66620005891D /* Navigation Coordinator */,
 				BC3FB0EF2A855D9100C3F9B1 /* Preference Key */,
 			);
 			path = Environment;
@@ -1182,6 +1216,7 @@
 			children = (
 				BCB724C12BC1F51E003F53EA /* DialogView.swift */,
 				BCB724C32BC1FA8D003F53EA /* DialogSelectView.swift */,
+				BC81E5C92BCC7EDE0005891D /* Extension */,
 			);
 			path = Dialog;
 			sourceTree = "<group>";
@@ -1218,6 +1253,7 @@
 			isa = PBXGroup;
 			children = (
 				BC52DDDF2B856E64005A4587 /* Exercise.swift */,
+				BC81E5C52BCC73FA0005891D /* ExerciseRouter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1577,7 +1613,9 @@
 				BC261AB82B6DA0EF0018E21F /* SearchFilterView.swift in Sources */,
 				BC52DDD42B8516F9005A4587 /* MuscleClientProtocol.swift in Sources */,
 				BC52DDCE2B85164D005A4587 /* APIRequest.swift in Sources */,
+				BC81E5C42BCC66810005891D /* NavigationRouter.swift in Sources */,
 				BCF7DE712A7DB2EC00FC960B /* CustomTabBarView.swift in Sources */,
+				BC81E5C02BCC66410005891D /* NavigationCoordinator.swift in Sources */,
 				BCA24BEF2B69D3AE00124EC3 /* SplashView.swift in Sources */,
 				BCB92BD62BBB5F4400D41B9B /* ImageCacheManager.swift in Sources */,
 				BCF86C3B2A3632BA003293A4 /* SecondaryButton.swift in Sources */,
@@ -1589,6 +1627,8 @@
 				BC6F365D2BB4E2A3000F6CFA /* CardItem.swift in Sources */,
 				BCD59AB02BB628700039F662 /* AnimatedURLImageView.swift in Sources */,
 				BCD977AE2BC2E1F20076C148 /* WorkoutEntity+CoreDataProperties.swift in Sources */,
+				BC81E5C82BCC77630005891D /* View+Dialog.swift in Sources */,
+				BC81E5C62BCC73FA0005891D /* ExerciseRouter.swift in Sources */,
 				BCD59A8E2BB627CE0039F662 /* ExploreExerciseView.swift in Sources */,
 				BC52DDF72B8BF5E8005A4587 /* Collection+Extension.swift in Sources */,
 				BCFEB5B12BC207FA00698C63 /* Workout.swift in Sources */,

@@ -46,7 +46,10 @@ final class AddWorkoutSheetViewModel: ObservableObject {
     return selectedExercises.first(where: { $0.exercise == exercise }) != nil
   }
   
-  func didSelectExercise(_ exercise: Exercise, numberOfReps: Int = 1) {
+  func didSelectExercise(numberOfReps: Int = 0) {
+    guard let exercise = currentSelectedExercise else { return }
+    defer { currentSelectedExercise = nil }
+    
     if let index = selectedExercises.firstIndex(where: { $0.exercise == exercise }) {
       selectedExercises.remove(at: index)
     } else {

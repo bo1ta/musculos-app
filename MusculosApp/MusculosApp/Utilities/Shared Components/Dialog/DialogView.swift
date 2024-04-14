@@ -10,22 +10,22 @@ import SwiftUI
 
 struct DialogView: View {
   @Environment(\.dismiss) var dismiss
+  @Binding var isPresented: Bool
   
   let title: String
   let description: String?
   let buttonTitle: String
-  let onButtonTap: (() -> Void)?
   
   init(
     title: String,
     description: String? = nil,
     buttonTitle: String = "Continue",
-    onButtonTap: (() -> Void)? = nil
+    isPresented: Binding<Bool>
   ) {
     self.title = title
     self.description = description
     self.buttonTitle = buttonTitle
-    self.onButtonTap = onButtonTap
+    self._isPresented = isPresented
   }
   
   var body: some View {
@@ -50,10 +50,7 @@ struct DialogView: View {
           Spacer()
           
           Button {
-            if let onButtonTap {
-              onButtonTap()
-            }
-            dismiss()
+            isPresented = false
           } label: {
             Text(buttonTitle)
               .font(.body(.regular))
@@ -68,5 +65,5 @@ struct DialogView: View {
 }
 
 #Preview {
-  DialogView(title: "Something occured", description: "Extra long description with more description")
+  DialogView(title: "Something occured", description: "Extra long description with more description", isPresented: .constant(true))
 }

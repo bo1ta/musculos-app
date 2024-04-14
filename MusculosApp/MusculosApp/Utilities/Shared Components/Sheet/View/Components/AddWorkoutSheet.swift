@@ -41,14 +41,13 @@ struct AddWorkoutSheet: View {
       .buttonStyle(PrimaryButton())
       .padding([.leading, .trailing], 10)
     }
-    .sheet(isPresented: $viewModel.showRepsDialog, content: {
-      DialogSelectView(title: "How many reps?", onButtonTap: { numberOfReps in
-        if let currentSelectedExercise = viewModel.currentSelectedExercise {
-          viewModel.didSelectExercise(currentSelectedExercise, numberOfReps: numberOfReps)
-          viewModel.currentSelectedExercise = nil
-        }
-      })
-    })
+    .dialog(
+      title: "How many reps?",
+      buttonTitle: "Save",
+      isPresented: $viewModel.showRepsDialog,
+      style: .select,
+      onSelectedValue: viewModel.didSelectExercise
+    )
     .onAppear(perform: viewModel.getAll)
     .onDisappear(perform: viewModel.cleanUp)
   }
