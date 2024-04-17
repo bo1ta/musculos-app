@@ -11,18 +11,8 @@ struct ExploreExerciseView: View {
   @EnvironmentObject private var exerciseStore: ExerciseStore
   @EnvironmentObject private var tabBarSettings: TabBarSettings
 
-  @State private var searchQuery: String = ""
-  @State private var showFilterView: Bool = false
-  @State private var showExerciseDetails: Bool = false
-    
-  @State private var selectedExercise: Exercise? = nil {
-    didSet {
-      if selectedExercise != nil {
-        showExerciseDetails = true
-      }
-    }
-  }
-
+  @StateObject private var viewModel = ExploreExerciseViewModel()
+  
   var body: some View {
     NavigationStack {
       VStack {
@@ -36,20 +26,20 @@ struct ExploreExerciseView: View {
           .padding(.top, 20)
           
           SearchFilterField(
-            showFilterView: $showFilterView,
+            showFilterView: $viewModel.showFilterView,
             hasObservedQuery: { query in
               exerciseStore.searchByMuscleQuery(query)
             })
           
           ExerciseSectionsContentView(onSelected: { exercise in
-            selectedExercise = exercise
+            viewModel.selectedExercise = exercise
           })
           
           WhiteBackgroundCard()
         }
         .scrollIndicators(.hidden)
       }
-      .popover(isPresented: $showFilterView) {
+      .popover(isPresented: $viewModel.showFilterView) {
         SearchFilterView()
       }
       .background(
@@ -57,16 +47,16 @@ struct ExploreExerciseView: View {
           .resizable(resizingMode: .tile)
           .opacity(0.1)
       )
-      .navigationDestination(isPresented: $showExerciseDetails) {
-        if let exercise = selectedExercise {
+      .navigationDestination(isPresented: $viewModel.showExerciseDetails) {
+        if let exercise = viewModel.selectedExercise {
           ExerciseDetailsView(exercise: exercise)
         }
       }
       .onAppear {
-        if tabBarSettings.isTabBarHidden {
-          DispatchQueue.main.async {
-            tabBarSettings.isTabBarHidden = false
-          }
+        guard tabBarSettings.isTabBarHidden else { return }
+        
+        DispatchQueue.main.async {
+          tabBarSettings.isTabBarHidden = false
         }
       }
       .onDisappear(perform: exerciseStore.cleanUp)

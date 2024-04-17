@@ -67,45 +67,6 @@ final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
     XCTAssertEqual(store.state, .error(MessageConstant.genericErrorMessage.rawValue))
   }
   
-  func testFetchedControllerLoadsLocalExercises() async throws {
-    /// Populate core data store
-    await populateStorageWithMockData()
-  
-    /// initial loads from cache
-    let store = ExerciseStore(module: MockExerciseModule(), shouldLoadFromCache: true)
-    guard case let LoadingViewState.loaded(exercises) = store.state, let storedExercise = exercises.first else {
-      XCTFail("Should find exercise")
-      return
-    }
-
-    let mockExercise = ExerciseFactory.createExercise()
-    XCTAssertEqual(storedExercise.category, mockExercise.category)
-    XCTAssertEqual(storedExercise.name, mockExercise.name)
-  }
-  
-  func testFavoriteExercise() async throws {
-    /// Populate core data store
-    await populateStorageWithMockData()
-    
-    let store = ExerciseStore(module: MockExerciseModule(), shouldLoadFromCache: true)
-    guard case let LoadingViewState.loaded(exercises) = store.state, let exercise = exercises.first else {
-      XCTFail("Should find exercise")
-      return
-    }
-    
-    var isFavorite = await store.checkIsFavorite(exercise: exercise)
-    XCTAssertFalse(isFavorite)
-    XCTAssertNil(store.favoriteTask)
-    
-    store.favoriteExercise(exercise, isFavorite: true)
-    
-    let favoriteTask = try XCTUnwrap(store.favoriteTask)
-    await favoriteTask.value
-    
-    isFavorite = await store.checkIsFavorite(exercise: exercise)
-    XCTAssertTrue(isFavorite)
-  }
-  
   func testSearchByMuscleQuery() async throws {
     let data = try self.readFromFile(name: "getExercises")
     let expectedResults = try Exercise.createArrayFrom(data)
@@ -125,6 +86,53 @@ final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
     await searchTask.value
     await fulfillment(of: [expectation], timeout: 1)
     XCTAssertEqual(store.state, .loaded(expectedResults))
+  }
+}
+
+/// Tests that involve Core Data reading should run on the main thread
+/// since `DummyStack`'s context is a view context
+///
+extension ExerciseStoreTests {
+  
+  @MainActor
+  func testFetchedControllerLoadsLocalExercises() async throws {
+    /// Populate core data store
+    await populateStorageWithMockData()
+  
+    /// initial loads from cache
+    let store = ExerciseStore(module: MockExerciseModule(), shouldLoadFromCache: true)
+    guard case let LoadingViewState.loaded(exercises) = store.state, let storedExercise = exercises.first else {
+      XCTFail("Should find exercise")
+      return
+    }
+
+    let mockExercise = ExerciseFactory.createExercise()
+    XCTAssertEqual(storedExercise.category, mockExercise.category)
+    XCTAssertEqual(storedExercise.name, mockExercise.name)
+  }
+  
+  @MainActor
+  func testFavoriteExercise() async throws {
+    /// Populate core data store
+    await populateStorageWithMockData()
+    
+    let store = ExerciseStore(module: MockExerciseModule(), shouldLoadFromCache: true)
+    guard case let LoadingViewState.loaded(exercises) = store.state, let exercise = exercises.first else {
+      XCTFail("Should find exercise")
+      return
+    }
+    
+    var isFavorite = store.checkIsFavorite(exercise: exercise)
+    XCTAssertFalse(isFavorite)
+    XCTAssertNil(store.favoriteTask)
+    
+    store.favoriteExercise(exercise, isFavorite: true)
+    
+    let favoriteTask = try XCTUnwrap(store.favoriteTask)
+    await favoriteTask.value
+    
+    isFavorite = store.checkIsFavorite(exercise: exercise)
+    XCTAssertTrue(isFavorite)
   }
 }
 

@@ -87,6 +87,8 @@
 		BC7827602B9CF1F400DFC02C /* Epilogue-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC78275F2B9CF1F300DFC02C /* Epilogue-Bold.ttf */; };
 		BC7827642B9D1D1000DFC02C /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7827632B9D1D1000DFC02C /* AuthViewModel.swift */; };
 		BC7888332BB9CADA005DF8CE /* ExerciseSectionsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7888322BB9CADA005DF8CE /* ExerciseSectionsContentView.swift */; };
+		BC81E5C82BCC77630005891D /* View+Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81E5C72BCC77630005891D /* View+Dialog.swift */; };
+		BC81E5CD2BD04FF20005891D /* ExploreExerciseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81E5CC2BD04FF20005891D /* ExploreExerciseViewModel.swift */; };
 		BC8244712BAF252100CFA645 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8244702BAF252100CFA645 /* HealthKitManager.swift */; };
 		BC8244732BAF2F7B00CFA645 /* HealthKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8244722BAF2F7B00CFA645 /* HealthKitViewModel.swift */; };
 		BC8244762BAF64FA00CFA645 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8244752BAF64FA00CFA645 /* Date+Extension.swift */; };
@@ -263,6 +265,8 @@
 		BC78275F2B9CF1F300DFC02C /* Epilogue-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Epilogue-Bold.ttf"; sourceTree = "<group>"; };
 		BC7827632B9D1D1000DFC02C /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		BC7888322BB9CADA005DF8CE /* ExerciseSectionsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSectionsContentView.swift; sourceTree = "<group>"; };
+		BC81E5C72BCC77630005891D /* View+Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Dialog.swift"; sourceTree = "<group>"; };
+		BC81E5CC2BD04FF20005891D /* ExploreExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreExerciseViewModel.swift; sourceTree = "<group>"; };
 		BC82446E2BAE6AE700CFA645 /* MusculosAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MusculosAppDebug.entitlements; sourceTree = "<group>"; };
 		BC8244702BAF252100CFA645 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		BC8244722BAF2F7B00CFA645 /* HealthKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitViewModel.swift; sourceTree = "<group>"; };
@@ -489,6 +493,7 @@
 			isa = PBXGroup;
 			children = (
 				BCD59A782BB627CE0039F662 /* ExploreExerciseView.swift */,
+				BC81E5CB2BD04FE80005891D /* Model */,
 				BCD59A832BB627CE0039F662 /* Components */,
 			);
 			path = Explore;
@@ -497,6 +502,7 @@
 		BC34544F2B72DEFE0074106A /* Exercise */ = {
 			isa = PBXGroup;
 			children = (
+				BC261AB02B6D71A90018E21F /* Explore */,
 				BCB7F3052BB24F62002CB2DE /* Model */,
 				BC97C9362BA0F04900AA07C4 /* View */,
 				BC3454512B72DF3A0074106A /* Store */,
@@ -524,6 +530,8 @@
 		BC34545A2B758AE10074106A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				BCCE85EC2A35008C001BEE8B /* AppColor.swift */,
+				BCA8C5C62B9DFA3E00C273C9 /* AppFont.swift */,
 				BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */,
 				BC52DDD92B85431C005A4587 /* LoadingViewState.swift */,
 				BC52DDDB2B8560DB005A4587 /* Shimmer.swift */,
@@ -781,8 +789,6 @@
 		BC63A5A22AC3388D006B1894 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				BCA8C5C62B9DFA3E00C273C9 /* AppFont.swift */,
-				BCCE85EC2A35008C001BEE8B /* AppColor.swift */,
 				BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */,
 				BC63A5A32AC33896006B1894 /* MuscleConstant.swift */,
 				BCB7F2E42BB1E8A5002CB2DE /* ExerciseConstant.swift */,
@@ -953,6 +959,22 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		BC81E5C92BCC7EDE0005891D /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				BC81E5C72BCC77630005891D /* View+Dialog.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		BC81E5CB2BD04FE80005891D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BC81E5CC2BD04FF20005891D /* ExploreExerciseViewModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		BC82446F2BAF251500CFA645 /* HealthKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -1015,7 +1037,6 @@
 		BC97C9362BA0F04900AA07C4 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BC261AB02B6D71A90018E21F /* Explore */,
 				BC43D3392B6EAD77008C1062 /* Filter */,
 				BC97C9342BA0EFFE00AA07C4 /* Detail */,
 			);
@@ -1182,6 +1203,7 @@
 			children = (
 				BCB724C12BC1F51E003F53EA /* DialogView.swift */,
 				BCB724C32BC1FA8D003F53EA /* DialogSelectView.swift */,
+				BC81E5C92BCC7EDE0005891D /* Extension */,
 			);
 			path = Dialog;
 			sourceTree = "<group>";
@@ -1589,6 +1611,7 @@
 				BC6F365D2BB4E2A3000F6CFA /* CardItem.swift in Sources */,
 				BCD59AB02BB628700039F662 /* AnimatedURLImageView.swift in Sources */,
 				BCD977AE2BC2E1F20076C148 /* WorkoutEntity+CoreDataProperties.swift in Sources */,
+				BC81E5C82BCC77630005891D /* View+Dialog.swift in Sources */,
 				BCD59A8E2BB627CE0039F662 /* ExploreExerciseView.swift in Sources */,
 				BC52DDF72B8BF5E8005A4587 /* Collection+Extension.swift in Sources */,
 				BCFEB5B12BC207FA00698C63 /* Workout.swift in Sources */,
@@ -1638,6 +1661,7 @@
 				BC3454532B72DF4B0074106A /* ExerciseStore.swift in Sources */,
 				BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */,
 				BCD59AA32BB627E60039F662 /* DashboardHeaderCard.swift in Sources */,
+				BC81E5CD2BD04FF20005891D /* ExploreExerciseViewModel.swift in Sources */,
 				BC52DDE12B856E64005A4587 /* Exercise.swift in Sources */,
 				BC01710B2AEC6DBD005876EE /* PersonAvatarCircle.swift in Sources */,
 				BCD59AAF2BB628700039F662 /* DetailCardView.swift in Sources */,

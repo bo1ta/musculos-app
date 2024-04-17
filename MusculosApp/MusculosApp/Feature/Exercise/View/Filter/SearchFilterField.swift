@@ -21,20 +21,22 @@ struct SearchFilterField: View {
   
   var body: some View {
     HStack {
-      RoundedTextField(text: $debouncedQueryObserver.searchQuery,
-                       label: "Search",
-                       textHint: "Search by muscle")
-      Button(action: {
-        showFilterView = true
-      }, label: {
-        Circle()
-          .frame(width: 50, height: 50)
-          .foregroundStyle(Color.AppColor.blue500)
-          .overlay {
-            Image(systemName: "line.3.horizontal")
-              .foregroundStyle(.white)
-          }
-      })
+      RoundedTextField(
+        text: $debouncedQueryObserver.searchQuery,
+        label: "Search",
+        textHint: "Search by muscle"
+      )
+//      Button(action: {
+//        showFilterView = true
+//      }, label: {
+//        Circle()
+//          .frame(width: 50, height: 50)
+//          .foregroundStyle(Color.AppColor.blue500)
+//          .overlay {
+//            Image(systemName: "line.3.horizontal")
+//              .foregroundStyle(.white)
+//          }
+//      })
     }
     .onChange(of: debouncedQueryObserver.debouncedQuery) { query in
       if query.count > 2 {

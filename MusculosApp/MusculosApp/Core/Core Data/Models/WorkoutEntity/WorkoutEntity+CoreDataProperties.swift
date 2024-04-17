@@ -55,6 +55,4 @@ extension WorkoutEntity: ReadOnlyConvertible {
       workoutExercises: workoutExercisesToRead
     )
   }
-  
-  func update(with entity: Workout) {}
 }
