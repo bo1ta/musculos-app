@@ -109,10 +109,10 @@ extension AddWorkoutSheet {
   }
 }
 
-// MARK: - Functions
+// MARK: - Private Functions
 
 extension AddWorkoutSheet {
-  
+
   private func combineWithSelected(_ loadedExercises: [Exercise]) -> [Exercise] {
     var exercises = viewModel.selectedExercises.compactMap { $0.exercise }
     let noDuplicates = loadedExercises.compactMap { exercises.contains($0) ? nil : $0 }

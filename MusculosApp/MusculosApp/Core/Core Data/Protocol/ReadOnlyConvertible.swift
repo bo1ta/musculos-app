@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Helper protocol to convert core data models to a thread-safe model
+///
 protocol ReadOnlyConvertible: TypeErasedReadOnlyConvertible {
   
   /// Represents the ReadOnly Type (mirroring the receiver).
