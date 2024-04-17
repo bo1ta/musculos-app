@@ -26,7 +26,6 @@ extension ExerciseEntity {
   @NSManaged public var primaryMuscles: [String]
   @NSManaged public var secondaryMuscles: [String]
   @NSManaged public var workouts: Set<WorkoutEntity>
-  
 }
 
 extension ExerciseEntity : Identifiable {}
@@ -47,8 +46,6 @@ extension ExerciseEntity: ReadOnlyConvertible {
       imageUrls: self.imageUrls!
     )
   }
-  
-  func update(with entity: Exercise) { }
 }
 
 // MARK: - Common Predicate

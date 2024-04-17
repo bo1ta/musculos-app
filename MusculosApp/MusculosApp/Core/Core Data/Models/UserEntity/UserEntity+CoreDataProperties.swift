@@ -40,10 +40,4 @@ extension UserEntity: ReadOnlyConvertible {
       avatar: ""
     )
   }
-  
-  func update(with entity: Person) {
-    self.email = entity.email
-    self.fullName = entity.fullName
-    self.username = entity.username
-  }
 }

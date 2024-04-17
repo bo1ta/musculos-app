@@ -16,12 +16,20 @@ protocol ReadOnlyConvertible: TypeErasedReadOnlyConvertible {
   associatedtype ReadOnlyType
   
   /// Updates the Receiver with the ReadOnly Instance.
+  /// Optional.
   ///
-  func update(with entity: ReadOnlyType)
+  func update(from readable: ReadOnlyType)
   
   /// Returns a ReadOnly version of the receiver.
   ///
   func toReadOnly() -> ReadOnlyType
+}
+
+/// Make `update` implementation optional.
+/// Using it is generally unsafe -- Core Data isn't thread-safe.
+///
+extension ReadOnlyConvertible {
+  func update(from readable: ReadOnlyType) { }
 }
 
 protocol TypeErasedReadOnlyConvertible {
