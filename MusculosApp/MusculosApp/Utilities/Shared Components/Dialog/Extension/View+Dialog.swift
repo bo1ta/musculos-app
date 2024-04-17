@@ -14,10 +14,10 @@ enum DialogStyle {
 
 extension View {
   func dialog(
+    style: DialogStyle = .default,
     title: String,
     buttonTitle: String,
     isPresented: Binding<Bool>,
-    style: DialogStyle = .default,
     onSelectedValue: ((Int) -> Void)? = nil
   ) -> some View {
     fullScreenCover(isPresented: isPresented) {

@@ -42,10 +42,10 @@ struct AddWorkoutSheet: View {
       .padding([.leading, .trailing], 10)
     }
     .dialog(
+      style: .select,
       title: "How many reps?",
       buttonTitle: "Save",
       isPresented: $viewModel.showRepsDialog,
-      style: .select,
       onSelectedValue: viewModel.didSelectExercise
     )
     .onAppear(perform: viewModel.getAll)
