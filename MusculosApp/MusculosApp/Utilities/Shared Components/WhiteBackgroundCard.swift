@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/// White `Spacer` with 100 height.
+/// Typically used as the last component in a ScrollView for nice spacing.
+///
 struct WhiteBackgroundCard: View {
     var body: some View {
       Color.white

@@ -11,11 +11,11 @@ import Foundation
 ///
 protocol BaseDataStore {
   
-  /// Represents a private queue, suited for background operations
+  /// Represents a private queue, suited for background operations.
   ///
   var writerDerivedStorage: StorageType { get }
   
-  /// Represents the main thread, suited for UI operations
+  /// Represents main thread, suited for UI operations.
   ///
   var viewStorage: StorageType { get }
 }
