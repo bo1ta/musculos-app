@@ -37,8 +37,5 @@ extension View {
         }
       }
     }
-    .transaction { transaction in
-      transaction.disablesAnimations = true
-    }
   }
 }
