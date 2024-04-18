@@ -16,7 +16,6 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
   }
   
   override class func tearDown() {
-    MockURLProtocol.clear()
     CoreDataStack.resetOverride()
     super.tearDown()
   }
@@ -37,6 +36,7 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
     }
     
     await fulfillment(of: [expectation], timeout: 1)
+    MockURLProtocol.clear()
   }
   
   func testGetExercisesFails() async throws {
@@ -55,6 +55,7 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
     }
     
     await fulfillment(of: [expectation])
+    MockURLProtocol.clear()
   }
   
   func testSearchByMuscleQuerySucceeds() async throws {
@@ -73,6 +74,7 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
     }
     
     await fulfillment(of: [expectation])
+    MockURLProtocol.clear()
   }
   
   func testSearchByMuscleQueryFails() async throws {
@@ -91,5 +93,6 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
     }
     
     await fulfillment(of: [expectation])
+    MockURLProtocol.clear()
   }
 }

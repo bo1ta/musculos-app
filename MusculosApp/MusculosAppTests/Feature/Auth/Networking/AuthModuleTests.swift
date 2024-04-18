@@ -11,7 +11,6 @@ import XCTest
 
 final class AuthModuleTests: XCTestCase, MusculosTestBase {
   override class func tearDown() {
-    MockURLProtocol.clear()
     super.tearDown()
   }
   
@@ -32,6 +31,7 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     }
     
     await fulfillment(of: [requestExpectation, succeedsExpectation], timeout: 1)
+    MockURLProtocol.clear()
   }
   
   func testLoginFails() async throws {
@@ -51,6 +51,7 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     }
     
     await fulfillment(of: [failsExpectation, requestExpectation], timeout: 1)
+    MockURLProtocol.clear()
   }
   
   func testRegisterSucceeds() async throws {
@@ -89,5 +90,6 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     }
     
     await fulfillment(of: [requestExpectation, failsExpectation], timeout: 1)
+    MockURLProtocol.clear()
   }
 }
