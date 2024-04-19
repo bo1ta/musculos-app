@@ -21,13 +21,6 @@ public class UserEntity: NSManagedObject {
     }
   }
   
-  /// Only for main thread
-  ///
-  static var currentUser: UserEntity? {
-    let viewStorage = CoreDataStack.shared.viewStorage
-    return viewStorage.firstObject(of: UserEntity.self, matching: CommonPredicate.currentUser.nsPredicate)
-  }
-  
   static func currentUser(with context: StorageType) -> UserEntity? {
     return context.firstObject(of: UserEntity.self, matching: CommonPredicate.currentUser.nsPredicate)
   }

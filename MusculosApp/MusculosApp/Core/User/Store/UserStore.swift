@@ -32,7 +32,7 @@ class UserStore: ObservableObject {
   var displayName: String {
     currentPerson?.fullName ?? currentPerson?.username ?? "User"
   }
-  
+
   @MainActor
   func initialLoad() {
     if let _ = UserDefaults.standard.string(forKey: UserDefaultsKeyConstant.authToken.rawValue) {
@@ -42,6 +42,10 @@ class UserStore: ObservableObject {
     let isOnboarded = UserDefaults.standard.bool(forKey: UserDefaultsKeyConstant.isOnboarded.rawValue)
     if isOnboarded {
       self.isOnboarded = true
+    }
+    
+    if let currentPerson = dataStore.loadCurrentPerson() {
+      self.currentPerson = currentPerson
     }
   }
   

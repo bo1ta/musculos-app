@@ -22,7 +22,10 @@ struct AddWorkoutSheet: View {
       RoundedTextField(text: $viewModel.exerciseName, label: "Name", textHint: "Workout Name")
         .padding(.top, 25)
       
-      RoundedTextField(text: $viewModel.searchQuery, label: "Type", textHint: "Muscle Type")
+      RoundedTextField(text: $viewModel.workoutType, label: "Workout Type", textHint: "Workout Type")
+        .padding(.top, 25)
+      
+      RoundedTextField(text: $viewModel.muscleSearchQuery, label: "Target Muscle", textHint: "Target Muscle")
         .padding(.top, 15)
       
       cardSection
@@ -30,7 +33,7 @@ struct AddWorkoutSheet: View {
     }
     .scrollIndicators(.hidden)
     .padding([.leading, .trailing, .top], 15)
-    .onChange(of: viewModel.debouncedQuery) { categoryQuery in
+    .onChange(of: viewModel.debouncedMuscleSearchQuery) { categoryQuery in
       exerciseStore.searchByMuscleQuery(categoryQuery)
     }
     .safeAreaInset(edge: .bottom) {
@@ -48,7 +51,6 @@ struct AddWorkoutSheet: View {
       isPresented: $viewModel.showRepsDialog,
       onSelectedValue: viewModel.didSelectExercise
     )
-    .onAppear(perform: viewModel.getAll)
     .onDisappear(perform: viewModel.cleanUp)
   }
 }

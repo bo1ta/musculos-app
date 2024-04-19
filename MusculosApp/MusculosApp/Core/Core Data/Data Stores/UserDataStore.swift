@@ -43,4 +43,12 @@ struct UserDataStore: UserDataStoreProtocol {
        
     await viewStorage.performAndSave { }
   }
+  
+  @MainActor
+  func loadCurrentPerson() -> Person? {
+    if let userEntity = UserEntity.currentUser(with: viewStorage) {
+      return userEntity.toReadOnly()
+    }
+    return nil
+  }
 }
