@@ -17,15 +17,19 @@ struct AddWorkoutSheet: View {
   
   var body: some View {
     ScrollView {
-      topBar
+      SheetNavBar(title: "Create a new workout",
+                  onBack: onBack,
+                  onDismiss: {
+        dismiss()
+      })
       
-      RoundedTextField(text: $viewModel.exerciseName, label: "Name", textHint: "Workout Name")
+      RoundedTextField(text: $viewModel.workoutName, label: "Name", textHint: "Workout Name")
         .padding(.top, 25)
       
-      RoundedTextField(text: $viewModel.workoutType, label: "Workout Type", textHint: "Workout Type")
+      RoundedTextField(text: $viewModel.workoutType, label: "Type", textHint: "Workout Type")
         .padding(.top, 25)
       
-      RoundedTextField(text: $viewModel.muscleSearchQuery, label: "Target Muscle", textHint: "Target Muscle")
+      RoundedTextField(text: $viewModel.muscleSearchQuery, label: "Target", textHint: "Target Muscle")
         .padding(.top, 15)
       
       cardSection
@@ -58,37 +62,11 @@ struct AddWorkoutSheet: View {
 // MARK: - Views
 
 extension AddWorkoutSheet {
-  private var topBar: some View {
-    HStack {
-      Button(action: onBack, label: {
-        Image(systemName: "chevron.left")
-          .font(.system(size: 18))
-          .foregroundStyle(.gray)
-      })
-      
-      Spacer()
-      
-      Text("Create a new workout")
-        .font(.header(.bold, size: 20))
-        .foregroundStyle(.black)
-      
-      Spacer()
-      
-      Button(action: {
-        dismiss()
-      }, label: {
-        Image(systemName: "xmark")
-          .font(.system(size: 18))
-          .foregroundStyle(.gray)
-      })
-    }
-  }
-  
   private var cardSection: some View {
     VStack(alignment: .leading) {
       Text("Recommended exercises")
         .font(.body(.bold, size: 15))
-      
+
       switch exerciseStore.state {
       case .loading:
         ForEach(0..<5, id: \.self) { _ in

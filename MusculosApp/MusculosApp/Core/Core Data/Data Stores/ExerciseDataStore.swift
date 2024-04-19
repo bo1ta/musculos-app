@@ -62,4 +62,22 @@ struct ExerciseDataStore: BaseDataStore {
     
     return exercises
   }
+  
+  
+  func addExercise(_ exercise: Exercise) async {
+    await writerDerivedStorage.performAndSave {
+      let exerciseEntity = self.writerDerivedStorage.insertNewObject(ofType: ExerciseEntity.self)
+      
+      exerciseEntity.exerciseId = exercise.id
+      exerciseEntity.name = exercise.name
+      exerciseEntity.equipment = exercise.equipment
+      exerciseEntity.category = exercise.category
+      exerciseEntity.force = exercise.force
+      exerciseEntity.imageUrls = exercise.imageUrls
+      exerciseEntity.instructions = exercise.instructions
+      exerciseEntity.level = exercise.level
+      exerciseEntity.primaryMuscles = exercise.primaryMuscles
+      exerciseEntity.secondaryMuscles = exercise.secondaryMuscles
+    }
+  }
 }

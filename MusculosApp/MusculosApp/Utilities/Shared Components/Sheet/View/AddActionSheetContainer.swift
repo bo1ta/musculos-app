@@ -25,7 +25,8 @@ struct AddActionSheetContainer: View {
         AddWorkoutSheet(onBack: handleBack)
           .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .push(from: .top)))
       case .createExercise:
-        EmptyView()
+        AddExerciseSheet(onBack: handleBack)
+          .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .push(from: .top)))
       case .createGoal:
         EmptyView()
       case .createChallenge:

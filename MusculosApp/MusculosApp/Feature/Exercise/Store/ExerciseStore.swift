@@ -23,6 +23,7 @@ class ExerciseStore: ObservableObject {
   private(set) var exerciseTask: Task<Void, Never>?
   private(set) var searchTask: Task<Void, Never>?
   private(set) var favoriteTask: Task<Void, Never>?
+  private(set) var addExerciseTask: Task<Void, Never>?
   
   var discoverExercises: [[Exercise]] {
     if case let LoadingViewState.loaded(exercises) = state {
@@ -74,6 +75,9 @@ extension ExerciseStore {
     
     exerciseTask?.cancel()
     exerciseTask = nil
+    
+    addExerciseTask?.cancel()
+    addExerciseTask = nil
   }
 }
 
@@ -101,6 +105,12 @@ extension ExerciseStore {
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
     favoriteTask = Task { @MainActor [weak self] in
       await self?.module.dataStore.markAsFavorite(exercise, isFavorite: isFavorite)
+    }
+  }
+  
+  func addExercise(_ exercise: Exercise) {
+    addExerciseTask = Task {
+      
     }
   }
 }

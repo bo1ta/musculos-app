@@ -39,4 +39,12 @@ public struct ExerciseConstant {
     case strength, stretching, plyometrics, strongman, powerlifting, cardio
     case olympicWeightlifting = "olympic weightlifting"
   }
+  
+  /// All cases lists -- perfect for filters!
+  ///
+  static let muscleOptions = MuscleType.allCases.map { $0.rawValue }
+  static let forceOptions = ForceType.allCases.map { $0.rawValue }
+  static let levelOptions = LevelType.allCases.map { $0.rawValue }
+  static let equipmentOptions = EquipmentType.allCases.map { $0.rawValue }
+  static let categoryOptions = CategoryType.allCases.map { $0.rawValue }
 }

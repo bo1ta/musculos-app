@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 final class AddWorkoutSheetViewModel: ObservableObject {
-  @Published var exerciseName: String = ""
+  @Published var workoutName: String = ""
   @Published var workoutType: String = ""
   @Published var selectedExercises: [WorkoutExercise] = []
   @Published var muscleSearchQuery: String = ""
@@ -67,13 +67,13 @@ final class AddWorkoutSheetViewModel: ObservableObject {
 
 extension AddWorkoutSheetViewModel {
   func submitWorkout() {
-    guard !selectedExercises.isEmpty, !exerciseName.isEmpty, !muscleSearchQuery.isEmpty else { return }
+    guard !selectedExercises.isEmpty, !workoutName.isEmpty, !muscleSearchQuery.isEmpty else { return }
     
     submitWorkoutTask = Task { @MainActor [weak self] in
       guard let self else { return }
       
       let workout = Workout(
-        name: self.exerciseName,
+        name: self.workoutName,
         targetMuscles: [self.muscleSearchQuery],
         workoutType: self.workoutType,
         workoutExercises: self.selectedExercises
