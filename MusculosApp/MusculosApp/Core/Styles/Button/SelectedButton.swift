@@ -15,12 +15,12 @@ struct SelectedButton: ButtonStyle {
     configuration.label
       .padding(16)
       .background(isSelected ? Color.AppColor.blue500 : .white)
-      .foregroundColor(isSelected ? .white : Color.AppColor.blue600)
+      .foregroundColor(isSelected ? .white : .black)
       .font(isSelected ? .body(.bold) : .body(.regular))
       .clipShape(RoundedRectangle(cornerRadius: 25))
       .overlay(
         RoundedRectangle(cornerRadius: 25)
-          .stroke(Color.AppColor.blue200, lineWidth: 2)
+          .stroke(isSelected ? Color.AppColor.blue500 : .black, lineWidth: 1)
       )
       .opacity(0.8)
   }
