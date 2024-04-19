@@ -22,6 +22,6 @@ struct SelectedButton: ButtonStyle {
         RoundedRectangle(cornerRadius: 25)
           .stroke(isSelected ? Color.AppColor.blue500 : .black, lineWidth: 1)
       )
-      .opacity(0.8)
+      .scaleEffect(configuration.isPressed ? 0.85 : 1.0)
   }
 }
