@@ -45,7 +45,7 @@ struct AddWorkoutSheet: View {
         Text("Save")
           .frame(maxWidth: .infinity)
       })
-      .buttonStyle(PrimaryButton())
+      .buttonStyle(PrimaryButtonStyle())
       .padding([.leading, .trailing], 10)
     }
     .dialog(

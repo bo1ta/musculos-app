@@ -70,7 +70,7 @@ extension SignInView {
           .frame(maxWidth: .infinity)
           .foregroundStyle(.white)
       })
-      .buttonStyle(PrimaryButton())
+      .buttonStyle(PrimaryButtonStyle())
     }
   }
   
@@ -95,11 +95,11 @@ extension SignInView {
         Button(action: {}, label: {
           Text("Google").frame(maxWidth: .infinity)
         })
-        .buttonStyle(SecondaryButton())
+        .buttonStyle(SecondaryButtonStyle())
         Button(action: {}, label: {
           Text("Facebook").frame(maxWidth: .infinity)
         })
-        .buttonStyle(SecondaryButton())
+        .buttonStyle(SecondaryButtonStyle())
       }
     }
   }
@@ -119,7 +119,7 @@ extension SignInView {
       }
       
     })
-    .buttonStyle(SecondaryButton())
+    .buttonStyle(SecondaryButtonStyle())
   }
 }
 

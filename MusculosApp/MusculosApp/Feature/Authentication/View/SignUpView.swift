@@ -50,7 +50,7 @@ extension SignUpView {
           .frame(maxWidth: .infinity)
           .foregroundStyle(.white)
       })
-      .buttonStyle(PrimaryButton())
+      .buttonStyle(PrimaryButtonStyle())
       .padding(.top, 10)
     }
   }

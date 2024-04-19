@@ -79,7 +79,7 @@ struct AddExerciseSheet: View {
         Text("Save")
           .frame(maxWidth: .infinity)
       })
-      .buttonStyle(PrimaryButton())
+      .buttonStyle(PrimaryButtonStyle())
       .padding([.leading, .trailing], 10)
     }
   }

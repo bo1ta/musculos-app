@@ -1,5 +1,5 @@
 //
-//  GreenGrassButton.swift
+//  GreenGrassButtonStyle.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 28.10.2023.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct GreenGrassButton: View {
+struct GreenGrassButtonStyle: View {
   let action: () -> Void
   let text: String
   

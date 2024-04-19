@@ -29,7 +29,7 @@ struct SplashView: View {
               Text("Continue")
                 .frame(maxWidth: .infinity)
             })
-            .buttonStyle(SecondaryButton())
+            .buttonStyle(SecondaryButtonStyle())
             .shadow(radius: 1.0)
           }
           .padding(.bottom, 80)

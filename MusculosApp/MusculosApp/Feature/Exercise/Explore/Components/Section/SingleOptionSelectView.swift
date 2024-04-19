@@ -37,7 +37,7 @@ struct SingleOptionSelectView: View {
             } label: {
               Text(filter)
             }
-            .buttonStyle(SelectedButton(isSelected: selectedOption.contains(filter)))
+            .buttonStyle(SelectedButtonStyle(isSelected: selectedOption.contains(filter)))
           }
         }
       }

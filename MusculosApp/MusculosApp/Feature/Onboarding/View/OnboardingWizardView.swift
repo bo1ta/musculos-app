@@ -69,7 +69,7 @@ extension OnboardingWizardView {
       Text(buttonTitle)
         .frame(maxWidth: .infinity)
     })
-    .buttonStyle(PrimaryButton())
+    .buttonStyle(PrimaryButtonStyle())
     .padding(.bottom, 20)
   }
 }

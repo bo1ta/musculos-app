@@ -1,5 +1,5 @@
 //
-//  PrimaryButton.swift
+//  PrimaryButtonStyle.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 10.06.2023.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct PrimaryButton: ButtonStyle {
+struct PrimaryButtonStyle: ButtonStyle {
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .padding(14)

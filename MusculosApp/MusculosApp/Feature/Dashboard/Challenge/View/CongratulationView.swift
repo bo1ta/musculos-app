@@ -30,7 +30,7 @@ struct CongratulationView: View {
         .foregroundStyle(.gray)
         .opacity(0.9)
       
-      GreenGrassButton(action: self.onGetReward, text: "Get Reward")
+      GreenGrassButtonStyle(action: self.onGetReward, text: "Get Reward")
         .padding(.top, 10)
       
     })

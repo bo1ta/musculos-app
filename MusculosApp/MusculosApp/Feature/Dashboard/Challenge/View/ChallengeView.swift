@@ -29,7 +29,7 @@ struct ChallengeView: View {
       Spacer()
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {
-      GreenGrassButton(action: {
+      GreenGrassButtonStyle(action: {
         showExerciseView.toggle()
       }, text: "Start")
     }

@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SelectedButtonStyle.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 11.06.2023.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct SelectedButton: ButtonStyle {
+struct SelectedButtonStyle: ButtonStyle {
   var isSelected: Bool
   
   func makeBody(configuration: Configuration) -> some View {

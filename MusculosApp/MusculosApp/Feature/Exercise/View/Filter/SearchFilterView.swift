@@ -63,7 +63,7 @@ struct SearchFilterView: View {
             Text("Search")
               .frame(maxWidth: .infinity)
           })
-          .buttonStyle(PrimaryButton())
+          .buttonStyle(PrimaryButtonStyle())
           .padding()
           .padding(.bottom, 10)
         })
