@@ -10,19 +10,18 @@ import SwiftUI
 
 struct SelectedButton: ButtonStyle {
   var isSelected: Bool
-
+  
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .padding(16)
-      .lineLimit(0)
-      .background(.white)
-      .foregroundColor(isSelected ? Color.AppColor.blue600 : .black)
-      .fontWeight(.light)
-      .overlay(content: {
-        RoundedRectangle(cornerRadius: 30)
-                .inset(by: 1)
-                .stroke(isSelected ? Color.AppColor.blue600 : .black)
-      })
+      .background(isSelected ? Color.AppColor.blue500 : .white)
+      .foregroundColor(isSelected ? .white : Color.AppColor.blue600)
+      .font(isSelected ? .body(.bold) : .body(.regular))
+      .clipShape(RoundedRectangle(cornerRadius: 25))
+      .overlay(
+        RoundedRectangle(cornerRadius: 25)
+          .stroke(Color.AppColor.blue200, lineWidth: 2)
+      )
       .opacity(0.8)
   }
 }

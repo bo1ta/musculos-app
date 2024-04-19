@@ -28,7 +28,6 @@ final class AddExerciseSheetViewModel: ObservableObject {
     && equipment.count > 0
     && force.count > 0 
     && targetMuscles.count > 0
-    && instructions.count > 0
     && level.count > 0
     && category.count > 0
   }

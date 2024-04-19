@@ -84,14 +84,28 @@ extension ExerciseStore {
 // MARK: - Core Data
 
 extension ExerciseStore {
+  func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
+    favoriteTask = Task { @MainActor [weak self] in
+      await self?.module.dataStore.markAsFavorite(exercise, isFavorite: isFavorite)
+    }
+  }
   
-  @MainActor
+  func addExercise(_ exercise: Exercise) {
+    addExerciseTask = Task { [weak self] in
+      await self?.module.dataStore.addExercise(exercise)
+      MusculosLogger.logInfo(
+        message: "Saved exercise to the local store!",
+        category: .coreData,
+        properties: ["exercise_name": exercise.name]
+      )
+    }
+  }
+  
   func loadLocalExercises() {
     fetchedResultsController.predicate = nil
     updateLocalResults()
   }
   
-  @MainActor
   func loadFavoriteExercises() {
     fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.isFavorite.nsPredicate
     updateLocalResults()
@@ -100,18 +114,6 @@ extension ExerciseStore {
   @MainActor
   func checkIsFavorite(exercise: Exercise) -> Bool {
     return module.dataStore.isFavorite(exercise: exercise)
-  }
-  
-  func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
-    favoriteTask = Task { @MainActor [weak self] in
-      await self?.module.dataStore.markAsFavorite(exercise, isFavorite: isFavorite)
-    }
-  }
-  
-  func addExercise(_ exercise: Exercise) {
-    addExerciseTask = Task {
-      
-    }
   }
 }
 

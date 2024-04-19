@@ -30,6 +30,14 @@ struct AddExerciseSheet: View {
       )
       .padding(.top, 25)
       
+      MultiOptionsSelectView(
+        showOptions: $viewModel.showMusclesOptions,
+        selectedOptions: $viewModel.targetMuscles,
+        title: "Muscles",
+        options: ExerciseConstants.muscleOptions
+      )
+      .padding(.top, 25)
+      
       SingleOptionSelectView(
         showOptions: $viewModel.showEquipmentOptions,
         selectedOption: $viewModel.equipment,
@@ -59,14 +67,6 @@ struct AddExerciseSheet: View {
         selectedOption: $viewModel.category,
         title: "Category",
         options: ExerciseConstants.categoryOptions
-      )
-      .padding(.top, 25)
-      
-      MultiOptionsSelectView(
-        showOptions: $viewModel.showMusclesOptions,
-        selectedOptions: $viewModel.targetMuscles,
-        title: "Target Muscles",
-        options: ExerciseConstants.muscleOptions
       )
       .padding(.top, 25)
       
