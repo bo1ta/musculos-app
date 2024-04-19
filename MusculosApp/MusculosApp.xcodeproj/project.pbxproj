@@ -125,7 +125,7 @@
 		BCB724BF2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB724BE2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift */; };
 		BCB724C22BC1F51E003F53EA /* DialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB724C12BC1F51E003F53EA /* DialogView.swift */; };
 		BCB724C42BC1FA8D003F53EA /* DialogSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB724C32BC1FA8D003F53EA /* DialogSelectView.swift */; };
-		BCB7F2E52BB1E8A5002CB2DE /* ExerciseConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F2E42BB1E8A5002CB2DE /* ExerciseConstant.swift */; };
+		BCB7F2E52BB1E8A5002CB2DE /* ExerciseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F2E42BB1E8A5002CB2DE /* ExerciseConstants.swift */; };
 		BCB7F2E82BB21433002CB2DE /* StorageManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F2E72BB21433002CB2DE /* StorageManagerType.swift */; };
 		BCB7F2EB2BB215FC002CB2DE /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F2EA2BB215FC002CB2DE /* StorageType.swift */; };
 		BCB7F2ED2BB2169A002CB2DE /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F2EC2BB2169A002CB2DE /* Object.swift */; };
@@ -309,7 +309,7 @@
 		BCB724BE2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkoutSheetViewModel.swift; sourceTree = "<group>"; };
 		BCB724C12BC1F51E003F53EA /* DialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogView.swift; sourceTree = "<group>"; };
 		BCB724C32BC1FA8D003F53EA /* DialogSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogSelectView.swift; sourceTree = "<group>"; };
-		BCB7F2E42BB1E8A5002CB2DE /* ExerciseConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseConstant.swift; sourceTree = "<group>"; };
+		BCB7F2E42BB1E8A5002CB2DE /* ExerciseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseConstants.swift; sourceTree = "<group>"; };
 		BCB7F2E72BB21433002CB2DE /* StorageManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManagerType.swift; sourceTree = "<group>"; };
 		BCB7F2EA2BB215FC002CB2DE /* StorageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageType.swift; sourceTree = "<group>"; };
 		BCB7F2EC2BB2169A002CB2DE /* Object.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
@@ -799,7 +799,7 @@
 			children = (
 				BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */,
 				BC63A5A32AC33896006B1894 /* MuscleConstant.swift */,
-				BCB7F2E42BB1E8A5002CB2DE /* ExerciseConstant.swift */,
+				BCB7F2E42BB1E8A5002CB2DE /* ExerciseConstants.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -1651,7 +1651,7 @@
 				BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */,
 				BCD59AA42BB627E60039F662 /* ProgressCard.swift in Sources */,
 				BCFA25B52BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift in Sources */,
-				BCB7F2E52BB1E8A5002CB2DE /* ExerciseConstant.swift in Sources */,
+				BCB7F2E52BB1E8A5002CB2DE /* ExerciseConstants.swift in Sources */,
 				BC1160D22A2CFB830028D8FC /* AppTabView.swift in Sources */,
 				BC01710D2AEC6FDF005876EE /* GreenGrassButton.swift in Sources */,
 				BC61A2E92BA5274500493311 /* BaseDataStore.swift in Sources */,

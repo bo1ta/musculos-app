@@ -14,7 +14,7 @@ struct AddExerciseSheet: View {
   @StateObject private var viewModel = AddExerciseSheetViewModel()
   
   let onBack: () -> Void
-
+  
   var body: some View {
     ScrollView {
       SheetNavBar(title: "Create a new exercise",
@@ -30,10 +30,11 @@ struct AddExerciseSheet: View {
       )
       .padding(.top, 25)
       
-      RoundedTextField(
-        text: $viewModel.equipment,
-        label: "Equipment",
-        textHint: "Equipment"
+      SingleOptionSelectView(
+        showOptions: $viewModel.showEquipmentOptions,
+        selectedOption: $viewModel.equipment,
+        title: "Category",
+        options: ExerciseConstants.equipmentOptions
       )
       .padding(.top, 25)
       
@@ -41,7 +42,7 @@ struct AddExerciseSheet: View {
         showOptions: $viewModel.showForceOptions,
         selectedOption: $viewModel.force,
         title: "Force",
-        options: ExerciseConstant.forceOptions
+        options: ExerciseConstants.forceOptions
       )
       .padding(.top, 25)
       
@@ -49,7 +50,15 @@ struct AddExerciseSheet: View {
         showOptions: $viewModel.showLevelOptions,
         selectedOption: $viewModel.level,
         title: "Level",
-        options: ExerciseConstant.levelOptions
+        options: ExerciseConstants.levelOptions
+      )
+      .padding(.top, 25)
+      
+      SingleOptionSelectView(
+        showOptions: $viewModel.showCategoryOptions,
+        selectedOption: $viewModel.category,
+        title: "Category",
+        options: ExerciseConstants.categoryOptions
       )
       .padding(.top, 25)
       
@@ -57,7 +66,7 @@ struct AddExerciseSheet: View {
         showOptions: $viewModel.showMusclesOptions,
         selectedOptions: $viewModel.targetMuscles,
         title: "Target Muscles",
-        options: ExerciseConstant.muscleOptions
+        options: ExerciseConstants.muscleOptions
       )
       .padding(.top, 25)
       
@@ -66,13 +75,23 @@ struct AddExerciseSheet: View {
     .scrollIndicators(.hidden)
     .padding([.leading, .trailing, .top], 15)
     .safeAreaInset(edge: .bottom) {
-      Button(action: { }, label: {
+      Button(action: saveAndDismiss, label: {
         Text("Save")
           .frame(maxWidth: .infinity)
       })
       .buttonStyle(PrimaryButton())
       .padding([.leading, .trailing], 10)
     }
-    .onDisappear(perform: exerciseStore.cleanUp)
+  }
+}
+
+
+// MARK: - Private helpers
+
+extension AddExerciseSheet {
+  func saveAndDismiss() {
+    guard let exercise = viewModel.createExercise() else { return }
+    exerciseStore.addExercise(exercise)
+    dismiss()
   }
 }

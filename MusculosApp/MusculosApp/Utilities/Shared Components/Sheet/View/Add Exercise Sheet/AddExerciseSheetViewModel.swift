@@ -15,8 +15,37 @@ final class AddExerciseSheetViewModel: ObservableObject {
   @Published var instructions: [String] = []
   @Published var images: [Image] = []
   @Published var level: String = ""
+  @Published var category: String = ""
 
   @Published var showForceOptions = true
   @Published var showMusclesOptions = true
   @Published var showLevelOptions = true
+  @Published var showCategoryOptions = true
+  @Published var showEquipmentOptions = true
+  
+  private var isExerciseValid: Bool {
+    exerciseName.count > 0
+    && equipment.count > 0
+    && force.count > 0 
+    && targetMuscles.count > 0
+    && instructions.count > 0
+    && level.count > 0
+    && category.count > 0
+  }
+  
+  func createExercise() -> Exercise? {
+    guard isExerciseValid else { return nil }
+    
+    let exercise = Exercise(
+      category: category,
+      id: UUID(),
+      level: level,
+      name: exerciseName,
+      primaryMuscles: targetMuscles,
+      secondaryMuscles: [],
+      instructions: instructions,
+      imageUrls: []
+    )
+    return exercise
+  }
 }

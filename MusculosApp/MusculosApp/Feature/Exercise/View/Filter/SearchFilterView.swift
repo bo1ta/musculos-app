@@ -29,25 +29,25 @@ struct SearchFilterView: View {
               showOptions: $viewModel.showMuscleFilters,
               selectedOptions: $viewModel.selectedMuscleFilters,
               title: "Muscles",
-              options: ExerciseConstant.muscleOptions
+              options: ExerciseConstants.muscleOptions
             )
             MultiOptionsSelectView(
               showOptions: $viewModel.showWorkoutFilters,
               selectedOptions: $viewModel.selectedCategoryFilters,
               title: "Workout Types",
-              options: ExerciseConstant.categoryOptions
+              options: ExerciseConstants.categoryOptions
             )
             SingleOptionSelectView(
               showOptions: $viewModel.showDifficultyFilters,
               selectedOption: $viewModel.selectedLevelFilter,
               title: "Difficulty",
-              options: ExerciseConstant.levelOptions
+              options: ExerciseConstants.levelOptions
             )
             MultiOptionsSelectView(
               showOptions: $viewModel.showEquipmentFilter,
               selectedOptions: $viewModel.selectedCategoryFilters,
               title: "Equipment",
-              options: ExerciseConstant.equipmentOptions
+              options: ExerciseConstants.equipmentOptions
             )
             
             durationSection
