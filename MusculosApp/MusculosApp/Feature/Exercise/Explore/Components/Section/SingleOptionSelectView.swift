@@ -22,8 +22,7 @@ struct SingleOptionSelectView: View {
       } label: {
         HStack {
           Text(title)
-            .font(.header(.bold, size: 18))
-            .frame(maxWidth: .infinity)
+            .font(.body(.bold, size: 15))
           Spacer()
           Image(systemName: showOptions ? "chevron.up" : "chevron.down")
         }
