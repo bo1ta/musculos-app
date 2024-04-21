@@ -13,6 +13,9 @@ struct AddExerciseSheet: View {
   
   @StateObject private var viewModel = AddExerciseSheetViewModel()
   
+  @State private var showPhotosPicker: Bool = false
+  @State private var pickedPhotos: [PhotosPicker.PickedPhoto] = []
+  
   let onBack: () -> Void
   
   var body: some View {
@@ -37,6 +40,9 @@ struct AddExerciseSheet: View {
         options: ExerciseConstants.muscleOptions
       )
       .padding(.top, 25)
+      
+      imageOptionView
+        .padding(.top, 25)
       
       SingleOptionSelectView(
         showOptions: $viewModel.showEquipmentOptions,
@@ -74,6 +80,9 @@ struct AddExerciseSheet: View {
     }
     .scrollIndicators(.hidden)
     .padding([.leading, .trailing, .top], 15)
+    .sheet(isPresented: $showPhotosPicker, content: {
+      PhotosPicker(assets: $pickedPhotos)
+    })
     .safeAreaInset(edge: .bottom) {
       Button(action: saveAndDismiss, label: {
         Text("Save")
@@ -81,6 +90,35 @@ struct AddExerciseSheet: View {
       })
       .buttonStyle(PrimaryButtonStyle())
       .padding([.leading, .trailing], 10)
+    }
+  }
+  
+  
+  private var imageOptionView: some View  {
+    VStack(alignment: .leading) {
+      Text("Images (optional)")
+        .font(.body(.bold, size: 15))
+        .foregroundStyle(.black)
+      
+      HStack {
+        if pickedPhotos.count > 0 {
+          ForEach(pickedPhotos, id: \.id) { pickedPhoto in
+            Image(uiImage: pickedPhoto.image)
+              .resizable()
+              .frame(width: 70, height: 35)
+              .padding(5)
+          }
+        } else {
+          Spacer()
+          Button {
+            showPhotosPicker.toggle()
+          } label: {
+            Text("+")
+              .font(.body(.bold, size: 20))
+          }
+          Spacer()
+        }
+      }
     }
   }
 }
