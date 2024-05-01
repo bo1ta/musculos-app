@@ -44,9 +44,9 @@ extension MusculosLogger {
                                           properties: [String: Any]) -> String {
     var logMessage: String
     if let error = error {
-      logMessage = "🟥 \(category.rawValue.uppercased()) ERROR: \(error.localizedDescription) INFO: \(message)"
+      logMessage = "🟥 \(category.rawValue.uppercased()) ERROR: \(error.localizedDescription) \n INFO: \(message)"
     } else {
-      logMessage = "ℹ️ \(category.rawValue.uppercased()) INFO: \(message)"
+      logMessage = "ℹ️ \(category.rawValue.uppercased()): \(message)"
     }
     
     if !properties.isEmpty {

@@ -14,15 +14,16 @@ class ExerciseStore: ObservableObject {
   private let module: ExerciseModuleProtocol
   private let fetchedResultsController: ResultsController<ExerciseEntity>
   
-  init(module: ExerciseModuleProtocol = ExerciseModule(), shouldLoadFromCache: Bool = false) {
+  init(module: ExerciseModuleProtocol = ExerciseModule()) {
     self.module = module
     self.fetchedResultsController = ResultsController<ExerciseEntity>(storageManager: CoreDataStack.shared, sortedBy: [])
-    self.setUpFetchedResultsController(shouldLoadFromCache: shouldLoadFromCache)
+    self.setUpFetchedResultsController()
   }
   
   private(set) var exerciseTask: Task<Void, Never>?
   private(set) var searchTask: Task<Void, Never>?
   private(set) var favoriteTask: Task<Void, Never>?
+  private(set) var addExerciseTask: Task<Void, Never>?
   
   var discoverExercises: [[Exercise]] {
     if case let LoadingViewState.loaded(exercises) = state {
@@ -74,22 +75,44 @@ extension ExerciseStore {
     
     exerciseTask?.cancel()
     exerciseTask = nil
+    
+    addExerciseTask?.cancel()
+    addExerciseTask = nil
   }
 }
 
 // MARK: - Core Data
 
 extension ExerciseStore {
+  func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
+    favoriteTask = Task { @MainActor [weak self] in
+      await self?.module.dataStore.markAsFavorite(exercise, isFavorite: isFavorite)
+    }
+  }
   
-  @MainActor
+  func addExercise(_ exercise: Exercise) {
+    addExerciseTask = Task { [weak self] in
+      await self?.module.dataStore.addExercise(exercise)
+      MusculosLogger.logInfo(
+        message: "Saved exercise to the local store!",
+        category: .coreData,
+        properties: ["exercise_name": exercise.name]
+      )
+    }
+  }
+  
   func loadLocalExercises() {
     fetchedResultsController.predicate = nil
     updateLocalResults()
   }
   
-  @MainActor
   func loadFavoriteExercises() {
     fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.isFavorite.nsPredicate
+    updateLocalResults()
+  }
+  
+  func loadForName(_ name: String) {
+    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.byName(name).nsPredicate
     updateLocalResults()
   }
   
@@ -97,37 +120,27 @@ extension ExerciseStore {
   func checkIsFavorite(exercise: Exercise) -> Bool {
     return module.dataStore.isFavorite(exercise: exercise)
   }
-  
-  func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
-    favoriteTask = Task { @MainActor [weak self] in
-      await self?.module.dataStore.markAsFavorite(exercise, isFavorite: isFavorite)
-    }
-  }
 }
 
 // MARK: - Fetched Results Controller Helpers
 
 extension ExerciseStore {
-  private func setUpFetchedResultsController(shouldLoadFromCache: Bool) {
+  private func setUpFetchedResultsController() {
     fetchedResultsController.onDidChangeContent = { [weak self] in
       self?.updateLocalResults()
     }
     fetchedResultsController.onDidResetContent = { [weak self] in
       self?.updateLocalResults()
     }
-    
-    /// perform initial fetch from data store. Default `true`
-    guard shouldLoadFromCache else { return }
 
     do {
       try fetchedResultsController.performFetch()
-      updateLocalResults()
     } catch {
       MusculosLogger.logError(error, message: "Could not perform fetch for results controller!", category: .coreData)
     }
   }
   
-  private func updateLocalResults() {
+  func updateLocalResults() {
     state = .loaded(fetchedResultsController.fetchedObjects)
   }
 }

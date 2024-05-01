@@ -51,8 +51,17 @@ struct ExerciseSectionsContentView: View {
     VStack {
       switch categorySection {
       case .discover:
-        ExerciseSectionView(title: "Most popular", exercises: exerciseStore.discoverExercises.first ?? [], onExerciseTap: onSelected)
-          ExerciseSectionView(title: "Quick muscle-building workouts", exercises: exerciseStore.discoverExercises[safe: 1] ?? [], isSmallCard: true, onExerciseTap: onSelected)
+        ExerciseSectionView(
+          title: "Most popular",
+          exercises: exerciseStore.discoverExercises.first ?? [],
+          onExerciseTap: onSelected
+        )
+        ExerciseSectionView(
+          title: "Quick muscle-building workouts",
+          exercises: exerciseStore.discoverExercises[safe: 1] ?? [],
+          isSmallCard: true,
+          onExerciseTap: onSelected
+        )
       case .myFavorites, .workout:
         LazyVStack {
           ForEach(exercises, id: \.hashValue) { exercise in
@@ -61,6 +70,7 @@ struct ExerciseSectionsContentView: View {
             }, label: {
               ExerciseCard(exercise: exercise, cardWidth: 350)
             })
+            .id(exercise)
           }
         }
       }

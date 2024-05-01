@@ -59,7 +59,7 @@ struct DashboardView: View {
           Text("\(MockConstants.persons.count) people attending")
             .font(.callout)
             .foregroundStyle(.gray)
-          GreenGrassButton(action: {
+          GreenGrassButtonStyle(action: {
             showChallenge.toggle()
           }, text: "Learn More")
           .padding()

@@ -18,26 +18,38 @@ struct SearchFilterView: View {
       header
       
       VStack {
-        RoundedTextField(text: $viewModel.searchQuery, label: "Search", textHint: "Enter search query")
+        RoundedTextField(
+          text: $viewModel.searchQuery,
+          label: "Search",
+          textHint: "Enter search query"
+        )
         ScrollView {
           VStack(spacing: 20) {
-            FiltersSectionView(showFilters: $viewModel.showMuscleFilters,
-                               selectedFilters: $viewModel.selectedMuscleFilters,
-                               title: "Muscles",
-                               filters: viewModel.muscleFilters)
-            FiltersSectionView(showFilters: $viewModel.showWorkoutFilters,
-                               selectedFilters: $viewModel.selectedCategoryFilters,
-                               title: "Workout Types",
-                               filters: viewModel.categoryFilters)
-            FiltersSectionView(showFilters: $viewModel.showDifficultyFilters,
-                               selectedFilters: $viewModel.selectedDifficultyFilters,
-                               title: "Difficulty",
-                               filters: viewModel.levelFilters,
-                               isSingleSelect: true)
-            FiltersSectionView(showFilters: $viewModel.showEquipmentFilter,
-                               selectedFilters: $viewModel.selectedCategoryFilters,
-                               title: "Equipment",
-                               filters: viewModel.equipmentFilters)
+            MultiOptionsSelectView(
+              showOptions: $viewModel.showMuscleFilters,
+              selectedOptions: $viewModel.selectedMuscleFilters,
+              title: "Muscles",
+              options: ExerciseConstants.muscleOptions
+            )
+            MultiOptionsSelectView(
+              showOptions: $viewModel.showWorkoutFilters,
+              selectedOptions: $viewModel.selectedCategoryFilters,
+              title: "Workout Types",
+              options: ExerciseConstants.categoryOptions
+            )
+            SingleOptionSelectView(
+              showOptions: $viewModel.showDifficultyFilters,
+              selectedOption: $viewModel.selectedLevelFilter,
+              title: "Difficulty",
+              options: ExerciseConstants.levelOptions
+            )
+            MultiOptionsSelectView(
+              showOptions: $viewModel.showEquipmentFilter,
+              selectedOptions: $viewModel.selectedCategoryFilters,
+              title: "Equipment",
+              options: ExerciseConstants.equipmentOptions
+            )
+            
             durationSection
           }
           .padding(.top, 10)
@@ -51,7 +63,7 @@ struct SearchFilterView: View {
             Text("Search")
               .frame(maxWidth: .infinity)
           })
-          .buttonStyle(PrimaryButton())
+          .buttonStyle(PrimaryButtonStyle())
           .padding()
           .padding(.bottom, 10)
         })
@@ -135,8 +147,8 @@ struct SearchFilterView: View {
     if viewModel.selectedMuscleFilters.count > 0 {
       filters["muscles"] = viewModel.selectedMuscleFilters
     }
-    if viewModel.selectedDifficultyFilters.count > 0 {
-      filters["level"] = viewModel.selectedDifficultyFilters
+    if viewModel.selectedLevelFilter.count > 0 {
+      filters["level"] = [viewModel.selectedLevelFilter]
     }
     if viewModel.selectedEquipmentFilters.count > 0 {
       filters["equipment"] = viewModel.selectedEquipmentFilters

@@ -1,5 +1,5 @@
 //
-//  SecondaryButton.swift
+//  SecondaryButtonStyle.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 11.06.2023.
@@ -8,10 +8,10 @@
 import Foundation
 import SwiftUI
 
-struct SecondaryButton: ButtonStyle {
+struct SecondaryButtonStyle: ButtonStyle {
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .font(.body(.light, size: 18))
+      .font(.body(.light, size: 15))
       .padding(14)
       .fixedSize(horizontal: false, vertical: true)
       .background(.white)

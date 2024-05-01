@@ -11,7 +11,7 @@ struct DetailCardView: View {
   var title: String
   var index: Int
   
-  @State var textHeight: CGFloat = 0
+  @State private var textHeight: CGFloat = 0
   
   var body: some View {
     RoundedRectangle(cornerRadius: 10)

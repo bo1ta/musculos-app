@@ -90,14 +90,14 @@ struct SelectMuscleView: View {
         Text("Reset")
           .frame(maxWidth: .infinity)
       }
-      .buttonStyle(DarkButton())
+      .buttonStyle(DarkButtonStyle())
       Button {
         dismiss()
       } label: {
         Text("Continue")
           .frame(maxWidth: .infinity)
       }
-      .buttonStyle(SelectedButton(isSelected: self.selectedMuscles.count > 0))
+      .buttonStyle(SelectedButtonStyle(isSelected: self.selectedMuscles.count > 0))
     }
   }
 

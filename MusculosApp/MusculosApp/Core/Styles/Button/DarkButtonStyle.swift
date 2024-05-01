@@ -1,5 +1,5 @@
 //
-//  DarkButton.swift
+//  DarkButtonStyle.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 14.08.2023.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct DarkButton: ButtonStyle {
+struct DarkButtonStyle: ButtonStyle {
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .padding(16)

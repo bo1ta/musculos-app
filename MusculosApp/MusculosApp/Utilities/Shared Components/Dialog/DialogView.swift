@@ -57,7 +57,7 @@ struct DialogView: View {
               .foregroundStyle(.white)
               .frame(maxWidth: 200)
           }
-          .buttonStyle(PrimaryButton())
+          .buttonStyle(PrimaryButtonStyle())
           .padding(.bottom, 20)
         }
       }
