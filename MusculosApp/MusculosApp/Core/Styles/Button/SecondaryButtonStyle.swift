@@ -11,7 +11,7 @@ import SwiftUI
 struct SecondaryButtonStyle: ButtonStyle {
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .font(.body(.light, size: 18))
+      .font(.body(.light, size: 15))
       .padding(14)
       .fixedSize(horizontal: false, vertical: true)
       .background(.white)

@@ -30,16 +30,23 @@ struct MultiOptionsSelectView: View {
       }
       
       if showOptions {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 5) {
-          ForEach(options, id: \.self) { filter in
-            Button {
-              handleFilterTap(filter)
-            } label: {
-              Text(filter)
+        LazyVGrid(
+          columns: [
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+            GridItem(.flexible())
+          ],
+          spacing: 5
+        ) {
+            ForEach(options, id: \.self) { filter in
+              Button {
+                handleFilterTap(filter)
+              } label: {
+                Text(filter)
+              }
+              .buttonStyle(SelectedButtonStyle(isSelected: selectedOptions.contains(filter)))
             }
-            .buttonStyle(SelectedButtonStyle(isSelected: selectedOptions.contains(filter)))
           }
-        }
       }
     }
   }

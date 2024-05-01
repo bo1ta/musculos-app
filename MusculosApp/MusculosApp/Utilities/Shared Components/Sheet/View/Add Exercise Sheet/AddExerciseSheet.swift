@@ -44,6 +44,9 @@ struct AddExerciseSheet: View {
       imageOptionView
         .padding(.top, 25)
       
+      AddDetailOptionCardView(options: $viewModel.instructions)
+        .padding(.top, 25)
+      
       SingleOptionSelectView(
         showOptions: $viewModel.showEquipmentOptions,
         selectedOption: $viewModel.equipment,
@@ -102,19 +105,23 @@ struct AddExerciseSheet: View {
       
       HStack {
         if pickedPhotos.count > 0 {
-          ForEach(pickedPhotos, id: \.id) { pickedPhoto in
-            Image(uiImage: pickedPhoto.image)
-              .resizable()
-              .frame(width: 70, height: 35)
-              .padding(5)
-          }
+          Spacer()
+          LazyHGrid(rows: [GridItem(.flexible())], alignment: .center, content: {
+            ForEach(pickedPhotos, id: \.id) { pickedPhoto in
+              Image(uiImage: pickedPhoto.image)
+                .resizable()
+                .frame(width: 140, height: 70)
+            }
+          })
+          Spacer()
         } else {
           Spacer()
           Button {
             showPhotosPicker.toggle()
           } label: {
-            Text("+")
-              .font(.body(.bold, size: 20))
+            Image(systemName: "plus")
+              .resizable()
+              .frame(width: 13, height: 13)
           }
           Spacer()
         }
@@ -132,4 +139,8 @@ extension AddExerciseSheet {
     exerciseStore.addExercise(exercise)
     dismiss()
   }
+}
+
+#Preview {
+  AddExerciseSheet(onBack: {})
 }
