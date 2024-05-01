@@ -41,10 +41,11 @@ struct RoundedTextField: View {
             .textContentType(.password)
             .font(.body(.light, size: 15))
         } else {
-          TextField(textHint, text: text)
+          TextField(textHint, text: text, axis: .vertical)
             .autocapitalization(.none)
             .disableAutocorrection(true)
             .font(.body(.light, size: 15))
+            .lineLimit(2)
         }
       }
       .background(Capsule().fill(Color.AppColor.blue100).frame(height: 40).shadow(radius: 1.0))

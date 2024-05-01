@@ -19,11 +19,8 @@ struct AddDetailOptionCardView: View {
       
       ForEach($options) { option in
         HStack {
-          TextField("", text: option.text, axis: .vertical)
-            .font(.body(.light, size: 13))
-            .textFieldStyle(.roundedBorder)
-            .autocorrectionDisabled()
-            .lineLimit(3)
+          RoundedTextField(text: option.text, textHint: "Instruction")
+            .padding(.top, 10)
           
           if option.id == options.count - 1 {
             Button {

@@ -24,19 +24,21 @@ final class AddExerciseSheetViewModel: ObservableObject {
   @Published var showEquipmentOptions = true
   
   private var isExerciseValid: Bool {
-    exerciseName.count > 0
-    && equipment.count > 0
-    && force.count > 0 
-    && targetMuscles.count > 0
-//    && level.count > 0
-    && category.count > 0
+    exerciseName.count > 0 &&
+    equipment.count > 0 &&
+    force.count > 0 &&
+    targetMuscles.count > 0 &&
+    level.count > 0 &&
+    category.count > 0
   }
   
   func createExercise(with photos: [PhotoModel] = []) -> Exercise? {
     guard isExerciseValid else { return nil }
     
-    let imageUrls: [String] = photos.compactMap { $0.saveImage()?.absoluteString }
-    let instructionsAsString = instructions.map { $0.text }
+    let imageUrls = photos.compactMap {
+      PhotoWriter.saveImage($0.image, with: $0.id.uuidString)?.absoluteString
+    }
+    let instructionsString = instructions.map { $0.text }
     
     let exercise = Exercise(
       category: category,
@@ -45,7 +47,7 @@ final class AddExerciseSheetViewModel: ObservableObject {
       name: exerciseName,
       primaryMuscles: targetMuscles,
       secondaryMuscles: [],
-      instructions: instructionsAsString,
+      instructions: instructionsString,
       imageUrls: imageUrls
     )
     return exercise

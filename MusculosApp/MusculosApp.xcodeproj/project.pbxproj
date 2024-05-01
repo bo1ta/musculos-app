@@ -22,6 +22,7 @@
 		BC1160D72A2CFB830028D8FC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC1160D62A2CFB830028D8FC /* Preview Assets.xcassets */; };
 		BC11BC5A2A7D74CB00D96440 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC11BC592A7D74CB00D96440 /* TabBarItem.swift */; };
 		BC1674B12BE26EBB0012048D /* AddDetailOptionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1674B02BE26EBB0012048D /* AddDetailOptionCardView.swift */; };
+		BC1674B32BE2DBEC0012048D /* PhotoWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1674B22BE2DBEC0012048D /* PhotoWriter.swift */; };
 		BC182ECA2A589A81003DEA30 /* MusculosDataStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */; };
 		BC182ECD2A589BE7003DEA30 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */; };
 		BC261AB82B6DA0EF0018E21F /* SearchFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC261AB72B6DA0EF0018E21F /* SearchFilterView.swift */; };
@@ -209,6 +210,7 @@
 		BC1160E22A2CFB840028D8FC /* MusculosAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusculosAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC11BC592A7D74CB00D96440 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		BC1674B02BE26EBB0012048D /* AddDetailOptionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDetailOptionCardView.swift; sourceTree = "<group>"; };
+		BC1674B22BE2DBEC0012048D /* PhotoWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoWriter.swift; sourceTree = "<group>"; };
 		BC182ECC2A589BE7003DEA30 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		BC261AB72B6DA0EF0018E21F /* SearchFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterView.swift; sourceTree = "<group>"; };
 		BC3454522B72DF4B0074106A /* ExerciseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseStore.swift; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 			isa = PBXGroup;
 			children = (
 				BC81E5D82BD57BA00005891D /* PhotosPicker.swift */,
+				BC1674B22BE2DBEC0012048D /* PhotoWriter.swift */,
 			);
 			path = "Image Utils";
 			sourceTree = "<group>";
@@ -1602,6 +1605,7 @@
 				BC52DDF12B8AA9D6005A4587 /* HintIconView.swift in Sources */,
 				BCF86C332A362105003293A4 /* CustomNavigationBarView.swift in Sources */,
 				BC8244712BAF252100CFA645 /* HealthKitManager.swift in Sources */,
+				BC1674B32BE2DBEC0012048D /* PhotoWriter.swift in Sources */,
 				BCA24BFC2B6AB9AF00124EC3 /* SignInView.swift in Sources */,
 				BC52DDEB2B880E80005A4587 /* ExerciseDataStore.swift in Sources */,
 				BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */,

@@ -74,22 +74,4 @@ struct PhotoModel: Identifiable {
     self.id = id
     self.image = image
   }
-  
-  private var documentsUrl: URL? {
-    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-    return paths.first
-  }
-  
-  func saveImage() -> URL? {
-    guard let documentsUrl, let data = image.pngData() else { return nil }
-    
-    let destionationUrl = documentsUrl.appendingPathComponent(id.uuidString)
-    do {
-      try data.write(to: destionationUrl)
-      return destionationUrl
-    } catch {
-      MusculosLogger.logError(error, message: "Could not write image to disk", category: .ui)
-      return nil
-    }
-  }
 }
