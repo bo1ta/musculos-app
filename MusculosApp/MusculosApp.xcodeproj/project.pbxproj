@@ -485,6 +485,14 @@
 			path = MusculosAppTests;
 			sourceTree = "<group>";
 		};
+		BC1674AF2BE1C3460012048D /* Image Utils */ = {
+			isa = PBXGroup;
+			children = (
+				BC81E5D82BD57BA00005891D /* PhotosPicker.swift */,
+			);
+			path = "Image Utils";
+			sourceTree = "<group>";
+		};
 		BC182ECB2A589BC7003DEA30 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -549,10 +557,10 @@
 				BC63A5A22AC3388D006B1894 /* Constants */,
 				BCCE85E72A33D7A8001BEE8B /* Extension */,
 				BCB7F3062BB24F7A002CB2DE /* Factory */,
+				BC1674AF2BE1C3460012048D /* Image Utils */,
 				BC5B11FD2B65392700B344A0 /* Logger */,
 				BC52DE012B8EB8A1005A4587 /* Mocks */,
 				BC5972082A35074E00EBB075 /* Shared Components */,
-				BC81E5D82BD57BA00005891D /* PhotosPicker.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";

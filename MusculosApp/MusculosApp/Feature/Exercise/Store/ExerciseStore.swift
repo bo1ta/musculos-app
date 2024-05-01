@@ -14,10 +14,10 @@ class ExerciseStore: ObservableObject {
   private let module: ExerciseModuleProtocol
   private let fetchedResultsController: ResultsController<ExerciseEntity>
   
-  init(module: ExerciseModuleProtocol = ExerciseModule(), shouldLoadFromCache: Bool = false) {
+  init(module: ExerciseModuleProtocol = ExerciseModule()) {
     self.module = module
     self.fetchedResultsController = ResultsController<ExerciseEntity>(storageManager: CoreDataStack.shared, sortedBy: [])
-    self.setUpFetchedResultsController(shouldLoadFromCache: shouldLoadFromCache)
+    self.setUpFetchedResultsController()
   }
   
   private(set) var exerciseTask: Task<Void, Never>?
@@ -111,6 +111,11 @@ extension ExerciseStore {
     updateLocalResults()
   }
   
+  func loadForName(_ name: String) {
+    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.byName(name).nsPredicate
+    updateLocalResults()
+  }
+  
   @MainActor
   func checkIsFavorite(exercise: Exercise) -> Bool {
     return module.dataStore.isFavorite(exercise: exercise)
@@ -120,26 +125,22 @@ extension ExerciseStore {
 // MARK: - Fetched Results Controller Helpers
 
 extension ExerciseStore {
-  private func setUpFetchedResultsController(shouldLoadFromCache: Bool) {
+  private func setUpFetchedResultsController() {
     fetchedResultsController.onDidChangeContent = { [weak self] in
       self?.updateLocalResults()
     }
     fetchedResultsController.onDidResetContent = { [weak self] in
       self?.updateLocalResults()
     }
-    
-    /// perform initial fetch from data store. Default `true`
-    guard shouldLoadFromCache else { return }
 
     do {
       try fetchedResultsController.performFetch()
-      updateLocalResults()
     } catch {
       MusculosLogger.logError(error, message: "Could not perform fetch for results controller!", category: .coreData)
     }
   }
   
-  private func updateLocalResults() {
+  func updateLocalResults() {
     state = .loaded(fetchedResultsController.fetchedObjects)
   }
 }

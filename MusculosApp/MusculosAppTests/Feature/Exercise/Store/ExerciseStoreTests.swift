@@ -9,6 +9,9 @@ import XCTest
 @testable import MusculosApp
 
 final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
+  /// since multiple tests need persistent data, we don't want to populate the db more than once
+  private var hasPopulatedStorage = false
+  
   override class func setUp() {
     CoreDataStack.setOverride(DummyStack())
   }
@@ -19,7 +22,7 @@ final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
   }
   
   func testInitialValues() {
-    let store = ExerciseStore(shouldLoadFromCache: false)
+    let store = ExerciseStore()
     XCTAssertEqual(store.state, .empty)
     XCTAssertNil(store.exerciseTask)
     XCTAssertNil(store.searchTask)
@@ -35,7 +38,7 @@ final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
     mockModule.expectation = expectation
     mockModule.expectedResults = expectedResults
     
-    let store = ExerciseStore(module: mockModule, shouldLoadFromCache: false)
+    let store = ExerciseStore(module: mockModule)
     XCTAssertEqual(store.state, .empty)
     
     store.loadRemoteExercises()
@@ -56,7 +59,7 @@ final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
     mockModule.expectedResults = expectedResults
     mockModule.shouldFail = true
     
-    let store = ExerciseStore(module: mockModule, shouldLoadFromCache: false)
+    let store = ExerciseStore(module: mockModule)
     XCTAssertEqual(store.state, .empty)
     
     store.loadRemoteExercises()
@@ -76,7 +79,7 @@ final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
     mockModule.expectation = expectation
     mockModule.expectedResults = expectedResults
     
-    let store = ExerciseStore(module: mockModule, shouldLoadFromCache: false)
+    let store = ExerciseStore(module: mockModule)
     XCTAssertNil(store.searchTask)
     XCTAssertEqual(store.state, .empty)
     
@@ -99,8 +102,9 @@ extension ExerciseStoreTests {
     /// Populate core data store
     await populateStorageWithMockData()
   
-    /// initial loads from cache
-    let store = ExerciseStore(module: MockExerciseModule(), shouldLoadFromCache: true)
+    let store = ExerciseStore(module: MockExerciseModule())
+    store.updateLocalResults()
+    
     guard case let LoadingViewState.loaded(exercises) = store.state, let storedExercise = exercises.first else {
       XCTFail("Should find exercise")
       return
@@ -116,7 +120,9 @@ extension ExerciseStoreTests {
     /// Populate core data store
     await populateStorageWithMockData()
     
-    let store = ExerciseStore(module: MockExerciseModule(), shouldLoadFromCache: true)
+    let store = ExerciseStore(module: MockExerciseModule())
+    store.updateLocalResults()
+    
     guard case let LoadingViewState.loaded(exercises) = store.state, let exercise = exercises.first else {
       XCTFail("Should find exercise")
       return
@@ -139,8 +145,9 @@ extension ExerciseStoreTests {
 // MARK: - Helpers
 
 extension ExerciseStoreTests {
-  
   private func populateStorageWithMockData() async {
+    guard !hasPopulatedStorage else { return }
+    
     let context = CoreDataStack.shared.viewStorage
     await context.perform {
       let entity = context.insertNewObject(ofType: ExerciseEntity.self)
@@ -157,6 +164,8 @@ extension ExerciseStoreTests {
       entity.secondaryMuscles = exercise.secondaryMuscles
       entity.level = exercise.level
     }
+    
+    hasPopulatedStorage = true
   }
   
   private class MockExerciseModule: ExerciseModuleProtocol {

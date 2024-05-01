@@ -63,6 +63,16 @@ struct ExerciseDataStore: BaseDataStore {
     return exercises
   }
   
+  func getByName(_ name: String) -> [Exercise] {
+    return viewStorage
+      .allObjects(
+        ofType: ExerciseEntity.self,
+        matching: ExerciseEntity.CommonPredicate.byName(name).nsPredicate,
+        sortedBy: nil
+      )
+      .map { $0.toReadOnly() }
+  }
+  
   
   func addExercise(_ exercise: Exercise) async {
     await writerDerivedStorage.performAndSave {
@@ -79,5 +89,7 @@ struct ExerciseDataStore: BaseDataStore {
       exerciseEntity.primaryMuscles = exercise.primaryMuscles
       exerciseEntity.secondaryMuscles = exercise.secondaryMuscles
     }
+    
+    await viewStorage.performAndSave { }
   }
 }

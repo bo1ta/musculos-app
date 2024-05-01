@@ -129,16 +129,16 @@ extension ExerciseDetailsView {
   }
   
   private var stepsSection: some View {
-    LazyVStack {
+    VStack {
       ForEach(Array(exercise.instructions.enumerated()), id: \.element) { index, instruction in
         DetailCardView(title: instruction, index: index + 1)
       }
     }
   }
 }
-
-#Preview {
-  ExerciseDetailsView(exercise: ExerciseFactory.createExercise())
-    .environmentObject(TabBarSettings())
-    .environmentObject(ExerciseStore())
-}
+  
+  #Preview {
+    ExerciseDetailsView(exercise: ExerciseFactory.createExercise())
+      .environmentObject(TabBarSettings())
+      .environmentObject(ExerciseStore())
+  }

@@ -70,6 +70,7 @@ struct ExerciseSectionsContentView: View {
             }, label: {
               ExerciseCard(exercise: exercise, cardWidth: 350)
             })
+            .id(exercise)
           }
         }
       }

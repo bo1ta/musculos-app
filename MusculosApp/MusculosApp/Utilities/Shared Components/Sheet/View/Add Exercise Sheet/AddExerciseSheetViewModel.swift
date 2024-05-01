@@ -28,13 +28,14 @@ final class AddExerciseSheetViewModel: ObservableObject {
     && equipment.count > 0
     && force.count > 0 
     && targetMuscles.count > 0
-    && level.count > 0
+//    && level.count > 0
     && category.count > 0
   }
   
-  func createExercise() -> Exercise? {
+  func createExercise(with photos: [PhotoModel] = []) -> Exercise? {
     guard isExerciseValid else { return nil }
     
+    let imageUrls = photos.compactMap { $0.saveImage()?.absoluteString }
     let exercise = Exercise(
       category: category,
       id: UUID(),
@@ -43,7 +44,7 @@ final class AddExerciseSheetViewModel: ObservableObject {
       primaryMuscles: targetMuscles,
       secondaryMuscles: [],
       instructions: instructions,
-      imageUrls: []
+      imageUrls: imageUrls
     )
     return exercise
   }

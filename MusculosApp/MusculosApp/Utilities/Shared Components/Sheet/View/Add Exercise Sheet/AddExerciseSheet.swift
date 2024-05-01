@@ -14,7 +14,7 @@ struct AddExerciseSheet: View {
   @StateObject private var viewModel = AddExerciseSheetViewModel()
   
   @State private var showPhotosPicker: Bool = false
-  @State private var pickedPhotos: [PhotosPicker.PickedPhoto] = []
+  @State private var pickedPhotos: [PhotoModel] = []
   
   let onBack: () -> Void
   
@@ -128,7 +128,7 @@ struct AddExerciseSheet: View {
 
 extension AddExerciseSheet {
   func saveAndDismiss() {
-    guard let exercise = viewModel.createExercise() else { return }
+    guard let exercise = viewModel.createExercise(with: pickedPhotos) else { return }
     exerciseStore.addExercise(exercise)
     dismiss()
   }

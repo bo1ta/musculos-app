@@ -53,6 +53,7 @@ extension ExerciseEntity: ReadOnlyConvertible {
 extension ExerciseEntity {
   enum CommonPredicate {
     case byId(UUID)
+    case byName(String)
     case isFavorite
     
     var nsPredicate: NSPredicate {
@@ -62,6 +63,12 @@ extension ExerciseEntity {
           format: "%K == %@",
           #keyPath(ExerciseEntity.exerciseId),
           uuid as NSUUID
+        )
+      case .byName(let name):
+        return NSPredicate(
+          format: "%K CONTAINS %@",
+          #keyPath(ExerciseEntity.name),
+          name
         )
       case .isFavorite:
         return NSPredicate(
