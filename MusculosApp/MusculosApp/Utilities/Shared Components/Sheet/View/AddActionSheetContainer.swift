@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddActionSheetContainer: View {
   private enum Step {
-    case createItem, createWorkout, createExercise, createGoal, createChallenge
+    case createItem, createWorkout, createExercise, createGoal
   }
   
   @State private var currentStep: Step = .createItem
@@ -29,8 +29,6 @@ struct AddActionSheetContainer: View {
           .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .push(from: .top)))
       case .createGoal:
         EmptyView()
-      case .createChallenge:
-        EmptyView()
       }
     }
     .animation(.easeInOut(duration: 0.2), value: currentStep)
@@ -39,8 +37,6 @@ struct AddActionSheetContainer: View {
   @MainActor
   private func handleTap(for itemType: AddActionSheet.ItemType) {
     switch itemType {
-    case .challenge:
-      currentStep = .createChallenge
     case .exercise:
       currentStep = .createExercise
     case .goal:
