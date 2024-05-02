@@ -22,7 +22,7 @@ final class AddExerciseSheetViewModel: ObservableObject {
   @Published var showLevelOptions = true
   @Published var showCategoryOptions = true
   @Published var showEquipmentOptions = true
-  
+    
   private var isExerciseValid: Bool {
     exerciseName.count > 0 &&
     equipment.count > 0 &&

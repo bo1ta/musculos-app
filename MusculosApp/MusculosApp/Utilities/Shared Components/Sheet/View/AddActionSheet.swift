@@ -18,23 +18,20 @@ struct AddActionSheet: View {
       topBar
         .padding([.trailing, .leading], 20)
       
-      HStack(spacing: 10) {
-        sheetCardItem(.exercise)
-          .opacity(0.8)
-        sheetCardItem(.workout)
-          .opacity(0.8)
-      }
-      .padding(.top, 15)
-      .padding([.trailing, .leading], 15)
-      
-      HStack(spacing: 10) {
-        sheetCardItem(.goal)
-          .opacity(0.8)
-        sheetCardItem(.challenge)
-          .opacity(0.8)
-      }
-      .padding(.top, 5)
-      .padding([.trailing, .leading], 15)
+      LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], alignment: .center, content: {
+        ForEach(ItemType.allCases, id: \.self) { itemType in
+          /// Since it's a single card, it should be centered.
+          /// pass an offset
+          if itemType == .goal {
+            sheetCardItem(itemType)
+              .opacity(0.8)
+              .offset(x: 100)
+          } else {
+            sheetCardItem(itemType)
+              .opacity(0.8)
+          }
+        }
+      })
     }
   }
   
@@ -45,7 +42,7 @@ struct AddActionSheet: View {
         .foregroundStyle(.black)
       Spacer()
       Button(action: {
-          dismiss()
+        dismiss()
       }, label: {
         Image(systemName: "xmark")
           .font(.system(size: 18))
@@ -79,49 +76,32 @@ struct AddActionSheet: View {
 }
 
 extension AddActionSheet {
-  enum ItemType: String {
-    case workout, exercise, goal, challenge
+  enum ItemType: String, CaseIterable {
+    case workout, exercise, goal
     
-    var title: String {
-      return self.rawValue.capitalized
-    }
+    var title: String { self.rawValue.capitalized }
     
     var systemImageName: String {
       switch self {
-      case .workout:
-        "list.dash.header.rectangle"
-      case .exercise:
-        "dumbbell.fill"
-      case .goal:
-        "star"
-      case .challenge:
-        "flag.checkered"
+      case .workout: "list.dash.header.rectangle"
+      case .exercise: "dumbbell.fill"
+      case .goal: "star"
       }
     }
     
     var cardColor: Color {
       switch self {
-      case .workout:
-        Color.AppColor.blue200
-      case .exercise:
-        Color.AppColor.green500
-      case .goal:
-        Color.yellow
-      case .challenge:
-        Color.orange
+      case .workout: Color.AppColor.blue200
+      case .exercise: Color.AppColor.green500
+      case .goal: Color.yellow
       }
     }
     
     var imageColor: Color {
       switch self {
-      case .workout:
-        Color.AppColor.blue500
-      case .exercise:
-        Color.AppColor.green700
-      case .goal:
-        Color.black
-      case .challenge:
-        Color.black
+      case .workout: Color.AppColor.blue500
+      case .exercise: Color.AppColor.green700
+      case .goal: Color.black
       }
     }
   }

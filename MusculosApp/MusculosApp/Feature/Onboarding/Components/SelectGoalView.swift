@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SelectGoalView: View {
-  @Binding var selectedGoal: Goal?
+  @Binding var selectedGoal: OnboardingGoal?
   
   var body: some View {
     VStack(spacing: 15) {
@@ -19,7 +19,7 @@ struct SelectGoalView: View {
     .padding(20)
   }
   
-  private func createGoalCard(_ goal: Goal) -> some View {
+  private func createGoalCard(_ goal: OnboardingGoal) -> some View {
     let isSelected = selectedGoal == goal
     let color: Color = isSelected ? Color.AppColor.blue500 : .black
     

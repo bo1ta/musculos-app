@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomTabBarContainerView<Content: View>: View {
   @Binding var selection: TabBarItem
-  @EnvironmentObject var tabBarSettings: TabBarSettings
+  @EnvironmentObject var tabBarSettings: AppManager
   
   private var tabBarItems: [TabBarItem] = []
   private let onAddTapped: () -> Void

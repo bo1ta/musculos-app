@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ExploreExerciseView: View {
   @EnvironmentObject private var exerciseStore: ExerciseStore
-  @EnvironmentObject private var tabBarSettings: TabBarSettings
+  @EnvironmentObject private var tabBarSettings: AppManager
 
   @StateObject private var viewModel = ExploreExerciseViewModel()
   
@@ -67,5 +67,5 @@ struct ExploreExerciseView: View {
 #Preview {
   ExploreExerciseView()
     .environmentObject(ExerciseStore())
-    .environmentObject(TabBarSettings(isTabBarHidden: false))
+    .environmentObject(AppManager())
 }

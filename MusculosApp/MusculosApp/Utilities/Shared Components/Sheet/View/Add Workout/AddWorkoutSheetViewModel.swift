@@ -16,6 +16,8 @@ final class AddWorkoutSheetViewModel: ObservableObject {
   @Published var debouncedMuscleSearchQuery: String = ""
   @Published var showRepsDialog: Bool = false
   
+  @Published var state: EmptyLoadingViewState = .empty
+  
   @Published var currentSelectedExercise: Exercise? = nil {
     didSet {
       if currentSelectedExercise != nil {
@@ -71,6 +73,7 @@ extension AddWorkoutSheetViewModel {
     
     submitWorkoutTask = Task { @MainActor [weak self] in
       guard let self else { return }
+      self.state = .loading
       
       let workout = Workout(
         name: self.workoutName,
@@ -79,6 +82,8 @@ extension AddWorkoutSheetViewModel {
         workoutExercises: self.selectedExercises
       )
       await self.dataStore.create(workout)
+      
+      self.state = .successful
     }
   }
 }

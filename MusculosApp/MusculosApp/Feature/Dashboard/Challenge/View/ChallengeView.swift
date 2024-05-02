@@ -15,7 +15,7 @@ struct ChallengeView: View {
   @State private var currentExerciseIndex: Int = 0
   @State private var showExerciseView = false
   
-  @EnvironmentObject private var tabBarSettings: TabBarSettings
+  @EnvironmentObject private var tabBarSettings: AppManager
   
   init(challenge: Challenge, onBack: @escaping () -> Void) {
     self.challenge = challenge
@@ -206,5 +206,5 @@ extension ChallengeView {
 
 #Preview {
   ChallengeView(challenge: MockConstants.challenge, onBack: {})
-    .environmentObject(TabBarSettings(isTabBarHidden: true))
+    .environmentObject(AppManager())
 }
