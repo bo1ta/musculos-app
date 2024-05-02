@@ -48,3 +48,4 @@ public struct ExerciseConstants {
   static let equipmentOptions = EquipmentType.allCases.map { $0.rawValue }
   static let categoryOptions = CategoryType.allCases.map { $0.rawValue }
 }
+

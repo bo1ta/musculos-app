@@ -13,7 +13,7 @@ class OnboardingWizardViewModel: ObservableObject {
   @Published var selectedGender: Gender? = nil
   @Published var selectedWeight: Int? = nil
   @Published var selectedHeight: Int? = nil
-  @Published var selectedGoal: Goal? = nil
+  @Published var selectedGoal: OnboardingGoal? = nil
   
   // false if we are at the last step -- at that point we have to submit the data
   var canHandleNextStep: Bool {
@@ -42,7 +42,7 @@ class OnboardingWizardViewModel: ObservableObject {
 extension OnboardingWizardViewModel {
   enum OnboardingWizardStep {
     case gender, heightAndWeight, goal
-
+    
     var title: String {
       switch self {
       case .gender:

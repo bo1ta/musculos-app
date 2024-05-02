@@ -8,39 +8,32 @@
 import Foundation
 import SwiftUI
 
-enum Goal: Int {
-  case loseWeight, getFitter, gainMuscles
-
-  var title: String {
-    switch self {
-    case .loseWeight:
-      "Lose weight"
-    case .getFitter:
-      "Get fitter"
-    case .gainMuscles:
-      "Gain muscles"
+struct Goal {
+  enum GoalCategory: String, CaseIterable {
+    case loseWeight, gainWeight, growMuscle, drinkWater, general
+    
+    var label: String {
+      switch self {
+      case .loseWeight: "Lose weight"
+      case .gainWeight: "Gain mass"
+      case .growMuscle: "Grow muscles"
+      case .drinkWater: "Drink water"
+      case .general: "General"
+      }
     }
   }
   
-  var description: String {
-    switch self {
-    case .loseWeight:
-      "Burn fat & get lean"
-    case .getFitter:
-      "Tone up & feel healthy"
-    case .gainMuscles:
-      "Build mass & strength"
-    }
-  }
+  let name: String
+  let category: GoalCategory
+  let targetValue: String
+  let endDate: Date?
+  let isCompleted: Bool
   
-  var image: Image {
-    switch self {
-    case .loseWeight:
-      Image(systemName: "flame")
-    case .getFitter:
-      Image(systemName: "bolt.heart")
-    case .gainMuscles:
-      Image(systemName: "dumbbell")
-    }
+  init(name: String, category: GoalCategory, targetValue: String, endDate: Date?, isCompleted: Bool = false) {
+    self.name = name
+    self.category = category
+    self.targetValue = targetValue
+    self.endDate = endDate
+    self.isCompleted = isCompleted
   }
 }
