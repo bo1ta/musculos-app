@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct AddGoalSheet: View {
+  @EnvironmentObject private var appManager: AppManager
   @Environment(\.dismiss) private var dismiss
   @StateObject private var viewModel = AddGoalSheetViewModel()
   
@@ -56,19 +57,10 @@ struct AddGoalSheet: View {
       .buttonStyle(PrimaryButtonStyle())
       .padding([.leading, .trailing], 10)
     }
-    .onChange(of: viewModel.state) { state in
-      switch state {
-      case .error(let errorMessage):
-        MusculosLogger.logError(MusculosError.badRequest, message: errorMessage, category: .networking)
-      case .loaded(_):
-        dismiss()
-      default:
-        break
-      }
-    }
   }
 }
 
 #Preview {
   AddGoalSheet(onBack: {})
+    .environmentObject(AppManager())
 }

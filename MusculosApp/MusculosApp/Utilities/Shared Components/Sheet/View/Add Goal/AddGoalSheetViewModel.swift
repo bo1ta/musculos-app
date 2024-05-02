@@ -14,7 +14,7 @@ final class AddGoalSheetViewModel: ObservableObject {
   @Published var showCategoryOptions: Bool = true
   @Published var targetValue: String = ""
   @Published var endDate: Date = Date()
-  @Published var state: LoadingViewState<Bool> = .empty
+  @Published var state: EmptyLoadingViewState = .empty
   
   private let dataStore: GoalDataStore
   
@@ -29,20 +29,15 @@ final class AddGoalSheetViewModel: ObservableObject {
       guard let self else { return }
       self.state = .loading
       
-      do {
-        let goal = Goal(
-          name: self.name,
-          category: Goal.GoalCategory(rawValue: self.category) ?? .general,
-          targetValue: self.targetValue,
-          endDate: self.endDate
-        )
-        
-        try await self.dataStore.add(goal)
-        self.state = .loaded(true)
-      } catch {
-        self.state = .error("Cannot save goal")
-        MusculosLogger.logError(error, message: "Cannot save goal to data store", category: .coreData)
-      }
+      let goal = Goal(
+        name: self.name,
+        category: Goal.GoalCategory(rawValue: self.category) ?? .general,
+        targetValue: self.targetValue,
+        endDate: self.endDate
+      )
+      
+      await self.dataStore.add(goal)
+      self.state = .successful
     }
   }
   

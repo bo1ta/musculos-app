@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddWorkoutSheet: View {
   @Environment(\.dismiss) private var dismiss
+  @EnvironmentObject private var appManager: AppManager
   @EnvironmentObject private var exerciseStore: ExerciseStore
   
   @StateObject var viewModel = AddWorkoutSheetViewModel()
@@ -55,6 +56,15 @@ struct AddWorkoutSheet: View {
       isPresented: $viewModel.showRepsDialog,
       onSelectedValue: viewModel.didSelectExercise
     )
+    .onChange(of: viewModel.state) { state in
+      switch state {
+      case .successful:
+        appManager.toast = Toast(style: .success, message: "Goal saved! Good luck!")
+        dismiss()
+      default:
+        break
+      }
+    }
     .onDisappear(perform: viewModel.cleanUp)
   }
 }

@@ -56,4 +56,5 @@ struct AddActionSheetContainer: View {
 
 #Preview {
   AddActionSheetContainer()
+    .environmentObject(AppManager())
 }

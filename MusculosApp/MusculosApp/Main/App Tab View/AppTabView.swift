@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 struct AppTabView: View {
-  @StateObject private var tabBarSettings = TabBarSettings()
+  @StateObject private var appManager = AppManager()
   
   @State private var tabSelection: TabBarItem = .explore
   @State private var showingSheet = false
@@ -25,7 +25,8 @@ struct AppTabView: View {
     .sheet(isPresented: $showingSheet) {
       AddActionSheetContainer()
     }
-    .environmentObject(tabBarSettings)
+    .toastView(toast: $appManager.toast)
+    .environmentObject(appManager)
   }
   
   @MainActor

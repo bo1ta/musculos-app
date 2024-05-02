@@ -30,3 +30,7 @@ extension LoadingViewState: Equatable {
     }
   }
 }
+
+enum EmptyLoadingViewState {
+  case loading, empty, successful
+}

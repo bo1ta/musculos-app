@@ -8,7 +8,7 @@
 import Foundation
 
 struct GoalDataStore: BaseDataStore {
-  func add(_ goal: Goal) async throws {
+  func add(_ goal: Goal) async {
     await writerDerivedStorage.performAndSave {
       let entity = writerDerivedStorage.insertNewObject(ofType: GoalEntity.self)
       entity.name = goal.name

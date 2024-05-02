@@ -10,7 +10,7 @@ import SwiftUI
 struct ExerciseDetailsView: View {
   @Environment(\.dismiss) private var dismiss
   
-  @EnvironmentObject private var tabBarSettings: TabBarSettings
+  @EnvironmentObject private var tabBarSettings: AppManager
   @EnvironmentObject private var exerciseStore: ExerciseStore
   
   @State private var isFavorite: Bool = false
@@ -139,6 +139,6 @@ extension ExerciseDetailsView {
   
   #Preview {
     ExerciseDetailsView(exercise: ExerciseFactory.createExercise())
-      .environmentObject(TabBarSettings())
+      .environmentObject(AppManager())
       .environmentObject(ExerciseStore())
   }
