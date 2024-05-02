@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import Kingfisher
 
 /// Animates images list and make them appear as "GIFs"
 ///

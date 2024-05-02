@@ -56,6 +56,7 @@
 		BC52DDEB2B880E80005A4587 /* ExerciseDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDEA2B880E80005A4587 /* ExerciseDataStore.swift */; };
 		BC52DDF12B8AA9D6005A4587 /* HintIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDF02B8AA9D6005A4587 /* HintIconView.swift */; };
 		BC52DDF72B8BF5E8005A4587 /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDF62B8BF5E8005A4587 /* Collection+Extension.swift */; };
+		BC54C5EF2BE44317007FAD3E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BC54C5EE2BE44317007FAD3E /* Kingfisher */; };
 		BC583B0D2BA8C76500236C0D /* OnboardingWizardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC583B0C2BA8C76500236C0D /* OnboardingWizardViewModel.swift */; };
 		BC5925012A5C8B72000F1941 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5925002A5C8B72000F1941 /* String+Extension.swift */; };
 		BC5972112A351B0F00EBB075 /* PrimaryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5972102A351B0F00EBB075 /* PrimaryButtonStyle.swift */; };
@@ -399,6 +400,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC54C5EF2BE44317007FAD3E /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1460,6 +1462,7 @@
 			);
 			name = MusculosApp;
 			packageProductDependencies = (
+				BC54C5EE2BE44317007FAD3E /* Kingfisher */,
 			);
 			productName = MusculosApp;
 			productReference = BC1160CC2A2CFB830028D8FC /* MusculosApp.app */;
@@ -1512,6 +1515,7 @@
 			);
 			mainGroup = BC1160C32A2CFB820028D8FC;
 			packageReferences = (
+				BC54C5ED2BE44317007FAD3E /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = BC1160CD2A2CFB830028D8FC /* Products */;
 			projectDirPath = "";
@@ -2009,6 +2013,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BC54C5ED2BE44317007FAD3E /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = exactVersion;
+				version = 7.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BC54C5EE2BE44317007FAD3E /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC54C5ED2BE44317007FAD3E /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */ = {

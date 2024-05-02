@@ -6,25 +6,26 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ExerciseCard: View {
   let exercise: Exercise
   
   private let cardHeight: CGFloat = 200
   private var cardWidth: CGFloat
-
+  
   init(exercise: Exercise, cardWidth: CGFloat = 300) {
     self.exercise = exercise
     self.cardWidth = cardWidth
   }
-
+  
   var body: some View {
     ZStack {
       backgroundView
-        Spacer()
-        detailsRectangle
-          .frame(alignment: .bottom)
-          .padding(.top, 120)
+      Spacer()
+      detailsRectangle
+        .frame(alignment: .bottom)
+        .padding(.top, 120)
     }
     .cornerRadius(40)
     .padding()
@@ -36,13 +37,10 @@ struct ExerciseCard: View {
   @ViewBuilder
   private var backgroundView: some View {
     if let imageUrl = exercise.getImagesURLs().first {
-      if let cachedImage = ImageCacheManager.shared[imageUrl] {
-        cachedImage        
-          .frame(width: cardWidth, height: cardHeight)
-      } else {
-        AsyncImage(url: imageUrl)
-          .frame(width: cardWidth, height: cardHeight)
-      }
+      KFImage(imageUrl)
+        .loadDiskFileSynchronously()
+        .fade(duration: 0.25)
+        .frame(width: cardWidth, height: cardHeight)
     } else {
       Color.gray
         .frame(width: cardWidth, height: cardWidth)
