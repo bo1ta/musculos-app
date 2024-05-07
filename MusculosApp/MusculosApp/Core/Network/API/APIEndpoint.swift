@@ -25,7 +25,7 @@ enum Endpoint {
 }
 
 struct APIEndpoint {
-  private static let base = "http://49.13.172.88:3000"
+  private static let base = "http://musclehustle.xyz:3000"
 
   static func baseWithEndpoint(endpoint: Endpoint) -> URL? {
     return URL(
