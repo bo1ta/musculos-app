@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Shimmer
 
 struct CardItem: View {
   let title: String

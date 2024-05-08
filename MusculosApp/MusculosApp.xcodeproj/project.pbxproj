@@ -49,7 +49,6 @@
 		BC52DDD62B851722005A4587 /* DecodableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDD52B851722005A4587 /* DecodableModel.swift */; };
 		BC52DDD82B852AB2005A4587 /* MuscleModuleProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDD72B852AB2005A4587 /* MuscleModuleProtocol.swift */; };
 		BC52DDDA2B85431C005A4587 /* LoadingViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDD92B85431C005A4587 /* LoadingViewState.swift */; };
-		BC52DDDC2B8560DB005A4587 /* Shimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDDB2B8560DB005A4587 /* Shimmer.swift */; };
 		BC52DDE12B856E64005A4587 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDDF2B856E64005A4587 /* Exercise.swift */; };
 		BC52DDE52B867107005A4587 /* AsyncCachedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDE42B867107005A4587 /* AsyncCachedImage.swift */; };
 		BC52DDE82B86C765005A4587 /* SynchronizationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDE72B86C765005A4587 /* SynchronizationState.swift */; };
@@ -73,6 +72,7 @@
 		BC5FAA622B7D8B4E00B79D4B /* ContentLengthPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5FAA612B7D8B4E00B79D4B /* ContentLengthPreferenceKey.swift */; };
 		BC5FAA662B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5FAA652B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift */; };
 		BC61A2E92BA5274500493311 /* BaseDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC61A2E82BA5274500493311 /* BaseDataStore.swift */; };
+		BC6249752BEC20BB00393915 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = BC6249742BEC20BB00393915 /* Shimmer */; };
 		BC63A5A42AC33896006B1894 /* MuscleConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC63A5A32AC33896006B1894 /* MuscleConstant.swift */; };
 		BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */; };
 		BC6F365A2BB4E14D000F6CFA /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */; };
@@ -248,7 +248,6 @@
 		BC52DDD52B851722005A4587 /* DecodableModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodableModel.swift; sourceTree = "<group>"; };
 		BC52DDD72B852AB2005A4587 /* MuscleModuleProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleModuleProtocol.swift; sourceTree = "<group>"; };
 		BC52DDD92B85431C005A4587 /* LoadingViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewState.swift; sourceTree = "<group>"; };
-		BC52DDDB2B8560DB005A4587 /* Shimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shimmer.swift; sourceTree = "<group>"; };
 		BC52DDDF2B856E64005A4587 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		BC52DDE42B867107005A4587 /* AsyncCachedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncCachedImage.swift; sourceTree = "<group>"; };
 		BC52DDE72B86C765005A4587 /* SynchronizationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynchronizationState.swift; sourceTree = "<group>"; };
@@ -399,6 +398,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC6249752BEC20BB00393915 /* Shimmer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -671,7 +671,6 @@
 				BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */,
 				BC52DDD52B851722005A4587 /* DecodableModel.swift */,
 				BC52DDD92B85431C005A4587 /* LoadingViewState.swift */,
-				BC52DDDB2B8560DB005A4587 /* Shimmer.swift */,
 				BCB92BD42BBB5F2E00D41B9B /* Cached Image */,
 				BC63A5A22AC3388D006B1894 /* Constants */,
 				BC8E86DE2AED2F14008E3CE4 /* Environment */,
@@ -1460,6 +1459,7 @@
 			);
 			name = MusculosApp;
 			packageProductDependencies = (
+				BC6249742BEC20BB00393915 /* Shimmer */,
 			);
 			productName = MusculosApp;
 			productReference = BC1160CC2A2CFB830028D8FC /* MusculosApp.app */;
@@ -1512,6 +1512,7 @@
 			);
 			mainGroup = BC1160C32A2CFB820028D8FC;
 			packageReferences = (
+				BC6249732BEC20AC00393915 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 			);
 			productRefGroup = BC1160CD2A2CFB830028D8FC /* Products */;
 			projectDirPath = "";
@@ -1567,7 +1568,6 @@
 				BCD59AA82BB628220039F662 /* MultiOptionsSelectView.swift in Sources */,
 				BC1674E52BE2FF280012048D /* GoalEntity+CoreDataClass.swift in Sources */,
 				BCF86C3D2A363A92003293A4 /* SelectedButtonStyle.swift in Sources */,
-				BC52DDDC2B8560DB005A4587 /* Shimmer.swift in Sources */,
 				BC81E5CF2BD2F9350005891D /* AddExerciseSheet.swift in Sources */,
 				BC583B0D2BA8C76500236C0D /* OnboardingWizardViewModel.swift in Sources */,
 				BC5B12042B658A1F00B344A0 /* AppManager.swift in Sources */,
@@ -2009,6 +2009,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BC6249732BEC20AC00393915 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
+			requirement = {
+				kind = exactVersion;
+				version = 1.4.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BC6249742BEC20BB00393915 /* Shimmer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC6249732BEC20AC00393915 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			productName = Shimmer;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */ = {

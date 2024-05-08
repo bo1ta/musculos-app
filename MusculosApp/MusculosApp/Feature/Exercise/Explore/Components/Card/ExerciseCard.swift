@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Shimmer
 
 struct ExerciseCard: View {
   let exercise: Exercise
@@ -46,7 +47,8 @@ struct ExerciseCard: View {
     } else {
       Color.gray
         .frame(width: cardWidth, height: cardWidth)
-        .shimmering()
+        .redacted(reason: .placeholder)
+        .shimmering(bandSize: 0.4)
     }
   }
   
