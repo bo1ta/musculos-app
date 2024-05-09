@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Shimmer
 
 struct ExerciseContentLoadingView: View {
   let mockExercises = [ExerciseFactory.createExercise(), ExerciseFactory.createExercise(), ExerciseFactory.createExercise()]
@@ -14,9 +15,12 @@ struct ExerciseContentLoadingView: View {
   var body: some View {
     VStack {
       ExerciseSectionView(title: "Most popular", exercises: mockExercises, onExerciseTap: { _ in })
+            .redacted(reason: .placeholder)
+            .shimmering()
       ExerciseSectionView(title: "Quick muscle-building workouts", exercises: mockExercises, isSmallCard: true, onExerciseTap: { _ in })
+            .redacted(reason: .placeholder)
+            .shimmering(duration: 3.0)
     }
-    .shimmering()
   }
 }
 
