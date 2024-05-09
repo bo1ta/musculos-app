@@ -2,7 +2,7 @@
 //  ExerciseEntity+CoreDataClass.swift
 //  MusculosApp
 //
-//  Created by Solomon Alexandru on 26.03.2024.
+//  Created by Solomon Alexandru on 09.05.2024.
 //
 //
 
@@ -11,5 +11,5 @@ import CoreData
 
 @objc(ExerciseEntity)
 public class ExerciseEntity: NSManagedObject {
-  
+
 }

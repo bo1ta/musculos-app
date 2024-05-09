@@ -10,7 +10,7 @@ import SwiftUI
 struct SearchFilterView: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var exerciseStore: ExerciseStore
-
+  
   @StateObject private var viewModel = SearchFilterViewModel()
   
   var body: some View {
@@ -57,7 +57,7 @@ struct SearchFilterView: View {
         .scrollIndicators(.hidden)
         .safeAreaInset(edge: .bottom, content: {
           Button(action: {
-           searchFilters()
+            searchFilters()
             dismiss()
           }, label: {
             Text("Search")
@@ -153,6 +153,8 @@ struct SearchFilterView: View {
     if viewModel.selectedEquipmentFilters.count > 0 {
       filters["equipment"] = viewModel.selectedEquipmentFilters
     }
+    
+    exerciseStore.filterLocalExercisesByMuscles(viewModel.selectedMuscleFilters)
   }
 }
 

@@ -111,6 +111,11 @@ extension ExerciseStore {
     updateLocalResults()
   }
   
+  func filterLocalExercisesByMuscles(_ muscles: [String]) {
+    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.byMuscles(muscles).nsPredicate
+    updateLocalResults()
+  }
+  
   func loadForName(_ name: String) {
     fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.byName(name).nsPredicate
     updateLocalResults()
