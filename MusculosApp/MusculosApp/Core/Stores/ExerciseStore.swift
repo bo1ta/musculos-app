@@ -10,6 +10,7 @@ import SwiftUI
 
 class ExerciseStore: ObservableObject {
   @Published var state: LoadingViewState<[Exercise]> = .empty
+  @Published var storedExercises: [Exercise] = []
   
   private let module: ExerciseModuleProtocol
   private let fetchedResultsController: ResultsController<ExerciseEntity>
@@ -50,7 +51,7 @@ extension ExerciseStore {
       }
     }
   }
-
+  
   func searchByMuscleQuery(_ query: String) {
     searchTask = Task { @MainActor [weak self] in
       guard let self else { return }
@@ -85,7 +86,7 @@ extension ExerciseStore {
 
 extension ExerciseStore {
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
-    favoriteTask = Task { @MainActor [weak self] in
+    favoriteTask = Task { [weak self] in
       await self?.module.dataStore.markAsFavorite(exercise, isFavorite: isFavorite)
     }
   }
@@ -101,24 +102,11 @@ extension ExerciseStore {
     }
   }
   
-  func loadLocalExercises() {
-    fetchedResultsController.predicate = nil
-    updateLocalResults()
-  }
-  
-  func loadFavoriteExercises() {
-    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.isFavorite.nsPredicate
-    updateLocalResults()
-  }
-  
-  func filterLocalExercisesByMuscles(_ muscles: [String]) {
-    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.byMuscles(muscles).nsPredicate
-    updateLocalResults()
-  }
-  
-  func loadForName(_ name: String) {
-    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.byName(name).nsPredicate
-    updateLocalResults()
+  @MainActor
+  func filterByMuscles(muscles: [String]) {
+    let muscleTypes = muscles.compactMap { MuscleType(rawValue: $0) }
+    let exercises = module.dataStore.getByMuscles(muscleTypes)
+    self.state = .loaded(exercises)
   }
   
   @MainActor
@@ -137,7 +125,7 @@ extension ExerciseStore {
     fetchedResultsController.onDidResetContent = { [weak self] in
       self?.updateLocalResults()
     }
-
+    
     do {
       try fetchedResultsController.performFetch()
     } catch {
@@ -146,6 +134,21 @@ extension ExerciseStore {
   }
   
   func updateLocalResults() {
-    state = .loaded(fetchedResultsController.fetchedObjects)
+    storedExercises = fetchedResultsController.fetchedObjects
+  }
+  
+  func loadLocalExercises() {
+    fetchedResultsController.predicate = nil
+    updateLocalResults()
+  }
+  
+  func loadFavoriteExercises() {
+    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.isFavorite.nsPredicate
+    updateLocalResults()
+  }
+  
+  func loadForName(_ name: String) {
+    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.byName(name).nsPredicate
+    updateLocalResults()
   }
 }

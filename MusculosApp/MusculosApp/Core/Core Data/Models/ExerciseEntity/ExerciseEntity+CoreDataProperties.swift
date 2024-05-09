@@ -90,7 +90,6 @@ extension ExerciseEntity {
     case byId(UUID)
     case byName(String)
     case isFavorite
-    case byMuscles([String])
     
     var nsPredicate: NSPredicate {
       switch self {
@@ -111,9 +110,6 @@ extension ExerciseEntity {
           format: "%K == true",
           #keyPath(ExerciseEntity.isFavorite)
         )
-      case .byMuscles(let muscles):
-        let muscleIds = muscles.compactMap { ExerciseConstants.MuscleType(rawValue: $0)?.id }
-        return NSPredicate(format: "SUBQUERY(primaryMuscles, $muscle, $muscle.muscleId IN %@).@count > 0", muscleIds)
       }
     }
   }

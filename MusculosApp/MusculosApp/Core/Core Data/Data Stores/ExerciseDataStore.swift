@@ -55,7 +55,11 @@ struct ExerciseDataStore: BaseDataStore {
         exerciseEntity.instructions = exercise.instructions
         exerciseEntity.level = exercise.level
         
-        let (primaryMuscles, secondaryMuscles) = constructMusclesRelationships(from: exercise)
+        let (primaryMuscles, secondaryMuscles) = self.constructMusclesRelationships(
+          exerciseEntity: exerciseEntity,
+          primaryMuscles: exercise.primaryMuscles,
+          secondaryMuscles: exercise.secondaryMuscles
+        )
         exerciseEntity.primaryMuscles = primaryMuscles
         exerciseEntity.secondaryMuscles = secondaryMuscles
       }
@@ -88,37 +92,79 @@ struct ExerciseDataStore: BaseDataStore {
       exerciseEntity.instructions = exercise.instructions
       exerciseEntity.level = exercise.level
 
-      let (primaryMuscles, secondaryMuscles) = constructMusclesRelationships(from: exercise)
+      let (primaryMuscles, secondaryMuscles) = self.constructMusclesRelationships(
+        exerciseEntity: exerciseEntity,
+        primaryMuscles: exercise.primaryMuscles,
+        secondaryMuscles: exercise.secondaryMuscles
+      )
       exerciseEntity.primaryMuscles = primaryMuscles
       exerciseEntity.secondaryMuscles = secondaryMuscles
     }
     
     await viewStorage.performAndSave { }
   }
+  
+  func getByMuscles(_ muscles: [MuscleType]) -> [Exercise] {
+    let muscleIds = muscles.compactMap { $0.id }
+    
+    let primaryMusclesEntities = viewStorage.allObjects(
+      ofType: PrimaryMuscleEntity.self,
+      matching: NSPredicate(format: "muscleId IN %@", muscleIds),
+      sortedBy: nil)
+    
+    var exerciseEntities: [ExerciseEntity] = []
+    for entity in primaryMusclesEntities {
+      exerciseEntities += entity.exercises
+    }
+    
+    return exerciseEntities
+      .map { $0.toReadOnly() }
+  }
 }
 
 // MARK: - Helpers
 
 extension ExerciseDataStore {
-  private func constructMusclesRelationships(from exercise: Exercise) -> (Set<PrimaryMuscleEntity>, Set<SecondaryMuscleEntity>) {
-    var primaryMuscles = Set<PrimaryMuscleEntity>()
-    for primaryMuscle in exercise.primaryMuscles {
-      guard let muscleType = ExerciseConstants.MuscleType(rawValue: primaryMuscle) else { continue }
+  private func constructMusclesRelationships(
+    exerciseEntity: ExerciseEntity,
+    primaryMuscles: [String],
+    secondaryMuscles: [String]
+  ) -> (Set<PrimaryMuscleEntity>, Set<SecondaryMuscleEntity>) {
+    var primaryMusclesEntity = Set<PrimaryMuscleEntity>()
+    var secondaryMusclesEntity = Set<SecondaryMuscleEntity>()
+    
+    for muscle in primaryMuscles {
+      guard let muscleType = MuscleType(rawValue: muscle) else { continue }
       
-      let predicate = NSPredicate(format: "%K == %d", #keyPath(PrimaryMuscleEntity.muscleId), muscleType.id)
-      let primaryMuscleEntity = self.writerDerivedStorage.findOrInsert(of: PrimaryMuscleEntity.self, using: predicate)
-      primaryMuscles.insert(primaryMuscleEntity)
+      let predicate = NSPredicate(
+        format: "%K == %d",
+        #keyPath(PrimaryMuscleEntity.muscleId),
+        muscleType.id
+      )
+      let entity = self.writerDerivedStorage.findOrInsert(of: PrimaryMuscleEntity.self, using: predicate)
+      entity.muscleId = NSNumber(integerLiteral: muscleType.id)
+      entity.name = muscleType.rawValue
+      entity.exercises.insert(exerciseEntity)
+      
+      primaryMusclesEntity.insert(entity)
     }
     
-    var secondaryMuscles = Set<SecondaryMuscleEntity>()
-    for secondaryMuscle in exercise.secondaryMuscles {
-      guard let muscleType = ExerciseConstants.MuscleType(rawValue: secondaryMuscle) else { continue }
+    for muscle in secondaryMuscles {
+      guard let muscleType = MuscleType(rawValue: muscle) else { continue }
       
-      let predicate = NSPredicate(format: "%K == %d", #keyPath(SecondaryMuscleEntity.muscleId), muscleType.id)
-      let secondaryMuscleEntity = self.writerDerivedStorage.findOrInsert(of: SecondaryMuscleEntity.self, using: predicate)
-      secondaryMuscles.insert(secondaryMuscleEntity)
+      let predicate = NSPredicate(
+        format: "%K == %d",
+        #keyPath(SecondaryMuscleEntity.muscleId),
+        muscleType.id
+      )
+      let entity = self.writerDerivedStorage.findOrInsert(of: SecondaryMuscleEntity.self, using: predicate)
+      entity.muscleId = NSNumber(integerLiteral: muscleType.id)
+      entity.name = muscleType.rawValue
+      entity.exercises.insert(exerciseEntity)
+      
+      secondaryMusclesEntity.insert(entity)
     }
     
-    return (primaryMuscles, secondaryMuscles)
+    return (primaryMusclesEntity, secondaryMusclesEntity)
   }
 }

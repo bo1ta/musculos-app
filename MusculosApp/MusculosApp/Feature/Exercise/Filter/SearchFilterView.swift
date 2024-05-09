@@ -154,7 +154,7 @@ struct SearchFilterView: View {
       filters["equipment"] = viewModel.selectedEquipmentFilters
     }
     
-    exerciseStore.filterLocalExercisesByMuscles(viewModel.selectedMuscleFilters)
+    exerciseStore.filterByMuscles(muscles: viewModel.selectedMuscleFilters)
   }
 }
 

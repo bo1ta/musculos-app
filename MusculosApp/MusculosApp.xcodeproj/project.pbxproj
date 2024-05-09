@@ -79,6 +79,7 @@
 		BC62498F2BED2EF900393915 /* SecondaryMuscleEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6249872BED2EF900393915 /* SecondaryMuscleEntity+CoreDataProperties.swift */; };
 		BC6249902BED2EF900393915 /* PrimaryMuscleEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6249892BED2EF900393915 /* PrimaryMuscleEntity+CoreDataClass.swift */; };
 		BC6249912BED2EF900393915 /* PrimaryMuscleEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC62498A2BED2EF900393915 /* PrimaryMuscleEntity+CoreDataProperties.swift */; };
+		BC6249932BED5C1500393915 /* MuscleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6249922BED5C1500393915 /* MuscleType.swift */; };
 		BC63A5A42AC33896006B1894 /* MuscleConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC63A5A32AC33896006B1894 /* MuscleConstant.swift */; };
 		BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */; };
 		BC6F365A2BB4E14D000F6CFA /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */; };
@@ -280,6 +281,7 @@
 		BC6249872BED2EF900393915 /* SecondaryMuscleEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SecondaryMuscleEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BC6249892BED2EF900393915 /* PrimaryMuscleEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PrimaryMuscleEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BC62498A2BED2EF900393915 /* PrimaryMuscleEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PrimaryMuscleEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BC6249922BED5C1500393915 /* MuscleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleType.swift; sourceTree = "<group>"; };
 		BC63A5A32AC33896006B1894 /* MuscleConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleConstant.swift; sourceTree = "<group>"; };
 		BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
@@ -555,6 +557,7 @@
 				BCD977912BC20C6A0076C148 /* WorkoutExercise.swift */,
 				BCA87E5E2AE865A600453E4B /* Person.swift */,
 				BCA24C112B6B33B400124EC3 /* Goal.swift */,
+				BC6249922BED5C1500393915 /* MuscleType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1646,6 +1649,7 @@
 				BC1674EB2BE3DDAF0012048D /* ToastView.swift in Sources */,
 				BC52DDEB2B880E80005A4587 /* ExerciseDataStore.swift in Sources */,
 				BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */,
+				BC6249932BED5C1500393915 /* MuscleType.swift in Sources */,
 				BC8C68562BC0AE5100A681EE /* WorkoutDataStore.swift in Sources */,
 				BCD9779A2BC2D4200076C148 /* WorkoutExerciseEntity+CoreDataClass.swift in Sources */,
 				BC62498C2BED2EF900393915 /* ExerciseEntity+CoreDataClass.swift in Sources */,

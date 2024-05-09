@@ -64,7 +64,7 @@ struct ExerciseSectionsContentView: View {
         )
       case .myFavorites, .workout:
         LazyVStack {
-          ForEach(exercises, id: \.hashValue) { exercise in
+          ForEach(exerciseStore.storedExercises, id: \.hashValue) { exercise in
             Button(action: {
               onSelected(exercise)
             }, label: {
