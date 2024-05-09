@@ -93,26 +93,25 @@ final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
 }
 
 /// Tests that involve Core Data reading should run on the main thread
-/// since `DummyStack`'s context is a view context
+/// since `Fetched Results Controller`'s context is a view context
 ///
 extension ExerciseStoreTests {
   
   @MainActor
   func testFetchedControllerLoadsLocalExercises() async throws {
+    let expectedExercise = ExerciseFactory.createExercise()
+    
     /// Populate core data store
     await populateStorageWithMockData()
   
     let store = ExerciseStore(module: MockExerciseModule())
     store.updateLocalResults()
     
-    guard case let LoadingViewState.loaded(exercises) = store.state, let storedExercise = exercises.first else {
-      XCTFail("Should find exercise")
-      return
-    }
+    let firstExercise = try XCTUnwrap(store.storedExercises.first)
 
-    let mockExercise = ExerciseFactory.createExercise()
-    XCTAssertEqual(storedExercise.category, mockExercise.category)
-    XCTAssertEqual(storedExercise.name, mockExercise.name)
+    
+    XCTAssertEqual(firstExercise.category, expectedExercise.category)
+    XCTAssertEqual(firstExercise.name, expectedExercise.name)
   }
   
   @MainActor
@@ -123,21 +122,17 @@ extension ExerciseStoreTests {
     let store = ExerciseStore(module: MockExerciseModule())
     store.updateLocalResults()
     
-    guard case let LoadingViewState.loaded(exercises) = store.state, let exercise = exercises.first else {
-      XCTFail("Should find exercise")
-      return
-    }
-    
-    var isFavorite = store.checkIsFavorite(exercise: exercise)
+    var firstExercise = try XCTUnwrap(store.storedExercises.first)
+    var isFavorite = store.checkIsFavorite(exercise: firstExercise)
     XCTAssertFalse(isFavorite)
     XCTAssertNil(store.favoriteTask)
     
-    store.favoriteExercise(exercise, isFavorite: true)
+    store.favoriteExercise(firstExercise, isFavorite: true)
     
     let favoriteTask = try XCTUnwrap(store.favoriteTask)
     await favoriteTask.value
     
-    isFavorite = store.checkIsFavorite(exercise: exercise)
+    isFavorite = store.checkIsFavorite(exercise: firstExercise)
     XCTAssertTrue(isFavorite)
   }
 }
@@ -160,9 +155,20 @@ extension ExerciseStoreTests {
       entity.equipment = exercise.equipment
       entity.instructions = exercise.instructions
       entity.imageUrls = exercise.imageUrls
-      entity.primaryMuscles = exercise.primaryMuscles
-      entity.secondaryMuscles = exercise.secondaryMuscles
       entity.level = exercise.level
+      entity.primaryMuscles = Set<PrimaryMuscleEntity>()
+      entity.secondaryMuscles = Set<SecondaryMuscleEntity>()
+      
+      let primaryMuscle = context.insertNewObject(ofType: PrimaryMuscleEntity.self)
+      primaryMuscle.muscleId = NSNumber(integerLiteral: MuscleType.chest.id)
+      primaryMuscle.name = MuscleType.chest.rawValue
+      
+      let secondaryMuscle = context.insertNewObject(ofType: SecondaryMuscleEntity.self)
+      secondaryMuscle.muscleId = NSNumber(integerLiteral: MuscleType.biceps.id)
+      secondaryMuscle.name = MuscleType.biceps.rawValue
+      
+      entity.primaryMuscles.insert(primaryMuscle)
+      entity.secondaryMuscles.insert(secondaryMuscle)
     }
     
     hasPopulatedStorage = true
