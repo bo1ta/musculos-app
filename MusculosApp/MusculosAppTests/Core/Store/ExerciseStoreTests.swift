@@ -9,8 +9,7 @@ import XCTest
 @testable import MusculosApp
 
 final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
-  /// since multiple tests need persistent data, we don't want to populate the db more than once
-  private var hasPopulatedStorage = false
+  var hasPopulatedStorage = false
   
   override class func setUp() {
     CoreDataStack.setOverride(DummyStack())
@@ -102,7 +101,7 @@ extension ExerciseStoreTests {
     let expectedExercise = ExerciseFactory.createExercise()
     
     /// Populate core data store
-    await populateStorageWithMockData()
+    await self.populateStorageWithMockExercise()
   
     let store = ExerciseStore(module: MockExerciseModule())
     store.updateLocalResults()
@@ -117,7 +116,7 @@ extension ExerciseStoreTests {
   @MainActor
   func testFavoriteExercise() async throws {
     /// Populate core data store
-    await populateStorageWithMockData()
+    await self.populateStorageWithMockExercise()
     
     let store = ExerciseStore(module: MockExerciseModule())
     store.updateLocalResults()
@@ -140,40 +139,6 @@ extension ExerciseStoreTests {
 // MARK: - Helpers
 
 extension ExerciseStoreTests {
-  private func populateStorageWithMockData() async {
-    guard !hasPopulatedStorage else { return }
-    
-    let context = CoreDataStack.shared.viewStorage
-    await context.perform {
-      let entity = context.insertNewObject(ofType: ExerciseEntity.self)
-      
-      let exercise = ExerciseFactory.createExercise()
-      entity.exerciseId = exercise.id
-      entity.name = exercise.name
-      entity.category = exercise.category
-      entity.instructions = exercise.instructions
-      entity.equipment = exercise.equipment
-      entity.instructions = exercise.instructions
-      entity.imageUrls = exercise.imageUrls
-      entity.level = exercise.level
-      entity.primaryMuscles = Set<PrimaryMuscleEntity>()
-      entity.secondaryMuscles = Set<SecondaryMuscleEntity>()
-      
-      let primaryMuscle = context.insertNewObject(ofType: PrimaryMuscleEntity.self)
-      primaryMuscle.muscleId = NSNumber(integerLiteral: MuscleType.chest.id)
-      primaryMuscle.name = MuscleType.chest.rawValue
-      
-      let secondaryMuscle = context.insertNewObject(ofType: SecondaryMuscleEntity.self)
-      secondaryMuscle.muscleId = NSNumber(integerLiteral: MuscleType.biceps.id)
-      secondaryMuscle.name = MuscleType.biceps.rawValue
-      
-      entity.primaryMuscles.insert(primaryMuscle)
-      entity.secondaryMuscles.insert(secondaryMuscle)
-    }
-    
-    hasPopulatedStorage = true
-  }
-  
   private class MockExerciseModule: ExerciseModuleProtocol {
     var expectation: XCTestExpectation?
     var shouldFail: Bool = false

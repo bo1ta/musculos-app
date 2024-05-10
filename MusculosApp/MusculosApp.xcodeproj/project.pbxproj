@@ -80,6 +80,7 @@
 		BC6249902BED2EF900393915 /* PrimaryMuscleEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6249892BED2EF900393915 /* PrimaryMuscleEntity+CoreDataClass.swift */; };
 		BC6249912BED2EF900393915 /* PrimaryMuscleEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC62498A2BED2EF900393915 /* PrimaryMuscleEntity+CoreDataProperties.swift */; };
 		BC6249932BED5C1500393915 /* MuscleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6249922BED5C1500393915 /* MuscleType.swift */; };
+		BC6249972BED74B300393915 /* ExerciseDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6249962BED74B300393915 /* ExerciseDataStoreTests.swift */; };
 		BC63A5A42AC33896006B1894 /* MuscleConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC63A5A32AC33896006B1894 /* MuscleConstant.swift */; };
 		BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */; };
 		BC6F365A2BB4E14D000F6CFA /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */; };
@@ -282,6 +283,7 @@
 		BC6249892BED2EF900393915 /* PrimaryMuscleEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PrimaryMuscleEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BC62498A2BED2EF900393915 /* PrimaryMuscleEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PrimaryMuscleEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BC6249922BED5C1500393915 /* MuscleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleType.swift; sourceTree = "<group>"; };
+		BC6249962BED74B300393915 /* ExerciseDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataStoreTests.swift; sourceTree = "<group>"; };
 		BC63A5A32AC33896006B1894 /* MuscleConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleConstant.swift; sourceTree = "<group>"; };
 		BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 			isa = PBXGroup;
 			children = (
 				BC6F36682BB4E7AD000F6CFA /* Feature */,
+				BC6249942BED749E00393915 /* Core */,
 				BC5BAC932AB26350003C880E /* Helpers */,
 			);
 			path = MusculosAppTests;
@@ -875,10 +878,10 @@
 		BC5BAC932AB26350003C880E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BCD59AB42BB631B30039F662 /* DummyStack.swift */,
 				BC5BACB62AB26F40003C880E /* MusculosTestBase.swift */,
 				BC5BACBC2AB2769B003C880E /* MockURLProtocol.swift */,
 				BC5BACB82AB26FC8003C880E /* Supporting Files */,
-				BCD59AB42BB631B30039F662 /* DummyStack.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -900,15 +903,6 @@
 				BC5BACD42ABA28A7003C880E /* getExercises.json */,
 			);
 			path = API;
-			sourceTree = "<group>";
-		};
-		BC5BACBE2AB28030003C880E /* Exercise */ = {
-			isa = PBXGroup;
-			children = (
-				BC6F366C2BB4F40B000F6CFA /* Store */,
-				BC6F366B2BB4E805000F6CFA /* Networking */,
-			);
-			path = Exercise;
 			sourceTree = "<group>";
 		};
 		BC5BACDA2ABB7596003C880E /* Anatomy */ = {
@@ -945,6 +939,24 @@
 				BC62498A2BED2EF900393915 /* PrimaryMuscleEntity+CoreDataProperties.swift */,
 			);
 			path = PrimaryMuscleEntity;
+			sourceTree = "<group>";
+		};
+		BC6249942BED749E00393915 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				BC6F366C2BB4F40B000F6CFA /* Store */,
+				BC6F366B2BB4E805000F6CFA /* Networking */,
+				BC6249952BED74A500393915 /* Data Stores */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		BC6249952BED74A500393915 /* Data Stores */ = {
+			isa = PBXGroup;
+			children = (
+				BC6249962BED74B300393915 /* ExerciseDataStoreTests.swift */,
+			);
+			path = "Data Stores";
 			sourceTree = "<group>";
 		};
 		BC63A5A22AC3388D006B1894 /* Constants */ = {
@@ -990,27 +1002,10 @@
 			path = "App Tab View";
 			sourceTree = "<group>";
 		};
-		BC6F36622BB4E762000F6CFA /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				BCFA25B92BB37A9D00F07A67 /* AuthModuleTests.swift */,
-			);
-			path = Networking;
-			sourceTree = "<group>";
-		};
-		BC6F36632BB4E77B000F6CFA /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		BC6F36682BB4E7AD000F6CFA /* Feature */ = {
 			isa = PBXGroup;
 			children = (
 				BCFA25B82BB37A8B00F07A67 /* Auth */,
-				BC5BACBE2AB28030003C880E /* Exercise */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -1018,6 +1013,7 @@
 		BC6F366B2BB4E805000F6CFA /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				BCFA25B92BB37A9D00F07A67 /* AuthModuleTests.swift */,
 				BC5BACD82ABB6694003C880E /* ExerciseModuleTests.swift */,
 			);
 			path = Networking;
@@ -1445,8 +1441,7 @@
 		BCFA25B82BB37A8B00F07A67 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				BC6F36632BB4E77B000F6CFA /* Model */,
-				BC6F36622BB4E762000F6CFA /* Networking */,
+				BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1767,6 +1762,7 @@
 				BC5BACB72AB26F40003C880E /* MusculosTestBase.swift in Sources */,
 				BC6F366E2BB4F418000F6CFA /* ExerciseStoreTests.swift in Sources */,
 				BC6F36672BB4E79F000F6CFA /* AuthViewModelTests.swift in Sources */,
+				BC6249972BED74B300393915 /* ExerciseDataStoreTests.swift in Sources */,
 				BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */,
 				BC5BACD92ABB6694003C880E /* ExerciseModuleTests.swift in Sources */,
 				BCD59AB52BB631B30039F662 /* DummyStack.swift in Sources */,

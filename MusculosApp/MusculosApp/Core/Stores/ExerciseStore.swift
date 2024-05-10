@@ -93,7 +93,7 @@ extension ExerciseStore {
   
   func addExercise(_ exercise: Exercise) {
     addExerciseTask = Task { [weak self] in
-      await self?.module.dataStore.addExercise(exercise)
+      await self?.module.dataStore.add(exercise)
       MusculosLogger.logInfo(
         message: "Saved exercise to the local store!",
         category: .coreData,
