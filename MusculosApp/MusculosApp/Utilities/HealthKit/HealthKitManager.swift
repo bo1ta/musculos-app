@@ -97,7 +97,7 @@ extension HealthKitManager {
     return sample
   }
   
-  func readDietaryWater(startDate: Date = Date.yesterday, endDate: Date = Date()) async throws -> Double? {
+  func readDietaryWater(startDate: Date = Date.yesterday, endDate: Date = Date()) async throws -> String? {
     let anchorDescription = HKAnchoredObjectQueryDescriptor(
       predicates: [
         .quantitySample(type: HKQuantityType(.dietaryWater))
@@ -106,9 +106,14 @@ extension HealthKitManager {
     )
     
     let results = try await anchorDescription.result(for: healthStore)
-    let sample = results.addedSamples.first?.quantity.doubleValue(for: .fluidOunceImperial())
-    MusculosLogger.logInfo(message: "Water analysis", category: .healthKit, properties: ["water_drank": sample as Any])
-    return sample
+    
+    if let sample = results.addedSamples.first?.quantity.doubleValue(for: .fluidOunceImperial()) {
+      let formattedSample = String(format: "%.1f l", sample)
+      MusculosLogger.logInfo(message: "Water analysis", category: .healthKit, properties: ["dietary_water": formattedSample as Any])
+      return formattedSample
+    }
+    
+    return nil
   }
   
   

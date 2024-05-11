@@ -10,67 +10,56 @@ import SwiftUI
 struct SearchFilterView: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var exerciseStore: ExerciseStore
-
+  
   @StateObject private var viewModel = SearchFilterViewModel()
   
   var body: some View {
     VStack(spacing: 10) {
       header
-      
-      VStack {
-        RoundedTextField(
-          text: $viewModel.searchQuery,
-          label: "Search",
-          textHint: "Enter search query"
-        )
-        ScrollView {
-          VStack(spacing: 20) {
-            MultiOptionsSelectView(
-              showOptions: $viewModel.showMuscleFilters,
-              selectedOptions: $viewModel.selectedMuscleFilters,
-              title: "Muscles",
-              options: ExerciseConstants.muscleOptions
-            )
-            MultiOptionsSelectView(
-              showOptions: $viewModel.showWorkoutFilters,
-              selectedOptions: $viewModel.selectedCategoryFilters,
-              title: "Workout Types",
-              options: ExerciseConstants.categoryOptions
-            )
-            SingleOptionSelectView(
-              showOptions: $viewModel.showDifficultyFilters,
-              selectedOption: $viewModel.selectedLevelFilter,
-              title: "Difficulty",
-              options: ExerciseConstants.levelOptions
-            )
-            MultiOptionsSelectView(
-              showOptions: $viewModel.showEquipmentFilter,
-              selectedOptions: $viewModel.selectedCategoryFilters,
-              title: "Equipment",
-              options: ExerciseConstants.equipmentOptions
-            )
-            
-            durationSection
-          }
-          .padding(.top, 10)
+      ScrollView {
+        VStack(spacing: 20) {
+          MultiOptionsSelectView(
+            showOptions: viewModel.makeDisplayFilterBinding(for: .muscle),
+            selectedOptions: viewModel.makeFilterBinding(for: .muscle),
+            title: "Muscles",
+            options: ExerciseConstants.muscleOptions
+          )
+          MultiOptionsSelectView(
+            showOptions: viewModel.makeDisplayFilterBinding(for: .workout),
+            selectedOptions: viewModel.makeFilterBinding(for: .category),
+            title: "Workout Types",
+            options: ExerciseConstants.categoryOptions
+          )
+          SingleOptionSelectView(
+            showOptions: viewModel.makeDisplayFilterBinding(for: .difficulty),
+            selectedOption: $viewModel.selectedLevelFilter,
+            title: "Difficulty",
+            options: ExerciseConstants.levelOptions
+          )
+          MultiOptionsSelectView(
+            showOptions: viewModel.makeDisplayFilterBinding(for: .equipment),
+            selectedOptions: viewModel.makeFilterBinding(for: .equipment),
+            title: "Equipment",
+            options: ExerciseConstants.equipmentOptions
+          )
         }
-        .scrollIndicators(.hidden)
-        .safeAreaInset(edge: .bottom, content: {
-          Button(action: {
-           searchFilters()
-            dismiss()
-          }, label: {
-            Text("Search")
-              .frame(maxWidth: .infinity)
-          })
-          .buttonStyle(PrimaryButtonStyle())
-          .padding()
-          .padding(.bottom, 10)
-        })
+        .padding(.top, 10)
       }
-      .padding([.leading, .trailing], 10)
+      .scrollIndicators(.hidden)
+      .safeAreaInset(edge: .bottom, content: {
+        Button(action: {
+          searchFilters()
+          dismiss()
+        }, label: {
+          Text("Search")
+            .frame(maxWidth: .infinity)
+        })
+        .buttonStyle(PrimaryButtonStyle())
+        .padding()
+        .padding(.bottom, 10)
+      })
     }
-    .ignoresSafeArea()
+    .padding([.leading, .trailing], 10)
   }
   
   private var header: some View {
@@ -97,29 +86,6 @@ struct SearchFilterView: View {
       }
   }
   
-  @ViewBuilder
-  private var durationSection: some View {
-    VStack {
-      Button {
-        viewModel.showDurationFilter.toggle()
-      } label: {
-        HStack {
-          Text("Duration")
-            .font(.header(.bold, size: 18))
-          Spacer()
-          Image(systemName: viewModel.showDurationFilter ? "chevron.up" : "chevron.down")
-        }
-        .foregroundStyle(.black)
-      }
-    }
-    
-    if viewModel.showDurationFilter {
-      Slider(value: $viewModel.selectedDuration)
-        .tint(Color.AppColor.blue500)
-      Text("\(viewModel.selectedDuration)")
-    }
-  }
-  
   private var backButton: some View {
     Button {
       dismiss()
@@ -140,19 +106,9 @@ struct SearchFilterView: View {
   }
   
   private func searchFilters() {
-    var filters: [String: [String]] = [:]
-    if viewModel.selectedCategoryFilters.count > 0 {
-      filters["category"] = viewModel.selectedCategoryFilters
-    }
-    if viewModel.selectedMuscleFilters.count > 0 {
-      filters["muscles"] = viewModel.selectedMuscleFilters
-    }
-    if viewModel.selectedLevelFilter.count > 0 {
-      filters["level"] = [viewModel.selectedLevelFilter]
-    }
-    if viewModel.selectedEquipmentFilters.count > 0 {
-      filters["equipment"] = viewModel.selectedEquipmentFilters
-    }
+    let searchFilters = viewModel.filters
+    let muscles = searchFilters[.muscle]
+    
   }
 }
 

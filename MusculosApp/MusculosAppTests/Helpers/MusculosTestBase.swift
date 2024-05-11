@@ -8,7 +8,17 @@
 import Foundation
 import XCTest
 
+@testable import MusculosApp
+
 protocol MusculosTestBase: AnyObject {
+  
+  /// Bool variable that guards over-populating the storage
+  ///
+  var hasPopulatedStorage: Bool { get set }
+  
+  /// Populate the storage with mock exercise
+  ///
+  func populateStorageWithMockExercise(exercise: Exercise) async
   
   /// Parses a file into Data
   ///`name` - The name of the file
@@ -24,7 +34,13 @@ protocol MusculosTestBase: AnyObject {
   func createMockSession(jsonFileName: String?, expectation: XCTestExpectation?, shouldFail: Bool) -> URLSessionConfiguration
 }
 
+/// MARK: - Default implementation
+///
 extension MusculosTestBase {
+  var hasPopulatedStorage: Bool {
+    get { false }
+    set { hasPopulatedStorage = newValue }
+  }
   
   func readFromFile(name: String, withExtension: String = "json") throws -> Data {
     let bundle = Bundle(for: (type(of: self)))
@@ -51,5 +67,14 @@ extension MusculosTestBase {
     let configuration = URLSessionConfiguration.default
     configuration.protocolClasses = [MockURLProtocol.self]
     return configuration
+  }
+  
+  func populateStorageWithMockExercise(exercise: Exercise = ExerciseFactory.createExercise()) async {
+    guard !hasPopulatedStorage else { return }
+    
+    let exerciseDataStore = ExerciseDataStore()
+    _ = await exerciseDataStore.importFrom([exercise])
+
+    hasPopulatedStorage = true
   }
 }

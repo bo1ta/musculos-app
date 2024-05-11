@@ -28,7 +28,7 @@ struct ExploreExerciseView: View {
           SearchFilterField(
             showFilterView: $viewModel.showFilterView,
             hasObservedQuery: { query in
-              exerciseStore.loadForName(query)
+              exerciseStore.searchByMuscleQuery(query)
             })
           
           ExerciseSectionsContentView(onSelected: { exercise in

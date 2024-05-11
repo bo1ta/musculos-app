@@ -9,31 +9,52 @@ import Foundation
 import SwiftUI
 import Combine
 
+enum SearchFilterKey: String {
+  case muscle, category, equipment
+}
+
 class SearchFilterViewModel: ObservableObject {
-  @Published var searchQuery: String = ""
-  @Published var selectedMuscleFilters: [String] = []
-  @Published var selectedCategoryFilters: [String] = []
-  @Published var selectedEquipmentFilters: [String] = []
-  @Published var selectedLevelFilter: String = ""
-  @Published var selectedDuration: Float = 0
+  enum FilterDisplayable {
+    case muscle, workout, difficulty, equipment
+  }
   
-  @Published var showMuscleFilters: Bool = true
-  @Published var showWorkoutFilters: Bool = true
-  @Published var showDifficultyFilters: Bool = true
-  @Published var showDurationFilter: Bool = true
-  @Published var showEquipmentFilter: Bool = true
+  @Published var selectedLevelFilter: String = ""
+  
+  @Published var filters: [SearchFilterKey: [String]] = [:]
+  @Published var displayFilter: [FilterDisplayable: Bool] = [
+    .muscle: true,
+    .workout: true,
+    .difficulty: true,
+    .equipment: true
+  ]
+  
+  
+  func makeFilterBinding(for key: SearchFilterKey) -> Binding<[String]> {
+    return Binding {
+      self.filters[key] ?? []
+    } set: { newValue in
+      var finalValues = self.filters[key] ?? []
+      finalValues.append(contentsOf: newValue)
+      
+      self.filters[key] = finalValues
+    }
+  }
+  
+  func makeDisplayFilterBinding(for filterDisplayable: FilterDisplayable) -> Binding<Bool> {
+    return Binding {
+      self.displayFilter[filterDisplayable] ?? true
+    } set: { newValue in
+      self.displayFilter[filterDisplayable] = newValue
+    }
+  }
   
   func resetFilters() {
-    selectedMuscleFilters = []
-    selectedCategoryFilters = []
     selectedLevelFilter = ""
+    filters = [:]
   }
 
   private var shouldHandleSearch: Bool {
-    searchQuery.count > 0 &&
-    selectedMuscleFilters.count > 0 &&
-    selectedCategoryFilters.count > 0 &&
-    selectedLevelFilter.count > 0 &&
-    selectedDuration > 0
+    filters.count > 0 ||
+    selectedLevelFilter.count > 0
   }
 }

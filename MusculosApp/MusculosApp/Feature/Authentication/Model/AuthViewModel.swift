@@ -30,8 +30,11 @@ class AuthViewModel: ObservableObject {
       self.state = .loading
       
       do {
-        try await self.module.login(email: self.email,
-                                    password: self.password)
+        try await self.module.login(
+          email: self.email,
+          password: self.password
+        )
+  
         self.state = .loaded(true)
       } catch {
         self.state = .error(MessageConstant.genericErrorMessage.rawValue)
@@ -46,10 +49,13 @@ class AuthViewModel: ObservableObject {
       self.state = .loading
       
       do {
-        try await self.module.register(email: self.email,
-                                       password: self.password,
-                                       username: self.username,
-                                       fullName: self.fullName)
+        try await self.module.register(
+          email: self.email,
+          password: self.password,
+          username: self.username,
+          fullName: self.fullName
+        )
+    
         self.state = .loaded(true)
       } catch {
         self.state = .error(MessageConstant.genericErrorMessage.rawValue)

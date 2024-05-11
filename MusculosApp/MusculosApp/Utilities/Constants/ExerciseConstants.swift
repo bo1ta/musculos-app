@@ -8,12 +8,6 @@
 import Foundation
 
 public struct ExerciseConstants {
-  enum MuscleType: String, CaseIterable {
-    case abdominals, hamstrings, adductors, quadriceps, biceps, shoulders, chest, calves, glutes, lats, triceps, traps, forearms, neck, abductors
-    case middleBack = "middle back"
-    case lowerBack = "lower back"
-  }
-  
   enum ForceType: String, CaseIterable {
     case pull, push, `static`
   }

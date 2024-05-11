@@ -10,6 +10,7 @@ import SwiftUI
 
 class ExerciseStore: ObservableObject {
   @Published var state: LoadingViewState<[Exercise]> = .empty
+  @Published var storedExercises: [Exercise] = []
   
   private let module: ExerciseModuleProtocol
   private let fetchedResultsController: ResultsController<ExerciseEntity>
@@ -50,7 +51,7 @@ extension ExerciseStore {
       }
     }
   }
-
+  
   func searchByMuscleQuery(_ query: String) {
     searchTask = Task { @MainActor [weak self] in
       guard let self else { return }
@@ -85,14 +86,14 @@ extension ExerciseStore {
 
 extension ExerciseStore {
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
-    favoriteTask = Task { @MainActor [weak self] in
+    favoriteTask = Task { [weak self] in
       await self?.module.dataStore.markAsFavorite(exercise, isFavorite: isFavorite)
     }
   }
   
   func addExercise(_ exercise: Exercise) {
     addExerciseTask = Task { [weak self] in
-      await self?.module.dataStore.addExercise(exercise)
+      await self?.module.dataStore.add(exercise)
       MusculosLogger.logInfo(
         message: "Saved exercise to the local store!",
         category: .coreData,
@@ -101,19 +102,38 @@ extension ExerciseStore {
     }
   }
   
-  func loadLocalExercises() {
-    fetchedResultsController.predicate = nil
-    updateLocalResults()
+  @MainActor
+  func filterByMuscles(muscles: [String]) {
+    let muscleTypes = muscles.compactMap { MuscleType(rawValue: $0) }
+    let exercises = module.dataStore.getByMuscles(muscleTypes)
+    self.state = .loaded(exercises)
   }
   
-  func loadFavoriteExercises() {
-    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.isFavorite.nsPredicate
-    updateLocalResults()
-  }
-  
-  func loadForName(_ name: String) {
-    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.byName(name).nsPredicate
-    updateLocalResults()
+  @MainActor 
+  func filterByMuscles(
+    muscles: [String],
+    categories: [String],
+    equipments: [String]
+  ) async -> [Exercise] {
+    let muscleTypes = muscles.compactMap { MuscleType(rawValue: $0) }
+    
+    var filteredExercises = module.dataStore.getByMuscles(muscleTypes)
+    
+    if categories.count > 0 {
+      filteredExercises = filteredExercises.filter { categories.contains($0.category) }
+    }
+    
+    if equipments.count > 0 {
+      filteredExercises = filteredExercises.filter { exercise in
+        if let equipment = exercise.equipment {
+          return equipments.contains(equipment)
+        } else {
+          return true
+        }
+      }
+    }
+    
+    return filteredExercises
   }
   
   @MainActor
@@ -132,7 +152,7 @@ extension ExerciseStore {
     fetchedResultsController.onDidResetContent = { [weak self] in
       self?.updateLocalResults()
     }
-
+    
     do {
       try fetchedResultsController.performFetch()
     } catch {
@@ -141,6 +161,21 @@ extension ExerciseStore {
   }
   
   func updateLocalResults() {
-    state = .loaded(fetchedResultsController.fetchedObjects)
+    storedExercises = fetchedResultsController.fetchedObjects
+  }
+  
+  func loadLocalExercises() {
+    fetchedResultsController.predicate = nil
+    updateLocalResults()
+  }
+  
+  func loadFavoriteExercises() {
+    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.isFavorite.nsPredicate
+    updateLocalResults()
+  }
+  
+  func loadForName(_ name: String) {
+    fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.byName(name).nsPredicate
+    updateLocalResults()
   }
 }

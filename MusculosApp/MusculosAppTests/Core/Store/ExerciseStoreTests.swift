@@ -9,8 +9,7 @@ import XCTest
 @testable import MusculosApp
 
 final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
-  /// since multiple tests need persistent data, we don't want to populate the db more than once
-  private var hasPopulatedStorage = false
+  var hasPopulatedStorage = false
   
   override class func setUp() {
     CoreDataStack.setOverride(DummyStack())
@@ -93,51 +92,46 @@ final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
 }
 
 /// Tests that involve Core Data reading should run on the main thread
-/// since `DummyStack`'s context is a view context
+/// since `Fetched Results Controller`'s context is a view context
 ///
 extension ExerciseStoreTests {
   
   @MainActor
   func testFetchedControllerLoadsLocalExercises() async throws {
+    let expectedExercise = ExerciseFactory.createExercise()
+    
     /// Populate core data store
-    await populateStorageWithMockData()
+    await self.populateStorageWithMockExercise()
   
     let store = ExerciseStore(module: MockExerciseModule())
     store.updateLocalResults()
     
-    guard case let LoadingViewState.loaded(exercises) = store.state, let storedExercise = exercises.first else {
-      XCTFail("Should find exercise")
-      return
-    }
+    let firstExercise = try XCTUnwrap(store.storedExercises.first)
 
-    let mockExercise = ExerciseFactory.createExercise()
-    XCTAssertEqual(storedExercise.category, mockExercise.category)
-    XCTAssertEqual(storedExercise.name, mockExercise.name)
+    
+    XCTAssertEqual(firstExercise.category, expectedExercise.category)
+    XCTAssertEqual(firstExercise.name, expectedExercise.name)
   }
   
   @MainActor
   func testFavoriteExercise() async throws {
     /// Populate core data store
-    await populateStorageWithMockData()
+    await self.populateStorageWithMockExercise()
     
     let store = ExerciseStore(module: MockExerciseModule())
     store.updateLocalResults()
     
-    guard case let LoadingViewState.loaded(exercises) = store.state, let exercise = exercises.first else {
-      XCTFail("Should find exercise")
-      return
-    }
-    
-    var isFavorite = store.checkIsFavorite(exercise: exercise)
+    var firstExercise = try XCTUnwrap(store.storedExercises.first)
+    var isFavorite = store.checkIsFavorite(exercise: firstExercise)
     XCTAssertFalse(isFavorite)
     XCTAssertNil(store.favoriteTask)
     
-    store.favoriteExercise(exercise, isFavorite: true)
+    store.favoriteExercise(firstExercise, isFavorite: true)
     
     let favoriteTask = try XCTUnwrap(store.favoriteTask)
     await favoriteTask.value
     
-    isFavorite = store.checkIsFavorite(exercise: exercise)
+    isFavorite = store.checkIsFavorite(exercise: firstExercise)
     XCTAssertTrue(isFavorite)
   }
 }
@@ -145,29 +139,6 @@ extension ExerciseStoreTests {
 // MARK: - Helpers
 
 extension ExerciseStoreTests {
-  private func populateStorageWithMockData() async {
-    guard !hasPopulatedStorage else { return }
-    
-    let context = CoreDataStack.shared.viewStorage
-    await context.perform {
-      let entity = context.insertNewObject(ofType: ExerciseEntity.self)
-      
-      let exercise = ExerciseFactory.createExercise()
-      entity.exerciseId = exercise.id
-      entity.name = exercise.name
-      entity.category = exercise.category
-      entity.instructions = exercise.instructions
-      entity.equipment = exercise.equipment
-      entity.instructions = exercise.instructions
-      entity.imageUrls = exercise.imageUrls
-      entity.primaryMuscles = exercise.primaryMuscles
-      entity.secondaryMuscles = exercise.secondaryMuscles
-      entity.level = exercise.level
-    }
-    
-    hasPopulatedStorage = true
-  }
-  
   private class MockExerciseModule: ExerciseModuleProtocol {
     var expectation: XCTestExpectation?
     var shouldFail: Bool = false
