@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 import Shimmer
 
-/// Animates images list and make them appear as "GIFs"
+/// Loops through a list of image URLs indefinitely to make them appear as "GIFs"
 ///
 struct AnimatedURLImageView: View {
   let imageURLs: [URL]
