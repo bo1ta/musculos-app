@@ -68,6 +68,10 @@ struct SearchFilterView: View {
       .onChange(of: viewModel.filters) { _ in
         handleFiltering()
       }
+      // The level filter is single, so it must be observed as well
+      .onChange(of: viewModel.selectedLevelFilter) { _ in
+          handleFiltering()
+      }
     }
     .padding([.leading, .trailing], 10)
   }
