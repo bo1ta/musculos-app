@@ -30,7 +30,7 @@ struct SearchFilterField: View {
         showFilterView = true
       }, label: {
         Circle()
-          .frame(width: 50, height: 50)
+          .frame(width: 35, height: 35)
           .foregroundStyle(Color.AppColor.blue500)
           .overlay {
             Image(systemName: "line.3.horizontal")
