@@ -13,6 +13,16 @@ struct SearchFilterView: View {
   
   @StateObject private var viewModel = SearchFilterViewModel()
   
+  @State private var results: [Exercise] = []
+  
+  private var searchButtonText: String {
+    if results.count > 0 {
+      return "Show (\(results.count))"
+    } else {
+      return "Search"
+    }
+  }
+  
   var body: some View {
     VStack(spacing: 10) {
       header
@@ -25,7 +35,7 @@ struct SearchFilterView: View {
             options: ExerciseConstants.muscleOptions
           )
           MultiOptionsSelectView(
-            showOptions: viewModel.makeDisplayFilterBinding(for: .workout),
+            showOptions: viewModel.makeDisplayFilterBinding(for: .category),
             selectedOptions: viewModel.makeFilterBinding(for: .category),
             title: "Workout Types",
             options: ExerciseConstants.categoryOptions
@@ -47,17 +57,21 @@ struct SearchFilterView: View {
       }
       .scrollIndicators(.hidden)
       .safeAreaInset(edge: .bottom, content: {
-        Button(action: {
-          searchFilters()
-          dismiss()
-        }, label: {
-          Text("Search")
+        Button(action: handleSearch, label: {
+          Text(searchButtonText)
             .frame(maxWidth: .infinity)
         })
         .buttonStyle(PrimaryButtonStyle())
         .padding()
         .padding(.bottom, 10)
       })
+      .onChange(of: viewModel.filters) { _ in
+        handleFiltering()
+      }
+      // The level filter is single, so it must be observed as well
+      .onChange(of: viewModel.selectedLevelFilter) { _ in
+          handleFiltering()
+      }
     }
     .padding([.leading, .trailing], 10)
   }
@@ -105,10 +119,30 @@ struct SearchFilterView: View {
     }
   }
   
-  private func searchFilters() {
-    let searchFilters = viewModel.filters
-    let muscles = searchFilters[.muscle]
+  private func handleSearch() {
+    /// update store with the filtered data
+    ///
+    if results.count > 0 {
+      exerciseStore.state = .loaded(results)
+    }
+    dismiss()
+  }
+  
+  private func handleFiltering() {
+    let filters = viewModel.filters
+    let muscles = filters[.muscle]
+    let categories = filters[.category]
+    let equipments = filters[.equipment]
     
+    Task {
+      let exercises = await self.exerciseStore.filterByMuscles(
+        muscles: muscles ?? [],
+        level: viewModel.selectedLevelFilter,
+        categories: categories ?? [],
+        equipments: equipments ?? []
+      )
+      self.results = exercises
+    }
   }
 }
 

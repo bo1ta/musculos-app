@@ -112,11 +112,11 @@ extension ExerciseStore {
   @MainActor 
   func filterByMuscles(
     muscles: [String],
-    categories: [String],
-    equipments: [String]
+    level: String = "",
+    categories: [String] = [],
+    equipments: [String] = []
   ) async -> [Exercise] {
     let muscleTypes = muscles.compactMap { MuscleType(rawValue: $0) }
-    
     var filteredExercises = module.dataStore.getByMuscles(muscleTypes)
     
     if categories.count > 0 {
@@ -131,6 +131,10 @@ extension ExerciseStore {
           return true
         }
       }
+    }
+    
+    if level.count > 0 {
+      filteredExercises = filteredExercises.filter { $0.level == level }
     }
     
     return filteredExercises

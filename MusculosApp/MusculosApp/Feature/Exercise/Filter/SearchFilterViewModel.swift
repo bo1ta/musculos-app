@@ -9,21 +9,22 @@ import Foundation
 import SwiftUI
 import Combine
 
-enum SearchFilterKey: String {
-  case muscle, category, equipment
-}
-
 class SearchFilterViewModel: ObservableObject {
   enum FilterDisplayable {
-    case muscle, workout, difficulty, equipment
+    case muscle, category, difficulty, equipment
+  }
+  
+  enum SearchFilterKey: String {
+    case muscle, category, equipment
   }
   
   @Published var selectedLevelFilter: String = ""
   
   @Published var filters: [SearchFilterKey: [String]] = [:]
+  
   @Published var displayFilter: [FilterDisplayable: Bool] = [
     .muscle: true,
-    .workout: true,
+    .category: true,
     .difficulty: true,
     .equipment: true
   ]
@@ -33,10 +34,7 @@ class SearchFilterViewModel: ObservableObject {
     return Binding {
       self.filters[key] ?? []
     } set: { newValue in
-      var finalValues = self.filters[key] ?? []
-      finalValues.append(contentsOf: newValue)
-      
-      self.filters[key] = finalValues
+      self.filters[key] = newValue
     }
   }
   
@@ -52,7 +50,7 @@ class SearchFilterViewModel: ObservableObject {
     selectedLevelFilter = ""
     filters = [:]
   }
-
+  
   private var shouldHandleSearch: Bool {
     filters.count > 0 ||
     selectedLevelFilter.count > 0
