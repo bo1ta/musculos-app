@@ -11,7 +11,7 @@ import SwiftUI
 enum TabBarItem: String {
   case explore
   case overview
-//  case workout
+  case workout
 //  case dashboard
   
   var label: String {
@@ -26,8 +26,8 @@ enum TabBarItem: String {
       "chart.bar.xaxis.ascending"
 //    case .dashboard:
 //      "rectangle.grid.2x2"
-//    case .workout:
-//      "list.bullet.rectangle"
+    case .workout:
+      "list.bullet.rectangle"
     }
   }
   
@@ -38,6 +38,8 @@ enum TabBarItem: String {
       ExploreExerciseView()
     case .overview:
       OverviewView()
+    case .workout:
+      WorkoutView()
     }
   }
 }

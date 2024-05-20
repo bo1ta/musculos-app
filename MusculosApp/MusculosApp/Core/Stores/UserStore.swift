@@ -57,7 +57,7 @@ class UserStore: ObservableObject {
   func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) {
     updateUserTask = Task { @MainActor [weak self] in
       guard let self else { return }
-      _ = await self.dataStore.updateUser(gender: gender, weight: weight, height: height, goalId: goalId)
+      await self.dataStore.updateUser(gender: gender, weight: weight, height: height, goalId: goalId)
     }
   }
 }

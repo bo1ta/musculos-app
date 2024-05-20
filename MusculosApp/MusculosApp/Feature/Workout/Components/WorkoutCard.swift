@@ -1,0 +1,83 @@
+//
+//  WorkoutCard.swift
+//  MusculosApp
+//
+//  Created by Solomon Alexandru on 21.05.2024.
+//
+
+import SwiftUI
+
+struct WorkoutCard: View {
+  private let itemSpacing: CGFloat = 2.3
+  
+  let workout: Workout
+  
+  var body: some View {
+    RoundedRectangle(cornerRadius: 24)
+      .frame(maxWidth: .infinity)
+      .frame(height: 200)
+      .foregroundStyle(.white)
+      .shadow(radius: 2)
+      .border(.black.opacity(0.1))
+      .overlay {
+        ZStack {
+          WorkoutCarousel(workoutExercises: workout.workoutExercises)
+            .ignoresSafeArea()
+          
+          HStack {
+            VStack(alignment: .leading, spacing: 15) {
+              Text(workout.name)
+                .font(.header(.bold, size: 17.5))
+                .foregroundStyle(.white)
+                .shadow(radius: 2)
+              
+              HStack(spacing: itemSpacing) {
+                workoutIcon(for: workout.workoutType)
+                Text("\(workout.workoutExercises.count) exercises")
+                  .font(.body(.light, size: 13.0))
+                  .foregroundStyle(.white)
+                  .shadow(radius: 1.2)
+                
+                Image(systemName: "clock")
+                  .resizable()
+                  .frame(width: 15, height: 15)
+                  .foregroundStyle(.white)
+                  .padding(.leading, 5)
+                Text("40 mins")
+                  .font(.body(.light, size: 13.0))
+                  .foregroundStyle(.white)
+              }
+              
+              HStack(spacing: 5) {
+                IconPill(option: IconPillOption(title: workout.targetMuscles.first ?? ""), backgroundColor: Color.AppColor.blue500)
+                IconPill(option: IconPillOption(title: workout.workoutType), backgroundColor: Color.AppColor.green700)
+              }
+            }
+            .padding()
+            Spacer()
+          }
+        }
+      }
+  }
+  
+  @ViewBuilder
+  func workoutIcon(for category: String) -> some View {
+    if let categoryType = ExerciseConstants.CategoryType(rawValue: category) {
+      Image(categoryType.imageName)
+        .resizable()
+        .renderingMode(.template)
+        .frame(width: 15, height: 15)
+        .foregroundStyle(.white)
+    } else {
+      Image(ExerciseConstants.CategoryType.plyometrics.imageName)
+        .resizable()
+        .renderingMode(.template)
+        .frame(width: 15, height: 15)
+        .foregroundStyle(.white)
+    }
+  }
+}
+
+#Preview {
+  WorkoutCard(workout: WorkoutFactory.create())
+}

@@ -13,13 +13,15 @@ struct ExerciseDetailsView: View {
   @EnvironmentObject private var tabBarSettings: AppManager
   @EnvironmentObject private var exerciseStore: ExerciseStore
   
-  @State private var isFavorite: Bool = false
+  @State private var isFavorite = false
+  @State private var showChallengeExercise = false
   
   var exercise: Exercise
   
   var body: some View {
     VStack(spacing: 10) {
       imageSection
+      
       ScrollView {
         detailsSection
         stepsSection

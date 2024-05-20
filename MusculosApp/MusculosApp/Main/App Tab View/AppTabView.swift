@@ -14,7 +14,7 @@ struct AppTabView: View {
   @State private var tabSelection: TabBarItem = .explore
   @State private var showingSheet = false
   
-  private let tabBarItems: [TabBarItem] = [.explore, .overview]
+  private let tabBarItems: [TabBarItem] = [.explore, .overview, .workout]
   
   var body: some View {
     CustomTabBarContainerView(

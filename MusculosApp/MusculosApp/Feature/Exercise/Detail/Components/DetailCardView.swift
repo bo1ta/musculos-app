@@ -19,17 +19,17 @@ struct DetailCardView: View {
       .frame(minHeight: textHeight)
       .padding([.leading, .trailing])
       .foregroundStyle(.white)
-      .shadow(color: .gray.opacity(0.4), radius: 2, x: 1, y: 1)
+      .shadow(color: .black.opacity(0.5), radius: 0.8)
       .overlay {
         HStack {
           Circle()
             .frame(width: 40, height: 40)
-            .foregroundStyle(.white)
+            .foregroundStyle(Color.AppColor.blue600)
             .shadow(radius: 1)
             .overlay {
               Text("\(index)")
                 .font(.body(.regular, size: 15))
-                .foregroundStyle(.gray)
+                .foregroundStyle(.white)
                 .opacity(0.8)
             }
           Text(title)
@@ -59,6 +59,6 @@ struct DetailCardView: View {
 }
 
 #Preview {
-  DetailCardView(title: "Stand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feetStand with your feet", index: 1)
+  DetailCardView(title: "Given instruction for a selected exercise", index: 1)
     .previewLayout(.sizeThatFits)
 }

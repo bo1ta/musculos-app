@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import SwiftUI
 
-class CircleTimerViewModel: ObservableObject {
+class CountdownTimerViewModel: ObservableObject {
   private var timerSubscription: Cancellable?
   private var timerCancellable: AnyCancellable?
   private var totalDuration: Double

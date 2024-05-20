@@ -1,5 +1,5 @@
 //
-//  CircleTimerView.swift
+//  CountdownTimerView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 25.10.2023.
@@ -8,8 +8,8 @@
 import SwiftUI
 import Combine
 
-struct CircleTimerView: View {
-  @StateObject var viewModel: CircleTimerViewModel
+struct CountdownTimerView: View {
+  @StateObject var viewModel: CountdownTimerViewModel
   @Binding var durationInSeconds: Int
 
   private let subtitle: String
@@ -24,7 +24,7 @@ struct CircleTimerView: View {
   ) {
     self._durationInSeconds = durationInSeconds
     self._viewModel = .init(
-      wrappedValue: CircleTimerViewModel(timeDuration: Double(durationInSeconds.wrappedValue))
+      wrappedValue: CountdownTimerViewModel(timeDuration: Double(durationInSeconds.wrappedValue))
     )
     self.subtitle = subtitle
     self.color = color
@@ -132,7 +132,7 @@ struct CircleTimerView: View {
 
 struct TimerView_Previews: PreviewProvider {
   static var previews: some View {
-    CircleTimerView(durationInSeconds: .constant(120), onTimerCompleted: {})
+    CountdownTimerView(durationInSeconds: .constant(120), onTimerCompleted: {})
       .preferredColorScheme(.dark)
       .previewLayout(.sizeThatFits)
   }
