@@ -89,6 +89,8 @@ extension SignUpView {
   }
 }
 
+// MARK: - Constants
+
 extension SignUpView {
   private var headerTitle: String {
     "Sign up"

@@ -87,18 +87,13 @@ extension ExerciseStore {
 extension ExerciseStore {
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
     favoriteTask = Task { [weak self] in
-      await self?.module.dataStore.markAsFavorite(exercise, isFavorite: isFavorite)
+      await self?.module.dataStore.setIsFavorite(exercise, isFavorite: isFavorite)
     }
   }
   
   func addExercise(_ exercise: Exercise) {
     addExerciseTask = Task { [weak self] in
       await self?.module.dataStore.add(exercise)
-      MusculosLogger.logInfo(
-        message: "Saved exercise to the local store!",
-        category: .coreData,
-        properties: ["exercise_name": exercise.name]
-      )
     }
   }
   
@@ -142,7 +137,7 @@ extension ExerciseStore {
   
   @MainActor
   func checkIsFavorite(exercise: Exercise) -> Bool {
-    return module.dataStore.isFavorite(exercise: exercise)
+    return module.dataStore.isFavorite(exercise)
   }
 }
 

@@ -32,10 +32,10 @@ final class ExerciseDataStoreTests: XCTestCase, MusculosTestBase {
     let dataStore = ExerciseDataStore()
     
     /// Mark as favorite
-    await dataStore.markAsFavorite(mockExercise, isFavorite: true)
+    await dataStore.setIsFavorite(mockExercise, isFavorite: true)
     
     /// Check is favorite
-    let isFavorite = await dataStore.isFavorite(exercise: mockExercise)
+    let isFavorite = await dataStore.isFavorite(mockExercise)
     XCTAssertTrue(isFavorite)
   }
 }

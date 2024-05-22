@@ -186,6 +186,8 @@
 		BCE484A42BB07A4C00BC8268 /* loading-animated.gif in Resources */ = {isa = PBXBuildFile; fileRef = BCE484A32BB07A4C00BC8268 /* loading-animated.gif */; };
 		BCEED79F2BFC0B96002A3656 /* WorkoutCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEED79E2BFC0B96002A3656 /* WorkoutCard.swift */; };
 		BCEED7A32BFC0C73002A3656 /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEED7A22BFC0C73002A3656 /* WorkoutViewModel.swift */; };
+		BCEED7A62BFE4EA4002A3656 /* ExerciseDataStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEED7A52BFE4EA4002A3656 /* ExerciseDataStoreProtocol.swift */; };
+		BCEED7A82BFE4EB4002A3656 /* UserDataStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEED7A72BFE4EB4002A3656 /* UserDataStoreProtocol.swift */; };
 		BCF7DE712A7DB2EC00FC960B /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */; };
 		BCF86C332A362105003293A4 /* CustomNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C322A362105003293A4 /* CustomNavigationBarView.swift */; };
 		BCF86C3B2A3632BA003293A4 /* SecondaryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C3A2A3632BA003293A4 /* SecondaryButtonStyle.swift */; };
@@ -398,6 +400,8 @@
 		BCE484A32BB07A4C00BC8268 /* loading-animated.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "loading-animated.gif"; sourceTree = "<group>"; };
 		BCEED79E2BFC0B96002A3656 /* WorkoutCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCard.swift; sourceTree = "<group>"; };
 		BCEED7A22BFC0C73002A3656 /* WorkoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
+		BCEED7A52BFE4EA4002A3656 /* ExerciseDataStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataStoreProtocol.swift; sourceTree = "<group>"; };
+		BCEED7A72BFE4EB4002A3656 /* UserDataStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataStoreProtocol.swift; sourceTree = "<group>"; };
 		BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
 		BCF86C322A362105003293A4 /* CustomNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBarView.swift; sourceTree = "<group>"; };
 		BCF86C3A2A3632BA003293A4 /* SecondaryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButtonStyle.swift; sourceTree = "<group>"; };
@@ -1454,8 +1458,18 @@
 				BC52DDEA2B880E80005A4587 /* ExerciseDataStore.swift */,
 				BC8C68552BC0AE5100A681EE /* WorkoutDataStore.swift */,
 				BC1674C92BE2F2810012048D /* GoalDataStore.swift */,
+				BCEED7A42BFE4E98002A3656 /* Protocols */,
 			);
 			path = "Data Stores";
+			sourceTree = "<group>";
+		};
+		BCEED7A42BFE4E98002A3656 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				BCEED7A52BFE4EA4002A3656 /* ExerciseDataStoreProtocol.swift */,
+				BCEED7A72BFE4EB4002A3656 /* UserDataStoreProtocol.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		BCFA25B82BB37A8B00F07A67 /* Auth */ = {
@@ -1711,6 +1725,7 @@
 				BCD977AE2BC2E1F20076C148 /* WorkoutEntity+CoreDataProperties.swift in Sources */,
 				BC81E5C82BCC77630005891D /* View+Dialog.swift in Sources */,
 				BCD59A8E2BB627CE0039F662 /* ExploreExerciseView.swift in Sources */,
+				BCEED7A62BFE4EA4002A3656 /* ExerciseDataStoreProtocol.swift in Sources */,
 				BC52DDF72B8BF5E8005A4587 /* Collection+Extension.swift in Sources */,
 				BCFEB5B12BC207FA00698C63 /* Workout.swift in Sources */,
 				BCB7F2F02BB21D68002CB2DE /* NSManagedObjectContext+StorageType.swift in Sources */,
@@ -1747,6 +1762,7 @@
 				BC777F042BA20901001669C8 /* AddWorkoutSheet.swift in Sources */,
 				BC11BC5A2A7D74CB00D96440 /* TabBarItem.swift in Sources */,
 				BC8E86DD2AED2DB9008E3CE4 /* UIImage+Extension.swift in Sources */,
+				BCEED7A82BFE4EB4002A3656 /* UserDataStoreProtocol.swift in Sources */,
 				BC81E5D92BD57BA00005891D /* PhotosPicker.swift in Sources */,
 				BC96C2FD2AC83B1C00F11CAB /* Array+Extension.swift in Sources */,
 				BC52DDD82B852AB2005A4587 /* MuscleModuleProtocol.swift in Sources */,

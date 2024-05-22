@@ -12,9 +12,9 @@ import CoreData
 /// Should run on main thread since they access `viewStorage`
 ///
 
-struct ExerciseDataStore: BaseDataStore {
+struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
   @MainActor
-  func isFavorite(exercise: Exercise) -> Bool {
+  func isFavorite(_ exercise: Exercise) -> Bool {
     return self.viewStorage
       .firstObject(
         of: ExerciseEntity.self,
@@ -60,7 +60,7 @@ struct ExerciseDataStore: BaseDataStore {
 ///
 
 extension ExerciseDataStore {
-  func markAsFavorite(_ exercise: Exercise, isFavorite: Bool) async {
+  func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async {
     await writerDerivedStorage.performAndSave {
       if let exercise = self.writerDerivedStorage.firstObject(
         of: ExerciseEntity.self,

@@ -8,12 +8,7 @@
 import Foundation
 import CoreData
 
-protocol UserDataStoreProtocol: BaseDataStore {
-  func createUser(person: Person) async
-  func updateUser(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async
-}
-
-struct UserDataStore: UserDataStoreProtocol {
+struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
   func createUser(person: Person) async {
     await writerDerivedStorage.performAndSave {
       let userEntity = writerDerivedStorage.insertNewObject(ofType: UserEntity.self)
