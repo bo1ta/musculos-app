@@ -8,7 +8,7 @@
 import SwiftUI
 import Shimmer
 
-struct WorkoutView: View {
+struct WorkoutsView: View {
   @StateObject private var viewModel = WorkoutViewModel()
   
   var body: some View {
@@ -18,21 +18,12 @@ struct WorkoutView: View {
       
       switch viewModel.state {
       case .loading:
-        ForEach(1..<6, id: \.self) { _ in
-          RoundedRectangle(cornerRadius: 12)
-            .frame(maxWidth: .infinity)
-            .frame(height: 100)
-            .shimmering()
-        }
+        loadingSkeleton
       case .loaded(let workouts):
         ScrollView {
           VStack(alignment: .leading) {
-            RoundedTextField(text: $viewModel.searchQuery, textHint: "Search workout")
-              .padding(.bottom)
-            
             ForEach(workouts, id: \.hashValue) { workout in
               WorkoutCard(workout: workout)
-              
             }
             .padding()
           }
@@ -46,8 +37,19 @@ struct WorkoutView: View {
     .onAppear(perform: viewModel.initialLoad)
   }
   
+  private var loadingSkeleton: some View {
+    VStack {
+      ForEach(1..<6, id: \.self) { _ in
+        RoundedRectangle(cornerRadius: 12)
+          .foregroundStyle(.gray)
+          .frame(maxWidth: .infinity)
+          .frame(height: 200)
+          .shimmering()
+      }
+    }
+  }
 }
 
 #Preview {
-  WorkoutView()
+  WorkoutsView()
 }

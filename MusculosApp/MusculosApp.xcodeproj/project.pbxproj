@@ -87,7 +87,7 @@
 		BC6F365D2BB4E2A3000F6CFA /* CardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F365C2BB4E2A3000F6CFA /* CardItem.swift */; };
 		BC6F36672BB4E79F000F6CFA /* AuthViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */; };
 		BC6F366E2BB4F418000F6CFA /* ExerciseStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F366D2BB4F418000F6CFA /* ExerciseStoreTests.swift */; };
-		BC777EF32BA0F2E1001669C8 /* WorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777EF22BA0F2E1001669C8 /* WorkoutView.swift */; };
+		BC777EF32BA0F2E1001669C8 /* WorkoutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777EF22BA0F2E1001669C8 /* WorkoutsView.swift */; };
 		BC777F012BA127DC001669C8 /* AddActionSheetContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777F002BA127DC001669C8 /* AddActionSheetContainer.swift */; };
 		BC777F042BA20901001669C8 /* AddWorkoutSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777F032BA20901001669C8 /* AddWorkoutSheet.swift */; };
 		BC781FF62B964E9A009F9FB5 /* WhiteBackgroundCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC781FF52B964E9A009F9FB5 /* WhiteBackgroundCard.swift */; };
@@ -294,7 +294,7 @@
 		BC6F365C2BB4E2A3000F6CFA /* CardItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardItem.swift; sourceTree = "<group>"; };
 		BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModelTests.swift; sourceTree = "<group>"; };
 		BC6F366D2BB4F418000F6CFA /* ExerciseStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseStoreTests.swift; sourceTree = "<group>"; };
-		BC777EF22BA0F2E1001669C8 /* WorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutView.swift; sourceTree = "<group>"; };
+		BC777EF22BA0F2E1001669C8 /* WorkoutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsView.swift; sourceTree = "<group>"; };
 		BC777F002BA127DC001669C8 /* AddActionSheetContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddActionSheetContainer.swift; sourceTree = "<group>"; };
 		BC777F032BA20901001669C8 /* AddWorkoutSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkoutSheet.swift; sourceTree = "<group>"; };
 		BC781FF52B964E9A009F9FB5 /* WhiteBackgroundCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteBackgroundCard.swift; sourceTree = "<group>"; };
@@ -1038,7 +1038,7 @@
 		BC777EF12BA0F2D9001669C8 /* Workout */ = {
 			isa = PBXGroup;
 			children = (
-				BC777EF22BA0F2E1001669C8 /* WorkoutView.swift */,
+				BC777EF22BA0F2E1001669C8 /* WorkoutsView.swift */,
 				BCBEBA302BF6D5B800FA4BF5 /* Components */,
 				BCEED7A22BFC0C73002A3656 /* WorkoutViewModel.swift */,
 			);
@@ -1654,7 +1654,7 @@
 				BC3FB1012A89A87400C3F9B1 /* DarkButtonStyle.swift in Sources */,
 				BC52DDD62B851722005A4587 /* DecodableModel.swift in Sources */,
 				BCBEBA342BF7C33D00FA4BF5 /* WorkoutCarousel.swift in Sources */,
-				BC777EF32BA0F2E1001669C8 /* WorkoutView.swift in Sources */,
+				BC777EF32BA0F2E1001669C8 /* WorkoutsView.swift in Sources */,
 				BCCE85ED2A35008C001BEE8B /* AppColor.swift in Sources */,
 				BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */,
 				BC52DDF12B8AA9D6005A4587 /* HintIconView.swift in Sources */,

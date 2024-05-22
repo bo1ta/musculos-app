@@ -39,7 +39,7 @@ enum TabBarItem: String {
     case .overview:
       OverviewView()
     case .workout:
-      WorkoutView()
+      WorkoutsView()
     }
   }
 }
