@@ -1,5 +1,5 @@
 //
-//  SearchFilterViewModel.swift
+//  ExerciseFilterViewModel.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 03.02.2024.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-class SearchFilterViewModel: ObservableObject {
+class ExerciseFilterViewModel: ObservableObject {
   enum FilterDisplayable {
     case muscle, category, difficulty, equipment
   }

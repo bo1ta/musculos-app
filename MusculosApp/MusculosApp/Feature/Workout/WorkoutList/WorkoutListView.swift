@@ -1,5 +1,5 @@
 //
-//  WorkoutView.swift
+//  WorkoutListView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 12.03.2024.
@@ -8,8 +8,8 @@
 import SwiftUI
 import Shimmer
 
-struct WorkoutsView: View {
-  @StateObject private var viewModel = WorkoutViewModel()
+struct WorkoutListView: View {
+  @StateObject private var viewModel = WorkoutListViewModel()
   
   var body: some View {
     VStack {
@@ -51,5 +51,5 @@ struct WorkoutsView: View {
 }
 
 #Preview {
-  WorkoutsView()
+  WorkoutListView()
 }

@@ -13,7 +13,7 @@ struct WorkoutFactory {
     for i in 1...Int.random(in: 2...5) {
       let numberOfReps = Int.random(in: 1...5)
       let exerciseName = "Exercise no\(i)"
-      let workoutExercise = WorkoutExercise(numberOfReps: numberOfReps, exercise: ExerciseFactory.createExercise(name: name))
+      let workoutExercise = WorkoutExercise(numberOfReps: numberOfReps, exercise: ExerciseFactory.createExercise(name: exerciseName))
       workoutExercises.append(workoutExercise)
     }
     

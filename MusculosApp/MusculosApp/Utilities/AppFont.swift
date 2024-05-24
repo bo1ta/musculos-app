@@ -23,14 +23,22 @@ struct AppFont {
     case light = "Inter-Light"
     case thin = "Inter-Thin"
   }
+  
+  static func header(_ headerType: AppFont.Header, size: CGFloat = 12.0) -> Font {
+    return Font.custom(headerType.rawValue, size: size)
+  }
+  
+  static func body(_ bodyType: AppFont.Body, size: CGFloat = 12.0) -> Font {
+    return Font.custom(bodyType.rawValue, size: size)
+  }
 }
 
 extension Font {
   static func header(_ headerType: AppFont.Header, size: CGFloat = 12.0) -> Font {
-    return custom(headerType.rawValue, size: size)
+    return AppFont.header(headerType, size: size)
   }
   
   static func body(_ bodyType: AppFont.Body, size: CGFloat = 12.0) -> Font {
-    return custom(bodyType.rawValue, size: size)
+    return AppFont.body(bodyType, size: size)
   }
 }

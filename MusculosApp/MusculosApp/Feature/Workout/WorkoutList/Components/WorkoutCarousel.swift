@@ -12,7 +12,7 @@ struct WorkoutCarousel: View {
   private let timer = Timer.publish(every: 10, on: .main, in: .common).autoconnect()
   
   var workoutExercises: [WorkoutExercise]
-
+  
   var body: some View {
     VStack {
       TabView(selection: $currentIndex,
@@ -29,6 +29,9 @@ struct WorkoutCarousel: View {
                 image
                   .resizable()
                   .scaledToFill()
+                  .overlay {
+                    Color.black.opacity(0.6)
+                  }
               case .failure(let error):
                 Color.white
                   .frame(width: 100, height: 100)
@@ -42,10 +45,6 @@ struct WorkoutCarousel: View {
                     MusculosLogger.logError(MusculosError.unknownError, message: "Errored on CarouselView", category: .ui)
                   }
               }
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 24))
-            .overlay {
-              Color.black.opacity(0.6)
             }
             .tag(workoutExercise)
           }

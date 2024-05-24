@@ -34,6 +34,7 @@ struct WorkoutCard: View {
             
             Image(systemName: "clock")
               .resizable()
+              .renderingMode(.template)
               .frame(width: 15, height: 15)
               .foregroundStyle(.white)
               .padding(.leading, 5)

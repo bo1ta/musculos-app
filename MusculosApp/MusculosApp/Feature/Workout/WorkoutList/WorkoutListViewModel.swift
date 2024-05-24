@@ -1,5 +1,5 @@
 //
-//  WorkoutViewModel.swift
+//  WorkoutListViewModel.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 21.05.2024.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-final class WorkoutViewModel: ObservableObject {
+final class WorkoutListViewModel: ObservableObject {
   @Published var state: LoadingViewState<[Workout]> = .empty
   @Published var searchQuery: String = ""
   

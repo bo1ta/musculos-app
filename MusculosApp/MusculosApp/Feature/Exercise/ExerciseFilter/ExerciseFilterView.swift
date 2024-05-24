@@ -1,5 +1,5 @@
 //
-//  SearchFilterView.swift
+//  ExerciseFilterView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 03.02.2024.
@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct SearchFilterView: View {
+struct ExerciseFilterView: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var exerciseStore: ExerciseStore
   
-  @StateObject private var viewModel = SearchFilterViewModel()
+  @StateObject private var viewModel = ExerciseFilterViewModel()
   
   @State private var results: [Exercise] = []
   
@@ -147,5 +147,5 @@ struct SearchFilterView: View {
 }
 
 #Preview {
-  SearchFilterView()
+  ExerciseFilterView()
 }

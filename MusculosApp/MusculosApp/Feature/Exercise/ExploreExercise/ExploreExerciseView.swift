@@ -40,7 +40,7 @@ struct ExploreExerciseView: View {
         .scrollIndicators(.hidden)
       }
       .popover(isPresented: $viewModel.showFilterView) {
-        SearchFilterView()
+        ExerciseFilterView()
       }
       .background(
         Image("white-patterns-background")
