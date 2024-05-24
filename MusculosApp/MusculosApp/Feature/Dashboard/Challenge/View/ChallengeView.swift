@@ -29,9 +29,15 @@ struct ChallengeView: View {
       Spacer()
     }
     .safeAreaInset(edge: .bottom, spacing: 0) {
-      GreenGrassButtonStyle(action: {
+      Button(action: {
         showExerciseView.toggle()
-      }, text: "Start")
+      }, label: {
+        Text("Start")
+          .font(.body(.bold, size: 16.0))
+          .frame(maxWidth: .infinity)
+      })
+      .buttonStyle(PrimaryButtonStyle())
+      .padding()
     }
     .navigationDestination(isPresented: $showExerciseView) {
       if let exercise = currentExercise {

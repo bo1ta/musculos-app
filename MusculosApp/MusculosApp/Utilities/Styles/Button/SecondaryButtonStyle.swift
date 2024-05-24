@@ -18,6 +18,7 @@ struct SecondaryButtonStyle: ButtonStyle {
       .foregroundColor(.black)
       .fontWeight(.semibold)
       .clipShape(RoundedRectangle(cornerRadius: 20))
+      .shadow(radius: 1.0)
       .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
   }
 }

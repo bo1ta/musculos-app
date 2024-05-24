@@ -30,8 +30,24 @@ public struct ExerciseConstants {
   }
   
   enum CategoryType: String, CaseIterable {
-    case strength, stretching, plyometrics, strongman, powerlifting, cardio
+    case strength
+    case stretching
+    case plyometrics
+    case strongman
+    case powerlifting
+    case cardio
     case olympicWeightlifting = "olympic weightlifting"
+    
+    var imageName: String {
+      switch self {
+      case .strength: "strength-icon"
+      case .stretching: "stretching-icon"
+      case .strongman: "strongman-icon"
+      case .powerlifting: "powerlifting-icon"
+      case .cardio: "cardio-icon"
+      default: "default-exercise-icon"
+      }
+    }
   }
   
   /// All cases lists -- perfect for filters!

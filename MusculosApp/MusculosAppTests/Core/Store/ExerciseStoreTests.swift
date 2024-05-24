@@ -142,14 +142,14 @@ extension ExerciseStoreTests {
   private class MockExerciseModule: ExerciseModuleProtocol {
     var expectation: XCTestExpectation?
     var shouldFail: Bool = false
-    var expectedResults: [Exercise] = []
     
-    var dataStore: ExerciseDataStore
+    var dataStore: ExerciseDataStoreProtocol
     
-    init(dataStore: ExerciseDataStore = ExerciseDataStore()) {
+    init(dataStore: ExerciseDataStoreProtocol = ExerciseDataStore()) {
       self.dataStore = dataStore
     }
     
+    var expectedResults: [Exercise] = []
     func getExercises() async throws -> [Exercise] {
       expectation?.fulfill()
       

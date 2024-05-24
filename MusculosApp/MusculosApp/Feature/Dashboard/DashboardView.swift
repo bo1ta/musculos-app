@@ -79,8 +79,8 @@ struct DashboardView: View {
       .frame(height: 100)
       .overlay {
         VStack(alignment: .center) {
-          if let exercise = challenge.exercises.first {
-            Image(exercise.image)
+          if let exercise = challenge.exercises.first, let image = exercise.image {
+            Image(image)
               .resizable()
               .scaledToFit()
           }

@@ -22,3 +22,14 @@ struct Workout {
     self.workoutExercises = workoutExercises
   }
 }
+
+extension Workout: Hashable {
+  static func ==(_ lhs: Workout, rhs: Workout) -> Bool {
+    return lhs.name == rhs.name && lhs.workoutType == rhs.workoutType
+  }
+  
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(name)
+    hasher.combine(workoutType)
+  }
+}

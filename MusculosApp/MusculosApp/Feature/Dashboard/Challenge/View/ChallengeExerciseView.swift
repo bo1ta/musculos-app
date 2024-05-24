@@ -12,6 +12,8 @@ enum TimerType {
 }
 
 struct ChallengeExerciseView: View {
+  @Environment(\.dismiss) private var dismiss
+  
   let challengeExercise: ChallengeExercise
   let onClose: (_: Bool) -> Void
   
@@ -31,6 +33,17 @@ struct ChallengeExerciseView: View {
       bodySection
       Spacer()
     }
+    .safeAreaInset(edge: .bottom, content: {
+      Button {
+        dismiss()
+      } label: {
+        Text("Complete")
+          .font(.body(.bold, size: 16.0))
+          .frame(maxWidth: .infinity)
+      }
+      .buttonStyle(PrimaryButtonStyle())
+      .padding()
+    })
     .navigationBarBackButtonHidden()
     .toolbar(.hidden, for: .tabBar)
   }
@@ -40,7 +53,7 @@ struct ChallengeExerciseView: View {
   @ViewBuilder
   private var backButton: some View {
     Button(action: {
-      onClose(timerType == .completed)
+      dismiss()
     }, label: {
       Image(systemName: "chevron.left")
         .resizable()
@@ -69,9 +82,12 @@ struct ChallengeExerciseView: View {
             }
             Spacer()
           }
-          Image(challengeExercise.image)
-            .resizable()
-            .scaledToFit()
+          
+          if let image = challengeExercise.image {
+            Image(image)
+              .resizable()
+              .scaledToFit()
+          }
         }
       }
   }
@@ -80,10 +96,11 @@ struct ChallengeExerciseView: View {
   @ViewBuilder
   private var bodySection: some View {
     VStack(alignment: .center, spacing: 10) {
-      if self.isExerciseComplete {
-        CongratulationView(challengeExercise: challengeExercise, onGetReward: {
-          onClose(true)
-        })
+      if isExerciseComplete {
+        CongratulationView(
+          challengeExercise: challengeExercise,
+          onGetReward: { onClose(true) }
+        )
       } else {
         Text(challengeExercise.name)
           .foregroundStyle(.black)
@@ -102,7 +119,7 @@ struct ChallengeExerciseView: View {
             .lineLimit(nil)
             .padding([.leading, .trailing], 10)
         }
-
+        
         circleView
           .padding(.top)
       }
@@ -113,7 +130,7 @@ struct ChallengeExerciseView: View {
   @ViewBuilder
   private var circleView: some View {
     if timerType == TimerType.active {
-      CircleTimerView(
+      CountdownTimerView(
         durationInSeconds: $currentTimerInSeconds,
         subtitle: "min",
         color: Color.AppColor.blue400,
@@ -121,7 +138,7 @@ struct ChallengeExerciseView: View {
       )
       .id(UUID())
     } else if timerType == TimerType.rest {
-      CircleTimerView(
+      CountdownTimerView(
         durationInSeconds: $currentTimerInSeconds,
         subtitle: "rest",
         color: .gray,

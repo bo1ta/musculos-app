@@ -8,16 +8,16 @@
 import Foundation
 
 protocol ExerciseModuleProtocol {
-  var dataStore: ExerciseDataStore { get set }
+  var dataStore: ExerciseDataStoreProtocol { get set }
   func getExercises() async throws -> [Exercise]
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise]
 }
 
 struct ExerciseModule: ExerciseModuleProtocol, MusculosModule {
   var client: MusculosClientProtocol
-  var dataStore: ExerciseDataStore
+  var dataStore: ExerciseDataStoreProtocol
 
-  init(client: MusculosClientProtocol = MusculosClient(), dataStore: ExerciseDataStore = ExerciseDataStore()) {
+  init(client: MusculosClientProtocol = MusculosClient(), dataStore: ExerciseDataStoreProtocol = ExerciseDataStore()) {
     self.client = client
     self.dataStore = dataStore
   }

@@ -15,16 +15,14 @@ struct MusculosApp: App {
   
   var body: some Scene {
     WindowGroup {
-      GeometryReader { proxy in
+      Group {
         if userStore.isOnboarded && userStore.isLoggedIn {
           AppTabView()
             .environmentObject(exerciseStore)
         } else {
           if !userStore.isLoggedIn {
             SplashView()
-              .onAppear {
-                userStore.initialLoad()
-              }
+              .onAppear(perform: userStore.initialLoad)
           } else {
             OnboardingWizardView()
           }
