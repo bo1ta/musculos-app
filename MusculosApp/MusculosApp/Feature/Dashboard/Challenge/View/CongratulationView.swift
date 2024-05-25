@@ -8,13 +8,8 @@
 import SwiftUI
 
 struct CongratulationView: View {
-  let challengeExercise: ChallengeExercise
+  let exerciseName: String
   let onGetReward: () -> Void
-  
-  init(challengeExercise: ChallengeExercise, onGetReward: @escaping () -> Void) {
-    self.challengeExercise = challengeExercise
-    self.onGetReward = onGetReward
-  }
   
   var body: some View {
     VStack(alignment: .center, spacing: 10, content: {
@@ -25,7 +20,7 @@ struct CongratulationView: View {
       Text("Congratulations!")
         .font(.title2)
         .bold()
-      Text("You and your team just finished the \(challengeExercise.name) challenge. Get your reward!")
+      Text("You and your team just finished the \(exerciseName) challenge. Get your reward!")
         .font(.callout)
         .foregroundStyle(.gray)
         .opacity(0.9)
@@ -39,5 +34,5 @@ struct CongratulationView: View {
 }
 
 #Preview {
-  CongratulationView(challengeExercise: ChallengeExercise(name: "Squat Master", image: "wall-sit", rounds: 1, duration: 1, restDuration: 1), onGetReward: {})
+  CongratulationView(exerciseName: "Chest Master", onGetReward: {})
 }

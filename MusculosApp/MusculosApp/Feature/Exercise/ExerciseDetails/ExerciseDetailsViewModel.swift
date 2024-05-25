@@ -34,7 +34,7 @@ final class ExerciseDetailsViewModel: ObservableObject {
   func toggleIsFavorite() {
     isFavorite.toggle()
     
-    isFavoriteTask = Task { [weak self] in
+    isFavoriteTask = Task.detached { [weak self] in
       guard let self else { return }
       await self.dataStore.setIsFavorite(self.exercise, isFavorite: self.isFavorite)
     }

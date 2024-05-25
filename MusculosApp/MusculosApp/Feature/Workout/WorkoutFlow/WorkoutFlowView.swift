@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WorkoutFlowView: View {
+  @Environment(\.dismiss) private var dismiss
   @StateObject private var viewModel: WorkoutFlowViewModel
   
   let workout: Workout
@@ -20,7 +21,7 @@ struct WorkoutFlowView: View {
   }
   
   var body: some View {
-    switch viewModel.currentStep {
+    switch viewModel.step {
     case .intro:
       WorkoutIntroView(workout: workout, onStartTapped: viewModel.handleNextStep)
     case .session:
@@ -28,7 +29,10 @@ struct WorkoutFlowView: View {
         ExerciseDetailsView(exercise: exercise, onComplete: viewModel.handleNextExercise)
       }
     case .completion:
-      Color.red
+      CongratulationView(exerciseName: workout.name, onGetReward: {
+        
+        dismiss()
+      })
     }
   }
 }

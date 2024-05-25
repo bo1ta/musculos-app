@@ -730,7 +730,6 @@
 			isa = PBXGroup;
 			children = (
 				BC828CE12C0289C600AB9D1D /* Container */,
-				BC828CDF2C02806300AB9D1D /* Container+Extension.swift */,
 				BC182ECB2A589BC7003DEA30 /* Core Data */,
 				BC1674C12BE2E89C0012048D /* Models */,
 				BC352AE42A326D7C00DAA3AB /* Network */,
@@ -1197,6 +1196,7 @@
 		BC828CE12C0289C600AB9D1D /* Container */ = {
 			isa = PBXGroup;
 			children = (
+				BC828CDF2C02806300AB9D1D /* Container+Extension.swift */,
 			);
 			path = Container;
 			sourceTree = "<group>";

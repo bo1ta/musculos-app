@@ -98,7 +98,7 @@ struct ChallengeExerciseView: View {
     VStack(alignment: .center, spacing: 10) {
       if isExerciseComplete {
         CongratulationView(
-          challengeExercise: challengeExercise,
+          exerciseName: challengeExercise.name,
           onGetReward: { onClose(true) }
         )
       } else {

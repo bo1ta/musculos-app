@@ -15,8 +15,8 @@ final class WorkoutFlowViewModel: ObservableObject {
     case completion
   }
   
-  @State private(set) var currentStep: Step = .intro
-  @State private(set) var currentExerciseIndex = 0
+  @Published private(set) var step: Step = .intro
+  @Published private(set) var currentExerciseIndex = 0
   
   let workout: Workout
   
@@ -30,7 +30,7 @@ final class WorkoutFlowViewModel: ObservableObject {
   
   func handleNextExercise() {
     if currentExerciseIndex == workout.workoutExercises.count - 1 {
-      currentStep = .completion
+      handleNextStep()
     } else {
       currentExerciseIndex += 1
     }
@@ -38,12 +38,12 @@ final class WorkoutFlowViewModel: ObservableObject {
   
   func handleNextStep() {
     withAnimation {
-      switch currentStep {
+      switch step {
       case .intro:
-        currentStep = .session
+        step = .session
         break
       case .session:
-        currentStep = .completion
+        step = .completion
         break
       case .completion:
         break
