@@ -11,6 +11,14 @@ import SwiftUI
 final class WorkoutListViewModel: ObservableObject {
   @Published var state: LoadingViewState<[Workout]> = .empty
   @Published var searchQuery: String = ""
+  @Published var selectedWorkout: Workout? = nil {
+    didSet {
+      if selectedWorkout != nil {
+        showWorkoutFlow = true
+      }
+    }
+  }
+  @Published var showWorkoutFlow: Bool = false
   
   private let dataStore: WorkoutDataStore
   

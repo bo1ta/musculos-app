@@ -7,16 +7,28 @@
 
 import SwiftUI
 
+final class ExerciseDetailsViewModel: ObservableObject {
+  @Published  private(set) var isFavorite = false
+  @Published  private(set) var showChallengeExercise = false
+  @Published  private(set) var isTimerActive = false
+  @Published  private(set) var timer: Timer? = nil
+  @Published  private(set) var elapsedTime: Int = 0
+}
+
 struct ExerciseDetailsView: View {
   @Environment(\.dismiss) private var dismiss
   
-  @EnvironmentObject private var tabBarSettings: AppManager
+  @EnvironmentObject private var appManager: AppManager
   @EnvironmentObject private var exerciseStore: ExerciseStore
   
   @State private var isFavorite = false
   @State private var showChallengeExercise = false
+  @State private var isTimerActive = false
+  @State private var timer: Timer? = nil
+  @State private var elapsedTime: Int = 0
   
   var exercise: Exercise
+  var onComplete: (() -> Void)? = nil
   
   var body: some View {
     VStack(spacing: 10) {
@@ -34,12 +46,34 @@ struct ExerciseDetailsView: View {
     }
     .onAppear {
       DispatchQueue.main.async {
-        tabBarSettings.isTabBarHidden = true
+        appManager.hideTabBar()
+        
         isFavorite = exerciseStore.checkIsFavorite(exercise: exercise)
       }
     }
     .onDisappear(perform: exerciseStore.cleanUp)
     .navigationBarBackButtonHidden()
+    .safeAreaInset(edge: .bottom) {
+      if isTimerActive {
+        Button(action: {
+          appManager.showToast(style: .success, message: "Finished in \(elapsedTime) seconds!")
+          stopTimer()
+        }, label: {
+          Text("Finish (\(elapsedTime) sec)")
+            .frame(maxWidth: .infinity)
+        })
+        .buttonStyle(SecondaryButtonStyle())
+        .padding()
+      } else {
+        Button(action: startTimer, label: {
+          Text("Start workout")
+            .frame(maxWidth: .infinity)
+        })
+        .buttonStyle(PrimaryButtonStyle())
+        .padding()
+        
+      }
+    }
   }
 }
 
@@ -128,6 +162,28 @@ extension ExerciseDetailsView {
       Text(title)
         .font(.body(.light, size: 14))
     }
+  }
+  
+  private func startTimer() {
+    isTimerActive = true
+    elapsedTime = 0
+    
+    timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
+      elapsedTime += 1
+    })
+    
+    if let timer {
+      RunLoop.current.add(timer, forMode: .common)
+    }
+  }
+  
+  private func stopTimer() {
+    isTimerActive = false
+    timer?.invalidate()
+    timer = nil
+    
+    appManager.showToast(style: .success, message: "Finished in \(elapsedTime) seconds!")
+    onComplete?()
   }
   
   private var stepsSection: some View {

@@ -9,32 +9,47 @@ import SwiftUI
 import Shimmer
 
 struct WorkoutListView: View {
+  @EnvironmentObject private var appManager: AppManager
   @StateObject private var viewModel = WorkoutListViewModel()
   
   var body: some View {
-    VStack {
-      Text("Workouts")
-        .font(.header(.bold, size: 20.0))
-      
-      switch viewModel.state {
-      case .loading:
-        loadingSkeleton
-      case .loaded(let workouts):
-        ScrollView {
-          VStack(alignment: .leading) {
-            ForEach(workouts, id: \.hashValue) { workout in
-              WorkoutCard(workout: workout)
+    NavigationStack {
+      VStack {
+        Text("Workouts")
+          .font(.header(.bold, size: 20.0))
+        
+        switch viewModel.state {
+        case .loading:
+          loadingSkeleton
+        case .loaded(let workouts):
+          ScrollView {
+            VStack(alignment: .leading) {
+              ForEach(workouts, id: \.hashValue) { workout in
+                Button {
+                  viewModel.selectedWorkout = workout
+                } label: {
+                  WorkoutCard(workout: workout)
+                }
+              }
+              .padding()
             }
-            .padding()
           }
+        case .empty:
+          Color.clear
+        case .error(let errorMessage):
+          Text(errorMessage)
         }
-      case .empty:
-        Color.clear
-      case .error(let errorMessage):
-        Text(errorMessage)
+      }
+      .onAppear {
+        appManager.showTabBar()
+        viewModel.initialLoad()
+      }
+      .navigationDestination(isPresented: $viewModel.showWorkoutFlow) {
+        if let selectedWorkout = viewModel.selectedWorkout {
+          WorkoutFlowView(workout: selectedWorkout, onComplete: {})
+        }
       }
     }
-    .onAppear(perform: viewModel.initialLoad)
   }
   
   private var loadingSkeleton: some View {
@@ -52,4 +67,5 @@ struct WorkoutListView: View {
 
 #Preview {
   WorkoutListView()
+    .environmentObject(AppManager())
 }
