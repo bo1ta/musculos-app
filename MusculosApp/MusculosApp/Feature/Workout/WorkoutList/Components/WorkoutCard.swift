@@ -26,7 +26,7 @@ struct WorkoutCard: View {
             .shadow(radius: 2)
           
           HStack(spacing: itemSpacing) {
-            workoutIcon(for: workout.workoutType)
+            WorkoutIcon(category: workout.workoutType)
             Text("\(workout.workoutExercises.count) exercises")
               .font(.body(.light, size: 13.0))
               .foregroundStyle(.white)
@@ -56,23 +56,6 @@ struct WorkoutCard: View {
     .shadow(radius: 2.0)
     .frame(height: cardHeight)
     .frame(maxWidth: .infinity)
-  }
-  
-  @ViewBuilder
-  func workoutIcon(for category: String) -> some View {
-    if let categoryType = ExerciseConstants.CategoryType(rawValue: category) {
-      Image(categoryType.imageName)
-        .resizable()
-        .renderingMode(.template)
-        .frame(width: 15, height: 15)
-        .foregroundStyle(.white)
-    } else {
-      Image(ExerciseConstants.CategoryType.plyometrics.imageName)
-        .resizable()
-        .renderingMode(.template)
-        .frame(width: 15, height: 15)
-        .foregroundStyle(.white)
-    }
   }
 }
 

@@ -9,9 +9,9 @@ import SwiftUI
 import HealthKit
 
 struct MusculosApp: App {
-  @ObservedObject private var userStore = UserStore()
-  @ObservedObject private var exerciseStore = ExerciseStore()
-  @ObservedObject private var healthKitViewModel = HealthKitViewModel()
+  @StateObject private var userStore = UserStore()
+  @StateObject private var exerciseStore = ExerciseStore()
+  @StateObject private var healthKitViewModel = HealthKitViewModel()
   
   var body: some Scene {
     WindowGroup {

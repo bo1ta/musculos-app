@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Factory
 
 /// Helper protocol for Core Data store operations
 ///
@@ -22,10 +23,12 @@ protocol BaseDataStore {
 
 extension BaseDataStore {
   var writerDerivedStorage: StorageType {
-    CoreDataStack.shared.writerDerivedStorage
+    let storageManager = Container.shared.storageManager()
+    return storageManager.writerDerivedStorage
   }
   
   var viewStorage: StorageType {
-    CoreDataStack.shared.viewStorage
+    let storageManager = Container.shared.storageManager()
+    return storageManager.viewStorage
   }
 }

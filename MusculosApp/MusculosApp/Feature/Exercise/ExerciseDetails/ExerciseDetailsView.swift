@@ -6,17 +6,22 @@
 //
 
 import SwiftUI
+import Factory
 
 struct ExerciseDetailsView: View {
   @Environment(\.dismiss) private var dismiss
+  @EnvironmentObject private var appManager: AppManager
   
-  @EnvironmentObject private var tabBarSettings: AppManager
-  @EnvironmentObject private var exerciseStore: ExerciseStore
-  
-  @State private var isFavorite = false
-  @State private var showChallengeExercise = false
+  @StateObject private var viewModel: ExerciseDetailsViewModel
   
   var exercise: Exercise
+  var onComplete: (() -> Void)? = nil
+  
+  init(exercise: Exercise, onComplete: (() -> Void)? = nil) {
+    self._viewModel = StateObject(wrappedValue: ExerciseDetailsViewModel(exercise: exercise))
+    self.exercise = exercise
+    self.onComplete = onComplete
+  }
   
   var body: some View {
     VStack(spacing: 10) {
@@ -33,13 +38,33 @@ struct ExerciseDetailsView: View {
       Spacer()
     }
     .onAppear {
-      DispatchQueue.main.async {
-        tabBarSettings.isTabBarHidden = true
-        isFavorite = exerciseStore.checkIsFavorite(exercise: exercise)
+      appManager.hideTabBar()
+      viewModel.initialLoad()
+    }
+    .onDisappear(perform: viewModel.cleanUp)
+    .navigationBarBackButtonHidden()
+    .safeAreaInset(edge: .bottom) {
+      if viewModel.isTimerActive {
+        Button(action: {
+          appManager.showToast(style: .success, message: "Finished in \(viewModel.elapsedTime) seconds!")
+          viewModel.stopTimer()
+          onComplete?()
+        }, label: {
+          Text("Finish (\(viewModel.elapsedTime) sec)")
+            .frame(maxWidth: .infinity)
+        })
+        .buttonStyle(SecondaryButtonStyle())
+        .padding()
+      } else {
+        Button(action: viewModel.startTimer, label: {
+          Text("Start workout")
+            .frame(maxWidth: .infinity)
+        })
+        .buttonStyle(PrimaryButtonStyle())
+        .padding()
+        
       }
     }
-    .onDisappear(perform: exerciseStore.cleanUp)
-    .navigationBarBackButtonHidden()
   }
 }
 
@@ -91,13 +116,12 @@ extension ExerciseDetailsView {
   
   private var favoriteButton: some View {
     Button(action: {
-      isFavorite.toggle()
-      exerciseStore.favoriteExercise(exercise, isFavorite: isFavorite)
+      viewModel.toggleIsFavorite()
     }, label: {
-      Image(systemName: isFavorite ? "heart.fill" : "heart")
+      Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
         .resizable()
         .frame(width: 30, height: 25)
-        .foregroundStyle(isFavorite ? .red : .white)
+        .foregroundStyle(viewModel.isFavorite ? .red : .white)
         .shadow(radius: 1.0)
     })
   }

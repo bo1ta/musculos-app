@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DashboardView: View {
-  @EnvironmentObject private var tabBarSettings: AppManager
+  @EnvironmentObject private var appManager: AppManager
 
   private var challenge: Challenge = MockConstants.challenge
   @State private var showChallenge = false
@@ -20,13 +20,7 @@ struct DashboardView: View {
         HintIconView(systemImage: "dumbbell", textHint: "No challenges completed yet!")
         Spacer()
       }
-      .onAppear {
-        if tabBarSettings.isTabBarHidden {
-          DispatchQueue.main.async {
-            tabBarSettings.isTabBarHidden = false
-          }
-        }
-      }
+      .onAppear(perform: appManager.showTabBar)
       .navigationDestination(isPresented: $showChallenge) {
         ChallengeView(challenge: challenge) {
           showChallenge.toggle()
@@ -88,6 +82,7 @@ struct DashboardView: View {
       }
   }
 }
+
 
 #Preview {
   DashboardView()

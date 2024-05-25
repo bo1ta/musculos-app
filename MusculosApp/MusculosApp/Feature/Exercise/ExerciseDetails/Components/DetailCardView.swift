@@ -24,12 +24,12 @@ struct DetailCardView: View {
         HStack {
           Circle()
             .frame(width: 40, height: 40)
-            .foregroundStyle(Color.AppColor.blue600)
+            .foregroundStyle(.white)
             .shadow(radius: 1)
             .overlay {
               Text("\(index)")
                 .font(.body(.regular, size: 15))
-                .foregroundStyle(.white)
+                .foregroundStyle(.black)
                 .opacity(0.8)
             }
           Text(title)

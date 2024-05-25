@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ExploreExerciseView: View {
   @EnvironmentObject private var exerciseStore: ExerciseStore
-  @EnvironmentObject private var tabBarSettings: AppManager
+  @EnvironmentObject private var appManager: AppManager
 
   @StateObject private var viewModel = ExploreExerciseViewModel()
   
@@ -52,13 +52,7 @@ struct ExploreExerciseView: View {
           ExerciseDetailsView(exercise: exercise)
         }
       }
-      .onAppear {
-        guard tabBarSettings.isTabBarHidden else { return }
-        
-        DispatchQueue.main.async {
-          tabBarSettings.isTabBarHidden = false
-        }
-      }
+      .onAppear(perform: appManager.showTabBar)
       .onDisappear(perform: exerciseStore.cleanUp)
     }
   }
