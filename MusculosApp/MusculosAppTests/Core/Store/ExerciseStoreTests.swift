@@ -17,6 +17,11 @@ final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
     Container.shared.storageManager.register { DummyStack() }
   }
   
+  override class func tearDown() {
+    Container.shared.storageManager.reset()
+    super.tearDown()
+  }
+  
   func testInitialValues() {
     let store = ExerciseStore()
     XCTAssertEqual(store.state, .empty)

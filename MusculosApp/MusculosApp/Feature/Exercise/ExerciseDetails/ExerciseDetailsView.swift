@@ -6,26 +6,13 @@
 //
 
 import SwiftUI
-
-final class ExerciseDetailsViewModel: ObservableObject {
-  @Published  private(set) var isFavorite = false
-  @Published  private(set) var showChallengeExercise = false
-  @Published  private(set) var isTimerActive = false
-  @Published  private(set) var timer: Timer? = nil
-  @Published  private(set) var elapsedTime: Int = 0
-}
+import Factory
 
 struct ExerciseDetailsView: View {
   @Environment(\.dismiss) private var dismiss
-  
   @EnvironmentObject private var appManager: AppManager
-  @EnvironmentObject private var exerciseStore: ExerciseStore
   
-  @State private var isFavorite = false
-  @State private var showChallengeExercise = false
-  @State private var isTimerActive = false
-  @State private var timer: Timer? = nil
-  @State private var elapsedTime: Int = 0
+  @StateObject private var viewModel = ExerciseDetailsViewModel()
   
   var exercise: Exercise
   var onComplete: (() -> Void)? = nil
@@ -45,27 +32,25 @@ struct ExerciseDetailsView: View {
       Spacer()
     }
     .onAppear {
-      DispatchQueue.main.async {
-        appManager.hideTabBar()
-        
-        isFavorite = exerciseStore.checkIsFavorite(exercise: exercise)
-      }
+      appManager.hideTabBar()
+      viewModel.loadIsFavorite(for: exercise)
     }
-    .onDisappear(perform: exerciseStore.cleanUp)
+    .onDisappear(perform: viewModel.cleanUp)
     .navigationBarBackButtonHidden()
     .safeAreaInset(edge: .bottom) {
-      if isTimerActive {
+      if viewModel.isTimerActive {
         Button(action: {
-          appManager.showToast(style: .success, message: "Finished in \(elapsedTime) seconds!")
-          stopTimer()
+          appManager.showToast(style: .success, message: "Finished in \(viewModel.elapsedTime) seconds!")
+          viewModel.stopTimer()
+          onComplete?()
         }, label: {
-          Text("Finish (\(elapsedTime) sec)")
+          Text("Finish (\(viewModel.elapsedTime) sec)")
             .frame(maxWidth: .infinity)
         })
         .buttonStyle(SecondaryButtonStyle())
         .padding()
       } else {
-        Button(action: startTimer, label: {
+        Button(action: viewModel.startTimer, label: {
           Text("Start workout")
             .frame(maxWidth: .infinity)
         })
@@ -125,13 +110,12 @@ extension ExerciseDetailsView {
   
   private var favoriteButton: some View {
     Button(action: {
-      isFavorite.toggle()
-      exerciseStore.favoriteExercise(exercise, isFavorite: isFavorite)
+      viewModel.setIsFavorite(exercise: exercise)
     }, label: {
-      Image(systemName: isFavorite ? "heart.fill" : "heart")
+      Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
         .resizable()
         .frame(width: 30, height: 25)
-        .foregroundStyle(isFavorite ? .red : .white)
+        .foregroundStyle(viewModel.isFavorite ? .red : .white)
         .shadow(radius: 1.0)
     })
   }
@@ -162,28 +146,6 @@ extension ExerciseDetailsView {
       Text(title)
         .font(.body(.light, size: 14))
     }
-  }
-  
-  private func startTimer() {
-    isTimerActive = true
-    elapsedTime = 0
-    
-    timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
-      elapsedTime += 1
-    })
-    
-    if let timer {
-      RunLoop.current.add(timer, forMode: .common)
-    }
-  }
-  
-  private func stopTimer() {
-    isTimerActive = false
-    timer?.invalidate()
-    timer = nil
-    
-    appManager.showToast(style: .success, message: "Finished in \(elapsedTime) seconds!")
-    onComplete?()
   }
   
   private var stepsSection: some View {

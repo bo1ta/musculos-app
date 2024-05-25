@@ -19,6 +19,11 @@ final class ExerciseDataStoreTests: XCTestCase, MusculosTestBase {
     Container.shared.storageManager.register { DummyStack() }
   }
   
+  override class func tearDown() {
+    Container.shared.storageManager.reset()
+    super.tearDown()
+  }
+  
   func testMarkAndCheckAsFavorite() async throws {
     let mockExercise = ExerciseFactory.createExercise()
     await self.populateStorageWithMockExercise(exercise: mockExercise)

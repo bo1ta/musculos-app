@@ -18,6 +18,11 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
     MockURLProtocol.clear()
   }
   
+  override class func tearDown() {
+    Container.shared.storageManager.reset()
+    super.tearDown()
+  }
+  
   func testGetExercisesSucceeds() async throws {
     let expectation = self.expectation(description: "should make a network request")
     
