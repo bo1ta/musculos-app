@@ -1,5 +1,5 @@
 //
-//  CoreDataStack.swift
+//  StorageManager.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 07.07.2023.
@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-final class CoreDataStack: StorageManagerType {
+final class StorageManager: StorageManagerType {
   public lazy var persistentContainer: NSPersistentContainer = {
     let container = NSPersistentContainer(name: "MusculosDataStore")
     
@@ -52,7 +52,7 @@ final class CoreDataStack: StorageManagerType {
   }
 }
 
-extension CoreDataStack {
+extension StorageManager {
   func deleteSql() {
     let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("MusculosDataStore.sqlite")
 
@@ -78,27 +78,5 @@ extension CoreDataStack {
       _ = try? viewContext.execute(r)
     }
     viewContext.saveIfNeeded()
-  }
-}
-
-extension CoreDataStack {
-  private static var _shared: StorageManagerType?
-
-  static var shared: StorageManagerType {
-    if let existingShared = _shared {
-      return existingShared
-    } else {
-      let newShared = CoreDataStack()
-      _shared = newShared
-      return newShared
-    }
-  }
-  
-  static func setOverride(_ override: StorageManagerType) {
-    _shared = override
-  }
-
-  static func resetOverride() {
-    _shared = nil
   }
 }

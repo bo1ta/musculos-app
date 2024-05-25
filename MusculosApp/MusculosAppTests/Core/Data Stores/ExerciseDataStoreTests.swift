@@ -7,6 +7,7 @@
 
 import Foundation
 import XCTest
+import Factory
 
 @testable import MusculosApp
 
@@ -15,14 +16,7 @@ final class ExerciseDataStoreTests: XCTestCase, MusculosTestBase {
   
   override class func setUp() {
     super.setUp()
-    
-    CoreDataStack.setOverride(DummyStack())
-  }
-  
-  override class func tearDown() {
-    CoreDataStack.resetOverride()
-    
-    super.tearDown()
+    Container.shared.storageManager.register { DummyStack() }
   }
   
   func testMarkAndCheckAsFavorite() async throws {

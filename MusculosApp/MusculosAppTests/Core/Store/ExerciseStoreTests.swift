@@ -7,17 +7,14 @@
 
 import XCTest
 @testable import MusculosApp
+import Factory
 
 final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
   var hasPopulatedStorage = false
   
   override class func setUp() {
-    CoreDataStack.setOverride(DummyStack())
-  }
-  
-  override class func tearDown() {
-    CoreDataStack.resetOverride()
-    super.tearDown()
+    super.setUp()
+    Container.shared.storageManager.register { DummyStack() }
   }
   
   func testInitialValues() {

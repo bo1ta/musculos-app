@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Factory
 
 class ExerciseStore: ObservableObject {
   @Published var state: LoadingViewState<[Exercise]> = .empty
@@ -15,9 +16,10 @@ class ExerciseStore: ObservableObject {
   private let module: ExerciseModuleProtocol
   private let fetchedResultsController: ResultsController<ExerciseEntity>
   
+  
   init(module: ExerciseModuleProtocol = ExerciseModule()) {
     self.module = module
-    self.fetchedResultsController = ResultsController<ExerciseEntity>(storageManager: CoreDataStack.shared, sortedBy: [])
+    self.fetchedResultsController = ResultsController<ExerciseEntity>(storageManager: Container.shared.storageManager(), sortedBy: [])
     self.setUpFetchedResultsController()
   }
   
