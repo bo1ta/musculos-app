@@ -124,6 +124,7 @@
 		BC828CDE2C02802500AB9D1D /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = BC828CDD2C02802500AB9D1D /* Factory */; };
 		BC828CE02C02806300AB9D1D /* Container+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC828CDF2C02806300AB9D1D /* Container+Extension.swift */; };
 		BC828CE32C028E9200AB9D1D /* ExerciseDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC828CE22C028E9200AB9D1D /* ExerciseDetailsViewModel.swift */; };
+		BC828CE52C02924200AB9D1D /* WorkoutFlowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC828CE42C02924200AB9D1D /* WorkoutFlowViewModel.swift */; };
 		BC8C68522BC060F500A681EE /* UserEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8C684F2BC060F500A681EE /* UserEntity+CoreDataClass.swift */; };
 		BC8C68532BC060F500A681EE /* UserEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8C68502BC060F500A681EE /* UserEntity+CoreDataProperties.swift */; };
 		BC8C68562BC0AE5100A681EE /* WorkoutDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8C68552BC0AE5100A681EE /* WorkoutDataStore.swift */; };
@@ -339,6 +340,7 @@
 		BC8244752BAF64FA00CFA645 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		BC828CDF2C02806300AB9D1D /* Container+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+Extension.swift"; sourceTree = "<group>"; };
 		BC828CE22C028E9200AB9D1D /* ExerciseDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsViewModel.swift; sourceTree = "<group>"; };
+		BC828CE42C02924200AB9D1D /* WorkoutFlowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFlowViewModel.swift; sourceTree = "<group>"; };
 		BC8C68412BC05F9900A681EE /* Musculos 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 2.xcdatamodel"; sourceTree = "<group>"; };
 		BC8C684F2BC060F500A681EE /* UserEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BC8C68502BC060F500A681EE /* UserEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -1068,6 +1070,7 @@
 			children = (
 				BC74C1B52C0107CA0021B932 /* WorkoutIntroView.swift */,
 				BC4078D52C02402E000DE280 /* WorkoutFlowView.swift */,
+				BC828CE42C02924200AB9D1D /* WorkoutFlowViewModel.swift */,
 			);
 			path = WorkoutFlow;
 			sourceTree = "<group>";
@@ -1243,8 +1246,8 @@
 			isa = PBXGroup;
 			children = (
 				BCD59AAE2BB628700039F662 /* ExerciseDetailsView.swift */,
-				BCD59AAD2BB628700039F662 /* Components */,
 				BC828CE22C028E9200AB9D1D /* ExerciseDetailsViewModel.swift */,
+				BCD59AAD2BB628700039F662 /* Components */,
 			);
 			path = ExerciseDetails;
 			sourceTree = "<group>";
@@ -1687,6 +1690,7 @@
 				BC0171012AEC3E0A005876EE /* CongratulationView.swift in Sources */,
 				BC1674E62BE2FF280012048D /* GoalEntity+CoreDataProperties.swift in Sources */,
 				BC5FAA662B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift in Sources */,
+				BC828CE52C02924200AB9D1D /* WorkoutFlowViewModel.swift in Sources */,
 				BC7820062B9B8F91009F9FB5 /* StatReportCard.swift in Sources */,
 				BC781FFC2B9B5E3E009F9FB5 /* OverviewView.swift in Sources */,
 				BC5FAA622B7D8B4E00B79D4B /* ContentLengthPreferenceKey.swift in Sources */,

@@ -12,10 +12,16 @@ struct ExerciseDetailsView: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var appManager: AppManager
   
-  @StateObject private var viewModel = ExerciseDetailsViewModel()
+  @StateObject private var viewModel: ExerciseDetailsViewModel
   
   var exercise: Exercise
   var onComplete: (() -> Void)? = nil
+  
+  init(exercise: Exercise, onComplete: (() -> Void)? = nil) {
+    self._viewModel = StateObject(wrappedValue: ExerciseDetailsViewModel(exercise: exercise))
+    self.exercise = exercise
+    self.onComplete = onComplete
+  }
   
   var body: some View {
     VStack(spacing: 10) {
@@ -33,7 +39,7 @@ struct ExerciseDetailsView: View {
     }
     .onAppear {
       appManager.hideTabBar()
-      viewModel.loadIsFavorite(for: exercise)
+      viewModel.initialLoad()
     }
     .onDisappear(perform: viewModel.cleanUp)
     .navigationBarBackButtonHidden()
@@ -110,7 +116,7 @@ extension ExerciseDetailsView {
   
   private var favoriteButton: some View {
     Button(action: {
-      viewModel.setIsFavorite(exercise: exercise)
+      viewModel.toggleIsFavorite()
     }, label: {
       Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
         .resizable()

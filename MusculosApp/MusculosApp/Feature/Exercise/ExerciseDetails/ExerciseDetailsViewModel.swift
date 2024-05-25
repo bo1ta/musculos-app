@@ -20,18 +20,23 @@ final class ExerciseDetailsViewModel: ObservableObject {
   
   private(set) var isFavoriteTask: Task<Void, Never>?
   
-  @MainActor
-  func loadIsFavorite(for exercise: Exercise) {
-    isFavorite = dataStore.isFavorite(exercise)
+  let exercise: Exercise
+  
+  init(exercise: Exercise) {
+    self.exercise = exercise
   }
   
   @MainActor
-  func setIsFavorite(exercise: Exercise) {
+  func initialLoad() {
+    isFavorite = dataStore.isFavorite(exercise)
+  }
+  
+  func toggleIsFavorite() {
     isFavorite.toggle()
     
-    isFavoriteTask = Task { @MainActor [weak self] in
+    isFavoriteTask = Task { [weak self] in
       guard let self else { return }
-      await self.dataStore.setIsFavorite(exercise, isFavorite: self.isFavorite)
+      await self.dataStore.setIsFavorite(self.exercise, isFavorite: self.isFavorite)
     }
   }
   
@@ -57,5 +62,8 @@ final class ExerciseDetailsViewModel: ObservableObject {
   func cleanUp() {
     isFavoriteTask?.cancel()
     isFavoriteTask = nil
+    
+    timer?.invalidate()
+    timer = nil
   }
 }

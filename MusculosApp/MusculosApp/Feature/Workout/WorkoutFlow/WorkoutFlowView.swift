@@ -8,40 +8,27 @@
 import SwiftUI
 
 struct WorkoutFlowView: View {
-  enum Step {
-    case intro
-    case session
-    case completion
-  }
-  
-  @State private var currentStep: Step = .intro
+  @StateObject private var viewModel: WorkoutFlowViewModel
   
   let workout: Workout
   let onComplete: () -> Void
   
-    var body: some View {
-      switch currentStep {
-      case .intro:
-        WorkoutIntroView(workout: workout, onStartTapped: handleNextStep)
-      case .session:
-        EmptyView()
-      case .completion:
-        EmptyView()
-      }
-    }
+  init(workout: Workout, onComplete: @escaping () -> Void) {
+    self._viewModel = StateObject(wrappedValue: WorkoutFlowViewModel(workout: workout))
+    self.workout = workout
+    self.onComplete = onComplete
+  }
   
-  private func handleNextStep() {
-    withAnimation {
-      switch currentStep {
-      case .intro:
-        currentStep = .session
-        break
-      case .session:
-        currentStep = .completion
-        break
-      case .completion:
-        break
+  var body: some View {
+    switch viewModel.currentStep {
+    case .intro:
+      WorkoutIntroView(workout: workout, onStartTapped: viewModel.handleNextStep)
+    case .session:
+      if let exercise = viewModel.currentExercise {
+        ExerciseDetailsView(exercise: exercise, onComplete: viewModel.handleNextExercise)
       }
+    case .completion:
+      Color.red
     }
   }
 }
