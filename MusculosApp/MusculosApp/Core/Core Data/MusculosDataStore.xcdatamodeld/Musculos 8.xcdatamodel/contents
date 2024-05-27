@@ -20,6 +20,7 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="targetValue" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="MyEntity" representedClassName="MyEntity" syncable="YES"/>
     <entity name="PrimaryMuscleEntity" representedClassName="PrimaryMuscleEntity" syncable="YES">
         <attribute name="muscleId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>

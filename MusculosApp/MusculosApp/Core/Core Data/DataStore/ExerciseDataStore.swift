@@ -103,7 +103,7 @@ extension ExerciseDataStore {
     return exercises
   }
   
-  func add(_ exercise: Exercise) async {
+  func add(_ exercise: Exercise) async {    
     await writerDerivedStorage.performAndSave {
       let exerciseEntity = self.writerDerivedStorage.insertNewObject(ofType: ExerciseEntity.self)
       

@@ -16,7 +16,6 @@ class ExerciseStore: ObservableObject {
   private let module: ExerciseModuleProtocol
   private let fetchedResultsController: ResultsController<ExerciseEntity>
   
-  
   init(module: ExerciseModuleProtocol = ExerciseModule()) {
     self.module = module
     self.fetchedResultsController = ResultsController<ExerciseEntity>(storageManager: Container.shared.storageManager(), sortedBy: [])
@@ -55,6 +54,8 @@ extension ExerciseStore {
   }
   
   func searchByMuscleQuery(_ query: String) {
+    guard query.count > 4 else { return }
+    
     searchTask = Task { @MainActor [weak self] in
       guard let self else { return }
       self.state = .loading
@@ -106,13 +107,12 @@ extension ExerciseStore {
     self.state = .loaded(exercises)
   }
   
-  @MainActor 
   func filterByMuscles(
     muscles: [String],
     level: String = "",
     categories: [String] = [],
     equipments: [String] = []
-  ) async -> [Exercise] {
+  ) -> [Exercise] {
     let muscleTypes = muscles.compactMap { MuscleType(rawValue: $0) }
     var filteredExercises = module.dataStore.getByMuscles(muscleTypes)
     
