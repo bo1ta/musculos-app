@@ -42,8 +42,9 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
   }
   
   func testGetExercisesFails() async throws {
-    let expectation = self.expectation(description: "should fail")
-    let configuration = self.createMockSession(expectation: expectation, shouldFail: true)
+    let failureExpectation = self.expectation(description: "should fail")
+    let networkRequestExpectation = self.expectation(description: "should make network request")
+    let configuration = self.createMockSession(expectation: networkRequestExpectation, shouldFail: true)
     
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
@@ -53,10 +54,10 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
       _ = try await module.getExercises()
       XCTFail("Should not succeed!")
     } catch {
-      expectation.fulfill()
+      failureExpectation.fulfill()
     }
     
-    await fulfillment(of: [expectation])
+    await fulfillment(of: [failureExpectation, networkRequestExpectation])
   }
   
   func testSearchByMuscleQuerySucceeds() async throws {
