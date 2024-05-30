@@ -40,9 +40,7 @@ struct SignInView: View {
         case .error(let errorMessage):
           MusculosLogger.logError(MusculosError.badRequest, message: errorMessage, category: .networking)
         case .loaded(_):
-          DispatchQueue.main.async {
-            userStore.isLoggedIn = true
-          }
+          userStore.setIsLoggedIn(true)
         default:
           break
         }

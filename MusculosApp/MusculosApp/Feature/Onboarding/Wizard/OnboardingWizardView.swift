@@ -77,14 +77,14 @@ extension OnboardingWizardView {
 // MARK: - Helpers
 
 extension OnboardingWizardView {
-
-  @MainActor
   private func handleSubmit() {
-    userStore.isOnboarded = true
-    userStore.updateUserProfile(gender: viewModel.selectedGender,
-                                weight: viewModel.selectedWeight,
-                                height: viewModel.selectedHeight,
-                                goalId: viewModel.selectedGoal?.rawValue)
+    userStore.setIsOnboarded(true)
+    userStore.updateUserProfile(
+      gender: viewModel.selectedGender,
+      weight: viewModel.selectedWeight,
+      height: viewModel.selectedHeight,
+      goalId: viewModel.selectedGoal?.rawValue
+    )
   }
 }
 

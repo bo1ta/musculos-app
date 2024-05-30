@@ -10,6 +10,7 @@ import SwiftUI
 
 /// Helper manager that is passed from the root level
 ///
+@MainActor
 class AppManager: ObservableObject {
   /// The observer for the tab bar visibility
   ///

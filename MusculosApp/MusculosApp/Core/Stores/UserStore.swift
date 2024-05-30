@@ -8,18 +8,12 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 class UserStore: ObservableObject {
-  @Published var currentPerson: Person? = nil
-  @Published var error: Error? = nil
-  @Published var isLoading: Bool = false
-  @Published var isLoggedIn: Bool = false
-  @Published var isOnboarded: Bool = false {
-    didSet {
-      DispatchQueue.main.async {
-        UserDefaults.standard.setValue(self.isOnboarded, forKey: UserDefaultsKeyConstant.isOnboarded.rawValue)
-      }
-    }
-  }
+  @Published private(set) var currentPerson: Person? = nil
+  @Published private(set) var error: Error? = nil
+  @Published private(set) var isLoggedIn: Bool = false
+  @Published private(set) var isOnboarded: Bool = false
     
   private(set) var updateUserTask: Task<Void, Never>?
   
@@ -54,8 +48,19 @@ class UserStore: ObservableObject {
     updateUserTask = nil
   }
   
+  func setIsLoggedIn(_ isLoggedIn: Bool) {
+    self.isLoggedIn = isLoggedIn
+  }
+  
+  func setIsOnboarded(_ isOnboarded: Bool) {
+    self.isOnboarded = isOnboarded
+    UserDefaults.standard.setValue(isOnboarded, forKey: UserDefaultsKeyConstant.isOnboarded.rawValue)
+  }
+  
   func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) {
-    updateUserTask = Task { @MainActor [weak self] in
+    updateUserTask?.cancel()
+    
+    updateUserTask = Task.detached { [weak self] in
       guard let self else { return }
       await self.dataStore.updateUser(gender: gender, weight: weight, height: height, goalId: goalId)
     }

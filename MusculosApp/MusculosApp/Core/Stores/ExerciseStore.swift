@@ -40,6 +40,8 @@ class ExerciseStore: ObservableObject {
 
 extension ExerciseStore {
   func loadRemoteExercises() {
+    exerciseTask?.cancel()
+    
     exerciseTask = Task { @MainActor [weak self] in
       guard let self else { return }
       self.state = .loading
@@ -55,6 +57,8 @@ extension ExerciseStore {
   }
   
   func searchByMuscleQuery(_ query: String) {
+    searchTask?.cancel()
+    
     searchTask = Task { @MainActor [weak self] in
       guard let self else { return }
       self.state = .loading
@@ -88,12 +92,16 @@ extension ExerciseStore {
 
 extension ExerciseStore {
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
+    favoriteTask?.cancel()
+    
     favoriteTask = Task { [weak self] in
       await self?.module.dataStore.setIsFavorite(exercise, isFavorite: isFavorite)
     }
   }
   
   func addExercise(_ exercise: Exercise) {
+    addExerciseTask?.cancel()
+    
     addExerciseTask = Task { [weak self] in
       await self?.module.dataStore.add(exercise)
     }
@@ -148,10 +156,17 @@ extension ExerciseStore {
 extension ExerciseStore {
   private func setUpFetchedResultsController() {
     fetchedResultsController.onDidChangeContent = { [weak self] in
-      self?.updateLocalResults()
+      guard let updateLocalResults = self?.updateLocalResults else { return }
+      Task {
+        await updateLocalResults()
+      }
     }
+  
     fetchedResultsController.onDidResetContent = { [weak self] in
-      self?.updateLocalResults()
+      guard let updateLocalResults = self?.updateLocalResults else { return }
+      Task {
+        await updateLocalResults()
+      }
     }
     
     do {
@@ -161,20 +176,24 @@ extension ExerciseStore {
     }
   }
   
+  @MainActor
   func updateLocalResults() {
     storedExercises = fetchedResultsController.fetchedObjects
   }
   
+  @MainActor
   func loadLocalExercises() {
     fetchedResultsController.predicate = nil
     updateLocalResults()
   }
   
+  @MainActor
   func loadFavoriteExercises() {
     fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.isFavorite.nsPredicate
     updateLocalResults()
   }
   
+  @MainActor
   func loadForName(_ name: String) {
     fetchedResultsController.predicate = ExerciseEntity.CommonPredicate.byName(name).nsPredicate
     updateLocalResults()
