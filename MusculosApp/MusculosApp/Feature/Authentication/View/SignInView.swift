@@ -24,7 +24,7 @@ struct SignInView: View {
         loginForm
           .padding([.top, .bottom], 20)
         
-        socialLoginSection
+//        socialLoginSection
         
         Spacer()
         signUpButton

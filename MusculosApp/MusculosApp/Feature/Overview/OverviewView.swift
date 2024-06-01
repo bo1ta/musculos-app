@@ -16,6 +16,9 @@ struct OverviewView: View {
       VStack(spacing: 10) {
         HStack {
           Spacer()
+          
+          Text(userStore.displayName)
+            .font(AppFont.body(.bold, size: 16.0))
           avatarCircle
         }
         .padding(.trailing, 15)

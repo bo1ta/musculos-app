@@ -19,7 +19,7 @@ struct SignUpView: View {
       Text(headerTitle)
         .font(.header(.regular, size: 25))
       registerForm
-      socialLoginSection
+//      socialLoginSection
     }
     .padding([.leading, .trailing], 20)
     .onDisappear(perform: viewModel.cleanUp)
