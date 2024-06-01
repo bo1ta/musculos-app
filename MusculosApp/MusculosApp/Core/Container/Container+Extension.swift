@@ -21,4 +21,8 @@ extension Container {
   var userDataStore: Factory<UserDataStoreProtocol> {
     self { UserDataStore() }
   }
+  
+  var exerciseSessionDataStore: Factory<ExerciseSessionDataStoreProtocol> {
+    self { ExerciseSessionDataStore() }
+  }
 }

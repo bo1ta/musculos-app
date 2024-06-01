@@ -25,6 +25,7 @@ extension ExerciseEntity {
   @NSManaged public var name: String?
   @NSManaged public var primaryMuscles: Set<PrimaryMuscleEntity>
   @NSManaged public var secondaryMuscles: Set<SecondaryMuscleEntity>
+  @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
 }
 
 // MARK: Generated accessors for primaryMuscles
@@ -57,7 +58,22 @@ extension ExerciseEntity {
   
   @objc(removeSecondaryMuscles:)
   @NSManaged public func removeFromSecondaryMuscles(_ values: NSSet)
+}
+
+// MARK: Generated accessors for exerciseSessions
+extension ExerciseEntity {
   
+  @objc(addExerciseSessionsObject:)
+  @NSManaged public func addToExerciseSessions(_ value: ExerciseSessionEntity)
+  
+  @objc(removeFromExerciseSessions:)
+  @NSManaged public func removeFromExerciseSessions(_ value: ExerciseSessionEntity)
+  
+  @objc(addExerciseSessions:)
+  @NSManaged public func addToExerciseSessions(_ values: NSSet)
+  
+  @objc(removeExerciseSessions:)
+  @NSManaged public func removeFromExerciseSessions(_ values: NSSet)
 }
 
 extension ExerciseEntity : Identifiable { }

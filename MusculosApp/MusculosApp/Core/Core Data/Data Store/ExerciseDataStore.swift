@@ -13,7 +13,6 @@ import CoreData
 ///
 
 struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
-  @MainActor
   func isFavorite(_ exercise: Exercise) -> Bool {
     return self.viewStorage
       .firstObject(
@@ -23,14 +22,12 @@ struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
     ?? false
   }
   
-  @MainActor
   func getAll() -> [Exercise] {
     return viewStorage
       .allObjects(ofType: ExerciseEntity.self, matching: nil, sortedBy: nil)
       .map { $0.toReadOnly() }
   }
   
-  @MainActor
   func getByName(_ name: String) -> [Exercise] {
     return viewStorage
       .allObjects(
@@ -41,7 +38,6 @@ struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
       .map { $0.toReadOnly() }
   }
   
-  @MainActor
   func getByMuscles(_ muscles: [MuscleType]) -> [Exercise] {
     let muscleIds = muscles.map { $0.id }
     

@@ -10,7 +10,8 @@ import Factory
 import SwiftUI
 
 final class ExerciseDetailsViewModel: ObservableObject {
-  @Injected(\.exerciseDataStore) private var dataStore
+  @Injected(\.exerciseDataStore) private var exerciseDataStore
+  @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore
   
   @Published  private(set) var isFavorite = false
   @Published  private(set) var showChallengeExercise = false
@@ -19,6 +20,7 @@ final class ExerciseDetailsViewModel: ObservableObject {
   @Published  private(set) var elapsedTime: Int = 0
   
   private(set) var isFavoriteTask: Task<Void, Never>?
+  private(set) var saveExerciseSessionTask: Task<Void, Never>?
   
   let exercise: Exercise
   
@@ -28,7 +30,7 @@ final class ExerciseDetailsViewModel: ObservableObject {
   
   @MainActor
   func initialLoad() {
-    isFavorite = dataStore.isFavorite(exercise)
+    isFavorite = exerciseDataStore.isFavorite(exercise)
   }
   
   func toggleIsFavorite() {
@@ -36,7 +38,7 @@ final class ExerciseDetailsViewModel: ObservableObject {
     
     isFavoriteTask = Task.detached { [weak self] in
       guard let self else { return }
-      await self.dataStore.setIsFavorite(self.exercise, isFavorite: self.isFavorite)
+      await self.exerciseDataStore.setIsFavorite(self.exercise, isFavorite: self.isFavorite)
     }
   }
   
@@ -54,9 +56,18 @@ final class ExerciseDetailsViewModel: ObservableObject {
   }
   
   func stopTimer() {
+    saveExerciseSession()
+    
     isTimerActive = false
     timer?.invalidate()
     timer = nil
+  }
+  
+  func saveExerciseSession() {
+    saveExerciseSessionTask = Task.detached { [weak self] in
+      guard let self else { return }
+      await self.exerciseSessionDataStore.add(from: self.exercise, date: Date())
+    }
   }
   
   func cleanUp() {

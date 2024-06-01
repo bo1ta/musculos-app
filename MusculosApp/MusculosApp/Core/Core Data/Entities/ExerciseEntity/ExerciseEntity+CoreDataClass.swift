@@ -11,5 +11,12 @@ import CoreData
 
 @objc(ExerciseEntity)
 public class ExerciseEntity: NSManagedObject {
-
+  
+  /// Populate default fields where is needed
+  ///
+  public override func awakeFromInsert() {
+    super.awakeFromInsert()
+    
+    self.exerciseSessions = Set<ExerciseSessionEntity>()
+  }
 }

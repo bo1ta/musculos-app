@@ -18,7 +18,7 @@ struct ExploreExerciseView: View {
       VStack {
         ScrollView {
           ProgressCard(
-            title: "You've completed 3 exercises",
+            title: "You've completed \(viewModel.completedToday.count) exercises",
             description: "75% of your weekly muscle building goal",
             progress: 0.75
           )
@@ -52,7 +52,11 @@ struct ExploreExerciseView: View {
           ExerciseDetailsView(exercise: exercise)
         }
       }
-      .onAppear(perform: appManager.showTabBar)
+      .onAppear {
+        viewModel.loadExercisesCompletedToday()
+        appManager.showTabBar()
+      }
+      
       .onDisappear(perform: exerciseStore.cleanUp)
     }
   }
