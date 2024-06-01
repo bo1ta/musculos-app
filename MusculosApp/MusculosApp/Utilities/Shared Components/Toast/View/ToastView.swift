@@ -16,19 +16,20 @@ struct ToastView: View {
     RoundedRectangle(cornerRadius: 8)
       .frame(maxWidth: .infinity)
       .frame(height: 50)
-      .shadow(radius: 1)
+      .shadow(radius: 3)
       .padding(.horizontal, 16)
-      .foregroundStyle(Color.AppColor.blue100)
+      .foregroundStyle(style.backgroundColor)
       .overlay {
         RoundedRectangle(cornerRadius: 8)
-          .stroke(style.themeColor)
+          .stroke(style.borderColor)
+          .shadow(radius: 3)
           .opacity(0.3)
           .padding(.horizontal, 16)
       }
       .overlay {
         HStack(alignment: .center, spacing: 12) {
           Image(systemName: style.systemImageName)
-            .foregroundColor(style.themeColor)
+            .foregroundColor(style.borderColor)
           Text(message)
             .font(.body(.medium))
             .foregroundStyle(.black)
@@ -38,5 +39,5 @@ struct ToastView: View {
 }
 
 #Preview {
-  ToastView(style: .success, message: "Toast is shown")
+  ToastView(style: .info, message: "Toast is shown")
 }

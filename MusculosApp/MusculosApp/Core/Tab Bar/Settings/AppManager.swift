@@ -35,7 +35,7 @@ extension AppManager {
     isTabBarHidden = false
   }
   
-  func showToast(style: Toast.ToastStyle, message: String, duration: Double = 1.0) {
+  func showToast(style: Toast.ToastStyle, message: String, duration: Double = 2.0) {
     toast = Toast(style: style, message: message, duration: duration)
   }
 }

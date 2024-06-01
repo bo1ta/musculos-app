@@ -21,12 +21,21 @@ extension Toast {
   enum ToastStyle {
     case success, info, warning, error
     
-    var themeColor: Color {
+    var borderColor: Color {
       switch self {
       case .success: .green
       case .info: Color.AppColor.blue500
       case .warning: Color.orange
       case .error: Color.red
+      }
+    }
+    
+    var backgroundColor: Color {
+      switch self {
+      case .success: Color.AppColor.green100
+      case .info: Color.gray.opacity(0.1)
+      case .warning: Color.yellow.opacity(0.1)
+      case .error: Color.red.opacity(0.1)
       }
     }
     
