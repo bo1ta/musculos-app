@@ -39,6 +39,8 @@ struct AppTabView: View {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    AppTabView().environmentObject(UserStore()).environmentObject(ExerciseStore())
+    AppTabView()
+      .environmentObject(UserStore())
+      .environmentObject(ExerciseStore())
   }
 }
