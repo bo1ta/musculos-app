@@ -30,6 +30,11 @@ struct AddGoalSheet: View {
         textHint: "Goal name"
       )
       
+      RoundedTextField(
+        text: $viewModel.targetValue,
+        label: "Target value"
+      )
+      
       SingleOptionSelectView(
         showOptions: $viewModel.showCategoryOptions,
         selectedOption: $viewModel.category,
@@ -37,15 +42,29 @@ struct AddGoalSheet: View {
         options: GoalConstants.categoryOptions
       )
       
-      RoundedTextField(text: $viewModel.targetValue, label: "Target value")
-      
-      DatePicker(
-        "End Date",
-        selection: $viewModel.endDate,
-        displayedComponents: [.date]
+      SingleOptionSelectView(
+        showOptions: $viewModel.showFrequencyOptions,
+        selectedOption: $viewModel.frequency,
+        title: "Frequency",
+        options: GoalConstants.frequencyOptions
       )
+      
+      if viewModel.showEndDate {
+        DatePicker(
+          "End Date",
+          selection: $viewModel.endDate,
+          displayedComponents: [.date]
+        )
+        .padding(.top)
+        .font(.body(.bold, size: 15))
+      }
+      
       Spacer()
     }
+    .onReceive(viewModel.didSaveGoalPublisher, perform: { _ in
+      appManager.showToast(style: .success, message: "Added new goal! Good luck!")
+      dismiss()
+    })
     .padding()
     .safeAreaInset(edge: .bottom) {
       Button(action: {

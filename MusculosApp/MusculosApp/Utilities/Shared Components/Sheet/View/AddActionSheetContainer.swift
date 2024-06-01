@@ -29,7 +29,6 @@ struct AddActionSheetContainer: View {
           .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .push(from: .top)))
       case .createGoal:
         AddGoalSheet(onBack: handleBack)
-          .presentationDetents([.height(600)])
           .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .push(from: .top)))
       }
     }

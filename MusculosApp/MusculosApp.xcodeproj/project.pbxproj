@@ -420,6 +420,7 @@
 		BCEE99482C0BA80F0027D42B /* WorkoutExerciseEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WorkoutExerciseEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BCEE994C2C0BA96D0027D42B /* ExerciseSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSession.swift; sourceTree = "<group>"; };
 		BCEE994E2C0BAA990027D42B /* ExerciseSessionDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSessionDataStore.swift; sourceTree = "<group>"; };
+		BCEE99502C0BBD8B0027D42B /* Musculos 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 11.xcdatamodel"; sourceTree = "<group>"; };
 		BCEED79E2BFC0B96002A3656 /* WorkoutCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCard.swift; sourceTree = "<group>"; };
 		BCEED7A22BFC0C73002A3656 /* WorkoutListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListViewModel.swift; sourceTree = "<group>"; };
 		BCEED7A52BFE4EA4002A3656 /* ExerciseDataStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataStoreProtocol.swift; sourceTree = "<group>"; };
@@ -2197,6 +2198,7 @@
 		BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				BCEE99502C0BBD8B0027D42B /* Musculos 11.xcdatamodel */,
 				BCEE99382C0BA6300027D42B /* Musculos 10.xcdatamodel */,
 				BC6249762BED2D2B00393915 /* Musculos 8.xcdatamodel */,
 				BC1674B72BE2E7B10012048D /* Musculos 7.xcdatamodel */,
@@ -2207,7 +2209,7 @@
 				BC8C68412BC05F9900A681EE /* Musculos 2.xcdatamodel */,
 				BCD59AB62BB84A710039F662 /* Musculos 9.xcdatamodel */,
 			);
-			currentVersion = BCEE99382C0BA6300027D42B /* Musculos 10.xcdatamodel */;
+			currentVersion = BCEE99502C0BBD8B0027D42B /* Musculos 11.xcdatamodel */;
 			path = MusculosDataStore.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
