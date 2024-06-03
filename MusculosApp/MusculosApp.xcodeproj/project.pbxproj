@@ -170,6 +170,7 @@
 		BCC46FF42C0E2E97006D76E2 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC46FF32C0E2E97006D76E2 /* PermissionsView.swift */; };
 		BCC46FF72C0E3883006D76E2 /* InMemoryStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC46FF62C0E3883006D76E2 /* InMemoryStorageManager.swift */; };
 		BCC46FF92C0E3A7F006D76E2 /* StorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC46FF82C0E3A7F006D76E2 /* StorageHelper.swift */; };
+		BCC46FFB2C0E4A9F006D76E2 /* BulletPointText.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC46FFA2C0E4A9F006D76E2 /* BulletPointText.swift */; };
 		BCCA20332B93AF6800E958F5 /* BlueBackgroundCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA20322B93AF6800E958F5 /* BlueBackgroundCard.swift */; };
 		BCCBEC722AD85158002F5E41 /* RoundedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC712AD85158002F5E41 /* RoundedTextField.swift */; };
 		BCCE85E62A33D658001BEE8B /* AuthModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E52A33D658001BEE8B /* AuthModule.swift */; };
@@ -395,6 +396,7 @@
 		BCC46FF32C0E2E97006D76E2 /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
 		BCC46FF62C0E3883006D76E2 /* InMemoryStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorageManager.swift; sourceTree = "<group>"; };
 		BCC46FF82C0E3A7F006D76E2 /* StorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageHelper.swift; sourceTree = "<group>"; };
+		BCC46FFA2C0E4A9F006D76E2 /* BulletPointText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletPointText.swift; sourceTree = "<group>"; };
 		BCCA20322B93AF6800E958F5 /* BlueBackgroundCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueBackgroundCard.swift; sourceTree = "<group>"; };
 		BCCBEC712AD85158002F5E41 /* RoundedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTextField.swift; sourceTree = "<group>"; };
 		BCCE85E52A33D658001BEE8B /* AuthModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModule.swift; sourceTree = "<group>"; };
@@ -1332,6 +1334,7 @@
 				BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */,
 				BCA24C132B6C203600124EC3 /* SizePickerView.swift */,
 				BCC46FF32C0E2E97006D76E2 /* PermissionsView.swift */,
+				BCC46FFA2C0E4A9F006D76E2 /* BulletPointText.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1729,6 +1732,7 @@
 				BC63A5A42AC33896006B1894 /* MuscleConstant.swift in Sources */,
 				BC0171012AEC3E0A005876EE /* CongratulationView.swift in Sources */,
 				BC1674E62BE2FF280012048D /* GoalEntity+CoreDataProperties.swift in Sources */,
+				BCC46FFB2C0E4A9F006D76E2 /* BulletPointText.swift in Sources */,
 				BC5FAA662B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift in Sources */,
 				BC828CE52C02924200AB9D1D /* WorkoutFlowViewModel.swift in Sources */,
 				BC7820062B9B8F91009F9FB5 /* StatReportCard.swift in Sources */,

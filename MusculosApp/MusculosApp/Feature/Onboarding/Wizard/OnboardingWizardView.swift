@@ -31,10 +31,17 @@ struct OnboardingWizardView: View {
         SelectSizeView(selectedWeight: $viewModel.selectedWeight, selectedHeight: $viewModel.selectedHeight)
       case .goal:
         SelectGoalView(selectedGoal: $viewModel.selectedGoal)
+      case .permissions:
+        PermissionsView(onDone: {
+            handleSubmit()
+        })
       }
       
       Spacer()
-      primaryButton
+      
+      if viewModel.wizardStep != .permissions {
+        primaryButton
+      }
     }
     .padding([.leading, .trailing], 10)
   }
@@ -102,4 +109,6 @@ extension OnboardingWizardView {
 
 #Preview {
     OnboardingWizardView()
+    .environmentObject(HealthKitViewModel())
+    .environmentObject(UserStore())
 }

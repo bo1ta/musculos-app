@@ -87,8 +87,6 @@ final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
 
 extension ExerciseStoreTests {
   func testFetchedControllerLoadsLocalExercises() async throws {
-    let expectedExercise = ExerciseFactory.createExercise()
-    
     /// Populate core data store
     try await self.populateStorageWithExercise()
   

@@ -17,7 +17,7 @@ class OnboardingWizardViewModel: ObservableObject {
   
   // false if we are at the last step -- at that point we have to submit the data
   var canHandleNextStep: Bool {
-    wizardStep != .goal
+    wizardStep != .permissions
   }
   
   func handleNextStep() {
@@ -25,6 +25,8 @@ class OnboardingWizardViewModel: ObservableObject {
       wizardStep = .heightAndWeight
     } else if wizardStep == .heightAndWeight {
       wizardStep = .goal
+    } else if wizardStep == .goal {
+      wizardStep = .permissions
     }
   }
   
@@ -41,7 +43,7 @@ class OnboardingWizardViewModel: ObservableObject {
 
 extension OnboardingWizardViewModel {
   enum OnboardingWizardStep {
-    case gender, heightAndWeight, goal
+    case gender, heightAndWeight, goal, permissions
     
     var title: String {
       switch self {
@@ -51,6 +53,8 @@ extension OnboardingWizardViewModel {
         "What is your weight and height?"
       case .goal:
         "What is your goal?"
+      case .permissions:
+        "Permissions"
       }
     }
   }
