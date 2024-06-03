@@ -20,7 +20,7 @@ protocol StorageManagerType {
   
   /// Save core data changes
   ///
-  func saveChanges()
+  func saveChanges() async
   
   /// Perform a write operation. Uses `writerDerivedStorage`
   ///

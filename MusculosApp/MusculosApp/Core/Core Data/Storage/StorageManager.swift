@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-final class StorageManager: StorageManagerType {
+class StorageManager: StorageManagerType {
   public lazy var persistentContainer: NSPersistentContainer = {
     let container = NSPersistentContainer(name: "MusculosDataStore")
     
@@ -37,11 +37,11 @@ final class StorageManager: StorageManagerType {
     return managedObjectContext
   }()
   
-  func saveChanges() {
-    self.writerDerivedStorage.performAsync {
+  func saveChanges() async {
+    await writerDerivedStorage.perform {
       self.writerDerivedStorage.saveIfNeeded()
       
-      self.viewStorage.performAsync {
+      self.viewStorage.performSync {
         self.viewStorage.saveIfNeeded()
       }
     }
@@ -60,16 +60,14 @@ final class StorageManager: StorageManagerType {
   
   func performWriteOperation<T>(_ task: @escaping (StorageType) throws -> T) async throws -> T {
     return try await withCheckedThrowingContinuation { continuation in
-      let context = self.writerDerivedStorage
-      let operation = CoreDataWriteOperation(task: task, storage: context, continuation: continuation)
+      let operation = CoreDataWriteOperation(task: task, storage: self.writerDerivedStorage, continuation: continuation)
       self.writeQueue.addOperation(operation)
     }
   }
   
   func performReadOperation<T>(_ task: @escaping (StorageType) -> T) async -> T {
     return await withCheckedContinuation { continuation in
-      let context = self.viewStorage
-      let operation = CoreDataReadOperation(task: task, storage: context, continuation: continuation)
+      let operation = CoreDataReadOperation(task: task, storage: self.viewStorage, continuation: continuation)
       self.readQueue.addOperation(operation)
     }
   }

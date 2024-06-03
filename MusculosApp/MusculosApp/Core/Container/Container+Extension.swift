@@ -11,6 +11,9 @@ import Factory
 extension Container {
   var storageManager: Factory<StorageManagerType> {
     self { StorageManager() }
+      .onTest { _ in
+        InMemoryStorageManager()
+      }
       .singleton
   }
   

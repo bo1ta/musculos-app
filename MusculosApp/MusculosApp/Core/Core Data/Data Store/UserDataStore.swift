@@ -24,7 +24,7 @@ struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
       userEntity.isCurrentUser = true
     }
     
-    storageManager.saveChanges()
+    await storageManager.saveChanges()
   }
   
   func updateUser(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async throws {
@@ -43,10 +43,9 @@ struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
       }
     }
     
-    storageManager.saveChanges()
+    await storageManager.saveChanges()
   }
   
-  @MainActor
   func loadCurrentPerson() async -> Person? {
     return await storageManager.performReadOperation { viewStorage in
       if let userEntity = UserEntity.currentUser(with: viewStorage) {

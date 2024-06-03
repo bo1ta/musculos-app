@@ -23,7 +23,7 @@ struct GoalDataStore: BaseDataStore, GoalDataStoreProtocol {
       entity.frequency = goal.frequency.rawValue
     }
     
-    storageManager.saveChanges()
+    await storageManager.saveChanges()
   }
   
 //  func getAll() -> [Goal] {

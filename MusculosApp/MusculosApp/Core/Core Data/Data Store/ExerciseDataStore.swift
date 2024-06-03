@@ -86,7 +86,7 @@ extension ExerciseDataStore {
       }
     }
 
-    storageManager.saveChanges()
+    await storageManager.saveChanges()
   }
   
   func importFrom(_ exercises: [Exercise]) async throws -> [Exercise] {
@@ -117,7 +117,7 @@ extension ExerciseDataStore {
       }
     }
 
-    storageManager.saveChanges()
+    await storageManager.saveChanges()
     
     return exercises
   }
@@ -145,7 +145,7 @@ extension ExerciseDataStore {
       exerciseEntity.secondaryMuscles = secondaryMuscles
     }
 
-    storageManager.saveChanges()
+    await storageManager.saveChanges()
   }
 }
 

@@ -32,7 +32,6 @@ class HealthKitManager {
 // MARK: - Setup
 
 extension HealthKitManager {
-  @MainActor
   func setUpPermissions() async {
     guard HKHealthStore.isHealthDataAvailable() else { return }
     

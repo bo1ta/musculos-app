@@ -11,30 +11,18 @@ import Factory
 
 @testable import MusculosApp
 
-final class ExerciseDataStoreTests: XCTestCase, MusculosTestBase {
-  var hasPopulatedStorage: Bool = false
-  
-  override class func setUp() {
-    super.setUp()
-    Container.shared.storageManager.register { DummyStack() }
-  }
-  
-  override class func tearDown() {
-    Container.shared.storageManager.reset()
-    super.tearDown()
-  }
-  
-  func testMarkAndCheckAsFavorite() async throws {
-    let mockExercise = ExerciseFactory.createExercise()
-    await self.populateStorageWithMockExercise(exercise: mockExercise)
+final class ExerciseDataStoreTests: XCTestCase, MusculosTestBase {  
+  func testMarkAndCheckAsFavorite() async throws { 
+    let exercise = ExerciseFactory.createExercise()
+    try await self.populateStorageWithExercise(exercise: exercise)
     
     let dataStore = ExerciseDataStore()
     
     /// Mark as favorite
-    await dataStore.setIsFavorite(mockExercise, isFavorite: true)
+    try await dataStore.setIsFavorite(exercise, isFavorite: true)
     
     /// Check is favorite
-    let isFavorite = await dataStore.isFavorite(mockExercise)
+    let isFavorite = await dataStore.isFavorite(exercise)
     XCTAssertTrue(isFavorite)
   }
 }

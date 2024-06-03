@@ -36,7 +36,7 @@ struct WorkoutDataStore: BaseDataStore {
       }
     }
 
-    storageManager.saveChanges()
+    await storageManager.saveChanges()
   }
   
   func getAll() async -> [Workout] {

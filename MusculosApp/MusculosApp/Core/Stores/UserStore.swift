@@ -27,7 +27,6 @@ class UserStore: ObservableObject {
     currentPerson?.fullName ?? currentPerson?.username ?? "User"
   }
 
-  @MainActor
   func initialLoad() async {
     if let _ = UserDefaults.standard.string(forKey: UserDefaultsKeyConstant.authToken.rawValue) {
       self.isLoggedIn = true
