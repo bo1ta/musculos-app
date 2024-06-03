@@ -11,24 +11,13 @@ import Factory
 /// Helper protocol for Core Data store operations
 ///
 protocol BaseDataStore {
-  
-  /// Represents a private queue, suited for background operations.
+  /// Represents the Core Data storage manager
   ///
-  var writerDerivedStorage: StorageType { get }
-  
-  /// Represents main thread, suited for UI operations.
-  ///
-  var viewStorage: StorageType { get }
+  var storageManager: StorageManagerType { get }
 }
 
 extension BaseDataStore {
-  var writerDerivedStorage: StorageType {
-    let storageManager = Container.shared.storageManager()
-    return storageManager.writerDerivedStorage
-  }
-  
-  var viewStorage: StorageType {
-    let storageManager = Container.shared.storageManager()
-    return storageManager.viewStorage
+  var storageManager: StorageManagerType {
+    return Container.shared.storageManager()
   }
 }

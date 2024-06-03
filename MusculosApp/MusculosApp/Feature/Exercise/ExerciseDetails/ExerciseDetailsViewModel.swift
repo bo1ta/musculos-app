@@ -30,7 +30,7 @@ final class ExerciseDetailsViewModel: ObservableObject {
   
   @MainActor
   func initialLoad() {
-    isFavorite = exerciseDataStore.isFavorite(exercise)
+    Task { isFavorite = await exerciseDataStore.isFavorite(exercise) }
   }
   
   func toggleIsFavorite() {
@@ -38,7 +38,12 @@ final class ExerciseDetailsViewModel: ObservableObject {
     
     isFavoriteTask = Task.detached { [weak self] in
       guard let self else { return }
-      await self.exerciseDataStore.setIsFavorite(self.exercise, isFavorite: self.isFavorite)
+      
+      do {
+        try await self.exerciseDataStore.setIsFavorite(self.exercise, isFavorite: self.isFavorite)
+      } catch {
+        MusculosLogger.logError(error, message: "Could not update exercise.isFavorite", category: .coreData)
+      }
     }
   }
   
@@ -66,7 +71,12 @@ final class ExerciseDetailsViewModel: ObservableObject {
   func saveExerciseSession() {
     saveExerciseSessionTask = Task.detached { [weak self] in
       guard let self else { return }
-      await self.exerciseSessionDataStore.add(from: self.exercise, date: Date())
+      
+      do {
+        try await self.exerciseSessionDataStore.add(from: self.exercise, date: Date())
+      } catch {
+        MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
+      }
     }
   }
   

@@ -48,8 +48,12 @@ final class AddGoalSheetViewModel: ObservableObject {
         endDate: self.endDate
       )
       
-      await self.dataStore.add(goal)
-      await MainActor.run { self.didSaveGoalPublisher.send(()) }
+      do {
+        try await self.dataStore.add(goal)
+        await MainActor.run { self.didSaveGoalPublisher.send(()) }
+      } catch {
+        MusculosLogger.logError(error, message: "Could not save goal", category: .coreData)
+      }
     }
   }
   

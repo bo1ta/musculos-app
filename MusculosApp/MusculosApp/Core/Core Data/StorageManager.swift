@@ -37,9 +37,41 @@ final class StorageManager: StorageManagerType {
     return managedObjectContext
   }()
   
-  func saveDerivedType(_ derivedStorage: StorageType) async {
-    await derivedStorage.performAndSave { }
-    await viewStorage.performAndSave { }
+  func saveChanges() {
+    self.writerDerivedStorage.performAsync {
+      self.writerDerivedStorage.saveIfNeeded()
+      
+      self.viewStorage.performAsync {
+        self.viewStorage.saveIfNeeded()
+      }
+    }
+  }
+  
+  private lazy var writeQueue: OperationQueue = {
+    let queue = OperationQueue()
+    queue.maxConcurrentOperationCount = 1
+    return queue
+  }()
+  
+  private lazy var readQueue: OperationQueue = {
+    let queue = OperationQueue()
+    return queue
+  }()
+  
+  func performWriteOperation<T>(_ task: @escaping (StorageType) throws -> T) async throws -> T {
+    return try await withCheckedThrowingContinuation { continuation in
+      let context = self.writerDerivedStorage
+      let operation = CoreDataWriteOperation(task: task, storage: context, continuation: continuation)
+      self.writeQueue.addOperation(operation)
+    }
+  }
+  
+  func performReadOperation<T>(_ task: @escaping (StorageType) -> T) async -> T {
+    return await withCheckedContinuation { continuation in
+      let context = self.viewStorage
+      let operation = CoreDataReadOperation(task: task, storage: context, continuation: continuation)
+      self.readQueue.addOperation(operation)
+    }
   }
   
   func reset() {

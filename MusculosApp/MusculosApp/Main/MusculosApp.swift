@@ -22,7 +22,9 @@ struct MusculosApp: App {
         } else {
           if !userStore.isLoggedIn {
             SplashView()
-              .onAppear(perform: userStore.initialLoad)
+              .task {
+                await userStore.initialLoad()
+              }
           } else {
             OnboardingWizardView()
           }

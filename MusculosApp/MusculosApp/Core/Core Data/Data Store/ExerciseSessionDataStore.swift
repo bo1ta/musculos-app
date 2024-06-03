@@ -9,48 +9,52 @@ import Foundation
 import CoreData
 
 protocol ExerciseSessionDataStoreProtocol {
-  func getAll() -> [ExerciseSession]
-  func getCompletedToday() throws -> [ExerciseSession]
-  func add(from exercise: Exercise, date: Date) async
+  func getAll() async -> [ExerciseSession]
+  func getCompletedToday() async -> [ExerciseSession]
+  func add(from exercise: Exercise, date: Date) async throws
 }
 
 struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol {
-  func getAll() -> [ExerciseSession] {
-    return self.viewStorage
-      .allObjects(
-        ofType: ExerciseSessionEntity.self,
-        matching: nil,
-        sortedBy: nil
+  func getAll() async -> [ExerciseSession] {
+    return await storageManager.performReadOperation { viewStorage in
+      return viewStorage
+        .allObjects(
+          ofType: ExerciseSessionEntity.self,
+          matching: nil,
+          sortedBy: nil
+        )
+        .map { $0.toReadOnly() }
+    }
+  }
+  
+  func getCompletedToday() async -> [ExerciseSession] {
+    return await storageManager.performReadOperation { viewStorage in
+      guard
+        let currentPerson = UserEntity.currentUser(with: viewStorage)?.toReadOnly(),
+        let (startOfDay, endOfDay) = getCurrentDay() as? (Date, Date)
+      else { return [] }
+      
+      let userPredicate = NSPredicate(
+        format: "user.email == %@",
+        currentPerson.email
       )
-      .map { $0.toReadOnly() }
+      let todayPredicate = NSPredicate(
+        format: "date >= %@ AND date <= %@",
+        argumentArray: [startOfDay, endOfDay]
+      )
+      let compundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [userPredicate, todayPredicate])
+      
+      return viewStorage
+        .allObjects(
+          ofType: ExerciseSessionEntity.self,
+          matching: compundPredicate,
+          sortedBy: nil)
+        .map { $0.toReadOnly() }
+    }
   }
   
-  func getCompletedToday() throws -> [ExerciseSession] {
-    guard
-      let currentPerson = UserEntity.currentUser(with: self.viewStorage)?.toReadOnly(),
-      let (startOfDay, endOfDay) = getCurrentDay() as? (Date, Date)
-    else { throw MusculosError.notFound }
-        
-    let userPredicate = NSPredicate(
-      format: "user.email == %@",
-      currentPerson.email
-    )
-    let todayPredicate = NSPredicate(
-      format: "date >= %@ AND date <= %@",
-      argumentArray: [startOfDay, endOfDay]
-    )
-    let compundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [userPredicate, todayPredicate])
-    
-    return self.viewStorage
-      .allObjects(
-        ofType: ExerciseSessionEntity.self,
-        matching: compundPredicate,
-        sortedBy: nil)
-      .map { $0.toReadOnly() }
-  }
-  
-  func add(from exercise: Exercise, date: Date) async {
-    await writerDerivedStorage.performAndSave {
+  func add(from exercise: Exercise, date: Date) async throws {
+    try await storageManager.performWriteOperation { writerDerivedStorage in
       guard
         let exerciseEntity = writerDerivedStorage.firstObject(
           of: ExerciseEntity.self,
@@ -67,7 +71,7 @@ struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol
       entity.user = userEntity
     }
     
-    await viewStorage.performAndSave { }
+    storageManager.saveChanges()
   }
 }
 

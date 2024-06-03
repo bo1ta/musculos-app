@@ -31,7 +31,7 @@ final class ExploreExerciseViewModel: ObservableObject {
       guard let self else { return }
       
       do {
-        let completedToday = try self.exerciseSessionDataStore.getCompletedToday()
+        let completedToday = await self.exerciseSessionDataStore.getCompletedToday()
         self.completedToday = completedToday
       } catch {
         MusculosLogger.logError(error, message: "Could not load exercise sessions completed today", category: .coreData)

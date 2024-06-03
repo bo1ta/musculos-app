@@ -16,7 +16,6 @@ class ExerciseStore: ObservableObject {
   private let module: ExerciseModuleProtocol
   private let fetchedResultsController: ResultsController<ExerciseEntity>
   
-  
   init(module: ExerciseModuleProtocol = ExerciseModule()) {
     self.module = module
     self.fetchedResultsController = ResultsController<ExerciseEntity>(storageManager: Container.shared.storageManager(), sortedBy: [])
@@ -95,7 +94,13 @@ extension ExerciseStore {
     favoriteTask?.cancel()
     
     favoriteTask = Task { [weak self] in
-      await self?.module.dataStore.setIsFavorite(exercise, isFavorite: isFavorite)
+      guard let self else { return }
+      
+      do {
+        try await self.module.dataStore.setIsFavorite(exercise, isFavorite: isFavorite)
+      } catch {
+        MusculosLogger.logError(error, message: "Could not update isFavorite", category: .coreData, properties: ["exercise_name": exercise.name])
+      }
     }
   }
   
@@ -103,18 +108,24 @@ extension ExerciseStore {
     addExerciseTask?.cancel()
     
     addExerciseTask = Task { [weak self] in
-      await self?.module.dataStore.add(exercise)
+      guard let self else { return }
+      
+      do {
+        try await self.module.dataStore.add(exercise)
+      } catch {
+        MusculosLogger.logError(error, message: "Could not add exercise", category: .coreData, properties: ["exercise_name": exercise.name])
+      }
     }
   }
   
   @MainActor
-  func filterByMuscles(muscles: [String]) {
+  func filterByMuscles(muscles: [String]) async {
     let muscleTypes = muscles.compactMap { MuscleType(rawValue: $0) }
-    let exercises = module.dataStore.getByMuscles(muscleTypes)
+    let exercises = await module.dataStore.getByMuscles(muscleTypes)
     self.state = .loaded(exercises)
   }
   
-  @MainActor 
+  @MainActor
   func filterByMuscles(
     muscles: [String],
     level: String = "",
@@ -122,7 +133,7 @@ extension ExerciseStore {
     equipments: [String] = []
   ) async -> [Exercise] {
     let muscleTypes = muscles.compactMap { MuscleType(rawValue: $0) }
-    var filteredExercises = module.dataStore.getByMuscles(muscleTypes)
+    var filteredExercises = await module.dataStore.getByMuscles(muscleTypes)
     
     if categories.count > 0 {
       filteredExercises = filteredExercises.filter { categories.contains($0.category) }
@@ -146,8 +157,8 @@ extension ExerciseStore {
   }
   
   @MainActor
-  func checkIsFavorite(exercise: Exercise) -> Bool {
-    return module.dataStore.isFavorite(exercise)
+  func checkIsFavorite(exercise: Exercise) async -> Bool {
+    return await module.dataStore.isFavorite(exercise)
   }
 }
 
@@ -161,7 +172,7 @@ extension ExerciseStore {
         await updateLocalResults()
       }
     }
-  
+    
     fetchedResultsController.onDidResetContent = { [weak self] in
       guard let updateLocalResults = self?.updateLocalResults else { return }
       Task {

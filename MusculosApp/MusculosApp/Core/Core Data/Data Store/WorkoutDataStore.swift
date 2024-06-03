@@ -8,8 +8,8 @@
 import Foundation
 
 struct WorkoutDataStore: BaseDataStore {
-  func create(_ workout: Workout) async {
-    await writerDerivedStorage.performAndSave {
+  func create(_ workout: Workout) async throws {
+    try await storageManager.performWriteOperation { writerDerivedStorage in
       guard let user = UserEntity.currentUser(with: writerDerivedStorage) else { return }
       
       let workoutEntity = writerDerivedStorage.insertNewObject(ofType: WorkoutEntity.self)
@@ -36,13 +36,14 @@ struct WorkoutDataStore: BaseDataStore {
       }
     }
 
-    await viewStorage.performAndSave {}
+    storageManager.saveChanges()
   }
   
-  @MainActor
   func getAll() async -> [Workout] {
-    return viewStorage
-      .allObjects(ofType: WorkoutEntity.self, matching: nil, sortedBy: nil)
-      .map { $0.toReadOnly() }
+    return await storageManager.performReadOperation { viewStorage in
+      return viewStorage
+        .allObjects(ofType: WorkoutEntity.self, matching: nil, sortedBy: nil)
+        .map { $0.toReadOnly() }
+    }
   }
 }

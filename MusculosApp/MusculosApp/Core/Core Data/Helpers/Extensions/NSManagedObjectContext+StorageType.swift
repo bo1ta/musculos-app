@@ -125,13 +125,25 @@ extension NSManagedObjectContext: StorageType {
     return insertNewObject(ofType: type)
   }
   
-  func performAndSave(_ closure: @escaping () -> Void) async {
-    await perform { [weak self] in
+  func performAndSave(_ closure: @escaping () -> Void) {
+    performAndWait { [weak self] in
       closure()
       self?.saveIfNeeded()
     }
   }
   
+  func performSync(_ closure: @escaping () -> Void) {
+    self.performAndWait {
+      closure()
+    }
+  }
+  
+  func performAsync(_ closure: @escaping () -> Void) {
+    self.perform {
+      closure()
+    }
+  }
+ 
   func saveIfNeeded() {
     guard hasChanges else { return }
     

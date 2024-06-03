@@ -8,45 +8,65 @@
 import Foundation
 import CoreData
 
+protocol ExerciseDataStoreProtocol {
+  // read methods
+  func isFavorite(_ exercise: Exercise) async -> Bool
+  func getAll() async -> [Exercise]
+  func getByName(_ name: String) async -> [Exercise]
+  func getByMuscles(_ muscles: [MuscleType]) async -> [Exercise]
+  
+  // write methods
+  func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws
+  func importFrom(_ exercises: [Exercise]) async throws -> [Exercise]
+  func add(_ exercise: Exercise) async throws
+}
+
 // MARK: - Read methods
-/// Should run on main thread since they access `viewStorage`
 ///
 
 struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
-  func isFavorite(_ exercise: Exercise) -> Bool {
-    return self.viewStorage
-      .firstObject(
-        of: ExerciseEntity.self,
-        matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
-      )?.isFavorite
-    ?? false
+  func isFavorite(_ exercise: Exercise) async -> Bool {
+    return await storageManager.performReadOperation { viewStorage in
+      return viewStorage
+        .firstObject(
+          of: ExerciseEntity.self,
+          matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
+        )?.isFavorite
+      ?? false
+    }
   }
   
-  func getAll() -> [Exercise] {
-    return viewStorage
-      .allObjects(ofType: ExerciseEntity.self, matching: nil, sortedBy: nil)
+  func getAll() async -> [Exercise] {
+    return await storageManager.performReadOperation { viewStorage in
+      return viewStorage
+        .allObjects(ofType: ExerciseEntity.self, matching: nil, sortedBy: nil)
+        .map { $0.toReadOnly() }
+    }
+  }
+  
+  func getByName(_ name: String) async -> [Exercise] {
+    return await storageManager.performReadOperation { viewStorage in
+      return viewStorage
+        .allObjects(
+          ofType: ExerciseEntity.self,
+          matching: ExerciseEntity.CommonPredicate.byName(name).nsPredicate,
+          sortedBy: nil
+        )
+        .map { $0.toReadOnly() }
+    }
+  }
+  
+  func getByMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
+    return await storageManager.performReadOperation { viewStorage in
+      let muscleIds = muscles.map { $0.id }
+      
+      return viewStorage.allObjects(
+        ofType: PrimaryMuscleEntity.self,
+        matching: NSPredicate(format: "muscleId IN %@", muscleIds),
+        sortedBy: nil)
+      .flatMap { $0.exercises }
       .map { $0.toReadOnly() }
-  }
-  
-  func getByName(_ name: String) -> [Exercise] {
-    return viewStorage
-      .allObjects(
-        ofType: ExerciseEntity.self,
-        matching: ExerciseEntity.CommonPredicate.byName(name).nsPredicate,
-        sortedBy: nil
-      )
-      .map { $0.toReadOnly() }
-  }
-  
-  func getByMuscles(_ muscles: [MuscleType]) -> [Exercise] {
-    let muscleIds = muscles.map { $0.id }
-    
-    return viewStorage.allObjects(
-      ofType: PrimaryMuscleEntity.self,
-      matching: NSPredicate(format: "muscleId IN %@", muscleIds),
-      sortedBy: nil)
-    .flatMap { $0.exercises }
-    .map { $0.toReadOnly() }
+    }
   }
 }
 
@@ -56,22 +76,23 @@ struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
 ///
 
 extension ExerciseDataStore {
-  func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async {
-    await writerDerivedStorage.performAndSave {
-      if let exercise = self.writerDerivedStorage.firstObject(
+  func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws {
+    try await storageManager.performWriteOperation { writerDerivedStorage in
+      if let exercise = writerDerivedStorage.firstObject(
         of: ExerciseEntity.self,
         matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
       ) {
         exercise.isFavorite = isFavorite
       }
     }
-    await viewStorage.performAndSave { }
+
+    storageManager.saveChanges()
   }
   
-  func importFrom(_ exercises: [Exercise]) async -> [Exercise] {
-    await writerDerivedStorage.performAndSave {
+  func importFrom(_ exercises: [Exercise]) async throws -> [Exercise] {
+    try await storageManager.performWriteOperation { writerStorage in
       for exercise in exercises {
-        let exerciseEntity = self.writerDerivedStorage.findOrInsert(
+        let exerciseEntity = writerStorage.findOrInsert(
           of: ExerciseEntity.self,
           using: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
         )
@@ -88,20 +109,22 @@ extension ExerciseDataStore {
         let (primaryMuscles, secondaryMuscles) = self.syncMusclesToExerciseEntity(
           exerciseEntity: exerciseEntity,
           primaryMuscles: exercise.primaryMuscles,
-          secondaryMuscles: exercise.secondaryMuscles
+          secondaryMuscles: exercise.secondaryMuscles,
+          writerStorage: writerStorage
         )
         exerciseEntity.primaryMuscles = primaryMuscles
         exerciseEntity.secondaryMuscles = secondaryMuscles
       }
     }
-    await viewStorage.performAndSave {}
+
+    storageManager.saveChanges()
     
     return exercises
   }
   
-  func add(_ exercise: Exercise) async {
-    await writerDerivedStorage.performAndSave {
-      let exerciseEntity = self.writerDerivedStorage.insertNewObject(ofType: ExerciseEntity.self)
+  func add(_ exercise: Exercise) async throws {
+    try await storageManager.performWriteOperation { writerStorage in
+      let exerciseEntity = writerStorage.insertNewObject(ofType: ExerciseEntity.self)
       
       exerciseEntity.exerciseId = exercise.id
       exerciseEntity.name = exercise.name
@@ -115,13 +138,14 @@ extension ExerciseDataStore {
       let (primaryMuscles, secondaryMuscles) = self.syncMusclesToExerciseEntity(
         exerciseEntity: exerciseEntity,
         primaryMuscles: exercise.primaryMuscles,
-        secondaryMuscles: exercise.secondaryMuscles
+        secondaryMuscles: exercise.secondaryMuscles,
+        writerStorage: writerStorage
       )
       exerciseEntity.primaryMuscles = primaryMuscles
       exerciseEntity.secondaryMuscles = secondaryMuscles
     }
-    
-    await viewStorage.performAndSave { }
+
+    storageManager.saveChanges()
   }
 }
 
@@ -138,21 +162,22 @@ extension ExerciseDataStore {
   private func syncMusclesToExerciseEntity(
     exerciseEntity: ExerciseEntity,
     primaryMuscles: [String],
-    secondaryMuscles: [String]
+    secondaryMuscles: [String],
+    writerStorage: StorageType
   ) -> (Set<PrimaryMuscleEntity>, Set<SecondaryMuscleEntity>) {
     let primaryMusclesEntity = Set<PrimaryMuscleEntity>(primaryMuscles
       .compactMap { muscle in
-        guard let muscleType = MuscleType(rawValue: muscle) else { return nil }
+        let muscleType = MuscleType(rawValue: muscle)
         
         let predicate = NSPredicate(
           format: "%K == %d",
           #keyPath(PrimaryMuscleEntity.muscleId),
-          muscleType.id
+          muscleType!.id
         )
         
-        let entity = self.writerDerivedStorage.findOrInsert(of: PrimaryMuscleEntity.self, using: predicate)
-        entity.muscleId = NSNumber(integerLiteral: muscleType.id)
-        entity.name = muscleType.rawValue
+        let entity = writerStorage.findOrInsert(of: PrimaryMuscleEntity.self, using: predicate)
+        entity.muscleId = NSNumber(integerLiteral: muscleType!.id)
+        entity.name = muscleType!.rawValue
         entity.exercises.insert(exerciseEntity)
         
         return entity
@@ -169,7 +194,7 @@ extension ExerciseDataStore {
           muscleType.id
         )
         
-        let entity = self.writerDerivedStorage.findOrInsert(of: SecondaryMuscleEntity.self, using: predicate)
+        let entity = writerStorage.findOrInsert(of: SecondaryMuscleEntity.self, using: predicate)
         entity.muscleId = NSNumber(integerLiteral: muscleType.id)
         entity.name = muscleType.rawValue
         entity.exercises.insert(exerciseEntity)

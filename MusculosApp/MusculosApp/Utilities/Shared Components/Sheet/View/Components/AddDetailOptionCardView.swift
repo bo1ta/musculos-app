@@ -33,12 +33,14 @@ struct AddDetailOptionCardView: View {
                 .shadow(radius: 0.5)
             }
           } else {
-            Button {
-              options.remove(at: option.id)
-            } label: {
+            if options.count > 1 {
+              Button {
+                options.remove(at: option.id)
+              } label: {
                 Image(systemName: "minus")
-                .foregroundStyle(Color.AppColor.blue500)
-                .shadow(radius: 0.5)
+                  .foregroundStyle(Color.AppColor.blue500)
+                  .shadow(radius: 0.5)
+              }
             }
           }
         }

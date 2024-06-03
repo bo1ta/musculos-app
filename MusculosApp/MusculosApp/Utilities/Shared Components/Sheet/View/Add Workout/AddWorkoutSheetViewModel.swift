@@ -81,9 +81,13 @@ extension AddWorkoutSheetViewModel {
         workoutType: self.workoutType,
         workoutExercises: self.selectedExercises
       )
-      await self.dataStore.create(workout)
       
-      self.state = .successful
+      do {
+        try await self.dataStore.create(workout)
+        self.state = .successful
+      } catch {
+        MusculosLogger.logError(error, message: "Could not add workout", category: .coreData)
+      }
     }
   }
 }
