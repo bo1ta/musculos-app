@@ -63,6 +63,7 @@ struct AddGoalSheet: View {
     }
     .onReceive(viewModel.didSaveGoalPublisher) { _ in
       appManager.showToast(style: .success, message: "Added new goal! Good luck!")
+      appManager.didUpdateSubject.send(.goal)
       dismiss()
     }
     .padding()

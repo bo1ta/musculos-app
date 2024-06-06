@@ -35,8 +35,6 @@ struct WorkoutDataStore: BaseDataStore {
         workoutEntity.addToWorkoutExercises(workoutExerciseEntity)
       }
     }
-
-    await storageManager.saveChanges()
   }
   
   func getAll() async -> [Workout] {

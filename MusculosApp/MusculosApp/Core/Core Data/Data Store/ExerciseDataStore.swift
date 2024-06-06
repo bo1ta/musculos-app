@@ -116,8 +116,6 @@ extension ExerciseDataStore {
         exerciseEntity.secondaryMuscles = secondaryMuscles
       }
     }
-
-    await storageManager.saveChanges()
     
     return exercises
   }
@@ -144,8 +142,6 @@ extension ExerciseDataStore {
       exerciseEntity.primaryMuscles = primaryMuscles
       exerciseEntity.secondaryMuscles = secondaryMuscles
     }
-
-    await storageManager.saveChanges()
   }
 }
 
@@ -165,26 +161,28 @@ extension ExerciseDataStore {
     secondaryMuscles: [String],
     writerStorage: StorageType
   ) -> (Set<PrimaryMuscleEntity>, Set<SecondaryMuscleEntity>) {
-    let primaryMusclesEntity = Set<PrimaryMuscleEntity>(primaryMuscles
+    let primaryMusclesEntity = Set<PrimaryMuscleEntity>(
+      primaryMuscles
       .compactMap { muscle in
-        let muscleType = MuscleType(rawValue: muscle)
+        guard let muscleType = MuscleType(rawValue: muscle) else { return nil }
         
         let predicate = NSPredicate(
           format: "%K == %d",
           #keyPath(PrimaryMuscleEntity.muscleId),
-          muscleType!.id
+          muscleType.id
         )
         
         let entity = writerStorage.findOrInsert(of: PrimaryMuscleEntity.self, using: predicate)
-        entity.muscleId = NSNumber(integerLiteral: muscleType!.id)
-        entity.name = muscleType!.rawValue
+        entity.muscleId = NSNumber(integerLiteral: muscleType.id)
+        entity.name = muscleType.rawValue
         entity.exercises.insert(exerciseEntity)
         
         return entity
       }
     )
     
-    let secondaryMusclesEntity = Set<SecondaryMuscleEntity>(secondaryMuscles
+    let secondaryMusclesEntity = Set<SecondaryMuscleEntity>(
+      secondaryMuscles
       .compactMap { muscle in
         guard let muscleType = MuscleType(rawValue: muscle) else { return nil }
         

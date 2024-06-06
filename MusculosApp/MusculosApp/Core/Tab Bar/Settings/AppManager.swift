@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 /// Helper manager that is passed from the root level
 ///
@@ -20,6 +21,11 @@ class AppManager: ObservableObject {
   /// Set to show a useful toast message for success, info, error, warning states
   ///
   @Published var toast: Toast? = nil
+  
+  /// Publisher to notify changes to various models
+  /// Subscribe to this to refetch the data you need
+  ///
+  let didUpdateSubject = PassthroughSubject<UpdatableSubject, Never>()
 }
 
 // MARK: - Functions
@@ -38,4 +44,9 @@ extension AppManager {
   func showToast(style: Toast.ToastStyle, message: String, duration: Double = 2.0) {
     toast = Toast(style: style, message: message, duration: duration)
   }
+}
+
+enum UpdatableSubject {
+  case goal
+  case exerciseSession
 }

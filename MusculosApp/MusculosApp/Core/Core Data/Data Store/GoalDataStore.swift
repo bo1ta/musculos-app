@@ -9,6 +9,7 @@ import Foundation
 
 protocol GoalDataStoreProtocol {
   func add(_ goal: Goal) async throws
+  func getAll() async -> [Goal]
 }
 
 struct GoalDataStore: BaseDataStore, GoalDataStoreProtocol {
@@ -22,11 +23,17 @@ struct GoalDataStore: BaseDataStore, GoalDataStoreProtocol {
       entity.isCompleted = false
       entity.frequency = goal.frequency.rawValue
     }
-    
-    await storageManager.saveChanges()
   }
   
-//  func getAll() -> [Goal] {
-//    return viewStorage.
-//  }
+  func getAll() async -> [Goal] {
+    return await storageManager.performReadOperation { viewStorage in
+      return viewStorage
+        .allObjects(
+          ofType: GoalEntity.self,
+          matching: nil,
+          sortedBy: nil
+        )
+        .map { $0.toReadOnly() }
+    }
+  }
 }

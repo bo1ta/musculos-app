@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 final class CoreDataWriteOperation<T>: Operation {
   let task: (StorageType) throws -> T
@@ -23,9 +24,16 @@ final class CoreDataWriteOperation<T>: Operation {
       do {
         let result = try self.task(self.storage)
         self.continuation.resume(returning: result)
+        
+        self.notifyChanges()
       } catch {
         self.continuation.resume(throwing: error)
       }
     }
+  }
+  
+  private func notifyChanges() {
+    guard let context = storage as? NSManagedObjectContext else { return }
+    context.processPendingChanges()
   }
 }

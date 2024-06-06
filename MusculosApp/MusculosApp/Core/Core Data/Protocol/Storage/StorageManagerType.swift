@@ -22,6 +22,10 @@ protocol StorageManagerType {
   ///
   func saveChanges() async
   
+  /// Save core data changes with completion
+  ///
+  func saveChanges(completion: @escaping () -> Void)
+  
   /// Perform a write operation. Uses `writerDerivedStorage`
   ///
   func performWriteOperation<T>(_ task: @escaping (StorageType) throws -> T) async throws -> T

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ExploreExerciseView: View {
   @EnvironmentObject private var exerciseStore: ExerciseStore
+  @EnvironmentObject private var exerciseSessionStore: ExerciseSessionStore
+  
   @EnvironmentObject private var appManager: AppManager
 
   @StateObject private var viewModel = ExploreExerciseViewModel()
@@ -42,6 +44,14 @@ struct ExploreExerciseView: View {
       .popover(isPresented: $viewModel.showFilterView) {
         ExerciseFilterView()
       }
+      .onReceive(appManager.didUpdateSubject, perform: { updatedSubject in
+        switch updatedSubject {
+        case .exerciseSession:
+          Task { await viewModel.loadExercisesCompletedToday() }
+        case .goal:
+          Task { await viewModel.loadGoals() }
+        }
+      })
       .background(
         Image("white-patterns-background")
           .resizable(resizingMode: .tile)
@@ -53,9 +63,9 @@ struct ExploreExerciseView: View {
         }
       }
       .onAppear {
-        viewModel.loadExercisesCompletedToday()
         appManager.showTabBar()
       }
+      .task { await viewModel.initialLoad() }
       
       .onDisappear(perform: exerciseStore.cleanUp)
     }
@@ -65,5 +75,6 @@ struct ExploreExerciseView: View {
 #Preview {
   ExploreExerciseView()
     .environmentObject(ExerciseStore())
+    .environmentObject(ExerciseSessionStore())
     .environmentObject(AppManager())
 }

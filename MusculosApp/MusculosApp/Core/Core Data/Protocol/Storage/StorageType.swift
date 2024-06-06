@@ -67,10 +67,6 @@ protocol StorageType {
   ///
   func perform(_ closure: @escaping () -> Void) async
   
-  /// Perform block and saves changes
-  ///
-  func performAndSave(_ block: @escaping () -> Void) async
-  
   func performSync(_ block: @escaping () -> Void)
   
   func performAsync(_ block: @escaping () -> Void)

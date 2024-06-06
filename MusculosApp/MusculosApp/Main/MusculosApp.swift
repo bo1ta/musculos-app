@@ -11,6 +11,7 @@ import HealthKit
 struct MusculosApp: App {
   @StateObject private var userStore = UserStore()
   @StateObject private var exerciseStore = ExerciseStore()
+  @StateObject private var exerciseSessionStore = ExerciseSessionStore()
   @StateObject private var healthKitViewModel = HealthKitViewModel()
   
   var body: some Scene {
@@ -19,6 +20,7 @@ struct MusculosApp: App {
         if userStore.isOnboarded && userStore.isLoggedIn {
           AppTabView()
             .environmentObject(exerciseStore)
+            .environmentObject(exerciseSessionStore)
         } else {
           if !userStore.isLoggedIn {
             SplashView()

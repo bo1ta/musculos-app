@@ -6,9 +6,32 @@
 //
 
 import Foundation
+import Combine
+import UIKit
 import CoreData
 
 class StorageManager: StorageManagerType {
+  private var cancellables = Set<AnyCancellable>()
+  private let coalesceInterval: Double = 2.0 // coalesce interval for Core Data saving
+  
+  init() {
+    setupNotificationPublisher()
+  }
+  
+  /// Setup `onChange` notification publisher for `writerDerivedStorage`
+  /// Debounces for 2 seconds then saves changes in a background task
+  ///
+  func setupNotificationPublisher() {
+    NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: writerDerivedStorage as? NSManagedObjectContext)
+      .debounce(for: .seconds(coalesceInterval), scheduler: DispatchQueue.global())
+      .sink { [weak self] _ in
+        self?.performBackgroundSave()
+      }
+      .store(in: &cancellables)
+  }
+  
+  // MARK: - Core Data Stack
+  
   public lazy var persistentContainer: NSPersistentContainer = {
     let container = NSPersistentContainer(name: "MusculosDataStore")
     
@@ -37,6 +60,39 @@ class StorageManager: StorageManagerType {
     return managedObjectContext
   }()
   
+  // MARK: - Saving methods
+  
+  /// Starts a background task to save the changes
+  /// This ensures data is saved even if the app is in background mode
+  ///
+  private func performBackgroundSave() {
+    let app = UIApplication.shared
+    var bgTask: UIBackgroundTaskIdentifier = .invalid
+    
+    bgTask = app.beginBackgroundTask(withName: "CoreDataSave", expirationHandler: {
+      app.endBackgroundTask(bgTask)
+      bgTask = .invalid
+    })
+    
+    self.saveChanges {
+      app.endBackgroundTask(bgTask)
+      bgTask = .invalid
+    }
+  }
+  
+  func saveChanges(completion: @escaping () -> Void) {
+    writerDerivedStorage.performSync { [ weak self] in
+      guard let self else { return }
+      
+      self.writerDerivedStorage.saveIfNeeded()
+      
+      self.viewStorage.performSync {
+        self.viewStorage.saveIfNeeded()
+        completion()
+      }
+    }
+  }
+    
   func saveChanges() async {
     await writerDerivedStorage.perform {
       self.writerDerivedStorage.saveIfNeeded()
@@ -46,6 +102,8 @@ class StorageManager: StorageManagerType {
       }
     }
   }
+  
+  // MARK: - Queue Operations
   
   private lazy var writeQueue: OperationQueue = {
     let queue = OperationQueue()
@@ -71,7 +129,11 @@ class StorageManager: StorageManagerType {
       self.readQueue.addOperation(operation)
     }
   }
-  
+}
+
+// MARK: - Reset or delete methods
+
+extension StorageManager {
   func reset() {
     let viewContext = persistentContainer.viewContext
     viewContext.performAndWait {
@@ -80,9 +142,7 @@ class StorageManager: StorageManagerType {
       MusculosLogger.logInfo(message: "CoreDataStack DESTROYED ! 💣", category: .coreData)
     }
   }
-}
-
-extension StorageManager {
+  
   func deleteSql() {
     let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("MusculosDataStore.sqlite")
 

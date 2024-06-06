@@ -37,7 +37,7 @@ struct PermissionsView: View {
       .padding()
       
       
-      Text("Note: All the data you share is private and is not uploaded to any server or shared with any service. This means you will lose the current progress when uninstalling the app." )
+      Text("Note: All the data you share is private and is not uploaded to any server or shared with any service. That means you will lose the current progress when you uninstall the app." )
         .padding(.top)
         .font(AppFont.body(.regular, size: 14))
       

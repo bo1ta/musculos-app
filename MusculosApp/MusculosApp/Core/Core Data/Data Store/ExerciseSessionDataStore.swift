@@ -70,8 +70,6 @@ struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol
       entity.exercise = exerciseEntity
       entity.user = userEntity
     }
-    
-    await storageManager.saveChanges()
   }
 }
 

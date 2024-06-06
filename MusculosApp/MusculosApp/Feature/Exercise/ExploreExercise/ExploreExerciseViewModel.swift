@@ -11,8 +11,12 @@ import Factory
 
 final class ExploreExerciseViewModel: ObservableObject {
   @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
+  @Injected(\.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
   
   @Published var completedToday: [ExerciseSession] = []
+  @Published var goals: [Goal] = []
+  @Published var isLoading = false
+  
   @Published var searchQuery = ""
   @Published var showFilterView = false
   @Published var showExerciseDetails = false
@@ -23,19 +27,28 @@ final class ExploreExerciseViewModel: ObservableObject {
       }
     }
   }
+    
+  @MainActor
+  func loadExercisesCompletedToday() async {
+    self.completedToday = await exerciseSessionDataStore.getCompletedToday()
+  }
   
-  private(set) var exerciseSessionTask: Task<Void, Never>?
+  @MainActor
+  func loadGoals() async {
+    self.goals = await goalDataStore.getAll()
+  }
   
-  func loadExercisesCompletedToday() {
-    exerciseSessionTask = Task { @MainActor [weak self] in
+  func initialLoad() async {
+    await withTaskGroup(of: Void.self) { @MainActor [weak self] group in
       guard let self else { return }
       
-      do {
-        let completedToday = await self.exerciseSessionDataStore.getCompletedToday()
-        self.completedToday = completedToday
-      } catch {
-        MusculosLogger.logError(error, message: "Could not load exercise sessions completed today", category: .coreData)
-      }
+      self.isLoading = true
+      defer { self.isLoading = false }
+      
+      group.addTask { await self.loadExercisesCompletedToday() }
+      group.addTask { await self.loadGoals() }
+      
+      await group.waitForAll()
     }
   }
 }
