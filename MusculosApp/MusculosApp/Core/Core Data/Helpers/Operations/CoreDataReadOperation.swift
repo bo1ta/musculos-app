@@ -7,12 +7,12 @@
 
 import Foundation
 
-final class CoreDataReadOperation<T>: Operation {
-  let task: (StorageType) -> T
+final class CoreDataReadOperation<ResultType>: Operation {
+  let task: (StorageType) -> ResultType
   let storage: StorageType
-  let continuation: CheckedContinuation<T, Never>
+  let continuation: CheckedContinuation<ResultType, Never>
   
-  init(task: @escaping (StorageType) -> T, storage: StorageType, continuation: CheckedContinuation<T, Never>) {
+  init(task: @escaping (StorageType) -> ResultType, storage: StorageType, continuation: CheckedContinuation<ResultType, Never>) {
     self.task = task
     self.storage = storage
     self.continuation = continuation

@@ -8,12 +8,12 @@
 import Foundation
 import CoreData
 
-final class CoreDataWriteOperation<T>: Operation {
-  let task: (StorageType) throws -> T
+final class CoreDataWriteOperation: Operation {
+  let task: (StorageType) throws -> Void
   let storage: StorageType
-  let continuation: CheckedContinuation<T, Error>
+  let continuation: CheckedContinuation<Void, Error>
   
-  init(task: @escaping (StorageType) throws -> T, storage: StorageType, continuation: CheckedContinuation<T, Error>) {
+  init(task: @escaping (StorageType) throws -> Void, storage: StorageType, continuation: CheckedContinuation<Void, Error>) {
     self.task = task
     self.storage = storage
     self.continuation = continuation
@@ -22,8 +22,8 @@ final class CoreDataWriteOperation<T>: Operation {
   override func main() {
     storage.performSync {
       do {
-        let result = try self.task(self.storage)
-        self.continuation.resume(returning: result)
+        try self.task(self.storage)
+        self.continuation.resume(returning: ())
         
         self.notifyChanges()
       } catch {
@@ -32,6 +32,8 @@ final class CoreDataWriteOperation<T>: Operation {
     }
   }
   
+  /// Notify changes to the context to trigger the `onChange` notification
+  ///
   private func notifyChanges() {
     guard let context = storage as? NSManagedObjectContext else { return }
     context.processPendingChanges()

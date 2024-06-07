@@ -18,7 +18,7 @@ class StorageManager: StorageManagerType {
     setupNotificationPublisher()
   }
   
-  /// Setup `onChange` notification publisher for `writerDerivedStorage`
+  /// Setup `onChange` notification for `writerDerivedStorage`
   /// Debounces for 2 seconds then saves changes in a background task
   ///
   func setupNotificationPublisher() {
@@ -60,7 +60,7 @@ class StorageManager: StorageManagerType {
     return managedObjectContext
   }()
   
-  // MARK: - Saving methods
+  // MARK: - Save methods
   
   /// Starts a background task to save the changes
   /// This ensures data is saved even if the app is in background mode
@@ -116,14 +116,14 @@ class StorageManager: StorageManagerType {
     return queue
   }()
   
-  func performWriteOperation<T>(_ task: @escaping (StorageType) throws -> T) async throws -> T {
+  func performWriteOperation(_ task: @escaping (StorageType) throws -> Void) async throws {
     return try await withCheckedThrowingContinuation { continuation in
       let operation = CoreDataWriteOperation(task: task, storage: self.writerDerivedStorage, continuation: continuation)
       self.writeQueue.addOperation(operation)
     }
   }
   
-  func performReadOperation<T>(_ task: @escaping (StorageType) -> T) async -> T {
+  func performReadOperation<ResultType>(_ task: @escaping (StorageType) -> ResultType) async -> ResultType {
     return await withCheckedContinuation { continuation in
       let operation = CoreDataReadOperation(task: task, storage: self.viewStorage, continuation: continuation)
       self.readQueue.addOperation(operation)

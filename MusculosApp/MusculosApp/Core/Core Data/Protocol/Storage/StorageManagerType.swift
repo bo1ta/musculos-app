@@ -28,11 +28,11 @@ protocol StorageManagerType {
   
   /// Perform a write operation. Uses `writerDerivedStorage`
   ///
-  func performWriteOperation<T>(_ task: @escaping (StorageType) throws -> T) async throws -> T
+  func performWriteOperation(_ task: @escaping (StorageType) throws -> Void) async throws
   
   /// Perform a read operation. Uses `viewStorage`
   ///
-  func performReadOperation<T>(_ task: @escaping (StorageType) -> T) async -> T
+  func performReadOperation<ResultType>(_ task: @escaping (StorageType) -> ResultType) async -> ResultType
   
   /// Convenience method for clearing the data store
   ///
