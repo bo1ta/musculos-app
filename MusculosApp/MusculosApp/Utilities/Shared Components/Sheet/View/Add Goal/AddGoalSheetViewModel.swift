@@ -30,14 +30,14 @@ final class AddGoalSheetViewModel: ObservableObject {
   private let dataStore: GoalDataStore
   
   private(set) var saveTask: Task<Void, Never>?
-  private(set) var didSaveGoalPublisher = PassthroughSubject<Void, Never>()
+  private(set) var didSaveGoalPublisher = PassthroughSubject<Bool, Never>()
   
   init(dataStore: GoalDataStore = GoalDataStore()) {
     self.dataStore = dataStore
   }
   
   func saveGoal() {
-    saveTask = Task.detached { [weak self] in
+    saveTask = Task { @MainActor [weak self] in
       guard let self else { return }
       
       let goal = Goal(
@@ -50,8 +50,9 @@ final class AddGoalSheetViewModel: ObservableObject {
       
       do {
         try await self.dataStore.add(goal)
-        await MainActor.run { self.didSaveGoalPublisher.send(()) }
+        self.didSaveGoalPublisher.send(true)
       } catch {
+        self.didSaveGoalPublisher.send(false)
         MusculosLogger.logError(error, message: "Could not save goal", category: .coreData)
       }
     }

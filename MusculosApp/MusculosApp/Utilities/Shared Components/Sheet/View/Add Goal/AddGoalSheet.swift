@@ -61,10 +61,14 @@ struct AddGoalSheet: View {
       
       Spacer()
     }
-    .onReceive(viewModel.didSaveGoalPublisher) { _ in
-      appManager.showToast(style: .success, message: "Added new goal! Good luck!")
-      appManager.didUpdateSubject.send(.goal)
-      dismiss()
+    .onReceive(viewModel.didSaveGoalPublisher) { didSaveGoal in
+      if didSaveGoal {
+        appManager.showToast(style: .success, message: "Added new goal! Good luck!")
+        appManager.didUpdateSubject.send(.goal)
+        dismiss()
+      } else {
+        appManager.showToast(style: .error, message: "Could not add goal. Please try again")
+      }
     }
     .padding()
     .safeAreaInset(edge: .bottom) {
