@@ -194,6 +194,7 @@
 		BCD977AE2BC2E1F20076C148 /* WorkoutEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD977AB2BC2E1F20076C148 /* WorkoutEntity+CoreDataProperties.swift */; };
 		BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */; };
 		BCE19AB62C14CF40005ABBF3 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19AB52C14CF40005ABBF3 /* DateHelper.swift */; };
+		BCE19AB82C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19AB72C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift */; };
 		BCE417102A7D73380088D975 /* WorkoutTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4170F2A7D73380088D975 /* WorkoutTabBarButton.swift */; };
 		BCE484A42BB07A4C00BC8268 /* loading-animated.gif in Resources */ = {isa = PBXBuildFile; fileRef = BCE484A32BB07A4C00BC8268 /* loading-animated.gif */; };
 		BCEE99452C0BA7FA0027D42B /* ExerciseSessionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEE99422C0BA7FA0027D42B /* ExerciseSessionEntity+CoreDataClass.swift */; };
@@ -423,6 +424,7 @@
 		BCD977AB2BC2E1F20076C148 /* WorkoutEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WorkoutEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BCE19AB52C14CF40005ABBF3 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
+		BCE19AB72C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsViewModelTests.swift; sourceTree = "<group>"; };
 		BCE4170F2A7D73380088D975 /* WorkoutTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTabBarButton.swift; sourceTree = "<group>"; };
 		BCE484A32BB07A4C00BC8268 /* loading-animated.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "loading-animated.gif"; sourceTree = "<group>"; };
 		BCEE99382C0BA6300027D42B /* Musculos 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 10.xcdatamodel"; sourceTree = "<group>"; };
@@ -1565,6 +1567,7 @@
 			isa = PBXGroup;
 			children = (
 				BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */,
+				BCE19AB72C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1910,6 +1913,7 @@
 				BC6F366E2BB4F418000F6CFA /* ExerciseStoreTests.swift in Sources */,
 				BC6F36672BB4E79F000F6CFA /* AuthViewModelTests.swift in Sources */,
 				BC6249972BED74B300393915 /* ExerciseDataStoreTests.swift in Sources */,
+				BCE19AB82C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift in Sources */,
 				BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */,
 				BC5BACD92ABB6694003C880E /* ExerciseModuleTests.swift in Sources */,
 				BCFA25BA2BB37A9D00F07A67 /* AuthModuleTests.swift in Sources */,

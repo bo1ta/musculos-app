@@ -38,7 +38,6 @@ class InMemoryStorageManager: StorageManager {
   }
   
   override func performWriteOperation(_ task: @escaping (any StorageType) throws -> Void) async throws {
-    
     try await super.performWriteOperation(task)
     await saveChanges()
   }

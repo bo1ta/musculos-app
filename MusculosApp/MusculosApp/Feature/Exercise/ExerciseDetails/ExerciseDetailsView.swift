@@ -39,7 +39,9 @@ struct ExerciseDetailsView: View {
     }
     .onAppear {
       appManager.hideTabBar()
-      viewModel.initialLoad()
+    }
+    .task {
+      await viewModel.initialLoad()
     }
     .onDisappear(perform: viewModel.cleanUp)
     .navigationBarBackButtonHidden()

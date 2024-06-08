@@ -21,7 +21,7 @@ final class ExerciseDetailsViewModel: ObservableObject {
   @Published private(set) var elapsedTime: Int = 0
   
   private(set) var didSaveSubject = PassthroughSubject<Bool, Never>()
-  private(set) var isFavoriteTask: Task<Void, Never>?
+  private(set) var markFavoriteTask: Task<Void, Never>?
   private(set) var saveExerciseSessionTask: Task<Void, Never>?
   
   let exercise: Exercise
@@ -31,14 +31,14 @@ final class ExerciseDetailsViewModel: ObservableObject {
   }
   
   @MainActor
-  func initialLoad() {
-    Task { isFavorite = await exerciseDataStore.isFavorite(exercise) }
+  func initialLoad() async {
+    isFavorite = await exerciseDataStore.isFavorite(exercise)
   }
   
   func toggleIsFavorite() {
     isFavorite.toggle()
     
-    isFavoriteTask = Task.detached { [weak self] in
+    markFavoriteTask = Task.detached { [weak self] in
       guard let self else { return }
       
       do {
@@ -85,8 +85,8 @@ final class ExerciseDetailsViewModel: ObservableObject {
   }
   
   func cleanUp() {
-    isFavoriteTask?.cancel()
-    isFavoriteTask = nil
+    markFavoriteTask?.cancel()
+    markFavoriteTask = nil
     
     timer?.invalidate()
     timer = nil
