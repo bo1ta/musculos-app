@@ -199,6 +199,7 @@
 		BCE19ABC2C14FE93005ABBF3 /* GoalFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19ABB2C14FE93005ABBF3 /* GoalFactory.swift */; };
 		BCE19ABE2C14FF4B005ABBF3 /* ExerciseSessionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19ABD2C14FF4B005ABBF3 /* ExerciseSessionFactory.swift */; };
 		BCE19AC02C14FF6B005ABBF3 /* PersonFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19ABF2C14FF6B005ABBF3 /* PersonFactory.swift */; };
+		BCE19AC42C150240005ABBF3 /* OnboardingWizardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19AC32C150240005ABBF3 /* OnboardingWizardViewModelTests.swift */; };
 		BCE417102A7D73380088D975 /* WorkoutTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4170F2A7D73380088D975 /* WorkoutTabBarButton.swift */; };
 		BCE484A42BB07A4C00BC8268 /* loading-animated.gif in Resources */ = {isa = PBXBuildFile; fileRef = BCE484A32BB07A4C00BC8268 /* loading-animated.gif */; };
 		BCEE99452C0BA7FA0027D42B /* ExerciseSessionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEE99422C0BA7FA0027D42B /* ExerciseSessionEntity+CoreDataClass.swift */; };
@@ -433,6 +434,7 @@
 		BCE19ABB2C14FE93005ABBF3 /* GoalFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalFactory.swift; sourceTree = "<group>"; };
 		BCE19ABD2C14FF4B005ABBF3 /* ExerciseSessionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSessionFactory.swift; sourceTree = "<group>"; };
 		BCE19ABF2C14FF6B005ABBF3 /* PersonFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonFactory.swift; sourceTree = "<group>"; };
+		BCE19AC32C150240005ABBF3 /* OnboardingWizardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWizardViewModelTests.swift; sourceTree = "<group>"; };
 		BCE4170F2A7D73380088D975 /* WorkoutTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTabBarButton.swift; sourceTree = "<group>"; };
 		BCE484A32BB07A4C00BC8268 /* loading-animated.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "loading-animated.gif"; sourceTree = "<group>"; };
 		BCEE99382C0BA6300027D42B /* Musculos 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 10.xcdatamodel"; sourceTree = "<group>"; };
@@ -1066,7 +1068,9 @@
 		BC6F36682BB4E7AD000F6CFA /* Feature */ = {
 			isa = PBXGroup;
 			children = (
-				BCFA25B82BB37A8B00F07A67 /* Auth */,
+				BCFA25B82BB37A8B00F07A67 /* Authentication */,
+				BCE19AC12C150205005ABBF3 /* Exercise */,
+				BCE19AC22C150228005ABBF3 /* Onboarding */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -1554,6 +1558,23 @@
 			path = "Data Store";
 			sourceTree = "<group>";
 		};
+		BCE19AC12C150205005ABBF3 /* Exercise */ = {
+			isa = PBXGroup;
+			children = (
+				BCE19AB72C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift */,
+				BCE19AB92C14FD73005ABBF3 /* ExploreExerciseViewModelTests.swift */,
+			);
+			path = Exercise;
+			sourceTree = "<group>";
+		};
+		BCE19AC22C150228005ABBF3 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				BCE19AC32C150240005ABBF3 /* OnboardingWizardViewModelTests.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		BCEE99442C0BA7FA0027D42B /* ExerciseSessionEntity */ = {
 			isa = PBXGroup;
 			children = (
@@ -1574,14 +1595,12 @@
 			path = "MusculosApp/Core/Core Data/Entities/WorkoutExerciseEntity";
 			sourceTree = SOURCE_ROOT;
 		};
-		BCFA25B82BB37A8B00F07A67 /* Auth */ = {
+		BCFA25B82BB37A8B00F07A67 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
 				BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */,
-				BCE19AB72C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift */,
-				BCE19AB92C14FD73005ABBF3 /* ExploreExerciseViewModelTests.swift */,
 			);
-			path = Auth;
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 		BCFBB7662A59C6D700896C3C /* Entities */ = {
@@ -1924,6 +1943,7 @@
 			files = (
 				BC97C92F2BA0D4DD00AA07C4 /* MusculosError.swift in Sources */,
 				BC5BACAC2AB26D65003C880E /* MusculosLogger.swift in Sources */,
+				BCE19AC42C150240005ABBF3 /* OnboardingWizardViewModelTests.swift in Sources */,
 				BC5BACB72AB26F40003C880E /* MusculosTestBase.swift in Sources */,
 				BC6F366E2BB4F418000F6CFA /* ExerciseStoreTests.swift in Sources */,
 				BC6F36672BB4E79F000F6CFA /* AuthViewModelTests.swift in Sources */,
