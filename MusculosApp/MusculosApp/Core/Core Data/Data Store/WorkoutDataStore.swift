@@ -9,7 +9,7 @@ import Foundation
 
 struct WorkoutDataStore: BaseDataStore {
   func create(_ workout: Workout) async throws {
-    await storageManager.performWriteOperation { writerDerivedStorage in
+    try await storageManager.performWriteOperation { writerDerivedStorage in
       guard let user = UserEntity.currentUser(with: writerDerivedStorage) else { return }
       
       let workoutEntity = writerDerivedStorage.insertNewObject(ofType: WorkoutEntity.self)
