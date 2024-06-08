@@ -11,6 +11,8 @@ import CoreData
 class InMemoryStorageManager: StorageManager {
   private var _persistentContainer: NSPersistentContainer?
   
+  override init() {}
+  
   override var persistentContainer: NSPersistentContainer {
     get {
       if let persistentContainer = _persistentContainer {
@@ -33,5 +35,11 @@ class InMemoryStorageManager: StorageManager {
     }
     
     set { }
+  }
+  
+  override func performWriteOperation(_ task: @escaping (any StorageType) throws -> Void) async throws {
+    
+    try await super.performWriteOperation(task)
+    await saveChanges()
   }
 }

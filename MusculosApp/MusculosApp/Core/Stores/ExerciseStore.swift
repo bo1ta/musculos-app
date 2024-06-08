@@ -93,7 +93,7 @@ extension ExerciseStore {
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) {
     favoriteTask?.cancel()
     
-    favoriteTask = Task { [weak self] in
+    favoriteTask = Task.detached { [weak self] in
       guard let self else { return }
       
       do {

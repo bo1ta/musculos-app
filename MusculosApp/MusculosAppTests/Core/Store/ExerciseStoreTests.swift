@@ -93,28 +93,31 @@ extension ExerciseStoreTests {
     let store = ExerciseStore(module: MockExerciseModule())
     await store.updateLocalResults()
     
-    print(store.storedExercises.count)
     XCTAssertTrue(store.storedExercises.count > 0)
   }
   
   func testFavoriteExercise() async throws {
-    /// Populate core data store
-    try await self.populateStorageWithExercise()
-    
     let store = ExerciseStore(module: MockExerciseModule())
-    await store.updateLocalResults()
     
-    let firstExercise = try XCTUnwrap(store.storedExercises.first)
-    var isFavorite = await store.checkIsFavorite(exercise: firstExercise)
+    /// create mock exercise
+    let exercise = ExerciseFactory.createExercise(uuidString: UUID().uuidString, name: "My favorite exercise")
+    
+    /// add it to the store
+    store.addExercise(exercise)
+    await store.addExerciseTask?.value
+    
+    /// check if favorite. default is false
+    var isFavorite = await store.checkIsFavorite(exercise: exercise)
     XCTAssertFalse(isFavorite)
     XCTAssertNil(store.favoriteTask)
     
-    store.favoriteExercise(firstExercise, isFavorite: true)
+    /// mark as favorite
+    store.favoriteExercise(exercise, isFavorite: true)
     
     let favoriteTask = try XCTUnwrap(store.favoriteTask)
     await favoriteTask.value
     
-    isFavorite = await store.checkIsFavorite(exercise: firstExercise)
+    isFavorite = await store.checkIsFavorite(exercise: exercise)
     XCTAssertTrue(isFavorite)
   }
 }
