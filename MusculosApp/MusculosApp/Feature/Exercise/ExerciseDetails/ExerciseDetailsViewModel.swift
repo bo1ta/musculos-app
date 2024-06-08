@@ -7,18 +7,20 @@
 
 import Foundation
 import Factory
+import Combine
 import SwiftUI
 
 final class ExerciseDetailsViewModel: ObservableObject {
   @Injected(\.exerciseDataStore) private var exerciseDataStore
   @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore
   
-  @Published  private(set) var isFavorite = false
-  @Published  private(set) var showChallengeExercise = false
-  @Published  private(set) var isTimerActive = false
-  @Published  private(set) var timer: Timer? = nil
-  @Published  private(set) var elapsedTime: Int = 0
+  @Published private(set) var isFavorite = false
+  @Published private(set) var showChallengeExercise = false
+  @Published private(set) var isTimerActive = false
+  @Published private(set) var timer: Timer? = nil
+  @Published private(set) var elapsedTime: Int = 0
   
+  private(set) var didSaveSubject = PassthroughSubject<Bool, Never>()
   private(set) var isFavoriteTask: Task<Void, Never>?
   private(set) var saveExerciseSessionTask: Task<Void, Never>?
   
@@ -69,12 +71,14 @@ final class ExerciseDetailsViewModel: ObservableObject {
   }
   
   func saveExerciseSession() {
-    saveExerciseSessionTask = Task.detached { [weak self] in
+    saveExerciseSessionTask = Task { @MainActor [weak self] in
       guard let self else { return }
       
       do {
-        try await self.exerciseSessionDataStore.add(from: self.exercise, date: Date())
+        try await self.exerciseSessionDataStore.addSession(self.exercise, date: Date())
+        didSaveSubject.send(true)
       } catch {
+        didSaveSubject.send(false)
         MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
       }
     }

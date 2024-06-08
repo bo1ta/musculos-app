@@ -78,12 +78,13 @@ struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
 extension ExerciseDataStore {
   func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws {
     try await storageManager.performWriteOperation { writerDerivedStorage in
-      if let exercise = writerDerivedStorage.firstObject(
+      guard let exercise = writerDerivedStorage.firstObject(
         of: ExerciseEntity.self,
         matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
-      ) {
-        exercise.isFavorite = isFavorite
+      ) else {
+        throw MusculosError.notFound
       }
+      exercise.isFavorite = isFavorite
     }
 
     await storageManager.saveChanges()

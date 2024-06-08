@@ -65,6 +65,13 @@ struct ExerciseDetailsView: View {
         
       }
     }
+    .onReceive(viewModel.didSaveSubject, perform: { didSaveSubject in
+      if didSaveSubject {
+        appManager.showToast(style: .success, message: "Completed exercise in \(viewModel.elapsedTime) seconds")
+      } else {
+        appManager.showToast(style: .error, message: "Could not complete exercise")
+      }
+    })
   }
 }
 

@@ -16,7 +16,7 @@ protocol UserDataStoreProtocol {
 
 struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
   func createUser(person: Person) async throws {
-    try await storageManager.performWriteOperation { writerDerivedStorage in
+    await storageManager.performWriteOperation { writerDerivedStorage in
       let userEntity = writerDerivedStorage.insertNewObject(ofType: UserEntity.self)
       userEntity.username = person.username
       userEntity.email = person.email
@@ -28,7 +28,7 @@ struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
   }
   
   func updateUser(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async throws {
-    try await storageManager.performWriteOperation { writerDerivedStorage in
+    await storageManager.performWriteOperation { writerDerivedStorage in
       guard let userEntity = UserEntity.currentUser(with: writerDerivedStorage) else { return }
       
       userEntity.gender = gender?.rawValue

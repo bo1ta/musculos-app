@@ -11,7 +11,7 @@ import CoreData
 protocol ExerciseSessionDataStoreProtocol {
   func getAll() async -> [ExerciseSession]
   func getCompletedToday() async -> [ExerciseSession]
-  func add(from exercise: Exercise, date: Date) async throws
+  func addSession(_ exercise: Exercise, date: Date) async throws
 }
 
 struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol {
@@ -31,7 +31,7 @@ struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol
     return await storageManager.performReadOperation { viewStorage in
       guard
         let currentPerson = UserEntity.currentUser(with: viewStorage)?.toReadOnly(),
-        let (startOfDay, endOfDay) = getCurrentDay() as? (Date, Date)
+        let (startOfDay, endOfDay) = DateHelper.getCurrentDayRange() as? (Date, Date)
       else { return [] }
       
       let userPredicate = NSPredicate(
@@ -53,7 +53,7 @@ struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol
     }
   }
   
-  func add(from exercise: Exercise, date: Date) async throws {
+  func addSession(_ exercise: Exercise, date: Date) async throws {
     try await storageManager.performWriteOperation { writerDerivedStorage in
       guard
         let exerciseEntity = writerDerivedStorage.firstObject(
@@ -61,7 +61,7 @@ struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol
           matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
         ),
         let userEntity = UserEntity.currentUser(with: writerDerivedStorage)
-      else { return }
+      else { throw MusculosError.notFound }
       
       
       let entity = writerDerivedStorage.insertNewObject(ofType: ExerciseSessionEntity.self)
@@ -70,20 +70,5 @@ struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol
       entity.exercise = exerciseEntity
       entity.user = userEntity
     }
-  }
-}
-
-// MARK: - Private helpers
-
-extension ExerciseSessionDataStore {
-  private func getCurrentDay() -> (Date, Date?) {
-    let calendar = Calendar.current
-    let startOfDay = calendar.startOfDay(for: Date())
-    
-    var dateComponents = DateComponents()
-    dateComponents.day = 1
-    
-    let endOfDay = calendar.date(byAdding: dateComponents, to: startOfDay)
-    return (startOfDay, endOfDay)
   }
 }

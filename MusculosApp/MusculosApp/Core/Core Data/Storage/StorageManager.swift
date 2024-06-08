@@ -63,7 +63,7 @@ class StorageManager: StorageManagerType {
   // MARK: - Save methods
   
   /// Starts a background task to save the changes
-  /// This ensures data is saved even if the app is in background mode
+  /// This ensures data is saved even if the app goes from foreground to background
   ///
   private func performBackgroundSave() {
     let app = UIApplication.shared

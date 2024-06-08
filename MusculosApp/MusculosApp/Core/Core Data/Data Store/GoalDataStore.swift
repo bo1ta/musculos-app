@@ -14,7 +14,7 @@ protocol GoalDataStoreProtocol {
 
 struct GoalDataStore: BaseDataStore, GoalDataStoreProtocol {
   func add(_ goal: Goal) async throws {
-    try await storageManager.performWriteOperation { writerDerivedStorage in
+    await storageManager.performWriteOperation { writerDerivedStorage in
       let entity = writerDerivedStorage.insertNewObject(ofType: GoalEntity.self)
       entity.name = goal.name
       entity.category = goal.category.rawValue

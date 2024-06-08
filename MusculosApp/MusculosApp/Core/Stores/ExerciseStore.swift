@@ -49,8 +49,8 @@ extension ExerciseStore {
         let exercises = try await self.module.getExercises()
         self.state = .loaded(exercises)
       } catch {
-        MusculosLogger.logError(error, message: "Could not load remote exercises", category: .networking)
         self.state = .error(MessageConstant.genericErrorMessage.rawValue)
+        MusculosLogger.logError(error, message: "Could not load remote exercises", category: .networking)
       }
     }
   }
@@ -66,8 +66,8 @@ extension ExerciseStore {
         let exercises = try await self.module.searchByMuscleQuery(query)
         self.state = .loaded(exercises)
       } catch {
-        MusculosLogger.logError(error, message: "Could not search by muscle query", category: .networking, properties: ["query": query])
         self.state = .error(MessageConstant.genericErrorMessage.rawValue)
+        MusculosLogger.logError(error, message: "Could not search by muscle query", category: .networking, properties: ["query": query])
       }
     }
   }

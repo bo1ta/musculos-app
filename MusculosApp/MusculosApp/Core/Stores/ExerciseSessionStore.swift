@@ -21,7 +21,7 @@ final class ExerciseSessionStore: ObservableObject {
   
   private let fetchedResultsController: ResultsController<ExerciseSessionEntity>
   
-  private(set) var getGoalsTask: Task<Void, Never>?
+  private(set) var addSessionTask: Task<Void, Never>?
   
   init() {
     self.fetchedResultsController = ResultsController<ExerciseSessionEntity>(storageManager: Container.shared.storageManager(), sortedBy: [])
@@ -30,6 +30,16 @@ final class ExerciseSessionStore: ObservableObject {
   
   func loadGoals() async {
     goals = await goalDataStore.getAll()
+  }
+  
+  func addSession(for exercise: Exercise) {
+    addSessionTask = Task.detached(priority: .userInitiated, operation: { [weak self] in
+      do {
+        try await self?.exerciseSessionDataStore.addSession(exercise, date: Date())
+      } catch {
+        MusculosLogger.logError(error, message: "Could not add exercise session", category: .coreData, properties: ["exercise_name": exercise.name])
+      }
+    })
   }
 }
 
