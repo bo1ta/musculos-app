@@ -195,6 +195,10 @@
 		BCDDEA642A3CCDBF00C1FCA9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */; };
 		BCE19AB62C14CF40005ABBF3 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19AB52C14CF40005ABBF3 /* DateHelper.swift */; };
 		BCE19AB82C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19AB72C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift */; };
+		BCE19ABA2C14FD73005ABBF3 /* ExploreExerciseViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19AB92C14FD73005ABBF3 /* ExploreExerciseViewModelTests.swift */; };
+		BCE19ABC2C14FE93005ABBF3 /* GoalFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19ABB2C14FE93005ABBF3 /* GoalFactory.swift */; };
+		BCE19ABE2C14FF4B005ABBF3 /* ExerciseSessionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19ABD2C14FF4B005ABBF3 /* ExerciseSessionFactory.swift */; };
+		BCE19AC02C14FF6B005ABBF3 /* PersonFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19ABF2C14FF6B005ABBF3 /* PersonFactory.swift */; };
 		BCE417102A7D73380088D975 /* WorkoutTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4170F2A7D73380088D975 /* WorkoutTabBarButton.swift */; };
 		BCE484A42BB07A4C00BC8268 /* loading-animated.gif in Resources */ = {isa = PBXBuildFile; fileRef = BCE484A32BB07A4C00BC8268 /* loading-animated.gif */; };
 		BCEE99452C0BA7FA0027D42B /* ExerciseSessionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEE99422C0BA7FA0027D42B /* ExerciseSessionEntity+CoreDataClass.swift */; };
@@ -425,6 +429,10 @@
 		BCDDEA632A3CCDBF00C1FCA9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BCE19AB52C14CF40005ABBF3 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		BCE19AB72C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsViewModelTests.swift; sourceTree = "<group>"; };
+		BCE19AB92C14FD73005ABBF3 /* ExploreExerciseViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreExerciseViewModelTests.swift; sourceTree = "<group>"; };
+		BCE19ABB2C14FE93005ABBF3 /* GoalFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalFactory.swift; sourceTree = "<group>"; };
+		BCE19ABD2C14FF4B005ABBF3 /* ExerciseSessionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSessionFactory.swift; sourceTree = "<group>"; };
+		BCE19ABF2C14FF6B005ABBF3 /* PersonFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonFactory.swift; sourceTree = "<group>"; };
 		BCE4170F2A7D73380088D975 /* WorkoutTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTabBarButton.swift; sourceTree = "<group>"; };
 		BCE484A32BB07A4C00BC8268 /* loading-animated.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "loading-animated.gif"; sourceTree = "<group>"; };
 		BCEE99382C0BA6300027D42B /* Musculos 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 10.xcdatamodel"; sourceTree = "<group>"; };
@@ -1413,6 +1421,9 @@
 			children = (
 				BCB7F3072BB24F87002CB2DE /* ExerciseFactory.swift */,
 				BCBEBA2E2BF6B46000FA4BF5 /* WorkoutFactory.swift */,
+				BCE19ABB2C14FE93005ABBF3 /* GoalFactory.swift */,
+				BCE19ABD2C14FF4B005ABBF3 /* ExerciseSessionFactory.swift */,
+				BCE19ABF2C14FF6B005ABBF3 /* PersonFactory.swift */,
 			);
 			path = Factory;
 			sourceTree = "<group>";
@@ -1568,6 +1579,7 @@
 			children = (
 				BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */,
 				BCE19AB72C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift */,
+				BCE19AB92C14FD73005ABBF3 /* ExploreExerciseViewModelTests.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1820,6 +1832,7 @@
 				BC99D0312C0E1A1C00208519 /* CoreDataReadOperation.swift in Sources */,
 				BC1674C82BE2F0E30012048D /* OnboardingGoal.swift in Sources */,
 				BCF86C3B2A3632BA003293A4 /* SecondaryButtonStyle.swift in Sources */,
+				BCE19ABC2C14FE93005ABBF3 /* GoalFactory.swift in Sources */,
 				BCCE85E92A33D7B5001BEE8B /* Encodable+Extension.swift in Sources */,
 				BCD59A962BB627CE0039F662 /* SearchFilterField.swift in Sources */,
 				BC5925012A5C8B72000F1941 /* String+Extension.swift in Sources */,
@@ -1832,6 +1845,7 @@
 				BC81E5C82BCC77630005891D /* View+Dialog.swift in Sources */,
 				BCD59A8E2BB627CE0039F662 /* ExploreExerciseView.swift in Sources */,
 				BCEE994F2C0BAA990027D42B /* ExerciseSessionDataStore.swift in Sources */,
+				BCE19ABE2C14FF4B005ABBF3 /* ExerciseSessionFactory.swift in Sources */,
 				BCC46FF42C0E2E97006D76E2 /* PermissionsView.swift in Sources */,
 				BC828CE32C028E9200AB9D1D /* ExerciseDetailsViewModel.swift in Sources */,
 				BC52DDF72B8BF5E8005A4587 /* Collection+Extension.swift in Sources */,
@@ -1882,6 +1896,7 @@
 				BCD977AD2BC2E1F20076C148 /* WorkoutEntity+CoreDataClass.swift in Sources */,
 				BCA24C0D2B6B14EE00124EC3 /* SelectSizeView.swift in Sources */,
 				BC0170FA2AE9A355005876EE /* ChallengeExerciseView.swift in Sources */,
+				BCE19AC02C14FF6B005ABBF3 /* PersonFactory.swift in Sources */,
 				BC4078D62C02402E000DE280 /* WorkoutFlowView.swift in Sources */,
 				BC182ECD2A589BE7003DEA30 /* StorageManager.swift in Sources */,
 				BC9937292B6441D90067E556 /* ExerciseModule.swift in Sources */,
@@ -1915,6 +1930,7 @@
 				BC6249972BED74B300393915 /* ExerciseDataStoreTests.swift in Sources */,
 				BCE19AB82C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift in Sources */,
 				BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */,
+				BCE19ABA2C14FD73005ABBF3 /* ExploreExerciseViewModelTests.swift in Sources */,
 				BC5BACD92ABB6694003C880E /* ExerciseModuleTests.swift in Sources */,
 				BCFA25BA2BB37A9D00F07A67 /* AuthModuleTests.swift in Sources */,
 				BCC46FF92C0E3A7F006D76E2 /* StorageHelper.swift in Sources */,
