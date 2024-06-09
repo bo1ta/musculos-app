@@ -35,17 +35,14 @@ final class ExerciseDetailsViewModel: ObservableObject {
     isFavorite = await exerciseDataStore.isFavorite(exercise)
   }
   
-  func toggleIsFavorite() {
+  @MainActor
+  func toggleIsFavorite() async {
     isFavorite.toggle()
     
-    markFavoriteTask = Task.detached { [weak self] in
-      guard let self else { return }
-      
-      do {
-        try await self.exerciseDataStore.setIsFavorite(self.exercise, isFavorite: self.isFavorite)
-      } catch {
-        MusculosLogger.logError(error, message: "Could not update exercise.isFavorite", category: .coreData)
-      }
+    do {
+      try await self.exerciseDataStore.setIsFavorite(self.exercise, isFavorite: self.isFavorite)
+    } catch {
+      MusculosLogger.logError(error, message: "Could not update exercise.isFavorite", category: .coreData)
     }
   }
   

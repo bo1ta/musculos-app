@@ -41,4 +41,23 @@ class InMemoryStorageManager: StorageManager {
     try await super.performWriteOperation(task)
     await saveChanges()
   }
+  
+  override func deleteAllStoredObjects() {
+    let viewContext = persistentContainer.viewContext
+    
+    for entity in persistentContainer.persistentStoreCoordinator.managedObjectModel.entities {
+      guard let entityName = entity.name else { continue }
+      
+      let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: entityName)
+      
+      do {
+        let objects = try viewContext.fetch(fetchRequest)
+        for object in objects {
+          viewContext.delete(object)
+        }
+      } catch {
+        print("Failed to fetch objects for entity \(entityName): \(error)")
+      }
+    }
+  }
 }

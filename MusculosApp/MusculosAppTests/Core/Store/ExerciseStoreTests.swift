@@ -10,7 +10,10 @@ import XCTest
 import Factory
 
 final class ExerciseStoreTests: XCTestCase, MusculosTestBase {
-  var hasPopulatedStorage = false
+  override func tearDown() {
+    Container.shared.storageManager().reset()
+    super.tearDown()
+  }
   
   func testInitialValues() {
     let store = ExerciseStore()

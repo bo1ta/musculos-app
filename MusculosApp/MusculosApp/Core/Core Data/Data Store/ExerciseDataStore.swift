@@ -14,6 +14,7 @@ protocol ExerciseDataStoreProtocol {
   func getAll() async -> [Exercise]
   func getByName(_ name: String) async -> [Exercise]
   func getByMuscles(_ muscles: [MuscleType]) async -> [Exercise]
+  func getAllFavorites() async -> [Exercise]
   
   // write methods
   func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws
@@ -41,6 +42,16 @@ struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
       return viewStorage
         .allObjects(ofType: ExerciseEntity.self, matching: nil, sortedBy: nil)
         .map { $0.toReadOnly() }
+    }
+  }
+  
+  func getAllFavorites() async -> [Exercise] {
+    return await storageManager.performReadOperation { viewStorage in
+      return viewStorage.allObjects(
+        ofType: ExerciseEntity.self,
+        matching: ExerciseEntity.CommonPredicate.isFavorite.nsPredicate,
+        sortedBy: nil)
+      .map { $0.toReadOnly() }
     }
   }
   

@@ -8,65 +8,50 @@
 import SwiftUI
 
 struct ExerciseSectionsContentView: View {
-  @EnvironmentObject var exerciseStore: ExerciseStore
-  var onSelected: (Exercise) -> Void
+  @Binding var categorySection: ExploreCategorySection
+  @Binding var isLoading: Bool
+  @Binding var exercises: [Exercise]
+  @Binding var errorMessage: String
+  
+  let onExerciseTap: (Exercise) -> Void
   
   var body: some View {
-    VStack {
-      switch exerciseStore.state {
-      case .loading:
-        ExerciseContentLoadingView()
-      case .loaded(let exercises):
-        CategorySectionView(content: { categorySection in
-          makeCategoryItems(
-            categorySection,
-            exercises: exercises
-          )
-        }, hasChangedSection: { handleChangeCategorySection($0) })
-      case .empty:
-        HintIconView(systemImage: "exclamationmark.warninglight", textHint: "No data found")
-          .padding(.top, 20)
-          .onAppear {
-            exerciseStore.loadRemoteExercises()
-          }
-      case .error(_):
-        HintIconView(systemImage: "exclamationmark.warninglight", textHint: "Error fetching data")
-          .padding(.top, 20)
+    if isLoading {
+      ExerciseContentLoadingView()
+    } else if errorMessage.count > 0 {
+      HintIconView(systemImage: "exclamationmark.warninglight", textHint: "Error fetching data")
+        .padding(.top, 20)
+    } else {
+      VStack {
+        ExploreCategorySectionView(currentSection: $categorySection)
+        makeCategoryItems(
+          categorySection,
+          exercises: exercises
+        )
       }
     }
   }
   
-  private func handleChangeCategorySection(_ categorySection: CategorySection) {
-    switch categorySection {
-    case .workout:
-      exerciseStore.loadLocalExercises()
-    case .discover:
-      exerciseStore.loadRemoteExercises()
-    case .myFavorites:
-      exerciseStore.loadFavoriteExercises()
-    }
-  }
-  
-  private func makeCategoryItems(_ categorySection: CategorySection, exercises: [Exercise]) -> some View {
+  private func makeCategoryItems(_ categorySection: ExploreCategorySection, exercises: [Exercise]) -> some View {
     VStack {
       switch categorySection {
       case .discover:
         ExerciseSectionView(
           title: "Most popular",
-          exercises: exerciseStore.discoverExercises.first ?? [],
-          onExerciseTap: onSelected
+          exercises: exercises,
+          onExerciseTap: onExerciseTap
         )
-        ExerciseSectionView(
-          title: "Quick muscle-building workouts",
-          exercises: exerciseStore.discoverExercises[safe: 1] ?? [],
-          isSmallCard: true,
-          onExerciseTap: onSelected
-        )
+//        ExerciseSectionView(
+//          title: "Quick muscle-building workouts",
+//          exercises: exercises,
+//          isSmallCard: true,
+//          onExerciseTap: onExerciseTap
+//        )
       case .myFavorites, .workout:
         LazyVStack {
-          ForEach(exerciseStore.storedExercises, id: \.hashValue) { exercise in
+          ForEach(exercises, id: \.hashValue) { exercise in
             Button(action: {
-              onSelected(exercise)
+              onExerciseTap(exercise)
             }, label: {
               ExerciseCard(exercise: exercise, cardWidth: 350)
             })
@@ -76,11 +61,4 @@ struct ExerciseSectionsContentView: View {
       }
     }
   }
-}
-
-#Preview {
-  ExerciseSectionsContentView { exercise in
-    print(exercise)
-  }
-  .environmentObject(ExerciseStore())
 }

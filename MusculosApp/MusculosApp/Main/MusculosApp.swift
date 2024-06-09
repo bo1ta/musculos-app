@@ -11,6 +11,8 @@ import HealthKit
 struct MusculosApp: App {
   @StateObject private var userStore = UserStore()
   @StateObject private var exerciseStore = ExerciseStore()
+  @StateObject private var exerciseController = ExerciseFetchedResultsController()
+  
   @StateObject private var exerciseSessionStore = ExerciseSessionStore()
   @StateObject private var healthKitViewModel = HealthKitViewModel()
   
@@ -34,6 +36,7 @@ struct MusculosApp: App {
       }
       .environmentObject(userStore)
       .environmentObject(healthKitViewModel)
+      .environmentObject(exerciseController)
     }
   }
 }

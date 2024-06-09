@@ -18,7 +18,7 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
     let configuration = self.createMockSession(jsonFileName: "getExercises", expectation: expectation)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = ExerciseModule(client: client)
+    let module = ExerciseModule(client: client, dataStore: StubExerciseDataStore())
     
     do {
       let exercises = try await module.getExercises()
@@ -37,7 +37,7 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
     
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = ExerciseModule(client: client)
+    let module = ExerciseModule(client: client, dataStore: StubExerciseDataStore())
     
     do {
       _ = try await module.getExercises()
@@ -55,7 +55,7 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
     
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = ExerciseModule(client: client)
+    let module = ExerciseModule(client: client, dataStore: StubExerciseDataStore())
     
     do {
       let exercises = try await module.searchByMuscleQuery("muscle")
@@ -73,7 +73,7 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
     
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = ExerciseModule(client: client)
+    let module = ExerciseModule(client: client, dataStore: StubExerciseDataStore())
     
     do {
       _ = try await module.searchByMuscleQuery("muscle")

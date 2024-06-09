@@ -12,8 +12,13 @@ import Factory
 @testable import MusculosApp
 
 final class ExerciseDataStoreTests: XCTestCase, MusculosTestBase {  
-  func testMarkAndCheckAsFavorite() async throws { 
-    let exercise = ExerciseFactory.createExercise()
+  override func tearDown() {
+    Container.shared.storageManager().reset()
+    super.tearDown()
+  }
+  
+  func testMarkAndCheckAsFavorite() async throws {
+    let exercise = ExerciseFactory.createExercise(uuidString: UUID().uuidString)
     try await self.populateStorageWithExercise(exercise: exercise)
     
     let dataStore = ExerciseDataStore()

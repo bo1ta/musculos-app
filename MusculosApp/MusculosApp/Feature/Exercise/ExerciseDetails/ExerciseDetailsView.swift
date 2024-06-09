@@ -125,7 +125,10 @@ extension ExerciseDetailsView {
   
   private var favoriteButton: some View {
     Button(action: {
-      viewModel.toggleIsFavorite()
+      Task {
+        await viewModel.toggleIsFavorite()
+        appManager.dispatchEvent(for: .didFavoriteExercise)
+      }
     }, label: {
       Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
         .resizable()

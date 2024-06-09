@@ -92,7 +92,7 @@ class StorageManager: StorageManagerType {
       }
     }
   }
-    
+  
   func saveChanges() async {
     await writerDerivedStorage.perform {
       self.writerDerivedStorage.saveIfNeeded()
@@ -129,11 +129,9 @@ class StorageManager: StorageManagerType {
       self.readQueue.addOperation(operation)
     }
   }
-}
-
-// MARK: - Reset or delete methods
-
-extension StorageManager {
+  
+  // MARK: - Reset/Delete methods
+  
   func reset() {
     let viewContext = persistentContainer.viewContext
     viewContext.performAndWait {
@@ -145,19 +143,19 @@ extension StorageManager {
   
   func deleteSql() {
     let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("MusculosDataStore.sqlite")
-
+    
     guard FileManager.default.fileExists(atPath: url.path) else {
       MusculosLogger.logError(MusculosError.notFound, message: "Could not find sqlite db", category: .coreData)
       return
     }
-
+    
     do {
       try self.persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, type: .sqlite)
     } catch {
       MusculosLogger.logError(error, message: "Could not destroy persistent store", category: .coreData)
     }
   }
-
+  
   func deleteAllStoredObjects() {
     let viewContext = persistentContainer.viewContext
     

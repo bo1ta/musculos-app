@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
+
 /// Helper manager that is passed from the root level
 ///
 @MainActor
@@ -23,9 +24,9 @@ class AppManager: ObservableObject {
   @Published var toast: Toast? = nil
   
   /// Publisher to notify changes to various models
-  /// Subscribe to this to refetch the data you need
+  /// Subscribe to this to update the data if needed
   ///
-  let didUpdateSubject = PassthroughSubject<UpdatableSubject, Never>()
+  let modelUpdateEvent = PassthroughSubject<ModelEvent, Never>()
 }
 
 // MARK: - Functions
@@ -44,9 +45,16 @@ extension AppManager {
   func showToast(style: Toast.ToastStyle, message: String, duration: Double = 2.0) {
     toast = Toast(style: style, message: message, duration: duration)
   }
+  
+  enum ModelEvent {
+    case didAddGoal
+    case didAddExerciseSession
+    case didAddExercise
+    case didFavoriteExercise
+  }
+  
+  func dispatchEvent(for modelEvent: ModelEvent) {
+    modelUpdateEvent.send(modelEvent)
+  }
 }
 
-enum UpdatableSubject {
-  case goal
-  case exerciseSession
-}

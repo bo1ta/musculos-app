@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct ExploreExerciseView: View {
-  @EnvironmentObject private var exerciseStore: ExerciseStore
-  @EnvironmentObject private var exerciseSessionStore: ExerciseSessionStore
-  
   @EnvironmentObject private var appManager: AppManager
-
+  
   @StateObject private var viewModel = ExploreExerciseViewModel()
   
   var body: some View {
@@ -20,7 +17,7 @@ struct ExploreExerciseView: View {
       VStack {
         ScrollView {
           ProgressCard(
-            title: "You've completed \(viewModel.completedToday.count) exercises",
+            title: "You've completed \(viewModel.exercisesCompletedToday.count) exercises",
             description: "75% of your weekly muscle building goal",
             progress: 0.75
           )
@@ -29,13 +26,16 @@ struct ExploreExerciseView: View {
           
           SearchFilterField(
             showFilterView: $viewModel.showFilterView,
-            hasObservedQuery: { query in
-              exerciseStore.searchByMuscleQuery(query)
-            })
+            hasObservedQuery: { viewModel.searchByMuscleQuery($0) }
+          )
           
-          ExerciseSectionsContentView(onSelected: { exercise in
-            viewModel.selectedExercise = exercise
-          })
+          ExerciseSectionsContentView(
+            categorySection: $viewModel.currentSection,
+            isLoading: $viewModel.isLoading,
+            exercises: viewModel.resultsBinding,
+            errorMessage: $viewModel.errorMessage,
+            onExerciseTap: { viewModel.selectedExercise = $0 }
+          )
           
           WhiteBackgroundCard()
         }
@@ -44,13 +44,8 @@ struct ExploreExerciseView: View {
       .popover(isPresented: $viewModel.showFilterView) {
         ExerciseFilterView()
       }
-      .onReceive(appManager.didUpdateSubject, perform: { updatedSubject in
-        switch updatedSubject {
-        case .exerciseSession:
-          Task { await viewModel.loadExercisesCompletedToday() }
-        case .goal:
-          Task { await viewModel.loadGoals() }
-        }
+      .onReceive(appManager.modelUpdateEvent, perform: { modelEvent in
+        viewModel.handleUpdate(modelEvent)
       })
       .background(
         Image("white-patterns-background")
@@ -64,10 +59,17 @@ struct ExploreExerciseView: View {
       }
       .onAppear {
         appManager.showTabBar()
+        
+        if viewModel.remoteResults.count == 0 {
+          viewModel.loadRemoteExercises()
+        } else if viewModel.errorMessage.count > 0 {
+          appManager.showToast(style: .error, message: viewModel.errorMessage)
+        }
       }
-      .task { await viewModel.initialLoad() }
-      
-      .onDisappear(perform: exerciseStore.cleanUp)
+      .task {
+        await viewModel.initialLoad()
+      }
+      .onDisappear(perform: viewModel.cleanUp)
     }
   }
 }
@@ -76,5 +78,6 @@ struct ExploreExerciseView: View {
   ExploreExerciseView()
     .environmentObject(ExerciseStore())
     .environmentObject(ExerciseSessionStore())
+    .environmentObject(ExerciseFetchedResultsController())
     .environmentObject(AppManager())
 }

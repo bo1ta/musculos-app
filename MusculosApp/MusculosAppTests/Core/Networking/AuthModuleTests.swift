@@ -10,7 +10,8 @@ import XCTest
 @testable import MusculosApp
 
 final class AuthModuleTests: XCTestCase, MusculosTestBase {
-  override class func tearDown() {
+  override func tearDown() {
+    MockURLProtocol.clear()
     super.tearDown()
   }
   
@@ -21,7 +22,7 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     let configuration = self.createMockSession(jsonFileName: "authenticationResult", expectation: requestExpectation)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = AuthModule(client: client)
+    let module = AuthModule(client: client, dataStore: MockDataStore())
   
     do {
       try await module.login(email: "email", password: "password")
@@ -31,7 +32,6 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     }
     
     await fulfillment(of: [requestExpectation, succeedsExpectation], timeout: 1)
-    MockURLProtocol.clear()
   }
   
   func testLoginFails() async throws {
@@ -41,7 +41,7 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     let configuration = self.createMockSession(expectation: requestExpectation, shouldFail: true)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = AuthModule(client: client)
+    let module = AuthModule(client: client, dataStore: MockDataStore())
     
     do {
       _ = try await module.login(email: "email", password: "password")
@@ -51,17 +51,19 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     }
     
     await fulfillment(of: [failsExpectation, requestExpectation], timeout: 1)
-    MockURLProtocol.clear()
   }
   
   func testRegisterSucceeds() async throws {
     let requestExpectation = self.expectation(description: "should make a network request")
     let succeedsExpectation = self.expectation(description: "should succeed")
+    let createUserExpectation = self.expectation(description: "should save user in the data store")
 
     let configuration = self.createMockSession(jsonFileName: "authenticationResult", expectation: requestExpectation)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = AuthModule(client: client)
+    let mockDataStore = MockDataStore()
+    mockDataStore.createUserExpectation = createUserExpectation
+    let module = AuthModule(client: client, dataStore: mockDataStore)
     
     do {
       try await module.register(email: "email", password: "password", username: "username", fullName: "full name")
@@ -70,7 +72,7 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
       XCTFail("Should not fail!")
     }
     
-    await fulfillment(of: [requestExpectation, succeedsExpectation], timeout: 1)
+    await fulfillment(of: [requestExpectation, succeedsExpectation, createUserExpectation], timeout: 1)
   }
   
   func testRegisterFails() async throws {
@@ -80,7 +82,7 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     let configuration = self.createMockSession(expectation: requestExpectation, shouldFail: true)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = AuthModule(client: client)
+    let module = AuthModule(client: client, dataStore: MockDataStore())
     
     do {
       _ = try await module.login(email: "email", password: "password")
@@ -90,6 +92,21 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     }
     
     await fulfillment(of: [requestExpectation, failsExpectation], timeout: 1)
-    MockURLProtocol.clear()
+  }
+}
+
+extension AuthModuleTests {
+  class MockDataStore: UserDataStoreProtocol {
+    
+    var createUserExpectation: XCTestExpectation?
+    func createUser(person: Person) async throws {
+      createUserExpectation?.fulfill()
+    }
+    
+    func updateUser(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async throws { }
+    
+    func loadCurrentPerson() async -> Person? {
+      return nil
+    }
   }
 }

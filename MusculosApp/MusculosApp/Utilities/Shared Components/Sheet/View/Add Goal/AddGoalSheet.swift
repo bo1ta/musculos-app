@@ -64,7 +64,7 @@ struct AddGoalSheet: View {
     .onReceive(viewModel.didSaveGoalPublisher) { didSaveGoal in
       if didSaveGoal {
         appManager.showToast(style: .success, message: "Added new goal! Good luck!")
-        appManager.didUpdateSubject.send(.goal)
+        appManager.dispatchEvent(for: .didAddGoal)
         dismiss()
       } else {
         appManager.showToast(style: .error, message: "Could not add goal. Please try again")

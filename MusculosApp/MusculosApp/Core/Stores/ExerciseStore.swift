@@ -9,6 +9,48 @@ import Foundation
 import SwiftUI
 import Factory
 
+@MainActor final class ExerciseFetchedResultsController: ObservableObject {
+  @Published var results: [Exercise] = []
+  
+  private let fetchedResultsController: ResultsController<ExerciseEntity>
+
+  init() {
+    self.fetchedResultsController = ResultsController<ExerciseEntity>(storageManager: Container.shared.storageManager(), sortedBy: [])
+    self.setUpFetchedResultsController()
+  }
+  
+  private func setUpFetchedResultsController() {
+    fetchedResultsController.onDidChangeContent = { [weak self] in
+      self?.updateLocalResults()
+    }
+    
+    fetchedResultsController.onDidResetContent = { [weak self] in
+      self?.updateLocalResults()
+    }
+    
+    do {
+      try fetchedResultsController.performFetch()
+    } catch {
+      MusculosLogger.logError(error, message: "Could not perform fetch for results controller!", category: .coreData)
+    }
+  }
+  
+  func updateLocalResults(predicate: NSPredicate? = nil) {
+    fetchedResultsController.predicate = predicate
+    results = fetchedResultsController.fetchedObjects
+  }
+  
+  func loadFavoriteExercises() {
+    let predicate = ExerciseEntity.CommonPredicate.isFavorite.nsPredicate
+    updateLocalResults(predicate: predicate)
+  }
+  
+  func loadForName(_ name: String) {
+    let predicate = ExerciseEntity.CommonPredicate.byName(name).nsPredicate
+    updateLocalResults(predicate: predicate)
+  }
+}
+
 class ExerciseStore: ObservableObject {
   @Published var state: LoadingViewState<[Exercise]> = .empty
   @Published var storedExercises: [Exercise] = []
