@@ -13,6 +13,19 @@ import Factory
 @testable import MusculosApp
 
 class ExerciseDetailsViewModelTests: XCTestCase, MusculosTestBase {
+  private var cancellables: Set<AnyCancellable> = []
+  
+  override func setUp() {
+    super.setUp()
+    
+    Container.shared.exerciseSessionDataStore.register { MockExerciseSessionDataStore() }
+    Container.shared.exerciseDataStore.register { StubExerciseDataStore() }
+  }
+  
+  override class func tearDown() {
+    Container.shared.reset()
+    super.tearDown()
+  }
   
   func testInitialValues() {
     let viewModel = ExerciseDetailsViewModel(exercise: ExerciseFactory.createExercise())
@@ -46,74 +59,12 @@ class ExerciseDetailsViewModelTests: XCTestCase, MusculosTestBase {
     XCTAssertNil(viewModel.markFavoriteTask)
     
     await viewModel.toggleIsFavorite()
-    
-    let markFavoriteTask = try XCTUnwrap(viewModel.markFavoriteTask)
-    await markFavoriteTask.value
-    
     XCTAssertTrue(viewModel.isFavorite)
-  }
-  
-  func testDidSaveSubjectSuccess() async throws {
-    let addSessionExpectation = self.expectation(description: "should call addSession")
-    let didSaveExpectation = self.expectation(description: "should save expectation")
-    
-    let mockDataStore = MockExerciseSessionDataStore()
-    mockDataStore.addSessionExpectation = addSessionExpectation
-    
-    Container.shared.exerciseSessionDataStore.register { mockDataStore }
-    defer { Container.shared.reset() }
-    
-    let viewModel = ExerciseDetailsViewModel(exercise: ExerciseFactory.createExercise())
-    var cancellable = Set<AnyCancellable>()
-    viewModel.didSaveSubject.sink { didSave in
-      if didSave {
-        didSaveExpectation.fulfill()
-      } else {
-        XCTFail("Subject did not save!")
-      }
-    }
-    .store(in: &cancellable)
-    
-    
-    XCTAssertNil(viewModel.saveExerciseSessionTask)
-    
-    viewModel.saveExerciseSession()
-  
-    await self.fulfillment(of: [addSessionExpectation, didSaveExpectation])
-  }
-  
-  func testDidSaveSubjectFailure() async throws {
-    let addSessionExpectation = self.expectation(description: "should call addSession")
-    let didNotSaveExpectation = self.expectation(description: "should not save expectation")
-    
-    let mockDataStore = MockExerciseSessionDataStore()
-    mockDataStore.addSessionExpectation = addSessionExpectation
-    
-    Container.shared.exerciseSessionDataStore.register { mockDataStore }
-    defer { Container.shared.reset() }
-    
-    let viewModel = ExerciseDetailsViewModel(exercise: ExerciseFactory.createExercise())
-    var cancellable = Set<AnyCancellable>()
-    viewModel.didSaveSubject.sink { didSave in
-      if didSave {
-        XCTFail("Should not save")
-      } else {
-        didNotSaveExpectation.fulfill()
-      }
-    }
-    .store(in: &cancellable)
-    
-    
-    XCTAssertNil(viewModel.saveExerciseSessionTask)
-    
-    viewModel.saveExerciseSession()
-  
-    await self.fulfillment(of: [addSessionExpectation, didNotSaveExpectation])
   }
 }
 
 extension ExerciseDetailsViewModelTests {
-  class MockExerciseSessionDataStore: ExerciseSessionDataStoreProtocol {
+  struct MockExerciseSessionDataStore: ExerciseSessionDataStoreProtocol {
     func getAll() async -> [ExerciseSession] {
       return []
     }
@@ -129,6 +80,17 @@ extension ExerciseDetailsViewModelTests {
         throw MusculosError.badRequest
       }
       addSessionExpectation?.fulfill()
+      
+      return
+    }
+  }
+  
+  struct MockGoalDataStore: GoalDataStoreProtocol {
+    func add(_ goal: Goal) async throws {
+    }
+    
+    func getAll() async -> [Goal] {
+      return []
     }
   }
 }

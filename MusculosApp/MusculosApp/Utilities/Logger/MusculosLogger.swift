@@ -63,7 +63,7 @@ extension MusculosLogger {
   
   private static func log(_ type: OSLogType, category: LogCategory, message: String, accessLevel: AccessLevel) {
     // disable logs during unit tests
-//    guard NSClassFromString("XCTestCase") == nil else { return }
+    guard NSClassFromString("XCTestCase") == nil else { return }
     
     #if DEBUG
       switch accessLevel {
