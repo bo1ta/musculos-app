@@ -15,11 +15,11 @@ class ExploreExerciseViewModelTests: XCTestCase {
   func testInitialValues() {
     let viewModel = ExploreExerciseViewModel()
     
-    XCTAssertEqual(viewModel.completedToday.count, 0)
+    XCTAssertEqual(viewModel.exercisesCompletedToday.count, 0)
     XCTAssertEqual(viewModel.goals.count, 0)
     XCTAssertEqual(viewModel.searchQuery, "")
+    XCTAssertEqual(viewModel.contentState, .empty)
 
-    XCTAssertFalse(viewModel.isLoading)
     XCTAssertFalse(viewModel.showFilterView)
     XCTAssertFalse(viewModel.showExerciseDetails)
     
@@ -41,15 +41,13 @@ class ExploreExerciseViewModelTests: XCTestCase {
     
     let viewModel = ExploreExerciseViewModel()
     XCTAssertEqual(viewModel.goals.count, 0)
-    XCTAssertEqual(viewModel.completedToday.count, 0)
+    XCTAssertEqual(viewModel.exercisesCompletedToday.count, 0)
     
     await viewModel.initialLoad()
     await fulfillment(of: [getGoalExpectation, getCompletedTodayExpectation])
     
     XCTAssertEqual(viewModel.goals.count, 1)
-    XCTAssertEqual(viewModel.completedToday.count, 1)
-    
-    
+    XCTAssertEqual(viewModel.exercisesCompletedToday.count, 1)
   }
 }
 

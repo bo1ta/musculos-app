@@ -90,7 +90,7 @@ final class AddWorkoutSheetViewModel: ObservableObject {
 extension AddWorkoutSheetViewModel {
   func initialLoad() {
     loadTask = Task { @MainActor in
-      let results = await exerciseDataStore.getAll()
+      let results = await exerciseDataStore.getAll(fetchLimit: 10)
       self.results = results
     }
   }

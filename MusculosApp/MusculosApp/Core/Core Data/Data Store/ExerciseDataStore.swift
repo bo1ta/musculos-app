@@ -11,7 +11,7 @@ import CoreData
 protocol ExerciseDataStoreProtocol {
   // read methods
   func isFavorite(_ exercise: Exercise) async -> Bool
-  func getAll() async -> [Exercise]
+  func getAll(fetchLimit: Int) async -> [Exercise]
   func getByName(_ name: String) async -> [Exercise]
   func getByMuscles(_ muscles: [MuscleType]) async -> [Exercise]
   func getAllFavorites() async -> [Exercise]
@@ -37,10 +37,10 @@ struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
     }
   }
   
-  func getAll() async -> [Exercise] {
+  func getAll(fetchLimit: Int = 20) async -> [Exercise] {
     return await storageManager.performReadOperation { viewStorage in
       return viewStorage
-        .allObjects(ofType: ExerciseEntity.self, matching: nil, sortedBy: nil)
+        .allObjects(ofType: ExerciseEntity.self, fetchLimit: fetchLimit, matching: nil, sortedBy: nil)
         .map { $0.toReadOnly() }
     }
   }

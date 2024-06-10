@@ -87,7 +87,6 @@
 		BC6F365A2BB4E14D000F6CFA /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */; };
 		BC6F365D2BB4E2A3000F6CFA /* CardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F365C2BB4E2A3000F6CFA /* CardItem.swift */; };
 		BC6F36672BB4E79F000F6CFA /* AuthViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */; };
-		BC6F366E2BB4F418000F6CFA /* ExerciseStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F366D2BB4F418000F6CFA /* ExerciseStoreTests.swift */; };
 		BC74C1B62C0107CA0021B932 /* WorkoutIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC74C1B52C0107CA0021B932 /* WorkoutIntroView.swift */; };
 		BC777EF32BA0F2E1001669C8 /* WorkoutListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777EF22BA0F2E1001669C8 /* WorkoutListView.swift */; };
 		BC777F012BA127DC001669C8 /* AddActionSheetContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777F002BA127DC001669C8 /* AddActionSheetContainer.swift */; };
@@ -215,9 +214,7 @@
 		BCF86C3B2A3632BA003293A4 /* SecondaryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C3A2A3632BA003293A4 /* SecondaryButtonStyle.swift */; };
 		BCF86C3D2A363A92003293A4 /* SelectedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C3C2A363A92003293A4 /* SelectedButtonStyle.swift */; };
 		BCF86C422A3678E4003293A4 /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF86C412A3678E4003293A4 /* ProgressBarView.swift */; };
-		BCFA25B12BB268D400F07A67 /* ResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B02BB268D400F07A67 /* ResultsController.swift */; };
 		BCFA25B32BB269F800F07A67 /* ReadOnlyConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B22BB269F800F07A67 /* ReadOnlyConvertible.swift */; };
-		BCFA25B52BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */; };
 		BCFA25BA2BB37A9D00F07A67 /* AuthModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B92BB37A9D00F07A67 /* AuthModuleTests.swift */; };
 		BCFA25BC2BB37B2900F07A67 /* authenticationResult.json in Resources */ = {isa = PBXBuildFile; fileRef = BCFA25BB2BB37B2900F07A67 /* authenticationResult.json */; };
 		BCFBB77C2A59DF2800896C3C /* IconPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBB77B2A59DF2800896C3C /* IconPill.swift */; };
@@ -318,7 +315,6 @@
 		BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
 		BC6F365C2BB4E2A3000F6CFA /* CardItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardItem.swift; sourceTree = "<group>"; };
 		BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModelTests.swift; sourceTree = "<group>"; };
-		BC6F366D2BB4F418000F6CFA /* ExerciseStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseStoreTests.swift; sourceTree = "<group>"; };
 		BC74C1B52C0107CA0021B932 /* WorkoutIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutIntroView.swift; sourceTree = "<group>"; };
 		BC777EF22BA0F2E1001669C8 /* WorkoutListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListView.swift; sourceTree = "<group>"; };
 		BC777F002BA127DC001669C8 /* AddActionSheetContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddActionSheetContainer.swift; sourceTree = "<group>"; };
@@ -452,9 +448,7 @@
 		BCF86C3A2A3632BA003293A4 /* SecondaryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButtonStyle.swift; sourceTree = "<group>"; };
 		BCF86C3C2A363A92003293A4 /* SelectedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedButtonStyle.swift; sourceTree = "<group>"; };
 		BCF86C412A3678E4003293A4 /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
-		BCFA25B02BB268D400F07A67 /* ResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsController.swift; sourceTree = "<group>"; };
 		BCFA25B22BB269F800F07A67 /* ReadOnlyConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadOnlyConvertible.swift; sourceTree = "<group>"; };
-		BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedResultsDelegateWrapper.swift; sourceTree = "<group>"; };
 		BCFA25B92BB37A9D00F07A67 /* AuthModuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModuleTests.swift; sourceTree = "<group>"; };
 		BCFA25BB2BB37B2900F07A67 /* authenticationResult.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = authenticationResult.json; sourceTree = "<group>"; };
 		BCFBB77B2A59DF2800896C3C /* IconPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPill.swift; sourceTree = "<group>"; };
@@ -1004,7 +998,6 @@
 		BC6249942BED749E00393915 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				BC6F366C2BB4F40B000F6CFA /* Store */,
 				BC6F366B2BB4E805000F6CFA /* Networking */,
 				BC6249952BED74A500393915 /* Data Stores */,
 			);
@@ -1049,8 +1042,6 @@
 			isa = PBXGroup;
 			children = (
 				BC52DDE72B86C765005A4587 /* SynchronizationState.swift */,
-				BCFA25B02BB268D400F07A67 /* ResultsController.swift */,
-				BCFA25B42BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift */,
 				BC99D02F2C0E19FB00208519 /* Operations */,
 				BCB7F2EE2BB21D4A002CB2DE /* Extensions */,
 			);
@@ -1082,14 +1073,6 @@
 				BC5BACD82ABB6694003C880E /* ExerciseModuleTests.swift */,
 			);
 			path = Networking;
-			sourceTree = "<group>";
-		};
-		BC6F366C2BB4F40B000F6CFA /* Store */ = {
-			isa = PBXGroup;
-			children = (
-				BC6F366D2BB4F418000F6CFA /* ExerciseStoreTests.swift */,
-			);
-			path = Store;
 			sourceTree = "<group>";
 		};
 		BC74C1B02C00FE110021B932 /* WorkoutList */ = {
@@ -1847,7 +1830,6 @@
 				BCD59AAA2BB628220039F662 /* ExploreExerciseContentView.swift in Sources */,
 				BCE19AB62C14CF40005ABBF3 /* DateHelper.swift in Sources */,
 				BCB7F2ED2BB2169A002CB2DE /* Object.swift in Sources */,
-				BCFA25B12BB268D400F07A67 /* ResultsController.swift in Sources */,
 				BC261AB82B6DA0EF0018E21F /* ExerciseFilterView.swift in Sources */,
 				BC62498D2BED2EF900393915 /* ExerciseEntity+CoreDataProperties.swift in Sources */,
 				BC52DDD42B8516F9005A4587 /* MuscleClientProtocol.swift in Sources */,
@@ -1893,7 +1875,6 @@
 				BCCE85E62A33D658001BEE8B /* AuthModule.swift in Sources */,
 				BCFBB7862A59EDC400896C3C /* IconPillOption.swift in Sources */,
 				BCD59AA42BB627E60039F662 /* ProgressCard.swift in Sources */,
-				BCFA25B52BB3634B00F07A67 /* FetchedResultsDelegateWrapper.swift in Sources */,
 				BCB7F2E52BB1E8A5002CB2DE /* ExerciseConstants.swift in Sources */,
 				BC1160D22A2CFB830028D8FC /* AppTabView.swift in Sources */,
 				BC01710D2AEC6FDF005876EE /* GreenGrassButtonStyle.swift in Sources */,
@@ -1952,7 +1933,6 @@
 				BCE19AC92C15E615005ABBF3 /* StubExerciseDataStore.swift in Sources */,
 				BCE19AC42C150240005ABBF3 /* OnboardingWizardViewModelTests.swift in Sources */,
 				BC5BACB72AB26F40003C880E /* MusculosTestBase.swift in Sources */,
-				BC6F366E2BB4F418000F6CFA /* ExerciseStoreTests.swift in Sources */,
 				BC6F36672BB4E79F000F6CFA /* AuthViewModelTests.swift in Sources */,
 				BC6249972BED74B300393915 /* ExerciseDataStoreTests.swift in Sources */,
 				BCE19AB82C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift in Sources */,
@@ -2026,7 +2006,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2080,7 +2060,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

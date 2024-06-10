@@ -45,7 +45,7 @@ class ExerciseDetailsViewModelTests: XCTestCase, MusculosTestBase {
     let viewModel = ExerciseDetailsViewModel(exercise: exercise)
     XCTAssertNil(viewModel.markFavoriteTask)
     
-    viewModel.toggleIsFavorite()
+    await viewModel.toggleIsFavorite()
     
     let markFavoriteTask = try XCTUnwrap(viewModel.markFavoriteTask)
     await markFavoriteTask.value

@@ -117,7 +117,7 @@ extension ExploreExerciseViewModel {
     exerciseTask?.cancel()
     
     exerciseTask = Task {
-      let exercises = await exerciseDataStore.getAll()
+      let exercises = await exerciseDataStore.getAll(fetchLimit: 20)
       localResults = exercises
     }
   }

@@ -176,7 +176,7 @@ extension ExerciseDetailsView {
   }
 }
   
-  #Preview {
-    ExerciseDetailsView(exercise: ExerciseFactory.createExercise())
-      .environmentObject(AppManager())
-  }
+#Preview {
+  ExerciseDetailsView(exercise: ExerciseFactory.createExercise())
+    .environmentObject(AppManager())
+}

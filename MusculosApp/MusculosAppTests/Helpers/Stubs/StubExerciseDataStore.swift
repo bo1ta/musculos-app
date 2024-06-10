@@ -10,6 +10,16 @@ import Foundation
 @testable import MusculosApp
 
 class StubExerciseDataStore: ExerciseDataStoreProtocol {
+  var expectedExercises: [Exercise] = []
+  
+  func getAll(fetchLimit: Int) async -> [Exercise] {
+    return expectedExercises
+  }
+  
+  func getAllFavorites() async -> [Exercise] {
+    return expectedExercises
+  }
+  
   func importFrom(_ exercises: [Exercise]) async throws -> [Exercise] {
     return exercises
   }
@@ -18,16 +28,12 @@ class StubExerciseDataStore: ExerciseDataStoreProtocol {
     return false
   }
   
-  func getAll() async -> [Exercise] {
-    return []
-  }
-  
   func getByName(_ name: String) async -> [Exercise] {
-    return []
+    return expectedExercises
   }
   
   func getByMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
-    return []
+    return expectedExercises
   }
   
   func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws {}

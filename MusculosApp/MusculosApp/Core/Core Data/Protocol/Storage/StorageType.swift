@@ -70,8 +70,4 @@ protocol StorageType {
   func performSync(_ block: @escaping () -> Void)
   
   func performAsync(_ block: @escaping () -> Void)
-  
-  /// Create an `NSFetchedResultsController` using this `StorageType`
-  ///
-  func createFetchedResultsController<ResultType>(fetchRequest: NSFetchRequest<ResultType>, sectionNameKeyPath: String?, cacheName: String?) -> NSFetchedResultsController<ResultType>
 }
