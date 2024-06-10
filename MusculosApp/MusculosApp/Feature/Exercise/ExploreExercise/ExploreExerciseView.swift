@@ -31,9 +31,7 @@ struct ExploreExerciseView: View {
           
           ExerciseSectionsContentView(
             categorySection: $viewModel.currentSection,
-            isLoading: $viewModel.isLoading,
-            exercises: viewModel.resultsBinding,
-            errorMessage: $viewModel.errorMessage,
+            contentState: $viewModel.contentState,
             onExerciseTap: { viewModel.selectedExercise = $0 }
           )
           
@@ -42,7 +40,9 @@ struct ExploreExerciseView: View {
         .scrollIndicators(.hidden)
       }
       .popover(isPresented: $viewModel.showFilterView) {
-        ExerciseFilterView()
+        ExerciseFilterView(onFiltered: { filteredExercises in
+          viewModel.updateContentState(with: filteredExercises)
+        })
       }
       .onReceive(appManager.modelUpdateEvent, perform: { modelEvent in
         viewModel.handleUpdate(modelEvent)
@@ -59,15 +59,7 @@ struct ExploreExerciseView: View {
       }
       .onAppear {
         appManager.showTabBar()
-        
-        if viewModel.remoteResults.count == 0 {
-          viewModel.loadRemoteExercises()
-        } else if viewModel.errorMessage.count > 0 {
-          appManager.showToast(style: .error, message: viewModel.errorMessage)
-        }
-      }
-      .task {
-        await viewModel.initialLoad()
+        viewModel.initialLoad()
       }
       .onDisappear(perform: viewModel.cleanUp)
     }

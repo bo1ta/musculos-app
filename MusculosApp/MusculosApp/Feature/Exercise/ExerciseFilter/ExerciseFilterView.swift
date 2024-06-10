@@ -9,19 +9,18 @@ import SwiftUI
 
 struct ExerciseFilterView: View {
   @Environment(\.dismiss) private var dismiss
-  @EnvironmentObject private var exerciseStore: ExerciseStore
+  let onFiltered: ([Exercise]) -> Void
   
   @StateObject private var viewModel = ExerciseFilterViewModel()
   
-  @State private var results: [Exercise] = []
-  
   private var searchButtonText: String {
-    if results.count > 0 {
-      return "Show (\(results.count))"
+    if viewModel.results.count > 0 {
+      return "Show (\(viewModel.results.count)) results"
     } else {
       return "Search"
     }
   }
+  
   
   var body: some View {
     VStack(spacing: 10) {
@@ -29,26 +28,26 @@ struct ExerciseFilterView: View {
       ScrollView {
         VStack(spacing: 20) {
           MultiOptionsSelectView(
-            showOptions: viewModel.makeDisplayFilterBinding(for: .muscle),
-            selectedOptions: viewModel.makeFilterBinding(for: .muscle),
+            showOptions: viewModel.makeFilterDisplayBinding(for: .muscle),
+            selectedOptions: viewModel.makeSearchFilterBinding(for: .muscle),
             title: "Muscles",
             options: ExerciseConstants.muscleOptions
           )
           MultiOptionsSelectView(
-            showOptions: viewModel.makeDisplayFilterBinding(for: .category),
-            selectedOptions: viewModel.makeFilterBinding(for: .category),
+            showOptions: viewModel.makeFilterDisplayBinding(for: .category),
+            selectedOptions: viewModel.makeSearchFilterBinding(for: .category),
             title: "Workout Types",
             options: ExerciseConstants.categoryOptions
           )
           SingleOptionSelectView(
-            showOptions: viewModel.makeDisplayFilterBinding(for: .difficulty),
+            showOptions: viewModel.makeFilterDisplayBinding(for: .difficulty),
             selectedOption: $viewModel.selectedLevelFilter,
             title: "Difficulty",
             options: ExerciseConstants.levelOptions
           )
           MultiOptionsSelectView(
-            showOptions: viewModel.makeDisplayFilterBinding(for: .equipment),
-            selectedOptions: viewModel.makeFilterBinding(for: .equipment),
+            showOptions: viewModel.makeFilterDisplayBinding(for: .equipment),
+            selectedOptions: viewModel.makeSearchFilterBinding(for: .equipment),
             title: "Equipment",
             options: ExerciseConstants.equipmentOptions
           )
@@ -65,13 +64,6 @@ struct ExerciseFilterView: View {
         .padding()
         .padding(.bottom, 10)
       })
-      .onChange(of: viewModel.filters) { _ in
-        handleFiltering()
-      }
-      // The level filter is single, so it must be observed as well
-      .onChange(of: viewModel.selectedLevelFilter) { _ in
-          handleFiltering()
-      }
     }
     .padding([.leading, .trailing], 10)
   }
@@ -120,32 +112,11 @@ struct ExerciseFilterView: View {
   }
   
   private func handleSearch() {
-    /// update store with the filtered data
-    ///
-    if results.count > 0 {
-      exerciseStore.state = .loaded(results)
-    }
+    onFiltered(viewModel.results)
     dismiss()
-  }
-  
-  private func handleFiltering() {
-    let filters = viewModel.filters
-    let muscles = filters[.muscle]
-    let categories = filters[.category]
-    let equipments = filters[.equipment]
-    
-    Task {
-      let exercises = await self.exerciseStore.filterByMuscles(
-        muscles: muscles ?? [],
-        level: viewModel.selectedLevelFilter,
-        categories: categories ?? [],
-        equipments: equipments ?? []
-      )
-      self.results = exercises
-    }
   }
 }
 
 #Preview {
-  ExerciseFilterView()
+  ExerciseFilterView(onFiltered: { _ in })
 }

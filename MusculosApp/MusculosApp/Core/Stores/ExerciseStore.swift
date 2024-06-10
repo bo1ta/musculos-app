@@ -168,37 +168,6 @@ extension ExerciseStore {
   }
   
   @MainActor
-  func filterByMuscles(
-    muscles: [String],
-    level: String = "",
-    categories: [String] = [],
-    equipments: [String] = []
-  ) async -> [Exercise] {
-    let muscleTypes = muscles.compactMap { MuscleType(rawValue: $0) }
-    var filteredExercises = await module.dataStore.getByMuscles(muscleTypes)
-    
-    if categories.count > 0 {
-      filteredExercises = filteredExercises.filter { categories.contains($0.category) }
-    }
-    
-    if equipments.count > 0 {
-      filteredExercises = filteredExercises.filter { exercise in
-        if let equipment = exercise.equipment {
-          return equipments.contains(equipment)
-        } else {
-          return true
-        }
-      }
-    }
-    
-    if level.count > 0 {
-      filteredExercises = filteredExercises.filter { $0.level == level }
-    }
-    
-    return filteredExercises
-  }
-  
-  @MainActor
   func checkIsFavorite(exercise: Exercise) async -> Bool {
     return await module.dataStore.isFavorite(exercise)
   }

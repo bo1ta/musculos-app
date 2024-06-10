@@ -8,35 +8,25 @@
 import Foundation
 import SwiftUI
 import Factory
-import Combine
 
 final class ExploreExerciseViewModel: ObservableObject {
   @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
   @Injected(\.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
   @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
   
-  @Published var localResults: [Exercise] = []
-  @Published var remoteResults: [Exercise] = []
-
-  var resultsBinding: Binding<[Exercise]> {
-    return Binding<[Exercise]>(get: { [weak self] in
-      guard let self else { return [] }
-      if self.currentSection == .discover {
-        return self.remoteResults
-      } else {
-        return self.localResults
-      }
-    }, set: { _ in })
-  }
+  private var localResults: [Exercise] = []
+  private var remoteResults: [Exercise] = []
   
   @Published var exercisesCompletedToday: [ExerciseSession] = []
   @Published var goals: [Goal] = []
-  
-  @Published var isLoading = false
   @Published var errorMessage = ""
   @Published var searchQuery = ""
+  
   @Published var showFilterView = false
   @Published var showExerciseDetails = false
+  
+  @Published var contentState: LoadingViewState<[Exercise]> = .empty
+  
   @Published var selectedExercise: Exercise? = nil {
     didSet {
       if selectedExercise != nil {
@@ -50,91 +40,108 @@ final class ExploreExerciseViewModel: ObservableObject {
       handleChangeSection(currentSection)
     }
   }
-    
+  
   private(set) var exerciseTask: Task<Void, Never>?
-  private(set) var searchTask: Task<Void, Never>?
-  private(set) var favoriteTask: Task<Void, Never>?
-  private(set) var addExerciseTask: Task<Void, Never>?
+  private(set) var initialLoadTask: Task<Void, Never>?
+  private(set) var updateTask: Task<Void, Never>?
   
   private let module: ExerciseModuleProtocol
-  private var cancellables = Set<AnyCancellable>()
   
   init(module: ExerciseModuleProtocol = ExerciseModule()) {
     self.module = module
   }
   
-  func handleUpdate(_ modelEvent: AppManager.ModelEvent) {
-    switch modelEvent {
-    case .didAddGoal:
-      Task { await self.loadGoals() }
-    case .didAddExerciseSession:
-      Task { await self.loadExercisesCompletedToday() }
-    case .didAddExercise:
-      loadLocalExercises()
-    case .didFavoriteExercise:
-      loadFavoriteExercises()
+  func initialLoad() {
+    guard contentState == .empty else { return }
+    
+    initialLoadTask = Task { @MainActor in
+      await withTaskGroup(of: Void.self) { group in
+        contentState = .loading
+        
+        group.addTask {
+          await self.refreshExercisesCompletedToday()
+        }
+        
+        group.addTask {
+          await self.refreshGoals()
+        }
+        
+        group.addTask {
+          self.refreshRemoteExercises()
+          await self.exerciseTask?.value
+          await self.updateContentState(with: self.remoteResults)
+        }
+        
+        await group.waitForAll()
+      }
     }
   }
   
-  func loadRemoteExercises() {
+  @MainActor
+  func updateContentState(with exercises: [Exercise]) {
+    contentState = .loaded(exercises)
+  }
+  
+  func cleanUp() {
+    exerciseTask?.cancel()
+    exerciseTask = nil
+
+    initialLoadTask?.cancel()
+    initialLoadTask = nil
+    
+    updateTask?.cancel()
+    updateTask = nil
+  }
+}
+
+// MARK: - Tasks
+
+extension ExploreExerciseViewModel {
+  func refreshRemoteExercises() {
     exerciseTask?.cancel()
     
-    exerciseTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-      
-      self.isLoading = true
-      defer { self.isLoading = false }
-      
+    exerciseTask = Task {
       do {
-        let exercises = try await self.module.getExercises()
-        self.remoteResults = exercises
+        let exercises = try await module.getExercises()
+        remoteResults = exercises
       } catch {
-        self.errorMessage = MessageConstant.genericErrorMessage.rawValue
+        await MainActor.run {
+          errorMessage = MessageConstant.genericErrorMessage.rawValue
+        }
         MusculosLogger.logError(error, message: "Could not load remote exercises", category: .networking)
       }
     }
   }
   
-  func loadLocalExercises() {
+  func refreshLocalExercises() {
     exerciseTask?.cancel()
     
-    exerciseTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-      
-      self.isLoading = true
-      defer { self.isLoading = false }
-      
-      let localExercises = await self.exerciseDataStore.getAll()
-      self.localResults = localResults
+    exerciseTask = Task {
+      let exercises = await exerciseDataStore.getAll()
+      localResults = exercises
     }
   }
   
-  func loadFavoriteExercises() {
+  func refreshFavoriteExercises() {
     exerciseTask?.cancel()
     
-    exerciseTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-      
-      self.isLoading = true
-      defer { self.isLoading = false }
-      
-      let favoriteExercises = await self.exerciseDataStore.getAllFavorites()
-      self.localResults = favoriteExercises
+    exerciseTask = Task {
+      let favoriteExercises = await exerciseDataStore.getAllFavorites()
+      localResults = favoriteExercises
     }
   }
   
   func searchByMuscleQuery(_ query: String) {
-    searchTask?.cancel()
+    exerciseTask?.cancel()
     
-    searchTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-      
-      self.isLoading = true
-      defer { self.isLoading = false }
+    exerciseTask = Task {
+      contentState = .loading
       
       do {
-        let exercises = try await self.module.searchByMuscleQuery(query)
-        self.remoteResults = exercises
+        let exercises = try await module.searchByMuscleQuery(query)
+        remoteResults = exercises
+        
+        contentState = .loaded(exercises)
       } catch {
         self.errorMessage = MessageConstant.genericErrorMessage.rawValue
         MusculosLogger.logError(error, message: "Could not search by muscle query", category: .networking, properties: ["query": query])
@@ -142,50 +149,72 @@ final class ExploreExerciseViewModel: ObservableObject {
     }
   }
   
-  func handleChangeSection(_ section: ExploreCategorySection) {
-      switch section {
-      case .discover:
-        loadRemoteExercises()
-      case .workout:
-        loadLocalExercises()
-      case .myFavorites:
-        loadFavoriteExercises()
-      }
-  }
-  
-  func cleanUp() {
-    exerciseTask?.cancel()
-    exerciseTask = nil
-    
-    searchTask?.cancel()
-    searchTask = nil
-  }
-    
   @MainActor
-  func loadExercisesCompletedToday() async {
-    self.exercisesCompletedToday = await exerciseSessionDataStore.getCompletedToday()
+  func refreshExercisesCompletedToday() async {
+    exercisesCompletedToday = await exerciseSessionDataStore.getCompletedToday()
   }
   
   @MainActor
-  func loadGoals() async {
-    self.goals = await goalDataStore.getAll()
-  }
-  
-  func initialLoad() async {
-    await withTaskGroup(of: Void.self) { @MainActor [weak self] group in
-      guard let self else { return }
-      
-      self.isLoading = true
-      defer { self.isLoading = false }
-      
-      group.addTask { await self.loadExercisesCompletedToday() }
-      group.addTask { await self.loadGoals() }
-      
-      await group.waitForAll()
-    }
+  func refreshGoals() async {
+    goals = await goalDataStore.getAll()
   }
 }
 
+// MARK: - Handlers
+
+extension ExploreExerciseViewModel {
+  func handleChangeSection(_ section: ExploreCategorySection) {
+    updateTask?.cancel()
+    
+    updateTask = Task {
+      switch section {
+      case .discover:
+        refreshRemoteExercises()
+        
+        await exerciseTask?.value
+        await updateContentState(with: remoteResults)
+        
+      case .workout:
+        refreshLocalExercises()
+        
+        await exerciseTask?.value
+        await updateContentState(with: localResults)
+      case .myFavorites:
+        refreshFavoriteExercises()
+        
+        await exerciseTask?.value
+        await updateContentState(with: localResults)
+      }
+    }
+  }
+  
+  func handleUpdate(_ modelEvent: AppManager.ModelEvent) {
+    updateTask?.cancel()
+    
+    updateTask = Task {
+      switch modelEvent {
+      case .didAddGoal:
+        await refreshGoals()
+      case .didAddExerciseSession:
+        await refreshExercisesCompletedToday()
+      case .didAddExercise:
+        refreshLocalExercises()
+        await exerciseTask?.value
+        
+        if currentSection == .workout {
+          await updateContentState(with: localResults)
+        }
+      case .didFavoriteExercise:
+        if currentSection == .myFavorites {
+          refreshFavoriteExercises()
+          
+          await exerciseTask?.value
+          await updateContentState(with: localResults)
+        }
+      }
+    }
+  }
+}
 
 enum ExploreCategorySection: String, CaseIterable {
   case discover, workout, myFavorites

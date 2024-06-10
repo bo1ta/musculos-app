@@ -9,19 +9,15 @@ import SwiftUI
 
 struct ExerciseSectionsContentView: View {
   @Binding var categorySection: ExploreCategorySection
-  @Binding var isLoading: Bool
-  @Binding var exercises: [Exercise]
-  @Binding var errorMessage: String
+  @Binding var contentState: LoadingViewState<[Exercise]>
   
   let onExerciseTap: (Exercise) -> Void
   
   var body: some View {
-    if isLoading {
+    switch contentState {
+    case .loading:
       ExerciseContentLoadingView()
-    } else if errorMessage.count > 0 {
-      HintIconView(systemImage: "exclamationmark.warninglight", textHint: "Error fetching data")
-        .padding(.top, 20)
-    } else {
+    case .loaded(let exercises):
       VStack {
         ExploreCategorySectionView(currentSection: $categorySection)
         makeCategoryItems(
@@ -29,6 +25,11 @@ struct ExerciseSectionsContentView: View {
           exercises: exercises
         )
       }
+    case .empty:
+      EmptyView()
+    case .error(_):
+      HintIconView(systemImage: "exclamationmark.warninglight", textHint: "Error fetching data")
+        .padding(.top, 20)
     }
   }
   
