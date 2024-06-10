@@ -9,9 +9,9 @@ import SwiftUI
 
 struct AddExerciseSheet: View {
   @Environment(\.dismiss) private var dismiss
-  @EnvironmentObject private var appManager: AppManager
+  @Environment(\.appManager) private var appManager
   
-  @StateObject private var viewModel = AddExerciseSheetViewModel()
+  @State private var viewModel = AddExerciseSheetViewModel()
   
   @State private var showPhotosPicker: Bool = false
   @State private var pickedPhotos: [PhotoModel] = []

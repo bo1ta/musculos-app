@@ -9,8 +9,8 @@ import SwiftUI
 import Shimmer
 
 struct WorkoutListView: View {
-  @EnvironmentObject private var appManager: AppManager
-  @StateObject private var viewModel = WorkoutListViewModel()
+  @Environment(\.appManager) private var appManager
+  @State private var viewModel = WorkoutListViewModel()
   
   var body: some View {
     NavigationStack {
@@ -67,5 +67,4 @@ struct WorkoutListView: View {
 
 #Preview {
   WorkoutListView()
-    .environmentObject(AppManager())
 }

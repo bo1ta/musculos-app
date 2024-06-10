@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PermissionsView: View {
-  @EnvironmentObject private var healthKitViewModel: HealthKitViewModel
+  @Environment(\.healthKitViewModel) private var healthKitViewModel
   
   let onDone: () -> Void
   
@@ -74,5 +74,4 @@ struct PermissionsView: View {
 
 #Preview {
   PermissionsView(onDone: {})
-    .environmentObject(HealthKitViewModel())
 }

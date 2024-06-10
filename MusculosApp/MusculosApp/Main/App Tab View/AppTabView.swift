@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 struct AppTabView: View {
-  @StateObject private var appManager = AppManager()
+  @State private var appManager = AppManager()
   
   @State private var tabSelection: TabBarItem = .explore
   @State private var showingSheet = false
@@ -28,7 +28,7 @@ struct AppTabView: View {
       AddActionSheetContainer()
     }
     .toastView(toast: $appManager.toast)
-    .environmentObject(appManager)
+    .environment(\.appManager, appManager)
   }
   
   @MainActor
@@ -40,6 +40,5 @@ struct AppTabView: View {
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     AppTabView()
-      .environmentObject(UserStore())
   }
 }

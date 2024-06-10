@@ -9,9 +9,9 @@ import SwiftUI
 
 struct AddWorkoutSheet: View {
   @Environment(\.dismiss) private var dismiss
-  @EnvironmentObject private var appManager: AppManager
+  @Environment(\.appManager) private var appManager
   
-  @StateObject var viewModel = AddWorkoutSheetViewModel()
+  @State private var viewModel = AddWorkoutSheetViewModel()
   
   let onBack: () -> Void
   

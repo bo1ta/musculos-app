@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct SignUpView: View {
-  @ObservedObject private var viewModel: AuthViewModel
+  @State private var viewModel: AuthViewModel
   
-  init(viewModel: ObservedObject<AuthViewModel>) {
-    self._viewModel = viewModel
+  init(viewModel: AuthViewModel) {
+    self.viewModel = viewModel
   }
-  
+
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
       Text(headerTitle)
@@ -106,6 +106,5 @@ extension SignUpView {
 }
 
 #Preview {
-  SignUpView(viewModel: .init(initialValue: AuthViewModel()))
-    .environmentObject(AuthViewModel())
+  SignUpView(viewModel: AuthViewModel())
 }

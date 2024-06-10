@@ -9,13 +9,14 @@ import Foundation
 import SwiftUI
 import HealthKit
 
-final class HealthKitViewModel: ObservableObject {
-  @Published var stepsCount: String = ""
-  @Published var sleepTime: String = ""
-  @Published var dietaryWater: String = ""
-  @Published var isAuthorized: Bool = false
-  @Published var errorMessage: String = ""
-  @Published var isLoading: Bool = false
+@Observable
+final class HealthKitViewModel {
+  var stepsCount: String = ""
+  var sleepTime: String = ""
+  var dietaryWater: String = ""
+  var isAuthorized: Bool = false
+  var errorMessage: String = ""
+  var isLoading: Bool = false
     
   private let healthStore = HKHealthStore()
   private let manager: HealthKitManager

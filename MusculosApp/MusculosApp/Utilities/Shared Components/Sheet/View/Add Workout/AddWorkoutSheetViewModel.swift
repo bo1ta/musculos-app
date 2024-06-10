@@ -10,21 +10,24 @@ import SwiftUI
 import Factory
 import Combine
 
-final class AddWorkoutSheetViewModel: ObservableObject {
+@Observable
+final class AddWorkoutSheetViewModel {
+  
+  @ObservationIgnored
   @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
   
-  @Published var workoutName: String = ""
-  @Published var workoutType: String = ""
-  @Published var selectedExercises: [WorkoutExercise] = []
-  @Published var muscleSearchQuery: String = "" {
+  var workoutName: String = ""
+  var workoutType: String = ""
+  var selectedExercises: [WorkoutExercise] = []
+  var muscleSearchQuery: String = "" {
     didSet {
       self.searchQuerySubject.send(())
     }
   }
-  @Published var showRepsDialog: Bool = false
-  @Published var results: [Exercise] = []
+  var showRepsDialog: Bool = false
+  var results: [Exercise] = []
   
-  @Published var state: LoadingViewState<[Exercise]> = .empty
+  var state: LoadingViewState<[Exercise]> = .empty
   
   private(set) var loadTask: Task<Void, Never>?
   
@@ -32,7 +35,7 @@ final class AddWorkoutSheetViewModel: ObservableObject {
   var searchQuerySubject = PassthroughSubject<Void, Never>()
   private var cancellables = Set<AnyCancellable>()
   
-  @Published var currentSelectedExercise: Exercise? = nil {
+  var currentSelectedExercise: Exercise? = nil {
     didSet {
       if currentSelectedExercise != nil {
         showRepsDialog = true

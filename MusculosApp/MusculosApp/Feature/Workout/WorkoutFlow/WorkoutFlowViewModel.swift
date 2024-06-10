@@ -8,15 +8,16 @@
 import Foundation
 import SwiftUI
 
-final class WorkoutFlowViewModel: ObservableObject {
+@Observable
+final class WorkoutFlowViewModel {
   enum Step {
     case intro
     case session
     case completion
   }
   
-  @Published private(set) var step: Step = .intro
-  @Published private(set) var currentExerciseIndex = 0
+  private(set) var step: Step = .intro
+  private(set) var currentExerciseIndex = 0
   
   let workout: Workout
   

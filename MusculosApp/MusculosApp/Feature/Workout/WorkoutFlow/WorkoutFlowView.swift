@@ -9,13 +9,13 @@ import SwiftUI
 
 struct WorkoutFlowView: View {
   @Environment(\.dismiss) private var dismiss
-  @StateObject private var viewModel: WorkoutFlowViewModel
+  @State private var viewModel: WorkoutFlowViewModel
   
   let workout: Workout
   let onComplete: () -> Void
   
   init(workout: Workout, onComplete: @escaping () -> Void) {
-    self._viewModel = StateObject(wrappedValue: WorkoutFlowViewModel(workout: workout))
+    self.viewModel = WorkoutFlowViewModel(workout: workout)
     self.workout = workout
     self.onComplete = onComplete
   }
@@ -39,5 +39,4 @@ struct WorkoutFlowView: View {
 
 #Preview {
   WorkoutFlowView(workout: WorkoutFactory.create(), onComplete: {})
-    .environmentObject(AppManager())
 }

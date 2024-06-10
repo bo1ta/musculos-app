@@ -8,46 +8,46 @@
 import SwiftUI
 
 struct DashboardHeaderCard: View {
-  @EnvironmentObject var userStore: UserStore
+  @Environment(\.userStore) var userStore
   
-    var body: some View {
-      Rectangle()
-        .frame(maxWidth: .infinity)
-        .frame(height: 130)
-        .foregroundStyle(.white)
-        .shadow(radius: 10)
-        .overlay {
-          VStack {
+  var body: some View {
+    Rectangle()
+      .frame(maxWidth: .infinity)
+      .frame(height: 130)
+      .foregroundStyle(.white)
+      .shadow(radius: 10)
+      .overlay {
+        VStack {
+          Spacer()
+          HStack {
+            Circle()
+              .frame(width: 40, height: 40)
+              .foregroundStyle(.red)
+              .shadow(radius: 1)
+            VStack(alignment: .leading) {
+              Group {
+                Text("Hello,")
+                  .font(.header(.bold, size: 20))
+                Text(userStore.displayName)
+                  .font(.body(.regular, size: 15))
+              }
+              .foregroundStyle(.black)
+            }
             Spacer()
-            HStack {
-              Circle()
-                .frame(width: 40, height: 40)
-                .foregroundStyle(.red)
-                .shadow(radius: 1)
-              VStack(alignment: .leading) {
-                Group {
-                  Text("Hello,")
-                    .font(.header(.bold, size: 20))
-                  Text(userStore.displayName)
-                    .font(.body(.regular, size: 15))
-                }
+            Button {
+              print("notification tapped")
+            } label: {
+              Image(systemName: "bell.fill")
                 .foregroundStyle(.black)
-              }
-              Spacer()
-              Button {
-                print("notification tapped")
-              } label: {
-                Image(systemName: "bell.fill")
-                  .foregroundStyle(.black)
-              }
             }
           }
-          .padding()
-          .padding(.top, 20)
         }
-    }
+        .padding()
+        .padding(.top, 20)
+      }
+  }
 }
 
 #Preview {
-  DashboardHeaderCard().environmentObject(UserStore())
+  DashboardHeaderCard()
 }

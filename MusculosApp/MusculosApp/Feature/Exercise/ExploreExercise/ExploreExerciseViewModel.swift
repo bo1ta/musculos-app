@@ -9,25 +9,32 @@ import Foundation
 import SwiftUI
 import Factory
 
-final class ExploreExerciseViewModel: ObservableObject {
+@Observable
+final class ExploreExerciseViewModel {
+  
+  @ObservationIgnored
   @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
+  
+  @ObservationIgnored
   @Injected(\.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
+  
+  @ObservationIgnored
   @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
   
   private var localResults: [Exercise] = []
   private var remoteResults: [Exercise] = []
   
-  @Published var exercisesCompletedToday: [ExerciseSession] = []
-  @Published var goals: [Goal] = []
-  @Published var errorMessage = ""
-  @Published var searchQuery = ""
+  var exercisesCompletedToday: [ExerciseSession] = []
+  var goals: [Goal] = []
+  var errorMessage = ""
+  var searchQuery = ""
   
-  @Published var showFilterView = false
-  @Published var showExerciseDetails = false
+  var showFilterView = false
+  var showExerciseDetails = false
   
-  @Published var contentState: LoadingViewState<[Exercise]> = .empty
+  var contentState: LoadingViewState<[Exercise]> = .empty
   
-  @Published var selectedExercise: Exercise? = nil {
+  var selectedExercise: Exercise? = nil {
     didSet {
       if selectedExercise != nil {
         showExerciseDetails = true
@@ -35,7 +42,7 @@ final class ExploreExerciseViewModel: ObservableObject {
     }
   }
   
-  @Published var currentSection: ExploreCategorySection = .discover {
+  var currentSection: ExploreCategorySection = .discover {
     didSet {
       handleChangeSection(currentSection)
     }

@@ -12,36 +12,42 @@ import Combine
 
 /// Helper manager that is passed from the root level
 ///
-@MainActor
-class AppManager: ObservableObject {
+@Observable
+final class AppManager {
   /// The observer for the tab bar visibility
   ///
-  @Published private(set) var isTabBarHidden: Bool = false
+  private(set) var isTabBarHidden: Bool = false
   
   /// The observer for `Toast` view
   /// Set to show a useful toast message for success, info, error, warning states
   ///
-  @Published var toast: Toast? = nil
+  var toast: Toast? = nil
   
   /// Publisher to notify changes to various models
   /// Subscribe to this to update the data if needed
   ///
   let modelUpdateEvent = PassthroughSubject<ModelEvent, Never>()
+  
+  private(set) var dispatchTask: Task<Void, Never>?
 }
 
 // MARK: - Functions
 
 extension AppManager {
+  
+  @MainActor
   func hideTabBar() {
     guard !isTabBarHidden else { return }
     isTabBarHidden = true
   }
   
+  @MainActor
   func showTabBar() {
     guard isTabBarHidden else { return }
     isTabBarHidden = false
   }
   
+  @MainActor
   func showToast(style: Toast.ToastStyle, message: String, duration: Double = 2.0) {
     toast = Toast(style: style, message: message, duration: duration)
   }
@@ -53,6 +59,7 @@ extension AppManager {
     case didFavoriteExercise
   }
   
+  @MainActor
   func dispatchEvent(for modelEvent: ModelEvent) {
     modelUpdateEvent.send(modelEvent)
   }

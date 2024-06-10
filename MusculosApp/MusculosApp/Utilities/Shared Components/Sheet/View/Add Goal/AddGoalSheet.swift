@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 
 struct AddGoalSheet: View {
-  @EnvironmentObject private var appManager: AppManager
+  @Environment(\.appManager) private var appManager
   @Environment(\.dismiss) private var dismiss
-  @StateObject private var viewModel = AddGoalSheetViewModel()
+  @State private var viewModel = AddGoalSheetViewModel()
   
   let onBack: () -> Void
   
@@ -89,5 +89,4 @@ struct AddGoalSheet: View {
 
 #Preview {
   AddGoalSheet(onBack: {})
-    .environmentObject(AppManager())
 }

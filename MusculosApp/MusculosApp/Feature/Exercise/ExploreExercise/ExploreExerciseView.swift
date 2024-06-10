@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ExploreExerciseView: View {
-  @EnvironmentObject private var appManager: AppManager
-  
-  @StateObject private var viewModel = ExploreExerciseViewModel()
+  @Environment(\.appManager) private var appManager
+
+  @State private var viewModel = ExploreExerciseViewModel()
   
   var body: some View {
     NavigationStack {
@@ -68,5 +68,4 @@ struct ExploreExerciseView: View {
 
 #Preview {
   ExploreExerciseView()
-    .environmentObject(AppManager())
 }

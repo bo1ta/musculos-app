@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct WorkoutIntroView: View {
-  @EnvironmentObject private var appManager: AppManager
-  
+  @Environment(\.appManager) private var appManager
+
   let workout: Workout
   let onStartTapped: () -> Void
   
@@ -84,5 +84,4 @@ struct WorkoutIntroView: View {
 
 #Preview {
   WorkoutIntroView(workout: WorkoutFactory.create(), onStartTapped: {})
-    .environmentObject(AppManager())
 }

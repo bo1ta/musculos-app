@@ -9,14 +9,15 @@ import Foundation
 import SwiftUI
 import Combine
 
-final class AddGoalSheetViewModel: ObservableObject {
-  @Published var name: String = ""
-  @Published var category: String = ""
-  @Published var showCategoryOptions: Bool = true
-  @Published var targetValue: String = ""
-  @Published var showEndDate: Bool = false
-  @Published var showFrequencyOptions: Bool = true
-  @Published var frequency: String = "" {
+@Observable
+final class AddGoalSheetViewModel {
+  var name: String = ""
+  var category: String = ""
+  var showCategoryOptions: Bool = true
+  var targetValue: String = ""
+  var showEndDate: Bool = false
+  var showFrequencyOptions: Bool = true
+  var frequency: String = "" {
     didSet {
       if frequency == Goal.Frequency.fixedDate.description {
         DispatchQueue.main.async {
@@ -25,7 +26,7 @@ final class AddGoalSheetViewModel: ObservableObject {
       }
     }
   }
-  @Published var endDate: Date = Date()
+  var endDate: Date = Date()
   
   private let dataStore: GoalDataStore
   

@@ -10,15 +10,19 @@ import Factory
 import Combine
 import SwiftUI
 
-final class ExerciseDetailsViewModel: ObservableObject {
+@Observable
+final class ExerciseDetailsViewModel {
+  @ObservationIgnored
   @Injected(\.exerciseDataStore) private var exerciseDataStore
+  
+  @ObservationIgnored
   @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore
   
-  @Published private(set) var isFavorite = false
-  @Published private(set) var showChallengeExercise = false
-  @Published private(set) var isTimerActive = false
-  @Published private(set) var timer: Timer? = nil
-  @Published private(set) var elapsedTime: Int = 0
+  private(set) var isFavorite = false
+  private(set) var showChallengeExercise = false
+  private(set) var isTimerActive = false
+  private(set) var timer: Timer? = nil
+  private(set) var elapsedTime: Int = 0
   
   private(set) var didSaveSubject = PassthroughSubject<Bool, Never>()
   private(set) var markFavoriteTask: Task<Void, Never>?

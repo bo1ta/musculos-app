@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 struct CountdownTimerView: View {
-  @StateObject var viewModel: CountdownTimerViewModel
+  @State var viewModel: CountdownTimerViewModel
   @Binding var durationInSeconds: Int
 
   private let subtitle: String
@@ -23,8 +23,7 @@ struct CountdownTimerView: View {
     onTimerCompleted: @escaping () -> Void
   ) {
     self._durationInSeconds = durationInSeconds
-    self._viewModel = .init(
-      wrappedValue: CountdownTimerViewModel(timeDuration: Double(durationInSeconds.wrappedValue))
+    self.viewModel = CountdownTimerViewModel(timeDuration: Double(durationInSeconds.wrappedValue)
     )
     self.subtitle = subtitle
     self.color = color

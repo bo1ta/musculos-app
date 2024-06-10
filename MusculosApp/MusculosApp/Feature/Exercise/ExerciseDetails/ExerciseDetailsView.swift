@@ -10,15 +10,15 @@ import Factory
 
 struct ExerciseDetailsView: View {
   @Environment(\.dismiss) private var dismiss
-  @EnvironmentObject private var appManager: AppManager
-  
-  @StateObject private var viewModel: ExerciseDetailsViewModel
+  @Environment(\.appManager) private var appManager
+
+  @State private var viewModel: ExerciseDetailsViewModel
   
   var exercise: Exercise
   var onComplete: (() -> Void)? = nil
   
   init(exercise: Exercise, onComplete: (() -> Void)? = nil) {
-    self._viewModel = StateObject(wrappedValue: ExerciseDetailsViewModel(exercise: exercise))
+    self.viewModel = ExerciseDetailsViewModel(exercise: exercise)
     self.exercise = exercise
     self.onComplete = onComplete
   }
@@ -128,7 +128,7 @@ extension ExerciseDetailsView {
     Button(action: {
       Task {
         await viewModel.toggleIsFavorite()
-        appManager.dispatchEvent(for: .didFavoriteExercise)
+        await appManager.dispatchEvent(for: .didFavoriteExercise)
       }
     }, label: {
       Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
@@ -178,5 +178,4 @@ extension ExerciseDetailsView {
   
 #Preview {
   ExerciseDetailsView(exercise: ExerciseFactory.createExercise())
-    .environmentObject(AppManager())
 }

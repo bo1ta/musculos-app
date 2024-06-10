@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SignInView: View {
-  @EnvironmentObject private var userStore: UserStore
-  @ObservedObject private var viewModel = AuthViewModel()
+  @Environment(\.userStore) private var userStore
+  @State private var viewModel = AuthViewModel()
     
   var body: some View {
     NavigationStack {
@@ -33,9 +33,9 @@ struct SignInView: View {
       .onDisappear(perform: viewModel.cleanUp)
       .navigationTitle("")
       .navigationDestination(isPresented: $viewModel.showRegister) {
-        SignUpView(viewModel: _viewModel)
+        SignUpView(viewModel: viewModel)
       }
-      .onChange(of: viewModel.state) { state in
+      .onChange(of: viewModel.state) { _, state in
         switch state {
         case .error(let errorMessage):
           MusculosLogger.logError(MusculosError.badRequest, message: errorMessage, category: .networking)
@@ -144,5 +144,4 @@ extension SignInView {
 
 #Preview {
   SignInView()
-    .environmentObject(UserStore())
 }

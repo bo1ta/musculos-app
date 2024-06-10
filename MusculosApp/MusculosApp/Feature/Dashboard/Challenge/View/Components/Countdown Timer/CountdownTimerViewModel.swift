@@ -9,14 +9,15 @@ import Foundation
 import Combine
 import SwiftUI
 
-class CountdownTimerViewModel: ObservableObject {
+@Observable
+class CountdownTimerViewModel {
   private var timerSubscription: Cancellable?
   private var timerCancellable: AnyCancellable?
   private var totalDuration: Double
   
-  @Published var isAnimating: Bool = false
-  @Published var isPaused: Bool = false
-  @Published var currentTime: TimeInterval
+  var isAnimating: Bool = false
+  var isPaused: Bool = false
+  var currentTime: TimeInterval
   
   private let timer = Timer.publish(every: 1, on: .main, in: .common)
   
