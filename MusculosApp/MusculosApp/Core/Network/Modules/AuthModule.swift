@@ -59,7 +59,7 @@ extension AuthModule {
     
     if let fullName, let username {
       let person = Person(email: email, fullName: fullName, username: username)
-      await dataStore.createUser(person: person)
+      try await dataStore.createUser(person: person)
     }
     UserDefaults.standard.setValue(authResult.token, forKey: UserDefaultsKeyConstant.authToken.rawValue)
   }

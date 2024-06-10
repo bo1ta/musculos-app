@@ -17,7 +17,6 @@ struct ToastViewModifier: ViewModifier {
       .overlay(
         ZStack {
           toastView
-            .offset(y: -80)
         }.animation(.spring(), value: toast)
       )
       .onChange(of: toast) { value in
@@ -29,13 +28,14 @@ struct ToastViewModifier: ViewModifier {
   var toastView: some View {
     if let toast = toast {
       VStack {
-        Spacer()
         ToastView(
           style: toast.style,
           message: toast.message,
           width: toast.width
         )
+        Spacer()
       }
+      .padding(.top)
     }
   }
   

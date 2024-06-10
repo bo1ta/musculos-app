@@ -39,7 +39,9 @@ struct ExerciseDetailsView: View {
     }
     .onAppear {
       appManager.hideTabBar()
-      viewModel.initialLoad()
+    }
+    .task {
+      await viewModel.initialLoad()
     }
     .onDisappear(perform: viewModel.cleanUp)
     .navigationBarBackButtonHidden()
@@ -65,6 +67,14 @@ struct ExerciseDetailsView: View {
         
       }
     }
+    .onReceive(viewModel.didSaveSubject, perform: { didSaveSubject in
+      if didSaveSubject {
+        appManager.showToast(style: .success, message: "Completed exercise in \(viewModel.elapsedTime) seconds")
+        appManager.dispatchEvent(for: .didAddExerciseSession)
+      } else {
+        appManager.showToast(style: .error, message: "Could not complete exercise")
+      }
+    })
   }
 }
 
@@ -116,7 +126,10 @@ extension ExerciseDetailsView {
   
   private var favoriteButton: some View {
     Button(action: {
-      viewModel.toggleIsFavorite()
+      Task {
+        await viewModel.toggleIsFavorite()
+        appManager.dispatchEvent(for: .didFavoriteExercise)
+      }
     }, label: {
       Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
         .resizable()
@@ -163,8 +176,7 @@ extension ExerciseDetailsView {
   }
 }
   
-  #Preview {
-    ExerciseDetailsView(exercise: ExerciseFactory.createExercise())
-      .environmentObject(AppManager())
-      .environmentObject(ExerciseStore())
-  }
+#Preview {
+  ExerciseDetailsView(exercise: ExerciseFactory.createExercise())
+    .environmentObject(AppManager())
+}

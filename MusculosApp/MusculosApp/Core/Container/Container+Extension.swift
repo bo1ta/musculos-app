@@ -11,6 +11,9 @@ import Factory
 extension Container {
   var storageManager: Factory<StorageManagerType> {
     self { StorageManager() }
+      .onTest { _ in
+        InMemoryStorageManager()
+      }
       .singleton
   }
   
@@ -20,5 +23,13 @@ extension Container {
   
   var userDataStore: Factory<UserDataStoreProtocol> {
     self { UserDataStore() }
+  }
+  
+  var exerciseSessionDataStore: Factory<ExerciseSessionDataStoreProtocol> {
+    self { ExerciseSessionDataStore() }
+  }
+  
+  var goalDataStore: Factory<GoalDataStoreProtocol> {
+    self { GoalDataStore() }
   }
 }

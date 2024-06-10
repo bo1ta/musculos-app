@@ -7,18 +7,30 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 final class AddGoalSheetViewModel: ObservableObject {
   @Published var name: String = ""
   @Published var category: String = ""
   @Published var showCategoryOptions: Bool = true
   @Published var targetValue: String = ""
+  @Published var showEndDate: Bool = false
+  @Published var showFrequencyOptions: Bool = true
+  @Published var frequency: String = "" {
+    didSet {
+      if frequency == Goal.Frequency.fixedDate.description {
+        DispatchQueue.main.async {
+          self.showEndDate = true
+        }
+      }
+    }
+  }
   @Published var endDate: Date = Date()
-  @Published var state: EmptyLoadingViewState = .empty
   
   private let dataStore: GoalDataStore
   
   private(set) var saveTask: Task<Void, Never>?
+  private(set) var didSaveGoalPublisher = PassthroughSubject<Bool, Never>()
   
   init(dataStore: GoalDataStore = GoalDataStore()) {
     self.dataStore = dataStore
@@ -27,17 +39,22 @@ final class AddGoalSheetViewModel: ObservableObject {
   func saveGoal() {
     saveTask = Task { @MainActor [weak self] in
       guard let self else { return }
-      self.state = .loading
       
       let goal = Goal(
         name: self.name,
-        category: Goal.GoalCategory(rawValue: self.category) ?? .general,
+        category: Goal.Category(rawValue: self.category) ?? .general,
+        frequency: Goal.Frequency(rawValue: self.frequency) ?? .daily,
         targetValue: self.targetValue,
         endDate: self.endDate
       )
       
-      await self.dataStore.add(goal)
-      self.state = .successful
+      do {
+        try await self.dataStore.add(goal)
+        self.didSaveGoalPublisher.send(true)
+      } catch {
+        self.didSaveGoalPublisher.send(false)
+        MusculosLogger.logError(error, message: "Could not save goal", category: .coreData)
+      }
     }
   }
   

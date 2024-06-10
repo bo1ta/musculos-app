@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import Factory
+import Combine
 
 final class AddExerciseSheetViewModel: ObservableObject {
+  @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
+  
   @Published var exerciseName = ""
   @Published var equipment = ""
   @Published var force = ""
@@ -22,6 +26,10 @@ final class AddExerciseSheetViewModel: ObservableObject {
   @Published var showLevelOptions = true
   @Published var showCategoryOptions = true
   @Published var showEquipmentOptions = true
+  
+  private(set) var saveExerciseTask: Task<Void, Never>?
+  
+  var didSaveSubject = PassthroughSubject<Bool, Never>()
     
   private var isExerciseValid: Bool {
     exerciseName.count > 0 &&
@@ -32,24 +40,37 @@ final class AddExerciseSheetViewModel: ObservableObject {
     category.count > 0
   }
   
-  func createExercise(with photos: [PhotoModel] = []) -> Exercise? {
-    guard isExerciseValid else { return nil }
+  func saveExercise(with photos: [PhotoModel] = []) {
+    guard isExerciseValid else { return }
     
-    let imageUrls = photos.compactMap {
-      PhotoWriter.saveImage($0.image, with: $0.id.uuidString)?.absoluteString
+    saveExerciseTask = Task {
+      let imageUrls = photos.compactMap {
+        PhotoWriter.saveImage($0.image, with: $0.id.uuidString)?.absoluteString
+      }
+      let instructionsString = self.instructions.map { $0.text }
+      
+      let exercise = Exercise(
+        category: category,
+        id: UUID(),
+        level: level,
+        name: exerciseName,
+        primaryMuscles: targetMuscles,
+        secondaryMuscles: [],
+        instructions: instructionsString,
+        imageUrls: imageUrls
+      )
+      
+      do {
+        try await exerciseDataStore.add(exercise)
+        await MainActor.run {
+          didSaveSubject.send(true)
+        }
+      } catch {
+        await MainActor.run {
+          didSaveSubject.send(false)
+        }
+        MusculosLogger.logError(error, message: "Could not save exercise", category: .coreData)
+      }
     }
-    let instructionsString = instructions.map { $0.text }
-    
-    let exercise = Exercise(
-      category: category,
-      id: UUID(),
-      level: level,
-      name: exerciseName,
-      primaryMuscles: targetMuscles,
-      secondaryMuscles: [],
-      instructions: instructionsString,
-      imageUrls: imageUrls
-    )
-    return exercise
   }
 }

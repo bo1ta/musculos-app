@@ -8,5 +8,6 @@
 import Foundation
 
 struct GoalConstants {
-  static let categoryOptions = Goal.GoalCategory.allCases.map { $0.label }
+  static let categoryOptions = Goal.Category.allCases.map { $0.label }
+  static let frequencyOptions = Goal.Frequency.allCases.map { $0.description }
 }

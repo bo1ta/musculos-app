@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct ExploreExerciseView: View {
-  @EnvironmentObject private var exerciseStore: ExerciseStore
   @EnvironmentObject private var appManager: AppManager
-
+  
   @StateObject private var viewModel = ExploreExerciseViewModel()
   
   var body: some View {
@@ -18,7 +17,7 @@ struct ExploreExerciseView: View {
       VStack {
         ScrollView {
           ProgressCard(
-            title: "You've completed 3 exercises",
+            title: "You've completed \(viewModel.exercisesCompletedToday.count) exercises",
             description: "75% of your weekly muscle building goal",
             progress: 0.75
           )
@@ -27,21 +26,27 @@ struct ExploreExerciseView: View {
           
           SearchFilterField(
             showFilterView: $viewModel.showFilterView,
-            hasObservedQuery: { query in
-              exerciseStore.searchByMuscleQuery(query)
-            })
+            hasObservedQuery: { viewModel.searchByMuscleQuery($0) }
+          )
           
-          ExerciseSectionsContentView(onSelected: { exercise in
-            viewModel.selectedExercise = exercise
-          })
+          ExerciseSectionsContentView(
+            categorySection: $viewModel.currentSection,
+            contentState: $viewModel.contentState,
+            onExerciseTap: { viewModel.selectedExercise = $0 }
+          )
           
           WhiteBackgroundCard()
         }
         .scrollIndicators(.hidden)
       }
       .popover(isPresented: $viewModel.showFilterView) {
-        ExerciseFilterView()
+        ExerciseFilterView(onFiltered: { filteredExercises in
+          viewModel.updateContentState(with: filteredExercises)
+        })
       }
+      .onReceive(appManager.modelUpdateEvent, perform: { modelEvent in
+        viewModel.handleUpdate(modelEvent)
+      })
       .background(
         Image("white-patterns-background")
           .resizable(resizingMode: .tile)
@@ -52,14 +57,16 @@ struct ExploreExerciseView: View {
           ExerciseDetailsView(exercise: exercise)
         }
       }
-      .onAppear(perform: appManager.showTabBar)
-      .onDisappear(perform: exerciseStore.cleanUp)
+      .onAppear {
+        appManager.showTabBar()
+        viewModel.initialLoad()
+      }
+      .onDisappear(perform: viewModel.cleanUp)
     }
   }
 }
 
 #Preview {
   ExploreExerciseView()
-    .environmentObject(ExerciseStore())
     .environmentObject(AppManager())
 }

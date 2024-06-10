@@ -10,7 +10,6 @@ import SwiftUI
 struct AddWorkoutSheet: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var appManager: AppManager
-  @EnvironmentObject private var exerciseStore: ExerciseStore
   
   @StateObject var viewModel = AddWorkoutSheetViewModel()
   
@@ -38,9 +37,6 @@ struct AddWorkoutSheet: View {
     }
     .scrollIndicators(.hidden)
     .padding([.leading, .trailing, .top], 15)
-    .onChange(of: viewModel.debouncedMuscleSearchQuery) { categoryQuery in
-      exerciseStore.searchByMuscleQuery(categoryQuery)
-    }
     .safeAreaInset(edge: .bottom) {
       Button(action: viewModel.submitWorkout, label: {
         Text("Save")
@@ -56,15 +52,15 @@ struct AddWorkoutSheet: View {
       isPresented: $viewModel.showRepsDialog,
       onSelectedValue: viewModel.didSelectExercise
     )
-    .onChange(of: viewModel.state) { state in
-      switch state {
-      case .successful:
-        appManager.toast = Toast(style: .success, message: "Goal saved! Good luck!")
+    .onReceive(viewModel.didSaveSubject, perform: { isSuccessful in
+      if isSuccessful {
+        appManager.showToast(style: .info, message: "Goal saved! Good luck!")
+        appManager.dispatchEvent(for: .didAddGoal)
         dismiss()
-      default:
-        break
+      } else {
+        appManager.showToast(style: .error, message: "Could not save goal. Please try again")
       }
-    }
+    })
     .onDisappear(perform: viewModel.cleanUp)
   }
 }
@@ -77,7 +73,7 @@ extension AddWorkoutSheet {
       Text("Recommended exercises")
         .font(.body(.bold, size: 15))
 
-      switch exerciseStore.state {
+      switch viewModel.state {
       case .loading:
         ForEach(0..<5, id: \.self) { _ in
           CardItemShimmering()
@@ -113,5 +109,4 @@ extension AddWorkoutSheet {
 
 #Preview {
   AddWorkoutSheet(onBack: {})
-    .environmentObject(ExerciseStore())
 }

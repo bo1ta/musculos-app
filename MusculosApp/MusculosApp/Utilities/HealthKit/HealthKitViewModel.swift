@@ -22,6 +22,7 @@ final class HealthKitViewModel: ObservableObject {
   
   init() {
     self.manager = HealthKitManager(healthStore: healthStore)
+    updateAuthorizationStatus()
   }
   
   @MainActor

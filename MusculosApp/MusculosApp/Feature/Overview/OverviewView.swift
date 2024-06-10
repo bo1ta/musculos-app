@@ -35,8 +35,11 @@ struct OverviewView: View {
       .padding([.leading, .trailing], 15)
     }
     .task {
-      await healthKitViewModel.requestPermissions()
-      await healthKitViewModel.loadAllData()
+      if healthKitViewModel.isAuthorized {
+        await healthKitViewModel.loadAllData()
+      } else {
+        // load different data
+      }
     }
     .scrollIndicators(.hidden)
   }

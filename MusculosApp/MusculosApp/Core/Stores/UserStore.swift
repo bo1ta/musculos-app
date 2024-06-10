@@ -27,8 +27,7 @@ class UserStore: ObservableObject {
     currentPerson?.fullName ?? currentPerson?.username ?? "User"
   }
 
-  @MainActor
-  func initialLoad() {
+  func initialLoad() async {
     if let _ = UserDefaults.standard.string(forKey: UserDefaultsKeyConstant.authToken.rawValue) {
       self.isLoggedIn = true
     }
@@ -38,7 +37,7 @@ class UserStore: ObservableObject {
       self.isOnboarded = true
     }
     
-    if let currentPerson = dataStore.loadCurrentPerson() {
+    if let currentPerson = await dataStore.loadCurrentPerson() {
       self.currentPerson = currentPerson
     }
   }
@@ -62,7 +61,12 @@ class UserStore: ObservableObject {
     
     updateUserTask = Task.detached { [weak self] in
       guard let self else { return }
-      await self.dataStore.updateUser(gender: gender, weight: weight, height: height, goalId: goalId)
+      
+      do {
+        try await self.dataStore.updateUser(gender: gender, weight: weight, height: height, goalId: goalId)
+      } catch {
+        MusculosLogger.logError(error, message: "Could not update user", category: .coreData)
+      }
     }
   }
 }

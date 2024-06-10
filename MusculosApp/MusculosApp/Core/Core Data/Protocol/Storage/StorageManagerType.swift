@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 protocol StorageManagerType {
   
@@ -17,10 +18,21 @@ protocol StorageManagerType {
   ///
   var writerDerivedStorage: StorageType { get }
   
-  /// Save a derived context created with w`writerDerivedStorage`
-  /// NOTE: Never use viewStorage
+  /// Save core data changes
   ///
-  func saveDerivedType(_ derivedStorage: StorageType) async
+  func saveChanges() async
+  
+  /// Save core data changes with completion
+  ///
+  func saveChanges(completion: @escaping () -> Void)
+  
+  /// Perform a write operation. Uses `writerDerivedStorage`
+  ///
+  func performWriteOperation(_ task: @escaping (StorageType) throws -> Void) async throws
+  
+  /// Perform a read operation. Uses `viewStorage`
+  ///
+  func performReadOperation<ResultType>(_ task: @escaping (StorageType) -> ResultType) async -> ResultType
   
   /// Convenience method for clearing the data store
   ///

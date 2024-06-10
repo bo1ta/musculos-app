@@ -30,6 +30,7 @@ struct ExerciseFactory {
   }
   
   static func createExercise(
+    uuidString: String = "33041937-05b2-464a-98ad-3910cbe0d09e",
     name: String = "Power Stairs",
     primaryMuscles: [String] = ["hamstrings"],
     secondaryMuscles: [String] = ["calves", "glutes", "traps"],
@@ -45,6 +46,6 @@ struct ExerciseFactory {
       "Repeat for 3-5 repetitions, and continue with a heavier weight, moving as fast as possible."
     ]
   ) -> Exercise {
-    Exercise(category: category, id: UUID(), level: level, name: name, primaryMuscles: primaryMuscles, secondaryMuscles: secondaryMuscles, instructions: instructions, imageUrls: [])
+    Exercise(category: category, id: UUID(uuidString: uuidString)!, level: level, name: name, primaryMuscles: primaryMuscles, secondaryMuscles: secondaryMuscles, instructions: instructions, imageUrls: [])
   }
 }

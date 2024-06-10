@@ -34,5 +34,9 @@ struct ProgressCard: View {
 }
 
 #Preview {
-  ProgressCard(title: "You've completed 3 muscles", description: "75% of your weekly muscle building goal", progress: 0.75)
+  ProgressCard(
+    title: "You've completed 3 muscles",
+    description: "75% of your weekly muscle building goal",
+    progress: 0.75
+  )
 }
