@@ -68,8 +68,5 @@ struct ExploreExerciseView: View {
 
 #Preview {
   ExploreExerciseView()
-    .environmentObject(ExerciseStore())
-    .environmentObject(ExerciseSessionStore())
-    .environmentObject(ExerciseFetchedResultsController())
     .environmentObject(AppManager())
 }

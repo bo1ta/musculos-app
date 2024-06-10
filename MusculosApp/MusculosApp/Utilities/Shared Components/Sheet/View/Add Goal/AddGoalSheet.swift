@@ -81,6 +81,9 @@ struct AddGoalSheet: View {
       .buttonStyle(PrimaryButtonStyle())
       .padding([.leading, .trailing], 10)
     }
+    .onDisappear {
+      viewModel.cleanUp()
+    }
   }
 }
 

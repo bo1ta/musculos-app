@@ -7,16 +7,30 @@
 
 import Foundation
 import SwiftUI
+import Factory
+import Combine
 
 final class AddWorkoutSheetViewModel: ObservableObject {
+  @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
+  
   @Published var workoutName: String = ""
   @Published var workoutType: String = ""
   @Published var selectedExercises: [WorkoutExercise] = []
-  @Published var muscleSearchQuery: String = ""
-  @Published var debouncedMuscleSearchQuery: String = ""
+  @Published var muscleSearchQuery: String = "" {
+    didSet {
+      self.searchQuerySubject.send(())
+    }
+  }
   @Published var showRepsDialog: Bool = false
+  @Published var results: [Exercise] = []
   
-  @Published var state: EmptyLoadingViewState = .empty
+  @Published var state: LoadingViewState<[Exercise]> = .empty
+  
+  private(set) var loadTask: Task<Void, Never>?
+  
+  var didSaveSubject = PassthroughSubject<Bool, Never>()
+  var searchQuerySubject = PassthroughSubject<Void, Never>()
+  private var cancellables = Set<AnyCancellable>()
   
   @Published var currentSelectedExercise: Exercise? = nil {
     didSet {
@@ -30,19 +44,21 @@ final class AddWorkoutSheetViewModel: ObservableObject {
   
   private(set) var submitWorkoutTask: Task<Void, Never>?
   
-  private let dataStore: WorkoutDataStore
+  private let workoutDataStore: WorkoutDataStore
+  
   
   init(dataStore: WorkoutDataStore = WorkoutDataStore()) {
-    self.dataStore = dataStore
-    self.setupQueryDebouncer()
+    self.workoutDataStore = dataStore
+    
+    searchQuerySubject
+      .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+      .sink { [weak self] _ in
+        guard let self else { return }
+        self.searchByMuscleName(self.muscleSearchQuery)
+      }
+      .store(in: &cancellables)
   }
-  
-  private func setupQueryDebouncer() {
-    $muscleSearchQuery
-      .debounce(for: DispatchQueue.SchedulerTimeType.Stride.seconds(1), scheduler: DispatchQueue.main)
-      .assign(to: &$debouncedMuscleSearchQuery)
-  }
-  
+
   func isExerciseSelected(_ exercise: Exercise) -> Bool {
     return selectedExercises.first(where: { $0.exercise == exercise }) != nil
   }
@@ -59,7 +75,11 @@ final class AddWorkoutSheetViewModel: ObservableObject {
     }
   }
   
+  
   func cleanUp() {
+    loadTask?.cancel()
+    loadTask = nil
+    
     submitWorkoutTask?.cancel()
     submitWorkoutTask = nil
   }
@@ -68,13 +88,27 @@ final class AddWorkoutSheetViewModel: ObservableObject {
 // MARK: - Data Store
 
 extension AddWorkoutSheetViewModel {
+  func initialLoad() {
+    loadTask = Task { @MainActor in
+      let results = await exerciseDataStore.getAll()
+      self.results = results
+    }
+  }
+  
+  func searchByMuscleName(_ name: String) {
+    loadTask?.cancel()
+    
+    loadTask = Task { @MainActor in
+      let results = await exerciseDataStore.getByName(name)
+      self.results = results
+    }
+  }
+  
+  
   func submitWorkout() {
     guard !selectedExercises.isEmpty, !workoutName.isEmpty, !muscleSearchQuery.isEmpty else { return }
     
-    submitWorkoutTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-      self.state = .loading
-      
+    submitWorkoutTask = Task {
       let workout = Workout(
         name: self.workoutName,
         targetMuscles: [self.muscleSearchQuery],
@@ -83,9 +117,14 @@ extension AddWorkoutSheetViewModel {
       )
       
       do {
-        try await self.dataStore.create(workout)
-        self.state = .successful
+        try await self.workoutDataStore.create(workout)
+        await MainActor.run {
+          self.didSaveSubject.send(true)
+        }
       } catch {
+        await MainActor.run {
+          self.didSaveSubject.send(false)
+        }
         MusculosLogger.logError(error, message: "Could not add workout", category: .coreData)
       }
     }

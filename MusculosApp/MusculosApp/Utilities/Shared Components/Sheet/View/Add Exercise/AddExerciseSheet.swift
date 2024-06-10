@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddExerciseSheet: View {
   @Environment(\.dismiss) private var dismiss
-  @EnvironmentObject private var exerciseStore: ExerciseStore
+  @EnvironmentObject private var appManager: AppManager
   
   @StateObject private var viewModel = AddExerciseSheetViewModel()
   
@@ -86,8 +86,19 @@ struct AddExerciseSheet: View {
     .sheet(isPresented: $showPhotosPicker, content: {
       PhotosPicker(assets: $pickedPhotos)
     })
+    .onReceive(viewModel.didSaveSubject, perform: { isSuccessful in
+      if isSuccessful {
+        appManager.showToast(style: .success, message: "Exercise saved successfuly!")
+        appManager.dispatchEvent(for: .didAddExercise)
+        dismiss()
+      } else {
+        appManager.showToast(style: .error, message: "Error saving exercise. Please try again.")
+      }
+    })
     .safeAreaInset(edge: .bottom) {
-      Button(action: saveAndDismiss, label: {
+      Button(action: {
+        viewModel.saveExercise()
+      }, label: {
         Text("Save")
           .frame(maxWidth: .infinity)
       })
@@ -127,17 +138,6 @@ struct AddExerciseSheet: View {
         }
       }
     }
-  }
-}
-
-
-// MARK: - Private helpers
-
-extension AddExerciseSheet {
-  func saveAndDismiss() {
-    guard let exercise = viewModel.createExercise(with: pickedPhotos) else { return }
-    exerciseStore.addExercise(exercise)
-    dismiss()
   }
 }
 

@@ -179,5 +179,4 @@ extension ExerciseDetailsView {
   #Preview {
     ExerciseDetailsView(exercise: ExerciseFactory.createExercise())
       .environmentObject(AppManager())
-      .environmentObject(ExerciseStore())
   }
