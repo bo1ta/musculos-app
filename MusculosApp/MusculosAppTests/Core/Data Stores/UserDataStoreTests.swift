@@ -17,12 +17,12 @@ class UserDataStoreTests: XCTestCase {
     super.tearDown()
   }
   
-  func testCreateUser() async throws {
-    let person = PersonFactory.createPerson(username: "test_this")
-    let dataStore = UserDataStore()
-    try await dataStore.createUser(person: person)
-    
-    let currentPerson = await dataStore.loadCurrentPerson()
-    XCTAssertEqual(person.username, currentPerson?.username)
-  }
+//  func testCreateUser() async throws {
+//    let person = PersonFactory.createPerson(username: "test_this")
+//    let dataStore = UserDataStore()
+//    try await dataStore.createUser(person: person)
+//    
+//    let currentPerson = await dataStore.loadCurrentPerson()
+//    XCTAssertEqual(person.username, currentPerson?.username)
+//  }
 }

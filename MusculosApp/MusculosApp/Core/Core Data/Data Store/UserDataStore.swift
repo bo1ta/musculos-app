@@ -48,10 +48,11 @@ struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
   
   func loadCurrentPerson() async -> Person? {
     return await storageManager.performReadOperation { viewStorage in
-      if let userEntity = UserEntity.currentUser(with: viewStorage) {
-        return userEntity.toReadOnly()
-      }
-      return nil
+      
+      guard let person = viewStorage
+        .firstObject(of: UserEntity.self, matching: UserEntity.CommonPredicate.currentUser.nsPredicate) else { return nil }
+      
+      return person.toReadOnly()
     }
   }
 }
