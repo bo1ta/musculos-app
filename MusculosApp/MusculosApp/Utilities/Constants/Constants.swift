@@ -40,11 +40,7 @@ enum UpdatableModel {
   case didAddExercise
   case didFavoriteExercise
 
-  static var notificationName: Notification.Name {
-    return Notification.Name("ModelDidUpdateNotification")
-  }
-  
   static var userInfoKey: String {
-    return "ModelDidUpdateKey"
+    return "UpdatableModelKey"
   }
 }

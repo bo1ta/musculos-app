@@ -8,5 +8,5 @@
 import Foundation
 
 extension Notification.Name {
-  static let modelDidUpdateNotification = Notification.Name("didAddGoal")
+  static let CoreModelDidChange = Notification.Name("CoreModelDidChange")
 }
