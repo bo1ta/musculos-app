@@ -12,6 +12,7 @@ import Factory
 
 @Observable
 final class ExploreExerciseViewModel {
+  
   // MARK: - Dependencies
   
   @ObservationIgnored
@@ -31,6 +32,9 @@ final class ExploreExerciseViewModel {
   
   @ObservationIgnored
   private var remoteResults: [Exercise] = []
+  
+  @ObservationIgnored
+  private var cancellables = Set<AnyCancellable>()
   
   // MARK: - Observed properties
   
@@ -57,8 +61,6 @@ final class ExploreExerciseViewModel {
   
   var contentState: LoadingViewState<[Exercise]> = .empty
   
-  private var cancellables = Set<AnyCancellable>()
-  
   // MARK: - Tasks
   
   @ObservationIgnored
@@ -76,6 +78,8 @@ final class ExploreExerciseViewModel {
     setupNotificationPublisher()
   }
   
+  // MARK: - Initial setup
+  
   private func setupNotificationPublisher() {
     NotificationCenter.default.publisher(for: .CoreModelDidChange, object: nil)
       .sink { [weak self] notification in
@@ -86,8 +90,23 @@ final class ExploreExerciseViewModel {
       .store(in: &cancellables)
   }
   
-  // MARK: - Initial setup
+  // MARK: - Clean up
   
+  func cleanUp() {
+    exerciseTask?.cancel()
+    exerciseTask = nil
+    
+    initialLoadTask?.cancel()
+    initialLoadTask = nil
+    
+    updateTask?.cancel()
+    updateTask = nil
+  }
+}
+
+// MARK: - Tasks
+
+extension ExploreExerciseViewModel {
   func initialLoad() {
     guard contentState == .empty else { return }
     
@@ -114,28 +133,6 @@ final class ExploreExerciseViewModel {
     }
   }
   
-  @MainActor
-  func updateContentState(with exercises: [Exercise]) {
-    contentState = .loaded(exercises)
-  }
-  
-  // MARK: - Clean up
-  
-  func cleanUp() {
-    exerciseTask?.cancel()
-    exerciseTask = nil
-    
-    initialLoadTask?.cancel()
-    initialLoadTask = nil
-    
-    updateTask?.cancel()
-    updateTask = nil
-  }
-}
-
-// MARK: - Tasks
-
-extension ExploreExerciseViewModel {
   func refreshRemoteExercises() {
     exerciseTask?.cancel()
     
@@ -145,7 +142,7 @@ extension ExploreExerciseViewModel {
         remoteResults = exercises
       } catch {
         await MainActor.run {
-          errorMessage = MessageConstant.genericErrorMessage.rawValue
+          contentState = .error(MessageConstant.genericErrorMessage.rawValue)
         }
         MusculosLogger.logError(error, message: "Could not load remote exercises", category: .networking)
       }
@@ -155,16 +152,14 @@ extension ExploreExerciseViewModel {
   func searchByMuscleQuery(_ query: String) {
     exerciseTask?.cancel()
     
-    exerciseTask = Task {
+    exerciseTask = Task { @MainActor in
       contentState = .loading
       
       do {
         let exercises = try await module.searchByMuscleQuery(query)
-        remoteResults = exercises
-        
         contentState = .loaded(exercises)
       } catch {
-        self.errorMessage = MessageConstant.genericErrorMessage.rawValue
+        contentState = .error(MessageConstant.genericErrorMessage.rawValue)
         MusculosLogger.logError(error, message: "Could not search by muscle query", category: .networking, properties: ["query": query])
       }
     }
@@ -206,7 +201,7 @@ extension ExploreExerciseViewModel {
   func handleChangeSection(_ section: ExploreCategorySection) {
     updateTask?.cancel()
     
-    updateTask = Task {
+    updateTask = Task { @MainActor in
       switch section {
       case .discover:
         await handleDiscoverSection()
@@ -235,12 +230,8 @@ extension ExploreExerciseViewModel {
   private func handleFavoriteSection() async {
     refreshFavoriteExercises()
     
-    await exerciseTask?.value
+    await waitForExerciseTask()
     await updateContentState(with: localResults)
-  }
-  
-  private func waitForExerciseTask() async {
-    await exerciseTask?.value
   }
 }
 
@@ -280,6 +271,19 @@ extension ExploreExerciseViewModel {
     
     await waitForExerciseTask()
     await updateContentState(with: localResults)
+  }
+}
+
+// MARK: - Helpers
+
+extension ExploreExerciseViewModel {
+  private func waitForExerciseTask() async {
+    await exerciseTask?.value
+  }
+  
+  @MainActor
+  func updateContentState(with exercises: [Exercise]) {
+    contentState = .loaded(exercises)
   }
 }
 
