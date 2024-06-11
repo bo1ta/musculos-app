@@ -13,27 +13,26 @@ import Combine
 @Observable
 final class AddWorkoutSheetViewModel {
   
+  // MARK: - Dependencies
+  
   @ObservationIgnored
   @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
+  
+  @ObservationIgnored
+  @Injected(\.workoutDataStore) private var workoutDataStore: WorkoutDataStoreProtocol
+  
+  // MARK: - Observed properties
   
   var workoutName: String = ""
   var workoutType: String = ""
   var selectedExercises: [WorkoutExercise] = []
+  var showRepsDialog: Bool = false
+  
   var muscleSearchQuery: String = "" {
     didSet {
       self.searchQuerySubject.send(())
     }
   }
-  var showRepsDialog: Bool = false
-  var results: [Exercise] = []
-  
-  var state: LoadingViewState<[Exercise]> = .empty
-  
-  private(set) var loadTask: Task<Void, Never>?
-  
-  var didSaveSubject = PassthroughSubject<Bool, Never>()
-  var searchQuerySubject = PassthroughSubject<Void, Never>()
-  private var cancellables = Set<AnyCancellable>()
   
   var currentSelectedExercise: Exercise? = nil {
     didSet {
@@ -45,14 +44,26 @@ final class AddWorkoutSheetViewModel {
     }
   }
   
+  var state: LoadingViewState<[Exercise]> = .empty
+  
+  // MARK: - Subjects
+  
+  var didSaveSubject = PassthroughSubject<Bool, Never>()
+  var searchQuerySubject = PassthroughSubject<Void, Never>()
+  private var cancellables = Set<AnyCancellable>()
+  
+  // MARK: - Tasks
+  
+  private(set) var loadTask: Task<Void, Never>?
   private(set) var submitWorkoutTask: Task<Void, Never>?
   
-  private let workoutDataStore: WorkoutDataStore
+  // MARK: - Init and setup
   
+  init() {
+    setupPublisher()
+  }
   
-  init(dataStore: WorkoutDataStore = WorkoutDataStore()) {
-    self.workoutDataStore = dataStore
-    
+  private func setupPublisher() {
     searchQuerySubject
       .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
       .sink { [weak self] _ in
@@ -61,6 +72,8 @@ final class AddWorkoutSheetViewModel {
       }
       .store(in: &cancellables)
   }
+  
+  // MARK: - UI Logic
 
   func isExerciseSelected(_ exercise: Exercise) -> Bool {
     return selectedExercises.first(where: { $0.exercise == exercise }) != nil
@@ -78,6 +91,7 @@ final class AddWorkoutSheetViewModel {
     }
   }
   
+  // MARK: - Clean up
   
   func cleanUp() {
     loadTask?.cancel()
@@ -88,13 +102,19 @@ final class AddWorkoutSheetViewModel {
   }
 }
 
-// MARK: - Data Store
+// MARK: - Data Store methods
 
 extension AddWorkoutSheetViewModel {
   func initialLoad() {
     loadTask = Task { @MainActor in
+      state = .loading
+      
       let results = await exerciseDataStore.getAll(fetchLimit: 10)
-      self.results = results
+      if results.isEmpty {
+        state = .empty
+      } else {
+        state = .loaded(results)
+      }
     }
   }
   
@@ -102,8 +122,14 @@ extension AddWorkoutSheetViewModel {
     loadTask?.cancel()
     
     loadTask = Task { @MainActor in
+      state = .loading
+      
       let results = await exerciseDataStore.getByName(name)
-      self.results = results
+      if results.isEmpty {
+        state = .empty
+      } else {
+        state = .loaded(results)
+      }
     }
   }
   
