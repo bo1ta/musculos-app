@@ -12,6 +12,11 @@ import Factory
 @Observable
 final class ExploreExerciseViewModel {
   
+  // MARK: - Dependencies
+  
+  @ObservationIgnored
+  @Injected(\.exerciseModule) private var module: ExerciseModuleProtocol
+  
   @ObservationIgnored
   @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
   
@@ -21,18 +26,20 @@ final class ExploreExerciseViewModel {
   @ObservationIgnored
   @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
   
+  @ObservationIgnored
   private var localResults: [Exercise] = []
+  
+  @ObservationIgnored
   private var remoteResults: [Exercise] = []
+  
+  // MARK: - Observed properties
   
   var exercisesCompletedToday: [ExerciseSession] = []
   var goals: [Goal] = []
   var errorMessage = ""
   var searchQuery = ""
-  
   var showFilterView = false
   var showExerciseDetails = false
-  
-  var contentState: LoadingViewState<[Exercise]> = .empty
   
   var selectedExercise: Exercise? = nil {
     didSet {
@@ -48,15 +55,20 @@ final class ExploreExerciseViewModel {
     }
   }
   
+  var contentState: LoadingViewState<[Exercise]> = .empty
+  
+  // MARK: - Tasks
+  
+  @ObservationIgnored
   private(set) var exerciseTask: Task<Void, Never>?
+  
+  @ObservationIgnored
   private(set) var initialLoadTask: Task<Void, Never>?
+  
+  @ObservationIgnored
   private(set) var updateTask: Task<Void, Never>?
   
-  private let module: ExerciseModuleProtocol
-  
-  init(module: ExerciseModuleProtocol = ExerciseModule()) {
-    self.module = module
-  }
+  // MARK: - Initial setup
   
   func initialLoad() {
     guard contentState == .empty else { return }
@@ -92,7 +104,7 @@ final class ExploreExerciseViewModel {
   func cleanUp() {
     exerciseTask?.cancel()
     exerciseTask = nil
-
+    
     initialLoadTask?.cancel()
     initialLoadTask = nil
     
@@ -120,24 +132,6 @@ extension ExploreExerciseViewModel {
     }
   }
   
-  func refreshLocalExercises() {
-    exerciseTask?.cancel()
-    
-    exerciseTask = Task {
-      let exercises = await exerciseDataStore.getAll(fetchLimit: 20)
-      localResults = exercises
-    }
-  }
-  
-  func refreshFavoriteExercises() {
-    exerciseTask?.cancel()
-    
-    exerciseTask = Task {
-      let favoriteExercises = await exerciseDataStore.getAllFavorites()
-      localResults = favoriteExercises
-    }
-  }
-  
   func searchByMuscleQuery(_ query: String) {
     exerciseTask?.cancel()
     
@@ -156,6 +150,25 @@ extension ExploreExerciseViewModel {
     }
   }
   
+  func refreshLocalExercises() {
+    exerciseTask?.cancel()
+    
+    exerciseTask = Task {
+      let exercises = await exerciseDataStore.getAll(fetchLimit: 20)
+      localResults = exercises
+    }
+  }
+  
+  func refreshFavoriteExercises() {
+    exerciseTask?.cancel()
+    
+    exerciseTask = Task {
+      let favoriteExercises = await exerciseDataStore.getAllFavorites()
+      localResults = favoriteExercises
+    }
+  }
+  
+  
   @MainActor
   func refreshExercisesCompletedToday() async {
     exercisesCompletedToday = await exerciseSessionDataStore.getCompletedToday()
@@ -167,7 +180,7 @@ extension ExploreExerciseViewModel {
   }
 }
 
-// MARK: - Handlers
+// MARK: - Section Handling
 
 extension ExploreExerciseViewModel {
   func handleChangeSection(_ section: ExploreCategorySection) {
@@ -176,26 +189,45 @@ extension ExploreExerciseViewModel {
     updateTask = Task {
       switch section {
       case .discover:
-        refreshRemoteExercises()
-        
-        await exerciseTask?.value
-        await updateContentState(with: remoteResults)
-        
+        await handleDiscoverSection()
       case .workout:
-        refreshLocalExercises()
-        
-        await exerciseTask?.value
-        await updateContentState(with: localResults)
+        await handleWorkoutSection()
       case .myFavorites:
-        refreshFavoriteExercises()
-        
-        await exerciseTask?.value
-        await updateContentState(with: localResults)
+        await handleFavoriteSection()
       }
     }
   }
   
-  func handleUpdate(_ modelEvent: AppManager.ModelEvent) {
+  private func handleDiscoverSection() async {
+    refreshRemoteExercises()
+    
+    await waitForExerciseTask()
+    await updateContentState(with: remoteResults)
+  }
+  
+  private func handleWorkoutSection() async {
+    refreshLocalExercises()
+    
+    await waitForExerciseTask()
+    await updateContentState(with: localResults)
+  }
+  
+  private func handleFavoriteSection() async {
+    refreshFavoriteExercises()
+    
+    await exerciseTask?.value
+    await updateContentState(with: localResults)
+  }
+  
+  private func waitForExerciseTask() async {
+    await exerciseTask?.value
+  }
+}
+
+// MARK: - Model Event Handling
+
+extension ExploreExerciseViewModel {
+  func handleUpdate(_ modelEvent: AppManager.ModelUpdateEvent) {
     updateTask?.cancel()
     
     updateTask = Task {
@@ -205,21 +237,29 @@ extension ExploreExerciseViewModel {
       case .didAddExerciseSession:
         await refreshExercisesCompletedToday()
       case .didAddExercise:
-        refreshLocalExercises()
-        await exerciseTask?.value
-        
-        if currentSection == .workout {
-          await updateContentState(with: localResults)
-        }
+        await handleAddExerciseEvent()
       case .didFavoriteExercise:
-        if currentSection == .myFavorites {
-          refreshFavoriteExercises()
-          
-          await exerciseTask?.value
-          await updateContentState(with: localResults)
-        }
+        await handleDidFavoriteExercise()
       }
     }
+  }
+  
+  private func handleAddExerciseEvent() async {
+    refreshLocalExercises()
+    await waitForExerciseTask()
+    
+    if currentSection == .workout {
+      await updateContentState(with: localResults)
+    }
+  }
+  
+  private func handleDidFavoriteExercise() async {
+    guard currentSection == .myFavorites else { return }
+    
+    refreshFavoriteExercises()
+    
+    await waitForExerciseTask()
+    await updateContentState(with: localResults)
   }
 }
 

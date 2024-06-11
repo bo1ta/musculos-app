@@ -36,4 +36,8 @@ extension Container {
   var workoutDataStore: Factory<WorkoutDataStoreProtocol> {
     self { WorkoutDataStore() }
   }
+  
+  var exerciseModule: Factory<ExerciseModuleProtocol> {
+    self { ExerciseModule() }
+  }
 }
