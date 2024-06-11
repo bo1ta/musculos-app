@@ -83,7 +83,7 @@ struct AddWorkoutSheet: View {
     .onReceive(viewModel.didSaveSubject, perform: { isSuccessful in
       if isSuccessful {
         appManager.showToast(style: .info, message: "Goal saved! Good luck!")
-        appManager.dispatchEvent(for: .didAddGoal)
+        appManager.notifyModelUpdate(.didAddGoal)
         dismiss()
       } else {
         appManager.showToast(style: .error, message: "Could not save goal. Please try again")

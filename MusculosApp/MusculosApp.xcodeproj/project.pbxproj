@@ -41,6 +41,7 @@
 		BC3DFABC2C17B8AB004419D7 /* AppManagerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFABB2C17B8AB004419D7 /* AppManagerKey.swift */; };
 		BC3DFABE2C17BFC3004419D7 /* UserStoreKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFABD2C17BFC3004419D7 /* UserStoreKey.swift */; };
 		BC3DFAC02C17C031004419D7 /* HealthKitViewModelKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFABF2C17C031004419D7 /* HealthKitViewModelKey.swift */; };
+		BC3DFAC22C190622004419D7 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFAC12C190622004419D7 /* Notification+Extension.swift */; };
 		BC3F13EB2B78060D00E9E98E /* MusculosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13EA2B78060D00E9E98E /* MusculosError.swift */; };
 		BC3FB1012A89A87400C3F9B1 /* DarkButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB1002A89A87400C3F9B1 /* DarkButtonStyle.swift */; };
 		BC4078D42C02373E000DE280 /* WorkoutIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D32C02373E000DE280 /* WorkoutIcon.swift */; };
@@ -274,6 +275,7 @@
 		BC3DFABB2C17B8AB004419D7 /* AppManagerKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManagerKey.swift; sourceTree = "<group>"; };
 		BC3DFABD2C17BFC3004419D7 /* UserStoreKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStoreKey.swift; sourceTree = "<group>"; };
 		BC3DFABF2C17C031004419D7 /* HealthKitViewModelKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitViewModelKey.swift; sourceTree = "<group>"; };
+		BC3DFAC12C190622004419D7 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		BC3F13EA2B78060D00E9E98E /* MusculosError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusculosError.swift; sourceTree = "<group>"; };
 		BC3FB1002A89A87400C3F9B1 /* DarkButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkButtonStyle.swift; sourceTree = "<group>"; };
 		BC4078D32C02373E000DE280 /* WorkoutIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutIcon.swift; sourceTree = "<group>"; };
@@ -740,6 +742,7 @@
 			children = (
 				BCCE85EC2A35008C001BEE8B /* AppColor.swift */,
 				BCA8C5C62B9DFA3E00C273C9 /* AppFont.swift */,
+				BCE19AB52C14CF40005ABBF3 /* DateHelper.swift */,
 				BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */,
 				BC52DDD52B851722005A4587 /* DecodableModel.swift */,
 				BC52DDD92B85431C005A4587 /* LoadingViewState.swift */,
@@ -753,7 +756,6 @@
 				BC52DE012B8EB8A1005A4587 /* Mocks */,
 				BC5972082A35074E00EBB075 /* Shared Components */,
 				BC59720F2A351AEF00EBB075 /* Styles */,
-				BCE19AB52C14CF40005ABBF3 /* DateHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1493,6 +1495,7 @@
 				BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */,
 				BC8E86DC2AED2DB9008E3CE4 /* UIImage+Extension.swift */,
 				BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */,
+				BC3DFAC12C190622004419D7 /* Notification+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1820,6 +1823,7 @@
 				BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */,
 				BC6249932BED5C1500393915 /* MuscleType.swift in Sources */,
 				BC8C68562BC0AE5100A681EE /* WorkoutDataStore.swift in Sources */,
+				BC3DFAC22C190622004419D7 /* Notification+Extension.swift in Sources */,
 				BC3DFAC02C17C031004419D7 /* HealthKitViewModelKey.swift in Sources */,
 				BC74C1B62C0107CA0021B932 /* WorkoutIntroView.swift in Sources */,
 				BC62498C2BED2EF900393915 /* ExerciseEntity+CoreDataClass.swift in Sources */,

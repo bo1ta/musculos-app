@@ -39,11 +39,24 @@ struct ExerciseDetailsView: View {
     }
     .onAppear {
       appManager.hideTabBar()
-    }
-    .task {
-      await viewModel.initialLoad()
+      viewModel.initialLoad()
     }
     .onDisappear(perform: viewModel.cleanUp)
+    .onReceive(viewModel.didSaveSessionSubject, perform: { didSave in
+      if didSave {
+        appManager.showToast(style: .success, message: "Completed exercise in \(viewModel.elapsedTime) seconds")
+        appManager.notifyModelUpdate(.didAddExerciseSession)
+      } else {
+        appManager.showToast(style: .error, message: "Could not complete exercise")
+      }
+    })
+    .onReceive(viewModel.didSaveFavoriteSubject, perform: { didSave in
+      if didSave {
+        appManager.notifyModelUpdate(.didFavoriteExercise)
+      } else {
+        appManager.showToast(style: .error, message: "Could not favorite exercise")
+      }
+    })
     .navigationBarBackButtonHidden()
     .safeAreaInset(edge: .bottom) {
       if viewModel.isTimerActive {
@@ -67,14 +80,6 @@ struct ExerciseDetailsView: View {
         
       }
     }
-    .onReceive(viewModel.didSaveSubject, perform: { didSaveSubject in
-      if didSaveSubject {
-        appManager.showToast(style: .success, message: "Completed exercise in \(viewModel.elapsedTime) seconds")
-        appManager.dispatchEvent(for: .didAddExerciseSession)
-      } else {
-        appManager.showToast(style: .error, message: "Could not complete exercise")
-      }
-    })
   }
 }
 
@@ -126,10 +131,7 @@ extension ExerciseDetailsView {
   
   private var favoriteButton: some View {
     Button(action: {
-      Task {
-        await viewModel.toggleIsFavorite()
-        await appManager.dispatchEvent(for: .didFavoriteExercise)
-      }
+      viewModel.toggleIsFavorite()
     }, label: {
       Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
         .resizable()

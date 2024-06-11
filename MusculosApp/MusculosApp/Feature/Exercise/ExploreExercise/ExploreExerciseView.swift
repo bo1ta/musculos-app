@@ -44,9 +44,6 @@ struct ExploreExerciseView: View {
           viewModel.updateContentState(with: filteredExercises)
         })
       }
-      .onReceive(appManager.didUpdateModelEvent, perform: { modelEvent in
-        viewModel.handleUpdate(modelEvent)
-      })
       .background(
         Image("white-patterns-background")
           .resizable(resizingMode: .tile)

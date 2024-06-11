@@ -7,11 +7,11 @@
 
 import Foundation
 import SwiftUI
+import Combine
 import Factory
 
 @Observable
 final class ExploreExerciseViewModel {
-  
   // MARK: - Dependencies
   
   @ObservationIgnored
@@ -57,6 +57,8 @@ final class ExploreExerciseViewModel {
   
   var contentState: LoadingViewState<[Exercise]> = .empty
   
+  private var cancellables = Set<AnyCancellable>()
+  
   // MARK: - Tasks
   
   @ObservationIgnored
@@ -67,6 +69,22 @@ final class ExploreExerciseViewModel {
   
   @ObservationIgnored
   private(set) var updateTask: Task<Void, Never>?
+  
+  // MARK: - Init
+  
+  init() {
+    setupNotificationPublisher()
+  }
+  
+  private func setupNotificationPublisher() {
+    NotificationCenter.default.publisher(for: UpdatableModel.notificationName, object: nil)
+      .sink { [weak self] notification in
+        guard let event = notification.userInfo?[UpdatableModel.userInfoKey] as? UpdatableModel else { return }
+        
+        self?.handleUpdate(event)
+      }
+      .store(in: &cancellables)
+  }
   
   // MARK: - Initial setup
   
@@ -100,6 +118,8 @@ final class ExploreExerciseViewModel {
   func updateContentState(with exercises: [Exercise]) {
     contentState = .loaded(exercises)
   }
+  
+  // MARK: - Clean up
   
   func cleanUp() {
     exerciseTask?.cancel()
@@ -227,7 +247,7 @@ extension ExploreExerciseViewModel {
 // MARK: - Model Event Handling
 
 extension ExploreExerciseViewModel {
-  func handleUpdate(_ modelEvent: AppManager.ModelUpdateEvent) {
+  func handleUpdate(_ modelEvent: UpdatableModel) {
     updateTask?.cancel()
     
     updateTask = Task {

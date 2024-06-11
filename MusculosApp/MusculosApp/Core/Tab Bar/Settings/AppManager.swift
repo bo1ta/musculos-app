@@ -9,31 +9,41 @@ import Foundation
 import SwiftUI
 import Combine
 
+protocol AppManagerProtocol {
+  
+  /// Shows the app tab bar
+  ///
+  func showTabBar()
+  
+  /// Hides the app tab bar
+  ///
+  func hideTabBar()
+  
+  /// Shows a message toast for a given duration
+  /// Params:
+  ///  - `style`: Can be .success, .info, .error, .warning
+  ///  - `message`: Message to be displayed
+  ///  - `duration`: Duration of the toast
+  ///
+  func showToast(style: Toast.ToastStyle, message: String, duration: Double)
+  
+  /// Notify a model update.
+  /// Posts a notification that for refreshing the data (if needed)
+  /// 
+  func notifyModelUpdate(_ event: UpdatableModel)
+}
 
 /// Helper manager that is passed from the root level
 ///
 @Observable
 final class AppManager {
-  /// The observer for the tab bar visibility
-  ///
   private(set) var isTabBarHidden: Bool = false
-  
-  /// The observer for `Toast` view
-  /// Set to show a useful toast message for success, info, error, warning states
-  ///
   var toast: Toast? = nil
-  
-  /// Publisher to notify changes to various models
-  /// Subscribe to this to update the data if needed
-  ///
-  let didUpdateModelEvent = PassthroughSubject<ModelUpdateEvent, Never>()
-  
-  private(set) var dispatchTask: Task<Void, Never>?
 }
 
 // MARK: - Functions
 
-extension AppManager {
+extension AppManager: AppManagerProtocol {
   
   @MainActor
   func hideTabBar() {
@@ -53,18 +63,7 @@ extension AppManager {
   }
   
   @MainActor
-  func dispatchEvent(for modelEvent: ModelUpdateEvent) {
-    didUpdateModelEvent.send(modelEvent)
-  }
-}
-
-// MARK: - Events
-
-extension AppManager {
-  enum ModelUpdateEvent {
-    case didAddGoal
-    case didAddExerciseSession
-    case didAddExercise
-    case didFavoriteExercise
+  func notifyModelUpdate(_ event: UpdatableModel) {
+    NotificationCenter.default.post(name: UpdatableModel.notificationName, object: nil, userInfo: [UpdatableModel.userInfoKey: event])
   }
 }
