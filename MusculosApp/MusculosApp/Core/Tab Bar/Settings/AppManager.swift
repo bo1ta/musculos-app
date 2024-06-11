@@ -26,7 +26,7 @@ final class AppManager {
   /// Publisher to notify changes to various models
   /// Subscribe to this to update the data if needed
   ///
-  let modelUpdateEvent = PassthroughSubject<ModelEvent, Never>()
+  let didUpdateModelEvent = PassthroughSubject<ModelEvent, Never>()
   
   private(set) var dispatchTask: Task<Void, Never>?
 }
@@ -52,16 +52,17 @@ extension AppManager {
     toast = Toast(style: style, message: message, duration: duration)
   }
   
+  @MainActor
+  func dispatchEvent(for modelEvent: ModelEvent) {
+    didUpdateModelEvent.send(modelEvent)
+  }
+}
+
+extension AppManager {
   enum ModelEvent {
     case didAddGoal
     case didAddExerciseSession
     case didAddExercise
     case didFavoriteExercise
   }
-  
-  @MainActor
-  func dispatchEvent(for modelEvent: ModelEvent) {
-    modelUpdateEvent.send(modelEvent)
-  }
 }
-

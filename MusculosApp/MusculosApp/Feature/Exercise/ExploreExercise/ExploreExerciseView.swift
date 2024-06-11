@@ -44,7 +44,7 @@ struct ExploreExerciseView: View {
           viewModel.updateContentState(with: filteredExercises)
         })
       }
-      .onReceive(appManager.modelUpdateEvent, perform: { modelEvent in
+      .onReceive(appManager.didUpdateModelEvent, perform: { modelEvent in
         viewModel.handleUpdate(modelEvent)
       })
       .background(
