@@ -32,8 +32,7 @@ final class HealthKitViewModel {
     updateAuthorizationStatus()
   }
   
-  @MainActor
-  func loadAllData() async {
+  nonisolated func loadAllData() async {
     await withTaskGroup(of: Void.self) { @MainActor [weak self] group in
       guard let self else { return }
       

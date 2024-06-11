@@ -49,7 +49,7 @@ struct CountdownTimerView: View {
         guard !viewModel.isAnimating else { return }
         viewModel.initializeTimer()
       }
-      .onChange(of: viewModel.isTimerComplete) { isComplete in
+      .onChange(of: viewModel.isTimerComplete) { _, isComplete in
         if isComplete {
           viewModel.clearTimer()
           onTimerCompleted()

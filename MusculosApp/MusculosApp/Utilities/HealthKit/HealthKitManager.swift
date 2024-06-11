@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import HealthKit
+@preconcurrency import HealthKit
 
-class HealthKitManager {
+actor HealthKitManager {
   static let toSharePermissions: Set<HKSampleType> = [
     HKQuantityType(.stepCount),
     HKCategoryType(.sleepAnalysis),
@@ -25,7 +25,10 @@ class HealthKitManager {
   
   init(healthStore: HKHealthStore) {
     self.healthStore = healthStore
-    setUpQueryAnchor()
+    
+    Task {
+      await setUpQueryAnchor()
+    }
   }
 }
 
