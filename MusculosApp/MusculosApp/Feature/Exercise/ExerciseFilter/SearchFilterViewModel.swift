@@ -10,7 +10,10 @@ import SwiftUI
 import Factory
 import Combine
 
-class ExerciseFilterViewModel: ObservableObject {
+@Observable
+class ExerciseFilterViewModel {
+  
+  @ObservationIgnored
   @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
   
   enum FilterDisplayable {
@@ -21,19 +24,19 @@ class ExerciseFilterViewModel: ObservableObject {
     case muscle, category, equipment
   }
   
-  @Published var selectedLevelFilter: String = "" {
+  var selectedLevelFilter: String = "" {
     didSet {
       self.filtersChanged.send(())
     }
   }
   
-  @Published var filters: [SearchFilterKey: [String]] = [:]
-  @Published var results: [Exercise] = []
+  var filters: [SearchFilterKey: [String]] = [:]
+  var results: [Exercise] = []
   
   private let filtersChanged = PassthroughSubject<Void, Never>()
   private var cancellables = Set<AnyCancellable>()
   
-  @Published var displayFilter: [FilterDisplayable: Bool] = [
+  var displayFilter: [FilterDisplayable: Bool] = [
     .muscle: true,
     .category: true,
     .difficulty: true,

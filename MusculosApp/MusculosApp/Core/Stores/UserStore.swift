@@ -8,12 +8,12 @@
 import Foundation
 import SwiftUI
 
-@MainActor
-class UserStore: ObservableObject {
-  @Published private(set) var currentPerson: Person? = nil
-  @Published private(set) var error: Error? = nil
-  @Published private(set) var isLoggedIn: Bool = false
-  @Published private(set) var isOnboarded: Bool = false
+@Observable
+class UserStore {
+  private(set) var currentPerson: Person? = nil
+  private(set) var error: Error? = nil
+  private(set) var isLoggedIn: Bool = false
+  private(set) var isOnboarded: Bool = false
     
   private(set) var updateUserTask: Task<Void, Never>?
   
@@ -27,6 +27,7 @@ class UserStore: ObservableObject {
     currentPerson?.fullName ?? currentPerson?.username ?? "User"
   }
 
+  @MainActor
   func initialLoad() async {
     if let _ = UserDefaults.standard.string(forKey: UserDefaultsKeyConstant.authToken.rawValue) {
       self.isLoggedIn = true

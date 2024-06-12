@@ -9,9 +9,9 @@ import SwiftUI
 
 struct AddExerciseSheet: View {
   @Environment(\.dismiss) private var dismiss
-  @EnvironmentObject private var appManager: AppManager
+  @Environment(\.appManager) private var appManager
   
-  @StateObject private var viewModel = AddExerciseSheetViewModel()
+  @State private var viewModel = AddExerciseSheetViewModel()
   
   @State private var showPhotosPicker: Bool = false
   @State private var pickedPhotos: [PhotoModel] = []
@@ -89,7 +89,7 @@ struct AddExerciseSheet: View {
     .onReceive(viewModel.didSaveSubject, perform: { isSuccessful in
       if isSuccessful {
         appManager.showToast(style: .success, message: "Exercise saved successfuly!")
-        appManager.dispatchEvent(for: .didAddExercise)
+        appManager.notifyModelUpdate(.didAddExercise)
         dismiss()
       } else {
         appManager.showToast(style: .error, message: "Error saving exercise. Please try again.")

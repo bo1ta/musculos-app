@@ -33,3 +33,14 @@ public enum UserDefaultsKeyConstant: String {
 public enum MessageConstant: String {
   case genericErrorMessage = "Something went wrong. Please try again"
 }
+
+enum UpdatableModel {
+  case didAddGoal
+  case didAddExerciseSession
+  case didAddExercise
+  case didFavoriteExercise
+
+  static var userInfoKey: String {
+    return "UpdatableModelKey"
+  }
+}

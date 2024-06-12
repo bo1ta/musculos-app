@@ -9,8 +9,8 @@ import SwiftUI
 import HealthKit
 
 struct MusculosApp: App {
-  @StateObject private var userStore = UserStore()
-  @StateObject private var healthKitViewModel = HealthKitViewModel()
+  @State private var userStore = UserStore()
+  @State private var healthKitViewModel = HealthKitViewModel()
   
   var body: some Scene {
     WindowGroup {
@@ -28,8 +28,8 @@ struct MusculosApp: App {
           }
         }
       }
-      .environmentObject(userStore)
-      .environmentObject(healthKitViewModel)
+      .environment(\.userStore, userStore)
+      .environment(\.healthKitViewModel, healthKitViewModel)
     }
   }
 }

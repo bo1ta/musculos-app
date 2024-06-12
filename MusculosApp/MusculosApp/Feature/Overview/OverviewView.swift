@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct OverviewView: View {
-  @EnvironmentObject private var userStore: UserStore
-  @EnvironmentObject private var healthKitViewModel: HealthKitViewModel
+  @Environment(\.userStore) private var userStore
+  @Environment(\.healthKitViewModel) private var healthKitViewModel
   
   var body: some View {
     ScrollView {
@@ -197,6 +197,4 @@ extension OverviewView {
 
 #Preview {
   OverviewView()
-    .environmentObject(UserStore())
-    .environmentObject(HealthKitViewModel())
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DashboardView: View {
-  @EnvironmentObject private var appManager: AppManager
+  @Environment(\.appManager) private var appManager
 
   private var challenge: Challenge = MockConstants.challenge
   @State private var showChallenge = false
@@ -86,5 +86,4 @@ struct DashboardView: View {
 
 #Preview {
   DashboardView()
-    .environmentObject(AppManager())
 }

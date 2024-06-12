@@ -11,7 +11,7 @@ struct ExerciseFilterView: View {
   @Environment(\.dismiss) private var dismiss
   let onFiltered: ([Exercise]) -> Void
   
-  @StateObject private var viewModel = ExerciseFilterViewModel()
+  @State private var viewModel = ExerciseFilterViewModel()
   
   private var searchButtonText: String {
     if viewModel.results.count > 0 {

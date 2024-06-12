@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 
 struct AddGoalSheet: View {
-  @EnvironmentObject private var appManager: AppManager
+  @Environment(\.appManager) private var appManager
   @Environment(\.dismiss) private var dismiss
-  @StateObject private var viewModel = AddGoalSheetViewModel()
+  @State private var viewModel = AddGoalSheetViewModel()
   
   let onBack: () -> Void
   
@@ -64,7 +64,7 @@ struct AddGoalSheet: View {
     .onReceive(viewModel.didSaveGoalPublisher) { didSaveGoal in
       if didSaveGoal {
         appManager.showToast(style: .success, message: "Added new goal! Good luck!")
-        appManager.dispatchEvent(for: .didAddGoal)
+        appManager.notifyModelUpdate(.didAddGoal)
         dismiss()
       } else {
         appManager.showToast(style: .error, message: "Could not add goal. Please try again")
@@ -89,5 +89,4 @@ struct AddGoalSheet: View {
 
 #Preview {
   AddGoalSheet(onBack: {})
-    .environmentObject(AppManager())
 }

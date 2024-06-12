@@ -38,7 +38,7 @@ struct SearchFilterField: View {
           }
       })
     }
-    .onChange(of: debouncedQueryObserver.debouncedQuery) { query in
+    .onChange(of: debouncedQueryObserver.debouncedQuery) { _, query in
       if query.count > 2 {
         hasObservedQuery(query)
       }

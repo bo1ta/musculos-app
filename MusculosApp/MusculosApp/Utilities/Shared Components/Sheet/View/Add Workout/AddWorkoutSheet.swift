@@ -9,9 +9,9 @@ import SwiftUI
 
 struct AddWorkoutSheet: View {
   @Environment(\.dismiss) private var dismiss
-  @EnvironmentObject private var appManager: AppManager
+  @Environment(\.appManager) private var appManager
   
-  @StateObject var viewModel = AddWorkoutSheetViewModel()
+  @State private var viewModel = AddWorkoutSheetViewModel()
   
   let onBack: () -> Void
   
@@ -32,7 +32,35 @@ struct AddWorkoutSheet: View {
       RoundedTextField(text: $viewModel.muscleSearchQuery, label: "Target", textHint: "Target Muscle")
         .padding(.top, 15)
       
-      cardSection
+      VStack(alignment: .leading) {
+        Text("Recommended exercises")
+          .font(.body(.bold, size: 15))
+        switch viewModel.state {
+        case .loading:
+          ForEach(0..<5, id: \.self) { _ in
+            CardItemShimmering()
+              .onAppear(perform: viewModel.initialLoad)
+          }
+        case .loaded(let exercises):
+          ForEach(combineWithSelected(exercises), id: \.hashValue) { exercise in
+            CardItem(
+              title: exercise.name,
+              isSelected: viewModel.isExerciseSelected(exercise),
+              onSelect: {
+                viewModel.currentSelectedExercise = exercise
+              }
+            )
+          }
+        case .empty, .error(_):
+          HStack {
+            Spacer()
+            HintIconView(systemImage: "water.waves", textHint: "")
+            Spacer()
+          }
+          .onAppear(perform: viewModel.initialLoad)
+          .padding(.top, 20)
+        }
+      }
         .padding(.top, 20)
     }
     .scrollIndicators(.hidden)
@@ -55,7 +83,7 @@ struct AddWorkoutSheet: View {
     .onReceive(viewModel.didSaveSubject, perform: { isSuccessful in
       if isSuccessful {
         appManager.showToast(style: .info, message: "Goal saved! Good luck!")
-        appManager.dispatchEvent(for: .didAddGoal)
+        appManager.notifyModelUpdate(.didAddGoal)
         dismiss()
       } else {
         appManager.showToast(style: .error, message: "Could not save goal. Please try again")
@@ -65,40 +93,9 @@ struct AddWorkoutSheet: View {
   }
 }
 
-// MARK: - Views
-
-extension AddWorkoutSheet {
-  private var cardSection: some View {
-    VStack(alignment: .leading) {
-      Text("Recommended exercises")
-        .font(.body(.bold, size: 15))
-
-      switch viewModel.state {
-      case .loading:
-        ForEach(0..<5, id: \.self) { _ in
-          CardItemShimmering()
-        }
-      case .loaded(let exercises):
-        ForEach(combineWithSelected(exercises), id: \.hashValue) { exercise in
-          CardItem(
-            title: exercise.name,
-            isSelected: viewModel.isExerciseSelected(exercise),
-            onSelect: {
-              viewModel.currentSelectedExercise = exercise
-            }
-          )
-        }
-      case .empty, .error(_):
-        EmptyView()
-      }
-    }
-  }
-}
-
 // MARK: - Private Functions
 
 extension AddWorkoutSheet {
-
   private func combineWithSelected(_ loadedExercises: [Exercise]) -> [Exercise] {
     var exercises = viewModel.selectedExercises.compactMap { $0.exercise }
     let noDuplicates = loadedExercises.compactMap { exercises.contains($0) ? nil : $0 }

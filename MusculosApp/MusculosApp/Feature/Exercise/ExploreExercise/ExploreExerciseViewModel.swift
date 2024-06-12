@@ -7,27 +7,45 @@
 
 import Foundation
 import SwiftUI
+import Combine
 import Factory
 
-final class ExploreExerciseViewModel: ObservableObject {
+@Observable
+final class ExploreExerciseViewModel {
+  
+  // MARK: - Dependencies
+  
+  @ObservationIgnored
+  @Injected(\.exerciseModule) private var module: ExerciseModuleProtocol
+  
+  @ObservationIgnored
   @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
+  
+  @ObservationIgnored
   @Injected(\.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
+  
+  @ObservationIgnored
   @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
   
+  @ObservationIgnored
   private var localResults: [Exercise] = []
+  
+  @ObservationIgnored
   private var remoteResults: [Exercise] = []
   
-  @Published var exercisesCompletedToday: [ExerciseSession] = []
-  @Published var goals: [Goal] = []
-  @Published var errorMessage = ""
-  @Published var searchQuery = ""
+  @ObservationIgnored
+  private var cancellables = Set<AnyCancellable>()
   
-  @Published var showFilterView = false
-  @Published var showExerciseDetails = false
+  // MARK: - Observed properties
   
-  @Published var contentState: LoadingViewState<[Exercise]> = .empty
+  var exercisesCompletedToday: [ExerciseSession] = []
+  var goals: [Goal] = []
+  var errorMessage = ""
+  var searchQuery = ""
+  var showFilterView = false
+  var showExerciseDetails = false
   
-  @Published var selectedExercise: Exercise? = nil {
+  var selectedExercise: Exercise? = nil {
     didSet {
       if selectedExercise != nil {
         showExerciseDetails = true
@@ -35,22 +53,60 @@ final class ExploreExerciseViewModel: ObservableObject {
     }
   }
   
-  @Published var currentSection: ExploreCategorySection = .discover {
+  var currentSection: ExploreCategorySection = .discover {
     didSet {
       handleChangeSection(currentSection)
     }
   }
   
+  var contentState: LoadingViewState<[Exercise]> = .empty
+  
+  // MARK: - Tasks
+  
+  @ObservationIgnored
   private(set) var exerciseTask: Task<Void, Never>?
+  
+  @ObservationIgnored
   private(set) var initialLoadTask: Task<Void, Never>?
+  
+  @ObservationIgnored
   private(set) var updateTask: Task<Void, Never>?
   
-  private let module: ExerciseModuleProtocol
+  // MARK: - Init
   
-  init(module: ExerciseModuleProtocol = ExerciseModule()) {
-    self.module = module
+  init() {
+    setupNotificationPublisher()
   }
   
+  // MARK: - Initial setup
+  
+  private func setupNotificationPublisher() {
+    NotificationCenter.default.publisher(for: .CoreModelDidChange, object: nil)
+      .sink { [weak self] notification in
+        guard let event = notification.userInfo?[UpdatableModel.userInfoKey] as? UpdatableModel else { return }
+        
+        self?.handleUpdate(event)
+      }
+      .store(in: &cancellables)
+  }
+  
+  // MARK: - Clean up
+  
+  func cleanUp() {
+    exerciseTask?.cancel()
+    exerciseTask = nil
+    
+    initialLoadTask?.cancel()
+    initialLoadTask = nil
+    
+    updateTask?.cancel()
+    updateTask = nil
+  }
+}
+
+// MARK: - Tasks
+
+extension ExploreExerciseViewModel {
   func initialLoad() {
     guard contentState == .empty else { return }
     
@@ -77,26 +133,6 @@ final class ExploreExerciseViewModel: ObservableObject {
     }
   }
   
-  @MainActor
-  func updateContentState(with exercises: [Exercise]) {
-    contentState = .loaded(exercises)
-  }
-  
-  func cleanUp() {
-    exerciseTask?.cancel()
-    exerciseTask = nil
-
-    initialLoadTask?.cancel()
-    initialLoadTask = nil
-    
-    updateTask?.cancel()
-    updateTask = nil
-  }
-}
-
-// MARK: - Tasks
-
-extension ExploreExerciseViewModel {
   func refreshRemoteExercises() {
     exerciseTask?.cancel()
     
@@ -106,9 +142,25 @@ extension ExploreExerciseViewModel {
         remoteResults = exercises
       } catch {
         await MainActor.run {
-          errorMessage = MessageConstant.genericErrorMessage.rawValue
+          contentState = .error(MessageConstant.genericErrorMessage.rawValue)
         }
         MusculosLogger.logError(error, message: "Could not load remote exercises", category: .networking)
+      }
+    }
+  }
+  
+  func searchByMuscleQuery(_ query: String) {
+    exerciseTask?.cancel()
+    
+    exerciseTask = Task { @MainActor in
+      contentState = .loading
+      
+      do {
+        let exercises = try await module.searchByMuscleQuery(query)
+        contentState = .loaded(exercises)
+      } catch {
+        contentState = .error(MessageConstant.genericErrorMessage.rawValue)
+        MusculosLogger.logError(error, message: "Could not search by muscle query", category: .networking, properties: ["query": query])
       }
     }
   }
@@ -131,23 +183,6 @@ extension ExploreExerciseViewModel {
     }
   }
   
-  func searchByMuscleQuery(_ query: String) {
-    exerciseTask?.cancel()
-    
-    exerciseTask = Task {
-      contentState = .loading
-      
-      do {
-        let exercises = try await module.searchByMuscleQuery(query)
-        remoteResults = exercises
-        
-        contentState = .loaded(exercises)
-      } catch {
-        self.errorMessage = MessageConstant.genericErrorMessage.rawValue
-        MusculosLogger.logError(error, message: "Could not search by muscle query", category: .networking, properties: ["query": query])
-      }
-    }
-  }
   
   @MainActor
   func refreshExercisesCompletedToday() async {
@@ -160,35 +195,50 @@ extension ExploreExerciseViewModel {
   }
 }
 
-// MARK: - Handlers
+// MARK: - Section Handling
 
 extension ExploreExerciseViewModel {
   func handleChangeSection(_ section: ExploreCategorySection) {
     updateTask?.cancel()
     
-    updateTask = Task {
+    updateTask = Task { @MainActor in
       switch section {
       case .discover:
-        refreshRemoteExercises()
-        
-        await exerciseTask?.value
-        await updateContentState(with: remoteResults)
-        
+        await handleDiscoverSection()
       case .workout:
-        refreshLocalExercises()
-        
-        await exerciseTask?.value
-        await updateContentState(with: localResults)
+        await handleWorkoutSection()
       case .myFavorites:
-        refreshFavoriteExercises()
-        
-        await exerciseTask?.value
-        await updateContentState(with: localResults)
+        await handleFavoriteSection()
       }
     }
   }
   
-  func handleUpdate(_ modelEvent: AppManager.ModelEvent) {
+  private func handleDiscoverSection() async {
+    refreshRemoteExercises()
+    
+    await waitForExerciseTask()
+    await updateContentState(with: remoteResults)
+  }
+  
+  private func handleWorkoutSection() async {
+    refreshLocalExercises()
+    
+    await waitForExerciseTask()
+    await updateContentState(with: localResults)
+  }
+  
+  private func handleFavoriteSection() async {
+    refreshFavoriteExercises()
+    
+    await waitForExerciseTask()
+    await updateContentState(with: localResults)
+  }
+}
+
+// MARK: - Model Event Handling
+
+extension ExploreExerciseViewModel {
+  func handleUpdate(_ modelEvent: UpdatableModel) {
     updateTask?.cancel()
     
     updateTask = Task {
@@ -198,21 +248,42 @@ extension ExploreExerciseViewModel {
       case .didAddExerciseSession:
         await refreshExercisesCompletedToday()
       case .didAddExercise:
-        refreshLocalExercises()
-        await exerciseTask?.value
-        
-        if currentSection == .workout {
-          await updateContentState(with: localResults)
-        }
+        await handleAddExerciseEvent()
       case .didFavoriteExercise:
-        if currentSection == .myFavorites {
-          refreshFavoriteExercises()
-          
-          await exerciseTask?.value
-          await updateContentState(with: localResults)
-        }
+        await handleDidFavoriteExercise()
       }
     }
+  }
+  
+  private func handleAddExerciseEvent() async {
+    refreshLocalExercises()
+    await waitForExerciseTask()
+    
+    if currentSection == .workout {
+      await updateContentState(with: localResults)
+    }
+  }
+  
+  private func handleDidFavoriteExercise() async {
+    guard currentSection == .myFavorites else { return }
+    
+    refreshFavoriteExercises()
+    
+    await waitForExerciseTask()
+    await updateContentState(with: localResults)
+  }
+}
+
+// MARK: - Helpers
+
+extension ExploreExerciseViewModel {
+  private func waitForExerciseTask() async {
+    await exerciseTask?.value
+  }
+  
+  @MainActor
+  func updateContentState(with exercises: [Exercise]) {
+    contentState = .loaded(exercises)
   }
 }
 

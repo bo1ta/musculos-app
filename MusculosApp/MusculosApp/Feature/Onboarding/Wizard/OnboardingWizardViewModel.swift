@@ -8,12 +8,13 @@
 import Foundation
 import SwiftUI
 
-class OnboardingWizardViewModel: ObservableObject {
-  @Published var wizardStep: OnboardingWizardStep = .gender
-  @Published var selectedGender: Gender? = nil
-  @Published var selectedWeight: Int? = nil
-  @Published var selectedHeight: Int? = nil
-  @Published var selectedGoal: OnboardingGoal? = nil
+@Observable
+class OnboardingWizardViewModel {
+  var wizardStep: OnboardingWizardStep = .gender
+  var selectedGender: Gender? = nil
+  var selectedWeight: Int? = nil
+  var selectedHeight: Int? = nil
+  var selectedGoal: OnboardingGoal? = nil
   
   // false if we are at the last step -- at that point we have to submit the data
   var canHandleNextStep: Bool {

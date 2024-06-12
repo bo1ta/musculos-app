@@ -38,6 +38,10 @@
 		BC182ECD2A589BE7003DEA30 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* StorageManager.swift */; };
 		BC261AB82B6DA0EF0018E21F /* ExerciseFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC261AB72B6DA0EF0018E21F /* ExerciseFilterView.swift */; };
 		BC34545E2B76C3EA0074106A /* DebouncedQueryObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */; };
+		BC3DFABC2C17B8AB004419D7 /* AppManagerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFABB2C17B8AB004419D7 /* AppManagerKey.swift */; };
+		BC3DFABE2C17BFC3004419D7 /* UserStoreKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFABD2C17BFC3004419D7 /* UserStoreKey.swift */; };
+		BC3DFAC02C17C031004419D7 /* HealthKitViewModelKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFABF2C17C031004419D7 /* HealthKitViewModelKey.swift */; };
+		BC3DFAC22C190622004419D7 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFAC12C190622004419D7 /* Notification+Extension.swift */; };
 		BC3F13EB2B78060D00E9E98E /* MusculosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13EA2B78060D00E9E98E /* MusculosError.swift */; };
 		BC3FB1012A89A87400C3F9B1 /* DarkButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB1002A89A87400C3F9B1 /* DarkButtonStyle.swift */; };
 		BC4078D42C02373E000DE280 /* WorkoutIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D32C02373E000DE280 /* WorkoutIcon.swift */; };
@@ -268,6 +272,10 @@
 		BC182ECC2A589BE7003DEA30 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		BC261AB72B6DA0EF0018E21F /* ExerciseFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFilterView.swift; sourceTree = "<group>"; };
 		BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebouncedQueryObserver.swift; sourceTree = "<group>"; };
+		BC3DFABB2C17B8AB004419D7 /* AppManagerKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManagerKey.swift; sourceTree = "<group>"; };
+		BC3DFABD2C17BFC3004419D7 /* UserStoreKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStoreKey.swift; sourceTree = "<group>"; };
+		BC3DFABF2C17C031004419D7 /* HealthKitViewModelKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitViewModelKey.swift; sourceTree = "<group>"; };
+		BC3DFAC12C190622004419D7 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		BC3F13EA2B78060D00E9E98E /* MusculosError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusculosError.swift; sourceTree = "<group>"; };
 		BC3FB1002A89A87400C3F9B1 /* DarkButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkButtonStyle.swift; sourceTree = "<group>"; };
 		BC4078D32C02373E000DE280 /* WorkoutIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutIcon.swift; sourceTree = "<group>"; };
@@ -734,6 +742,7 @@
 			children = (
 				BCCE85EC2A35008C001BEE8B /* AppColor.swift */,
 				BCA8C5C62B9DFA3E00C273C9 /* AppFont.swift */,
+				BCE19AB52C14CF40005ABBF3 /* DateHelper.swift */,
 				BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */,
 				BC52DDD52B851722005A4587 /* DecodableModel.swift */,
 				BC52DDD92B85431C005A4587 /* LoadingViewState.swift */,
@@ -747,7 +756,6 @@
 				BC52DE012B8EB8A1005A4587 /* Mocks */,
 				BC5972082A35074E00EBB075 /* Shared Components */,
 				BC59720F2A351AEF00EBB075 /* Styles */,
-				BCE19AB52C14CF40005ABBF3 /* DateHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -773,6 +781,16 @@
 				BC1674C32BE2E9330012048D /* Modules */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		BC3DFABA2C17B883004419D7 /* Environment Values */ = {
+			isa = PBXGroup;
+			children = (
+				BC3DFABB2C17B8AB004419D7 /* AppManagerKey.swift */,
+				BC3DFABD2C17BFC3004419D7 /* UserStoreKey.swift */,
+				BC3DFABF2C17C031004419D7 /* HealthKitViewModelKey.swift */,
+			);
+			path = "Environment Values";
 			sourceTree = "<group>";
 		};
 		BC3FB0EF2A855D9100C3F9B1 /* Preference Key */ = {
@@ -1234,6 +1252,7 @@
 		BC8E86DE2AED2F14008E3CE4 /* Environment */ = {
 			isa = PBXGroup;
 			children = (
+				BC3DFABA2C17B883004419D7 /* Environment Values */,
 				BC3FB0EF2A855D9100C3F9B1 /* Preference Key */,
 			);
 			path = Environment;
@@ -1476,6 +1495,7 @@
 				BCD837BB2B64902D0069CECB /* Sequence+Extension.swift */,
 				BC8E86DC2AED2DB9008E3CE4 /* UIImage+Extension.swift */,
 				BCB6BF4E2AFAE84B00B6CBCE /* URL+Extension.swift */,
+				BC3DFAC12C190622004419D7 /* Notification+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1668,7 +1688,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					BC1160CB2A2CFB830028D8FC = {
 						CreatedOnToolsVersion = 14.3;
@@ -1759,6 +1779,7 @@
 				BC1674EF2BE3DFD40012048D /* View+Toast.swift in Sources */,
 				BC63A5A42AC33896006B1894 /* MuscleConstant.swift in Sources */,
 				BC0171012AEC3E0A005876EE /* CongratulationView.swift in Sources */,
+				BC3DFABC2C17B8AB004419D7 /* AppManagerKey.swift in Sources */,
 				BC1674E62BE2FF280012048D /* GoalEntity+CoreDataProperties.swift in Sources */,
 				BCC46FFB2C0E4A9F006D76E2 /* BulletPointText.swift in Sources */,
 				BC5FAA662B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift in Sources */,
@@ -1802,6 +1823,8 @@
 				BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */,
 				BC6249932BED5C1500393915 /* MuscleType.swift in Sources */,
 				BC8C68562BC0AE5100A681EE /* WorkoutDataStore.swift in Sources */,
+				BC3DFAC22C190622004419D7 /* Notification+Extension.swift in Sources */,
+				BC3DFAC02C17C031004419D7 /* HealthKitViewModelKey.swift in Sources */,
 				BC74C1B62C0107CA0021B932 /* WorkoutIntroView.swift in Sources */,
 				BC62498C2BED2EF900393915 /* ExerciseEntity+CoreDataClass.swift in Sources */,
 				BCD59AA22BB627E60039F662 /* ExerciseCard.swift in Sources */,
@@ -1860,6 +1883,7 @@
 				BCFEB5B12BC207FA00698C63 /* Workout.swift in Sources */,
 				BCB7F2F02BB21D68002CB2DE /* NSManagedObjectContext+StorageType.swift in Sources */,
 				BC1674D62BE2FBDA0012048D /* GoalConstants.swift in Sources */,
+				BC3DFABE2C17BFC3004419D7 /* UserStoreKey.swift in Sources */,
 				BCB724C22BC1F51E003F53EA /* DialogView.swift in Sources */,
 				BCD977922BC20C6A0076C148 /* WorkoutExercise.swift in Sources */,
 				BC78274E2B9CDDB200DFC02C /* WaveShape.swift in Sources */,
@@ -1992,6 +2016,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2052,6 +2077,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

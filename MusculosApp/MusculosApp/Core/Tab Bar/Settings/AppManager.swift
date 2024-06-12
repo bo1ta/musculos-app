@@ -9,52 +9,61 @@ import Foundation
 import SwiftUI
 import Combine
 
+protocol AppManagerProtocol {
+  
+  /// Shows the app tab bar
+  ///
+  func showTabBar()
+  
+  /// Hides the app tab bar
+  ///
+  func hideTabBar()
+  
+  /// Shows a message toast for a given duration
+  /// Params:
+  ///  - `style`: Can be .success, .info, .error, .warning
+  ///  - `message`: Message to be displayed
+  ///  - `duration`: Duration of the toast
+  ///
+  func showToast(style: Toast.ToastStyle, message: String, duration: Double)
+  
+  /// Notify a model update.
+  /// Posts a notification that for refreshing the data (if needed)
+  /// 
+  func notifyModelUpdate(_ event: UpdatableModel)
+}
 
 /// Helper manager that is passed from the root level
 ///
-@MainActor
-class AppManager: ObservableObject {
-  /// The observer for the tab bar visibility
-  ///
-  @Published private(set) var isTabBarHidden: Bool = false
-  
-  /// The observer for `Toast` view
-  /// Set to show a useful toast message for success, info, error, warning states
-  ///
-  @Published var toast: Toast? = nil
-  
-  /// Publisher to notify changes to various models
-  /// Subscribe to this to update the data if needed
-  ///
-  let modelUpdateEvent = PassthroughSubject<ModelEvent, Never>()
+@Observable
+final class AppManager {
+  private(set) var isTabBarHidden: Bool = false
+  var toast: Toast? = nil
 }
 
 // MARK: - Functions
 
-extension AppManager {
+extension AppManager: AppManagerProtocol {
+  
+  @MainActor
   func hideTabBar() {
     guard !isTabBarHidden else { return }
     isTabBarHidden = true
   }
   
+  @MainActor
   func showTabBar() {
     guard isTabBarHidden else { return }
     isTabBarHidden = false
   }
   
+  @MainActor
   func showToast(style: Toast.ToastStyle, message: String, duration: Double = 2.0) {
     toast = Toast(style: style, message: message, duration: duration)
   }
   
-  enum ModelEvent {
-    case didAddGoal
-    case didAddExerciseSession
-    case didAddExercise
-    case didFavoriteExercise
-  }
-  
-  func dispatchEvent(for modelEvent: ModelEvent) {
-    modelUpdateEvent.send(modelEvent)
+  @MainActor
+  func notifyModelUpdate(_ event: UpdatableModel) {
+    NotificationCenter.default.post(name: .CoreModelDidChange, object: nil, userInfo: [UpdatableModel.userInfoKey: event])
   }
 }
-

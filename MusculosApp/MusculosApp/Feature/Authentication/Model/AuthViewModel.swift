@@ -8,13 +8,14 @@
 import Foundation
 import Combine
 
-class AuthViewModel: ObservableObject {
-  @Published var state: LoadingViewState<Bool> = .empty
-  @Published var email: String = ""
-  @Published var password: String = ""
-  @Published var username: String = ""
-  @Published var fullName: String = ""
-  @Published var showRegister: Bool = false
+@Observable
+class AuthViewModel {
+  var state: LoadingViewState<Bool> = .empty
+  var email: String = ""
+  var password: String = ""
+  var username: String = ""
+  var fullName: String = ""
+  var showRegister: Bool = false
   
   private(set) var authTask: Task<Void, Never>?
   

@@ -9,8 +9,8 @@ import SwiftUI
 import HealthKitUI
 
 struct OnboardingWizardView: View {
-  @EnvironmentObject private var userStore: UserStore
-  @StateObject private var viewModel = OnboardingWizardViewModel()
+  @Environment(\.userStore) private var userStore: UserStore
+  @State private var viewModel = OnboardingWizardViewModel()
     
   var body: some View {
     VStack {
@@ -109,6 +109,4 @@ extension OnboardingWizardView {
 
 #Preview {
     OnboardingWizardView()
-    .environmentObject(HealthKitViewModel())
-    .environmentObject(UserStore())
 }

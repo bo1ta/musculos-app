@@ -8,15 +8,27 @@
 import Foundation
 import SwiftUI
 import Combine
+import Factory
 
-final class AddGoalSheetViewModel: ObservableObject {
-  @Published var name: String = ""
-  @Published var category: String = ""
-  @Published var showCategoryOptions: Bool = true
-  @Published var targetValue: String = ""
-  @Published var showEndDate: Bool = false
-  @Published var showFrequencyOptions: Bool = true
-  @Published var frequency: String = "" {
+@Observable
+final class AddGoalSheetViewModel {
+  
+  // MARK: - Dependency
+  
+  @ObservationIgnored
+  @Injected(\.goalDataStore) private var dataStore: GoalDataStoreProtocol
+  
+  // MARK: - Observed properties
+  
+  var name: String = ""
+  var category: String = ""
+  var showCategoryOptions: Bool = true
+  var targetValue: String = ""
+  var showEndDate: Bool = false
+  var showFrequencyOptions: Bool = true
+  var endDate: Date = Date()
+  
+  var frequency: String = "" {
     didSet {
       if frequency == Goal.Frequency.fixedDate.description {
         DispatchQueue.main.async {
@@ -25,38 +37,40 @@ final class AddGoalSheetViewModel: ObservableObject {
       }
     }
   }
-  @Published var endDate: Date = Date()
   
-  private let dataStore: GoalDataStore
-  
-  private(set) var saveTask: Task<Void, Never>?
   private(set) var didSaveGoalPublisher = PassthroughSubject<Bool, Never>()
   
-  init(dataStore: GoalDataStore = GoalDataStore()) {
-    self.dataStore = dataStore
-  }
+  // MARK: - Tasks
   
+  @ObservationIgnored
+  private(set) var saveTask: Task<Void, Never>?
+
   func saveGoal() {
-    saveTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-      
+    saveTask = Task {
       let goal = Goal(
-        name: self.name,
+        name: name,
         category: Goal.Category(rawValue: self.category) ?? .general,
         frequency: Goal.Frequency(rawValue: self.frequency) ?? .daily,
         targetValue: self.targetValue,
-        endDate: self.endDate
+        endDate: endDate
       )
       
       do {
-        try await self.dataStore.add(goal)
-        self.didSaveGoalPublisher.send(true)
+        try await dataStore.add(goal)
+        
+        await MainActor.run {
+          didSaveGoalPublisher.send(true)
+        }
       } catch {
-        self.didSaveGoalPublisher.send(false)
+        await MainActor.run {
+          didSaveGoalPublisher.send(false)
+        }
         MusculosLogger.logError(error, message: "Could not save goal", category: .coreData)
       }
     }
   }
+  
+  // MARK: - Clean up
   
   func cleanUp() {
     saveTask?.cancel()

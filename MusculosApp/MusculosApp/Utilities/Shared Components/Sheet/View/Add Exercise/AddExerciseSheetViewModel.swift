@@ -9,23 +9,26 @@ import SwiftUI
 import Factory
 import Combine
 
-final class AddExerciseSheetViewModel: ObservableObject {
+@Observable
+final class AddExerciseSheetViewModel {
+  
+  @ObservationIgnored
   @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
   
-  @Published var exerciseName = ""
-  @Published var equipment = ""
-  @Published var force = ""
-  @Published var targetMuscles: [String] = []
-  @Published var instructions: [AddDetailOption] = [AddDetailOption(id: 0, text: "")]
-  @Published var images: [Image] = []
-  @Published var level: String = ""
-  @Published var category: String = ""
+  var exerciseName = ""
+  var equipment = ""
+  var force = ""
+  var targetMuscles: [String] = []
+  var instructions: [AddDetailOption] = [AddDetailOption(id: 0, text: "")]
+  var images: [Image] = []
+  var level: String = ""
+  var category: String = ""
 
-  @Published var showForceOptions = true
-  @Published var showMusclesOptions = true
-  @Published var showLevelOptions = true
-  @Published var showCategoryOptions = true
-  @Published var showEquipmentOptions = true
+  var showForceOptions = true
+  var showMusclesOptions = true
+  var showLevelOptions = true
+  var showCategoryOptions = true
+  var showEquipmentOptions = true
   
   private(set) var saveExerciseTask: Task<Void, Never>?
   

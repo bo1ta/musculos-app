@@ -7,7 +7,12 @@
 
 import Foundation
 
-struct WorkoutDataStore: BaseDataStore {
+protocol WorkoutDataStoreProtocol {
+  func create(_ workout: Workout) async throws
+  func getAll() async -> [Workout]
+}
+
+struct WorkoutDataStore: BaseDataStore, WorkoutDataStoreProtocol {
   func create(_ workout: Workout) async throws {
     try await storageManager.performWriteOperation { writerDerivedStorage in
       guard let user = UserEntity.currentUser(with: writerDerivedStorage) else { return }
