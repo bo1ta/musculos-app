@@ -12,6 +12,11 @@ import Factory
 @testable import MusculosApp
 
 class ExerciseModuleTests: XCTestCase, MusculosTestBase {
+  override class func tearDown() {
+    MockURLProtocol.clear()
+    super.tearDown()
+  }
+  
   func testGetExercisesSucceeds() async throws {
     let expectation = self.expectation(description: "should make a network request")
     
