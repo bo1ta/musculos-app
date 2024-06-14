@@ -41,7 +41,7 @@ actor RecommendationEngine {
     }
     
     let muscles = Array(Set(exerciseSessions.flatMap { $0.exercise.muscleTypes }))
-    return await dataStore.exerciseDataStore.getRecommendedExercises(excluding: muscles)
+    return await dataStore.exerciseDataStore.getAllExcludingMuscles(muscles)
     
   }
 }
