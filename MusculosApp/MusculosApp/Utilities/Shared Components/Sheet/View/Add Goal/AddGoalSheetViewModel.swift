@@ -24,7 +24,7 @@ final class AddGoalSheetViewModel {
   var category: String = ""
   var showCategoryOptions: Bool = true
   var targetValue: String = ""
-  var showEndDate: Bool = false
+  var showEndDate: Bool = true
   var showFrequencyOptions: Bool = true
   var endDate: Date = Date()
   
@@ -49,7 +49,7 @@ final class AddGoalSheetViewModel {
     saveTask = Task {
       let goal = Goal(
         name: name,
-        category: Goal.Category(rawValue: self.category) ?? .general,
+        category: Goal.Category.initFromLabel(self.category) ?? .general,
         frequency: Goal.Frequency(rawValue: self.frequency) ?? .daily,
         targetValue: self.targetValue,
         endDate: endDate

@@ -40,4 +40,13 @@ extension Container {
   var exerciseModule: Factory<ExerciseModuleProtocol> {
     self { ExerciseModule() }
   }
+  
+  var recommendationEngine: Factory<RecommendationEngine> {
+    self { RecommendationEngine() }
+  }
+  
+  var dataStore: Factory<DataStoreProtocol> {
+    self { DataStore() }
+      .singleton
+  }
 }

@@ -12,6 +12,7 @@ protocol ExerciseSessionDataStoreProtocol {
   func getAll() async -> [ExerciseSession]
   func getCompletedToday() async -> [ExerciseSession]
   func addSession(_ exercise: Exercise, date: Date) async throws
+  func getCompletedSinceLastWeek() async -> [ExerciseSession]
 }
 
 struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol {
@@ -38,17 +39,44 @@ struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol
         format: "user.email == %@",
         currentPerson.email
       )
-      let todayPredicate = NSPredicate(
+      let datePredicate = NSPredicate(
         format: "date >= %@ AND date <= %@",
         argumentArray: [startOfDay, endOfDay]
       )
-      let compundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [userPredicate, todayPredicate])
+      let compundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [userPredicate, datePredicate])
       
       return viewStorage
         .allObjects(
           ofType: ExerciseSessionEntity.self,
           matching: compundPredicate,
-          sortedBy: nil)
+          sortedBy: nil
+        )
+        .map { $0.toReadOnly() }
+    }
+  }
+  
+  func getCompletedSinceLastWeek() async -> [ExerciseSession] {
+    return await storageManager.performReadOperation { viewStorage in
+      guard
+        let currentPerson = UserEntity.currentUser(with: viewStorage)?.toReadOnly(),
+        let (startDay, endDay) = DateHelper.getPastWeekRange() as? (Date, Date)
+      else { return [] }
+      
+      let userPredicate = NSPredicate(
+        format: "user.email == %@",
+        currentPerson.email
+      )
+      let datePredicate = NSPredicate(
+        format: "date >= %@ AND date <= %@",
+        argumentArray: [startDay, endDay]
+      )
+      let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [userPredicate, datePredicate])
+      
+      return viewStorage
+        .allObjects(
+          ofType: ExerciseSessionEntity.self,
+          matching: compoundPredicate, sortedBy: nil
+        )
         .map { $0.toReadOnly() }
     }
   }

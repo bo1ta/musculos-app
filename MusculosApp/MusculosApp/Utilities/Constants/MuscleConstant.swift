@@ -8,7 +8,7 @@
 import Foundation
 
 struct MuscleConstant {
-  enum MuscleName: String {
+  enum MuscleName: String, CaseIterable {
     case back, cardio, chest, lowerArms, lowerLegs, neck, shoulders, upperArms, upperLegs, waist
   }
 

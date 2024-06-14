@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol GoalDataStoreProtocol {
+protocol GoalDataStoreProtocol: Sendable {
   func add(_ goal: Goal) async throws
   func getAll() async -> [Goal]
 }
