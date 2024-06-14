@@ -32,6 +32,13 @@ struct Exercise: Codable {
     self.instructions = instructions
     self.imageUrls = imageUrls
   }
+  
+  var muscleTypes: [MuscleType] {
+    var allMuscles = primaryMuscles
+    allMuscles.append(contentsOf: secondaryMuscles)
+    
+    return allMuscles.compactMap { MuscleType(rawValue: $0) }
+  }
 
   enum CodingKeys: String, CodingKey {
     case category, equipment, force, id, level, name, primaryMuscles, secondaryMuscles, instructions, imageUrls
@@ -68,3 +75,5 @@ extension Exercise: Identifiable {
     return lhs.id == rhs.id
   }
 }
+
+extension Exercise: Recommendable {}

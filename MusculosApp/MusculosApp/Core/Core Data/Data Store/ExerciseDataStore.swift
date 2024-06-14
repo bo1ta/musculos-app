@@ -9,12 +9,39 @@ import Foundation
 import CoreData
 
 protocol ExerciseDataStoreProtocol {
-  // read methods
+  
+  // MARK: - Read methods
+  
+  /// Checks if the given exercise is favorite
+  ///
   func isFavorite(_ exercise: Exercise) async -> Bool
+  
+  /// Get all exercises given a fetch limit
+  ///
   func getAll(fetchLimit: Int) async -> [Exercise]
-  func getByName(_ name: String) async -> [Exercise]
+  
+  /// Get all exercises where name contains a given query
+  ///
+  func getByName(_ query: String) async -> [Exercise]
+  
+  /// Get all exercises given a list of muscle types
+  ///
   func getByMuscles(_ muscles: [MuscleType]) async -> [Exercise]
+  
+  /// Get all favorite exercises
+  ///
   func getAllFavorites() async -> [Exercise]
+  
+  /// Get all exercises given a list of goals
+  /// It maps the goals to a exercises category type
+  ///
+  func getAllByGoals(_ goals: [Goal], fetchLimit: Int) async -> [Exercise]
+  
+  /// Get all exercises excluding a list of muscle types
+  ///
+  func getAllExcludingMuscles(_ muscles: [MuscleType]) async -> [Exercise]
+  
+  // MARK: - Write methods
   
   // write methods
   func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws
@@ -22,8 +49,7 @@ protocol ExerciseDataStoreProtocol {
   func add(_ exercise: Exercise) async throws
 }
 
-// MARK: - Read methods
-///
+// MARK: - Read methods implementation
 
 struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
   func isFavorite(_ exercise: Exercise) async -> Bool {
@@ -55,12 +81,12 @@ struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
     }
   }
   
-  func getByName(_ name: String) async -> [Exercise] {
+  func getByName(_ query: String) async -> [Exercise] {
     return await storageManager.performReadOperation { viewStorage in
       return viewStorage
         .allObjects(
           ofType: ExerciseEntity.self,
-          matching: ExerciseEntity.CommonPredicate.byName(name).nsPredicate,
+          matching: ExerciseEntity.CommonPredicate.byName(query).nsPredicate,
           sortedBy: nil
         )
         .map { $0.toReadOnly() }
@@ -74,17 +100,42 @@ struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
       return viewStorage.allObjects(
         ofType: PrimaryMuscleEntity.self,
         matching: NSPredicate(format: "muscleId IN %@", muscleIds),
-        sortedBy: nil)
+        sortedBy: nil
+      )
+      .flatMap { $0.exercises }
+      .map { $0.toReadOnly() }
+    }
+  }
+  
+  func getAllByGoals(_ goals: [Goal], fetchLimit: Int) async -> [Exercise] {
+    return await storageManager.performReadOperation { viewStorage in
+      let predicate = mapGoalsToCategoryPredicate(goals)
+      return viewStorage.allObjects(
+        ofType: ExerciseEntity.self,
+        fetchLimit: fetchLimit,
+        matching: predicate,
+        sortedBy: nil
+      )
+      .map { $0.toReadOnly() }
+    }
+  }
+  
+  func getAllExcludingMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
+    return await storageManager.performReadOperation { viewStorage in
+      let muscleIds = muscles.map { $0.id }
+      
+      return viewStorage.allObjects(
+        ofType: PrimaryMuscleEntity.self,
+        matching: NSPredicate(format: "NOT (muscleId IN %@)", muscleIds),
+        sortedBy: nil
+      )
       .flatMap { $0.exercises }
       .map { $0.toReadOnly() }
     }
   }
 }
 
-// MARK: - Write methods
-/// Write operations are handled by `writerDerivedStorage`
-/// On finish, Both `writerDerivedStorage` and `viewStorage` are saved
-///
+// MARK: - Write methods implementation
 
 extension ExerciseDataStore {
   func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws {
@@ -97,7 +148,7 @@ extension ExerciseDataStore {
       }
       exercise.isFavorite = isFavorite
     }
-
+    
     await storageManager.saveChanges()
   }
   
@@ -175,45 +226,74 @@ extension ExerciseDataStore {
   ) -> (Set<PrimaryMuscleEntity>, Set<SecondaryMuscleEntity>) {
     let primaryMusclesEntity = Set<PrimaryMuscleEntity>(
       primaryMuscles
-      .compactMap { muscle in
-        guard let muscleType = MuscleType(rawValue: muscle) else { return nil }
-        
-        let predicate = NSPredicate(
-          format: "%K == %d",
-          #keyPath(PrimaryMuscleEntity.muscleId),
-          muscleType.id
-        )
-        
-        let entity = writerStorage.findOrInsert(of: PrimaryMuscleEntity.self, using: predicate)
-        entity.muscleId = NSNumber(integerLiteral: muscleType.id)
-        entity.name = muscleType.rawValue
-        entity.exercises.insert(exerciseEntity)
-        
-        return entity
-      }
+        .compactMap { muscle in
+          guard let muscleType = MuscleType(rawValue: muscle) else { return nil }
+          
+          let predicate = NSPredicate(
+            format: "%K == %d",
+            #keyPath(PrimaryMuscleEntity.muscleId),
+            muscleType.id
+          )
+          
+          let entity = writerStorage.findOrInsert(of: PrimaryMuscleEntity.self, using: predicate)
+          entity.muscleId = NSNumber(integerLiteral: muscleType.id)
+          entity.name = muscleType.rawValue
+          entity.exercises.insert(exerciseEntity)
+          
+          return entity
+        }
     )
     
     let secondaryMusclesEntity = Set<SecondaryMuscleEntity>(
       secondaryMuscles
-      .compactMap { muscle in
-        guard let muscleType = MuscleType(rawValue: muscle) else { return nil }
-        
-        let predicate = NSPredicate(
-          format: "%K == %d",
-          #keyPath(SecondaryMuscleEntity.muscleId),
-          muscleType.id
-        )
-        
-        let entity = writerStorage.findOrInsert(of: SecondaryMuscleEntity.self, using: predicate)
-        entity.muscleId = NSNumber(integerLiteral: muscleType.id)
-        entity.name = muscleType.rawValue
-        entity.exercises.insert(exerciseEntity)
-        
-        return entity
-      }
+        .compactMap { muscle in
+          guard let muscleType = MuscleType(rawValue: muscle) else { return nil }
+          
+          let predicate = NSPredicate(
+            format: "%K == %d",
+            #keyPath(SecondaryMuscleEntity.muscleId),
+            muscleType.id
+          )
+          
+          let entity = writerStorage.findOrInsert(of: SecondaryMuscleEntity.self, using: predicate)
+          entity.muscleId = NSNumber(integerLiteral: muscleType.id)
+          entity.name = muscleType.rawValue
+          entity.exercises.insert(exerciseEntity)
+          
+          return entity
+        }
     )
     
     return (primaryMusclesEntity, secondaryMusclesEntity)
   }
+  
+  private func mapGoalsToCategoryPredicate(_ goals: [Goal]) -> NSPredicate? {
+    var predicate: NSPredicate?
+    
+    for goal in goals {
+      if let categories = Self.goalToExerciseCategories[goal.category] {
+        let categoryPredicate = NSPredicate(format: "category IN %@", categories)
+        predicate = predicate == nil ? categoryPredicate : NSCompoundPredicate(orPredicateWithSubpredicates: [predicate!, categoryPredicate])
+      }
+    }
+    
+    return predicate
+  }
 }
 
+// MARK: - Static properties
+
+extension ExerciseDataStore {
+  static let goalToExerciseCategories: [Goal.Category: [String]] = [
+    .growMuscle: [
+      ExerciseConstants.CategoryType.strength.rawValue,
+      ExerciseConstants.CategoryType.powerlifting.rawValue,
+      ExerciseConstants.CategoryType.strongman.rawValue,
+      ExerciseConstants.CategoryType.olympicWeightlifting.rawValue
+    ],
+    .loseWeight: [
+      ExerciseConstants.CategoryType.cardio.rawValue,
+      ExerciseConstants.CategoryType.stretching.rawValue
+    ]
+  ]
+}

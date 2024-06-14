@@ -63,6 +63,9 @@ extension ExploreExerciseViewModelTests {
   }
   
   class MockExerciseSessionDataStore: ExerciseSessionDataStoreProtocol {
+    func getCompletedSinceLastWeek() async -> [ExerciseSession] {
+      return []
+    }
     
     var getCompletedTodayExpectation: XCTestExpectation?
     func getCompletedToday() async -> [ExerciseSession] {

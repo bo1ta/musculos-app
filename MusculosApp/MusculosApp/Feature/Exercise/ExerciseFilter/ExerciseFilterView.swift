@@ -54,6 +54,7 @@ struct ExerciseFilterView: View {
         }
         .padding(.top, 10)
       }
+      .padding([.leading, .trailing], 10)
       .scrollIndicators(.hidden)
       .safeAreaInset(edge: .bottom, content: {
         Button(action: handleSearch, label: {
@@ -65,7 +66,6 @@ struct ExerciseFilterView: View {
         .padding(.bottom, 10)
       })
     }
-    .padding([.leading, .trailing], 10)
   }
   
   private var header: some View {

@@ -21,6 +21,10 @@ struct Goal {
       case .general: "General"
       }
     }
+    
+    static func initFromLabel(_ label: String) -> Self? {
+      return Self.allCases.first { $0.label == label }
+    }
   }
   
   enum Frequency: String, CaseIterable {
@@ -55,3 +59,5 @@ struct Goal {
     self.isCompleted = isCompleted
   }
 }
+
+extension Goal: Recommendable {}

@@ -32,6 +32,8 @@ struct ExploreExerciseView: View {
           ExerciseSectionsContentView(
             categorySection: $viewModel.currentSection,
             contentState: $viewModel.contentState,
+            recommendedExercisesByGoals: $viewModel.recommendedByGoals,
+            recommendedExercisesByPastSessions: $viewModel.recommendedByPastSessions,
             onExerciseTap: { viewModel.selectedExercise = $0 }
           )
           
@@ -56,7 +58,9 @@ struct ExploreExerciseView: View {
       }
       .onAppear {
         appManager.showTabBar()
-        viewModel.initialLoad()
+      }
+      .task {
+        await viewModel.initialLoad()
       }
       .onDisappear(perform: viewModel.cleanUp)
     }
@@ -65,4 +69,12 @@ struct ExploreExerciseView: View {
 
 #Preview {
   ExploreExerciseView()
+}
+
+typealias ExploreExerciseResult = [ExploreExerciseContentType: [Exercise]]
+
+enum ExploreExerciseContentType {
+  case random
+  case recommendedByGoals
+  case recommendedByPastWorkouts
 }

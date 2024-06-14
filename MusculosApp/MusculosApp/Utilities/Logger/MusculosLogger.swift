@@ -10,7 +10,7 @@ import os.log
 
 final class MusculosLogger {
   enum LogCategory: String {
-    case networking, coreData, ui, healthKit
+    case networking, coreData, ui, healthKit, recommendationEngine
   }
   
   enum AccessLevel: String {

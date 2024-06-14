@@ -11,6 +11,16 @@ struct ExerciseSectionsContentView: View {
   @Binding var categorySection: ExploreCategorySection
   @Binding var contentState: LoadingViewState<[Exercise]>
   
+  /// Separate exercise result feed from the `RecommendationEngine`
+  /// Represents exercises considering the user goals
+  ///
+  @Binding var recommendedExercisesByGoals: [Exercise]?
+  
+  /// Separate exercise result feed from the `RecommendatonEngine`
+  /// Represents exercises considering the past completed user exercise sessions
+  ///
+  @Binding var recommendedExercisesByPastSessions: [Exercise]?
+  
   let onExerciseTap: (Exercise) -> Void
   
   var body: some View {
@@ -42,12 +52,25 @@ struct ExerciseSectionsContentView: View {
           exercises: exercises,
           onExerciseTap: onExerciseTap
         )
-//        ExerciseSectionView(
-//          title: "Quick muscle-building workouts",
-//          exercises: exercises,
-//          isSmallCard: true,
-//          onExerciseTap: onExerciseTap
-//        )
+        
+        if let recommendedExercisesByGoals {
+          ExerciseSectionView(
+            title: "Recommended exercises based on your goals",
+            exercises: recommendedExercisesByGoals,
+            isSmallCard: true,
+            onExerciseTap: onExerciseTap
+          )
+        }
+        
+        if let recommendedExercisesByPastSessions {
+          ExerciseSectionView(
+            title: "Recommended exercises based on your past sessions",
+            exercises: recommendedExercisesByPastSessions,
+            isSmallCard: true,
+            onExerciseTap: onExerciseTap
+          )
+        }
+        
       case .myFavorites, .workout:
         LazyVStack {
           ForEach(exercises, id: \.hashValue) { exercise in

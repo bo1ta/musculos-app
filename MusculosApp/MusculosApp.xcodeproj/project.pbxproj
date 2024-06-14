@@ -42,6 +42,8 @@
 		BC3DFABE2C17BFC3004419D7 /* UserStoreKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFABD2C17BFC3004419D7 /* UserStoreKey.swift */; };
 		BC3DFAC02C17C031004419D7 /* HealthKitViewModelKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFABF2C17C031004419D7 /* HealthKitViewModelKey.swift */; };
 		BC3DFAC22C190622004419D7 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFAC12C190622004419D7 /* Notification+Extension.swift */; };
+		BC3DFAC82C1A0089004419D7 /* RecommendationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFAC72C1A0089004419D7 /* RecommendationEngine.swift */; };
+		BC3DFACA2C1A055E004419D7 /* Recommendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFAC92C1A055E004419D7 /* Recommendable.swift */; };
 		BC3F13EB2B78060D00E9E98E /* MusculosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13EA2B78060D00E9E98E /* MusculosError.swift */; };
 		BC3FB1012A89A87400C3F9B1 /* DarkButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FB1002A89A87400C3F9B1 /* DarkButtonStyle.swift */; };
 		BC4078D42C02373E000DE280 /* WorkoutIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D32C02373E000DE280 /* WorkoutIcon.swift */; };
@@ -76,6 +78,9 @@
 		BC5BACDC2ABB75AA003C880E /* AnatomyOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACDB2ABB75AA003C880E /* AnatomyOverlayView.swift */; };
 		BC5FAA622B7D8B4E00B79D4B /* ContentLengthPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5FAA612B7D8B4E00B79D4B /* ContentLengthPreferenceKey.swift */; };
 		BC5FAA662B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5FAA652B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift */; };
+		BC606A622C1A773C00154781 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC606A612C1A773C00154781 /* DataStore.swift */; };
+		BC606A642C1B810200154781 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC606A632C1B810200154781 /* SwiftUIView.swift */; };
+		BC606A662C1CB3BA00154781 /* StubDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC606A652C1CB3BA00154781 /* StubDataStore.swift */; };
 		BC61A2E92BA5274500493311 /* BaseDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC61A2E82BA5274500493311 /* BaseDataStore.swift */; };
 		BC6249752BEC20BB00393915 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = BC6249742BEC20BB00393915 /* Shimmer */; };
 		BC62498C2BED2EF900393915 /* ExerciseEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6249832BED2EF900393915 /* ExerciseEntity+CoreDataClass.swift */; };
@@ -276,6 +281,8 @@
 		BC3DFABD2C17BFC3004419D7 /* UserStoreKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStoreKey.swift; sourceTree = "<group>"; };
 		BC3DFABF2C17C031004419D7 /* HealthKitViewModelKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitViewModelKey.swift; sourceTree = "<group>"; };
 		BC3DFAC12C190622004419D7 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
+		BC3DFAC72C1A0089004419D7 /* RecommendationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationEngine.swift; sourceTree = "<group>"; };
+		BC3DFAC92C1A055E004419D7 /* Recommendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recommendable.swift; sourceTree = "<group>"; };
 		BC3F13EA2B78060D00E9E98E /* MusculosError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusculosError.swift; sourceTree = "<group>"; };
 		BC3FB1002A89A87400C3F9B1 /* DarkButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkButtonStyle.swift; sourceTree = "<group>"; };
 		BC4078D32C02373E000DE280 /* WorkoutIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutIcon.swift; sourceTree = "<group>"; };
@@ -308,6 +315,9 @@
 		BC5BACDB2ABB75AA003C880E /* AnatomyOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnatomyOverlayView.swift; sourceTree = "<group>"; };
 		BC5FAA612B7D8B4E00B79D4B /* ContentLengthPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLengthPreferenceKey.swift; sourceTree = "<group>"; };
 		BC5FAA652B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodingUserInfoKey+Extension.swift"; sourceTree = "<group>"; };
+		BC606A612C1A773C00154781 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		BC606A632C1B810200154781 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwiftUIView.swift; path = MusculosApp/Feature/SwiftUIView.swift; sourceTree = "<group>"; };
+		BC606A652C1CB3BA00154781 /* StubDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubDataStore.swift; sourceTree = "<group>"; };
 		BC61A2E82BA5274500493311 /* BaseDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataStore.swift; sourceTree = "<group>"; };
 		BC6249762BED2D2B00393915 /* Musculos 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 8.xcdatamodel"; sourceTree = "<group>"; };
 		BC6249832BED2EF900393915 /* ExerciseEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExerciseEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -535,6 +545,7 @@
 		BC1160C32A2CFB820028D8FC = {
 			isa = PBXGroup;
 			children = (
+				BC606A632C1B810200154781 /* SwiftUIView.swift */,
 				BC1160CE2A2CFB830028D8FC /* MusculosApp */,
 				BC1160E52A2CFB840028D8FC /* MusculosAppTests */,
 				BC1160CD2A2CFB830028D8FC /* Products */,
@@ -622,6 +633,7 @@
 				BCA87E5E2AE865A600453E4B /* Person.swift */,
 				BCFEB5B02BC207FA00698C63 /* Workout.swift */,
 				BCD977912BC20C6A0076C148 /* WorkoutExercise.swift */,
+				BC3DFACB2C1A0563004419D7 /* Protocol */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -791,6 +803,14 @@
 				BC3DFABF2C17C031004419D7 /* HealthKitViewModelKey.swift */,
 			);
 			path = "Environment Values";
+			sourceTree = "<group>";
+		};
+		BC3DFACB2C1A0563004419D7 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				BC3DFAC92C1A055E004419D7 /* Recommendable.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		BC3FB0EF2A855D9100C3F9B1 /* Preference Key */ = {
@@ -1059,6 +1079,7 @@
 		BC6F365F2BB4E33C000F6CFA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BC3DFAC72C1A0089004419D7 /* RecommendationEngine.swift */,
 				BC52DDE72B86C765005A4587 /* SynchronizationState.swift */,
 				BC99D02F2C0E19FB00208519 /* Operations */,
 				BCB7F2EE2BB21D4A002CB2DE /* Extensions */,
@@ -1557,6 +1578,7 @@
 				BC1674C92BE2F2810012048D /* GoalDataStore.swift */,
 				BCA24C192B6C722F00124EC3 /* UserDataStore.swift */,
 				BC8C68552BC0AE5100A681EE /* WorkoutDataStore.swift */,
+				BC606A612C1A773C00154781 /* DataStore.swift */,
 			);
 			path = "Data Store";
 			sourceTree = "<group>";
@@ -1582,6 +1604,7 @@
 			isa = PBXGroup;
 			children = (
 				BCE19AC82C15E615005ABBF3 /* StubExerciseDataStore.swift */,
+				BC606A652C1CB3BA00154781 /* StubDataStore.swift */,
 			);
 			path = Stubs;
 			sourceTree = "<group>";
@@ -1831,6 +1854,7 @@
 				BCE417102A7D73380088D975 /* WorkoutTabBarButton.swift in Sources */,
 				BC43D33B2B6EAD8D008C1062 /* SearchFilterViewModel.swift in Sources */,
 				BC34545E2B76C3EA0074106A /* DebouncedQueryObserver.swift in Sources */,
+				BC606A622C1A773C00154781 /* DataStore.swift in Sources */,
 				BCFA25B32BB269F800F07A67 /* ReadOnlyConvertible.swift in Sources */,
 				BCB7F2E82BB21433002CB2DE /* StorageManagerType.swift in Sources */,
 				BC8C68532BC060F500A681EE /* UserEntity+CoreDataProperties.swift in Sources */,
@@ -1857,6 +1881,7 @@
 				BC62498D2BED2EF900393915 /* ExerciseEntity+CoreDataProperties.swift in Sources */,
 				BC52DDD42B8516F9005A4587 /* MuscleClientProtocol.swift in Sources */,
 				BC52DDCE2B85164D005A4587 /* APIRequest.swift in Sources */,
+				BC3DFACA2C1A055E004419D7 /* Recommendable.swift in Sources */,
 				BCF7DE712A7DB2EC00FC960B /* CustomTabBarView.swift in Sources */,
 				BCA24BEF2B69D3AE00124EC3 /* SplashView.swift in Sources */,
 				BCB92BD62BBB5F4400D41B9B /* ImageCacheManager.swift in Sources */,
@@ -1876,6 +1901,7 @@
 				BC81E5C82BCC77630005891D /* View+Dialog.swift in Sources */,
 				BCD59A8E2BB627CE0039F662 /* ExploreExerciseView.swift in Sources */,
 				BCEE994F2C0BAA990027D42B /* ExerciseSessionDataStore.swift in Sources */,
+				BC3DFAC82C1A0089004419D7 /* RecommendationEngine.swift in Sources */,
 				BCE19ABE2C14FF4B005ABBF3 /* ExerciseSessionFactory.swift in Sources */,
 				BCC46FF42C0E2E97006D76E2 /* PermissionsView.swift in Sources */,
 				BC828CE32C028E9200AB9D1D /* ExerciseDetailsViewModel.swift in Sources */,
@@ -1912,6 +1938,7 @@
 				BCA24C0F2B6B2B5D00124EC3 /* SelectGoalView.swift in Sources */,
 				BC5BAC8A2AB221FC003C880E /* MusculosLogger.swift in Sources */,
 				BCD59AB12BB628700039F662 /* ExerciseDetailsView.swift in Sources */,
+				BC606A642C1B810200154781 /* SwiftUIView.swift in Sources */,
 				BC777F042BA20901001669C8 /* AddWorkoutSheet.swift in Sources */,
 				BC11BC5A2A7D74CB00D96440 /* TabBarItem.swift in Sources */,
 				BC8E86DD2AED2DB9008E3CE4 /* UIImage+Extension.swift in Sources */,
@@ -1954,6 +1981,7 @@
 			files = (
 				BC97C92F2BA0D4DD00AA07C4 /* MusculosError.swift in Sources */,
 				BC5BACAC2AB26D65003C880E /* MusculosLogger.swift in Sources */,
+				BC606A662C1CB3BA00154781 /* StubDataStore.swift in Sources */,
 				BCE19AC92C15E615005ABBF3 /* StubExerciseDataStore.swift in Sources */,
 				BCE19AC42C150240005ABBF3 /* OnboardingWizardViewModelTests.swift in Sources */,
 				BC5BACB72AB26F40003C880E /* MusculosTestBase.swift in Sources */,

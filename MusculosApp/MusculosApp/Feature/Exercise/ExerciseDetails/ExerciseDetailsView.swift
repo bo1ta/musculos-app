@@ -37,9 +37,11 @@ struct ExerciseDetailsView: View {
       
       Spacer()
     }
+    .task {
+      await viewModel.initialLoad()
+    }
     .onAppear {
       appManager.hideTabBar()
-      viewModel.initialLoad()
     }
     .onDisappear(perform: viewModel.cleanUp)
     .onReceive(viewModel.didSaveSessionSubject, perform: { didSave in
