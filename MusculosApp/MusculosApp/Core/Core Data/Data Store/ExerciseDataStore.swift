@@ -268,23 +268,10 @@ extension ExerciseDataStore {
   }
   
   private func mapGoalsToPredicate(_ goals: [Goal]) -> NSPredicate? {
-    let goalToExerciseCategories: [Goal.Category: [String]] = [
-      .growMuscle: [
-        ExerciseConstants.CategoryType.strength.rawValue,
-        ExerciseConstants.CategoryType.powerlifting.rawValue,
-        ExerciseConstants.CategoryType.strongman.rawValue,
-        ExerciseConstants.CategoryType.olympicWeightlifting.rawValue
-      ],
-      .loseWeight: [
-        ExerciseConstants.CategoryType.cardio.rawValue,
-        ExerciseConstants.CategoryType.stretching.rawValue
-      ]
-    ]
-    
     var predicate: NSPredicate?
     
     for goal in goals {
-      if let categories = goalToExerciseCategories[goal.category] {
+      if let categories = Self.goalToExerciseCategories[goal.category] {
         let categoryPredicate = NSPredicate(format: "category IN %@", categories)
         predicate = predicate == nil ? categoryPredicate : NSCompoundPredicate(orPredicateWithSubpredicates: [predicate!, categoryPredicate])
       }
@@ -294,3 +281,19 @@ extension ExerciseDataStore {
   }
 }
 
+// MARK: - Static properties
+
+extension ExerciseDataStore {
+  static let goalToExerciseCategories: [Goal.Category: [String]] = [
+    .growMuscle: [
+      ExerciseConstants.CategoryType.strength.rawValue,
+      ExerciseConstants.CategoryType.powerlifting.rawValue,
+      ExerciseConstants.CategoryType.strongman.rawValue,
+      ExerciseConstants.CategoryType.olympicWeightlifting.rawValue
+    ],
+    .loseWeight: [
+      ExerciseConstants.CategoryType.cardio.rawValue,
+      ExerciseConstants.CategoryType.stretching.rawValue
+    ]
+  ]
+}

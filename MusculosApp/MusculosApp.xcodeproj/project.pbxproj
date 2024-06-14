@@ -80,6 +80,7 @@
 		BC5FAA662B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5FAA652B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift */; };
 		BC606A622C1A773C00154781 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC606A612C1A773C00154781 /* DataStore.swift */; };
 		BC606A642C1B810200154781 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC606A632C1B810200154781 /* SwiftUIView.swift */; };
+		BC606A662C1CB3BA00154781 /* StubDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC606A652C1CB3BA00154781 /* StubDataStore.swift */; };
 		BC61A2E92BA5274500493311 /* BaseDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC61A2E82BA5274500493311 /* BaseDataStore.swift */; };
 		BC6249752BEC20BB00393915 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = BC6249742BEC20BB00393915 /* Shimmer */; };
 		BC62498C2BED2EF900393915 /* ExerciseEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6249832BED2EF900393915 /* ExerciseEntity+CoreDataClass.swift */; };
@@ -316,6 +317,7 @@
 		BC5FAA652B7EC37200B79D4B /* CodingUserInfoKey+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodingUserInfoKey+Extension.swift"; sourceTree = "<group>"; };
 		BC606A612C1A773C00154781 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		BC606A632C1B810200154781 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwiftUIView.swift; path = MusculosApp/Feature/SwiftUIView.swift; sourceTree = "<group>"; };
+		BC606A652C1CB3BA00154781 /* StubDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubDataStore.swift; sourceTree = "<group>"; };
 		BC61A2E82BA5274500493311 /* BaseDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataStore.swift; sourceTree = "<group>"; };
 		BC6249762BED2D2B00393915 /* Musculos 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 8.xcdatamodel"; sourceTree = "<group>"; };
 		BC6249832BED2EF900393915 /* ExerciseEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExerciseEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -1602,6 +1604,7 @@
 			isa = PBXGroup;
 			children = (
 				BCE19AC82C15E615005ABBF3 /* StubExerciseDataStore.swift */,
+				BC606A652C1CB3BA00154781 /* StubDataStore.swift */,
 			);
 			path = Stubs;
 			sourceTree = "<group>";
@@ -1978,6 +1981,7 @@
 			files = (
 				BC97C92F2BA0D4DD00AA07C4 /* MusculosError.swift in Sources */,
 				BC5BACAC2AB26D65003C880E /* MusculosLogger.swift in Sources */,
+				BC606A662C1CB3BA00154781 /* StubDataStore.swift in Sources */,
 				BCE19AC92C15E615005ABBF3 /* StubExerciseDataStore.swift in Sources */,
 				BCE19AC42C150240005ABBF3 /* OnboardingWizardViewModelTests.swift in Sources */,
 				BC5BACB72AB26F40003C880E /* MusculosTestBase.swift in Sources */,

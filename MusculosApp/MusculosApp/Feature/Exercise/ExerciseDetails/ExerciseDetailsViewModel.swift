@@ -41,7 +41,6 @@ final class ExerciseDetailsViewModel {
   
   private(set) var markFavoriteTask: Task<Void, Never>?
   private(set) var saveExerciseSessionTask: Task<Void, Never>?
-  private(set) var initialLoadTask: Task<Void, Never>?
   
   // MARK: - Init and Setup
   
@@ -98,9 +97,6 @@ final class ExerciseDetailsViewModel {
     saveExerciseSessionTask?.cancel()
     saveExerciseSessionTask = nil
     
-    initialLoadTask?.cancel()
-    initialLoadTask = nil
-    
     timer?.invalidate()
     timer = nil
   }
@@ -109,22 +105,19 @@ final class ExerciseDetailsViewModel {
 // MARK: - Data store methods
 
 extension ExerciseDetailsViewModel {
-  func initialLoad() {
-    initialLoadTask = Task { @MainActor in
-      isFavorite = await exerciseDataStore.isFavorite(exercise)
-    }
+  
+  @MainActor
+  func initialLoad() async {
+    isFavorite = await exerciseDataStore.isFavorite(exercise)
   }
   
   func updateFavorite(_ isFavorite: Bool) {
     markFavoriteTask?.cancel()
     
-    markFavoriteTask = Task {
+    markFavoriteTask = Task { @MainActor in
       do {
         try await exerciseDataStore.setIsFavorite(exercise, isFavorite: isFavorite)
-        
-        await MainActor.run {
-          didSaveFavoriteSubject.send(true)
-        }
+        didSaveFavoriteSubject.send(true)
       } catch {
         await MainActor.run {
           didSaveFavoriteSubject.send(false)

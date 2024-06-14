@@ -36,7 +36,16 @@ class StubExerciseDataStore: ExerciseDataStoreProtocol {
     return expectedExercises
   }
   
+  func getAllByGoals(_ goals: [Goal], fetchLimit: Int) async -> [Exercise] {
+    return expectedExercises
+  }
+  
+  func getAllExcludingMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
+    return expectedExercises
+  }
+  
   func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws {}
   
   func add(_ exercise: Exercise) async throws {}
+  
 }

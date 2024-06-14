@@ -65,6 +65,10 @@ class ExerciseDetailsViewModelTests: XCTestCase, MusculosTestBase {
 
 extension ExerciseDetailsViewModelTests {
   struct MockExerciseSessionDataStore: ExerciseSessionDataStoreProtocol {
+    func getCompletedSinceLastWeek() async -> [ExerciseSession] {
+      return []
+    }
+    
     func getAll() async -> [ExerciseSession] {
       return []
     }
