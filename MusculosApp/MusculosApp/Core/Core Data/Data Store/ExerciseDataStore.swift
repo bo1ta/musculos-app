@@ -109,7 +109,7 @@ struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
   
   func getAllByGoals(_ goals: [Goal], fetchLimit: Int) async -> [Exercise] {
     return await storageManager.performReadOperation { viewStorage in
-      let predicate = mapGoalsToPredicate(goals)
+      let predicate = mapGoalsToCategoryPredicate(goals)
       return viewStorage.allObjects(
         ofType: ExerciseEntity.self,
         fetchLimit: fetchLimit,
@@ -267,7 +267,7 @@ extension ExerciseDataStore {
     return (primaryMusclesEntity, secondaryMusclesEntity)
   }
   
-  private func mapGoalsToPredicate(_ goals: [Goal]) -> NSPredicate? {
+  private func mapGoalsToCategoryPredicate(_ goals: [Goal]) -> NSPredicate? {
     var predicate: NSPredicate?
     
     for goal in goals {
