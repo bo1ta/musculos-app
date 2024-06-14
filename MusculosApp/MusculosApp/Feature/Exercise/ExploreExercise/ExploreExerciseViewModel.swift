@@ -36,6 +36,7 @@ final class ExploreExerciseViewModel {
   // MARK: - Observed properties
   
   var exercisesCompletedToday: [ExerciseSession] = []
+  var progress: Float = 0.0
   var goals: [Goal] = []
   var errorMessage = ""
   var searchQuery = ""
@@ -79,7 +80,7 @@ final class ExploreExerciseViewModel {
   private func setupNotificationPublisher() {
     NotificationCenter.default.publisher(for: .CoreModelDidChange, object: nil)
       .sink { [weak self] notification in
-        guard let event = notification.userInfo?[UpdatableModel.userInfoKey] as? UpdatableModel else { return }
+        guard let event = notification.userInfo?[ModelUpdatedEvent.userInfoKey] as? ModelUpdatedEvent else { return }
         
         self?.handleUpdate(event)
       }
@@ -170,7 +171,7 @@ extension ExploreExerciseViewModel {
   
   @MainActor
   func refreshExercisesCompletedToday() async {
-    exercisesCompletedToday = await dataStore.loadExerciseSessions()
+    exercisesCompletedToday = await dataStore.exerciseSessionDataStore.getCompletedToday()
   }
   
   @MainActor
@@ -216,11 +217,11 @@ extension ExploreExerciseViewModel {
 // MARK: - Model Event Handling
 
 extension ExploreExerciseViewModel {
-  func handleUpdate(_ modelEvent: UpdatableModel) {
+  func handleUpdate(_ event: ModelUpdatedEvent) {
     updateTask?.cancel()
     
     updateTask = Task {
-      switch modelEvent {
+      switch event {
       case .didAddGoal:
         await handleDidAddGoalEvent()
       case .didAddExerciseSession:

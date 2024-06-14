@@ -30,7 +30,7 @@ protocol AppManagerProtocol {
   /// Notify a model update.
   /// Posts a notification that for refreshing the data (if needed)
   /// 
-  func notifyModelUpdate(_ event: UpdatableModel)
+  func notifyModelUpdate(_ event: ModelUpdatedEvent)
 }
 
 /// Helper manager that is passed from the root level
@@ -63,7 +63,7 @@ extension AppManager: AppManagerProtocol {
   }
   
   @MainActor
-  func notifyModelUpdate(_ event: UpdatableModel) {
-    NotificationCenter.default.post(name: .CoreModelDidChange, object: nil, userInfo: [UpdatableModel.userInfoKey: event])
+  func notifyModelUpdate(_ event: ModelUpdatedEvent) {
+    NotificationCenter.default.post(name: .CoreModelDidChange, object: nil, userInfo: [ModelUpdatedEvent.userInfoKey: event])
   }
 }
