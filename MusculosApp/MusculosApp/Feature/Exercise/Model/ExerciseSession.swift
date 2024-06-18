@@ -13,5 +13,3 @@ struct ExerciseSession: Codable {
   let user: Person
   let exercise: Exercise
 }
-
-extension ExerciseSession: Recommendable {}

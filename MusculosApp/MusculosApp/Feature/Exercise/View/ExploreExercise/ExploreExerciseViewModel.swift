@@ -16,7 +16,7 @@ final class ExploreExerciseViewModel {
   // MARK: - Dependencies
   
   @ObservationIgnored
-  @Injected(\.exerciseModule) private var module: ExerciseModuleProtocol
+  @Injected(\.exerciseService) private var service: ExerciseServiceProtocol
   
   @ObservationIgnored
   @Injected(\.dataStore) private var dataStore: DataStoreProtocol
@@ -125,7 +125,7 @@ extension ExploreExerciseViewModel {
   
   func loadRemoteExercises() async {
     do {
-      let exercises = try await module.getExercises()
+      let exercises = try await service.getExercises()
       await MainActor.run {
         contentState = .loaded(exercises)
       }
@@ -144,7 +144,7 @@ extension ExploreExerciseViewModel {
       contentState = .loading
       
       do {
-        let exercises = try await module.searchByMuscleQuery(query)
+        let exercises = try await service.searchByMuscleQuery(query)
         contentState = .loaded(exercises)
       } catch {
         contentState = .error(MessageConstant.genericErrorMessage.rawValue)

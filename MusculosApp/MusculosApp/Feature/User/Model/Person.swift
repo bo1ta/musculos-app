@@ -35,5 +35,3 @@ extension Person: Hashable {
     hasher.combine(email)
   }
 }
-
-extension Person: Recommendable {}

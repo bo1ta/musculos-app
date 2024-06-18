@@ -1,5 +1,5 @@
 //
-//  ExerciseModuleTests.swift
+//  ExerciseServiceTests.swift
 //  MusculosAppTests
 //
 //  Created by Solomon Alexandru on 20.09.2023.
@@ -11,7 +11,7 @@ import Factory
 
 @testable import MusculosApp
 
-class ExerciseModuleTests: XCTestCase, MusculosTestBase {
+class ExerciseServiceTests: XCTestCase, MusculosTestBase {
   override class func tearDown() {
     MockURLProtocol.clear()
     super.tearDown()
@@ -23,7 +23,7 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
     let configuration = self.createMockSession(jsonFileName: "getExercises", expectation: expectation)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = ExerciseModule(client: client, dataStore: StubExerciseDataStore())
+    let module = ExerciseService(client: client, dataStore: StubExerciseDataStore())
     
     do {
       let exercises = try await module.getExercises()
@@ -42,7 +42,7 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
     
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = ExerciseModule(client: client, dataStore: StubExerciseDataStore())
+    let module = ExerciseService(client: client, dataStore: StubExerciseDataStore())
     
     do {
       _ = try await module.getExercises()
@@ -60,7 +60,7 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
     
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = ExerciseModule(client: client, dataStore: StubExerciseDataStore())
+    let module = ExerciseService(client: client, dataStore: StubExerciseDataStore())
     
     do {
       let exercises = try await module.searchByMuscleQuery("muscle")
@@ -78,7 +78,7 @@ class ExerciseModuleTests: XCTestCase, MusculosTestBase {
     
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = ExerciseModule(client: client, dataStore: StubExerciseDataStore())
+    let module = ExerciseService(client: client, dataStore: StubExerciseDataStore())
     
     do {
       _ = try await module.searchByMuscleQuery("muscle")

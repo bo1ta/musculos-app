@@ -19,10 +19,10 @@ class AuthViewModel {
   
   private(set) var authTask: Task<Void, Never>?
   
-  private let module: Authenticatable
+  private let service: AuthServiceProtocol
   
-  init(module: Authenticatable = AuthModule()) {
-    self.module = module
+  init(service: AuthServiceProtocol = AuthService()) {
+    self.service = service
   }
   
   func signIn() {
@@ -31,7 +31,7 @@ class AuthViewModel {
       self.state = .loading
       
       do {
-        try await self.module.login(
+        try await self.service.login(
           email: self.email,
           password: self.password
         )
@@ -50,7 +50,7 @@ class AuthViewModel {
       self.state = .loading
       
       do {
-        try await self.module.register(
+        try await self.service.register(
           email: self.email,
           password: self.password,
           username: self.username,

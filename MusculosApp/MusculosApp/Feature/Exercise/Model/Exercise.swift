@@ -75,5 +75,3 @@ extension Exercise: Identifiable {
     return lhs.id == rhs.id
   }
 }
-
-extension Exercise: Recommendable {}

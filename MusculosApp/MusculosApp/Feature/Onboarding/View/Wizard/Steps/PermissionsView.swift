@@ -47,7 +47,7 @@ struct PermissionsView: View {
     .safeAreaInset(edge: .bottom) {
       HStack {
         Button {
-          Task { 
+          Task {
             await healthKitViewModel.requestPermissions()
             onDone()
           }

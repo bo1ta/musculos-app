@@ -1,5 +1,5 @@
 //
-//  ExerciseModule.swift
+//  ExerciseService.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 26.01.2024.
@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol ExerciseModuleProtocol {
+protocol ExerciseServiceProtocol {
   var dataStore: ExerciseDataStoreProtocol { get set }
   func getExercises() async throws -> [Exercise]
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise]
 }
 
-struct ExerciseModule: ExerciseModuleProtocol, MusculosModule {
+struct ExerciseService: ExerciseServiceProtocol, MusculosService {
   var client: MusculosClientProtocol
   var dataStore: ExerciseDataStoreProtocol
 

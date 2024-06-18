@@ -59,5 +59,3 @@ struct Goal {
     self.isCompleted = isCompleted
   }
 }
-
-extension Goal: Recommendable {}

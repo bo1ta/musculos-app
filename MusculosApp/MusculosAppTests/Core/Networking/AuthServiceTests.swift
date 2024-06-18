@@ -1,5 +1,5 @@
 //
-//  AuthModuleTests.swift
+//  AuthServiceTests.swift
 //  MusculosAppTests
 //
 //  Created by Solomon Alexandru on 26.03.2024.
@@ -9,7 +9,7 @@ import XCTest
 
 @testable import MusculosApp
 
-final class AuthModuleTests: XCTestCase, MusculosTestBase {
+final class AuthServiceTests: XCTestCase, MusculosTestBase {
   override func tearDown() {
     MockURLProtocol.clear()
     super.tearDown()
@@ -22,7 +22,7 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     let configuration = self.createMockSession(jsonFileName: "authenticationResult", expectation: requestExpectation)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = AuthModule(client: client, dataStore: MockDataStore())
+    let module = AuthService(client: client, dataStore: MockDataStore())
   
     do {
       try await module.login(email: "email", password: "password")
@@ -41,7 +41,7 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     let configuration = self.createMockSession(expectation: requestExpectation, shouldFail: true)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = AuthModule(client: client, dataStore: MockDataStore())
+    let module = AuthService(client: client, dataStore: MockDataStore())
     
     do {
       _ = try await module.login(email: "email", password: "password")
@@ -63,7 +63,7 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     let client = MusculosClient(urlSession: urlSession)
     let mockDataStore = MockDataStore()
     mockDataStore.createUserExpectation = createUserExpectation
-    let module = AuthModule(client: client, dataStore: mockDataStore)
+    let module = AuthService(client: client, dataStore: mockDataStore)
     
     do {
       try await module.register(email: "email", password: "password", username: "username", fullName: "full name")
@@ -82,7 +82,7 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
     let configuration = self.createMockSession(expectation: requestExpectation, shouldFail: true)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = AuthModule(client: client, dataStore: MockDataStore())
+    let module = AuthService(client: client, dataStore: MockDataStore())
     
     do {
       _ = try await module.login(email: "email", password: "password")
@@ -95,7 +95,7 @@ final class AuthModuleTests: XCTestCase, MusculosTestBase {
   }
 }
 
-extension AuthModuleTests {
+extension AuthServiceTests {
   class MockDataStore: UserDataStoreProtocol {
     
     var createUserExpectation: XCTestExpectation?

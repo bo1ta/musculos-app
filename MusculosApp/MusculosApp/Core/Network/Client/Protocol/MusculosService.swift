@@ -1,5 +1,5 @@
 //
-//  MuscleModuleProtocol.swift
+//  MusculosService.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 20.02.2024.
@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol MusculosModule {
+protocol MusculosService {
   var client: MusculosClientProtocol { get set }
 }

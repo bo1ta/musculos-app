@@ -1,5 +1,5 @@
 //
-//  AuthModule.swift
+//  AuthService.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 10.06.2023.
@@ -7,7 +7,13 @@
 
 import Foundation
 
-struct AuthModule: MusculosModule {
+protocol AuthServiceProtocol {
+  var dataStore: UserDataStoreProtocol { get set }
+  func register(email: String, password: String, username: String, fullName: String) async throws
+  func login(email: String, password: String) async throws
+}
+
+struct AuthService: MusculosService {
   var client: MusculosClientProtocol
   var dataStore: UserDataStoreProtocol
   
@@ -18,7 +24,7 @@ struct AuthModule: MusculosModule {
   }
 }
 
-extension AuthModule: Authenticatable {
+extension AuthService: AuthServiceProtocol {
   func register(email: String, password: String, username: String, fullName: String) async throws {
     var body = [
       "email": email,
@@ -49,7 +55,7 @@ extension AuthModule: Authenticatable {
 
 // MARK: - Authentication Result helper
 //
-extension AuthModule {
+extension AuthService {
   struct AuthenticationResult: Codable, DecodableModel {
     var token: String
   }
