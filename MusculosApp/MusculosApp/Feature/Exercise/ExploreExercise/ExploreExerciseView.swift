@@ -43,7 +43,7 @@ struct ExploreExerciseView: View {
       }
       .popover(isPresented: $viewModel.showFilterView) {
         ExerciseFilterView(onFiltered: { filteredExercises in
-          viewModel.updateContentState(with: filteredExercises)
+          viewModel.contentState = .loaded(filteredExercises)
         })
       }
       .background(

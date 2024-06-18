@@ -25,12 +25,6 @@ final class ExploreExerciseViewModel {
   @Injected(\.recommendationEngine) private var recommendationEngine: RecommendationEngine
   
   @ObservationIgnored
-  private var localResults: [Exercise] = []
-  
-  @ObservationIgnored
-  private var remoteResults: [Exercise] = []
-  
-  @ObservationIgnored
   private var cancellables = Set<AnyCancellable>()
   
   // MARK: - Observed properties
@@ -108,8 +102,7 @@ extension ExploreExerciseViewModel {
     async let completedTodayExercisesTask: Void = refreshExercisesCompletedToday()
     async let goalsTask: Void = refreshGoals()
     
-    await refreshRemoteExercises()
-    await updateContentState(with: remoteResults)
+    await loadRemoteExercises()
     
     let (_, _) = await (completedTodayExercisesTask, goalsTask)
     
@@ -130,10 +123,12 @@ extension ExploreExerciseViewModel {
     }
   }
   
-  func refreshRemoteExercises() async {
+  func loadRemoteExercises() async {
     do {
       let exercises = try await module.getExercises()
-      remoteResults = exercises
+      await MainActor.run {
+        contentState = .loaded(exercises)
+      }
     } catch {
       await MainActor.run {
         contentState = .error(MessageConstant.genericErrorMessage.rawValue)
@@ -158,16 +153,17 @@ extension ExploreExerciseViewModel {
     }
   }
   
-  func refreshLocalExercises() async {
+  @MainActor
+  func loadLocalExercises() async {
     let exercises = await dataStore.loadExercises(fetchLimit: 20)
-    localResults = exercises
+    contentState = .loaded(exercises)
   }
   
-  func refreshFavoriteExercises() async {
-    let favoriteExercises = await dataStore.exerciseDataStore.getAllFavorites()
-    localResults = favoriteExercises
+  @MainActor
+  func loadFavoriteExercises() async {
+    let exercises = await dataStore.exerciseDataStore.getAllFavorites()
+    contentState = .loaded(exercises)
   }
-  
   
   @MainActor
   func refreshExercisesCompletedToday() async {
@@ -189,28 +185,13 @@ extension ExploreExerciseViewModel {
     updateTask = Task { @MainActor in
       switch section {
       case .discover:
-        await handleDiscoverSection()
+        await loadRemoteExercises()
       case .workout:
-        await handleWorkoutSection()
+        await loadLocalExercises()
       case .myFavorites:
-        await handleFavoriteSection()
+        await loadFavoriteExercises()
       }
     }
-  }
-  
-  private func handleDiscoverSection() async {
-    await refreshRemoteExercises()
-    await updateContentState(with: remoteResults)
-  }
-  
-  private func handleWorkoutSection() async {
-    await refreshLocalExercises()
-    await updateContentState(with: localResults)
-  }
-  
-  private func handleFavoriteSection() async {
-    await refreshFavoriteExercises()
-    await updateContentState(with: localResults)
   }
 }
 
@@ -246,28 +227,19 @@ extension ExploreExerciseViewModel {
   
   private func handleDidAddExerciseEvent() async {
     await dataStore.invalidateExercises()
-    await refreshLocalExercises()
     
     if currentSection == .workout {
-      await updateContentState(with: localResults)
+      await loadLocalExercises()
     }
   }
   
   private func handleDidFavoriteExercise() async {
     guard currentSection == .myFavorites else { return }
-    
-    await handleFavoriteSection()
+    await loadFavoriteExercises()
   }
 }
 
 // MARK: - Helpers
-
-extension ExploreExerciseViewModel {
-  @MainActor
-  func updateContentState(with exercises: [Exercise]) {
-    contentState = .loaded(exercises)
-  }
-}
 
 enum ExploreCategorySection: String, CaseIterable {
   case discover, workout, myFavorites

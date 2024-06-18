@@ -212,12 +212,13 @@ extension ExerciseDataStore {
 
 extension ExerciseDataStore {
   
-  /// Returns a tuple of `PrimaryMuscleEntity`and `SecondaryMuscleEntity` sets synced to an `ExerciseEntity`
-  /// Params:
-  ///   `exerciseEntity` - The object to be inserted in the the many-to-many relationship
-  ///   `primaryMuscles` - Muscles as strings
-  ///   `secondaryMuscles` - Muscles as strings
-  ///
+  /// Syncs muscles to an ExerciseEntity, ensuring relationships are properly maintained.
+  /// - Parameters:
+  ///   - exerciseEntity: The `ExerciseEntity` to update.
+  ///   - primaryMuscles: A list of primary muscle IDs.
+  ///   - secondaryMuscles: A list of secondary muscle IDs.
+  ///   - writerStorage: The storage context for writing.
+  /// - Returns: A tuple containing sets of primary and secondary muscle entities.
   private func syncMusclesToExerciseEntity(
     exerciseEntity: ExerciseEntity,
     primaryMuscles: [String],
