@@ -46,7 +46,7 @@ struct DialogSelectView: View {
             step: 1
           )
           .tint(Color.AppColor.blue500)
-          .padding([.leading, .trailing], 15)
+          .padding(.horizontal, 15)
           
           Text(String(Int(selectedValue)))
             .font(.body(.bold, size: 15))

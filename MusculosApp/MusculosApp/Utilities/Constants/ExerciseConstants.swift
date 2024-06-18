@@ -21,7 +21,13 @@ public struct ExerciseConstants {
   }
   
   enum EquipmentType: String, CaseIterable {
-    case machine, other, kettlebells, dumbbell, cable, barbell, bands
+    case machine
+    case other
+    case kettlebells
+    case dumbbell
+    case cable
+    case barbell
+    case bands
     case bodyOnly = "body only"
     case foamRoll = "foam roll"
     case medicineBall = "medicine ball"

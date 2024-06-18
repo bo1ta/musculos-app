@@ -117,14 +117,14 @@ struct ChallengeExerciseView: View {
             .fontWeight(.medium)
             .multilineTextAlignment(.center)
             .lineLimit(nil)
-            .padding([.leading, .trailing], 10)
+            .padding(.horizontal, 10)
         }
         
         circleView
           .padding(.top)
       }
     }
-    .padding([.leading, .trailing], 10)
+    .padding(.horizontal, 10)
   }
   
   @ViewBuilder

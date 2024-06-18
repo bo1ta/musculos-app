@@ -103,7 +103,7 @@ struct ChallengeView: View {
         .bold()
       Color.white
         .frame(height: 1 / UIScreen.main.scale)
-        .padding([.leading, .trailing], 50)
+        .padding(.horizontal, 50)
         .opacity(0.8)
     })
   }
@@ -115,7 +115,7 @@ struct ChallengeView: View {
       Spacer()
       addPersonButton
     }
-    .padding([.leading, .trailing], 15)
+    .padding(.horizontal, 15)
   }
   
   @ViewBuilder
@@ -174,7 +174,7 @@ extension ChallengeView {
             .foregroundStyle(.gray)
             .opacity(viewOpacity)
         }
-        .padding([.leading, .top], 10)
+        .padding(.horizontal, 10)
         Spacer()
         
         let minutesFromSeconds = challengeExercise.duration / 60

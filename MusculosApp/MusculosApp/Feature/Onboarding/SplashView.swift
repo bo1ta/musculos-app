@@ -33,7 +33,7 @@ struct SplashView: View {
             .shadow(radius: 1.0)
           }
           .padding(.bottom, 80)
-          .padding([.leading, .trailing], 40)
+          .padding(.horizontal, 10)
         })
         .ignoresSafeArea()
     }

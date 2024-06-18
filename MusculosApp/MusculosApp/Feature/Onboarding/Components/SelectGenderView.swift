@@ -26,7 +26,7 @@ struct SelectGenderView: View {
       createGenderCard(.male)
       createGenderCard(.female)
     }
-    .padding([.leading, .trailing], 10)
+    .padding(.horizontal, 10)
   }
 
   func createGenderCard(_ gender: Gender) -> some View {
@@ -50,7 +50,7 @@ struct SelectGenderView: View {
       }
       .scaleEffect(isSelected ? 0.95 : 1.0)
       Text(gender.rawValue.capitalized)
-        .font(.body(.regular, size: 20))
+        .font(.body(.regular, size: 18))
         .foregroundStyle(selectedColor)
     }
     .padding()

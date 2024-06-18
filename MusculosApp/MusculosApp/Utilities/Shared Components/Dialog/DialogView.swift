@@ -44,7 +44,7 @@ struct DialogView: View {
             Text(description)
               .font(.body(.regular, size: 10))
               .foregroundStyle(.black)
-              .padding([.leading, .trailing], 60)
+              .padding(.horizontal, 60)
           }
           
           Spacer()

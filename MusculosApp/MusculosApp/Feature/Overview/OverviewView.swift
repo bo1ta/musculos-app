@@ -32,7 +32,7 @@ struct OverviewView: View {
         
         WhiteBackgroundCard()
       }
-      .padding([.leading, .trailing], 15)
+      .padding(.horizontal, 15)
     }
     .task {
       if healthKitViewModel.isAuthorized {

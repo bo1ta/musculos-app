@@ -43,7 +43,7 @@ struct SearchFilterField: View {
         hasObservedQuery(query)
       }
     }
-    .padding([.leading, .trailing], 10)
+    .padding(.horizontal, 10)
   }
 }
 

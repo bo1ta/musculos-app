@@ -21,7 +21,7 @@ struct SignUpView: View {
       registerForm
 //      socialLoginSection
     }
-    .padding([.leading, .trailing], 20)
+    .padding(.horizontal, 20)
     .onDisappear(perform: viewModel.cleanUp)
   }
 }

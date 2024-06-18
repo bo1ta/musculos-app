@@ -8,18 +8,22 @@
 import SwiftUI
 
 struct SelectGoalView: View {
-  @Binding var selectedGoal: OnboardingGoal?
+  @Binding var selectedGoal: OnboardingData.Goal?
   
   var body: some View {
     VStack(spacing: 15) {
-      createGoalCard(.loseWeight)
-      createGoalCard(.getFitter)
-      createGoalCard(.gainMuscles)
+      ForEach(OnboardingData.Goal.allCases, id: \.self) { goal in
+        OnboardingOptionCardView(
+          onboardingOption: goal,
+          isSelected: selectedGoal == goal,
+          didTap: { selectedGoal = goal }
+        )
+      }
     }
     .padding(20)
   }
   
-  private func createGoalCard(_ goal: OnboardingGoal) -> some View {
+  private func createGoalCard(_ goal: OnboardingData.Goal) -> some View {
     let isSelected = selectedGoal == goal
     let color: Color = isSelected ? Color.AppColor.blue500 : .black
     
@@ -58,7 +62,7 @@ struct SelectGoalView: View {
                 }
             }
           }
-          .padding([.leading, .trailing], 20)
+          .padding(.horizontal, 20)
         }
     }
     .scaleEffect(isSelected ? 0.98 : 1.0)

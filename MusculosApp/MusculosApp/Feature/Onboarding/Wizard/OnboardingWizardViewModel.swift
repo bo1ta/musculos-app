@@ -14,37 +14,34 @@ class OnboardingWizardViewModel {
   var selectedGender: Gender? = nil
   var selectedWeight: Int? = nil
   var selectedHeight: Int? = nil
-  var selectedGoal: OnboardingGoal? = nil
-  
-  // false if we are at the last step -- at that point we have to submit the data
+  var selectedGoal: OnboardingData.Goal? = nil
+  var selectedLevel: OnboardingData.Level? = nil
+  var selectedEquipment: OnboardingData.Equipment? = nil
+    
   var canHandleNextStep: Bool {
-    wizardStep != .permissions
+    return OnboardingWizardStep(rawValue: wizardStep.rawValue + 1) != nil
   }
   
   func handleNextStep() {
-    if wizardStep == .gender {
-      wizardStep = .heightAndWeight
-    } else if wizardStep == .heightAndWeight {
-      wizardStep = .goal
-    } else if wizardStep == .goal {
-      wizardStep = .permissions
+    if let nextStep = OnboardingWizardStep(rawValue: wizardStep.rawValue + 1) {
+      wizardStep = nextStep
+    } else {
+      
     }
   }
   
   func handleBack() {
-    if wizardStep == .heightAndWeight {
-      wizardStep = .gender
-    } else {
-      wizardStep = .heightAndWeight
-    }
+    guard wizardStep.rawValue > 0, let previousStep = OnboardingWizardStep(rawValue: wizardStep.rawValue - 1) else { return }
+    
+    wizardStep = previousStep
   }
 }
 
 // MARK: - Step enum
 
 extension OnboardingWizardViewModel {
-  enum OnboardingWizardStep {
-    case gender, heightAndWeight, goal, permissions
+  enum OnboardingWizardStep: Int {
+    case gender, heightAndWeight, level, goal, equipment, permissions
     
     var title: String {
       switch self {
@@ -52,8 +49,12 @@ extension OnboardingWizardViewModel {
         "What is your gender?"
       case .heightAndWeight:
         "What is your weight and height?"
+      case .level:
+        "How would you describe your current workout experience level?"
       case .goal:
         "What is your goal?"
+      case .equipment:
+        "What equipment do you have access to?"
       case .permissions:
         "Permissions"
       }

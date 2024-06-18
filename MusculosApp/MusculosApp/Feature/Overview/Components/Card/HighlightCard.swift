@@ -46,7 +46,7 @@ struct HighlightCard: View {
                 .font(.body(.regular, size: 12))
             }
           }
-          .padding([.leading, .trailing], 10)
+          .padding(.horizontal, 10)
         }
         .foregroundStyle(.white)
       }

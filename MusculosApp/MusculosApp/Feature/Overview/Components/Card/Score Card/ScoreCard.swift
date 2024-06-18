@@ -55,8 +55,7 @@ struct ScoreCard: View {
           ScoreBadge(value: score, color: badgeColor)
             .padding(.top, -30)
         }
-        .padding([.leading, .trailing], 10)
-        
+        .padding(.horizontal, 10)
       }
   }
 }

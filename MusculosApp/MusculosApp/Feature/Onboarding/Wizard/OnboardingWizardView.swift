@@ -11,39 +11,60 @@ import HealthKitUI
 struct OnboardingWizardView: View {
   @Environment(\.userStore) private var userStore: UserStore
   @State private var viewModel = OnboardingWizardViewModel()
-    
+  
   var body: some View {
     VStack {
       navigationBar
-  
-      Text(viewModel.wizardStep.title)
-        .font(.header(.bold, size: 25))
-        .padding(.top, 20)
-      Text(headerTitle)
-        .font(.header(.regular, size: 18))
-        .padding(.top, 5)
-      Spacer()
-      
-      switch viewModel.wizardStep {
-      case .gender:
-        SelectGenderView(selectedGender: $viewModel.selectedGender)
-      case .heightAndWeight:
-        SelectSizeView(selectedWeight: $viewModel.selectedWeight, selectedHeight: $viewModel.selectedHeight)
-      case .goal:
-        SelectGoalView(selectedGoal: $viewModel.selectedGoal)
-      case .permissions:
-        PermissionsView(onDone: {
-            handleSubmit()
-        })
+      ScrollView {
+        VStack {
+          
+          Text(viewModel.wizardStep.title)
+            .font(.header(.bold, size: 22))
+            .padding(.top, 20)
+            .lineLimit(10)
+          Text(headerTitle)
+            .font(.header(.regular, size: 16))
+            .foregroundStyle(.gray)
+            .opacity(0.7)
+            .padding(.top, 5)
+          
+          VStack {
+            switch viewModel.wizardStep {
+            case .gender:
+              SelectGenderView(selectedGender: $viewModel.selectedGender)
+                .transition(.move(edge: .leading))
+            case .heightAndWeight:
+              SelectSizeView(selectedWeight: $viewModel.selectedWeight, selectedHeight: $viewModel.selectedHeight)
+                .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+            case .level:
+              SelectLevelView(selectedLevel: $viewModel.selectedLevel)
+                .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+            case .goal:
+              SelectGoalView(selectedGoal: $viewModel.selectedGoal)
+                .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+            case .equipment:
+              SelectEquipmentView(selectedEquipment: $viewModel.selectedEquipment)
+                .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+            case .permissions:
+              PermissionsView(onDone: {
+                handleSubmit()
+              })
+              .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .push(from: .top)))
+            }
+          }
+          .animation(.easeInOut(duration: 0.2), value: viewModel.wizardStep)
+          
+          WhiteBackgroundCard()
+        }
       }
-      
-      Spacer()
-      
+    }
+    .safeAreaInset(edge: .bottom) {
       if viewModel.wizardStep != .permissions {
         primaryButton
       }
     }
-    .padding([.leading, .trailing], 10)
+    .scrollIndicators(.hidden)
+    .padding(.horizontal, 10)
   }
 }
 
@@ -61,7 +82,7 @@ extension OnboardingWizardView {
         }
         Spacer()
       }
-      .padding([.leading, .trailing], 20)
+      .padding(.horizontal, 20)
     }
   }
   
@@ -90,7 +111,7 @@ extension OnboardingWizardView {
       gender: viewModel.selectedGender,
       weight: viewModel.selectedWeight,
       height: viewModel.selectedHeight,
-      goalId: viewModel.selectedGoal?.rawValue
+      goalId: 2
     )
   }
 }

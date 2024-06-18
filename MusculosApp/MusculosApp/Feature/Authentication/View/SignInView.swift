@@ -29,7 +29,7 @@ struct SignInView: View {
         Spacer()
         signUpButton
       }
-      .padding([.leading, .trailing], 20)
+      .padding(.horizontal, 20)
       .onDisappear(perform: viewModel.cleanUp)
       .navigationTitle("")
       .navigationDestination(isPresented: $viewModel.showRegister) {

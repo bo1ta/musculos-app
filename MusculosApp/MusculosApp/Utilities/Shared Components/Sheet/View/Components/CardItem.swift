@@ -35,7 +35,7 @@ struct CardItem: View {
                   .stroke(.gray, lineWidth: 1)
               )
           }
-          .padding([.leading, .trailing], 20)
+          .padding(.horizontal, 20)
         })
       }
   }
@@ -61,7 +61,7 @@ struct CardItemShimmering: View {
             .shimmering()
           Spacer()
         }
-        .padding([.leading, .trailing], 20)
+        .padding(.horizontal, 20)
       }
       .shimmering()
   }

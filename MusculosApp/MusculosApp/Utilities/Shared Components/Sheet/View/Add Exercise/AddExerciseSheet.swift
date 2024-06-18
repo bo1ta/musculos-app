@@ -82,7 +82,7 @@ struct AddExerciseSheet: View {
       WhiteBackgroundCard()
     }
     .scrollIndicators(.hidden)
-    .padding([.leading, .trailing, .top], 15)
+    .padding(.horizontal, 15)
     .sheet(isPresented: $showPhotosPicker, content: {
       PhotosPicker(assets: $pickedPhotos)
     })
@@ -103,7 +103,8 @@ struct AddExerciseSheet: View {
           .frame(maxWidth: .infinity)
       })
       .buttonStyle(PrimaryButtonStyle())
-      .padding([.leading, .trailing], 10)
+      .padding(.horizontal, 10)
+      .padding(.bottom)
     }
   }
   

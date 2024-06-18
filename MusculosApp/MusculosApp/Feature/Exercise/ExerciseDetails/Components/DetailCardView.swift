@@ -17,7 +17,7 @@ struct DetailCardView: View {
     RoundedRectangle(cornerRadius: 10)
       .frame(maxWidth: .infinity)
       .frame(minHeight: textHeight)
-      .padding([.leading, .trailing])
+      .padding(.horizontal)
       .foregroundStyle(.white)
       .shadow(color: .black.opacity(0.5), radius: 0.8)
       .overlay {

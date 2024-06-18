@@ -64,14 +64,14 @@ struct AddWorkoutSheet: View {
         .padding(.top, 20)
     }
     .scrollIndicators(.hidden)
-    .padding([.leading, .trailing, .top], 15)
+    .padding(.horizontal, 15)
     .safeAreaInset(edge: .bottom) {
       Button(action: viewModel.submitWorkout, label: {
         Text("Save")
           .frame(maxWidth: .infinity)
       })
       .buttonStyle(PrimaryButtonStyle())
-      .padding([.leading, .trailing], 10)
+      .padding(.horizontal, 10)
     }
     .dialog(
       style: .select,

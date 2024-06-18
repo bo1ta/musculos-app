@@ -21,7 +21,7 @@ struct ExploreExerciseView: View {
             description: "75% of your weekly muscle building goal",
             progress: 0.75
           )
-          .padding([.leading, .trailing], 10)
+          .padding(.horizontal, 10)
           .padding(.top, 20)
           
           SearchFilterField(
@@ -71,10 +71,3 @@ struct ExploreExerciseView: View {
   ExploreExerciseView()
 }
 
-typealias ExploreExerciseResult = [ExploreExerciseContentType: [Exercise]]
-
-enum ExploreExerciseContentType {
-  case random
-  case recommendedByGoals
-  case recommendedByPastWorkouts
-}
