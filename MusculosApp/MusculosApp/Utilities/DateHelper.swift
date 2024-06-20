@@ -39,4 +39,10 @@ struct DateHelper {
     
     return calendar.date(byAdding: dateComponents, to: now)
   }
+  
+  static func currentDayDisplay() -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "E dd MMM" // Format: Tue 11 Jul
+    return dateFormatter.string(from: Date())
+  }
 }

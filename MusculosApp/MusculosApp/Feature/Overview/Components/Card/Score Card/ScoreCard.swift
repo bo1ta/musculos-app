@@ -20,7 +20,7 @@ struct ScoreCard: View {
        score: Int,
        onTap: @escaping () -> Void,
        color: Color = Color.AppColor.blue100,
-       badgeColor: Color = .green
+       badgeColor: Color = Color.AppColor.blue500
   ) {
     self.title = title
     self.description = description
@@ -41,9 +41,9 @@ struct ScoreCard: View {
         HStack(alignment: .top) {
           VStack(alignment: .leading, spacing: 8) {
             Text(title)
-              .font(.body(.bold, size: 20))
+              .font(AppFont.header(.bold, size: 22))
             Text(description)
-              .font(.body(.regular, size: 15))
+              .font(.body(.light, size: 13))
             Button(action: onTap, label: {
               Text("Tell me more")
                 .font(.body(.regular, size: 12))

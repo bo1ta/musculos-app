@@ -28,5 +28,7 @@ extension Color {
     static let green600 = Color("Green600")
     static let green700 = Color("Green700")
     static let green800 = Color("Green800")
+    
+    static let darkPurple = Color("DarkPurple")
   }
 }

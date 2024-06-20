@@ -37,16 +37,16 @@ struct HighlightCard: View {
             }
             .padding(.bottom, 20)
             
-            VStack(alignment: .leading, spacing: 3) {
+            VStack(alignment: .leading, spacing: 6) {
               Text(title)
-                .font(.header(.medium, size: 18))
+                .font(AppFont.header(.regular, size: 18))
               Text(value)
-                .font(.body(.regular, size: 25))
+                .font(AppFont.header(.bold, size: 25))
               Text(description)
                 .font(.body(.regular, size: 12))
             }
           }
-          .padding(.horizontal, 10)
+          .padding(.horizontal, 20)
         }
         .foregroundStyle(.white)
       }
