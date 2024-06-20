@@ -110,18 +110,18 @@ final class AuthViewModelTests: XCTestCase, MusculosTestBase {
 ///
 extension AuthViewModelTests {
   class MockDataStore: UserDataStoreProtocol {
-    func loadCurrentPerson() async -> Person? {
-      return Person(email: "email", username: "username")
+    var updateUserExpectation: XCTestExpectation?
+    func updateUser(gender: String?, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws {
+      updateUserExpectation?.fulfill()
+    }
+    
+    func loadCurrentUser() async -> User? {
+      return User(email: "email", username: "username")
     }
     
     var createUserExpectation: XCTestExpectation?
-    func createUser(person: Person) async {
+    func createUser(person: User) async {
       createUserExpectation?.fulfill()
-    }
-    
-    var updateUserExpectation: XCTestExpectation?
-    func updateUser(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async {
-      updateUserExpectation?.fulfill()
     }
   }
   

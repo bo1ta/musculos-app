@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PersonAvatarCircle: View {
-  let persons: [Person]
+  let persons: [User]
   var body: some View {
     let baseAvatarCircle = Circle()
       .frame(width: 40, height: 40)

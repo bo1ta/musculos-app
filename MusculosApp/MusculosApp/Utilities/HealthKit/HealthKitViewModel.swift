@@ -11,15 +11,23 @@ import HealthKit
 
 @Observable
 final class HealthKitViewModel {
+  
+  // MARK: - Dependencies
+  
+  @ObservationIgnored
+  private let healthStore = HKHealthStore()
+  
+  @ObservationIgnored
+  private let manager: HealthKitManager
+  
+  // MARK: - Observed properties
+  
   var stepsCount: String = ""
   var sleepTime: String = ""
   var dietaryWater: String = ""
   var isAuthorized: Bool = false
   var errorMessage: String = ""
   var isLoading: Bool = false
-    
-  private let healthStore = HKHealthStore()
-  private let manager: HealthKitManager
   
   init() {
     self.manager = HealthKitManager(healthStore: healthStore)
@@ -33,6 +41,8 @@ final class HealthKitViewModel {
   }
   
   nonisolated func loadAllData() async {
+    guard isAuthorized else { return }
+    
     await withTaskGroup(of: Void.self) { @MainActor [weak self] group in
       guard let self else { return }
       

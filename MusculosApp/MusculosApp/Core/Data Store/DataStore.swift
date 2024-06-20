@@ -17,7 +17,7 @@ protocol DataStoreProtocol: Actor {
   func loadExercises(fetchLimit: Int) async -> [Exercise]
   func loadGoals() async -> [Goal]
   func loadExerciseSessions() async -> [ExerciseSession]
-  func loadCurrentPerson() async -> Person?
+  func loadCurrentUser() async -> User?
   
   func invalidateAllCache() async
   func invalidateExercises() async
@@ -33,7 +33,7 @@ actor DataStore: DataStoreProtocol {
   @Injected(\.exerciseDataStore) var exerciseDataStore: ExerciseDataStoreProtocol
   
   private var cachedExercises: [Exercise]?
-  private var cachedPerson: Person?
+  private var cachedUser: User?
   private var cachedGoals: [Goal]?
   private var cachedExerciseSessions: [ExerciseSession]?
   
@@ -67,19 +67,19 @@ actor DataStore: DataStoreProtocol {
     }
   }
   
-  func loadCurrentPerson() async -> Person? {
-    if let cachedPerson {
-      return cachedPerson
+  func loadCurrentUser() async -> User? {
+    if let cachedUser {
+      return cachedUser
     } else {
-      let person = await userDataStore.loadCurrentPerson()
-      cachedPerson = person
+      let person = await userDataStore.loadCurrentUser()
+      cachedUser = person
       return person
     }
   }
   
   func invalidateAllCache() {
     cachedExercises = nil
-    cachedPerson = nil
+    cachedUser = nil
     cachedGoals = nil
     cachedExerciseSessions = nil
   }
@@ -89,7 +89,7 @@ actor DataStore: DataStoreProtocol {
   }
   
   func invalidatePerson() {
-    cachedPerson = nil
+    cachedUser = nil
   }
   
   func invalidateGoals() {

@@ -41,6 +41,6 @@ enum ModelUpdatedEvent {
   case didFavoriteExercise
 
   static var userInfoKey: String {
-    return "UpdatableModelKey"
+    return "ModelUpdatedEventKey"
   }
 }

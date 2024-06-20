@@ -72,7 +72,7 @@ final class ExploreExerciseViewModel {
   // MARK: - Initial setup
   
   private func setupNotificationPublisher() {
-    NotificationCenter.default.publisher(for: .CoreModelDidChange, object: nil)
+    NotificationCenter.default.publisher(for: .CoreDataModelDidChange, object: nil)
       .sink { [weak self] notification in
         guard let event = notification.userInfo?[ModelUpdatedEvent.userInfoKey] as? ModelUpdatedEvent else { return }
         

@@ -64,6 +64,6 @@ extension AppManager: AppManagerProtocol {
   
   @MainActor
   func notifyModelUpdate(_ event: ModelUpdatedEvent) {
-    NotificationCenter.default.post(name: .CoreModelDidChange, object: nil, userInfo: [ModelUpdatedEvent.userInfoKey: event])
+    NotificationCenter.default.post(name: .CoreDataModelDidChange, object: nil, userInfo: [ModelUpdatedEvent.userInfoKey: event])
   }
 }

@@ -148,6 +148,22 @@ extension NSManagedObjectContext: StorageType {
     }
   }
   
+  func fetchUniquePropertyValues(forEntity entityName: String, property propertyToFetch: String) -> Set<UUID>? {
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+    fetchRequest.resultType = .dictionaryResultType
+    fetchRequest.propertiesToFetch = [propertyToFetch]
+    
+    do {
+      guard let results = try self.fetch(fetchRequest) as? [[String: Any]] else { return nil }
+      return Set<UUID>(results.compactMap({ dict in
+        return dict[propertyToFetch] as? UUID
+      }))
+    } catch {
+      MusculosLogger.logError(error, message: "Cannot fetch by property", category: .coreData, properties: ["property_name": propertyToFetch, "entity_name": entityName])
+      return nil
+    }
+  }
+  
   /// Loads the collection of entities that match with a given Fetch Request
   ///
   private func loadObjects<T: Object>(ofType type: T.Type, with request: NSFetchRequest<NSFetchRequestResult>) -> [T] {

@@ -29,4 +29,14 @@ struct DateHelper {
     
     return (startOfPastWeek, now)
   }
+  
+  static func getDateFromNextWeek() -> Date? {
+    let calendar = Calendar.current
+    let now = Date()
+    
+    var dateComponents = DateComponents()
+    dateComponents.day = 7
+    
+    return calendar.date(byAdding: dateComponents, to: now)
+  }
 }

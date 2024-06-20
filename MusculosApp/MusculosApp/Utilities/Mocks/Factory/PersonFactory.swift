@@ -8,7 +8,7 @@
 import Foundation
 
 struct PersonFactory {
-  static func createPerson(email: String = "test@test.com", username: String =  "test_user") -> Person {
-    return Person(email: email, username: username)
+  static func createPerson(email: String = "test@test.com", username: String =  "test_user") -> User {
+    return User(email: email, username: username)
   }
 }

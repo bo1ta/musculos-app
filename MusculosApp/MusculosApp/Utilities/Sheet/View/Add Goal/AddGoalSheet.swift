@@ -70,7 +70,7 @@ struct AddGoalSheet: View {
         appManager.showToast(style: .error, message: "Could not add goal. Please try again")
       }
     }
-    .padding()
+    .padding([.horizontal, .top], 15)
     .safeAreaInset(edge: .bottom) {
       Button(action: {
         viewModel.saveGoal()

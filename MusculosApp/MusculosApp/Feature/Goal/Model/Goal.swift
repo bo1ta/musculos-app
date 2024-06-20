@@ -9,6 +9,38 @@ import Foundation
 import SwiftUI
 
 struct Goal {
+  let name: String
+  let category: Category
+  let frequency: Frequency
+  let currentValue: Int
+  let targetValue: String
+  let endDate: Date?
+  let isCompleted: Bool
+  
+  init(name: String, category: Category, frequency: Frequency,  currentValue: Int = 0, targetValue: String, endDate: Date?, isCompleted: Bool = false) {
+    self.name = name
+    self.category = category
+    self.frequency = frequency
+    self.currentValue = currentValue
+    self.targetValue = targetValue
+    self.endDate = endDate
+    self.isCompleted = isCompleted
+  }
+  
+  init(onboardingGoal: OnboardingData.Goal) {
+    self.name = onboardingGoal.title
+    self.category = Category.initFromLabel(onboardingGoal.title) ?? .general
+    self.frequency = .weekly
+    self.currentValue = 0
+    self.targetValue = ""
+    self.endDate = DateHelper.getDateFromNextWeek()
+    self.isCompleted = false
+  }
+}
+
+// MARK: - Helper types
+
+extension Goal {
   enum Category: String, CaseIterable {
     case loseWeight, gainWeight, growMuscle, drinkWater, general
     
@@ -39,23 +71,5 @@ struct Goal {
       case .fixedDate: "fixed date"
       }
     }
-  }
-  
-  let name: String
-  let category: Category
-  let frequency: Frequency
-  let currentValue: Int
-  let targetValue: String
-  let endDate: Date?
-  let isCompleted: Bool
-  
-  init(name: String, category: Category, frequency: Frequency,  currentValue: Int = 0, targetValue: String, endDate: Date?, isCompleted: Bool = false) {
-    self.name = name
-    self.category = category
-    self.frequency = frequency
-    self.currentValue = currentValue
-    self.targetValue = targetValue
-    self.endDate = endDate
-    self.isCompleted = isCompleted
   }
 }

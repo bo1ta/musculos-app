@@ -64,7 +64,7 @@ struct AddWorkoutSheet: View {
         .padding(.top, 20)
     }
     .scrollIndicators(.hidden)
-    .padding(.horizontal, 15)
+    .padding([.horizontal, .top], 15)
     .safeAreaInset(edge: .bottom) {
       Button(action: viewModel.submitWorkout, label: {
         Text("Save")

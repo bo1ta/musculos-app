@@ -10,9 +10,9 @@ import Foundation
 struct Challenge {
   let name: String
   let exercises: [ChallengeExercise]
-  let participants: [Person]?
+  let participants: [User]?
   
-  init(name: String, exercises: [ChallengeExercise], participants: [Person]? = nil) {
+  init(name: String, exercises: [ChallengeExercise], participants: [User]? = nil) {
     self.name = name
     self.exercises = exercises
     self.participants = participants

@@ -14,7 +14,7 @@ actor RecommendationEngine {
   // MARK: - Recommendations by Goals
   
   func recommendByGoals() async throws -> [Exercise] {
-    guard await dataStore.loadCurrentPerson() != nil else {
+    guard await dataStore.loadCurrentUser() != nil else {
       throw MusculosError.notFound
     }
     
@@ -31,7 +31,7 @@ actor RecommendationEngine {
   // MARK: - Recommendations by Muscles
   
   func recommendByMuscleGroups() async throws -> [Exercise] {
-    guard await dataStore.loadCurrentPerson() != nil else {
+    guard await dataStore.loadCurrentUser() != nil else {
       throw MusculosError.notFound
     }
     

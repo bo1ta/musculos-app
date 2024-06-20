@@ -16,7 +16,7 @@ struct AddActionSheet: View {
   var body: some View {
     VStack {
       topBar
-        .padding([.trailing, .leading], 20)
+        .padding(.horizontal, 20)
       
       LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], alignment: .center, content: {
         ForEach(ItemType.allCases, id: \.self) { itemType in

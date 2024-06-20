@@ -7,25 +7,41 @@
 
 import Foundation
 import SwiftUI
+import Factory
+import Combine
 
 @Observable
 class UserStore {
-  private(set) var currentPerson: Person? = nil
-  private(set) var error: Error? = nil
+  // MARK: - Dependencies
+  
+  @ObservationIgnored
+  @Injected(\.userDataStore) private var dataStore: UserDataStoreProtocol
+  
+  @ObservationIgnored
+  private(set) var refreshTask: Task<Void, Never>?
+  
+  // MARK: - Observed properties
+  
+  private(set) var currentUser: User? = nil
   private(set) var isLoggedIn: Bool = false
-  private(set) var isOnboarded: Bool = false
-    
-  private(set) var updateUserTask: Task<Void, Never>?
-  
-  private let dataStore: UserDataStore
-  
-  init(dataStore: UserDataStore = UserDataStore()) {
-    self.dataStore = dataStore
-  }
   
   var displayName: String {
-    currentPerson?.fullName ?? currentPerson?.username ?? "User"
+    return currentUser?.fullName
+    ?? currentUser?.username
+    ?? "User"
   }
+  
+  var isOnboarded: Bool {
+    return currentUser?.isOnboarded ?? false
+  }
+  
+  // MARK: - Setters
+  
+  func setIsLoggedIn(_ isLoggedIn: Bool) {
+    self.isLoggedIn = isLoggedIn
+  }
+  
+  // MARK: - Tasks
 
   @MainActor
   func initialLoad() async {
@@ -33,41 +49,16 @@ class UserStore {
       self.isLoggedIn = true
     }
     
-    let isOnboarded = UserDefaults.standard.bool(forKey: UserDefaultsKeyConstant.isOnboarded.rawValue)
-    if isOnboarded {
-      self.isOnboarded = true
-    }
-    
-    if let currentPerson = await dataStore.loadCurrentPerson() {
-      self.currentPerson = currentPerson
+    if let currentPerson = await dataStore.loadCurrentUser() {
+      self.currentUser = currentPerson
     }
   }
   
-  func cleanUp() {
-    updateUserTask?.cancel()
-    updateUserTask = nil
-  }
-  
-  func setIsLoggedIn(_ isLoggedIn: Bool) {
-    self.isLoggedIn = isLoggedIn
-  }
-  
-  func setIsOnboarded(_ isOnboarded: Bool) {
-    self.isOnboarded = isOnboarded
-    UserDefaults.standard.setValue(isOnboarded, forKey: UserDefaultsKeyConstant.isOnboarded.rawValue)
-  }
-  
-  func updateUserProfile(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) {
-    updateUserTask?.cancel()
-    
-    updateUserTask = Task.detached { [weak self] in
+  func refreshUser() {
+    refreshTask = Task { @MainActor [weak self] in
       guard let self else { return }
       
-      do {
-        try await self.dataStore.updateUser(gender: gender, weight: weight, height: height, goalId: goalId)
-      } catch {
-        MusculosLogger.logError(error, message: "Could not update user", category: .coreData)
-      }
+      self.currentUser = await dataStore.loadCurrentUser()
     }
   }
 }

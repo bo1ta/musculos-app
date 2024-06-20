@@ -39,6 +39,14 @@ struct Exercise: Codable {
     
     return allMuscles.compactMap { MuscleType(rawValue: $0) }
   }
+  
+  var primaryMusclesTypes: [MuscleType] {
+    return primaryMuscles.compactMap { MuscleType(rawValue: $0) }
+  }
+  
+  var secondaryMusclesTypes: [MuscleType] {
+    return secondaryMuscles.compactMap { MuscleType(rawValue: $0) }
+  }
 
   enum CodingKeys: String, CodingKey {
     case category, equipment, force, id, level, name, primaryMuscles, secondaryMuscles, instructions, imageUrls

@@ -10,6 +10,6 @@ import Foundation
 struct ExerciseSession: Codable {
   let date: Date
   let sessionId: UUID
-  let user: Person
+  let user: User
   let exercise: Exercise
 }

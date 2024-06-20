@@ -9,13 +9,13 @@ import Foundation
 import CoreData
 
 protocol UserDataStoreProtocol {
-  func createUser(person: Person) async throws
-  func updateUser(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async throws
-  func loadCurrentPerson() async -> Person?
+  func createUser(person: User) async throws
+  func updateUser(gender: String?, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws
+  func loadCurrentUser() async -> User?
 }
 
 struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
-  func createUser(person: Person) async throws {
+  func createUser(person: User) async throws {
     try await storageManager.performWriteOperation { writerDerivedStorage in
       let userEntity = writerDerivedStorage.insertNewObject(ofType: UserEntity.self)
       userEntity.username = person.username
@@ -27,26 +27,31 @@ struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
     await storageManager.saveChanges()
   }
   
-  func updateUser(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async throws {
+  func updateUser(gender: String? = nil, weight: Int? = nil, height: Int? = nil, primaryGoalId: Int? = nil, level: String?, isOnboarded: Bool = false) async throws {
     try await storageManager.performWriteOperation { writerDerivedStorage in
       guard let userEntity = UserEntity.currentUser(with: writerDerivedStorage) else { return }
       
-      userEntity.gender = gender?.rawValue
+      userEntity.gender = gender
+      userEntity.level = level
+      userEntity.isOnboarded = isOnboarded
+      
       if let weight {
         userEntity.weight = NSNumber(integerLiteral: weight)
       }
+      
       if let height {
         userEntity.height = NSNumber(integerLiteral: height)
       }
-      if let goalId {
-        userEntity.goalId = NSNumber(integerLiteral: goalId)
+      
+      if let primaryGoalId {
+        userEntity.primaryGoalId = NSNumber(integerLiteral: primaryGoalId)
       }
     }
     
     await storageManager.saveChanges()
   }
   
-  func loadCurrentPerson() async -> Person? {
+  func loadCurrentUser() async -> User? {
     return await storageManager.performReadOperation { viewStorage in
       
       guard let person = viewStorage

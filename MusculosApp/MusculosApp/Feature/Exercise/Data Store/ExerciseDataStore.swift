@@ -154,11 +154,12 @@ extension ExerciseDataStore {
   
   func importFrom(_ exercises: [Exercise]) async throws -> [Exercise] {
     try await storageManager.performWriteOperation { writerStorage in
+      guard let existingExercises = writerStorage.fetchUniquePropertyValues(forEntity: ExerciseEntity.entityName, property: "exerciseId") else { return }
+      
       for exercise in exercises {
-        let exerciseEntity = writerStorage.findOrInsert(
-          of: ExerciseEntity.self,
-          using: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
-        )
+        guard !existingExercises.contains(exercise.id) else { continue }
+        
+        let exerciseEntity = writerStorage.insertNewObject(ofType: ExerciseEntity.self)
         
         exerciseEntity.exerciseId = exercise.id
         exerciseEntity.name = exercise.name
@@ -236,12 +237,16 @@ extension ExerciseDataStore {
             muscleType.id
           )
           
-          let entity = writerStorage.findOrInsert(of: PrimaryMuscleEntity.self, using: predicate)
-          entity.muscleId = NSNumber(integerLiteral: muscleType.id)
-          entity.name = muscleType.rawValue
-          entity.exercises.insert(exerciseEntity)
-          
-          return entity
+          if let entity = writerStorage.firstObject(of: PrimaryMuscleEntity.self, matching: predicate) {
+            entity.exercises.insert(exerciseEntity)
+            return entity
+          } else {
+            let entity = writerStorage.insertNewObject(ofType: PrimaryMuscleEntity.self)
+            entity.muscleId = NSNumber(integerLiteral: muscleType.id)
+            entity.name = muscleType.rawValue
+            entity.exercises.insert(exerciseEntity)
+            return entity
+          }
         }
     )
     
@@ -256,12 +261,16 @@ extension ExerciseDataStore {
             muscleType.id
           )
           
-          let entity = writerStorage.findOrInsert(of: SecondaryMuscleEntity.self, using: predicate)
-          entity.muscleId = NSNumber(integerLiteral: muscleType.id)
-          entity.name = muscleType.rawValue
-          entity.exercises.insert(exerciseEntity)
-          
-          return entity
+          if let entity = writerStorage.firstObject(of: SecondaryMuscleEntity.self, matching: predicate) {
+            entity.exercises.insert(exerciseEntity)
+            return entity
+          } else {
+            let entity = writerStorage.insertNewObject(ofType: SecondaryMuscleEntity.self)
+            entity.muscleId = NSNumber(integerLiteral: muscleType.id)
+            entity.name = muscleType.rawValue
+            entity.exercises.insert(exerciseEntity)
+            return entity
+          }
         }
     )
     

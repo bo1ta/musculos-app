@@ -64,7 +64,7 @@ extension AuthService {
     guard authResult.token.count > 0 else { throw MusculosError.forbidden }
     
     if let fullName, let username {
-      let person = Person(email: email, fullName: fullName, username: username)
+      let person = User(email: email, fullName: fullName, username: username)
       try await dataStore.createUser(person: person)
     }
     UserDefaults.standard.setValue(authResult.token, forKey: UserDefaultsKeyConstant.authToken.rawValue)

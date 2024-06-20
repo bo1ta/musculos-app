@@ -59,7 +59,15 @@ protocol StorageType {
   ///
   func loadObject<T: Object>(ofType type: T.Type, with objectID: T.ObjectID) -> T?
   
-  /// Saves changes, if needed
+  /// Returns a set of unique property values for a given entity.
+  /// - Parameters:
+  ///   - entityName: The name of the Core Data entity to fetch from.
+  ///   - propertyToFetch: The name of the property to fetch values for.
+  /// - Returns: A set of unique UUID values for the specified property, or nil if an error occurs.
+  ///
+  func fetchUniquePropertyValues(forEntity entityName: String, property propertyToFetch: String) -> Set<UUID>?
+
+  /// Saves context, if it has changes
   ///
   func saveIfNeeded()
   
@@ -67,7 +75,11 @@ protocol StorageType {
   ///
   func perform(_ closure: @escaping () -> Void) async
   
+  /// Wrapper over the synchronous `performAndWait`
+  ///
   func performSync(_ block: @escaping () -> Void)
   
+  /// Wrapper over the asynchronous `perform`
+  ///
   func performAsync(_ block: @escaping () -> Void)
 }
