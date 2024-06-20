@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utilities
 
 struct SignUpView: View {
   @State private var viewModel: AuthViewModel
@@ -76,13 +77,13 @@ extension SignUpView {
         Button(action: {}, label: {
           Text(googleButtonTitle)
             .font(.body(.light, size: 15))
-            .foregroundStyle(Color.AppColor.green700)
+            .foregroundStyle(AppColor.green700)
         })
   
         Button(action: {}, label: {
           Text(facebookButtonTitle)
             .font(.body(.light, size: 15))
-            .foregroundStyle(Color.AppColor.green700)
+            .foregroundStyle(AppColor.green700)
         })
         .padding(.top, 5)
     }

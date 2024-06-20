@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utilities
 
 struct DashboardView: View {
   @Environment(\.appManager) private var appManager
@@ -68,7 +69,7 @@ struct DashboardView: View {
   @ViewBuilder
   var topSection: some View {
     Rectangle()
-      .foregroundStyle(Color.AppColor.blue700)
+      .foregroundStyle(AppColor.blue700)
       .frame(maxWidth: .infinity)
       .frame(height: 100)
       .overlay {

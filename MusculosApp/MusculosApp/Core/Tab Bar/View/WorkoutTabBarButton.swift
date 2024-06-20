@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Utilities
 
 struct WorkoutTabBarButton: View {
   var onTapGesture: () -> Void
@@ -24,7 +25,7 @@ struct WorkoutTabBarButton: View {
           .overlay {
             Image(systemName: "plus")
               .font(Font(CTFont(.menuItem, size: 18)))
-              .foregroundStyle(Color.AppColor.green500)
+              .foregroundStyle(AppColor.green500)
               .onTapGesture(perform: self.onTapGesture)
           }
           .frame(width: 50, height: 50)

@@ -7,6 +7,6 @@
 
 import Foundation
 
-extension CodingUserInfoKey {
+public extension CodingUserInfoKey {
   static let managedObjectContext = CodingUserInfoKey(rawValue: "managedObjectContext")!
 }

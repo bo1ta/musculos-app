@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-extension UIImage {
+public extension UIImage {
   static func gradientImageWithBounds(bounds: CGRect, colors: [CGColor]) -> UIImage? {
     let gradientLayer = CAGradientLayer()
     gradientLayer.frame = bounds

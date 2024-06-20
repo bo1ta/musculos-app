@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Shimmer
+import Utilities
 
 struct CardItem: View {
   let title: String
@@ -24,12 +25,12 @@ struct CardItem: View {
           HStack {
             Text(title)
               .font(.body(.regular, size: 13))
-              .foregroundStyle(Color.AppColor.blue800)
+              .foregroundStyle(AppColor.blue800)
             Spacer()
             
             Circle()
               .frame(width: 20, height: 20)
-              .foregroundStyle(isSelected ? Color.AppColor.blue500 : .white)
+              .foregroundStyle(isSelected ? AppColor.blue500 : .white)
               .overlay(
                 RoundedRectangle(cornerRadius: 16)
                   .stroke(.gray, lineWidth: 1)

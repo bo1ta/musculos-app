@@ -10,11 +10,11 @@ import Combine
 
 /// Helper observable object with a query subscriber
 ///
-class DebouncedQueryObserver: ObservableObject {
-  @Published var searchQuery: String = ""
-  @Published var debouncedQuery: String = ""
+public class DebouncedQueryObserver: ObservableObject {
+  @Published public var searchQuery: String = ""
+  @Published public var debouncedQuery: String = ""
 
-  init(delay: Double = 0.5) {
+  public init(delay: Double = 0.5) {
     $searchQuery
       .debounce(for: DispatchQueue.SchedulerTimeType.Stride.seconds(delay), scheduler: DispatchQueue.main)
       .assign(to: &$debouncedQuery)

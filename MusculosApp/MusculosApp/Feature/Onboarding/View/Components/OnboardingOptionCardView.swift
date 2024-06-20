@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Utilities
 
 struct OnboardingOptionCardView: View {
   let onboardingOption: OnboardingOption
@@ -14,7 +15,7 @@ struct OnboardingOptionCardView: View {
   let didTap: () -> Void
   
   var color: Color {
-    isSelected ? Color.AppColor.blue500 : .black
+    isSelected ? AppColor.blue500 : .black
   }
   
   var shouldDisplayContentInCenter: Bool {
@@ -32,7 +33,7 @@ struct OnboardingOptionCardView: View {
         .frame(maxWidth: .infinity)
         .frame(height: 130)
         .foregroundStyle(.white)
-        .shadow(color: isSelected ? Color.AppColor.blue500 : .gray, radius: 3)
+        .shadow(color: isSelected ? AppColor.blue700 : .gray, radius: 3)
         .overlay {
           HStack {
             if shouldDisplayContentInCenter {
@@ -53,7 +54,7 @@ struct OnboardingOptionCardView: View {
             if isSelected {
               Circle()
                 .frame(width: 35, height: 35)
-                .foregroundStyle(Color.AppColor.blue500)
+                .foregroundStyle(AppColor.blue500)
                 .overlay {
                   Image(systemName: "checkmark")
                     .foregroundStyle(.white)

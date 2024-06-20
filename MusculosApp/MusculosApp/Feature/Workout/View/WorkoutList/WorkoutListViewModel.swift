@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Utilities
 
 @Observable
 final class WorkoutListViewModel {

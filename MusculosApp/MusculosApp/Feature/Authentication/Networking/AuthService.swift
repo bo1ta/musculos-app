@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Utilities
+import Common
 
 protocol AuthServiceProtocol {
   var dataStore: UserDataStoreProtocol { get set }

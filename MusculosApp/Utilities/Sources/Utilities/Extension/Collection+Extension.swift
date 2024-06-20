@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Collection {
+public extension Collection {
   /// Splits the collection into `n` subcollections
   func every(n: Int, start: Int = 0) -> UnfoldSequence<Element,Index> {
     sequence(state: dropFirst(start).startIndex) { index in
@@ -23,7 +23,7 @@ extension Collection {
   }
 }
 
-extension RangeReplaceableCollection {
+public extension RangeReplaceableCollection {
   func splitIn(subSequences n: Int) -> [SubSequence] {
     (0..<n).map { .init(every(n: n, start: $0)) }
   }

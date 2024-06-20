@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Utilities
 
 struct GreenGrassButtonStyle: View {
   let action: () -> Void
@@ -16,7 +17,7 @@ struct GreenGrassButtonStyle: View {
     Button(action: action, label: {
       Rectangle()
         .frame(height: 50)
-        .foregroundStyle(Color.AppColor.blue500)
+        .foregroundStyle(AppColor.blue500)
         .padding(5)
         .overlay {
           Text(text)

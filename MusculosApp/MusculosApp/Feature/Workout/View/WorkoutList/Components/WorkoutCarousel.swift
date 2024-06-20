@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Utilities
+import Common
 
 struct WorkoutCarousel: View {
   @State private var currentIndex = 0

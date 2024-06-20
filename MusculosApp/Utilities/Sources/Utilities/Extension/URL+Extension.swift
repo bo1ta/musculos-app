@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension URL {
+public extension URL {
   func isReachable() async -> Bool {
     var request = URLRequest(url: self)
     request.httpMethod = "HEAD"

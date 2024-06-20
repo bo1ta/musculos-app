@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utilities
 
 struct RoundedTextField: View {
   var text: Binding<String> = .constant("")
@@ -48,7 +49,7 @@ struct RoundedTextField: View {
             .lineLimit(2)
         }
       }
-      .background(Capsule().fill(Color.AppColor.blue100).frame(height: 40).shadow(radius: 1.0))
+      .background(Capsule().fill(AppColor.blue100).frame(height: 40).shadow(radius: 1.0))
     }
   }
 }

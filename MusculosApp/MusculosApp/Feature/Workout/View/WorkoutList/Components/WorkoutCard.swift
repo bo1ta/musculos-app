@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utilities
 
 struct WorkoutCard: View {
   private let itemSpacing: CGFloat = 2.3
@@ -44,8 +45,8 @@ struct WorkoutCard: View {
           }
           
           HStack(spacing: 5) {
-            IconPill(option: IconPillOption(title: workout.targetMuscles.first ?? ""), backgroundColor: Color.AppColor.blue500)
-            IconPill(option: IconPillOption(title: workout.workoutType), backgroundColor: Color.AppColor.green700)
+            IconPill(option: IconPillOption(title: workout.targetMuscles.first ?? ""), backgroundColor: AppColor.blue500)
+            IconPill(option: IconPillOption(title: workout.workoutType), backgroundColor: AppColor.green700)
           }
         }
         .padding()

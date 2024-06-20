@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utilities
 
 struct ProgressCard: View {
   var title: String
@@ -14,7 +15,7 @@ struct ProgressCard: View {
   
   var body: some View {
     RoundedRectangle(cornerRadius: 25)
-      .foregroundStyle(Color.AppColor.blue100)
+      .foregroundStyle(AppColor.blue100)
       .frame(maxWidth: .infinity)
       .frame(minHeight: 130)
       .overlay {
@@ -24,7 +25,7 @@ struct ProgressCard: View {
           Text(description)
             .font(.body(.regular, size: 13))
           ProgressView(value: progress)
-            .tint(Color.AppColor.blue500)
+            .tint(AppColor.blue500)
             .padding(.top, 5)
         }
         .padding()

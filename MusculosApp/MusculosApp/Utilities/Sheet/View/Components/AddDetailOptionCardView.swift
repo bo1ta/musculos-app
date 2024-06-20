@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Utilities
 
 struct AddDetailOptionCardView: View {
   @Binding var options: [AddDetailOption]
@@ -28,7 +29,7 @@ struct AddDetailOptionCardView: View {
             } label: {
              Image(systemName: "plus")
                 .resizable()
-                .foregroundStyle(Color.AppColor.blue500)
+                .foregroundStyle(AppColor.blue500)
                 .frame(width: 13, height: 13)
                 .shadow(radius: 0.5)
             }
@@ -38,7 +39,7 @@ struct AddDetailOptionCardView: View {
                 options.remove(at: option.id)
               } label: {
                 Image(systemName: "minus")
-                  .foregroundStyle(Color.AppColor.blue500)
+                  .foregroundStyle(AppColor.blue500)
                   .shadow(radius: 0.5)
               }
             }

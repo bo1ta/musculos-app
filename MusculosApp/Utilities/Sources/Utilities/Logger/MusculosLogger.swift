@@ -8,16 +8,16 @@
 import Foundation
 import os.log
 
-final class MusculosLogger {
-  enum LogCategory: String {
+public final class MusculosLogger {
+  public enum LogCategory: String {
     case networking, coreData, ui, healthKit, recommendationEngine
   }
   
-  enum AccessLevel: String {
+  public enum AccessLevel: String {
     case `public`, `private`
   }
   
-  static func logInfo(message: String,
+  public static func logInfo(message: String,
                       category: LogCategory,
                       accessLevel: AccessLevel = .private,
                       properties: [String: Any] = [:]) {
@@ -25,7 +25,7 @@ final class MusculosLogger {
     log(.info, category: category, message: logMessage, accessLevel: accessLevel)
   }
   
-  static func logError(_ error: Error,
+  public static func logError(_ error: Error,
                        message: String,
                        category: LogCategory,
                        accessLevel: AccessLevel = .private,

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Utilities
 @preconcurrency import HealthKit
 
 actor HealthKitManager {

@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import Utilities
 
 class InMemoryStorageManager: StorageManager {
   private var _persistentContainer: NSPersistentContainer?

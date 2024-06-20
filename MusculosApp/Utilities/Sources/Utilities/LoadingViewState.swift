@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum LoadingViewState<Result> where Result: Equatable {
+public enum LoadingViewState<Result> where Result: Equatable {
   case loading
   case loaded(Result)
   case empty
@@ -15,7 +15,7 @@ enum LoadingViewState<Result> where Result: Equatable {
 }
 
 extension LoadingViewState: Equatable {
-  static func == (lhs: LoadingViewState<Result>, rhs: LoadingViewState<Result>) -> Bool {
+  public static func == (lhs: LoadingViewState<Result>, rhs: LoadingViewState<Result>) -> Bool {
     switch (lhs, rhs) {
     case (.loading, .loading):
       return true
@@ -31,6 +31,6 @@ extension LoadingViewState: Equatable {
   }
 }
 
-enum EmptyLoadingViewState {
+public enum EmptyLoadingViewState {
   case loading, empty, successful
 }
