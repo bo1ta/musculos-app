@@ -55,11 +55,4 @@ struct GoalDataStore: BaseDataStore, GoalDataStoreProtocol {
       }
     }
   }
-  
-//  func updateBySession(_ exerciseSession: ExerciseSession) async throws {
-//    try await storageManager.performWriteOperation { writerDerivedStorage in
-//      let exercise = exerciseSession.
-//      
-//      guard let
-//    }
 }

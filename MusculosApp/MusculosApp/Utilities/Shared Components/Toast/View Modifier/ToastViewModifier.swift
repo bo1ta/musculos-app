@@ -28,14 +28,14 @@ struct ToastViewModifier: ViewModifier {
   var toastView: some View {
     if let toast = toast {
       VStack {
+        Spacer()
         ToastView(
           style: toast.style,
           message: toast.message,
           width: toast.width
         )
-        Spacer()
       }
-      .padding(.top)
+      .padding(.bottom, 100)
     }
   }
   
