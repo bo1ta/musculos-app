@@ -51,6 +51,13 @@ final class ExploreExerciseViewModel {
     }
   }
   
+  var displayGoal: Goal? {
+    return goals
+      .filter { !$0.isExpired }
+      .sorted { $0.dateAdded < $1.dateAdded }
+      .first
+  }
+  
   var contentState: LoadingViewState<[Exercise]> = .empty
   var recommendedByGoals: [Exercise]?
   var recommendedByPastSessions: [Exercise]?
@@ -120,6 +127,12 @@ extension ExploreExerciseViewModel {
       self.recommendedByPastSessions = recommendedByPastSessions
     } catch {
       MusculosLogger.logError(error, message: "Recommendation engine blew up!", category: .recommendationEngine)
+    }
+  }
+  
+  func updateProgress() async {
+    do {
+      
     }
   }
   
@@ -222,7 +235,10 @@ extension ExploreExerciseViewModel {
   
   private func handleDidAddExerciseSession() async {
     await dataStore.invalidateExerciseSessions()
+    await dataStore.invalidateGoals()
+    
     await refreshExercisesCompletedToday()
+    await refreshGoals()
   }
   
   private func handleDidAddExerciseEvent() async {

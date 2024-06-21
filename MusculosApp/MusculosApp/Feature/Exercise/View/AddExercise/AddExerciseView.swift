@@ -1,5 +1,5 @@
 //
-//  AddExerciseSheet.swift
+//  AddExerciseView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 19.04.2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AddExerciseSheet: View {
+struct AddExerciseView: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(\.appManager) private var appManager
   
@@ -26,10 +26,9 @@ struct AddExerciseSheet: View {
         dismiss()
       })
       
-      RoundedTextField(
+      CustomTextField(
         text: $viewModel.exerciseName,
-        label: "Name",
-        textHint: "Exercise Name"
+        label: "Name"
       )
       .padding(.top, 25)
       
@@ -143,5 +142,5 @@ struct AddExerciseSheet: View {
 }
 
 #Preview {
-  AddExerciseSheet(onBack: {})
+  AddExerciseView(onBack: {})
 }

@@ -24,6 +24,7 @@ class UserStore {
   
   private(set) var currentUser: User? = nil
   private(set) var isLoggedIn: Bool = false
+  private(set) var isLoading: Bool = false
   
   var displayName: String {
     return currentUser?.fullName
@@ -45,6 +46,9 @@ class UserStore {
 
   @MainActor
   func initialLoad() async {
+    isLoading = true
+    defer { isLoading = false }
+    
     if let _ = UserDefaults.standard.string(forKey: UserDefaultsKeyConstant.authToken.rawValue) {
       self.isLoggedIn = true
     }

@@ -91,7 +91,6 @@ struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol
         let userEntity = UserEntity.currentUser(with: writerDerivedStorage)
       else { throw MusculosError.notFound }
       
-      
       let entity = writerDerivedStorage.insertNewObject(ofType: ExerciseSessionEntity.self)
       entity.sessionId = UUID()
       entity.date = date

@@ -24,23 +24,26 @@ struct ExerciseSectionsContentView: View {
   let onExerciseTap: (Exercise) -> Void
   
   var body: some View {
-    switch contentState {
-    case .loading:
-      ExerciseContentLoadingView()
-    case .loaded(let exercises):
-      VStack {
-        ExploreCategorySectionView(currentSection: $categorySection)
-        makeCategoryItems(
-          categorySection,
-          exercises: exercises
-        )
+    ZStack {
+      switch contentState {
+      case .loading:
+        ExerciseContentLoadingView()
+      case .loaded(let exercises):
+        VStack {
+          ExploreCategorySectionView(currentSection: $categorySection)
+          makeCategoryItems(
+            categorySection,
+            exercises: exercises
+          )
+        }
+      case .empty:
+        EmptyView()
+      case .error(_):
+        HintIconView(systemImage: "exclamationmark.warninglight", textHint: "Error fetching data")
+          .padding(.top, 20)
       }
-    case .empty:
-      EmptyView()
-    case .error(_):
-      HintIconView(systemImage: "exclamationmark.warninglight", textHint: "Error fetching data")
-        .padding(.top, 20)
     }
+//    .animation(.easeInOut, value: categorySection)
   }
   
   private func makeCategoryItems(_ categorySection: ExploreCategorySection, exercises: [Exercise]) -> some View {

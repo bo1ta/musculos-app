@@ -21,7 +21,7 @@ struct SearchFilterField: View {
   
   var body: some View {
     HStack {
-      RoundedTextField(
+      CustomTextField(
         text: $debouncedQueryObserver.searchQuery,
         label: "Search",
         textHint: "Search by muscle"

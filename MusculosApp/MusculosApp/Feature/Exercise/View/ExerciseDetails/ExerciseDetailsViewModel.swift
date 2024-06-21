@@ -21,6 +21,9 @@ final class ExerciseDetailsViewModel {
   @ObservationIgnored
   @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
   
+  @ObservationIgnored
+  @Injected(\.dataStore) private var dataStore: DataStoreProtocol
+  
   // MARK: - Observed properties
   
   private(set) var showChallengeExercise = false
@@ -133,11 +136,24 @@ extension ExerciseDetailsViewModel {
     saveExerciseSessionTask = Task { @MainActor in
       do {
         try await exerciseSessionDataStore.addSession(exercise, date: Date())
+        try await maybeUpdateGoals()
+        
         didSaveSessionSubject.send(true)
       } catch {
         didSaveSessionSubject.send(false)
         MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
       }
     }
+  }
+  
+  private func maybeUpdateGoals() async throws {
+    let goals = await dataStore.loadGoals()
+    
+    for goal in goals {
+      if let _ = ExerciseHelper.goalToExerciseCategories[goal.category] {
+        try await dataStore.goalDataStore.incrementCurrentValue(goal)
+      }
+    }
+    
   }
 }

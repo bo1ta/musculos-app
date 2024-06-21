@@ -90,6 +90,9 @@ extension ExerciseDetailsViewModelTests {
   }
   
   struct MockGoalDataStore: GoalDataStoreProtocol {
+    func incrementCurrentValue(_ goal: Goal) async throws {
+    }
+    
     func add(_ goal: Goal) async throws {
     }
     

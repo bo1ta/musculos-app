@@ -13,11 +13,40 @@ struct Goal {
   let category: Category
   let frequency: Frequency
   let currentValue: Int
-  let targetValue: String
+  let targetValue: Int
   let endDate: Date?
   let isCompleted: Bool
+  let dateAdded: Date
   
-  init(name: String, category: Category, frequency: Frequency,  currentValue: Int = 0, targetValue: String, endDate: Date?, isCompleted: Bool = false) {
+  var isExpired: Bool {
+    if let endDate {
+      return Date() > endDate
+    }
+    return false
+  }
+  
+  var daysUntilExpires: Int? {
+    guard let endDate else { return nil }
+    
+    let calendar = Calendar.current
+    let currentDate = Date()
+    let components = calendar.dateComponents([.day], from: currentDate, to: endDate)
+    return components.day
+  }
+  
+  var progressPercentage: Double {
+    guard targetValue != 0 else {
+      return 0
+    }
+    let progress = Double(currentValue) / Double(targetValue) * 100
+    return min(max(progress, 0), 100)
+  }
+  
+  var formattedProgressPercentage: String {
+    return String(format: "%.0f%%", progressPercentage)
+  }
+  
+  init(name: String, category: Category, frequency: Frequency,  currentValue: Int = 0, targetValue: Int, endDate: Date?, isCompleted: Bool = false, dateAdded: Date) {
     self.name = name
     self.category = category
     self.frequency = frequency
@@ -25,6 +54,7 @@ struct Goal {
     self.targetValue = targetValue
     self.endDate = endDate
     self.isCompleted = isCompleted
+    self.dateAdded = dateAdded
   }
   
   init(onboardingGoal: OnboardingData.Goal) {
@@ -32,9 +62,10 @@ struct Goal {
     self.category = Category.initFromLabel(onboardingGoal.title) ?? .general
     self.frequency = .weekly
     self.currentValue = 0
-    self.targetValue = ""
+    self.targetValue = 5
     self.endDate = DateHelper.getDateFromNextWeek()
     self.isCompleted = false
+    self.dateAdded = Date()
   }
 }
 

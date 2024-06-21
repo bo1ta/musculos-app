@@ -13,28 +13,35 @@ struct AddWorkoutSheet: View {
   
   @State private var viewModel = AddWorkoutSheetViewModel()
   
+  private var muscleOptions: [String] {
+    return MuscleType.allCases.map { $0.rawValue }
+  }
+  
   let onBack: () -> Void
   
   var body: some View {
     ScrollView {
-      SheetNavBar(title: "Create a new workout",
-                  onBack: onBack,
-                  onDismiss: {
-        dismiss()
-      })
+      SheetNavBar(
+        title: "Create a new workout",
+        onBack: onBack,
+        onDismiss: { dismiss() }
+      )
+      .padding(.bottom, 25)
       
-      RoundedTextField(text: $viewModel.workoutName, label: "Name", textHint: "Workout Name")
-        .padding(.top, 25)
-      
-      RoundedTextField(text: $viewModel.workoutType, label: "Type", textHint: "Workout Type")
-        .padding(.top, 25)
-      
-      RoundedTextField(text: $viewModel.muscleSearchQuery, label: "Target", textHint: "Target Muscle")
-        .padding(.top, 15)
+      VStack(spacing: 35) {
+        
+        CustomTextField(text: $viewModel.workoutName, label: "Name")
+        CustomTextField(text: $viewModel.workoutType, label: "Type")
+        
+        CustomTextField(text: $viewModel.muscleSearchQuery, label: "Target")
+        
+        MultiOptionsSelectView(showOptions: $viewModel.showSelectMuscles, selectedOptions: $viewModel.selectedMuscles, title: "Target muscles", options: muscleOptions)
+      }
+      .padding(.horizontal, 5)
       
       VStack(alignment: .leading) {
         Text("Recommended exercises")
-          .font(.body(.bold, size: 15))
+          .font(.body(.bold, size: 14))
         switch viewModel.state {
         case .loading:
           ForEach(0..<5, id: \.self) { _ in
@@ -61,7 +68,9 @@ struct AddWorkoutSheet: View {
           .padding(.top, 20)
         }
       }
-        .padding(.top, 20)
+      .transition(.blurReplace)
+      .padding(.horizontal, 5)
+      .padding(.top, 20)
     }
     .scrollIndicators(.hidden)
     .padding([.horizontal, .top], 15)
@@ -89,6 +98,7 @@ struct AddWorkoutSheet: View {
         appManager.showToast(style: .error, message: "Could not save goal. Please try again")
       }
     })
+    .animation(.easeInOut(duration: 0.2), value: viewModel.state)
     .onDisappear(perform: viewModel.cleanUp)
   }
 }

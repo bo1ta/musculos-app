@@ -24,15 +24,15 @@ struct AddGoalSheet: View {
           dismiss()
         })
       
-      RoundedTextField(
+      CustomTextField(
         text: $viewModel.name,
-        label: "Name",
-        textHint: "Goal name"
+        label: "Name"
       )
       
-      RoundedTextField(
+      CustomTextField(
         text: $viewModel.targetValue,
-        label: "Target value"
+        label: "Target value",
+        keyboardType: .numberPad
       )
       
       SingleOptionSelectView(

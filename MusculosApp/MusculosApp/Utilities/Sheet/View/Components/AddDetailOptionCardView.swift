@@ -19,7 +19,7 @@ struct AddDetailOptionCardView: View {
       
       ForEach($options) { option in
         HStack {
-          RoundedTextField(text: option.text, textHint: "Instruction")
+          CustomTextField(text: option.text, textHint: "Instruction")
             .padding(.top, 10)
           
           if option.id == options.count - 1 {

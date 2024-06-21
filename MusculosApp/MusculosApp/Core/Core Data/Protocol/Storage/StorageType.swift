@@ -59,13 +59,13 @@ protocol StorageType {
   ///
   func loadObject<T: Object>(ofType type: T.Type, with objectID: T.ObjectID) -> T?
   
-  /// Returns a set of unique property values for a given entity.
+  /// Returns a set of a property values for a given type.
   /// - Parameters:
-  ///   - entityName: The name of the Core Data entity to fetch from.
+  ///   - type: Managed object that conforms to `Object` protocol
   ///   - propertyToFetch: The name of the property to fetch values for.
-  /// - Returns: A set of unique UUID values for the specified property, or nil if an error occurs.
+  /// - Returns: A set of hashable values for the specified property, or nil if an error occurs.
   ///
-  func fetchUniquePropertyValues(forEntity entityName: String, property propertyToFetch: String) -> Set<UUID>?
+  func fetchUniquePropertyValues<T: Object, V: Hashable>(ofType type: T.Type, property propertyToFetch: String, expressionResultType: NSAttributeType) -> Set<V>?
 
   /// Saves context, if it has changes
   ///

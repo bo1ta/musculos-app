@@ -47,6 +47,15 @@ struct PermissionsView: View {
     .safeAreaInset(edge: .bottom) {
       HStack {
         Button {
+          onDone()
+        } label: {
+          Text("Skip")
+            .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(SecondaryButtonStyle())
+        .shadow(radius: 0.5)
+        
+        Button {
           Task {
             await healthKitViewModel.requestPermissions()
             onDone()
@@ -56,15 +65,6 @@ struct PermissionsView: View {
             .frame(maxWidth: .infinity)
         }
         .buttonStyle(PrimaryButtonStyle())
-        .shadow(radius: 0.5)
-        
-        Button {
-          onDone()
-        } label: {
-          Text("Skip")
-            .frame(maxWidth: .infinity)
-        }
-        .buttonStyle(SecondaryButtonStyle())
         .shadow(radius: 0.5)
       }
       .padding()

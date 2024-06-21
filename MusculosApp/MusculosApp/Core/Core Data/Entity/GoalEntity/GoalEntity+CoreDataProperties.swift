@@ -18,9 +18,12 @@ extension GoalEntity {
   @NSManaged public var name: String?
   @NSManaged public var endDate: Date?
   @NSManaged public var category: String?
-  @NSManaged public var targetValue: String?
+  @NSManaged public var targetValue: NSNumber?
+  @NSManaged public var currentValue: NSNumber?
   @NSManaged public var isCompleted: Bool
   @NSManaged public var frequency: String?
+  @NSManaged public var targetMuscles: [String]?
+  @NSManaged public var dateAdded: Date?
 }
 
 extension GoalEntity : Identifiable {}
@@ -46,9 +49,9 @@ extension GoalEntity: ReadOnlyConvertible {
       name: self.name ?? "",
       category: goalCategory,
       frequency: goalFrequency,
-      targetValue: self.targetValue ?? "",
+      currentValue: self.currentValue?.intValue ?? 0, targetValue: self.targetValue?.intValue ?? 0,
       endDate: self.endDate,
-      isCompleted: self.isCompleted
-    )
+      isCompleted: self.isCompleted,
+      dateAdded: self.dateAdded ?? Date())
   }
 }

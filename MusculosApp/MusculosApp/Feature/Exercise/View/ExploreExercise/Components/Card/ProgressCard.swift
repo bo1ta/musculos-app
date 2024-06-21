@@ -16,7 +16,7 @@ struct ProgressCard: View {
     RoundedRectangle(cornerRadius: 25)
       .foregroundStyle(Color.AppColor.blue100)
       .frame(maxWidth: .infinity)
-      .frame(minHeight: 130)
+      .frame(height: 130)
       .overlay {
         VStack(alignment: .leading, spacing: 5) {
           Text(title)

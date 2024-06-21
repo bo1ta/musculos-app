@@ -80,7 +80,7 @@ final class ExerciseDataStoreTests: XCTestCase, MusculosTestBase {
 //  }
   
   func testGetAllByGoals() async throws {
-    let goal = Goal(name: "Grow muscles", category: .growMuscle, frequency: .daily, targetValue: "10", endDate: Date())
+    let goal = Goal(name: "Grow muscles", category: .growMuscle, frequency: .daily, targetValue: 10, endDate: Date(), dateAdded: Date())
     
     let exercise = ExerciseFactory.createExercise(
       uuidString: UUID().uuidString,

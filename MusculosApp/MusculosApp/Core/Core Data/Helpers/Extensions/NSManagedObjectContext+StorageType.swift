@@ -9,6 +9,28 @@ import Foundation
 import CoreData
 
 extension NSManagedObjectContext: StorageType {
+  func fetchUniquePropertyValues<T: Object, V: Hashable>(ofType type: T.Type, property propertyToFetch: String, expressionResultType: NSAttributeType) -> Set<V>? {
+    let request = NSFetchRequest<NSDictionary>(entityName: type.entityName)
+    request.resultType = .dictionaryResultType
+    
+    let expressionDescription = NSExpressionDescription()
+    expressionDescription.name = "uniqueValues"
+    expressionDescription.expression = NSExpression(forKeyPath: propertyToFetch)
+    expressionDescription.expressionResultType = expressionResultType
+    
+    request.propertiesToFetch = [expressionDescription]
+    request.returnsDistinctResults = true
+    
+    do {
+      let results = try fetch(request)
+      let uniqueValues = results.compactMap { $0["uniqueValues"] as? V }
+      return Set(uniqueValues)
+    } catch {
+      print("Failed to fetch unique property values: \(error)")
+      return nil
+    }
+  }
+  
   var parentStorage: StorageType? {
     return parent
   }
@@ -136,7 +158,7 @@ extension NSManagedObjectContext: StorageType {
       closure()
     }
   }
- 
+  
   func saveIfNeeded() {
     guard hasChanges else { return }
     

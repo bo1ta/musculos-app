@@ -16,13 +16,12 @@ struct MultiOptionsSelectView: View {
   
   var body: some View {
     VStack {
-      
       Button {
         showOptions.toggle()
       } label: {
         HStack {
           Text(title)
-            .font(.body(.bold, size: 15))
+            .font(.body(.bold, size: 14))
           Spacer()
           Image(systemName: showOptions ? "chevron.up" : "chevron.down")
         }
@@ -47,8 +46,10 @@ struct MultiOptionsSelectView: View {
               .buttonStyle(SelectedButtonStyle(isSelected: selectedOptions.contains(filter)))
             }
           }
+        .transition(.blurReplace)
       }
     }
+    .animation(.easeInOut(duration: 0.2), value: showOptions)
   }
   
   private func handleFilterTap(_ filter: String) {

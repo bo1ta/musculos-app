@@ -154,10 +154,16 @@ extension ExerciseDataStore {
   
   func importFrom(_ exercises: [Exercise]) async throws -> [Exercise] {
     try await storageManager.performWriteOperation { writerStorage in
-      guard let existingExercises = writerStorage.fetchUniquePropertyValues(forEntity: ExerciseEntity.entityName, property: "exerciseId") else { return }
+      let existingExercises: Set<UUID>? = writerStorage
+        .fetchUniquePropertyValues(
+          ofType: ExerciseEntity.self,
+          property: "exerciseId",
+          expressionResultType: .UUIDAttributeType
+        )
       
       for exercise in exercises {
-        guard !existingExercises.contains(exercise.id) else { continue }
+        let alreadyExists = existingExercises?.contains(exercise.id) ?? false
+        guard !alreadyExists else { continue }
         
         let exerciseEntity = writerStorage.insertNewObject(ofType: ExerciseEntity.self)
         

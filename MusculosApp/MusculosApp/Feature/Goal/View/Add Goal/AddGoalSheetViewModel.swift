@@ -51,8 +51,9 @@ final class AddGoalSheetViewModel {
         name: name,
         category: Goal.Category.initFromLabel(self.category) ?? .general,
         frequency: Goal.Frequency(rawValue: self.frequency) ?? .daily,
-        targetValue: self.targetValue,
-        endDate: endDate
+        targetValue: Int(self.targetValue) ?? 5,
+        endDate: endDate,
+        dateAdded: Date()
       )
       
       do {

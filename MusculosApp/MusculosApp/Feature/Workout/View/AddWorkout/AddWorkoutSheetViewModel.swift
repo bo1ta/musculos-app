@@ -27,6 +27,12 @@ final class AddWorkoutSheetViewModel {
   var workoutType: String = ""
   var selectedExercises: [WorkoutExercise] = []
   var showRepsDialog: Bool = false
+  var selectedMuscles: [String] = [] {
+    didSet {
+      musclesChanged.send(())
+    }
+  }
+  var showSelectMuscles = true
   
   var muscleSearchQuery: String = "" {
     didSet {
@@ -44,26 +50,33 @@ final class AddWorkoutSheetViewModel {
     }
   }
   
+  var selectedMuscleTypes: [MuscleType] {
+    return selectedMuscles.compactMap { MuscleType(rawValue: $0) }
+  }
+  
   var state: LoadingViewState<[Exercise]> = .empty
   
   // MARK: - Subjects
   
   var didSaveSubject = PassthroughSubject<Bool, Never>()
   var searchQuerySubject = PassthroughSubject<Void, Never>()
+  var musclesChanged = PassthroughSubject<Void, Never>()
+  
   private var cancellables = Set<AnyCancellable>()
   
   // MARK: - Tasks
   
   private(set) var loadTask: Task<Void, Never>?
   private(set) var submitWorkoutTask: Task<Void, Never>?
+  private(set) var updateTask: Task<Void, Never>?
   
   // MARK: - Init and setup
   
   init() {
-    setupPublisher()
+    setupPublishers()
   }
   
-  private func setupPublisher() {
+  private func setupPublishers() {
     searchQuerySubject
       .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
       .sink { [weak self] _ in
@@ -71,6 +84,26 @@ final class AddWorkoutSheetViewModel {
         self.searchByMuscleName(self.muscleSearchQuery)
       }
       .store(in: &cancellables)
+    
+    musclesChanged
+      .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+      .sink { [weak self] _ in
+        guard let self else { return }
+        self.updateExercises()
+      }
+      .store(in: &cancellables)
+    
+  }
+  
+  private func updateExercises() {
+    guard !selectedMuscles.isEmpty else { return }
+    
+    updateTask = Task { @MainActor in
+      state = .loading
+      
+      let results = await dataStore.exerciseDataStore.getByMuscles(selectedMuscleTypes)
+      state = .loaded(results)
+    }
   }
   
   // MARK: - UI Logic
@@ -99,6 +132,9 @@ final class AddWorkoutSheetViewModel {
     
     submitWorkoutTask?.cancel()
     submitWorkoutTask = nil
+    
+    updateTask?.cancel()
+    updateTask = nil
   }
 }
 

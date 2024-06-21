@@ -16,13 +16,22 @@ struct ExploreExerciseView: View {
     NavigationStack {
       VStack {
         ScrollView {
-          ProgressCard(
-            title: "You've completed \(viewModel.exercisesCompletedToday.count) exercises",
-            description: "75% of your weekly muscle building goal",
-            progress: 0.75
-          )
-          .padding(.horizontal, 10)
-          .padding(.top, 20)
+          
+          if let goal = viewModel.displayGoal, let daysUntilExpires = goal.daysUntilExpires {
+            ProgressCard(
+              title: "You've completed \(goal.currentValue) exercises",
+              description: "\(goal.formattedProgressPercentage) of your \(goal.frequency.description) \(goal.name) goal",
+              progress: Float(goal.progressPercentage / 100)
+            )
+            .padding(.horizontal, 10)
+            .padding(.top, 20)
+          } else {
+            InformationCard(
+              title: "No goals selected",
+              description: "Add some goals to track your fitness progress",
+              style: .general
+            )
+          }
           
           SearchFilterField(
             showFilterView: $viewModel.showFilterView,
@@ -36,9 +45,11 @@ struct ExploreExerciseView: View {
             recommendedExercisesByPastSessions: $viewModel.recommendedByPastSessions,
             onExerciseTap: { viewModel.selectedExercise = $0 }
           )
+          .transition(.slide)
           
           WhiteBackgroundCard()
         }
+        .animation(.snappy(), value: viewModel.currentSection)
         .scrollIndicators(.hidden)
       }
       .popover(isPresented: $viewModel.showFilterView) {
@@ -46,11 +57,6 @@ struct ExploreExerciseView: View {
           viewModel.contentState = .loaded(filteredExercises)
         })
       }
-      .background(
-        Image("white-patterns-background")
-          .resizable(resizingMode: .tile)
-          .opacity(0.1)
-      )
       .navigationDestination(isPresented: $viewModel.showExerciseDetails) {
         if let exercise = viewModel.selectedExercise {
           ExerciseDetailsView(exercise: exercise)
