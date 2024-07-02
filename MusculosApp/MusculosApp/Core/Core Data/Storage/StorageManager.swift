@@ -80,6 +80,9 @@ class StorageManager: StorageManagerType {
     }
   }
   
+  /// Saves changes from `writerDerivedStorage`, followed by `viewStorage`
+  /// Escapes a void completion block
+  ///
   func saveChanges(completion: @escaping () -> Void) {
     writerDerivedStorage.performSync { [ weak self] in
       guard let self else { return }
@@ -93,6 +96,9 @@ class StorageManager: StorageManagerType {
     }
   }
   
+  /// Saves changes from `writerDerivedStorage`, followed by `viewStorage`
+  /// With `async` flavour
+  ///
   func saveChanges() async {
     await writerDerivedStorage.perform {
       self.writerDerivedStorage.saveIfNeeded()
@@ -103,19 +109,28 @@ class StorageManager: StorageManagerType {
     }
   }
   
-  // MARK: - Queue Operations
+  // MARK: - Operation Queues
   
+  /// The write operation queue
+  /// To enforce safety, the max concurrent operations is 1
+  ///
   private lazy var writeQueue: OperationQueue = {
     let queue = OperationQueue()
     queue.maxConcurrentOperationCount = 1
     return queue
   }()
   
+  /// The read operation queue
+  /// Should be used only for reading operations
+  ///
   private lazy var readQueue: OperationQueue = {
     let queue = OperationQueue()
     return queue
   }()
   
+  /// Performs the task in the `writeQueue`
+  /// Escapes the `writerDerivedStorage` to perform safe core data writing tasks
+  ///
   func performWriteOperation(_ task: @escaping (StorageType) throws -> Void) async throws {
     return try await withCheckedThrowingContinuation { continuation in
       let operation = CoreDataWriteOperation(task: task, storage: self.writerDerivedStorage, continuation: continuation)
@@ -123,6 +138,9 @@ class StorageManager: StorageManagerType {
     }
   }
   
+  /// Performs the task in the `readQueue`
+  /// Escapes the `viewStorage` to perform safe core data reading tasks
+  ///
   func performReadOperation<ResultType>(_ task: @escaping (StorageType) -> ResultType) async -> ResultType {
     return await withCheckedContinuation { continuation in
       let operation = CoreDataReadOperation(task: task, storage: self.viewStorage, continuation: continuation)
@@ -132,6 +150,8 @@ class StorageManager: StorageManagerType {
   
   // MARK: - Reset/Delete methods
   
+  /// Resets the core data store
+  ///
   func reset() {
     let viewContext = persistentContainer.viewContext
     viewContext.performAndWait {

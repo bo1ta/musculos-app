@@ -53,7 +53,7 @@ final class ExerciseDetailsViewModel {
     self.exercise = exercise
     self.setupPublishers()
   }
-
+  
   private func setupPublishers() {
     favoriteSubject
       .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
@@ -122,9 +122,7 @@ extension ExerciseDetailsViewModel {
         try await exerciseDataStore.setIsFavorite(exercise, isFavorite: isFavorite)
         didSaveFavoriteSubject.send(true)
       } catch {
-        await MainActor.run {
-          didSaveFavoriteSubject.send(false)
-        }
+        didSaveFavoriteSubject.send(false)
         MusculosLogger.logError(error, message: "Could not update exercise.isFavorite", category: .coreData)
       }
     }

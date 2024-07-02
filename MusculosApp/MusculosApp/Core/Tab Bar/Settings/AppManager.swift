@@ -28,7 +28,7 @@ protocol AppManagerProtocol {
   func showToast(style: Toast.ToastStyle, message: String, duration: Double)
   
   /// Notify a model update.
-  /// Posts a notification that for refreshing the data (if needed)
+  /// Posts a notification for refreshing the data (if needed)
   /// 
   func notifyModelUpdate(_ event: ModelUpdatedEvent)
 }
