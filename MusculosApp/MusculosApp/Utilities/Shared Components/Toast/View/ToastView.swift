@@ -15,10 +15,10 @@ struct ToastView: View {
   var body: some View {
     RoundedRectangle(cornerRadius: 8)
       .frame(maxWidth: .infinity)
-      .frame(height: 50)
+      .frame(height: 40)
       .shadow(radius: 3)
       .padding(.horizontal, 16)
-      .foregroundStyle(style.backgroundColor)
+      .foregroundStyle(style.backgroundColor.opacity(0.9))
       .overlay {
         RoundedRectangle(cornerRadius: 8)
           .stroke(style.borderColor)
@@ -39,5 +39,5 @@ struct ToastView: View {
 }
 
 #Preview {
-  ToastView(style: .info, message: "Toast is shown")
+  ToastView(style: .success, message: "Toast is shown")
 }

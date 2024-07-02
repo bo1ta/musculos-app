@@ -8,13 +8,14 @@
 import Foundation
 
 struct GoalFactory {
-  static func createGoal(name: String =  "Lose weight", category: Goal.Category = .loseWeight, frequency: Goal.Frequency = .weekly, targetValue: String = "20", endDate: Date = Date().dayAfter) -> Goal {
+  static func createGoal(name: String =  "Lose weight", category: Goal.Category = .loseWeight, frequency: Goal.Frequency = .weekly, targetValue: Int = 20, endDate: Date = Date().dayAfter, dateAdded: Date = Date()) -> Goal {
     return Goal(
       name: name,
       category: category,
       frequency: frequency,
       targetValue: targetValue,
-      endDate: endDate
+      endDate: endDate,
+      dateAdded: dateAdded
     )
   }
 }

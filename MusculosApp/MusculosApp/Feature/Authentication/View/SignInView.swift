@@ -29,7 +29,7 @@ struct SignInView: View {
         Spacer()
         signUpButton
       }
-      .padding([.leading, .trailing], 20)
+      .padding(.horizontal, 20)
       .onDisappear(perform: viewModel.cleanUp)
       .navigationTitle("")
       .navigationDestination(isPresented: $viewModel.showRegister) {
@@ -54,12 +54,10 @@ struct SignInView: View {
 extension SignInView {
   private var loginForm: some View {
     VStack(alignment: .center, spacing: 15) {
-      RoundedTextField(text: $viewModel.email,
-                       label: "Email",
-                       textHint: "Enter email")
-      RoundedTextField(text: $viewModel.password,
+      CustomTextField(text: $viewModel.email,
+                       label: "Email")
+      CustomTextField(text: $viewModel.password,
                        label: "Password",
-                       textHint: "Enter password",
                        isSecureField: true)
       .padding([.top, .bottom], 10)
       
@@ -104,20 +102,11 @@ extension SignInView {
   
   private var signUpButton: some View {
     Button(action: {
-      DispatchQueue.main.async {
-        viewModel.showRegister = true
-      }
+      viewModel.showRegister.toggle()
     }, label: {
-      HStack(spacing: 5) {
-        Text(dontHaveAnAccountTitle)
-          .font(.body(.light, size: 15))
-        Text(signUpButtonTitle)
-          .font(.body(.light, size: 15))
-          .foregroundStyle(Color.AppColor.green700)
-      }
-      
+      Text(dontHaveAnAccountTitle)
+        .font(.body(.light, size: 15))
     })
-    .buttonStyle(SecondaryButtonStyle())
   }
 }
 
@@ -131,13 +120,8 @@ extension SignInView {
   private var bodyTitle: String {
     "Sign in to start your fitness journey"
   }
-  
-  private var signUpButtonTitle: String {
-    "Sign up now"
-  }
-  
   private var dontHaveAnAccountTitle: String {
-    "Don't have an account?"
+    "Don't have an account? Sign up now"
   }
 }
 

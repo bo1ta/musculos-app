@@ -23,7 +23,7 @@ extension Toast {
     
     var borderColor: Color {
       switch self {
-      case .success: .green
+      case .success: Color.AppColor.green700
       case .info: Color.AppColor.blue500
       case .warning: Color.orange
       case .error: Color.red

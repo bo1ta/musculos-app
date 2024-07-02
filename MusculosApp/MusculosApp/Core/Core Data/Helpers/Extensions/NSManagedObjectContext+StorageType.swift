@@ -9,6 +9,28 @@ import Foundation
 import CoreData
 
 extension NSManagedObjectContext: StorageType {
+  func fetchUniquePropertyValues<T: Object, V: Hashable>(ofType type: T.Type, property propertyToFetch: String, expressionResultType: NSAttributeType) -> Set<V>? {
+    let request = NSFetchRequest<NSDictionary>(entityName: type.entityName)
+    request.resultType = .dictionaryResultType
+    
+    let expressionDescription = NSExpressionDescription()
+    expressionDescription.name = "uniqueValues"
+    expressionDescription.expression = NSExpression(forKeyPath: propertyToFetch)
+    expressionDescription.expressionResultType = expressionResultType
+    
+    request.propertiesToFetch = [expressionDescription]
+    request.returnsDistinctResults = true
+    
+    do {
+      let results = try fetch(request)
+      let uniqueValues = results.compactMap { $0["uniqueValues"] as? V }
+      return Set(uniqueValues)
+    } catch {
+      print("Failed to fetch unique property values: \(error)")
+      return nil
+    }
+  }
+  
   var parentStorage: StorageType? {
     return parent
   }
@@ -136,7 +158,7 @@ extension NSManagedObjectContext: StorageType {
       closure()
     }
   }
- 
+  
   func saveIfNeeded() {
     guard hasChanges else { return }
     
@@ -145,6 +167,22 @@ extension NSManagedObjectContext: StorageType {
     } catch {
       rollback()
       MusculosLogger.logError(error, message: "Failed to save context", category: .coreData)
+    }
+  }
+  
+  func fetchUniquePropertyValues(forEntity entityName: String, property propertyToFetch: String) -> Set<UUID>? {
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+    fetchRequest.resultType = .dictionaryResultType
+    fetchRequest.propertiesToFetch = [propertyToFetch]
+    
+    do {
+      guard let results = try self.fetch(fetchRequest) as? [[String: Any]] else { return nil }
+      return Set<UUID>(results.compactMap({ dict in
+        return dict[propertyToFetch] as? UUID
+      }))
+    } catch {
+      MusculosLogger.logError(error, message: "Cannot fetch by property", category: .coreData, properties: ["property_name": propertyToFetch, "entity_name": entityName])
+      return nil
     }
   }
   

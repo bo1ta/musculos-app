@@ -13,32 +13,26 @@ actor RecommendationEngine {
   
   // MARK: - Recommendations by Goals
   
-  func recommendByGoals() async throws -> [Exercise] {
-    guard await dataStore.loadCurrentPerson() != nil else {
+  func recommendByGoals() async throws -> [Exercise]? {
+    guard await dataStore.loadCurrentUser() != nil else {
       throw MusculosError.notFound
     }
     
     let goals = await dataStore.loadGoals()
-    guard
-      !goals.isEmpty
-    else {
-      throw RecommendationError.emptyGoals
-    }
+    guard !goals.isEmpty else { return nil }
     
     return await dataStore.exerciseDataStore.getAllByGoals(goals, fetchLimit: 20)
   }
   
   // MARK: - Recommendations by Muscles
   
-  func recommendByMuscleGroups() async throws -> [Exercise] {
-    guard await dataStore.loadCurrentPerson() != nil else {
+  func recommendByMuscleGroups() async throws -> [Exercise]? {
+    guard await dataStore.loadCurrentUser() != nil else {
       throw MusculosError.notFound
     }
     
     let exerciseSessions = await dataStore.loadExerciseSessions()
-    guard !exerciseSessions.isEmpty else {
-      throw RecommendationError.emptyExerciseSessions
-    }
+    guard !exerciseSessions.isEmpty else { return nil }
     
     let muscles = Array(Set(exerciseSessions.flatMap { $0.exercise.muscleTypes }))
     return await dataStore.exerciseDataStore.getAllExcludingMuscles(muscles)

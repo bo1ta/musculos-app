@@ -8,5 +8,5 @@
 import Foundation
 
 extension Notification.Name {
-  static let CoreModelDidChange = Notification.Name("CoreModelDidChange")
+  static let CoreDataModelDidChange = Notification.Name("CoreModelDidChange")
 }

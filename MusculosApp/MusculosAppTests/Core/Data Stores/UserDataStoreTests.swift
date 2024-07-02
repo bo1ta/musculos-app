@@ -22,7 +22,7 @@ class UserDataStoreTests: XCTestCase {
 //    let dataStore = UserDataStore()
 //    try await dataStore.createUser(person: person)
 //    
-//    let currentPerson = await dataStore.loadCurrentPerson()
+//    let currentPerson = await dataStore.loadCurrentUser()
 //    XCTAssertEqual(person.username, currentPerson?.username)
 //  }
 }

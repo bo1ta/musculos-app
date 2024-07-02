@@ -53,6 +53,9 @@ class ExploreExerciseViewModelTests: XCTestCase {
 
 extension ExploreExerciseViewModelTests {
   class MockGoalDataStore: GoalDataStoreProtocol {
+    func incrementCurrentValue(_ goal: Goal) async throws {
+    }
+    
     func add(_ goal: Goal) async throws {}
     
     var getAllExpectation: XCTestExpectation?

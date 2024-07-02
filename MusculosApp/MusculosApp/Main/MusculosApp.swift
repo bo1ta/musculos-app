@@ -15,18 +15,20 @@ struct MusculosApp: App {
   var body: some Scene {
     WindowGroup {
       Group {
-        if userStore.isOnboarded && userStore.isLoggedIn {
+        if userStore.isLoading {
+          EmptyView()
+        } else if userStore.isOnboarded && userStore.isLoggedIn {
           AppTabView()
         } else {
           if !userStore.isLoggedIn {
             SplashView()
-              .task {
-                await userStore.initialLoad()
-              }
           } else {
             OnboardingWizardView()
           }
         }
+      }
+      .task {
+        await userStore.initialLoad()
       }
       .environment(\.userStore, userStore)
       .environment(\.healthKitViewModel, healthKitViewModel)

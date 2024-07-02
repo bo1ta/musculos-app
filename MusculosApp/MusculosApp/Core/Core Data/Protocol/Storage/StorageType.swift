@@ -59,7 +59,15 @@ protocol StorageType {
   ///
   func loadObject<T: Object>(ofType type: T.Type, with objectID: T.ObjectID) -> T?
   
-  /// Saves changes, if needed
+  /// Returns a set of a property values for a given type.
+  /// - Parameters:
+  ///   - type: Managed object that conforms to `Object` protocol
+  ///   - propertyToFetch: The name of the property to fetch values for.
+  /// - Returns: A set of hashable values for the specified property, or nil if an error occurs.
+  ///
+  func fetchUniquePropertyValues<T: Object, V: Hashable>(ofType type: T.Type, property propertyToFetch: String, expressionResultType: NSAttributeType) -> Set<V>?
+
+  /// Saves context, if it has changes
   ///
   func saveIfNeeded()
   
@@ -67,7 +75,11 @@ protocol StorageType {
   ///
   func perform(_ closure: @escaping () -> Void) async
   
+  /// Wrapper over the synchronous `performAndWait`
+  ///
   func performSync(_ block: @escaping () -> Void)
   
+  /// Wrapper over the asynchronous `perform`
+  ///
   func performAsync(_ block: @escaping () -> Void)
 }

@@ -22,10 +22,10 @@ final class AuthViewModelTests: XCTestCase, MusculosTestBase {
   func testSignIn() async throws {
     let shouldSignInExpectation = self.expectation(description: "should sign in")
     
-    let mockModule = MockAuthModule(dataStore: MockDataStore())
-    mockModule.expectation = shouldSignInExpectation
+    let mockService = MockAuthService(dataStore: MockDataStore())
+    mockService.expectation = shouldSignInExpectation
     
-    let viewModel = AuthViewModel(module: mockModule)
+    let viewModel = AuthViewModel(service: mockService)
     XCTAssertNil(viewModel.authTask)
     XCTAssertEqual(viewModel.state, .empty)
     
@@ -42,11 +42,11 @@ final class AuthViewModelTests: XCTestCase, MusculosTestBase {
   func testSignInFails() async throws {
     let shouldSignInExpectation = self.expectation(description: "should try to sign in")
     
-    let mockModule = MockAuthModule(dataStore: MockDataStore())
-    mockModule.expectation = shouldSignInExpectation
-    mockModule.shouldFail = true
+    let mockService = MockAuthService(dataStore: MockDataStore())
+    mockService.expectation = shouldSignInExpectation
+    mockService.shouldFail = true
     
-    let viewModel = AuthViewModel(module: mockModule)
+    let viewModel = AuthViewModel(service: mockService)
     XCTAssertNil(viewModel.authTask)
     XCTAssertEqual(viewModel.state, .empty)
     
@@ -63,10 +63,10 @@ final class AuthViewModelTests: XCTestCase, MusculosTestBase {
   func testSignUp() async throws {
     let shouldSignUpExpectation = self.expectation(description: "should sign up")
     
-    let mockModule = MockAuthModule(dataStore: MockDataStore())
-    mockModule.expectation = shouldSignUpExpectation
+    let mockService = MockAuthService(dataStore: MockDataStore())
+    mockService.expectation = shouldSignUpExpectation
     
-    let viewModel = AuthViewModel(module: mockModule)
+    let viewModel = AuthViewModel(service: mockService)
     XCTAssertNil(viewModel.authTask)
     XCTAssertEqual(viewModel.state, .empty)
     
@@ -85,11 +85,11 @@ final class AuthViewModelTests: XCTestCase, MusculosTestBase {
   func testSignUpFails() async throws {
     let shouldSignUpExpectation = self.expectation(description: "should try to sign up")
     
-    let mockModule = MockAuthModule(dataStore: MockDataStore())
-    mockModule.expectation = shouldSignUpExpectation
-    mockModule.shouldFail = true
+    let mockService = MockAuthService(dataStore: MockDataStore())
+    mockService.expectation = shouldSignUpExpectation
+    mockService.shouldFail = true
     
-    let viewModel = AuthViewModel(module: mockModule)
+    let viewModel = AuthViewModel(service: mockService)
     XCTAssertNil(viewModel.authTask)
     XCTAssertEqual(viewModel.state, .empty)
     
@@ -110,22 +110,22 @@ final class AuthViewModelTests: XCTestCase, MusculosTestBase {
 ///
 extension AuthViewModelTests {
   class MockDataStore: UserDataStoreProtocol {
-    func loadCurrentPerson() async -> Person? {
-      return Person(email: "email", username: "username")
+    var updateUserExpectation: XCTestExpectation?
+    func updateUser(gender: String?, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws {
+      updateUserExpectation?.fulfill()
+    }
+    
+    func loadCurrentUser() async -> User? {
+      return User(email: "email", username: "username")
     }
     
     var createUserExpectation: XCTestExpectation?
-    func createUser(person: Person) async {
+    func createUser(person: User) async {
       createUserExpectation?.fulfill()
-    }
-    
-    var updateUserExpectation: XCTestExpectation?
-    func updateUser(gender: Gender?, weight: Int?, height: Int?, goalId: Int?) async {
-      updateUserExpectation?.fulfill()
     }
   }
   
-  class MockAuthModule: Authenticatable {
+  class MockAuthService: AuthServiceProtocol {
     var dataStore: UserDataStoreProtocol
     
     init(dataStore: UserDataStoreProtocol) {

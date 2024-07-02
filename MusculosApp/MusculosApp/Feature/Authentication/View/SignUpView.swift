@@ -21,7 +21,7 @@ struct SignUpView: View {
       registerForm
 //      socialLoginSection
     }
-    .padding([.leading, .trailing], 20)
+    .padding(.horizontal, 20)
     .onDisappear(perform: viewModel.cleanUp)
   }
 }
@@ -31,19 +31,15 @@ struct SignUpView: View {
 extension SignUpView {
   private var registerForm: some View {
     VStack(alignment: .leading, spacing: 15) {
-      RoundedTextField(text: $viewModel.email,
-                       label: "Email",
-                       textHint: "Enter email")
-      RoundedTextField(text: $viewModel.password,
+      CustomTextField(text: $viewModel.email,
+                       label: "Email")
+      CustomTextField(text: $viewModel.password,
                        label: "Password",
-                       textHint: "Enter password",
                        isSecureField: true)
-      RoundedTextField(text: $viewModel.username,
-                       label: "Username",
-                       textHint: "Enter username")
-      RoundedTextField(text: $viewModel.fullName,
-                       label: "Full Name (optional)",
-                       textHint: "Enter full name")
+      CustomTextField(text: $viewModel.username,
+                       label: "Username")
+      CustomTextField(text: $viewModel.fullName,
+                       label: "Full Name (optional)")
       
       Button(action: viewModel.signUp, label: {
         Text(headerTitle)

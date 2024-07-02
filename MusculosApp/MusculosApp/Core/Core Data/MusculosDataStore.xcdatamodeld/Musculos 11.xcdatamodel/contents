@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23E224" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ExerciseEntity" representedClassName="ExerciseEntity" syncable="YES">
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="equipment" optional="YES" attributeType="String"/>
@@ -13,6 +13,11 @@
         <relationship name="exerciseSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseSessionEntity" inverseName="exercise" inverseEntity="ExerciseSessionEntity"/>
         <relationship name="primaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PrimaryMuscleEntity" inverseName="exercises" inverseEntity="PrimaryMuscleEntity"/>
         <relationship name="secondaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SecondaryMuscleEntity" inverseName="exercises" inverseEntity="SecondaryMuscleEntity"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="exerciseId"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="ExerciseSessionEntity" representedClassName="ExerciseSessionEntity" syncable="YES">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>

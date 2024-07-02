@@ -32,7 +32,7 @@ struct OverviewView: View {
         
         WhiteBackgroundCard()
       }
-      .padding([.leading, .trailing], 15)
+      .padding(.horizontal, 15)
     }
     .task {
       if healthKitViewModel.isAuthorized {
@@ -62,61 +62,66 @@ extension OverviewView {
           Image(systemName: "sun.min")
             .foregroundStyle(.gray)
             .font(.header(.bold, size: 25))
-          Text("TUES 11 JUL")
+          Text(DateHelper.currentDayDisplay())
             .foregroundStyle(.gray)
             .font(.body(.semiBold, size: 15))
         }
         .shadow(radius: 0.2)
-        .padding(.bottom, 1)
+        .padding(.bottom, 10)
   
-        makeTitleSection("Overview", withButton: "All data", onButtonTap: {})
+        Text("Overview")
+          .font(.header(.bold, size: 23))
+          .shadow(radius: 0.5)
   
         ScoreCard(title: "Health Score",
                   description: "Based on your overview health tracking, your score is 87 and considered good",
                   score: 87,
                   onTap: {},
-                  color: Color.AppColor.blue100,
-                  badgeColor: Color.AppColor.green600)
+                  color: Color.AppColor.blue100)
       }
       Spacer()
     }
   }
   
   private var highlightsSection: some View {
-    VStack {
-      makeTitleSection("Highlights", withButton: "View more", onButtonTap: {
-        print("view more")
-      })
+    VStack(alignment: .leading) {
+      Text("Highlights")
+        .font(.header(.bold, size: 23))
+        .shadow(radius: 0.5)
       
       HStack(spacing: 15) {
         HighlightCard(title: "Steps",
                       value: healthKitViewModel.stepsCount,
                       description: "updated 15 min ago",
-                      imageName: "figure.run")
+                      imageName: "figure.run",
+                      color: Color.AppColor.blue700
+        )
         HighlightCard(title: "Sleep",
                       value: "7h 31 min",
                       description: "updated a day ago",
                       imageName: "sleep",
-                      color: .purple)
+                      color: Color.AppColor.darkPurple)
       }
       HStack(spacing: 15) {
         HighlightCard(title: "Water",
                       value: healthKitViewModel.dietaryWater,
                       description: "updated 5 min ago",
                       imageName: "drop.fill",
-                      color: .blue)
-        HighlightCard(title: "Workout tracking",
-                      value: "1 day since last workout",
+                      color: Color.AppColor.blue500)
+        HighlightCard(title: "Workout",
+                      value: "1 day",
                       description: "updated a day ago",
                       imageName: "dumbbell.fill",
-                      color: .green)
+                      color: Color.AppColor.green700)
       }
     }
   }
   
   private var reportSection: some View {
-    VStack {
-      makeTitleSection("This week report", withButton: "View more", onButtonTap: {})
+    VStack(alignment: .leading) {
+      Text("This week report")
+        .font(.header(.bold, size: 23))
+        .shadow(radius: 0.5)
       
       HStack(spacing: 15) {
         makeStatReportCard(.steps)

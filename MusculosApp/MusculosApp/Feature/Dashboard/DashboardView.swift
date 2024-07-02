@@ -47,8 +47,8 @@ struct DashboardView: View {
             .font(.title)
             .bold()
           Divider()
-            .padding([.leading, .trailing], 20)
-          
+            .padding(.horizontal, 20)
+
           PersonAvatarCircle(persons: MockConstants.persons)
           Text("\(MockConstants.persons.count) people attending")
             .font(.callout)
