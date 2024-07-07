@@ -42,7 +42,6 @@ actor DataStore: DataStoreProtocol {
       return cachedExercises
     } else {
       let exercises = await exerciseDataStore.getAll(fetchLimit: fetchLimit)
-      cachedExercises = exercises
       return exercises
     }
   }
@@ -52,7 +51,6 @@ actor DataStore: DataStoreProtocol {
       return cachedGoals
     } else {
       let goals = await goalDataStore.getAll()
-      cachedGoals = goals
       return goals
     }
   }
@@ -62,7 +60,6 @@ actor DataStore: DataStoreProtocol {
       return cachedExerciseSessions
     } else {
       let exerciseSessions = await exerciseSessionDataStore.getCompletedSinceLastWeek()
-      cachedExerciseSessions = exerciseSessions
       return exerciseSessions
     }
   }
@@ -72,7 +69,6 @@ actor DataStore: DataStoreProtocol {
       return cachedUser
     } else {
       let person = await userDataStore.loadCurrentUser()
-      cachedUser = person
       return person
     }
   }

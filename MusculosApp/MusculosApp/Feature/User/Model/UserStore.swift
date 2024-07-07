@@ -11,6 +11,7 @@ import Factory
 import Combine
 
 @Observable
+@MainActor
 class UserStore {
   // MARK: - Dependencies
   
@@ -44,7 +45,6 @@ class UserStore {
   
   // MARK: - Tasks
 
-  @MainActor
   func initialLoad() async {
     isLoading = true
     defer { isLoading = false }
@@ -59,10 +59,8 @@ class UserStore {
   }
   
   func refreshUser() {
-    refreshTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-      
-      self.currentUser = await dataStore.loadCurrentUser()
+    refreshTask = Task {
+      currentUser = await dataStore.loadCurrentUser()
     }
   }
 }

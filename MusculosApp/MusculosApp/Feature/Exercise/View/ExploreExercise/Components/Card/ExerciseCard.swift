@@ -37,18 +37,19 @@ struct ExerciseCard: View {
   @ViewBuilder
   private var backgroundView: some View {
     if let imageUrl = exercise.getImagesURLs().first {
-      if let cachedImage = ImageCacheManager.shared[imageUrl] {
-        cachedImage        
-          .frame(width: cardWidth, height: cardHeight)
-      } else {
-        AsyncImage(url: imageUrl)
-          .frame(width: cardWidth, height: cardHeight)
-      }
-    } else {
-      Color.gray
-        .frame(width: cardWidth, height: cardWidth)
-        .redacted(reason: .placeholder)
-        .shimmering(bandSize: 0.4)
+      AsyncCachedImage(url: imageUrl, content: { imagePhase in
+        switch imagePhase {
+        case .success(let image):
+          image
+            .resizable()
+            .frame(width: cardWidth, height: cardHeight)
+        default:
+          Color.gray
+            .frame(width: cardWidth, height: cardWidth)
+            .redacted(reason: .placeholder)
+            .shimmering(bandSize: 0.4)
+        }
+      })
     }
   }
   

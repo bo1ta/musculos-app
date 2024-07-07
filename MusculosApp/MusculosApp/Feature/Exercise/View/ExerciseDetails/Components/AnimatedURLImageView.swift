@@ -57,6 +57,15 @@ struct AnimatedURLImageView: View {
     guard timer == nil, currentIndex == 0, imageURLs.count > 1 else { return }
     
     timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
+      self.updateCurrentIndex()
+    }
+    if let timer {
+      RunLoop.current.add(timer, forMode: .common)
+    }
+  }
+  
+  nonisolated private func updateCurrentIndex() {
+    Task { @MainActor in
       currentIndex = (currentIndex + 1) % imageURLs.count
     }
   }

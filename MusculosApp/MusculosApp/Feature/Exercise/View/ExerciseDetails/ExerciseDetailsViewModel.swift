@@ -11,6 +11,7 @@ import Combine
 import SwiftUI
 
 @Observable
+@MainActor
 final class ExerciseDetailsViewModel {
   
   // MARK: - Dependencies
@@ -74,8 +75,10 @@ final class ExerciseDetailsViewModel {
     isTimerActive = true
     elapsedTime = 0
     
-    timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] _ in
-      self?.elapsedTime += 1
+    timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {_ in 
+      Task { @MainActor in
+        self.elapsedTime += 1
+      }
     })
     
     if let timer {

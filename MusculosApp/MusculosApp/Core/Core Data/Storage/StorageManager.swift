@@ -8,11 +8,13 @@
 import Foundation
 import Combine
 import UIKit
-import CoreData
+@preconcurrency import CoreData
 
-class StorageManager: StorageManagerType {
+class StorageManager: StorageManagerType, @unchecked Sendable {
   private var cancellables = Set<AnyCancellable>()
   private let coalesceInterval: Double = 2.0 // coalesce interval for Core Data saving
+  
+  private var backgroundSaveTask: Task<Void, Never>?
   
   init() {
     setupNotificationPublisher()
@@ -24,8 +26,8 @@ class StorageManager: StorageManagerType {
   func setupNotificationPublisher() {
     NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: writerDerivedStorage as? NSManagedObjectContext)
       .debounce(for: .seconds(coalesceInterval), scheduler: DispatchQueue.global())
-      .sink { [weak self] _ in
-        self?.performBackgroundSave()
+      .sink { [performBackgroundSave] _ in
+        performBackgroundSave()
       }
       .store(in: &cancellables)
   }
@@ -66,17 +68,19 @@ class StorageManager: StorageManagerType {
   /// This ensures data is saved even if the app goes from foreground to background
   ///
   private func performBackgroundSave() {
-    let app = UIApplication.shared
-    var bgTask: UIBackgroundTaskIdentifier = .invalid
-    
-    bgTask = app.beginBackgroundTask(withName: "CoreDataSave", expirationHandler: {
-      app.endBackgroundTask(bgTask)
-      bgTask = .invalid
-    })
-    
-    self.saveChanges {
-      app.endBackgroundTask(bgTask)
-      bgTask = .invalid
+    backgroundSaveTask = Task { @MainActor [weak self] in
+      let app = UIApplication.shared
+      var bgTask: UIBackgroundTaskIdentifier = .invalid
+      
+      bgTask = app.beginBackgroundTask(withName: "CoreDataSave", expirationHandler: {
+        app.endBackgroundTask(bgTask)
+        bgTask = .invalid
+      })
+      
+      self?.saveChanges {
+        app.endBackgroundTask(bgTask)
+        bgTask = .invalid
+      }
     }
   }
   

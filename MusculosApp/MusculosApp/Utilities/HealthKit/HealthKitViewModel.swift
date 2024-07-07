@@ -10,6 +10,7 @@ import SwiftUI
 import HealthKit
 
 @Observable
+@MainActor
 final class HealthKitViewModel {
   
   // MARK: - Dependencies
@@ -40,18 +41,16 @@ final class HealthKitViewModel {
     updateAuthorizationStatus()
   }
   
-  nonisolated func loadAllData() async {
+  func loadAllData() async {
     guard isAuthorized else { return }
     
-    await withTaskGroup(of: Void.self) { @MainActor [weak self] group in
-      guard let self else { return }
-      
-      self.isLoading = true
-      defer { self.isLoading = false }
+    await withTaskGroup(of: Void.self) { group in
+      isLoading = true
+      defer { isLoading = false }
       
       group.addTask { await self.loadUserSteps() }
       group.addTask { await self.loadSleepAnalysis() }
-      group.addTask { await self.loadDietaryWater()}
+      group.addTask { await self.loadDietaryWater() }
       
       await group.waitForAll()
     }

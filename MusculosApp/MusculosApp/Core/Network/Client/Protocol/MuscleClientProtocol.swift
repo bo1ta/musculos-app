@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-protocol MusculosClientProtocol {
+protocol MusculosClientProtocol: Sendable {
   func dispatch(_ request: APIRequest) async throws -> Data
   func dispatchPublisher<T: Codable>(_ request: APIRequest) -> AnyPublisher<T, MusculosError>
 }

@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-protocol ExerciseDataStoreProtocol {
+protocol ExerciseDataStoreProtocol: Sendable {
   
   // MARK: - Read methods
   
@@ -58,8 +58,7 @@ struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
         .firstObject(
           of: ExerciseEntity.self,
           matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
-        )?.isFavorite
-      ?? false
+        )?.isFavorite ?? false
     }
   }
   
@@ -226,6 +225,7 @@ extension ExerciseDataStore {
   ///   - secondaryMuscles: A list of secondary muscle IDs.
   ///   - writerStorage: The storage context for writing.
   /// - Returns: A tuple containing sets of primary and secondary muscle entities.
+  ///
   private func syncMusclesToExerciseEntity(
     exerciseEntity: ExerciseEntity,
     primaryMuscles: [String],

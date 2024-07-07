@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol WorkoutDataStoreProtocol {
+protocol WorkoutDataStoreProtocol: Sendable {
   func create(_ workout: Workout) async throws
   func getAll() async -> [Workout]
 }

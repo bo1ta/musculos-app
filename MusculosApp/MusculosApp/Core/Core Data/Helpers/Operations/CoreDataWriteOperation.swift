@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-final class CoreDataWriteOperation: Operation {
+final class CoreDataWriteOperation: Operation, @unchecked Sendable {
   let task: (StorageType) throws -> Void
   let storage: StorageType
   let continuation: CheckedContinuation<Void, Error>

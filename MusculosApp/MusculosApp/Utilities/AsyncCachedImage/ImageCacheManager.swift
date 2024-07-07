@@ -7,13 +7,17 @@
 
 import Foundation
 import SwiftUI
+import Factory
 
 /// Shared instance of cached images
 ///
-final class ImageCacheManager {
+actor ImageCacheManager {
   static let shared = ImageCacheManager()
   
   private var cache: [URL: Image] = [:]
+  private var downloadTask: Task<Image?, Never>?
+  
+  private let imageDownloader = ImageDownloader()
 
   subscript(url: URL?) -> Image? {
     get {
@@ -23,6 +27,50 @@ final class ImageCacheManager {
     set {
       guard let url else { return }
       cache[url] = newValue
+    }
+  }
+  
+  func add(_ image: Image, for url: URL) {
+    cache[url] = image
+  }
+  
+  func imageForURL(_ url: URL) async -> Image? {
+    if let image = cache[url] {
+      return image
+    } else {
+      return await downloadAndCacheImage(url)
+    }
+  }
+  
+  @discardableResult private func downloadAndCacheImage(_ url: URL) async -> Image? {
+    if let image = await imageDownloader.downloadImage(from: url) {
+      add(image, for: url)
+      return image
+    }
+    
+    return nil
+  }
+}
+
+struct ImageDownloader {
+  var client: MusculosClient
+  
+  init(client: MusculosClient = MusculosClient()) {
+    self.client = client
+  }
+  
+  func downloadImage(from url: URL) async -> Image? {
+    do {
+      let (data, _) = try await client.urlSession.data(from: url)
+      
+      if let uiImage = UIImage(data: data) {
+        return Image(uiImage: uiImage)
+      } else {
+        return nil
+      }
+      
+    } catch {
+      return nil
     }
   }
 }

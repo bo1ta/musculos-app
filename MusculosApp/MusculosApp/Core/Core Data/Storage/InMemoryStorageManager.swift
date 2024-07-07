@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class InMemoryStorageManager: StorageManager {
+class InMemoryStorageManager: StorageManager, @unchecked Sendable {
   private var _persistentContainer: NSPersistentContainer?
   
   override init() {}

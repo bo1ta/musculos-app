@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-protocol UserDataStoreProtocol {
+protocol UserDataStoreProtocol: Sendable {
   func createUser(person: User) async throws
   func updateUser(gender: String?, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws
   func loadCurrentUser() async -> User?

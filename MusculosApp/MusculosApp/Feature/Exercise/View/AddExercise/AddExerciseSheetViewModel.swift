@@ -10,6 +10,7 @@ import Factory
 import Combine
 
 @Observable
+@MainActor
 final class AddExerciseSheetViewModel {
   
   @ObservationIgnored
@@ -65,13 +66,9 @@ final class AddExerciseSheetViewModel {
       
       do {
         try await exerciseDataStore.add(exercise)
-        await MainActor.run {
-          didSaveSubject.send(true)
-        }
+        didSaveSubject.send(true)
       } catch {
-        await MainActor.run {
-          didSaveSubject.send(false)
-        }
+        didSaveSubject.send(false)
         MusculosLogger.logError(error, message: "Could not save exercise", category: .coreData)
       }
     }

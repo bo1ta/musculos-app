@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-protocol ExerciseSessionDataStoreProtocol {
+protocol ExerciseSessionDataStoreProtocol: Sendable {
   func getAll() async -> [ExerciseSession]
   func getCompletedToday() async -> [ExerciseSession]
   func addSession(_ exercise: Exercise, date: Date) async throws

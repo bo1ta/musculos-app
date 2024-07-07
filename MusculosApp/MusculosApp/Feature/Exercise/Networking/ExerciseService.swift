@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ExerciseServiceProtocol {
+protocol ExerciseServiceProtocol: Sendable {
   var dataStore: ExerciseDataStoreProtocol { get set }
   func getExercises() async throws -> [Exercise]
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise]

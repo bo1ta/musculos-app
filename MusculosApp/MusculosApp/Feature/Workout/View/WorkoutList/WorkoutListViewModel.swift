@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 @Observable
+@MainActor
 final class WorkoutListViewModel {
   var state: LoadingViewState<[Workout]> = .empty
   var searchQuery: String = ""

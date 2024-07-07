@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class CoreDataReadOperation<ResultType>: Operation {
+final class CoreDataReadOperation<ResultType>: Operation, @unchecked Sendable {
   let task: (StorageType) -> ResultType
   let storage: StorageType
   let continuation: CheckedContinuation<ResultType, Never>

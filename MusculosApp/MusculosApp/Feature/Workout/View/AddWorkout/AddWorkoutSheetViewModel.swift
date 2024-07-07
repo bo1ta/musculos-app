@@ -11,6 +11,7 @@ import Factory
 import Combine
 
 @Observable
+@MainActor
 final class AddWorkoutSheetViewModel {
   
   // MARK: - Dependencies
@@ -98,7 +99,7 @@ final class AddWorkoutSheetViewModel {
   private func updateExercises() {
     guard !selectedMuscles.isEmpty else { return }
     
-    updateTask = Task { @MainActor in
+    updateTask = Task {
       state = .loading
       
       let results = await dataStore.exerciseDataStore.getByMuscles(selectedMuscleTypes)

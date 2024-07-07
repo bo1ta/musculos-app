@@ -11,6 +11,7 @@ import Combine
 import Factory
 
 @Observable
+@MainActor
 final class ExploreExerciseViewModel {
   
   // MARK: - Dependencies
@@ -54,7 +55,7 @@ final class ExploreExerciseViewModel {
   var displayGoal: Goal? {
     return goals
       .filter { !$0.isExpired }
-      .sorted { $0.dateAdded < $1.dateAdded }
+      .sorted { $0.currentValue > $1.currentValue}
       .first
   }
   
@@ -136,16 +137,13 @@ extension ExploreExerciseViewModel {
     }
   }
   
+  @MainActor
   func loadRemoteExercises() async {
     do {
       let exercises = try await service.getExercises()
-      await MainActor.run {
-        contentState = .loaded(exercises)
-      }
+      contentState = .loaded(exercises)
     } catch {
-      await MainActor.run {
-        contentState = .error(MessageConstant.genericErrorMessage.rawValue)
-      }
+      contentState = .error(MessageConstant.genericErrorMessage.rawValue)
       MusculosLogger.logError(error, message: "Could not load remote exercises", category: .networking)
     }
   }

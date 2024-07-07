@@ -17,7 +17,7 @@ struct ExploreExerciseView: View {
       VStack {
         ScrollView {
           
-          if let goal = viewModel.displayGoal, let daysUntilExpires = goal.daysUntilExpires {
+          if let goal = viewModel.displayGoal {
             ProgressCard(
               title: "You've completed \(goal.currentValue) exercises",
               description: "\(goal.formattedProgressPercentage) of your \(goal.frequency.description) \(goal.name) goal",

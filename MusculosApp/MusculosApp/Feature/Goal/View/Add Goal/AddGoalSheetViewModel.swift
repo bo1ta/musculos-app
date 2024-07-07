@@ -11,6 +11,7 @@ import Combine
 import Factory
 
 @Observable
+@MainActor
 final class AddGoalSheetViewModel {
   
   // MARK: - Dependency
@@ -31,9 +32,7 @@ final class AddGoalSheetViewModel {
   var frequency: String = "" {
     didSet {
       if frequency == Goal.Frequency.fixedDate.description {
-        DispatchQueue.main.async {
-          self.showEndDate = true
-        }
+        self.showEndDate = true
       }
     }
   }

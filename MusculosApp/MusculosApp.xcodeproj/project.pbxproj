@@ -46,8 +46,6 @@
 		BC2EAE492C22430800FB3C1F /* WorkoutExerciseEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2EAE462C22430800FB3C1F /* WorkoutExerciseEntity+CoreDataProperties.swift */; };
 		BC34545E2B76C3EA0074106A /* DebouncedQueryObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */; };
 		BC3DFABC2C17B8AB004419D7 /* AppManagerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFABB2C17B8AB004419D7 /* AppManagerKey.swift */; };
-		BC3DFABE2C17BFC3004419D7 /* UserStoreKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFABD2C17BFC3004419D7 /* UserStoreKey.swift */; };
-		BC3DFAC02C17C031004419D7 /* HealthKitViewModelKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFABF2C17C031004419D7 /* HealthKitViewModelKey.swift */; };
 		BC3DFAC22C190622004419D7 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFAC12C190622004419D7 /* Notification+Extension.swift */; };
 		BC3DFAC82C1A0089004419D7 /* RecommendationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3DFAC72C1A0089004419D7 /* RecommendationEngine.swift */; };
 		BC3F13EB2B78060D00E9E98E /* MusculosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3F13EA2B78060D00E9E98E /* MusculosError.swift */; };
@@ -290,8 +288,6 @@
 		BC34545D2B76C3EA0074106A /* DebouncedQueryObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebouncedQueryObserver.swift; sourceTree = "<group>"; };
 		BC37FF582C2397D000E6AD62 /* Musculos 12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 12.xcdatamodel"; sourceTree = "<group>"; };
 		BC3DFABB2C17B8AB004419D7 /* AppManagerKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManagerKey.swift; sourceTree = "<group>"; };
-		BC3DFABD2C17BFC3004419D7 /* UserStoreKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStoreKey.swift; sourceTree = "<group>"; };
-		BC3DFABF2C17C031004419D7 /* HealthKitViewModelKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitViewModelKey.swift; sourceTree = "<group>"; };
 		BC3DFAC12C190622004419D7 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		BC3DFAC72C1A0089004419D7 /* RecommendationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationEngine.swift; sourceTree = "<group>"; };
 		BC3F13EA2B78060D00E9E98E /* MusculosError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusculosError.swift; sourceTree = "<group>"; };
@@ -966,8 +962,6 @@
 			isa = PBXGroup;
 			children = (
 				BC3DFABB2C17B8AB004419D7 /* AppManagerKey.swift */,
-				BC3DFABD2C17BFC3004419D7 /* UserStoreKey.swift */,
-				BC3DFABF2C17C031004419D7 /* HealthKitViewModelKey.swift */,
 			);
 			path = "Environment Values";
 			sourceTree = "<group>";
@@ -1953,7 +1947,6 @@
 				BC6249932BED5C1500393915 /* MuscleType.swift in Sources */,
 				BC8C68562BC0AE5100A681EE /* WorkoutDataStore.swift in Sources */,
 				BC3DFAC22C190622004419D7 /* Notification+Extension.swift in Sources */,
-				BC3DFAC02C17C031004419D7 /* HealthKitViewModelKey.swift in Sources */,
 				BC74C1B62C0107CA0021B932 /* WorkoutIntroView.swift in Sources */,
 				BC62498C2BED2EF900393915 /* ExerciseEntity+CoreDataClass.swift in Sources */,
 				BCD59AA22BB627E60039F662 /* ExerciseCard.swift in Sources */,
@@ -2015,7 +2008,6 @@
 				BCFEB5B12BC207FA00698C63 /* Workout.swift in Sources */,
 				BCB7F2F02BB21D68002CB2DE /* NSManagedObjectContext+StorageType.swift in Sources */,
 				BC1674D62BE2FBDA0012048D /* GoalConstants.swift in Sources */,
-				BC3DFABE2C17BFC3004419D7 /* UserStoreKey.swift in Sources */,
 				BCB724C22BC1F51E003F53EA /* DialogView.swift in Sources */,
 				BCD977922BC20C6A0076C148 /* WorkoutExercise.swift in Sources */,
 				BC78274E2B9CDDB200DFC02C /* WaveShape.swift in Sources */,
@@ -2263,7 +2255,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2301,7 +2293,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

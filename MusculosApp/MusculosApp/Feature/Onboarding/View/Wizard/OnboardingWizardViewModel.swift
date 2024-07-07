@@ -11,6 +11,7 @@ import Factory
 import Combine
 
 @Observable
+@MainActor
 final class OnboardingWizardViewModel {
   
   // MARK: - Dependencies
@@ -89,14 +90,14 @@ final class OnboardingWizardViewModel {
   
   private func updateUser() async throws {
     var goalId: Int? // TODO: Handle Goal
-      try await userDataStore.updateUser(
-        gender: selectedGender?.rawValue,
-        weight: selectedWeight,
-        height: selectedHeight,
-        primaryGoalId: goalId,
-        level: selectedLevel?.title,
-        isOnboarded: true
-      )
+    try await userDataStore.updateUser(
+      gender: selectedGender?.rawValue,
+      weight: selectedWeight,
+      height: selectedHeight,
+      primaryGoalId: goalId,
+      level: selectedLevel?.title,
+      isOnboarded: true
+    )
   }
 }
 

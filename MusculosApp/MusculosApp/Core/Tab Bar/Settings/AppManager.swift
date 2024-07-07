@@ -13,11 +13,11 @@ protocol AppManagerProtocol {
   
   /// Shows the app tab bar
   ///
-  func showTabBar()
+  func showTabBar() async
   
   /// Hides the app tab bar
   ///
-  func hideTabBar()
+  func hideTabBar() async
   
   /// Shows a message toast for a given duration
   /// Params:
@@ -25,18 +25,21 @@ protocol AppManagerProtocol {
   ///  - `message`: Message to be displayed
   ///  - `duration`: Duration of the toast
   ///
-  func showToast(style: Toast.ToastStyle, message: String, duration: Double)
+  func showToast(style: Toast.ToastStyle, message: String, duration: Double) async
   
   /// Notify a model update.
   /// Posts a notification for refreshing the data (if needed)
   /// 
-  func notifyModelUpdate(_ event: ModelUpdatedEvent)
+  func notifyModelUpdate(_ event: ModelUpdatedEvent) async
 }
 
 /// Helper manager that is passed from the root level
 ///
 @Observable
+@MainActor
 final class AppManager {
+  static let live = AppManager()
+  
   private(set) var isTabBarHidden: Bool = false
   var toast: Toast? = nil
 }
@@ -45,24 +48,20 @@ final class AppManager {
 
 extension AppManager: AppManagerProtocol {
   
-  @MainActor
   func hideTabBar() {
     guard !isTabBarHidden else { return }
     isTabBarHidden = true
   }
   
-  @MainActor
   func showTabBar() {
     guard isTabBarHidden else { return }
     isTabBarHidden = false
   }
   
-  @MainActor
   func showToast(style: Toast.ToastStyle, message: String, duration: Double = 2.0) {
     toast = Toast(style: style, message: message, duration: duration)
   }
   
-  @MainActor
   func notifyModelUpdate(_ event: ModelUpdatedEvent) {
     NotificationCenter.default.post(name: .CoreDataModelDidChange, object: nil, userInfo: [ModelUpdatedEvent.userInfoKey: event])
   }

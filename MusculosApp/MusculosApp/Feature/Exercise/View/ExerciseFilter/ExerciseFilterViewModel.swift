@@ -11,6 +11,7 @@ import Factory
 import Combine
 
 @Observable
+@MainActor
 class ExerciseFilterViewModel {
   
   @ObservationIgnored

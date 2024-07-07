@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 @Observable
+@MainActor
 class AuthViewModel {
   var state: LoadingViewState<Bool> = .empty
   var email: String = ""
@@ -26,17 +27,14 @@ class AuthViewModel {
   }
   
   func signIn() {
-    authTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-      self.state = .loading
+    authTask?.cancel()
+    
+    authTask = Task {
+      state = .loading
       
       do {
-        try await self.service.login(
-          email: self.email,
-          password: self.password
-        )
-  
-        self.state = .loaded(true)
+        try await service.login(email: email, password: password)
+        state = .loaded(true)
       } catch {
         self.state = .error(MessageConstant.genericErrorMessage.rawValue)
         MusculosLogger.logError(error, message: "Sign in failed", category: .networking)
@@ -45,21 +43,22 @@ class AuthViewModel {
   }
   
   func signUp() {
-    authTask = Task { @MainActor [weak self] in
-      guard let self else { return }
-      self.state = .loading
+    authTask?.cancel()
+    
+    authTask = Task {
+      state = .loading
       
       do {
-        try await self.service.register(
-          email: self.email,
-          password: self.password,
-          username: self.username,
-          fullName: self.fullName
+        try await service.register(
+          email: email,
+          password: password,
+          username: username,
+          fullName: fullName
         )
     
-        self.state = .loaded(true)
+        state = .loaded(true)
       } catch {
-        self.state = .error(MessageConstant.genericErrorMessage.rawValue)
+        state = .error(MessageConstant.genericErrorMessage.rawValue)
         MusculosLogger.logError(error, message: "Sign up failed", category: .networking)
       }
     }

@@ -16,6 +16,9 @@ struct AsyncCachedImage<Content>: View where Content: View {
   private let scale: CGFloat
   private let contentPhase: ((AsyncImagePhase) -> Content)
   
+  @State private var isLoading = true
+  @State private var loadedImage: Image? = nil
+  
   init(url: URL?,
        scale: CGFloat = 1.0,
        @ViewBuilder content: @escaping (AsyncImagePhase) -> Content
@@ -27,22 +30,23 @@ struct AsyncCachedImage<Content>: View where Content: View {
   
   var body: some View {
     VStack {
-      if let cached = ImageCacheManager.shared[url] {
-        contentPhase(.success(cached))
-      } else {
-        AsyncImage(
-          url: url,
-          scale: scale,
-          content: { cacheAndRender(phase: $0) }
-        )
+      if isLoading {
+        contentPhase(.empty)
+      } else if let loadedImage {
+        contentPhase(.success(loadedImage))
       }
+    }
+    .task(id: self.url) {
+      await loadImage()
     }
   }
   
-  private func cacheAndRender(phase: AsyncImagePhase) -> some View {
-    if case .success(let image) = phase {
-      ImageCacheManager.shared[url] = image
+  private func loadImage() async {
+    if let url {
+      defer { isLoading = false }
+      
+      let image = await ImageCacheManager.shared.imageForURL(url)
+      loadedImage = image
     }
-    return contentPhase(phase)
   }
 }

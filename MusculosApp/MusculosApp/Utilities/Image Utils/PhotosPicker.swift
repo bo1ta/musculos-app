@@ -32,29 +32,53 @@ extension PhotosPicker {
   class Coordinator: NSObject, PHPickerViewControllerDelegate {
     var parent: PhotosPicker
     
+    var pickerTask: Task<Void, Never>?
+    
     init(_ parent: PhotosPicker) {
       self.parent = parent
     }
     
+    deinit {
+      pickerTask?.cancel()
+      pickerTask = nil
+    }
+    
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-      DispatchQueue.main.async {
+      pickerTask = Task { @MainActor in
+        let imageStream = imageStreamFrom(results: results)
+        
+        for await image in imageStream {
+          self.parent.assets.append(PhotoModel(image: image))
+        }
+        
         picker.dismiss(animated: true)
-
-        results
-          .compactMap { $0.itemProvider }
-          .filter { $0.canLoadObject(ofClass: UIImage.self) }
-          .forEach { provider in
-            provider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
-              guard let image = image as? UIImage, error == nil else {
-                MusculosLogger.logError(error ?? MusculosError.notFound, message: "Could not load picked photos.", category: .ui)
-                return
+      }
+    }
+    
+    func imageStreamFrom(results: [PHPickerResult]) -> AsyncStream<UIImage> {
+      return AsyncStream(UIImage.self) { continuation in
+        let totalResults = results.count
+        
+        for (index, result) in results.enumerated() {
+          let itemProvider = result.itemProvider
+          
+          if itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+              if let image = image as? UIImage {
+                continuation.yield(image)
+              } else {
+                if error != nil {
+                  continuation.finish()
+                  return
+                }
               }
               
-              let photoModel = PhotoModel(image: image)
-              self?.parent.assets.append(photoModel)
+              if index == totalResults - 1 {
+                continuation.finish()
+              }
             }
           }
-        MusculosLogger.logInfo(message: "Finished loading images", category: .ui)
+        }
       }
     }
   }
