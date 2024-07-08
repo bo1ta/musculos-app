@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Models
 
 struct SelectLevelView: View {
   @Binding var selectedLevel: OnboardingData.Level?

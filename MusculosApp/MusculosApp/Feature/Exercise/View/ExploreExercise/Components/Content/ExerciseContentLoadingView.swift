@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Shimmer
+import Models
 
 struct ExerciseContentLoadingView: View {
   let mockExercises = [

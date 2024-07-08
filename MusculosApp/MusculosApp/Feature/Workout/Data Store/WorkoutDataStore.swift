@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Models
 
 protocol WorkoutDataStoreProtocol: Sendable {
   func create(_ workout: Workout) async throws

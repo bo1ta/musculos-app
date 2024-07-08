@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Models
 
 struct AddGoalSheet: View {
   @Environment(\.appManager) private var appManager

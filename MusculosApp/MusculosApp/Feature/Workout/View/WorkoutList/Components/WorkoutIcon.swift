@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Models
 
 struct WorkoutIcon: View {
   let category: String

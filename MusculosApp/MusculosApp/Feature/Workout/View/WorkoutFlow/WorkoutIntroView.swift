@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Models
+import Utility
 
 struct WorkoutIntroView: View {
   @Environment(\.appManager) private var appManager

@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct ExerciseSessionFactory {
-  static func createExerciseSession() -> ExerciseSession {
+public struct ExerciseSessionFactory {
+  public static func createExerciseSession() -> ExerciseSession {
     let person = PersonFactory.createPerson()
     let exercise = ExerciseFactory.createExercise()
     return ExerciseSession(date: Date(), sessionId: UUID(), user: person, exercise: exercise)

@@ -7,9 +7,9 @@
 //
 
 import Foundation
-import Utils
+import Utility
 
-struct Exercise: Codable {
+public struct Exercise: Codable {
   public var category: String
   public var equipment: String?
   public var force: String?
@@ -21,7 +21,7 @@ struct Exercise: Codable {
   public var instructions: [String]
   public var imageUrls: [String]
   
-  init(category: String, equipment: String? = nil, force: String? = nil, id: UUID, level: String, name: String, primaryMuscles: [String], secondaryMuscles: [String], instructions: [String], imageUrls: [String]) {
+  public init(category: String, equipment: String? = nil, force: String? = nil, id: UUID, level: String, name: String, primaryMuscles: [String], secondaryMuscles: [String], instructions: [String], imageUrls: [String]) {
     self.category = category
     self.equipment = equipment
     self.force = force
@@ -34,18 +34,18 @@ struct Exercise: Codable {
     self.imageUrls = imageUrls
   }
   
-  var muscleTypes: [MuscleType] {
+  public var muscleTypes: [MuscleType] {
     var allMuscles = primaryMuscles
     allMuscles.append(contentsOf: secondaryMuscles)
     
     return allMuscles.compactMap { MuscleType(rawValue: $0) }
   }
   
-  var primaryMusclesTypes: [MuscleType] {
+  public var primaryMusclesTypes: [MuscleType] {
     return primaryMuscles.compactMap { MuscleType(rawValue: $0) }
   }
   
-  var secondaryMusclesTypes: [MuscleType] {
+  public var secondaryMusclesTypes: [MuscleType] {
     return secondaryMuscles.compactMap { MuscleType(rawValue: $0) }
   }
 
@@ -53,14 +53,14 @@ struct Exercise: Codable {
     case category, equipment, force, id, level, name, primaryMuscles, secondaryMuscles, instructions, imageUrls
   }
   
-  func getImagesURLs() -> [URL] {
+  public func getImagesURLs() -> [URL] {
     return imageUrls.compactMap { imageUrlString in
       URL(string: imageUrlString)
     }
   }
 }
 
-extension Exercise {
+public extension Exercise {
   enum ForceType: String, Codable {
     case pull, push, stay = "static"
   }
@@ -80,7 +80,7 @@ extension Exercise: Hashable {
 extension Exercise: DecodableModel { }
 
 extension Exercise: Identifiable {
-  static func ==(_ lhs: Exercise, rhs: Exercise) -> Bool {
+  public static func ==(_ lhs: Exercise, rhs: Exercise) -> Bool {
     return lhs.id == rhs.id
   }
 }

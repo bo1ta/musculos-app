@@ -66,3 +66,8 @@ extension AppManager: AppManagerProtocol {
     NotificationCenter.default.post(name: .CoreDataModelDidChange, object: nil, userInfo: [ModelUpdatedEvent.userInfoKey: event])
   }
 }
+
+
+extension Notification.Name {
+  static let CoreDataModelDidChange = Notification.Name("CoreModelDidChange")
+}

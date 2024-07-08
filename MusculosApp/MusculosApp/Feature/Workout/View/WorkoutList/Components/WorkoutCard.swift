@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Models
 
 struct WorkoutCard: View {
   private let itemSpacing: CGFloat = 2.3

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utility
 
 struct ScoreCard: View {
   let title: String

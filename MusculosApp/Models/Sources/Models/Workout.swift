@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct Workout {
-  let name: String
-  let targetMuscles: [String]
-  let workoutType: String
-  let createdBy: User?
-  let workoutExercises: [WorkoutExercise]
+public struct Workout {
+  public let name: String
+  public let targetMuscles: [String]
+  public let workoutType: String
+  public let createdBy: User?
+  public let workoutExercises: [WorkoutExercise]
   
-  init(name: String, targetMuscles: [String], workoutType: String, createdBy: User? = nil, workoutExercises: [WorkoutExercise]) {
+  public init(name: String, targetMuscles: [String], workoutType: String, createdBy: User? = nil, workoutExercises: [WorkoutExercise]) {
     self.name = name
     self.targetMuscles = targetMuscles
     self.workoutType = workoutType
@@ -24,11 +24,11 @@ struct Workout {
 }
 
 extension Workout: Hashable {
-  static func ==(_ lhs: Workout, rhs: Workout) -> Bool {
+  public static func ==(_ lhs: Workout, rhs: Workout) -> Bool {
     return lhs.name == rhs.name && lhs.workoutType == rhs.workoutType
   }
   
-  func hash(into hasher: inout Hasher) {
+  public func hash(into hasher: inout Hasher) {
     hasher.combine(name)
     hasher.combine(workoutType)
   }

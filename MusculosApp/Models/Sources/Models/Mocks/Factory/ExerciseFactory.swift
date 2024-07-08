@@ -7,9 +7,7 @@
 
 import Foundation
 
-@preconcurrency import Models
-
-struct ExerciseFactory {
+public struct ExerciseFactory {
   public var category: String?
   public var equipment: String?
   public var force: String?
@@ -20,7 +18,7 @@ struct ExerciseFactory {
   public var instructions: [String] = []
   public var imageUrls: [String] = []
   
-  func create() -> Exercise {
+  public func create() -> Exercise {
     Exercise(category: category ?? "home workout",
              id: UUID(),
              level: level ?? "beginner",
@@ -31,7 +29,7 @@ struct ExerciseFactory {
              imageUrls: imageUrls)
   }
   
-  static func createExercise(
+  public static func createExercise(
     uuidString: String = "33041937-05b2-464a-98ad-3910cbe0d09e",
     name: String = "Power Stairs",
     primaryMuscles: [String] = ["hamstrings"],

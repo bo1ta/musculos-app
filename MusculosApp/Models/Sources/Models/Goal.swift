@@ -7,25 +7,26 @@
 
 import Foundation
 import SwiftUI
+import Utility
 
-struct Goal {
-  let name: String
-  let category: Category
-  let frequency: Frequency
-  let currentValue: Int
-  let targetValue: Int
-  let endDate: Date?
-  let isCompleted: Bool
-  let dateAdded: Date
+public struct Goal {
+  public let name: String
+  public let category: Category
+  public let frequency: Frequency
+  public let currentValue: Int
+  public let targetValue: Int
+  public let endDate: Date?
+  public let isCompleted: Bool
+  public let dateAdded: Date
   
-  var isExpired: Bool {
+  public var isExpired: Bool {
     if let endDate {
       return Date() > endDate
     }
     return false
   }
   
-  var daysUntilExpires: Int? {
+  public var daysUntilExpires: Int? {
     guard let endDate else { return nil }
     
     let calendar = Calendar.current
@@ -34,7 +35,7 @@ struct Goal {
     return components.day
   }
   
-  var progressPercentage: Double {
+  public var progressPercentage: Double {
     guard targetValue != 0 else {
       return 0
     }
@@ -42,11 +43,11 @@ struct Goal {
     return min(max(progress, 0), 100)
   }
   
-  var formattedProgressPercentage: String {
+  public var formattedProgressPercentage: String {
     return String(format: "%.0f%%", progressPercentage)
   }
   
-  init(name: String, category: Category, frequency: Frequency,  currentValue: Int = 0, targetValue: Int, endDate: Date?, isCompleted: Bool = false, dateAdded: Date) {
+  public init(name: String, category: Category, frequency: Frequency,  currentValue: Int = 0, targetValue: Int, endDate: Date?, isCompleted: Bool = false, dateAdded: Date) {
     self.name = name
     self.category = category
     self.frequency = frequency
@@ -57,7 +58,7 @@ struct Goal {
     self.dateAdded = dateAdded
   }
   
-  init(onboardingGoal: OnboardingData.Goal) {
+  public init(onboardingGoal: OnboardingData.Goal) {
     self.name = onboardingGoal.title
     self.category = Category.initFromLabel(onboardingGoal.title) ?? .general
     self.frequency = .weekly
@@ -71,11 +72,11 @@ struct Goal {
 
 // MARK: - Helper types
 
-extension Goal {
-  enum Category: String, CaseIterable {
+public extension Goal {
+  public enum Category: String, CaseIterable {
     case loseWeight, gainWeight, growMuscle, drinkWater, general
     
-    var label: String {
+    public var label: String {
       switch self {
       case .loseWeight: "Lose weight"
       case .gainWeight: "Gain mass"
@@ -85,17 +86,17 @@ extension Goal {
       }
     }
     
-    static func initFromLabel(_ label: String) -> Self? {
+    public static func initFromLabel(_ label: String) -> Self? {
       return Self.allCases.first { $0.label == label }
     }
   }
   
-  enum Frequency: String, CaseIterable {
+  public enum Frequency: String, CaseIterable {
     case daily
     case weekly
     case fixedDate
     
-    var description: String {
+    public var description: String {
       switch self {
       case .daily: "daily"
       case .weekly: "weekly"

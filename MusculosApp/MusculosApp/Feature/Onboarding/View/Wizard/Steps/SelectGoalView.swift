@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Models
 
 struct SelectGoalView: View {
   @Binding var selectedGoal: OnboardingData.Goal?

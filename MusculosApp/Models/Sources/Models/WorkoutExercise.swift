@@ -7,17 +7,22 @@
 
 import Foundation
 
-struct WorkoutExercise: Codable {
-  let numberOfReps: Int
-  let exercise: Exercise
+public struct WorkoutExercise: Codable {
+  public let numberOfReps: Int
+  public let exercise: Exercise
+  
+  public init(numberOfReps: Int, exercise: Exercise) {
+    self.numberOfReps = numberOfReps
+    self.exercise = exercise
+  }
 }
 
 extension WorkoutExercise: Hashable {
-  static func ==(_ lhs: WorkoutExercise, rhs: WorkoutExercise) -> Bool {
+  public static func ==(_ lhs: WorkoutExercise, rhs: WorkoutExercise) -> Bool {
     return lhs.exercise.id == rhs.exercise.id
   }
   
-  func hash(into hasher: inout Hasher) {
+  public func hash(into hasher: inout Hasher) {
     hasher.combine(numberOfReps)
     hasher.combine(exercise.id)
   }

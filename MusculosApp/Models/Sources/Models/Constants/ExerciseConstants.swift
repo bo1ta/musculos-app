@@ -8,19 +8,19 @@
 import Foundation
 
 public struct ExerciseConstants {
-  enum ForceType: String, CaseIterable {
+  public enum ForceType: String, CaseIterable {
     case pull, push, `static`
   }
   
-  enum LevelType: String, CaseIterable {
+  public enum LevelType: String, CaseIterable {
     case beginner, intermediate, expert
   }
   
-  enum MechanicType: String, CaseIterable {
+  public enum MechanicType: String, CaseIterable {
     case compound, isolation
   }
   
-  enum EquipmentType: String, CaseIterable {
+  public enum EquipmentType: String, CaseIterable {
     case machine
     case other
     case kettlebells
@@ -35,7 +35,7 @@ public struct ExerciseConstants {
     case ezCurlBar = "e-z curl bar"
   }
   
-  enum CategoryType: String, CaseIterable {
+  public enum CategoryType: String, CaseIterable {
     case strength
     case stretching
     case plyometrics
@@ -44,7 +44,7 @@ public struct ExerciseConstants {
     case cardio
     case olympicWeightlifting = "olympic weightlifting"
     
-    var imageName: String {
+    public var imageName: String {
       switch self {
       case .strength: "strength-icon"
       case .stretching: "stretching-icon"
@@ -58,9 +58,9 @@ public struct ExerciseConstants {
   
   /// All cases lists -- perfect for filters!
   ///
-  static let muscleOptions = MuscleType.allCases.map { $0.rawValue }
-  static let forceOptions = ForceType.allCases.map { $0.rawValue }
-  static let levelOptions = LevelType.allCases.map { $0.rawValue }
-  static let equipmentOptions = EquipmentType.allCases.map { $0.rawValue }
-  static let categoryOptions = CategoryType.allCases.map { $0.rawValue }
+  public static let muscleOptions = MuscleType.allCases.map { $0.rawValue }
+  public static let forceOptions = ForceType.allCases.map { $0.rawValue }
+  public static let levelOptions = LevelType.allCases.map { $0.rawValue }
+  public static let equipmentOptions = EquipmentType.allCases.map { $0.rawValue }
+  public static let categoryOptions = CategoryType.allCases.map { $0.rawValue }
 }

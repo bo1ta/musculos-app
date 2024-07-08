@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Models
 
 struct WorkoutFlowView: View {
   @Environment(\.dismiss) private var dismiss

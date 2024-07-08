@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import Models
 
 protocol UserDataStoreProtocol: Sendable {
   func createUser(person: User) async throws

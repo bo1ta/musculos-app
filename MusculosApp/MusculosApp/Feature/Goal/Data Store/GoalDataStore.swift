@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Models
 
 protocol GoalDataStoreProtocol: Sendable {
   func add(_ goal: Goal) async throws

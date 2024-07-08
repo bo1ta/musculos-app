@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Utility
+import Models
 
 protocol AuthServiceProtocol: Sendable {
   var dataStore: UserDataStoreProtocol { get set }

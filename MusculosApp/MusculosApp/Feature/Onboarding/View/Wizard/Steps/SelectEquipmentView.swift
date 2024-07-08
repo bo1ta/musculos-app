@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Models
 
 struct SelectEquipmentView: View {
   @Binding var selectedEquipment: OnboardingData.Equipment?

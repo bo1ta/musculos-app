@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utility
 
 struct HighlightCard: View {
   let title: String

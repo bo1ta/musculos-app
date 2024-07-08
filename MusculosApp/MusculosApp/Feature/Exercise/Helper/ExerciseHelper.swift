@@ -6,6 +6,7 @@
 //
 
 import Foundation
+@preconcurrency import Models
 
 struct ExerciseHelper {
   static let goalToExerciseCategories: [Goal.Category: [String]] = [

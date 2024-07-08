@@ -8,6 +8,8 @@
 import Foundation
 import CoreData
 
+@preconcurrency import Models
+
 protocol ExerciseDataStoreProtocol: Sendable {
   
   // MARK: - Read methods

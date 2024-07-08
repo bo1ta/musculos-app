@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Models
 
 enum TimerType {
   case active, rest, completed

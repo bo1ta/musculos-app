@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utility
 
 struct ExploreCategorySectionView: View {
   @Binding var currentSection: ExploreCategorySection

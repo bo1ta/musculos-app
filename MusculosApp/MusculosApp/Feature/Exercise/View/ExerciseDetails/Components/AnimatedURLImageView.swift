@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 import Shimmer
+import Utility
 
 /// Loops through a list of image URLs indefinitely to make them appear as "GIFs"
 ///

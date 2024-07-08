@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import Models
+import Utility
 
 struct OnboardingOptionCardView: View {
   let onboardingOption: OnboardingOption

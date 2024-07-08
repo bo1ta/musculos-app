@@ -6,11 +6,10 @@
 //
 
 import Foundation
+import Utility
 
-@preconcurrency import Models
-
-struct GoalFactory {
-  static func createGoal(name: String =  "Lose weight", category: Goal.Category = .loseWeight, frequency: Goal.Frequency = .weekly, targetValue: Int = 20, endDate: Date = Date().dayAfter, dateAdded: Date = Date()) -> Goal {
+public struct GoalFactory {
+  public static func createGoal(name: String =  "Lose weight", category: Goal.Category = .loseWeight, frequency: Goal.Frequency = .weekly, targetValue: Int = 20, endDate: Date = Date().dayAfter, dateAdded: Date = Date()) -> Goal {
     return Goal(
       name: name,
       category: category,

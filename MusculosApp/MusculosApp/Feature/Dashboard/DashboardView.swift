@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Models
 
 struct DashboardView: View {
   @Environment(\.appManager) private var appManager

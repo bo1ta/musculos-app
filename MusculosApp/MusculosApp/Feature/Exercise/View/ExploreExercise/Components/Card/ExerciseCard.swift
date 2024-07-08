@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Shimmer
+import Models
 
 struct ExerciseCard: View {
   let exercise: Exercise

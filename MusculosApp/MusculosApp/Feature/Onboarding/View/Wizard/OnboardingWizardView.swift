@@ -7,6 +7,7 @@
 
 import SwiftUI
 import HealthKitUI
+import Utility
 
 struct OnboardingWizardView: View {
   @Environment(\.appManager) private var appManager: AppManager

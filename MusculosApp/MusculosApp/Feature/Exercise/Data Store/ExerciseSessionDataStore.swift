@@ -7,6 +7,8 @@
 
 import Foundation
 import CoreData
+import Models
+import Utility
 
 protocol ExerciseSessionDataStoreProtocol: Sendable {
   func getAll() async -> [ExerciseSession]

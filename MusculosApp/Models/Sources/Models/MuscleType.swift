@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum MuscleType: String, CaseIterable, Identifiable {
+public enum MuscleType: String, CaseIterable, Identifiable {
   case abdominals, hamstrings, adductors, quadriceps, biceps, shoulders, chest, calves, glutes, lats, triceps, traps, forearms, neck, abductors
   case middleBack = "middle back"
   case lowerBack = "lower back"
   
-  var id: Int {
+  public var id: Int {
     switch self {
     case .abdominals: 0
     case .hamstrings: 1

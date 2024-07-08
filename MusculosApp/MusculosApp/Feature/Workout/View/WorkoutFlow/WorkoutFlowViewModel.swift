@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Models
 
 @Observable
 final class WorkoutFlowViewModel {

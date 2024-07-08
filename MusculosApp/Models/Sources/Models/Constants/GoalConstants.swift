@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GoalConstants {
-  static let categoryOptions = Goal.Category.allCases.map { $0.label }
-  static let frequencyOptions = Goal.Frequency.allCases.map { $0.description }
+public struct GoalConstants {
+  public static let categoryOptions = Goal.Category.allCases.map { $0.label }
+  public static let frequencyOptions = Goal.Frequency.allCases.map { $0.description }
 }
