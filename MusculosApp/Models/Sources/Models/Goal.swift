@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Utility
 
-public struct Goal {
+public struct Goal: Sendable {
   public let name: String
   public let category: Category
   public let frequency: Frequency

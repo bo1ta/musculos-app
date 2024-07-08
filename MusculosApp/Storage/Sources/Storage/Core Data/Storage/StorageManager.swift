@@ -9,18 +9,22 @@ import Foundation
 import Combine
 import UIKit
 import Utility
+import Models
 @preconcurrency import CoreData
 
-typealias CoreDataWriteClosure = (StorageType) throws -> Void
-typealias CoreDataReadClosure<ResultType> = (StorageType) -> ResultType
+public typealias CoreDataWriteClosure = (StorageType) throws -> Void
+public typealias CoreDataReadClosure<ResultType> = (StorageType) -> ResultType
 
-class StorageManager: StorageManagerType, @unchecked Sendable {
+public class StorageManager: StorageManagerType, @unchecked Sendable {
+  
+  static let shared = StorageManager()
+  
   private var cancellables = Set<AnyCancellable>()
   private let coalesceInterval: Double = 2.0 // coalesce interval for Core Data saving
   
   private var backgroundSaveTask: Task<Void, Never>?
   
-  init() {
+  public init() {
     setupNotificationPublisher()
   }
   
@@ -38,8 +42,12 @@ class StorageManager: StorageManagerType, @unchecked Sendable {
   
   // MARK: - Core Data Stack
   
-  public lazy var persistentContainer: NSPersistentContainer = {
-    let container = NSPersistentContainer(name: "MusculosDataStore")
+  lazy var persistentContainer: NSPersistentContainer = {
+    let bundle = Bundle.module
+    let modelURL = bundle.url(forResource: "MusculosDataStore", withExtension: ".momd")!
+    let model = NSManagedObjectModel(contentsOf: modelURL)!
+    
+    let container = NSPersistentContainer(name: "MusculosDataStore", managedObjectModel: model)
     
     let description = container.persistentStoreDescriptions.first
     description?.type = NSSQLiteStoreType
@@ -91,7 +99,7 @@ class StorageManager: StorageManagerType, @unchecked Sendable {
   /// Saves changes from `writerDerivedStorage`, followed by `viewStorage`
   /// Escapes a void completion block
   ///
-  func saveChanges(completion: @escaping () -> Void) {
+  public func saveChanges(completion: @escaping () -> Void) {
     writerDerivedStorage.performSync { [ weak self] in
       guard let self else { return }
       
@@ -107,7 +115,7 @@ class StorageManager: StorageManagerType, @unchecked Sendable {
   /// Saves changes from `writerDerivedStorage`, followed by `viewStorage`
   /// With `async` flavour
   ///
-  func saveChanges() async {
+  public func saveChanges() async {
     await writerDerivedStorage.perform {
       self.writerDerivedStorage.saveIfNeeded()
       
@@ -140,7 +148,7 @@ class StorageManager: StorageManagerType, @unchecked Sendable {
   /// Escapes the `writerDerivedStorage` to perform safe core data writing tasks
   /// `CoreDataWriteClosure` = `(StorageType) throws -> Void`
   ///
-  func performWriteOperation(_ writeClosure: @escaping CoreDataWriteClosure) async throws {
+  public func performWriteOperation(_ writeClosure: @escaping CoreDataWriteClosure) async throws {
     return try await withCheckedThrowingContinuation { continuation in
       let operation = CoreDataWriteOperation(storage: self.writerDerivedStorage, closure: writeClosure, continuation: continuation)
       self.writeQueue.addOperation(operation)
@@ -151,7 +159,7 @@ class StorageManager: StorageManagerType, @unchecked Sendable {
   /// Escapes the `viewStorage` to perform safe core data reading tasks
   /// `CoreDataReadClosure` = `(StorageType) -> ResultType`
   ///
-  func performReadOperation<ResultType>(_ readClosure: @escaping CoreDataReadClosure<ResultType>) async -> ResultType {
+  public func performReadOperation<ResultType>(_ readClosure: @escaping CoreDataReadClosure<ResultType>) async -> ResultType {
     return await withCheckedContinuation { continuation in
       let operation = CoreDataReadOperation(storage: self.viewStorage, closure: readClosure, continuation: continuation)
       self.readQueue.addOperation(operation)
@@ -162,7 +170,7 @@ class StorageManager: StorageManagerType, @unchecked Sendable {
   
   /// Resets the core data store
   ///
-  func reset() {
+  public func reset() {
     let viewContext = persistentContainer.viewContext
     viewContext.performAndWait {
       viewContext.reset()

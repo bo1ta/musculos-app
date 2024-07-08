@@ -18,6 +18,6 @@ protocol BaseDataStore {
 
 extension BaseDataStore {
   var storageManager: StorageManagerType {
-    return Container.shared.storageManager()
+    return StorageManager.shared
   }
 }

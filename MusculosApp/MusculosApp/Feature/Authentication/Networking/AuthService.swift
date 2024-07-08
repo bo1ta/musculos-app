@@ -8,6 +8,7 @@
 import Foundation
 import Utility
 import Models
+import Storage
 
 protocol AuthServiceProtocol: Sendable {
   var dataStore: UserDataStoreProtocol { get set }

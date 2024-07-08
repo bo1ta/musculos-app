@@ -9,8 +9,10 @@ import Foundation
 import SwiftUI
 import Factory
 import Combine
+
 @preconcurrency import Models
 import Utility
+import Storage
 
 @Observable
 @MainActor
@@ -19,7 +21,7 @@ final class AddWorkoutSheetViewModel {
   // MARK: - Dependencies
   
   @ObservationIgnored
-  @Injected(\.dataStore) private var dataStore: DataStoreProtocol
+//  @Injected(\.dataStore) private var dataStore: DataStoreProtocol
   
   @ObservationIgnored
   @Injected(\.workoutDataStore) private var workoutDataStore: WorkoutDataStoreProtocol
@@ -104,8 +106,8 @@ final class AddWorkoutSheetViewModel {
     updateTask = Task {
       state = .loading
       
-      let results = await dataStore.exerciseDataStore.getByMuscles(selectedMuscleTypes)
-      state = .loaded(results)
+//      let results = await dataStore.exerciseDataStore.getByMuscles(selectedMuscleTypes)
+//      state = .loaded(results)
     }
   }
   
@@ -148,12 +150,12 @@ extension AddWorkoutSheetViewModel {
     loadTask = Task { @MainActor in
       state = .loading
       
-      let results = await dataStore.loadExercises(fetchLimit: 20)
-      if results.isEmpty {
-        state = .empty
-      } else {
-        state = .loaded(results)
-      }
+//      let results = await dataStore.loadExercises(fetchLimit: 20)
+//      if results.isEmpty {
+//        state = .empty
+//      } else {
+//        state = .loaded(results)
+//      }
     }
   }
   
@@ -163,12 +165,12 @@ extension AddWorkoutSheetViewModel {
     loadTask = Task { @MainActor in
       state = .loading
       
-      let results = await dataStore.exerciseDataStore.getByName(name)
-      if results.isEmpty {
-        state = .empty
-      } else {
-        state = .loaded(results)
-      }
+//      let results = await dataStore.exerciseDataStore.getByName(name)
+//      if results.isEmpty {
+//        state = .empty
+//      } else {
+//        state = .loaded(results)
+//      }
     }
   }
   

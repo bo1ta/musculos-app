@@ -8,8 +8,8 @@
 import Foundation
 import CoreData
 
-protocol StorageManagerType {
-  
+public protocol StorageManagerType {
+    
   /// Returns the `Storage` associated to the main thread
   ///
   var viewStorage: StorageType { get }

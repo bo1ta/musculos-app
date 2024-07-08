@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Object: AnyObject {
+public protocol Object: AnyObject {
   associatedtype ObjectID
   
   var objectID: ObjectID { get }

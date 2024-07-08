@@ -9,12 +9,12 @@ import Foundation
 import CoreData
 import Utility
 
-class InMemoryStorageManager: StorageManager, @unchecked Sendable {
+public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
   private var _persistentContainer: NSPersistentContainer?
   
-  override init() {}
+  public override init() {}
   
-  override var persistentContainer: NSPersistentContainer {
+  public override var persistentContainer: NSPersistentContainer {
     get {
       if let persistentContainer = _persistentContainer {
         return persistentContainer
@@ -38,12 +38,12 @@ class InMemoryStorageManager: StorageManager, @unchecked Sendable {
     set { }
   }
   
-  override func performWriteOperation(_ task: @escaping (any StorageType) throws -> Void) async throws {
+  public override func performWriteOperation(_ task: @escaping (any StorageType) throws -> Void) async throws {
     try await super.performWriteOperation(task)
     await saveChanges()
   }
   
-  override func deleteAllStoredObjects() {
+  public override func deleteAllStoredObjects() {
     let viewContext = persistentContainer.viewContext
     
     for entity in persistentContainer.persistentStoreCoordinator.managedObjectModel.entities {

@@ -9,7 +9,8 @@ import Foundation
 import Factory
 import Combine
 import SwiftUI
-@preconcurrency import Models
+import Models
+import Storage
 import Utility
 
 @Observable
@@ -24,8 +25,8 @@ final class ExerciseDetailsViewModel {
   @ObservationIgnored
   @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
   
-  @ObservationIgnored
-  @Injected(\.dataStore) private var dataStore: DataStoreProtocol
+//  @ObservationIgnored
+//  @Injected(\.dataStore) private var dataStore: DataStoreProtocol
   
   // MARK: - Observed properties
   
@@ -150,13 +151,13 @@ extension ExerciseDetailsViewModel {
   }
   
   private func maybeUpdateGoals() async throws {
-    let goals = await dataStore.loadGoals()
-    
-    for goal in goals {
-      if let _ = ExerciseHelper.goalToExerciseCategories[goal.category] {
-        try await dataStore.goalDataStore.incrementCurrentValue(goal)
-      }
-    }
+//    let goals = await dataStore.loadGoals()
+//    
+//    for goal in goals {
+//      if let _ = ExerciseHelper.goalToExerciseCategories[goal.category] {
+//        try await dataStore.goalDataStore.incrementCurrentValue(goal)
+//      }
+//    }
     
   }
 }

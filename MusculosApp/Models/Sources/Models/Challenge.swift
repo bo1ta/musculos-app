@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-public struct Challenge {
+public struct Challenge: Sendable {
   public let name: String
   public let exercises: [ChallengeExercise]
   public let participants: [User]?

@@ -7,6 +7,7 @@
 
 import Foundation
 import Factory
+import Storage
 
 extension Container {
   var storageManager: Factory<StorageManagerType> {
@@ -17,10 +18,10 @@ extension Container {
       .singleton
   }
   
-  var dataStore: Factory<DataStoreProtocol> {
-    self { DataStore() }
-      .singleton
-  }
+//  var dataStore: Factory<DataStoreProtocol> {
+//    self { DataStore() }
+//      .singleton
+//  }
   
   var exerciseDataStore: Factory<ExerciseDataStoreProtocol> {
     self { ExerciseDataStore() }

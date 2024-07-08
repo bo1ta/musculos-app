@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-protocol StorageType {
+public protocol StorageType {
   var parentStorage: StorageType? { get }
   
   /// Returns all of the available objects given a Type

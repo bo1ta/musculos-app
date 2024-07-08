@@ -10,7 +10,7 @@ import CoreData
 import Utility
 
 extension NSManagedObjectContext: StorageType {
-  func fetchUniquePropertyValues<T: Object, V: Hashable>(ofType type: T.Type, property propertyToFetch: String, expressionResultType: NSAttributeType) -> Set<V>? {
+  public func fetchUniquePropertyValues<T: Object, V: Hashable>(ofType type: T.Type, property propertyToFetch: String, expressionResultType: NSAttributeType) -> Set<V>? {
     let request = NSFetchRequest<NSDictionary>(entityName: type.entityName)
     request.resultType = .dictionaryResultType
     
@@ -32,11 +32,11 @@ extension NSManagedObjectContext: StorageType {
     }
   }
   
-  var parentStorage: StorageType? {
+  public var parentStorage: StorageType? {
     return parent
   }
   
-  func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T] {
+  public func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T] {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.sortDescriptors = descriptors
@@ -44,7 +44,7 @@ extension NSManagedObjectContext: StorageType {
     return loadObjects(ofType: type, with: request)
   }
   
-  func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, relationshipKeyPathsForPrefetching: [String]) -> [T] {
+  public func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, relationshipKeyPathsForPrefetching: [String]) -> [T] {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.relationshipKeyPathsForPrefetching = relationshipKeyPathsForPrefetching
@@ -52,7 +52,7 @@ extension NSManagedObjectContext: StorageType {
     return loadObjects(ofType: type, with: request)
   }
   
-  func allObjects<T: Object>(ofType type: T.Type, fetchLimit: Int, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T] {
+  public func allObjects<T: Object>(ofType type: T.Type, fetchLimit: Int, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T] {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.sortDescriptors = descriptors
@@ -61,11 +61,11 @@ extension NSManagedObjectContext: StorageType {
     return loadObjects(ofType: type, with: request)
   }
   
-  func countObjects<T: Object>(ofType type: T.Type) -> Int {
+  public func countObjects<T: Object>(ofType type: T.Type) -> Int {
     countObjects(ofType: type, matching: nil)
   }
   
-  func countObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?) -> Int {
+  public func countObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?) -> Int {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.resultType = .countResultType
@@ -81,7 +81,7 @@ extension NSManagedObjectContext: StorageType {
     return result
   }
   
-  func deleteObject<T: Object>(_ object: T) {
+  public func deleteObject<T: Object>(_ object: T) {
     guard let object = object as? NSManagedObject else {
       MusculosLogger.logError(MusculosError.decodingError, message: "Cannot delete object! Invalid kind", category: .coreData)
       return
@@ -100,11 +100,11 @@ extension NSManagedObjectContext: StorageType {
     }
   }
   
-  func firstObject<T: Object>(of type: T.Type) -> T? {
+  public func firstObject<T: Object>(of type: T.Type) -> T? {
     firstObject(of: type, matching: nil)
   }
   
-  func firstObject<T: Object>(of type: T.Type, matching predicate: NSPredicate?) -> T? {
+  public func firstObject<T: Object>(of type: T.Type, matching predicate: NSPredicate?) -> T? {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.fetchLimit = 1
@@ -112,11 +112,11 @@ extension NSManagedObjectContext: StorageType {
     return loadObjects(ofType: type, with: request).first
   }
   
-  func insertNewObject<T: Object>(ofType type: T.Type) -> T {
+  public func insertNewObject<T: Object>(ofType type: T.Type) -> T {
     return NSEntityDescription.insertNewObject(forEntityName: T.entityName, into: self) as! T
   }
   
-  func loadObject<T: Object>(ofType type: T.Type, with objectID: T.ObjectID) -> T? {
+  public func loadObject<T: Object>(ofType type: T.Type, with objectID: T.ObjectID) -> T? {
     guard let objectID = objectID as? NSManagedObjectID else {
       MusculosLogger.logError(
         MusculosError.notFound,
@@ -141,26 +141,26 @@ extension NSManagedObjectContext: StorageType {
     return nil
   }
   
-  func findOrInsert<T: Object>(of type: T.Type, using predicate: NSPredicate) -> T {
+  public func findOrInsert<T: Object>(of type: T.Type, using predicate: NSPredicate) -> T {
     if let existingObject = firstObject(of: type, matching: predicate) {
       return existingObject
     }
     return insertNewObject(ofType: type)
   }
   
-  func performSync(_ closure: @escaping () -> Void) {
+  public func performSync(_ closure: @escaping () -> Void) {
     self.performAndWait {
       closure()
     }
   }
   
-  func performAsync(_ closure: @escaping () -> Void) {
+  public func performAsync(_ closure: @escaping () -> Void) {
     self.perform {
       closure()
     }
   }
   
-  func saveIfNeeded() {
+  public func saveIfNeeded() {
     guard hasChanges else { return }
     
     do {
