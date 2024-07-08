@@ -7,21 +7,22 @@
 
 import Foundation
 
-final class CoreDataReadOperation<ResultType>: Operation, @unchecked Sendable {
-  let task: (StorageType) -> ResultType
+final class CoreDataReadOperation<ResultType>: AsyncOperation, @unchecked Sendable {
+  let closure: CoreDataReadClosure<ResultType>
   let storage: StorageType
   let continuation: CheckedContinuation<ResultType, Never>
   
-  init(task: @escaping (StorageType) -> ResultType, storage: StorageType, continuation: CheckedContinuation<ResultType, Never>) {
-    self.task = task
+  init(storage: StorageType, closure: @escaping CoreDataReadClosure<ResultType>, continuation: CheckedContinuation<ResultType, Never>) {
+    self.closure = closure
     self.storage = storage
     self.continuation = continuation
   }
   
   override func main() {
     storage.performAsync {
-      let result = self.task(self.storage)
+      let result = self.closure(self.storage)
       self.continuation.resume(returning: result)
+      self.state = .finished
     }
   }
 }

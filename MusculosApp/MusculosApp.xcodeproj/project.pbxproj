@@ -37,6 +37,7 @@
 		BC182ECA2A589A81003DEA30 /* MusculosDataStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC182EC82A589A81003DEA30 /* MusculosDataStore.xcdatamodeld */; };
 		BC182ECD2A589BE7003DEA30 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC182ECC2A589BE7003DEA30 /* StorageManager.swift */; };
 		BC18AB5A2C250DAA00ED258C /* ExerciseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18AB592C250DAA00ED258C /* ExerciseHelper.swift */; };
+		BC1E69592C3B7576009D5815 /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1E69582C3B7573009D5815 /* AsyncOperation.swift */; };
 		BC261AB82B6DA0EF0018E21F /* ExerciseFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC261AB72B6DA0EF0018E21F /* ExerciseFilterView.swift */; };
 		BC2EAE2A2C223ACA00FB3C1F /* SelectEquipmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2EAE292C223ACA00FB3C1F /* SelectEquipmentView.swift */; };
 		BC2EAE2C2C223DBB00FB3C1F /* OnboardingOptionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2EAE2B2C223DBB00FB3C1F /* OnboardingOptionCardView.swift */; };
@@ -278,6 +279,7 @@
 		BC182ECC2A589BE7003DEA30 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		BC18AB592C250DAA00ED258C /* ExerciseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseHelper.swift; sourceTree = "<group>"; };
 		BC18AB5B2C25DFAA00ED258C /* Musculos 14.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Musculos 14.xcdatamodel"; sourceTree = "<group>"; };
+		BC1E69582C3B7573009D5815 /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		BC261AB72B6DA0EF0018E21F /* ExerciseFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFilterView.swift; sourceTree = "<group>"; };
 		BC2EAE292C223ACA00FB3C1F /* SelectEquipmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEquipmentView.swift; sourceTree = "<group>"; };
 		BC2EAE2B2C223DBB00FB3C1F /* OnboardingOptionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingOptionCardView.swift; sourceTree = "<group>"; };
@@ -1469,6 +1471,7 @@
 		BC99D02F2C0E19FB00208519 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
+				BC1E69582C3B7573009D5815 /* AsyncOperation.swift */,
 				BC99D0302C0E1A1C00208519 /* CoreDataReadOperation.swift */,
 				BC99D0322C0E1A2300208519 /* CoreDataWriteOperation.swift */,
 			);
@@ -1980,6 +1983,7 @@
 				BC52DDD42B8516F9005A4587 /* MuscleClientProtocol.swift in Sources */,
 				BC52DDCE2B85164D005A4587 /* APIRequest.swift in Sources */,
 				BC18AB5A2C250DAA00ED258C /* ExerciseHelper.swift in Sources */,
+				BC1E69592C3B7576009D5815 /* AsyncOperation.swift in Sources */,
 				BCF7DE712A7DB2EC00FC960B /* CustomTabBarView.swift in Sources */,
 				BCA24BEF2B69D3AE00124EC3 /* SplashView.swift in Sources */,
 				BCB92BD62BBB5F4400D41B9B /* ImageCacheManager.swift in Sources */,

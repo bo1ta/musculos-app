@@ -8,27 +8,33 @@
 import Foundation
 import CoreData
 
-final class CoreDataWriteOperation: Operation, @unchecked Sendable {
-  let task: (StorageType) throws -> Void
+final class CoreDataWriteOperation: AsyncOperation, @unchecked Sendable {
   let storage: StorageType
+  let closure: CoreDataWriteClosure
   let continuation: CheckedContinuation<Void, Error>
   
-  init(task: @escaping (StorageType) throws -> Void, storage: StorageType, continuation: CheckedContinuation<Void, Error>) {
-    self.task = task
+  init(
+    storage: StorageType,
+    closure: @escaping CoreDataWriteClosure,
+    continuation: CheckedContinuation<Void, Error>
+  ) {
     self.storage = storage
+    self.closure = closure
     self.continuation = continuation
   }
   
   override func main() {
     storage.performSync {
       do {
-        try self.task(self.storage)
-        self.continuation.resume(returning: ())
-        
+        try self.closure(self.storage)
         self.notifyChanges()
+        self.continuation.resume(returning: ())
       } catch {
+        MusculosLogger.logError(error, message: "Error on Core Data writing", category: .coreData)
         self.continuation.resume(throwing: error)
       }
+      
+      self.state = .finished
     }
   }
   

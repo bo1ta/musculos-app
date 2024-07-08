@@ -10,6 +10,9 @@ import Combine
 import UIKit
 @preconcurrency import CoreData
 
+typealias CoreDataWriteClosure = (StorageType) throws -> Void
+typealias CoreDataReadClosure<ResultType> = (StorageType) -> ResultType
+
 class StorageManager: StorageManagerType, @unchecked Sendable {
   private var cancellables = Set<AnyCancellable>()
   private let coalesceInterval: Double = 2.0 // coalesce interval for Core Data saving
@@ -134,20 +137,22 @@ class StorageManager: StorageManagerType, @unchecked Sendable {
   
   /// Performs the task in the `writeQueue`
   /// Escapes the `writerDerivedStorage` to perform safe core data writing tasks
+  /// `CoreDataWriteClosure` = `(StorageType) throws -> Void`
   ///
-  func performWriteOperation(_ task: @escaping (StorageType) throws -> Void) async throws {
+  func performWriteOperation(_ writeClosure: @escaping CoreDataWriteClosure) async throws {
     return try await withCheckedThrowingContinuation { continuation in
-      let operation = CoreDataWriteOperation(task: task, storage: self.writerDerivedStorage, continuation: continuation)
+      let operation = CoreDataWriteOperation(storage: self.writerDerivedStorage, closure: writeClosure, continuation: continuation)
       self.writeQueue.addOperation(operation)
     }
   }
   
   /// Performs the task in the `readQueue`
   /// Escapes the `viewStorage` to perform safe core data reading tasks
+  /// `CoreDataReadClosure` = `(StorageType) -> ResultType`
   ///
-  func performReadOperation<ResultType>(_ task: @escaping (StorageType) -> ResultType) async -> ResultType {
+  func performReadOperation<ResultType>(_ readClosure: @escaping CoreDataReadClosure<ResultType>) async -> ResultType {
     return await withCheckedContinuation { continuation in
-      let operation = CoreDataReadOperation(task: task, storage: self.viewStorage, continuation: continuation)
+      let operation = CoreDataReadOperation(storage: self.viewStorage, closure: readClosure, continuation: continuation)
       self.readQueue.addOperation(operation)
     }
   }
