@@ -7,14 +7,14 @@
 
 import Foundation
 
-enum MusculosError: LocalizedError, CustomStringConvertible {
+public enum MusculosError: LocalizedError, CustomStringConvertible {
   case invalidRequest, badRequest, unauthorized, forbidden, notFound, serverError, decodingError, unknownError
   case error4xx(_ code: Int)
   case error5xx(_ code: Int)
   case urlSessionFailed(_ error: URLError)
   case sdkError(_ error: Error)
   
-  var description: String {
+  public var description: String {
     switch self {
     case .invalidRequest:
       return "Invalid request"
@@ -43,7 +43,7 @@ enum MusculosError: LocalizedError, CustomStringConvertible {
     }
   }
   
-  static func httpError(_ statusCode: Int) -> MusculosError {
+  public static func httpError(_ statusCode: Int) -> MusculosError {
     switch statusCode {
     case 400: return .badRequest
     case 401: return .unauthorized
