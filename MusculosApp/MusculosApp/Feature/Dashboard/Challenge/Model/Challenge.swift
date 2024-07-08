@@ -6,28 +6,29 @@
 //
 
 import Foundation
+import Models
 
-struct Challenge {
-  let name: String
-  let exercises: [ChallengeExercise]
-  let participants: [User]?
+public struct Challenge {
+  public let name: String
+  public let exercises: [ChallengeExercise]
+  public let participants: [User]?
   
-  init(name: String, exercises: [ChallengeExercise], participants: [User]? = nil) {
+  public init(name: String, exercises: [ChallengeExercise], participants: [User]? = nil) {
     self.name = name
     self.exercises = exercises
     self.participants = participants
   }
 }
 
-struct ChallengeExercise {
-  let name: String
-  let image: String?
-  let instructions: String?
-  let rounds: Int
-  let duration: Int
-  let restDuration: Int
+public struct ChallengeExercise {
+  public let name: String
+  public let image: String?
+  public let instructions: String?
+  public let rounds: Int
+  public let duration: Int
+  public let restDuration: Int
   
-  init(name: String, image: String? = nil, instructions: String? = nil, rounds: Int, duration: Int = 60, restDuration: Int = 30) {
+  public init(name: String, image: String? = nil, instructions: String? = nil, rounds: Int, duration: Int = 60, restDuration: Int = 30) {
     self.name = name
     self.image = image
     self.instructions = instructions
@@ -38,12 +39,12 @@ struct ChallengeExercise {
 }
 
 extension ChallengeExercise: Hashable {
-  func hash(into hasher: inout Hasher) {
+  public func hash(into hasher: inout Hasher) {
     hasher.combine(name)
     hasher.combine(rounds)
   }
 
-  static func ==(lhs: ChallengeExercise, rhs: ChallengeExercise) -> Bool {
+  public static func ==(lhs: ChallengeExercise, rhs: ChallengeExercise) -> Bool {
     return lhs.name == rhs.name
   }
 }

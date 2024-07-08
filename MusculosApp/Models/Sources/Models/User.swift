@@ -7,21 +7,21 @@
 
 import Foundation
 
-struct User: Codable {
-  var uuid = UUID()
-  let avatar: String?
-  let fullName: String?
-  let username: String
-  let email: String
-  let isOnboarded: Bool
-  let gender: String?
-  let weight: Double?
-  let height: Double?
-  let level: String?
-  let availableEquipment: [String]?
-  let primaryGoalId: Int?
+public struct User: Codable {
+  public var uuid = UUID()
+  public let avatar: String?
+  public let fullName: String?
+  public let username: String
+  public let email: String
+  public let isOnboarded: Bool
+  public let gender: String?
+  public let weight: Double?
+  public let height: Double?
+  public let level: String?
+  public let availableEquipment: [String]?
+  public let primaryGoalId: Int?
   
-  init(
+  public init(
     email: String,
     fullName: String? = nil,
     username: String,
@@ -47,14 +47,14 @@ struct User: Codable {
     self.primaryGoalId = primaryGoalId
   }
 
-  var avatarUrl: URL? {
+  public var avatarUrl: URL? {
     guard let avatar else { return nil }
     return URL(string: avatar)
   }
 }
 
 extension User: Hashable {
-  func hash(into hasher: inout Hasher) {
+  public func hash(into hasher: inout Hasher) {
     hasher.combine(avatar)
     hasher.combine(fullName)
     hasher.combine(username)

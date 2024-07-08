@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Models
 
 struct PersonAvatarCircle: View {
   let persons: [User]

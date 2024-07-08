@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Utils
 
 struct Exercise: Codable {
   public var category: String

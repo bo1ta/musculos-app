@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Factory
 import Combine
+import Models
 
 @Observable
 @MainActor

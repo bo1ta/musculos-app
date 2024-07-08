@@ -8,6 +8,8 @@
 import Foundation
 import CoreData
 
+@preconcurrency import Models
+
 struct MockConstants {
   
   // MARK: - Challenge
