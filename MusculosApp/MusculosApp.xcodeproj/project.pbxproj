@@ -341,17 +341,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BC0170FF2AEB367C005876EE /* View */ = {
-			isa = PBXGroup;
-			children = (
-				BCA87E582AE83B3800453E4B /* ChallengeView.swift */,
-				BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */,
-				BC0171002AEC3E0A005876EE /* CongratulationView.swift */,
-				BCB6BF562AFBFCA600B6CBCE /* Components */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		BC0171052AEC6A45005876EE /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -383,7 +372,6 @@
 			isa = PBXGroup;
 			children = (
 				BC9937252B6426EB0067E556 /* View */,
-				BC7827652B9D1D1500DFC02C /* Model */,
 				BC2EAE302C22409800FB3C1F /* Networking */,
 			);
 			path = Authentication;
@@ -443,15 +431,6 @@
 			path = MusculosAppTests;
 			sourceTree = "<group>";
 		};
-		BC1674B42BE2E70F0012048D /* Add Goal */ = {
-			isa = PBXGroup;
-			children = (
-				BC1674B52BE2E73F0012048D /* AddGoalSheet.swift */,
-				BC1674D32BE2F8F70012048D /* AddGoalSheetViewModel.swift */,
-			);
-			path = "Add Goal";
-			sourceTree = "<group>";
-		};
 		BC1674C42BE2EA030012048D /* Wizard */ = {
 			isa = PBXGroup;
 			children = (
@@ -504,14 +483,6 @@
 				BC1674EE2BE3DFD40012048D /* View+Toast.swift */,
 			);
 			path = "View Modifier";
-			sourceTree = "<group>";
-		};
-		BC18AB572C24E56600ED258C /* View */ = {
-			isa = PBXGroup;
-			children = (
-				BC1674B42BE2E70F0012048D /* Add Goal */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		BC18AB582C250DA000ED258C /* Helper */ = {
@@ -575,44 +546,18 @@
 		BC2EAE322C22412900FB3C1F /* User */ = {
 			isa = PBXGroup;
 			children = (
-				BC2EAE342C22415100FB3C1F /* Model */,
-			);
-			path = User;
-			sourceTree = "<group>";
-		};
-		BC2EAE342C22415100FB3C1F /* Model */ = {
-			isa = PBXGroup;
-			children = (
 				BCA24BFD2B6AD33200124EC3 /* UserStore.swift */,
 			);
-			path = Model;
+			path = User;
 			sourceTree = "<group>";
 		};
 		BC2EAE362C2241D300FB3C1F /* Goal */ = {
 			isa = PBXGroup;
 			children = (
-				BC18AB572C24E56600ED258C /* View */,
+				BC1674B52BE2E73F0012048D /* AddGoalSheet.swift */,
+				BC1674D32BE2F8F70012048D /* AddGoalSheetViewModel.swift */,
 			);
 			path = Goal;
-			sourceTree = "<group>";
-		};
-		BC2EAE3C2C22424C00FB3C1F /* View */ = {
-			isa = PBXGroup;
-			children = (
-				BC1674C42BE2EA030012048D /* Wizard */,
-				BCA24C092B6B003500124EC3 /* Components */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		BC2EAE3D2C22427700FB3C1F /* View */ = {
-			isa = PBXGroup;
-			children = (
-				BC81E5D42BD305F50005891D /* AddWorkout */,
-				BC74C1B02C00FE110021B932 /* WorkoutList */,
-				BC74C1B22C01079D0021B932 /* WorkoutFlow */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		BC2EAE4A2C22451B00FB3C1F /* View */ = {
@@ -647,6 +592,7 @@
 		BC352AE32A326D6C00DAA3AB /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				BC2EAE322C22412900FB3C1F /* User */,
 				BC545E422C3C6AD400713B86 /* HealthKit */,
 				BCCA2C9D2C3C61FC00D4DEAD /* AsyncCachedImage.swift */,
 				BCCA2C9B2C3C61A300D4DEAD /* ImageCacheManager.swift */,
@@ -665,6 +611,15 @@
 				BC52DDCF2B8516AE005A4587 /* Client */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		BC3E0AC42C3F3EDA0039E860 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */,
+				BC1160CF2A2CFB830028D8FC /* MusculosApp.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 		BC3FB0F02A855DD200C3F9B1 /* View */ = {
@@ -751,8 +706,7 @@
 		BC5834252B1CE34500BD7690 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */,
-				BC1160CF2A2CFB830028D8FC /* MusculosApp.swift */,
+				BC3E0AC42C3F3EDA0039E860 /* App */,
 				BC2EAE4A2C22451B00FB3C1F /* View */,
 			);
 			path = Main;
@@ -885,7 +839,6 @@
 				BC2EAE362C2241D300FB3C1F /* Goal */,
 				BCA24C052B6AFF7000124EC3 /* Onboarding */,
 				BC781FFA2B9B5E2F009F9FB5 /* Overview */,
-				BC2EAE322C22412900FB3C1F /* User */,
 				BC777EF12BA0F2D9001669C8 /* Workout */,
 			);
 			path = Feature;
@@ -933,7 +886,9 @@
 		BC777EF12BA0F2D9001669C8 /* Workout */ = {
 			isa = PBXGroup;
 			children = (
-				BC2EAE3D2C22427700FB3C1F /* View */,
+				BC81E5D42BD305F50005891D /* AddWorkout */,
+				BC74C1B02C00FE110021B932 /* WorkoutList */,
+				BC74C1B22C01079D0021B932 /* WorkoutFlow */,
 			);
 			path = Workout;
 			sourceTree = "<group>";
@@ -970,7 +925,9 @@
 		BC781FFD2B9B6057009F9FB5 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				BC7820072B9B916E009F9FB5 /* Card */,
+				BC7820032B9B692E009F9FB5 /* HighlightCard.swift */,
+				BC7820052B9B8F91009F9FB5 /* StatReportCard.swift */,
+				BC7820022B9B64F6009F9FB5 /* Score Card */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -984,30 +941,12 @@
 			path = "Score Card";
 			sourceTree = "<group>";
 		};
-		BC7820072B9B916E009F9FB5 /* Card */ = {
-			isa = PBXGroup;
-			children = (
-				BC7820032B9B692E009F9FB5 /* HighlightCard.swift */,
-				BC7820052B9B8F91009F9FB5 /* StatReportCard.swift */,
-				BC7820022B9B64F6009F9FB5 /* Score Card */,
-			);
-			path = Card;
-			sourceTree = "<group>";
-		};
 		BC7827622B9D1CF000DFC02C /* Shapes */ = {
 			isa = PBXGroup;
 			children = (
 				BC78274D2B9CDDB200DFC02C /* WaveShape.swift */,
 			);
 			path = Shapes;
-			sourceTree = "<group>";
-		};
-		BC7827652B9D1D1500DFC02C /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				BC7827632B9D1D1000DFC02C /* AuthViewModel.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		BC81E5C92BCC7EDE0005891D /* Extension */ = {
@@ -1081,6 +1020,7 @@
 		BC9937252B6426EB0067E556 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BC7827632B9D1D1000DFC02C /* AuthViewModel.swift */,
 				BCA24BFB2B6AB9AF00124EC3 /* SignInView.swift */,
 				BCA24BFF2B6AE68500124EC3 /* SignUpView.swift */,
 			);
@@ -1106,7 +1046,8 @@
 		BCA24C052B6AFF7000124EC3 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				BC2EAE3C2C22424C00FB3C1F /* View */,
+				BC1674C42BE2EA030012048D /* Wizard */,
+				BCA24C092B6B003500124EC3 /* Components */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -1124,7 +1065,10 @@
 		BCA87E532AE83B0A00453E4B /* Challenge */ = {
 			isa = PBXGroup;
 			children = (
-				BC0170FF2AEB367C005876EE /* View */,
+				BCA87E582AE83B3800453E4B /* ChallengeView.swift */,
+				BC0170F92AE9A355005876EE /* ChallengeExerciseView.swift */,
+				BC0171002AEC3E0A005876EE /* CongratulationView.swift */,
+				BCB6BF562AFBFCA600B6CBCE /* Components */,
 			);
 			path = Challenge;
 			sourceTree = "<group>";

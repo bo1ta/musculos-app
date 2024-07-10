@@ -37,9 +37,6 @@ let package = Package(
           dependencies: [
             .product(name: "Utility", package: "Utility"),
             .product(name: "Models", package: "Models")
-          ],
-          resources: [
-              .process("MusculosDataStore.xcdatamodeld")
           ]
         ),
         .testTarget(
