@@ -10,7 +10,11 @@ import SwiftUI
 import Factory
 import Combine
 
+import Storage
+import Models
+
 @Observable
+@MainActor
 class ExerciseFilterViewModel {
   
   @ObservationIgnored

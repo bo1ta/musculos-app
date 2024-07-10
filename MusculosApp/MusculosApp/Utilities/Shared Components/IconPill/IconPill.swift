@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utility
 
 enum IconPillSize {
   case small, medium, large

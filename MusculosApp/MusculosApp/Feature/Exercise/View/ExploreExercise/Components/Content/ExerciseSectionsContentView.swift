@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Models
+import Utility
 
 struct ExerciseSectionsContentView: View {
   @Binding var categorySection: ExploreCategorySection

@@ -9,8 +9,12 @@ import Foundation
 import Factory
 import Combine
 import SwiftUI
+import Models
+import Storage
+import Utility
 
 @Observable
+@MainActor
 final class ExerciseDetailsViewModel {
   
   // MARK: - Dependencies
@@ -21,8 +25,8 @@ final class ExerciseDetailsViewModel {
   @ObservationIgnored
   @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
   
-  @ObservationIgnored
-  @Injected(\.dataStore) private var dataStore: DataStoreProtocol
+//  @ObservationIgnored
+//  @Injected(\.dataStore) private var dataStore: DataStoreProtocol
   
   // MARK: - Observed properties
   
@@ -53,7 +57,7 @@ final class ExerciseDetailsViewModel {
     self.exercise = exercise
     self.setupPublishers()
   }
-
+  
   private func setupPublishers() {
     favoriteSubject
       .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
@@ -74,8 +78,10 @@ final class ExerciseDetailsViewModel {
     isTimerActive = true
     elapsedTime = 0
     
-    timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] _ in
-      self?.elapsedTime += 1
+    timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {_ in 
+      Task { @MainActor in
+        self.elapsedTime += 1
+      }
     })
     
     if let timer {
@@ -122,9 +128,7 @@ extension ExerciseDetailsViewModel {
         try await exerciseDataStore.setIsFavorite(exercise, isFavorite: isFavorite)
         didSaveFavoriteSubject.send(true)
       } catch {
-        await MainActor.run {
-          didSaveFavoriteSubject.send(false)
-        }
+        didSaveFavoriteSubject.send(false)
         MusculosLogger.logError(error, message: "Could not update exercise.isFavorite", category: .coreData)
       }
     }
@@ -147,13 +151,13 @@ extension ExerciseDetailsViewModel {
   }
   
   private func maybeUpdateGoals() async throws {
-    let goals = await dataStore.loadGoals()
-    
-    for goal in goals {
-      if let _ = ExerciseHelper.goalToExerciseCategories[goal.category] {
-        try await dataStore.goalDataStore.incrementCurrentValue(goal)
-      }
-    }
+//    let goals = await dataStore.loadGoals()
+//    
+//    for goal in goals {
+//      if let _ = ExerciseHelper.goalToExerciseCategories[goal.category] {
+//        try await dataStore.goalDataStore.incrementCurrentValue(goal)
+//      }
+//    }
     
   }
 }

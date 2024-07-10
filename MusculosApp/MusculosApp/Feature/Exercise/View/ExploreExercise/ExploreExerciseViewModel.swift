@@ -9,8 +9,11 @@ import Foundation
 import SwiftUI
 import Combine
 import Factory
+import Utility
+import Models
 
 @Observable
+@MainActor
 final class ExploreExerciseViewModel {
   
   // MARK: - Dependencies
@@ -18,11 +21,11 @@ final class ExploreExerciseViewModel {
   @ObservationIgnored
   @Injected(\.exerciseService) private var service: ExerciseServiceProtocol
   
-  @ObservationIgnored
-  @Injected(\.dataStore) private var dataStore: DataStoreProtocol
-  
-  @ObservationIgnored
-  @Injected(\.recommendationEngine) private var recommendationEngine: RecommendationEngine
+//  @ObservationIgnored
+//  @Injected(\.dataStore) private var dataStore: DataStoreProtocol
+//  
+//  @ObservationIgnored
+//  @Injected(\.recommendationEngine) private var recommendationEngine: RecommendationEngine
   
   @ObservationIgnored
   private var cancellables = Set<AnyCancellable>()
@@ -54,7 +57,7 @@ final class ExploreExerciseViewModel {
   var displayGoal: Goal? {
     return goals
       .filter { !$0.isExpired }
-      .sorted { $0.dateAdded < $1.dateAdded }
+      .sorted { $0.currentValue > $1.currentValue}
       .first
   }
   
@@ -118,13 +121,13 @@ extension ExploreExerciseViewModel {
   
   func updateRecommendations() async {
     do {
-      async let recommendedByGoalsTask = recommendationEngine.recommendByGoals()
-      async let recommendedByPastSessionsTask = recommendationEngine.recommendByMuscleGroups()
-      
-      let (recommendedByGoals, recommendedByPastSessions) = try await (recommendedByGoalsTask, recommendedByPastSessionsTask)
-      
-      self.recommendedByGoals = recommendedByGoals
-      self.recommendedByPastSessions = recommendedByPastSessions
+//      async let recommendedByGoalsTask = recommendationEngine.recommendByGoals()
+//      async let recommendedByPastSessionsTask = recommendationEngine.recommendByMuscleGroups()
+//      
+//      let (recommendedByGoals, recommendedByPastSessions) = try await (recommendedByGoalsTask, recommendedByPastSessionsTask)
+//      
+//      self.recommendedByGoals = recommendedByGoals
+//      self.recommendedByPastSessions = recommendedByPastSessions
     } catch {
       MusculosLogger.logError(error, message: "Recommendation engine blew up!", category: .recommendationEngine)
     }
@@ -136,16 +139,13 @@ extension ExploreExerciseViewModel {
     }
   }
   
+  @MainActor
   func loadRemoteExercises() async {
     do {
       let exercises = try await service.getExercises()
-      await MainActor.run {
-        contentState = .loaded(exercises)
-      }
+      contentState = .loaded(exercises)
     } catch {
-      await MainActor.run {
-        contentState = .error(MessageConstant.genericErrorMessage.rawValue)
-      }
+      contentState = .error(MessageConstant.genericErrorMessage.rawValue)
       MusculosLogger.logError(error, message: "Could not load remote exercises", category: .networking)
     }
   }
@@ -168,24 +168,24 @@ extension ExploreExerciseViewModel {
   
   @MainActor
   func loadLocalExercises() async {
-    let exercises = await dataStore.loadExercises(fetchLimit: 20)
-    contentState = .loaded(exercises)
+//    let exercises = await dataStore.loadExercises(fetchLimit: 20)
+//    contentState = .loaded(exercises)
   }
   
   @MainActor
   func loadFavoriteExercises() async {
-    let exercises = await dataStore.exerciseDataStore.getAllFavorites()
-    contentState = .loaded(exercises)
+//    let exercises = await dataStore.exerciseDataStore.getAllFavorites()
+//    contentState = .loaded(exercises)
   }
   
   @MainActor
   func refreshExercisesCompletedToday() async {
-    exercisesCompletedToday = await dataStore.exerciseSessionDataStore.getCompletedToday()
+//    exercisesCompletedToday = await dataStore.exerciseSessionDataStore.getCompletedToday()
   }
   
   @MainActor
   func refreshGoals() async {
-    goals = await dataStore.loadGoals()
+//    goals = await dataStore.loadGoals()
   }
 }
 
@@ -229,21 +229,21 @@ extension ExploreExerciseViewModel {
   }
   
   private func handleDidAddGoalEvent() async {
-    await dataStore.invalidateGoals()
+//    await dataStore.invalidateGoals()
     await refreshGoals()
   }
   
   private func handleDidAddExerciseSession() async {
-    await dataStore.invalidateExerciseSessions()
-    await dataStore.invalidateGoals()
-    
+//    await dataStore.invalidateExerciseSessions()
+//    await dataStore.invalidateGoals()
+//    
     await refreshExercisesCompletedToday()
     await refreshGoals()
   }
   
   private func handleDidAddExerciseEvent() async {
-    await dataStore.invalidateExercises()
-    
+//    await dataStore.invalidateExercises()
+//    
     if currentSection == .workout {
       await loadLocalExercises()
     }

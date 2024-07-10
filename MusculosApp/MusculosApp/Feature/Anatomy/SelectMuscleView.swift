@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Models
+import Utility
 
 struct SelectMuscleView: View {
   typealias MuscleInfo = MuscleConstant.MuscleInfo

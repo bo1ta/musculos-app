@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Models
 
 struct ExerciseSectionView: View {
   let title: String

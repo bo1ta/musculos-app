@@ -8,6 +8,8 @@
 import Foundation
 import Combine
 
+import Utility
+
 struct MusculosClient: MusculosClientProtocol {
   var urlSession: URLSession
   

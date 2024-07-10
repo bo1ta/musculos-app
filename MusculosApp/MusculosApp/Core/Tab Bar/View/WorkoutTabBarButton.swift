@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Utility
 
 struct WorkoutTabBarButton: View {
   var onTapGesture: () -> Void

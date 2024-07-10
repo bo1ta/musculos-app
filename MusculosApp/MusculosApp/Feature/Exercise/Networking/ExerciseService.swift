@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import Models
+import Storage
 
-protocol ExerciseServiceProtocol {
-  var dataStore: ExerciseDataStoreProtocol { get set }
+protocol ExerciseServiceProtocol: Sendable {
   func getExercises() async throws -> [Exercise]
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise]
 }
