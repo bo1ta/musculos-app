@@ -10,58 +10,60 @@ import CoreData
 import Models
 
 public protocol UserDataStoreProtocol: Sendable {
-  func createUser(person: User) async throws
-  func updateUser(gender: String?, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws
-  func loadCurrentUser() async -> User?
+  func createUser(person: UserProfile) async throws
+  func updateProfile(userId: UUID, gender: String?, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws
+  func loadProfile(userId: UUID) async -> UserProfile?
 }
 
 public struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
   
   public init() { }
   
-  public func createUser(person: User) async throws {
-    try await storageManager.performWriteOperation { writerDerivedStorage in
-      let userEntity = writerDerivedStorage.insertNewObject(ofType: UserEntity.self)
-      userEntity.username = person.username
-      userEntity.email = person.email
-      userEntity.fullName = person.fullName
-      userEntity.isCurrentUser = true
+  public func createUser(person: UserProfile) async throws {
+    try await storageManager.performWrite { writerDerivedStorage in
+      let userProfile = writerDerivedStorage.insertNewObject(ofType: UserProfileEntity.self)
+      userProfile.username = person.username
+      userProfile.email = person.email
+      userProfile.fullName = person.fullName
     }
     
     await storageManager.saveChanges()
   }
   
-  public func updateUser(gender: String? = nil, weight: Int? = nil, height: Int? = nil, primaryGoalId: Int? = nil, level: String?, isOnboarded: Bool = false) async throws {
-    try await storageManager.performWriteOperation { writerDerivedStorage in
-      guard let userEntity = UserEntity.currentUser(with: writerDerivedStorage) else { return }
+  public func updateProfile(userId: UUID, gender: String? = nil, weight: Int? = nil, height: Int? = nil, primaryGoalId: Int? = nil, level: String?, isOnboarded: Bool = false) async throws {
+    try await storageManager.performWrite { writerDerivedStorage in
+      guard
+        let userProfile = writerDerivedStorage.firstObject(of: UserProfileEntity.self, matching: UserProfileEntity.CommonPredicate.currentUser(userId).nsPredicate)
+      else { return }
       
-      userEntity.gender = gender
-      userEntity.level = level
-      userEntity.isOnboarded = isOnboarded
+      userProfile.gender = gender
+      userProfile.level = level
       
       if let weight {
-        userEntity.weight = NSNumber(integerLiteral: weight)
+        userProfile.weight = NSNumber(integerLiteral: weight)
       }
       
       if let height {
-        userEntity.height = NSNumber(integerLiteral: height)
+        userProfile.height = NSNumber(integerLiteral: height)
       }
       
       if let primaryGoalId {
-        userEntity.primaryGoalId = NSNumber(integerLiteral: primaryGoalId)
+        userProfile.primaryGoalId = NSNumber(integerLiteral: primaryGoalId)
       }
     }
     
     await storageManager.saveChanges()
   }
   
-  public func loadCurrentUser() async -> User? {
-    return await storageManager.performReadOperation { viewStorage in
-      
-      guard let person = viewStorage
-        .firstObject(of: UserEntity.self, matching: UserEntity.CommonPredicate.currentUser.nsPredicate) else { return nil }
-      
-      return person.toReadOnly()
+  public func loadProfile(userId: UUID) async -> UserProfile? {
+    let predicate = UserProfileEntity.CommonPredicate.currentUser(userId).nsPredicate
+    
+    return await storageManager.performRead { viewStorage in
+      return viewStorage
+        .firstObject(
+          of: UserProfileEntity.self,
+          matching: predicate)?
+        .toReadOnly()
     }
   }
 }

@@ -7,14 +7,14 @@
 
 import Foundation
 
-public struct Workout {
+public struct Workout: Sendable {
   public let name: String
   public let targetMuscles: [String]
   public let workoutType: String
-  public let createdBy: User?
+  public let createdBy: UserProfile?
   public let workoutExercises: [WorkoutExercise]
   
-  public init(name: String, targetMuscles: [String], workoutType: String, createdBy: User? = nil, workoutExercises: [WorkoutExercise]) {
+  public init(name: String, targetMuscles: [String], workoutType: String, createdBy: UserProfile? = nil, workoutExercises: [WorkoutExercise]) {
     self.name = name
     self.targetMuscles = targetMuscles
     self.workoutType = workoutType

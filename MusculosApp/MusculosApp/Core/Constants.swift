@@ -23,11 +23,9 @@ public struct UIConstant {
   static let componentOpacity: Double = 0.95
 }
 
-public enum UserDefaultsKeyConstant: String {
-  case isAuthenticated = "is_authenticated"
-  case authToken = "auth_token"
-  case isOnboarded = "is_onboarded"
-  case healthKitAnchor = "health_kit_anchor"
+struct UserDefaultsKeyConstant {
+  static let healthKitAnchorKey = "health_kit_anchor"
+  static let userSessionKey = "user_session_key"
 }
 
 public enum MessageConstant: String {

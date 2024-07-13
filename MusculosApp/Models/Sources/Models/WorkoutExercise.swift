@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct WorkoutExercise: Codable {
+public struct WorkoutExercise: Codable, Sendable {
   public let numberOfReps: Int
   public let exercise: Exercise
   

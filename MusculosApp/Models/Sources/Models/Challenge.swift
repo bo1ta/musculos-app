@@ -11,16 +11,16 @@ import Models
 public struct Challenge: Sendable {
   public let name: String
   public let exercises: [ChallengeExercise]
-  public let participants: [User]?
+  public let participants: [UserProfile]?
   
-  public init(name: String, exercises: [ChallengeExercise], participants: [User]? = nil) {
+  public init(name: String, exercises: [ChallengeExercise], participants: [UserProfile]? = nil) {
     self.name = name
     self.exercises = exercises
     self.participants = participants
   }
 }
 
-public struct ChallengeExercise {
+public struct ChallengeExercise: Sendable {
   public let name: String
   public let image: String?
   public let instructions: String?

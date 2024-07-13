@@ -8,7 +8,7 @@
 import Foundation
 
 public struct MuscleConstant {
-  public enum MuscleName: String, CaseIterable {
+  public enum MuscleName: String, CaseIterable, Sendable {
     case back, cardio, chest, lowerArms, lowerLegs, neck, shoulders, upperArms, upperLegs, waist
   }
 
@@ -28,7 +28,7 @@ public struct MuscleConstant {
     }
   }
   
-  public struct MuscleInfo: Hashable {
+  public struct MuscleInfo: Hashable, Sendable {
     public let id: Int
     public let name: String
     public let imageInfo: MuscleImageInfo?

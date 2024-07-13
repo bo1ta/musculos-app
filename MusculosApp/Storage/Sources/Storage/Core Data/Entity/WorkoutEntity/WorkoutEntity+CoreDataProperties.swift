@@ -19,7 +19,7 @@ extension WorkoutEntity {
     @NSManaged public var name: String
     @NSManaged public var targetMuscles: [String]
     @NSManaged public var workoutType: String
-    @NSManaged public var createdBy: UserEntity
+    @NSManaged public var createdBy: UserProfileEntity
     @NSManaged public var workoutExercises: Set<WorkoutExerciseEntity>
 
 }

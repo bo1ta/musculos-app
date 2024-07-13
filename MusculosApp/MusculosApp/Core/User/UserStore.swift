@@ -23,46 +23,59 @@ class UserStore {
   @ObservationIgnored
   private(set) var refreshTask: Task<Void, Never>?
   
+  private(set) var userSession: UserSession? = nil
+  
   // MARK: - Observed properties
   
-  private(set) var currentUser: User? = nil
-  private(set) var isLoggedIn: Bool = false
+  private(set) var currentUserProfile: UserProfile? = nil
   private(set) var isLoading: Bool = false
   
   var displayName: String {
-    return currentUser?.fullName
-    ?? currentUser?.username
+    return currentUserProfile?.fullName
+    ?? currentUserProfile?.username
     ?? "User"
   }
   
   var isOnboarded: Bool {
-    return currentUser?.isOnboarded ?? false
+    return userSession?.isOnboarded ?? false
   }
   
-  // MARK: - Setters
-  
-  func setIsLoggedIn(_ isLoggedIn: Bool) {
-    self.isLoggedIn = isLoggedIn
+  var isLoggedIn: Bool {
+    return userSession != nil
   }
   
   // MARK: - Tasks
 
   func initialLoad() async {
-    isLoading = true
-    defer { isLoading = false }
-    
-    if let _ = UserDefaults.standard.string(forKey: UserDefaultsKeyConstant.authToken.rawValue) {
-      self.isLoggedIn = true
+    if let userSession = await UserSessionActor.shared.currentUser() {
+      self.userSession = userSession
+      
+      if let currentProfile = await dataStore.loadProfile(userId: userSession.userId) {
+        self.currentUserProfile = currentProfile
+
+      }
     }
-    
-    if let currentPerson = await dataStore.loadCurrentUser() {
-      self.currentUser = currentPerson
+  }
+  
+  func refreshSession() {
+    Task {
+      if let userSession = await UserSessionActor.shared.currentUser() {
+        self.userSession = userSession
+      }
+    }
+  }
+  
+  func updateIsOnboarded(_ isOnboarded: Bool) {
+    Task {
+      await UserSessionActor.shared.updateSession(isOnboarded: isOnboarded)
+      self.userSession = await UserSessionActor.shared.currentUser()
     }
   }
   
   func refreshUser() {
+    guard let userSession else { return }
     refreshTask = Task {
-      currentUser = await dataStore.loadCurrentUser()
+      currentUserProfile = await dataStore.loadProfile(userId: userSession.userId)
     }
   }
 }

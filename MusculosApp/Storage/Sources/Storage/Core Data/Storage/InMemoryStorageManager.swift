@@ -38,8 +38,8 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
     set { }
   }
   
-  public override func performWriteOperation(_ task: @escaping (any StorageType) throws -> Void) async throws {
-    try await super.performWriteOperation(task)
+  public override func performWrite(_ writeClosure: @escaping WriteStorageClosure) async throws {
+    try await super.performWrite(writeClosure)
     await saveChanges()
   }
   

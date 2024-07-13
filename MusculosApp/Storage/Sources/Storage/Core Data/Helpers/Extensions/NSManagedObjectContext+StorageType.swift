@@ -148,18 +148,6 @@ extension NSManagedObjectContext: StorageType {
     return insertNewObject(ofType: type)
   }
   
-  public func performSync(_ closure: @escaping () -> Void) {
-    self.performAndWait {
-      closure()
-    }
-  }
-  
-  public func performAsync(_ closure: @escaping () -> Void) {
-    self.perform {
-      closure()
-    }
-  }
-  
   public func saveIfNeeded() {
     guard hasChanges else { return }
     
@@ -208,5 +196,30 @@ extension NSManagedObjectContext: StorageType {
   ///
   private func fetchRequest<T: Object>(forType type: T.Type) -> NSFetchRequest<NSFetchRequestResult> {
     return NSFetchRequest<NSFetchRequestResult>(entityName: type.entityName)
+  }
+  
+  public func perform(_ block: @escaping () throws -> Void) async throws {
+    return try await withCheckedThrowingContinuation { [weak self] continuation in
+      guard let self else { return }
+      
+      self.performAndWait {
+        do {
+          try block()
+          continuation.resume()
+        } catch {
+          continuation.resume(throwing: error)
+        }
+      }
+    }
+  }
+  
+  public func perform<ResultType>(_ block: @escaping () -> ResultType) async -> ResultType {
+    return try await withCheckedContinuation { continuation in
+      
+      self.perform {
+        let result = block()
+        continuation.resume(returning: result)
+      }
+    }
   }
 }

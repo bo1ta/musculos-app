@@ -10,7 +10,7 @@ import SwiftUI
 import Factory
 import Combine
 
-@preconcurrency import Models
+import Models
 import Utility
 import Storage
 
@@ -179,6 +179,9 @@ extension AddWorkoutSheetViewModel {
     guard !selectedExercises.isEmpty, !workoutName.isEmpty, !muscleSearchQuery.isEmpty else { return }
     
     submitWorkoutTask = Task {
+      
+      guard let userSession = await UserSessionActor.shared.currentUser() else { return }
+      
       let workout = Workout(
         name: self.workoutName,
         targetMuscles: [self.muscleSearchQuery],
@@ -187,7 +190,7 @@ extension AddWorkoutSheetViewModel {
       )
       
       do {
-        try await self.workoutDataStore.create(workout)
+        try await self.workoutDataStore.create(workout, userId: userSession.userId)
         await MainActor.run {
           self.didSaveSubject.send(true)
         }

@@ -10,7 +10,7 @@ import SwiftUI
 
 import Utility
 import Storage
-@preconcurrency import Models
+import Models
 
 @Observable
 @MainActor
