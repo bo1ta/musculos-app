@@ -34,9 +34,7 @@ public struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
   public func updateProfile(userId: UUID, gender: String? = nil, weight: Int? = nil, height: Int? = nil, primaryGoalId: Int? = nil, level: String?, isOnboarded: Bool = false) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       guard 
-        let userProfile = writerDerivedStorage.firstObject(
-        of: UserProfileEntity.self,
-        matching: UserProfileEntity.CommonPredicate.currentUser(userId).nsPredicate)
+        let userProfile = UserProfileEntity.userFrom(userId: userId.uuidString, on: writerDerivedStorage)
       else { return }
       
       userProfile.gender = gender
@@ -59,15 +57,8 @@ public struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
   }
   
   public func loadProfile(userId: UUID) async -> UserProfile? {
-    let predicate = UserProfileEntity.CommonPredicate.currentUser(userId).nsPredicate
-    
     return await storageManager.performRead { viewStorage in
-      
-      let allbojects = viewStorage.allObjects(ofType: UserProfileEntity.self, matching: nil, sortedBy: nil).compactMap { $0.toReadOnly() }
-      print(allbojects)
-      allbojects.forEach { print($0.userId) }
-      
-      
+      let predicate = UserProfileEntity.CommonPredicate.currentUser(userId.uuidString).nsPredicate
       return viewStorage
         .firstObject(
           of: UserProfileEntity.self,

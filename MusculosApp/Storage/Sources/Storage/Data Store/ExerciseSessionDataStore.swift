@@ -18,9 +18,6 @@ public protocol ExerciseSessionDataStoreProtocol: Sendable {
 }
 
 public struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol {
-  
-  let userProfileDataStore = UserDataStore()
-  
   public init() { }
   
   public func getAll(for userId: UUID) async -> [ExerciseSession] {
@@ -37,16 +34,14 @@ public struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreP
   }
   
   public func getCompletedToday(userId: UUID) async -> [ExerciseSession] {
-    guard let profile = await userProfileDataStore.loadProfile(userId: userId) else { return [] }
-    
     return await storageManager.performRead { viewStorage in
       guard
         let (startOfDay, endOfDay) = DateHelper.getCurrentDayRange() as? (Date, Date)
       else { return [] }
       
       let userPredicate = NSPredicate(
-        format: "user.email == %@",
-        profile.email
+        format: "user.userId == %@",
+        userId.uuidString
       )
       let datePredicate = NSPredicate(
         format: "date >= %@ AND date <= %@",
@@ -65,16 +60,14 @@ public struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreP
   }
   
   public func getCompletedSinceLastWeek(userId: UUID) async -> [ExerciseSession] {
-    guard let profile = await userProfileDataStore.loadProfile(userId: userId) else { return [] }
-
     return await storageManager.performRead { viewStorage in
       guard
         let (startDay, endDay) = DateHelper.getPastWeekRange() as? (Date, Date)
       else { return [] }
       
       let userPredicate = NSPredicate(
-        format: "user.email == %@",
-        profile.email
+        format: "user.userId == %@",
+        userId.uuidString
       )
       let datePredicate = NSPredicate(
         format: "date >= %@ AND date <= %@",
@@ -92,22 +85,20 @@ public struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreP
   }
   
   public func addSession(_ exercise: Exercise, date: Date, userId: UUID) async throws {
-    guard let profile = await userProfileDataStore.loadProfile(userId: userId) else { return }
-
     try await storageManager.performWrite { writerDerivedStorage in
       guard
         let exerciseEntity = writerDerivedStorage.firstObject(
           of: ExerciseEntity.self,
           matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
         ),
-        let profile = writerDerivedStorage.firstObject(of: UserProfileEntity.self, matching: UserProfileEntity.CommonPredicate.currentUser(userId).nsPredicate)
+        let userProfile = UserProfileEntity.userFrom(userId: userId.uuidString, on: writerDerivedStorage)
       else { throw MusculosError.notFound }
       
       let entity = writerDerivedStorage.insertNewObject(ofType: ExerciseSessionEntity.self)
       entity.sessionId = UUID()
       entity.date = date
       entity.exercise = exerciseEntity
-      entity.user = profile
+      entity.user = userProfile
     }
   }
 }
