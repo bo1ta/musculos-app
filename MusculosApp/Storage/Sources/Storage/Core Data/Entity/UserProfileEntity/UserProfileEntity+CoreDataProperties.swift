@@ -71,16 +71,21 @@ extension UserProfileEntity: ReadOnlyConvertible {
 // MARK: - Common predicate
 
 extension UserProfileEntity {
+  
+  static func userFrom(userId: String, on storage: StorageType) -> UserProfileEntity? {
+    return storage.firstObject(of: UserProfileEntity.self, matching: CommonPredicate.currentUser(userId).nsPredicate)
+  }
+  
   enum CommonPredicate {
-    case currentUser(UUID)
+    case currentUser(String)
     
     var nsPredicate: NSPredicate {
       switch self {
-      case .currentUser(let uuid):
+      case .currentUser(let userId):
         NSPredicate(
           format: "%K == %@",
           #keyPath(UserProfileEntity.userId),
-          uuid.uuidString
+          userId
         )
       }
     }
