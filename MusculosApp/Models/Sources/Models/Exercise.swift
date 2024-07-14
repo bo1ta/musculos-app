@@ -9,7 +9,7 @@
 import Foundation
 import Utility
 
-public struct Exercise: Codable {
+public struct Exercise: Codable, Sendable {
   public var category: String
   public var equipment: String?
   public var force: String?

@@ -58,7 +58,7 @@ public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
   public init() { }
   
   public func isFavorite(_ exercise: Exercise) async -> Bool {
-    return await storageManager.performReadOperation { viewStorage in
+    return await storageManager.performRead { viewStorage in
       return viewStorage
         .firstObject(
           of: ExerciseEntity.self,
@@ -68,7 +68,7 @@ public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
   }
   
   public func getAll(fetchLimit: Int = 20) async -> [Exercise] {
-    return await storageManager.performReadOperation { viewStorage in
+    return await storageManager.performRead { viewStorage in
       return viewStorage
         .allObjects(ofType: ExerciseEntity.self, fetchLimit: fetchLimit, matching: nil, sortedBy: nil)
         .map { $0.toReadOnly() }
@@ -76,7 +76,7 @@ public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
   }
   
   public func getAllFavorites() async -> [Exercise] {
-    return await storageManager.performReadOperation { viewStorage in
+    return await storageManager.performRead { viewStorage in
       return viewStorage.allObjects(
         ofType: ExerciseEntity.self,
         matching: ExerciseEntity.CommonPredicate.isFavorite.nsPredicate,
@@ -86,7 +86,7 @@ public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
   }
   
   public func getByName(_ query: String) async -> [Exercise] {
-    return await storageManager.performReadOperation { viewStorage in
+    return await storageManager.performRead { viewStorage in
       return viewStorage
         .allObjects(
           ofType: ExerciseEntity.self,
@@ -98,7 +98,7 @@ public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
   }
   
   public func getByMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
-    return await storageManager.performReadOperation { viewStorage in
+    return await storageManager.performRead { viewStorage in
       let muscleIds = muscles.map { $0.id }
       
       return viewStorage.allObjects(
@@ -112,7 +112,7 @@ public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
   }
   
   public func getAllByGoals(_ goals: [Goal], fetchLimit: Int) async -> [Exercise] {
-    return await storageManager.performReadOperation { viewStorage in
+    return await storageManager.performRead { viewStorage in
       let predicate = mapGoalsToCategoryPredicate(goals)
       return viewStorage.allObjects(
         ofType: ExerciseEntity.self,
@@ -125,7 +125,7 @@ public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
   }
   
   public func getAllExcludingMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
-    return await storageManager.performReadOperation { viewStorage in
+    return await storageManager.performRead { viewStorage in
       let muscleIds = muscles.map { $0.id }
       
       return viewStorage.allObjects(
@@ -143,7 +143,7 @@ public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
 
 public extension ExerciseDataStore {
   public func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws {
-    try await storageManager.performWriteOperation { writerDerivedStorage in
+    try await storageManager.performWrite { writerDerivedStorage in
       guard let exercise = writerDerivedStorage.firstObject(
         of: ExerciseEntity.self,
         matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
@@ -157,7 +157,7 @@ public extension ExerciseDataStore {
   }
   
   public func importFrom(_ exercises: [Exercise]) async throws -> [Exercise] {
-    try await storageManager.performWriteOperation { writerStorage in
+    try await storageManager.performWrite { writerStorage in
       let existingExercises: Set<UUID>? = writerStorage
         .fetchUniquePropertyValues(
           ofType: ExerciseEntity.self,
@@ -195,7 +195,7 @@ public extension ExerciseDataStore {
   }
   
   public func add(_ exercise: Exercise) async throws {
-    try await storageManager.performWriteOperation { writerStorage in
+    try await storageManager.performWrite { writerStorage in
       let exerciseEntity = writerStorage.insertNewObject(ofType: ExerciseEntity.self)
       
       exerciseEntity.exerciseId = exercise.id

@@ -41,7 +41,7 @@ struct SignInView: View {
         case .error(let errorMessage):
           MusculosLogger.logError(MusculosError.badRequest, message: errorMessage, category: .networking)
         case .loaded(_):
-          userStore.setIsLoggedIn(true)
+          userStore.refreshSession()
         default:
           break
         }

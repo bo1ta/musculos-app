@@ -18,7 +18,7 @@ struct MusculosClient: MusculosClientProtocol {
   }
   
   func dispatch(_ request: APIRequest) async throws -> Data {
-    guard let urlRequest = request.asURLRequest() else {
+    guard let urlRequest = await request.asURLRequest() else {
       throw MusculosError.badRequest
     }
     
@@ -27,26 +27,5 @@ struct MusculosClient: MusculosClientProtocol {
       throw MusculosError.httpError(httpResponse.statusCode)
     }
     return data
-  }
-
-
-  func dispatchPublisher<T: Codable>(_ request: APIRequest) -> AnyPublisher<T, MusculosError> {
-    guard let urlRequest = request.asURLRequest() else {
-      return Fail<T, MusculosError>(error: MusculosError.badRequest).eraseToAnyPublisher()
-    }
-
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-
-    return self.urlSession.dataTaskPublisher(for: urlRequest)
-      .map({ data, _ in
-        return data
-      })
-      .decode(type: T.self, decoder: decoder)
-      .receive(on: DispatchQueue.main)
-      .mapError({ _ in
-        return MusculosError.badRequest
-      })
-      .eraseToAnyPublisher()
   }
 }

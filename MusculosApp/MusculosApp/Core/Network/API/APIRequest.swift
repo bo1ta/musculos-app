@@ -17,7 +17,7 @@ struct APIRequest {
 
   var contentType: String { return "application/json" }
 
-  func asURLRequest() -> URLRequest? {
+  func asURLRequest() async -> URLRequest? {
     guard var baseURL = APIEndpoint.baseWithEndpoint(endpoint: path) else { return nil }
 
     if let opk {
@@ -31,7 +31,7 @@ struct APIRequest {
         baseURL = urlWithQuery
       }
     }
-
+    
     var request = URLRequest(url: baseURL)
     request.httpMethod = self.method.rawValue
 
@@ -41,9 +41,15 @@ struct APIRequest {
 
     var newHeaders: [String: String] = [:]
     newHeaders[HTTPHeaderConstant.contentType] = self.contentType
-    if let authToken = self.authToken ?? UserDefaults.standard.string(forKey: UserDefaultsKeyConstant.authToken.rawValue) {
+    
+    if var authToken = self.authToken {
       newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(authToken)"
+    } else {
+      if let fetchedToken = await UserSessionActor.shared.currentUser()?.authToken {
+        newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(fetchedToken)"
+      }
     }
+    
     request.allHTTPHeaderFields = newHeaders
 
     return request

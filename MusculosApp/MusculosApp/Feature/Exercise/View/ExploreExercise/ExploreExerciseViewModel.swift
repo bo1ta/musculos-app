@@ -153,7 +153,7 @@ extension ExploreExerciseViewModel {
   func searchByMuscleQuery(_ query: String) {
     exerciseTask?.cancel()
     
-    exerciseTask = Task { @MainActor in
+    exerciseTask = Task {
       contentState = .loading
       
       do {

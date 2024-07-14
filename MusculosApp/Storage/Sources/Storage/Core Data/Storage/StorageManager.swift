@@ -12,11 +12,7 @@ import Utility
 import Models
 @preconcurrency import CoreData
 
-public typealias CoreDataWriteClosure = (StorageType) throws -> Void
-public typealias CoreDataReadClosure<ResultType> = (StorageType) -> ResultType
-
 public class StorageManager: StorageManagerType, @unchecked Sendable {
-  
   static let shared = StorageManager()
   
   private var cancellables = Set<AnyCancellable>()
@@ -100,12 +96,12 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   /// Escapes a void completion block
   ///
   public func saveChanges(completion: @escaping () -> Void) {
-    writerDerivedStorage.performSync { [ weak self] in
+    writerDerivedStorage.performAndWait { [ weak self] in
       guard let self else { return }
       
       self.writerDerivedStorage.saveIfNeeded()
       
-      self.viewStorage.performSync {
+      self.viewStorage.performAndWait {
         self.viewStorage.saveIfNeeded()
         completion()
       }
@@ -116,53 +112,32 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   /// With `async` flavour
   ///
   public func saveChanges() async {
-    await writerDerivedStorage.perform {
+    await writerDerivedStorage.performAndWait {
       self.writerDerivedStorage.saveIfNeeded()
       
-      self.viewStorage.performSync {
+      self.viewStorage.performAndWait {
         self.viewStorage.saveIfNeeded()
       }
     }
   }
   
-  // MARK: - Operation Queues
-  
-  /// The write operation queue
-  /// To enforce safety, the max concurrent operations is 1
+  // MARK: - Read
+
+  /// Performs the closure in the `viewStorage` context
   ///
-  private lazy var writeQueue: OperationQueue = {
-    let queue = OperationQueue()
-    queue.maxConcurrentOperationCount = 1
-    return queue
-  }()
-  
-  /// The read operation queue
-  /// Should be used only for reading operations
-  ///
-  private lazy var readQueue: OperationQueue = {
-    let queue = OperationQueue()
-    return queue
-  }()
-  
-  /// Performs the task in the `writeQueue`
-  /// Escapes the `writerDerivedStorage` to perform safe core data writing tasks
-  /// `CoreDataWriteClosure` = `(StorageType) throws -> Void`
-  ///
-  public func performWriteOperation(_ writeClosure: @escaping CoreDataWriteClosure) async throws {
-    return try await withCheckedThrowingContinuation { continuation in
-      let operation = CoreDataWriteOperation(storage: self.writerDerivedStorage, closure: writeClosure, continuation: continuation)
-      self.writeQueue.addOperation(operation)
+  public func performRead<ResultType>(_ readClosure: @escaping ReadStorageClosure<ResultType>) async -> ResultType {
+    return await viewStorage.perform {
+      return readClosure(self.viewStorage)
     }
   }
   
-  /// Performs the task in the `readQueue`
-  /// Escapes the `viewStorage` to perform safe core data reading tasks
-  /// `CoreDataReadClosure` = `(StorageType) -> ResultType`
+  // MARK: - Write
+  
+  /// Performs the closure in the `writerDerivedStorage` context
   ///
-  public func performReadOperation<ResultType>(_ readClosure: @escaping CoreDataReadClosure<ResultType>) async -> ResultType {
-    return await withCheckedContinuation { continuation in
-      let operation = CoreDataReadOperation(storage: self.viewStorage, closure: readClosure, continuation: continuation)
-      self.readQueue.addOperation(operation)
+  public func performWrite(_ writeClosure: @escaping WriteStorageClosure) async throws {
+    try await writerDerivedStorage.perform {
+      try writeClosure(self.writerDerivedStorage)
     }
   }
   

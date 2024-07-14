@@ -6,40 +6,43 @@
 //
 
 import Foundation
-import Factory
 @preconcurrency import Models
 
-public actor RecommendationEngine {
-  
-  public init() { }
-//  @Injected(\.dataStore) private var dataStore: DataStoreProtocol
+public struct RecommendationEngine {
+//  let exerciseDataStore: ExerciseDataStoreProtocol
+//  let exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
+//  let goalDataStore: GoalDataStoreProtocol
+//  let userDataStore: UserDataStoreProtocol
 //  
-//  // MARK: - Recommendations by Goals
-//  
-//  public func recommendByGoals() async throws -> [Exercise]? {
-//    guard await dataStore.loadCurrentUser() != nil else {
-//      throw MusculosError.notFound
-//    }
-//    
-//    let goals = await dataStore.loadGoals()
-//    guard !goals.isEmpty else { return nil }
-//    
-//    return await dataStore.exerciseDataStore.getAllByGoals(goals, fetchLimit: 20)
+//  public init(
+//    exerciseDataStore: ExerciseDataStoreProtocol,
+//    exerciseSessionDataStore: ExerciseSessionDataStoreProtocol,
+//    goalDataStore: GoalDataStoreProtocol,
+//    userDataStore: UserDataStoreProtocol
+//  ) {
+//    self.exerciseDataStore = exerciseDataStore
+//    self.exerciseSessionDataStore = exerciseSessionDataStore
+//    self.goalDataStore = goalDataStore
+//    self.userDataStore = userDataStore
 //  }
 //  
-//  // MARK: - Recommendations by Muscles
-//  
-//  public func recommendByMuscleGroups() async throws -> [Exercise]? {
-//    guard await dataStore.loadCurrentUser() != nil else {
-//      throw MusculosError.notFound
+//  public func recommendByGoals(for user: UserProfile) async throws -> [Exercise] {
+//    let goals = await goalDataStore.getAll()
+//    guard !goals.isEmpty else {
+//      throw RecommendationError.emptyGoals
 //    }
 //    
-//    let exerciseSessions = await dataStore.loadExerciseSessions()
-//    guard !exerciseSessions.isEmpty else { return nil }
+//    return await exerciseDataStore.getAllByGoals(goals, fetchLimit: 20)
+//  }
+//
+//  public func recommendByMuscleGroups(for user: UserProfile) async throws -> [Exercise] {
+//    let exerciseSessions = await exerciseSessionDataStore.getAll()
+//    guard !exerciseSessions.isEmpty else {
+//      throw RecommendationError.emptyExerciseSessions
+//    }
 //    
 //    let muscles = Array(Set(exerciseSessions.flatMap { $0.exercise.muscleTypes }))
-//    return await dataStore.exerciseDataStore.getAllExcludingMuscles(muscles)
-//    
+//    return await exerciseDataStore.getAllExcludingMuscles(muscles)
 //  }
 }
 

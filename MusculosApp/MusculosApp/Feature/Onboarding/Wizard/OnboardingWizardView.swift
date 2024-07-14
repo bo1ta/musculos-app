@@ -60,7 +60,7 @@ struct OnboardingWizardView: View {
     }
     .onReceive(viewModel.successSubject) { isSuccessful in
       if isSuccessful {
-        userStore.setIsLoggedIn(true)
+        userStore.updateIsOnboarded(true)
         userStore.refreshUser()
       } else {
         appManager.showToast(style: .warning, message: "Could not save onboarding data.")

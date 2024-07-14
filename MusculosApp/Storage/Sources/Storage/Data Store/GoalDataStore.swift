@@ -19,7 +19,7 @@ public struct GoalDataStore: BaseDataStore, GoalDataStoreProtocol {
   public init() { }
   
   public func add(_ goal: Goal) async throws {
-    try await storageManager.performWriteOperation { writerDerivedStorage in
+    try await storageManager.performWrite { writerDerivedStorage in
       let entity = writerDerivedStorage.insertNewObject(ofType: GoalEntity.self)
       entity.name = goal.name
       entity.category = goal.category.rawValue
@@ -33,7 +33,7 @@ public struct GoalDataStore: BaseDataStore, GoalDataStoreProtocol {
   }
   
   public func getAll() async -> [Goal] {
-    return await storageManager.performReadOperation { viewStorage in
+    return await storageManager.performRead { viewStorage in
       return viewStorage
         .allObjects(
           ofType: GoalEntity.self,
@@ -45,7 +45,7 @@ public struct GoalDataStore: BaseDataStore, GoalDataStoreProtocol {
   }
   
   public func incrementCurrentValue(_ goal: Goal) async throws {
-    try await storageManager.performWriteOperation { writerDerivedStorageq in
+    try await storageManager.performWrite { writerDerivedStorageq in
       let predicate = NSPredicate(format: "%K == %@", #keyPath(GoalEntity.name), goal.name)
       guard
         let goalEntity = writerDerivedStorageq.firstObject(of: GoalEntity.self, matching: predicate),

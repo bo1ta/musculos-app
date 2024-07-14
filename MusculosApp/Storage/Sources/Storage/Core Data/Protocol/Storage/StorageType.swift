@@ -71,15 +71,19 @@ public protocol StorageType {
   ///
   func saveIfNeeded()
   
-  /// Perform sync block
+  /// Perform and wait. Mirrors the `NSManagedObjectContext.performAndWait`
   ///
-  func perform(_ closure: @escaping () -> Void) async
+  func performAndWait(_ block: () -> Void)
   
-  /// Wrapper over the synchronous `performAndWait`
+  /// Perform the block. Mirros the `NSManagedObjectContext.perform`
   ///
-  func performSync(_ block: @escaping () -> Void)
+  func perform(_ block: @escaping () -> Void)
   
-  /// Wrapper over the asynchronous `perform`
+  /// Perform the block the async way, returning the block results.
   ///
-  func performAsync(_ block: @escaping () -> Void)
+  func perform<ResultType>(_ block: @escaping () -> ResultType) async -> ResultType
+  
+  /// Perform the block the async way.
+  ///
+  func perform(_ block: @escaping () throws -> Void) async throws
 }

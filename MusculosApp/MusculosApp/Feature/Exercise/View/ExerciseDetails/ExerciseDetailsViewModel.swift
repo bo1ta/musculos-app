@@ -135,19 +135,19 @@ extension ExerciseDetailsViewModel {
   }
   
   func saveExerciseSession() {
-    saveExerciseSessionTask?.cancel()
-    
-    saveExerciseSessionTask = Task { @MainActor in
-      do {
-        try await exerciseSessionDataStore.addSession(exercise, date: Date())
-        try await maybeUpdateGoals()
-        
-        didSaveSessionSubject.send(true)
-      } catch {
-        didSaveSessionSubject.send(false)
-        MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
-      }
-    }
+//    saveExerciseSessionTask?.cancel()
+//    
+//    saveExerciseSessionTask = Task { @MainActor in
+//      do {
+//        try await exerciseSessionDataStore.addSession(exercise, date: Date())
+//        try await maybeUpdateGoals()
+//        
+//        didSaveSessionSubject.send(true)
+//      } catch {
+//        didSaveSessionSubject.send(false)
+//        MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
+//      }
+//    }
   }
   
   private func maybeUpdateGoals() async throws {

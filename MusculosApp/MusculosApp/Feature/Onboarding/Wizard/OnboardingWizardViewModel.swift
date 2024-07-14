@@ -94,7 +94,11 @@ final class OnboardingWizardViewModel {
   
   private func updateUser() async throws {
     var goalId: Int? // TODO: Handle Goal
-    try await userDataStore.updateUser(
+    
+    guard let currentUser = await UserSessionActor.shared.currentUser() else { return }
+    
+    try await userDataStore.updateProfile(
+      userId: currentUser.userId,
       gender: selectedGender?.rawValue,
       weight: selectedWeight,
       height: selectedHeight,

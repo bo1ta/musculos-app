@@ -9,7 +9,7 @@ import Foundation
 import Models
 
 public protocol WorkoutDataStoreProtocol: Sendable {
-  func create(_ workout: Workout) async throws
+  func create(_ workout: Workout, userId: UUID) async throws
   func getAll() async -> [Workout]
 }
 
@@ -17,15 +17,15 @@ public struct WorkoutDataStore: BaseDataStore, WorkoutDataStoreProtocol {
   
   public init() { }
   
-  public func create(_ workout: Workout) async throws {
-    try await storageManager.performWriteOperation { writerDerivedStorage in
-      guard let user = UserEntity.currentUser(with: writerDerivedStorage) else { return }
-      
+  public func create(_ workout: Workout, userId: UUID) async throws {
+    try await storageManager.performWrite { writerDerivedStorage in
+      guard let profile = writerDerivedStorage.firstObject(of: UserProfileEntity.self, matching: UserProfileEntity.CommonPredicate.currentUser(userId).nsPredicate) else { return }
+
       let workoutEntity = writerDerivedStorage.insertNewObject(ofType: WorkoutEntity.self)
       workoutEntity.name = workout.name
       workoutEntity.targetMuscles = workout.targetMuscles
       workoutEntity.workoutType = workout.workoutType
-      workoutEntity.createdBy = user
+      workoutEntity.createdBy = profile
       
       /// 1. Fetch the `ExerciseEntity`
       /// 2. Create `WorkoutExerciseEntity` with a one-to-one relationship to the exercise + the number of reps
@@ -47,7 +47,7 @@ public struct WorkoutDataStore: BaseDataStore, WorkoutDataStoreProtocol {
   }
   
   public func getAll() async -> [Workout] {
-    return await storageManager.performReadOperation { viewStorage in
+    return await storageManager.performRead { viewStorage in
       return viewStorage
         .allObjects(ofType: WorkoutEntity.self, matching: nil, sortedBy: nil)
         .map { $0.toReadOnly() }

@@ -17,7 +17,7 @@ extension ExerciseSessionEntity {
   
   @NSManaged public var date: Date
   @NSManaged public var sessionId: UUID
-  @NSManaged public var user: UserEntity
+  @NSManaged public var user: UserProfileEntity
   @NSManaged public var exercise: ExerciseEntity
 }
 
@@ -31,7 +31,7 @@ extension ExerciseSessionEntity: ReadOnlyConvertible {
     return ExerciseSession(
       date: self.date,
       sessionId: self.sessionId,
-      user: user,
+      user: user!,
       exercise: exercise
     )
   }

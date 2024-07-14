@@ -42,7 +42,7 @@ extension AuthService: AuthServiceProtocol {
     let data = try await client.dispatch(request)
     let result = try AuthenticationResult.createFrom(data)
     
-    try await saveCurrentUser(authResult: result, email: email, fullName: fullName, username: username)
+    try await saveCurrentUser(authResult: result, email: email, fullName: fullName, username: username, isOnboarded: false)
   }
   
   func login(email: String, password: String) async throws {
@@ -63,13 +63,22 @@ extension AuthService {
     var token: String
   }
   
-  private func saveCurrentUser(authResult: AuthenticationResult, email: String, fullName: String? = nil, username: String? = nil) async throws {
-    guard authResult.token.count > 0 else { throw MusculosError.forbidden }
+  private func saveCurrentUser(authResult: AuthenticationResult, email: String, fullName: String? = nil, username: String? = nil, isOnboarded: Bool = false) async throws {
     
-    if let fullName, let username {
-      let person = User(email: email, fullName: fullName, username: username)
-      try await dataStore.createUser(person: person)
+    let token = authResult.token
+    guard token.count > 0 else { throw MusculosError.forbidden }
+    
+    
+    if let _ = await UserSessionActor.shared.currentUser() {
+      await UserSessionActor.shared.updateSession(token: token, isOnboarded: isOnboarded)
+    } else {
+      let userSession = UserSession(authToken: token, userId: UUID(), email: email, username: username, isOnboarded: false)
+      await UserSessionActor.shared.createSession(from: userSession)
     }
-    UserDefaults.standard.setValue(authResult.token, forKey: UserDefaultsKeyConstant.authToken.rawValue)
+    
+    if let userId = await UserSessionActor.shared.currentUser()?.userId {
+      let profile = UserProfile(userId: userId, email: email, fullName: fullName, username: username)
+      try await dataStore.createUser(person: profile)
+    }
   }
 }

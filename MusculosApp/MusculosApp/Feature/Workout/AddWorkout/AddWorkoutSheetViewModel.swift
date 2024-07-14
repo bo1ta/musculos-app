@@ -10,7 +10,7 @@ import SwiftUI
 import Factory
 import Combine
 
-@preconcurrency import Models
+import Models
 import Utility
 import Storage
 
@@ -21,7 +21,7 @@ final class AddWorkoutSheetViewModel {
   // MARK: - Dependencies
   
   @ObservationIgnored
-//  @Injected(\.dataStore) private var dataStore: DataStoreProtocol
+  @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
   
   @ObservationIgnored
   @Injected(\.workoutDataStore) private var workoutDataStore: WorkoutDataStoreProtocol
@@ -150,12 +150,12 @@ extension AddWorkoutSheetViewModel {
     loadTask = Task { @MainActor in
       state = .loading
       
-//      let results = await dataStore.loadExercises(fetchLimit: 20)
-//      if results.isEmpty {
-//        state = .empty
-//      } else {
-//        state = .loaded(results)
-//      }
+      let results = await exerciseDataStore.getAll(fetchLimit: 20)
+      if results.isEmpty {
+        state = .empty
+      } else {
+        state = .loaded(results)
+      }
     }
   }
   
@@ -165,12 +165,12 @@ extension AddWorkoutSheetViewModel {
     loadTask = Task { @MainActor in
       state = .loading
       
-//      let results = await dataStore.exerciseDataStore.getByName(name)
-//      if results.isEmpty {
-//        state = .empty
-//      } else {
-//        state = .loaded(results)
-//      }
+      let results = await exerciseDataStore.getByName(name)
+      if results.isEmpty {
+        state = .empty
+      } else {
+        state = .loaded(results)
+      }
     }
   }
   
@@ -179,6 +179,9 @@ extension AddWorkoutSheetViewModel {
     guard !selectedExercises.isEmpty, !workoutName.isEmpty, !muscleSearchQuery.isEmpty else { return }
     
     submitWorkoutTask = Task {
+      
+      guard let userSession = await UserSessionActor.shared.currentUser() else { return }
+      
       let workout = Workout(
         name: self.workoutName,
         targetMuscles: [self.muscleSearchQuery],
@@ -187,7 +190,7 @@ extension AddWorkoutSheetViewModel {
       )
       
       do {
-        try await self.workoutDataStore.create(workout)
+        try await self.workoutDataStore.create(workout, userId: userSession.userId)
         await MainActor.run {
           self.didSaveSubject.send(true)
         }

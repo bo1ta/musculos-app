@@ -9,7 +9,7 @@ import Foundation
 
 public struct ExerciseSessionFactory {
   public static func createExerciseSession() -> ExerciseSession {
-    let person = PersonFactory.createPerson()
+    let person = UserProfileFactory.createProfile()
     let exercise = ExerciseFactory.createExercise()
     return ExerciseSession(date: Date(), sessionId: UUID(), user: person, exercise: exercise)
   }

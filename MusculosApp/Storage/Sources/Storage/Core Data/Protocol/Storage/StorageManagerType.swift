@@ -8,6 +8,9 @@
 import Foundation
 import CoreData
 
+public typealias ReadStorageClosure<ResultType> = (StorageType) -> ResultType
+public typealias WriteStorageClosure = (StorageType) throws -> Void
+
 public protocol StorageManagerType {
     
   /// Returns the `Storage` associated to the main thread
@@ -28,11 +31,11 @@ public protocol StorageManagerType {
   
   /// Perform a write operation. Uses `writerDerivedStorage`
   ///
-  func performWriteOperation(_ task: @escaping (StorageType) throws -> Void) async throws
+  func performWrite(_ writeClosure: @escaping WriteStorageClosure) async throws
   
   /// Perform a read operation. Uses `viewStorage`
   ///
-  func performReadOperation<ResultType>(_ task: @escaping (StorageType) -> ResultType) async -> ResultType
+  func performRead<ResultType>(_ readClosure: @escaping ReadStorageClosure<ResultType>) async -> ResultType
   
   /// Convenience method for clearing the data store
   ///

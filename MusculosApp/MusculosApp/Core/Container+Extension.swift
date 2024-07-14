@@ -46,8 +46,4 @@ extension Container {
   var exerciseService: Factory<ExerciseServiceProtocol> {
     self { ExerciseService() }
   }
-  
-  var recommendationEngine: Factory<RecommendationEngine> {
-    self { RecommendationEngine() }
-  }
 }

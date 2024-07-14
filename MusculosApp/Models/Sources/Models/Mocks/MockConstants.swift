@@ -25,11 +25,11 @@ public struct MockConstants {
   // MARK: - Person
   
   public static let persons = [
-    User(email: "andreea@email.com", fullName: "Andreea", username: "andreea42", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"),
-    User(email: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww", fullName: "andreea@email.com", username: "Andreea", avatar: "andreea42"),
-    User(email: "naomi@email.com", fullName: "Naomi Ft", username: "naomi_fit", avatar: "https://www.masslive.com/resizer/kNl3qvErgJ3B0Cu-WSBWFYc1B8Q=/arc-anglerfish-arc2-prod-advancelocal/public/W5HI6Y4DINDTNP76R6CLA5IWRU.jpeg"),
-    User(email: "elon@email.com", fullName: "Elon M.", username: "elon", avatar: "https://image.cnbcfm.com/api/v1/image/107241090-1684160036619-gettyimages-1255019394-AFP_33F44YL.jpeg?v=1685596344"),
-    User(email: "david@email.com", fullName: "david", username: "david", avatar: "https://ebizfiling.com/wp-content/uploads/2017/12/images_29-3.jpg"),
-    User(email: "ionut@gmail.com", fullName: "Ionut F", username: "ionut", avatar: "https://www.bentbusinessmarketing.com/wp-content/uploads/2013/02/35844588650_3ebd4096b1_b-1024x683.jpg")
+    UserProfile(userId: UUID(), email: "andreea@email.com", fullName: "Andreea", username: "andreea42", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"),
+    UserProfile(userId: UUID(), email: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww", fullName: "andreea@email.com", username: "Andreea", avatar: "andreea42"),
+    UserProfile(userId: UUID(), email: "naomi@email.com", fullName: "Naomi Ft", username: "naomi_fit", avatar: "https://www.masslive.com/resizer/kNl3qvErgJ3B0Cu-WSBWFYc1B8Q=/arc-anglerfish-arc2-prod-advancelocal/public/W5HI6Y4DINDTNP76R6CLA5IWRU.jpeg"),
+    UserProfile(userId: UUID(), email: "elon@email.com", fullName: "Elon M.", username: "elon", avatar: "https://image.cnbcfm.com/api/v1/image/107241090-1684160036619-gettyimages-1255019394-AFP_33F44YL.jpeg?v=1685596344"),
+    UserProfile(userId: UUID(), email: "david@email.com", fullName: "david", username: "david", avatar: "https://ebizfiling.com/wp-content/uploads/2017/12/images_29-3.jpg"),
+    UserProfile(userId: UUID(), email: "ionut@gmail.com", fullName: "Ionut F", username: "ionut", avatar: "https://www.bentbusinessmarketing.com/wp-content/uploads/2013/02/35844588650_3ebd4096b1_b-1024x683.jpg")
   ]
 }

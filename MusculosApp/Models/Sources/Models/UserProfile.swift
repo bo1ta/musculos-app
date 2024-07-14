@@ -1,5 +1,5 @@
 //
-//  Person.swift
+//  UserProfile.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 24.10.2023.
@@ -7,13 +7,12 @@
 
 import Foundation
 
-public struct User: Codable {
-  public var uuid = UUID()
+public struct UserProfile: Codable, Sendable {
+  public var userId: UUID
   public let avatar: String?
   public let fullName: String?
-  public let username: String
+  public let username: String?
   public let email: String
-  public let isOnboarded: Bool
   public let gender: String?
   public let weight: Double?
   public let height: Double?
@@ -22,11 +21,11 @@ public struct User: Codable {
   public let primaryGoalId: Int?
   
   public init(
+    userId: UUID,
     email: String,
     fullName: String? = nil,
-    username: String,
+    username: String? = nil,
     avatar: String? = nil,
-    isOnboarded: Bool = false,
     gender: String? = nil,
     weight: Double? = nil,
     height: Double? = nil,
@@ -34,11 +33,11 @@ public struct User: Codable {
     availableEquipment: [String]? = nil,
     primaryGoalId: Int? = nil
   ) {
+    self.userId = userId
     self.email = email
     self.fullName = fullName
     self.username = username
     self.avatar = avatar
-    self.isOnboarded = isOnboarded
     self.gender = gender
     self.weight = weight
     self.height = height
@@ -53,7 +52,7 @@ public struct User: Codable {
   }
 }
 
-extension User: Hashable {
+extension UserProfile: Hashable {
   public func hash(into hasher: inout Hasher) {
     hasher.combine(avatar)
     hasher.combine(fullName)
