@@ -63,7 +63,6 @@ extension AuthService {
     var token: String
   }
   
-  @UserSessionActor
   private func saveCurrentUser(authResult: AuthenticationResult, email: String, fullName: String? = nil, username: String? = nil, isOnboarded: Bool = false) async throws {
     
     let token = authResult.token
@@ -73,15 +72,13 @@ extension AuthService {
     if let _ = await UserSessionActor.shared.currentUser() {
       await UserSessionActor.shared.updateSession(token: token, isOnboarded: isOnboarded)
     } else {
-      let userSession = UserSession(authToken: token, userId: UUID(), email: email, isOnboarded: false)
+      let userSession = UserSession(authToken: token, userId: UUID(), email: email, username: username, isOnboarded: false)
       await UserSessionActor.shared.createSession(from: userSession)
     }
     
-    let userId = await UserSessionActor.shared.currentUser()?.userId
-    
-    if let fullName, let username, let userId {
-      let person = UserProfile(userId: userId, email: email, fullName: fullName, username: username)
-      try await dataStore.createUser(person: person)
+    if let userId = await UserSessionActor.shared.currentUser()?.userId {
+      let profile = UserProfile(userId: userId, email: email, fullName: fullName, username: username)
+      try await dataStore.createUser(person: profile)
     }
   }
 }

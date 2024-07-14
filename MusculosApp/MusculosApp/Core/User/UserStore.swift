@@ -52,7 +52,6 @@ class UserStore {
       
       if let currentProfile = await dataStore.loadProfile(userId: userSession.userId) {
         self.currentUserProfile = currentProfile
-
       }
     }
   }

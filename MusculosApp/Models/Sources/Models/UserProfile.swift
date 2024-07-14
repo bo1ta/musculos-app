@@ -11,7 +11,7 @@ public struct UserProfile: Codable, Sendable {
   public var userId: UUID
   public let avatar: String?
   public let fullName: String?
-  public let username: String
+  public let username: String?
   public let email: String
   public let gender: String?
   public let weight: Double?
@@ -24,7 +24,7 @@ public struct UserProfile: Codable, Sendable {
     userId: UUID,
     email: String,
     fullName: String? = nil,
-    username: String,
+    username: String? = nil,
     avatar: String? = nil,
     gender: String? = nil,
     weight: Double? = nil,

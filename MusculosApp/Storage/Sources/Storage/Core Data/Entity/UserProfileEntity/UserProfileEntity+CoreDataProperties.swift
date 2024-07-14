@@ -15,7 +15,7 @@ extension UserProfileEntity {
     return NSFetchRequest<UserProfileEntity>(entityName: "UserProfileEntity")
   }
   
-  @NSManaged public var userId: UUID
+  @NSManaged public var userId: String?
   @NSManaged public var availableEquipment: [String]?
   @NSManaged public var avatarUrl: String?
   @NSManaged public var email: String?
@@ -29,16 +29,6 @@ extension UserProfileEntity {
   @NSManaged public var username: String?
   @NSManaged public var weight: NSNumber?
   @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
-  
-  public var synchronizationState: SynchronizationState {
-    get {
-      SynchronizationState(rawValue: synchronized.intValue) ?? .notSynchronized
-    }
-    
-    set {
-      synchronized = NSNumber(integerLiteral: newValue.rawValue)
-    }
-  }
 }
 
 // MARK: Generated accessors for exerciseSessions
@@ -62,9 +52,19 @@ extension UserProfileEntity {
 
 extension UserProfileEntity: ReadOnlyConvertible {
   func toReadOnly() -> UserProfile? {
-    guard let email, let username else { return nil }
+    guard let email, let username, let userId else { return nil }
     
-    return UserProfile(userId: userId, email: email, username: username, weight: weight?.doubleValue, height: height?.doubleValue, level: level, availableEquipment: availableEquipment, primaryGoalId: primaryGoalId?.intValue)
+    return UserProfile(userId: UUID(uuidString: userId)!, email: email, username: username, weight: weight?.doubleValue, height: height?.doubleValue, level: level, availableEquipment: availableEquipment, primaryGoalId: primaryGoalId?.intValue)
+  }
+  
+  public var synchronizationState: SynchronizationState {
+    get {
+      SynchronizationState(rawValue: synchronized.intValue) ?? .notSynchronized
+    }
+    
+    set {
+      synchronized = NSNumber(integerLiteral: newValue.rawValue)
+    }
   }
 }
 
