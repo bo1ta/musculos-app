@@ -18,11 +18,6 @@ extension Container {
       .singleton
   }
   
-//  var dataStore: Factory<DataStoreProtocol> {
-//    self { DataStore() }
-//      .singleton
-//  }
-  
   var exerciseDataStore: Factory<ExerciseDataStoreProtocol> {
     self { ExerciseDataStore() }
   }
@@ -45,5 +40,9 @@ extension Container {
   
   var exerciseService: Factory<ExerciseServiceProtocol> {
     self { ExerciseService() }
+  }
+  
+  var recommendationEngine: Factory<RecommendationEngine> {
+    self { RecommendationEngine() }
   }
 }

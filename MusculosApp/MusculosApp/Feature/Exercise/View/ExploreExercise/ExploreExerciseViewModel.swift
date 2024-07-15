@@ -21,11 +21,8 @@ final class ExploreExerciseViewModel {
   @ObservationIgnored
   @Injected(\.exerciseService) private var service: ExerciseServiceProtocol
   
-//  @ObservationIgnored
-//  @Injected(\.dataStore) private var dataStore: DataStoreProtocol
-//  
-//  @ObservationIgnored
-//  @Injected(\.recommendationEngine) private var recommendationEngine: RecommendationEngine
+  @ObservationIgnored
+  @Injected(\.recommendationEngine) private var recommendationEngine: RecommendationEngine
   
   @ObservationIgnored
   private var cancellables = Set<AnyCancellable>()
@@ -121,21 +118,15 @@ extension ExploreExerciseViewModel {
   
   func updateRecommendations() async {
     do {
-//      async let recommendedByGoalsTask = recommendationEngine.recommendByGoals()
-//      async let recommendedByPastSessionsTask = recommendationEngine.recommendByMuscleGroups()
-//      
-//      let (recommendedByGoals, recommendedByPastSessions) = try await (recommendedByGoalsTask, recommendedByPastSessionsTask)
-//      
-//      self.recommendedByGoals = recommendedByGoals
-//      self.recommendedByPastSessions = recommendedByPastSessions
+      async let recommendedByGoalsTask = recommendationEngine.recommendByGoals()
+      async let recommendedByPastSessionsTask = recommendationEngine.recommendByMuscleGroups()
+      
+      let (recommendedByGoals, recommendedByPastSessions) = try await (recommendedByGoalsTask, recommendedByPastSessionsTask)
+      
+      self.recommendedByGoals = recommendedByGoals
+      self.recommendedByPastSessions = recommendedByPastSessions
     } catch {
       MusculosLogger.logError(error, message: "Recommendation engine blew up!", category: .recommendationEngine)
-    }
-  }
-  
-  func updateProgress() async {
-    do {
-      
     }
   }
   

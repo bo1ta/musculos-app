@@ -8,15 +8,20 @@
 import Foundation
 import Models
 import Storage
-import Factory
+@preconcurrency import Factory
+import Utility
 
-public struct RecommendationEngine {
+public struct RecommendationEngine: Sendable {
   @Injected(\.exerciseDataStore) private var exerciseDataStore
   @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore
   @Injected(\.goalDataStore) private var goalDataStore
   @Injected(\.userDataStore) private var userDataStore
   
-  public func recommendByGoals(for user: UserProfile) async throws -> [Exercise] {
+  public func recommendByGoals() async throws -> [Exercise] {
+    guard let currentUser = await UserSessionActor.shared.currentUser() else {
+      throw MusculosError.notFound
+    }
+    
     let goals = await goalDataStore.getAll()
     guard !goals.isEmpty else {
       throw RecommendationError.emptyGoals
