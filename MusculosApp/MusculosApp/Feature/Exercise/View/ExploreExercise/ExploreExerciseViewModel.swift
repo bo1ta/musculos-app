@@ -11,6 +11,7 @@ import Combine
 import Factory
 import Utility
 import Models
+import Storage
 
 @Observable
 @MainActor
@@ -25,7 +26,23 @@ final class ExploreExerciseViewModel {
   @Injected(\.recommendationEngine) private var recommendationEngine: RecommendationEngine
   
   @ObservationIgnored
+  @Injected(\.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
+  
+  @ObservationIgnored
+  @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
+  
+  @ObservationIgnored
+  @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
+  
+  @ObservationIgnored
   private var cancellables = Set<AnyCancellable>()
+  
+  @ObservationIgnored
+  private var currentUser: UserSession? {
+    get async {
+      return await UserSessionActor.shared.currentUser()
+    }
+  }
   
   // MARK: - Observed properties
   
@@ -53,8 +70,6 @@ final class ExploreExerciseViewModel {
   
   var displayGoal: Goal? {
     return goals
-      .filter { !$0.isExpired }
-      .sorted { $0.currentValue > $1.currentValue}
       .first
   }
   
@@ -130,7 +145,6 @@ extension ExploreExerciseViewModel {
     }
   }
   
-  @MainActor
   func loadRemoteExercises() async {
     do {
       let exercises = try await service.getExercises()
@@ -157,26 +171,24 @@ extension ExploreExerciseViewModel {
     }
   }
   
-  @MainActor
   func loadLocalExercises() async {
-//    let exercises = await dataStore.loadExercises(fetchLimit: 20)
-//    contentState = .loaded(exercises)
+    let exercises = await exerciseDataStore.getAll(fetchLimit: 20)
+    contentState = .loaded(exercises)
   }
   
-  @MainActor
   func loadFavoriteExercises() async {
-//    let exercises = await dataStore.exerciseDataStore.getAllFavorites()
-//    contentState = .loaded(exercises)
+    let exercises = await exerciseDataStore.getAllFavorites()
+    contentState = .loaded(exercises)
   }
   
-  @MainActor
   func refreshExercisesCompletedToday() async {
-//    exercisesCompletedToday = await dataStore.exerciseSessionDataStore.getCompletedToday()
+    guard let currentUser = await self.currentUser else { return }
+    exercisesCompletedToday = await exerciseSessionDataStore.getCompletedToday(userId: currentUser.userId)
   }
   
   @MainActor
   func refreshGoals() async {
-//    goals = await dataStore.loadGoals()
+    goals = await goalDataStore.getAll()
   }
 }
 
@@ -220,21 +232,15 @@ extension ExploreExerciseViewModel {
   }
   
   private func handleDidAddGoalEvent() async {
-//    await dataStore.invalidateGoals()
     await refreshGoals()
   }
   
   private func handleDidAddExerciseSession() async {
-//    await dataStore.invalidateExerciseSessions()
-//    await dataStore.invalidateGoals()
-//    
     await refreshExercisesCompletedToday()
     await refreshGoals()
   }
   
   private func handleDidAddExerciseEvent() async {
-//    await dataStore.invalidateExercises()
-//    
     if currentSection == .workout {
       await loadLocalExercises()
     }

@@ -25,17 +25,16 @@ final class ExerciseDetailsViewModel {
   @ObservationIgnored
   @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
   
-//  @ObservationIgnored
-//  @Injected(\.dataStore) private var dataStore: DataStoreProtocol
+  @ObservationIgnored
+  @Injected(\.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
   
   // MARK: - Observed properties
   
+  private(set) var isFavorite = false
   private(set) var showChallengeExercise = false
   private(set) var isTimerActive = false
   private(set) var timer: Timer? = nil
   private(set) var elapsedTime: Int = 0
-  
-  var isFavorite = false
   
   // MARK: - Publishers
   
@@ -58,6 +57,8 @@ final class ExerciseDetailsViewModel {
     self.setupPublishers()
   }
   
+  /// Add a short debounce for `favoriteSubject` in case the favorite button is spammed
+  ///
   private func setupPublishers() {
     favoriteSubject
       .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
@@ -74,19 +75,25 @@ final class ExerciseDetailsViewModel {
   
   // MARK: - Timer
   
+  private(set) var timerTask: Task<Void, Never>?
+  
   func startTimer() {
     isTimerActive = true
     elapsedTime = 0
     
-    timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {_ in 
-      Task { @MainActor in
+    timerTask = Task { [weak self] in
+      guard let self else { return }
+      
+      repeat {
+        guard !Task.isCancelled, ((try? await Task.sleep(for: .seconds(1))) != nil) else { break }
+      
         self.elapsedTime += 1
-      }
-    })
-    
-    if let timer {
-      RunLoop.current.add(timer, forMode: .common)
+      } while isTimerActive
     }
+  }
+  
+  private func incrementTime() {
+    elapsedTime += 1
   }
   
   func stopTimer() {
@@ -142,23 +149,28 @@ extension ExerciseDetailsViewModel {
       else { return }
       
       do {
-        try await exerciseSessionDataStore.addSession(exercise, date: Date())
+        try await exerciseSessionDataStore.addSession(exercise, date: Date(), userId: currentUser.userId)
         try await maybeUpdateGoals()
         
-        didSaveSessionSubject.send(true)
+        await MainActor.run {
+          self.didSaveSessionSubject.send(true)
+        }
       } catch {
-        didSaveSessionSubject.send(false)
         MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
+        
+        await MainActor.run {
+          self.didSaveSessionSubject.send(true)
+        }
       }
     }
   }
   
   private func maybeUpdateGoals() async throws {
-    let goals = await dataStore.loadGoals()
+    let goals = await goalDataStore.getAll()
     
     for goal in goals {
       if let _ = ExerciseHelper.goalToExerciseCategories[goal.category] {
-        try await dataStore.goalDataStore.incrementCurrentValue(goal)
+        try await goalDataStore.incrementCurrentValue(goal)
       }
     }
     

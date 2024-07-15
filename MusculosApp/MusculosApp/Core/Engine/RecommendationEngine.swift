@@ -18,7 +18,7 @@ public struct RecommendationEngine: Sendable {
   @Injected(\.userDataStore) private var userDataStore
   
   public func recommendByGoals() async throws -> [Exercise] {
-    guard let currentUser = await UserSessionActor.shared.currentUser() else {
+    guard await UserSessionActor.shared.currentUser() != nil else {
       throw MusculosError.notFound
     }
     
