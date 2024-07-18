@@ -42,7 +42,7 @@ struct APIRequest {
     var newHeaders: [String: String] = [:]
     newHeaders[HTTPHeaderConstant.contentType] = self.contentType
     
-    if var authToken = self.authToken {
+    if let authToken = self.authToken {
       newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(authToken)"
     } else {
       if let fetchedToken = await UserSessionActor.shared.currentUser()?.authToken {

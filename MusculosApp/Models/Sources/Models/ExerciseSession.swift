@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ExerciseSession: Codable {
+public struct ExerciseSession: Codable, Sendable {
   public let date: Date
   public let sessionId: UUID
   public let user: UserProfile

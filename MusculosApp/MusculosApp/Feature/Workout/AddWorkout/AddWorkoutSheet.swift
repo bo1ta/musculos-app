@@ -8,6 +8,7 @@
 import SwiftUI
 import Models
 import Utility
+import Components
 
 struct AddWorkoutSheet: View {
   @Environment(\.dismiss) private var dismiss
@@ -31,10 +32,8 @@ struct AddWorkoutSheet: View {
       .padding(.bottom, 25)
       
       VStack(spacing: 35) {
-        
         CustomTextField(text: $viewModel.workoutName, label: "Name")
         CustomTextField(text: $viewModel.workoutType, label: "Type")
-        
         CustomTextField(text: $viewModel.muscleSearchQuery, label: "Target")
         
         MultiOptionsSelectView(showOptions: $viewModel.showSelectMuscles, selectedOptions: $viewModel.selectedMuscles, title: "Target muscles", options: muscleOptions)

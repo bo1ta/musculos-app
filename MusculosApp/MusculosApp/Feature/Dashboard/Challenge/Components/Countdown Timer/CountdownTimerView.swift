@@ -128,11 +128,8 @@ struct CountdownTimerView: View {
 }
 
 
-
-struct TimerView_Previews: PreviewProvider {
-  static var previews: some View {
-    CountdownTimerView(durationInSeconds: .constant(120), onTimerCompleted: {})
-      .preferredColorScheme(.dark)
-      .previewLayout(.sizeThatFits)
-  }
+#Preview {
+  CountdownTimerView(durationInSeconds: .constant(120), onTimerCompleted: {})
+    .preferredColorScheme(.dark)
+    .previewLayout(.sizeThatFits)
 }

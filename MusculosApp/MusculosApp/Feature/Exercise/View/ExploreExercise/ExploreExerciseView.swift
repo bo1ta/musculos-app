@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Components
 
 struct ExploreExerciseView: View {
   @Environment(\.appManager) private var appManager

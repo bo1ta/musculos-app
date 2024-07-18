@@ -138,6 +138,13 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   public func performWrite(_ writeClosure: @escaping WriteStorageClosure) async throws {
     try await writerDerivedStorage.perform {
       try writeClosure(self.writerDerivedStorage)
+      
+      /// need to call proccess changes on the writer storage
+      /// otherwise it doesn't trigger the `NSManagedObjectContextObjectsDidChange` notification
+      /// which is used for saving
+      
+      (self.writerDerivedStorage as? NSManagedObjectContext)?.processPendingChanges()
+      
     }
   }
   

@@ -22,7 +22,7 @@ public struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreP
   
   public func getAll(for userId: UUID) async -> [ExerciseSession] {
     return await storageManager.performRead { viewStorage in
-      let predicate = NSPredicate(format: "%K == %@", #keyPath(ExerciseSessionEntity.user.userId), userId.uuidString)
+      let predicate = NSPredicate(format: "user.userId == %@", userId.uuidString)
       return viewStorage
         .allObjects(
           ofType: ExerciseSessionEntity.self,

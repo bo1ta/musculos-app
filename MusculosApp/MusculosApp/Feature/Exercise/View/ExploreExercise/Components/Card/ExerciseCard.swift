@@ -8,6 +8,7 @@
 import SwiftUI
 import Shimmer
 import Models
+import Components
 
 struct ExerciseCard: View {
   let exercise: Exercise
@@ -95,9 +96,8 @@ struct ExerciseCard: View {
   }
 }
 
-struct WorkoutCardView_Preview: PreviewProvider {
-  static var previews: some View {
-    ExerciseCard(exercise: ExerciseFactory.createExercise())
-      .previewLayout(.sizeThatFits)
-  }
+
+#Preview {
+  ExerciseCard(exercise: ExerciseFactory.createExercise())
+    .previewLayout(.sizeThatFits)
 }
