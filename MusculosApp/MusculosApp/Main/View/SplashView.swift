@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Components
 
 struct SplashView: View {
   @State private var showLoginScreen: Bool = false

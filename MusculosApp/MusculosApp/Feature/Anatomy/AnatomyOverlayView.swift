@@ -41,8 +41,6 @@ struct AnatomyOverlayView: View {
   }
 }
 
-struct AnatomyOverlayView_Previews: PreviewProvider {
-  static var previews: some View {
-    AnatomyOverlayView(musclesIds: [2, 4, 5])
-  }
+#Preview {
+  AnatomyOverlayView(musclesIds: [2, 4, 5])
 }

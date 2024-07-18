@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Components
 
 struct SignUpView: View {
   @State private var viewModel: AuthViewModel

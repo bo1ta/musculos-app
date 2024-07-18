@@ -37,8 +37,6 @@ struct AppTabView: View {
   }
 }
 
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    AppTabView()
-  }
+#Preview {
+  AppTabView()
 }

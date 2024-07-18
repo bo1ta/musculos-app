@@ -5,17 +5,30 @@ import PackageDescription
 
 let package = Package(
     name: "Components",
+    platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "Components",
             targets: ["Components"]),
     ],
+    dependencies: [
+      .package(name: "Utility", path: "../Utility"),
+    ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        .target(
-            name: "Components"),
+      .target(
+        name: "MusculosApp",
+        dependencies: [.product(
+          name: "Utility",
+          package: "Utility"
+        )]
+      ),
+      .target(
+        name: "Components",
+        dependencies: [
+            .product(name: "Utility", package: "Utility")
+        ]
+      ),
 
     ]
 )

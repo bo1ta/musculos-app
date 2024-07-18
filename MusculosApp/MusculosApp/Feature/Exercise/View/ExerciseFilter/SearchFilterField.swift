@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Utility
+import Components
 
 struct SearchFilterField: View {
   @StateObject private var debouncedQueryObserver = DebouncedQueryObserver()

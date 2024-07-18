@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Utility
+import Components
 
 struct SignInView: View {
   @Environment(\.userStore) private var userStore

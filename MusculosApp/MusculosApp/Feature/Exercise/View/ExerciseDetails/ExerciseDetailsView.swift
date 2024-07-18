@@ -8,6 +8,7 @@
 import SwiftUI
 import Factory
 import Models
+import Components
 
 struct ExerciseDetailsView: View {
   @Environment(\.dismiss) private var dismiss

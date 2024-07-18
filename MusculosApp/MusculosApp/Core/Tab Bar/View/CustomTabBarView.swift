@@ -60,9 +60,8 @@ extension CustomTabBarView {
   }
 }
 
-struct CustomTabBarView_Preview: PreviewProvider {
-  static var previews: some View {
-    CustomTabBarView(tabBarItems: [.overview, .overview], selection: Binding<TabBarItem>.constant(.overview), onAddTapped: {})
-      .previewLayout(.sizeThatFits)
-  }
+
+#Preview {
+  CustomTabBarView(tabBarItems: [.overview, .overview], selection: Binding<TabBarItem>.constant(.overview), onAddTapped: {})
+    .previewLayout(.sizeThatFits)
 }
