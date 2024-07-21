@@ -9,6 +9,8 @@ import SwiftUI
 import CoreData
 
 struct AppTabView: View {
+  @Environment(\.navigationRouter) private var navigationRouter
+
   @State private var appManager = AppManager()
   
   @State private var tabSelection: TabBarItem = .explore
@@ -20,12 +22,11 @@ struct AppTabView: View {
     CustomTabBarContainerView(
       selection: $tabSelection,
       tabBarItems: tabBarItems,
-      onAddTapped: showSheet
+      onAddTapped: {
+        navigationRouter.present(.addActionSheet)
+      }
     ) {
       tabSelection.view
-    }
-    .sheet(isPresented: $showingSheet) {
-      AddActionSheetContainer()
     }
     .toastView(toast: $appManager.toast)
     .environment(\.appManager, appManager)

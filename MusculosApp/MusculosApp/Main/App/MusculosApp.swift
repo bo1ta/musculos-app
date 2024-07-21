@@ -11,14 +11,31 @@ import HealthKit
 struct MusculosApp: App {
   @State private var userStore = UserStore()
   @State private var healthKitViewModel = HealthKitViewModel()
-  
+  @Bindable private var navigationRouter = NavigationRouter()
+
   var body: some Scene {
     WindowGroup {
-      Group {
+      NavigationStack(path: $navigationRouter.navPath) {
         if userStore.isLoading {
           EmptyView()
         } else if userStore.isOnboarded && userStore.isLoggedIn {
           AppTabView()
+            .navigationDestination(for: NavigationRouter.Destination.self) { destination in
+              switch destination {
+              case .exerciseDetails(let exercise):
+                ExerciseDetailsView(exercise: exercise)
+              }
+            }
+            .sheet(isPresented: navigationRouter.isPresentingBinding(), content: {
+              if let currentSheet = navigationRouter.currentSheet {
+                switch currentSheet {
+                case .addActionSheet:
+                  AddActionSheetContainer()
+                case .workoutFlow(let workout):
+                  WorkoutFlowView(workout: workout, onComplete: {})
+                }
+              }
+            })
         } else {
           if !userStore.isLoggedIn {
             SplashView()
@@ -32,6 +49,7 @@ struct MusculosApp: App {
       }
       .environment(\.userStore, userStore)
       .environment(\.healthKitViewModel, healthKitViewModel)
+      .environment(\.navigationRouter, navigationRouter)
     }
   }
 }

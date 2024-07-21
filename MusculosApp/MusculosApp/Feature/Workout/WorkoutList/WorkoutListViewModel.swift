@@ -17,15 +17,7 @@ import Models
 final class WorkoutListViewModel {
   var state: LoadingViewState<[Workout]> = .empty
   var searchQuery: String = ""
-  var selectedWorkout: Workout? = nil {
-    didSet {
-      if selectedWorkout != nil {
-        showWorkoutFlow = true
-      }
-    }
-  }
-  var showWorkoutFlow: Bool = false
-  
+
   private let dataStore: WorkoutDataStore
   
   private(set) var loadTask: Task<Void, Never>?

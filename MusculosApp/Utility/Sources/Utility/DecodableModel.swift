@@ -24,12 +24,11 @@ public extension DecodableModel where Self: Codable {
       let decoded = try decoder.decode(Self.self, from: data)
       return decoded
     } catch {
-//      MusculosLogger.logError(error,
-//                              message: "Could not decode object",
-//                              category: .networking,
-//                              properties: ["object": String(describing: Self.self)])
-//      throw MusculosError.decodingError
-      throw error
+      MusculosLogger.logError(error,
+                              message: "Could not decode object",
+                              category: .networking,
+                              properties: ["object": String(describing: Self.self)])
+      throw MusculosError.decodingError
     }
   }
 
@@ -41,12 +40,11 @@ public extension DecodableModel where Self: Codable {
       let decoded = try decoder.decode([Self].self, from: data)
       return decoded
     } catch {
-//      MusculosLogger.logError(error,
-//                              message: "Could not decode object",
-//                              category: .networking,
-//                              properties: ["object": String(describing: Self.self)])
-//      throw MusculosError.decodingError
-      return []
+      MusculosLogger.logError(error,
+                              message: "Could not decode object",
+                              category: .networking,
+                              properties: ["object": String(describing: Self.self)])
+      throw MusculosError.decodingError
     }
   }
 }

@@ -52,15 +52,6 @@ final class ExploreExerciseViewModel {
   var errorMessage = ""
   var searchQuery = ""
   var showFilterView = false
-  var showExerciseDetails = false
-  
-  var selectedExercise: Exercise? = nil {
-    didSet {
-      if selectedExercise != nil {
-        showExerciseDetails = true
-      }
-    }
-  }
   
   var currentSection: ExploreCategorySection = .discover {
     didSet {
