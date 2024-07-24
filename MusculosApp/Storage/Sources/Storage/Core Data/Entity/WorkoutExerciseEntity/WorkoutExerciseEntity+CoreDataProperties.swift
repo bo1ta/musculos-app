@@ -23,7 +23,7 @@ extension WorkoutExerciseEntity {
 extension WorkoutExerciseEntity : Identifiable { }
 
 extension WorkoutExerciseEntity: ReadOnlyConvertible {
-  func toReadOnly() -> WorkoutExercise {
+  public func toReadOnly() -> WorkoutExercise {
     return WorkoutExercise(
       numberOfReps: self.numberOfReps.intValue,
       exercise: exercise.toReadOnly()

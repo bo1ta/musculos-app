@@ -89,7 +89,7 @@ public struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreP
       guard
         let exerciseEntity = writerDerivedStorage.firstObject(
           of: ExerciseEntity.self,
-          matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
+          matching: PredicateFactory.exerciseById(exercise.id)
         ),
         let userProfile = UserProfileEntity.userFrom(userId: userId.uuidString, on: writerDerivedStorage)
       else { throw MusculosError.notFound }

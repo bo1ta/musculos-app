@@ -9,8 +9,8 @@ import Foundation
 
 /// Helper protocol to convert core data models to a thread-safe model
 ///
-protocol ReadOnlyConvertible: TypeErasedReadOnlyConvertible {
-  
+public protocol ReadOnlyConvertible: TypeErasedReadOnlyConvertible {
+
   /// Represents the ReadOnly Type (mirroring the receiver).
   ///
   associatedtype ReadOnlyType
@@ -29,10 +29,10 @@ protocol ReadOnlyConvertible: TypeErasedReadOnlyConvertible {
 /// Using it is generally unsafe -- Core Data isn't thread-safe.
 ///
 extension ReadOnlyConvertible {
-  func update(from readable: ReadOnlyType) { }
+  public func update(from readable: ReadOnlyType) { }
 }
 
-protocol TypeErasedReadOnlyConvertible {
+public protocol TypeErasedReadOnlyConvertible {
 
     /// Returns a ReadOnly version of the receiver, but with no Type associated.
     ///

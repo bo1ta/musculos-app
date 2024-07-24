@@ -13,7 +13,7 @@ import Models
 @preconcurrency import CoreData
 
 public class StorageManager: StorageManagerType, @unchecked Sendable {
-  static let shared = StorageManager()
+  public static let shared = StorageManager()
   
   private var cancellables = Set<AnyCancellable>()
   private let coalesceInterval: Double = 2.0 // coalesce interval for Core Data saving

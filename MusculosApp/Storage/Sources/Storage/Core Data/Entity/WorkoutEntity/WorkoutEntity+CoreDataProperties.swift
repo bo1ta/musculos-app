@@ -44,7 +44,7 @@ extension WorkoutEntity {
 extension WorkoutEntity : Identifiable {}
 
 extension WorkoutEntity: ReadOnlyConvertible {
-  func toReadOnly() -> Workout {
+  public func toReadOnly() -> Workout {
     let workoutExercisesToRead = workoutExercises.compactMap { $0.toReadOnly() }
     let person = createdBy.toReadOnly()
 

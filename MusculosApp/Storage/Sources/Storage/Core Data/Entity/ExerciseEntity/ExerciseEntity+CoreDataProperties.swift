@@ -82,7 +82,7 @@ extension ExerciseEntity : Identifiable { }
 // MARK: - ReadOnlyConvertible impl
 
 extension ExerciseEntity: ReadOnlyConvertible {
-  func toReadOnly() -> Exercise {
+  public func toReadOnly() -> Exercise {
     let primaryMuscles = Array(primaryMuscles).compactMap { $0.toReadOnly() }
     let secondaryMuscles = Array(secondaryMuscles).compactMap { $0.toReadOnly() }
     
@@ -97,37 +97,5 @@ extension ExerciseEntity: ReadOnlyConvertible {
       instructions: self.instructions!,
       imageUrls: self.imageUrls!
     )
-  }
-}
-
-// MARK: - Common Predicate
-
-extension ExerciseEntity {
-  enum CommonPredicate {
-    case byId(UUID)
-    case byName(String)
-    case isFavorite
-    
-    var nsPredicate: NSPredicate {
-      switch self {
-      case .byId(let uuid):
-        return NSPredicate(
-          format: "%K == %@",
-          #keyPath(ExerciseEntity.exerciseId),
-          uuid as NSUUID
-        )
-      case .byName(let name):
-        return NSPredicate(
-          format: "%K CONTAINS %@",
-          #keyPath(ExerciseEntity.name),
-          name
-        )
-      case .isFavorite:
-        return NSPredicate(
-          format: "%K == true",
-          #keyPath(ExerciseEntity.isFavorite)
-        )
-      }
-    }
   }
 }

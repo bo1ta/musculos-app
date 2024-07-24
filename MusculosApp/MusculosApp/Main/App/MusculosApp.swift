@@ -7,9 +7,12 @@
 
 import SwiftUI
 import HealthKit
+import Storage
+import Models
 
 struct MusculosApp: App {
   @State private var userStore = UserStore()
+  @State private var exerciseStore = StorageStore<ExerciseEntity>()
   @State private var healthKitViewModel = HealthKitViewModel()
   @Bindable private var navigationRouter = NavigationRouter()
 
@@ -50,6 +53,7 @@ struct MusculosApp: App {
       .environment(\.userStore, userStore)
       .environment(\.healthKitViewModel, healthKitViewModel)
       .environment(\.navigationRouter, navigationRouter)
+      .environment(\.exerciseStore, exerciseStore)
     }
   }
 }

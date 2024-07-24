@@ -7,11 +7,13 @@
 
 import SwiftUI
 import Components
+import Storage
+import Models
 
 struct ExploreExerciseView: View {
   @Environment(\.appManager) private var appManager
   @Environment(\.navigationRouter) private var navigationRouter
-
+  
   @State private var viewModel = ExploreExerciseViewModel()
 
   var body: some View {

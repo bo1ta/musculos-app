@@ -9,6 +9,7 @@ import SwiftUI
 import Models
 import Utility
 import Components
+import Storage
 
 struct AddExerciseView: View {
   @Environment(\.dismiss) private var dismiss

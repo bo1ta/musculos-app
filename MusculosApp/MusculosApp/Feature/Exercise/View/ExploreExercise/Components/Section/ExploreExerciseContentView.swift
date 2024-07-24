@@ -9,19 +9,16 @@ import SwiftUI
 import Utility
 
 struct ExploreCategorySectionView: View {
-  @Binding var currentSection: ExploreCategorySection
-  
-  init(currentSection: Binding<ExploreCategorySection>) {
-    self._currentSection = currentSection
-  }
-  
+  var currentSection: ExploreCategorySection
+  var onChangeSection: ((ExploreCategorySection) -> Void)?
+
   var body: some View {
     VStack {
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 50) {
           ForEach(ExploreCategorySection.allCases, id: \.title) { section in
             Button(action: {
-              currentSection = section
+              onChangeSection?(section)
             }, label: {
               let isSelected = section == currentSection
               let widthOfString = section.title.widthOfString(usingFont: UIFont(name: AppFont.Body.medium.rawValue, size: 16) ?? .boldSystemFont(ofSize: 18))
@@ -46,7 +43,7 @@ struct ExploreCategorySectionView: View {
 }
 
 #Preview {
-  ExploreCategorySectionView(currentSection: .constant(.discover))
+  ExploreCategorySectionView(currentSection: .discover, onChangeSection: { _ in })
 }
 
 

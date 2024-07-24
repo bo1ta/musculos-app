@@ -24,7 +24,7 @@ extension ExerciseSessionEntity {
 extension ExerciseSessionEntity: Identifiable {}
 
 extension ExerciseSessionEntity: ReadOnlyConvertible {
-  func toReadOnly() -> ExerciseSession {
+  public func toReadOnly() -> ExerciseSession {
     let user = self.user.toReadOnly()
     let exercise = self.exercise.toReadOnly()
     

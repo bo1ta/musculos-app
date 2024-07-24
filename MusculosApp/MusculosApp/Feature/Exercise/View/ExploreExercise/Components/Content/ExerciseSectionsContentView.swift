@@ -9,8 +9,11 @@ import SwiftUI
 import Models
 import Utility
 import Components
+import Storage
 
 struct ExerciseSectionsContentView: View {
+  @Environment(\.exerciseStore) private var exerciseStore: StorageStore<ExerciseEntity>
+
   @Binding var categorySection: ExploreCategorySection
   @Binding var contentState: LoadingViewState<[Exercise]>
   
@@ -33,7 +36,18 @@ struct ExerciseSectionsContentView: View {
         ExerciseContentLoadingView()
       case .loaded(let exercises):
         VStack {
-          ExploreCategorySectionView(currentSection: $categorySection)
+          ExploreCategorySectionView(currentSection: categorySection, onChangeSection: { section in
+            switch section {
+            case .myFavorites:
+              exerciseStore.updateFetchConfiguration(predicate: PredicateFactory.favoriteExercise())
+              categorySection = .myFavorites
+            case .workout:
+              exerciseStore.updateFetchConfiguration()
+              categorySection = .workout
+            case .discover:
+              categorySection = .discover
+            }
+          })
           makeCategoryItems(
             categorySection,
             exercises: exercises
@@ -79,7 +93,7 @@ struct ExerciseSectionsContentView: View {
         
       case .myFavorites, .workout:
         LazyVStack {
-          ForEach(exercises, id: \.hashValue) { exercise in
+          ForEach(exerciseStore.results, id: \.hashValue) { exercise in
             Button(action: {
               onExerciseTap(exercise)
             }, label: {

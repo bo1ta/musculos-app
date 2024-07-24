@@ -9,11 +9,14 @@ import SwiftUI
 import Models
 import Utility
 import Components
+import Storage
 
 struct AddWorkoutSheet: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(\.appManager) private var appManager
-  
+
+  @Environment(\.exerciseStore) private var exerciseStore: StorageStore<ExerciseEntity>
+
   @State private var viewModel = AddWorkoutSheetViewModel()
   
   private var muscleOptions: [String] {
@@ -43,30 +46,15 @@ struct AddWorkoutSheet: View {
       VStack(alignment: .leading) {
         Text("Recommended exercises")
           .font(.body(.bold, size: 14))
-        switch viewModel.state {
-        case .loading:
-          ForEach(0..<5, id: \.self) { _ in
-            CardItemShimmering()
-              .onAppear(perform: viewModel.initialLoad)
-          }
-        case .loaded(let exercises):
-          ForEach(combineWithSelected(exercises), id: \.hashValue) { exercise in
-            CardItem(
-              title: exercise.name,
-              isSelected: viewModel.isExerciseSelected(exercise),
-              onSelect: {
-                viewModel.currentSelectedExercise = exercise
-              }
-            )
-          }
-        case .empty, .error(_):
-          HStack {
-            Spacer()
-            HintIconView(systemImage: "water.waves", textHint: "")
-            Spacer()
-          }
-          .onAppear(perform: viewModel.initialLoad)
-          .padding(.top, 20)
+
+        ForEach(combineWithSelected(exerciseStore.results), id: \.hashValue) { exercise in
+          CardItem(
+            title: exercise.name,
+            isSelected: viewModel.isExerciseSelected(exercise),
+            onSelect: {
+              viewModel.currentSelectedExercise = exercise
+            }
+          )
         }
       }
       .transition(.blurReplace)
