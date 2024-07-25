@@ -46,9 +46,16 @@ public protocol ExerciseDataStoreProtocol: Sendable {
   
   // MARK: - Write methods
   
-  // write methods
+  /// Update favorite state for an exercise
+  ///
   func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws
+
+  /// Imports exercises into the data store
+  ///
   func importFrom(_ exercises: [Exercise]) async throws -> [Exercise]
+
+  /// Adds exercise to the data store
+  ///
   func add(_ exercise: Exercise) async throws
 }
 
@@ -62,7 +69,7 @@ public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
       return viewStorage
         .firstObject(
           of: ExerciseEntity.self,
-          matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
+          matching: PredicateFactory.exerciseById(exercise.id)
         )?.isFavorite ?? false
     }
   }
@@ -79,7 +86,7 @@ public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
     return await storageManager.performRead { viewStorage in
       return viewStorage.allObjects(
         ofType: ExerciseEntity.self,
-        matching: ExerciseEntity.CommonPredicate.isFavorite.nsPredicate,
+        matching: PredicateFactory.favoriteExercise(),
         sortedBy: nil)
       .map { $0.toReadOnly() }
     }
@@ -90,7 +97,7 @@ public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
       return viewStorage
         .allObjects(
           ofType: ExerciseEntity.self,
-          matching: ExerciseEntity.CommonPredicate.byName(query).nsPredicate,
+          matching: PredicateFactory.exerciseByName(query),
           sortedBy: nil
         )
         .map { $0.toReadOnly() }
@@ -103,7 +110,7 @@ public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
       
       return viewStorage.allObjects(
         ofType: PrimaryMuscleEntity.self,
-        matching: NSPredicate(format: "muscleId IN %@", muscleIds),
+        matching: PredicateFactory.musclesByIds(muscleIds),
         sortedBy: nil
       )
       .flatMap { $0.exercises }
@@ -146,7 +153,7 @@ public extension ExerciseDataStore {
     try await storageManager.performWrite { writerDerivedStorage in
       guard let exercise = writerDerivedStorage.firstObject(
         of: ExerciseEntity.self,
-        matching: ExerciseEntity.CommonPredicate.byId(exercise.id).nsPredicate
+        matching: PredicateFactory.exerciseById(exercise.id)
       ) else {
         throw MusculosError.notFound
       }

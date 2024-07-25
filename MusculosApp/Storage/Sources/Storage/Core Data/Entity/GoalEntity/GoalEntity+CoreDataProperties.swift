@@ -34,7 +34,7 @@ extension GoalEntity: ReadOnlyConvertible {
   typealias GoalCategory = Goal.Category
   typealias GoalFrequency = Goal.Frequency
   
-  func toReadOnly() -> Goal {
+  public func toReadOnly() -> Goal {
     var goalCategory: GoalCategory = .general
     if let category, let categoryType = GoalCategory(rawValue: category)  {
       goalCategory = categoryType

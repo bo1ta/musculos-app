@@ -37,7 +37,7 @@ extension SecondaryMuscleEntity {
 extension SecondaryMuscleEntity : Identifiable { }
 
 extension SecondaryMuscleEntity: ReadOnlyConvertible {
-  func toReadOnly() -> String {
+  public func toReadOnly() -> String {
     return name
   }
 }

@@ -51,7 +51,7 @@ extension UserProfileEntity {
 // MARK: - ReadOnlyConvertible impl
 
 extension UserProfileEntity: ReadOnlyConvertible {
-  func toReadOnly() -> UserProfile? {
+  public func toReadOnly() -> UserProfile? {
     guard let email, let username, let userId else { return nil }
     
     return UserProfile(userId: UUID(uuidString: userId)!, email: email, username: username, weight: weight?.doubleValue, height: height?.doubleValue, level: level, availableEquipment: availableEquipment, primaryGoalId: primaryGoalId?.intValue)

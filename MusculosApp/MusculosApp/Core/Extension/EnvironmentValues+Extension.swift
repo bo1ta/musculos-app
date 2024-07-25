@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Storage
 
 extension EnvironmentValues {
   
@@ -25,6 +26,15 @@ extension EnvironmentValues {
     set { self[HealthKitViewModelKey.self] = newValue }
   }
   
+  var navigationRouter: NavigationRouter {
+    get { self[NavigationRouterKey.self] }
+    set { self[NavigationRouterKey.self] = newValue}
+  }
+
+  var exerciseStore: StorageStore<ExerciseEntity> {
+    get { self[ExerciseStoreKey.self] }
+    set { self[ExerciseStoreKey.self] = newValue }
+  }
 }
 
 // MARK: - AppManagerKey
@@ -43,5 +53,17 @@ private struct UserStoreKey: @preconcurrency EnvironmentKey {
 
 private struct HealthKitViewModelKey: @preconcurrency EnvironmentKey {
   @MainActor static var defaultValue: HealthKitViewModel = HealthKitViewModel()
+}
+
+// MARK: - NavigationRouterKey
+
+private struct NavigationRouterKey: @preconcurrency EnvironmentKey {
+  @MainActor static var defaultValue: NavigationRouter = NavigationRouter()
+}
+
+// MARK: - ExerciseStoreKey
+
+private struct ExerciseStoreKey: @preconcurrency EnvironmentKey {
+  @MainActor static var defaultValue: StorageStore<ExerciseEntity> = StorageStore<ExerciseEntity>()
 }
 

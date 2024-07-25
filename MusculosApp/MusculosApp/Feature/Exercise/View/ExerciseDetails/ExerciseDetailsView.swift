@@ -42,9 +42,6 @@ struct ExerciseDetailsView: View {
     .task {
       await viewModel.initialLoad()
     }
-    .onAppear {
-      appManager.hideTabBar()
-    }
     .onDisappear(perform: viewModel.cleanUp)
     .onReceive(viewModel.didSaveSessionSubject, perform: { didSave in
       if didSave {

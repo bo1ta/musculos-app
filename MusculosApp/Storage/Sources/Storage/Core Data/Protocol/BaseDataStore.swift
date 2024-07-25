@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Factory
 
 /// Helper protocol for Core Data store operations
 ///

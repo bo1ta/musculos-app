@@ -86,4 +86,12 @@ public protocol StorageType {
   /// Perform the block the async way.
   ///
   func perform(_ block: @escaping () throws -> Void) async throws
+
+  /// Create a fetched results controller for the given type
+  ///
+  func createFetchedResultsController<ResultType>(
+    fetchRequest: NSFetchRequest<ResultType>,
+    sectionNameKeyPath: String?,
+    cacheName: String?
+  ) -> NSFetchedResultsController<ResultType>
 }

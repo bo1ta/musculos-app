@@ -38,7 +38,7 @@ extension PrimaryMuscleEntity {
 extension PrimaryMuscleEntity : Identifiable { }
 
 extension PrimaryMuscleEntity: ReadOnlyConvertible {
-  func toReadOnly() -> String {
+  public func toReadOnly() -> String {
     return self.name
   }
 }

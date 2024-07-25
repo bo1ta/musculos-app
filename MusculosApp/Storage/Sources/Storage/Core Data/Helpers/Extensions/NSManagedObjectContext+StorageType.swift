@@ -222,4 +222,17 @@ extension NSManagedObjectContext: StorageType {
       }
     }
   }
+
+  public func createFetchedResultsController<ResultType>(
+    fetchRequest: NSFetchRequest<ResultType>,
+    sectionNameKeyPath: String?,
+    cacheName: String?
+  ) -> NSFetchedResultsController<ResultType> {
+    return NSFetchedResultsController(
+      fetchRequest: fetchRequest,
+      managedObjectContext: self,
+      sectionNameKeyPath: sectionNameKeyPath,
+      cacheName: cacheName
+    )
+  }
 }

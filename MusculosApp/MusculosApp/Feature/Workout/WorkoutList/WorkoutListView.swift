@@ -10,6 +10,8 @@ import Shimmer
 
 struct WorkoutListView: View {
   @Environment(\.appManager) private var appManager
+  @Environment(\.navigationRouter) private var navigationRouter
+
   @State private var viewModel = WorkoutListViewModel()
   
   var body: some View {
@@ -26,7 +28,7 @@ struct WorkoutListView: View {
             VStack(alignment: .leading) {
               ForEach(workouts, id: \.hashValue) { workout in
                 Button {
-                  viewModel.selectedWorkout = workout
+                  navigationRouter.present(.workoutFlow(workout))
                 } label: {
                   WorkoutCard(workout: workout)
                 }
@@ -43,11 +45,6 @@ struct WorkoutListView: View {
       .onAppear {
         appManager.showTabBar()
         viewModel.initialLoad()
-      }
-      .navigationDestination(isPresented: $viewModel.showWorkoutFlow) {
-        if let selectedWorkout = viewModel.selectedWorkout {
-          WorkoutFlowView(workout: selectedWorkout, onComplete: {})
-        }
       }
     }
   }

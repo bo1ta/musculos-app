@@ -106,8 +106,8 @@ final class AddWorkoutSheetViewModel {
     updateTask = Task {
       state = .loading
       
-//      let results = await dataStore.exerciseDataStore.getByMuscles(selectedMuscleTypes)
-//      state = .loaded(results)
+      let results = await exerciseDataStore.getByMuscles(selectedMuscleTypes)
+      state = .loaded(results)
     }
   }
   
@@ -146,19 +146,6 @@ final class AddWorkoutSheetViewModel {
 // MARK: - Data Store methods
 
 extension AddWorkoutSheetViewModel {
-  func initialLoad() {
-    loadTask = Task { @MainActor in
-      state = .loading
-      
-      let results = await exerciseDataStore.getAll(fetchLimit: 20)
-      if results.isEmpty {
-        state = .empty
-      } else {
-        state = .loaded(results)
-      }
-    }
-  }
-  
   func searchByMuscleName(_ name: String) {
     loadTask?.cancel()
     
