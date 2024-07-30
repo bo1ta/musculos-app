@@ -70,7 +70,7 @@ struct AuthView: View {
   }
 
   private var waveShape: some View {
-    TopWaveShape(waveSize: waveSize, horizontalOffset: horizontalOffset)
+    WaveShapeAnimatable(waveSize: waveSize, horizontalOffset: horizontalOffset)
       .fill(
         LinearGradient(
           gradient: Gradient(colors: [Color.AppColor.blue800, Color.AppColor.blue700]), startPoint: .top, endPoint: .bottom)
