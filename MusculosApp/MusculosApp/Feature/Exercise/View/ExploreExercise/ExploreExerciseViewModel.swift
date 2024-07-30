@@ -21,7 +21,10 @@ final class ExploreExerciseViewModel {
   
   @ObservationIgnored
   @Injected(\.exerciseService) private var service: ExerciseServiceProtocol
-  
+
+  @ObservationIgnored
+  @Injected(\.userManager) private var userManager: UserManagerProtocol
+
   @ObservationIgnored
   @Injected(\.recommendationEngine) private var recommendationEngine: RecommendationEngine
   
@@ -37,11 +40,8 @@ final class ExploreExerciseViewModel {
   @ObservationIgnored
   private var cancellables = Set<AnyCancellable>()
   
-  @ObservationIgnored
   private var currentUser: UserSession? {
-    get async {
-      return await UserSessionActor.shared.currentUser()
-    }
+    userManager.currentSession()
   }
   
   // MARK: - Observed properties
@@ -173,7 +173,7 @@ extension ExploreExerciseViewModel {
   }
   
   func refreshExercisesCompletedToday() async {
-    guard let currentUser = await self.currentUser else { return }
+    guard let currentUser else { return }
     exercisesCompletedToday = await exerciseSessionDataStore.getCompletedToday(userId: currentUser.userId)
   }
   

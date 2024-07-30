@@ -25,7 +25,10 @@ final class OnboardingWizardViewModel {
   
   @ObservationIgnored
   @Injected(\.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
-  
+
+  @ObservationIgnored
+  @Injected(\.userManager) private var userManager: UserManagerProtocol
+
   @ObservationIgnored
   private(set) var updateTask: Task<Void, Never>?
     
@@ -95,8 +98,8 @@ final class OnboardingWizardViewModel {
   private func updateUser() async throws {
     var goalId: Int? // TODO: Handle Goal
     
-    guard let currentUser = await UserSessionActor.shared.currentUser() else { return }
-    
+    guard let currentUser = userManager.currentSession() else { return }
+
     try await userDataStore.updateProfile(
       userId: currentUser.userId,
       gender: selectedGender?.rawValue,

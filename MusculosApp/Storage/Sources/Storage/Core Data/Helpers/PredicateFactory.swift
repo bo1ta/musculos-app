@@ -35,6 +35,15 @@ public struct PredicateFactory {
     return NSPredicate(
       format: "%K IN %@",
       #keyPath(PrimaryMuscleEntity.muscleId),
-      muscleIds)
+      muscleIds
+    )
+  }
+
+  public static func userProfileByEmail(_ email: String) -> NSPredicate {
+    return NSPredicate(
+      format: "%K == %@",
+      #keyPath(UserProfileEntity.email),
+      email
+    )
   }
 }

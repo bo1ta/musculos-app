@@ -8,36 +8,73 @@
 import Foundation
 import Combine
 import Utility
+import Factory
+import SwiftUI
 
 @Observable
 @MainActor
 class AuthViewModel {
-  var state: LoadingViewState<Bool> = .empty
-  var email: String = ""
-  var password: String = ""
-  var username: String = ""
-  var fullName: String = ""
-  var showRegister: Bool = false
-  
-  private(set) var authTask: Task<Void, Never>?
-  
-  private let service: AuthServiceProtocol
-  
-  init(service: AuthServiceProtocol = AuthService()) {
-    self.service = service
+  @ObservationIgnored
+  @Injected(\.authService) private var authService: AuthServiceProtocol
+
+  // MARK: - Auth step
+
+  enum Step {
+    case login
+    case register
   }
-  
+
+  // MARK: - Event
+
+  enum Event {
+    case onLoginSuccess(UserSession)
+    case onLoginFailure(Error)
+    case onRegisterSuccess(UserSession)
+    case onRegisterFailure(Error)
+  }
+
+  // MARK: - Public
+
+  var step: Step
+  var uiState: UIState = .idle
+  var email  = ""
+  var password = ""
+  var username  = ""
+  var showRegister = false
+
+  var event: AnyPublisher<Event, Never> {
+    _event.eraseToAnyPublisher()
+  }
+
+  private(set) var authTask: Task<Void, Never>?
+  private let _event = PassthroughSubject<Event, Never>()
+
+  init(initialStep: Step) {
+    step = initialStep
+  }
+
+  func makeLoadingBinding() -> Binding<Bool> {
+    Binding(get: {
+      return self.uiState == .loading
+    }, set: {
+      self.uiState = $0 ? .loading : .idle
+    })
+  }
+
   func signIn() {
     authTask?.cancel()
     
-    authTask = Task {
-      state = .loading
-      
+    authTask = Task { [weak self] in
+      guard let self else { return }
+
+      uiState = .loading
+      defer { uiState = .idle }
+
       do {
-        try await service.login(email: email, password: password)
-        state = .loaded(true)
+        let session = try await authService.login(email: email, password: password)
+        _event.send(.onLoginSuccess(session))
       } catch {
-        self.state = .error(MessageConstant.genericErrorMessage.rawValue)
+        _event.send(.onLoginFailure(error))
         MusculosLogger.logError(error, message: "Sign in failed", category: .networking)
       }
     }
@@ -46,21 +83,22 @@ class AuthViewModel {
   func signUp() {
     authTask?.cancel()
     
-    authTask = Task {
-      state = .loading
-      
+    authTask = Task { [weak self] in
+      guard let self else { return }
+
+      uiState = .loading
+      defer { uiState = .idle }
+
       do {
-        try await service.register(
+        let session = try await authService.register(
           email: email,
           password: password,
-          username: username,
-          fullName: fullName
+          username: username
         )
-    
-        state = .loaded(true)
+        _event.send(.onRegisterSuccess(session))
       } catch {
-        state = .error(MessageConstant.genericErrorMessage.rawValue)
-        MusculosLogger.logError(error, message: "Sign up failed", category: .networking)
+        _event.send(.onRegisterFailure(error))
+        MusculosLogger.logError(error, message: "Sign Up failed", category: .networking)
       }
     }
   }

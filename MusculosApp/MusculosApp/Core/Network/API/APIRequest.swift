@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Factory
 
 struct APIRequest {
   var method: HTTPMethod
@@ -45,7 +46,7 @@ struct APIRequest {
     if let authToken = self.authToken {
       newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(authToken)"
     } else {
-      if let fetchedToken = await UserSessionActor.shared.currentUser()?.authToken {
+      if let fetchedToken = currentSession?.authToken {
         newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(fetchedToken)"
       }
     }
@@ -53,6 +54,10 @@ struct APIRequest {
     request.allHTTPHeaderFields = newHeaders
 
     return request
+  }
+
+  private var currentSession: UserSession? {
+    return Container.shared.userManager().currentSession()
   }
 
   private func requestBody(from body: [String: Any]) -> Data? {

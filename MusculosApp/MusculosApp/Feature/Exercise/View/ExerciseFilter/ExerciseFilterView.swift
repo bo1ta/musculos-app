@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Models
+import Components
 
 struct ExerciseFilterView: View {
   @Environment(\.dismiss) private var dismiss

@@ -10,22 +10,22 @@ import CoreData
 import Models
 
 public protocol UserDataStoreProtocol: Sendable {
-  func createUser(person: UserProfile) async throws
+  func createUser(profile: UserProfile) async throws
   func updateProfile(userId: UUID, gender: String?, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws
   func loadProfile(userId: UUID) async -> UserProfile?
+  func loadProfileByEmail(_ email: String) async -> UserProfile?
 }
 
 public struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
   
   public init() { }
   
-  public func createUser(person: UserProfile) async throws {
+  public func createUser(profile: UserProfile) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       let userProfile = writerDerivedStorage.insertNewObject(ofType: UserProfileEntity.self)
-      userProfile.userId = person.userId.uuidString
-      userProfile.username = person.username
-      userProfile.email = person.email
-      userProfile.fullName = person.fullName
+      userProfile.userId = profile.userId.uuidString
+      userProfile.username = profile.username
+      userProfile.email = profile.email
     }
     
     await storageManager.saveChanges()
@@ -63,6 +63,15 @@ public struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
         .firstObject(
           of: UserProfileEntity.self,
           matching: predicate)?
+        .toReadOnly()
+    }
+  }
+
+  public func loadProfileByEmail(_ email: String) async -> UserProfile? {
+    return await storageManager.performRead { viewStorage in
+      let predicate = PredicateFactory.userProfileByEmail(email)
+      return viewStorage
+        .firstObject(of: UserProfileEntity.self, matching: predicate)?
         .toReadOnly()
     }
   }

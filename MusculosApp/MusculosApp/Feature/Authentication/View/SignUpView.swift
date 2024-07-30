@@ -7,48 +7,77 @@
 
 import SwiftUI
 import Components
+import Utility
 
 struct SignUpView: View {
-  @State private var viewModel: AuthViewModel
-  
-  init(viewModel: AuthViewModel) {
-    self.viewModel = viewModel
-  }
+  @Bindable var viewModel: AuthViewModel
 
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
+      Spacer()
       Text(headerTitle)
-        .font(.header(.regular, size: 25))
+        .font(.header(.bold, size: 45))
+        .foregroundStyle(.white)
       registerForm
-//      socialLoginSection
+      Spacer()
     }
+    .gesture(
+      DragGesture()
+        .onEnded({ gesture in
+          if gesture.translation.width > 30 {
+            showLogin()
+          }
+        })
+    )
     .padding(.horizontal, 20)
     .onDisappear(perform: viewModel.cleanUp)
+    .safeAreaInset(edge: .top) {
+      HStack {
+        Button(action: showLogin, label: {
+          Image(systemName: "chevron.left")
+            .font(Font.body(.bold, size: 18))
+            .foregroundStyle(.white)
+        })
+
+        Spacer()
+      }
+      .padding(.horizontal, 20)
+    }
+  }
+
+  private func showLogin() {
+    viewModel.step = .login
   }
 }
 
 // MARK: - Views
 
 extension SignUpView {
+
+  @ViewBuilder
   private var registerForm: some View {
-    VStack(alignment: .leading, spacing: 15) {
-      CustomTextField(text: $viewModel.email,
-                       label: "Email")
-      CustomTextField(text: $viewModel.password,
-                       label: "Password",
-                       isSecureField: true)
-      CustomTextField(text: $viewModel.username,
-                       label: "Username")
-      CustomTextField(text: $viewModel.fullName,
-                       label: "Full Name (optional)")
-      
-      Button(action: viewModel.signUp, label: {
-        Text(headerTitle)
-          .frame(maxWidth: .infinity)
-          .foregroundStyle(.white)
-      })
-      .buttonStyle(PrimaryButtonStyle())
-      .padding(.top, 10)
+    VStack(alignment: .leading, spacing: 10) {
+      FormField(
+        text: $viewModel.email,
+        hint: "Email"
+      )
+      FormField(
+        text: $viewModel.password,
+        hint: "Password",
+        isSecureField: true
+      )
+      FormField(
+        text: $viewModel.password,
+        hint: "Confirm password",
+        isSecureField: true
+      )
+      FormField(
+        text: $viewModel.username,
+        hint: "Username"
+      )
+
+      LoadableDotsButton(title: headerTitle, isLoading: viewModel.makeLoadingBinding(), action: viewModel.signUp)
+        .padding(.top, 10)
     }
   }
   
@@ -103,5 +132,5 @@ extension SignUpView {
 }
 
 #Preview {
-  SignUpView(viewModel: AuthViewModel())
+  SignUpView(viewModel: AuthViewModel(initialStep: .login))
 }

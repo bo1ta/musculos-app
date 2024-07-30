@@ -10,7 +10,11 @@ import SwiftUI
 
 public struct SelectedButtonStyle: ButtonStyle {
   var isSelected: Bool
-  
+
+  public init(isSelected: Bool) {
+    self.isSelected = isSelected
+  }
+
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .padding(16)
