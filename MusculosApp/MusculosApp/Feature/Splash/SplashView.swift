@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Components
+import Utility
 
 struct SplashView: View {
   @State private var showLoginScreen: Bool = false
@@ -37,42 +38,11 @@ struct SplashView: View {
       .overlay {
         VStack(alignment: .center) {
           Spacer()
+          header
 
-          Text("Start your workout plan today")
-            .padding(20)
-            .font(Font.header(.bold, size: 25))
-            .foregroundStyle(.white)
+          loginButton
 
-          Button(action: {
-            withAnimation {
-              showLoginScreen = true
-            }
-          }, label: {
-            Text("Log In")
-              .frame(maxWidth: .infinity)
-              .font(Font.body(.regular, size: 16))
-          })
-          .buttonStyle(SecondaryButtonStyle())
-          .shadow(radius: 1.0)
-          .padding(.horizontal, 30)
-
-          HStack {
-            Text("Don't have an account?")
-              .font(Font.body(.regular, size: 16))
-              .foregroundStyle(.white)
-              .shadow(radius: 0.3)
-
-            Button(action: {
-              initialAuthStep = .register
-              showLoginScreen = true
-            }, label: {
-              Text("Sign up")
-                .font(Font.body(.bold, size: 16))
-                .foregroundStyle(.white)
-                .shadow(radius: 0.3)
-            })
-          }
-          .padding(.top)
+          dontHaveAnAccountText
         }
         .padding(.bottom, 80)
       }
@@ -83,6 +53,54 @@ struct SplashView: View {
           .aspectRatio(contentMode: .fill)
           .ignoresSafeArea()
       }
+  }
+
+  private var header: some View {
+    Text("Start your workout plan today")
+      .padding(20)
+      .font(Font.header(.bold, size: 25))
+      .foregroundStyle(.white)
+  }
+
+  private var loginButton: some View {
+    Button(action: {
+      lightHapticFeedback()
+      withAnimation {
+        showLoginScreen = true
+      }
+    }, label: {
+      Text("Log In")
+        .frame(maxWidth: .infinity)
+        .font(Font.body(.regular, size: 16))
+    })
+    .buttonStyle(SecondaryButtonStyle())
+    .shadow(radius: 1.0)
+    .padding(.horizontal, 30)
+  }
+
+  private var dontHaveAnAccountText: some View {
+    HStack {
+      Text("Don't have an account?")
+        .font(Font.body(.regular, size: 16))
+        .foregroundStyle(.white)
+        .shadow(radius: 0.3)
+
+      Button(action: {
+        lightHapticFeedback()
+        initialAuthStep = .register
+        showLoginScreen = true
+      }, label: {
+        Text("Sign up")
+          .font(Font.body(.bold, size: 16))
+          .foregroundStyle(.white)
+          .shadow(radius: 0.3)
+      })
+    }
+    .padding(.top)
+  }
+
+  private func lightHapticFeedback() {
+    HapticFeedbackProvider.hapticFeedback(.lightImpact)
   }
 }
 

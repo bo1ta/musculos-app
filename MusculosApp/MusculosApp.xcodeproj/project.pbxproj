@@ -93,6 +93,8 @@
 		BCA24C0D2B6B14EE00124EC3 /* SelectSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */; };
 		BCA24C0F2B6B2B5D00124EC3 /* SelectGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */; };
 		BCA24C142B6C203600124EC3 /* SizePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C132B6C203600124EC3 /* SizePickerView.swift */; };
+		BCA904FF2C599468000BE5FF /* SwiftUIGIF in Frameworks */ = {isa = PBXBuildFile; productRef = BCA904FE2C599468000BE5FF /* SwiftUIGIF */; };
+		BCA905022C5994A7000BE5FF /* SplashLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA905012C5994A7000BE5FF /* SplashLoadingView.swift */; };
 		BCAE95A52C4472C000AD91BE /* RecommendationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAE95A42C4472B700AD91BE /* RecommendationEngine.swift */; };
 		BCAE95AA2C447FAB00AD91BE /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAE95A92C447FA800AD91BE /* UserSession.swift */; };
 		BCB724BF2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB724BE2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift */; };
@@ -228,6 +230,7 @@
 		BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSizeView.swift; sourceTree = "<group>"; };
 		BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGoalView.swift; sourceTree = "<group>"; };
 		BCA24C132B6C203600124EC3 /* SizePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePickerView.swift; sourceTree = "<group>"; };
+		BCA905012C5994A7000BE5FF /* SplashLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashLoadingView.swift; sourceTree = "<group>"; };
 		BCAE95A42C4472B700AD91BE /* RecommendationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationEngine.swift; sourceTree = "<group>"; };
 		BCAE95A92C447FA800AD91BE /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		BCB724BE2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkoutSheetViewModel.swift; sourceTree = "<group>"; };
@@ -278,6 +281,7 @@
 				BC828CDE2C02802500AB9D1D /* Factory in Frameworks */,
 				BC545E482C3C730E00713B86 /* Storage in Frameworks */,
 				BC8D07F32C3C52F900212EE8 /* Utility in Frameworks */,
+				BCA904FF2C599468000BE5FF /* SwiftUIGIF in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -670,6 +674,7 @@
 		BC6F365B2BB4E205000F6CFA /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				BCA905002C59948C000BE5FF /* Splash */,
 				BC10E42C2A3B8AB00008A72E /* Authentication */,
 				BC34544F2B72DEFE0074106A /* Exercise */,
 				BC2EAE362C2241D300FB3C1F /* Goal */,
@@ -831,7 +836,6 @@
 		BC9937252B6426EB0067E556 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BCA24BEE2B69D3AE00124EC3 /* SplashView.swift */,
 				BC7827632B9D1D1000DFC02C /* AuthViewModel.swift */,
 				BCA24BFB2B6AB9AF00124EC3 /* SignInView.swift */,
 				BCA24BFF2B6AE68500124EC3 /* SignUpView.swift */,
@@ -873,6 +877,15 @@
 				BC2EAE2B2C223DBB00FB3C1F /* OnboardingOptionCardView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		BCA905002C59948C000BE5FF /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				BCA24BEE2B69D3AE00124EC3 /* SplashView.swift */,
+				BCA905012C5994A7000BE5FF /* SplashLoadingView.swift */,
+			);
+			path = Splash;
 			sourceTree = "<group>";
 		};
 		BCAE95A62C447E9600AD91BE /* Extension */ = {
@@ -1018,6 +1031,7 @@
 				BC8D07F22C3C52F900212EE8 /* Utility */,
 				BC545E472C3C730E00713B86 /* Storage */,
 				BC569FDA2C45965900F9C918 /* Components */,
+				BCA904FE2C599468000BE5FF /* SwiftUIGIF */,
 			);
 			productName = MusculosApp;
 			productReference = BC1160CC2A2CFB830028D8FC /* MusculosApp.app */;
@@ -1077,6 +1091,7 @@
 				BC545E462C3C730E00713B86 /* XCLocalSwiftPackageReference "Storage" */,
 				BC569FD92C45965900F9C918 /* XCLocalSwiftPackageReference "Components" */,
 				BCA32E652C586803000EBA0F /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
+				BCA904FD2C599468000BE5FF /* XCRemoteSwiftPackageReference "swiftui-gif" */,
 			);
 			productRefGroup = BC1160CD2A2CFB830028D8FC /* Products */;
 			projectDirPath = "";
@@ -1139,6 +1154,7 @@
 				BC781FFC2B9B5E3E009F9FB5 /* OverviewView.swift in Sources */,
 				BC81E5D32BD2FC730005891D /* SingleOptionSelectView.swift in Sources */,
 				BCD59A952BB627CE0039F662 /* ExerciseContentLoadingView.swift in Sources */,
+				BCA905022C5994A7000BE5FF /* SplashLoadingView.swift in Sources */,
 				BC7827642B9D1D1000DFC02C /* AuthViewModel.swift in Sources */,
 				BC7820042B9B692E009F9FB5 /* HighlightCard.swift in Sources */,
 				BC52DDD12B8516B8005A4587 /* MusculosClient.swift in Sources */,
@@ -1386,6 +1402,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1424,6 +1441,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1556,6 +1574,14 @@
 				version = 1.0.1;
 			};
 		};
+		BCA904FD2C599468000BE5FF /* XCRemoteSwiftPackageReference "swiftui-gif" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/globulus/swiftui-gif";
+			requirement = {
+				kind = exactVersion;
+				version = 1.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1581,6 +1607,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BC1D27CB2C3C4F2F00345FD6 /* XCLocalSwiftPackageReference "Utility" */;
 			productName = Utility;
+		};
+		BCA904FE2C599468000BE5FF /* SwiftUIGIF */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BCA904FD2C599468000BE5FF /* XCRemoteSwiftPackageReference "swiftui-gif" */;
+			productName = SwiftUIGIF;
 		};
 		BCF6487A2C3C36CC00D1C46F /* Models */ = {
 			isa = XCSwiftPackageProductDependency;

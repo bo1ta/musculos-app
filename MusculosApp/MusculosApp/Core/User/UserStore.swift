@@ -28,11 +28,26 @@ class UserStore {
   @ObservationIgnored
   @Injected(\.taskManager) private var taskManager: TaskManagerProtocol
 
-  // MARK: - Public
+  // MARK: - Event
 
+  enum Event {
+    case didLogin
+    case didLogOut
+    case didFinishOnboarding
+  }
+
+  // MARK: - Private
+
+  private let _event = PassthroughSubject<Event, Never>()
   private(set) var currentUserProfile: UserProfile?
   private(set) var userSession: UserSession?
   private(set) var isLoading: Bool = false
+
+  // MARK: - Public
+
+  var event: AnyPublisher<Event, Never> {
+    _event.eraseToAnyPublisher()
+  }
 
   var displayName: String {
     return currentUserProfile?.fullName
@@ -77,7 +92,7 @@ class UserStore {
     guard var userSession else { return }
 
     userSession.isOnboarded  = isOnboarded
-    updateSession(userSession)
+    _event.send(.didFinishOnboarding)
   }
 
   func handlePostRegister(session: UserSession) {
@@ -104,6 +119,7 @@ class UserStore {
 
       if let profile = await dataStore.loadProfileByEmail(session.email) {
         currentUserProfile = profile
+        _event.send(.didLogin)
       } else {
         await createUser(from: session)
       }
@@ -122,6 +138,7 @@ class UserStore {
     do {
       try await dataStore.createUser(profile: profile)
       currentUserProfile = profile
+      _event.send(.didLogin)
     } catch {
       MusculosLogger.logError(error, message: "Cannot create user", category: .coreData)
     }

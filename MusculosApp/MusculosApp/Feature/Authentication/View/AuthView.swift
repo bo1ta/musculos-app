@@ -88,16 +88,22 @@ struct AuthView: View {
 
   private func startWaveAnimation() {
     timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { value in
-      withAnimation {
-        if horizontalOffset > 2 {
-          isWaveForward = false
-        } else if horizontalOffset < -2 {
-          isWaveForward = true
-        }
+//      DispatchQueue.main.async {
+        withAnimation {
+          if horizontalOffset > 2 {
+            isWaveForward = false
+          } else if horizontalOffset < -2 {
+            isWaveForward = true
+          }
 
-        horizontalOffset += isWaveForward ? 0.03 : -0.03
-      }
+          horizontalOffset += isWaveForward ? 0.03 : -0.03
+        }
+//      }
     })
+
+    if let timer {
+      RunLoop.main.add(timer, forMode: .common)
+    }
   }
 
   private func handleAuthEvent(_ event: AuthViewModel.Event) {

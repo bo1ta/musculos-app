@@ -54,8 +54,10 @@ public struct FormField: View {
     Group {
       if isSecureField {
         SecureField(text: text, label: { textHint })
+          .foregroundStyle(.black)
       } else {
         TextField(text: text, label: { textHint })
+          .foregroundStyle(.black)
       }
     }
     .autocorrectionDisabled()

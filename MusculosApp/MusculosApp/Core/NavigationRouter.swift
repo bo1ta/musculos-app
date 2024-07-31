@@ -51,7 +51,6 @@ public final class NavigationRouter {
       }
     })
   }
-  
 }
 
 // MARK: - Types

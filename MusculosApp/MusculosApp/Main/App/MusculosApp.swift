@@ -11,49 +11,89 @@ import Storage
 import Models
 
 struct MusculosApp: App {
+  @State private var appState: AppState = .loading
   @State private var userStore = UserStore()
   @State private var exerciseStore = StorageStore<ExerciseEntity>()
   @State private var healthKitViewModel = HealthKitViewModel()
+
   @Bindable private var navigationRouter = NavigationRouter()
 
   var body: some Scene {
     WindowGroup {
       NavigationStack(path: $navigationRouter.navPath) {
-        if userStore.isLoading {
-          EmptyView()
-        } else if userStore.isOnboarded && userStore.isLoggedIn {
-          AppTabView()
-            .navigationDestination(for: NavigationRouter.Destination.self) { destination in
-              switch destination {
-              case .exerciseDetails(let exercise):
-                ExerciseDetailsView(exercise: exercise)
-              }
-            }
-            .sheet(isPresented: navigationRouter.isPresentingBinding(), content: {
-              if let currentSheet = navigationRouter.currentSheet {
-                switch currentSheet {
-                case .addActionSheet:
-                  AddActionSheetContainer()
-                case .workoutFlow(let workout):
-                  WorkoutFlowView(workout: workout, onComplete: {})
-                }
-              }
-            })
-        } else {
-          if !userStore.isLoggedIn {
+        Group {
+          switch appState {
+          case .loading:
+            SplashLoadingView()
+          case .loggedOut:
             SplashView()
-          } else {
+          case .onboarding:
             OnboardingWizardView()
+          case .loggedIn:
+            AppTabView()
+          }
+        }
+        .onReceive(userStore.event) { event in
+          handleUserEvent(event)
+        }
+        .navigationDestination(for: NavigationRouter.Destination.self) { destination in
+          switch destination {
+          case .exerciseDetails(let exercise):
+            ExerciseDetailsView(exercise: exercise)
+          }
+        }
+        .sheet(isPresented: navigationRouter.isPresentingBinding()) {
+          if let currentSheet = navigationRouter.currentSheet {
+            switch currentSheet {
+            case .addActionSheet:
+              AddActionSheetContainer()
+            case .workoutFlow(let workout):
+              WorkoutFlowView(workout: workout, onComplete: {})
+            }
           }
         }
       }
       .task {
-        await userStore.initialLoad()
+        await loadInitialState()
       }
       .environment(\.userStore, userStore)
       .environment(\.healthKitViewModel, healthKitViewModel)
       .environment(\.navigationRouter, navigationRouter)
       .environment(\.exerciseStore, exerciseStore)
     }
+  }
+
+  private func loadInitialState() async {
+    await userStore.initialLoad()
+
+    if userStore.isLoggedIn {
+      if !userStore.isOnboarded {
+        appState = .onboarding
+      } else {
+        appState = .loggedIn
+      }
+    } else {
+      appState = .loggedOut
+    }
+  }
+
+  private func handleUserEvent(_ event: UserStore.Event) {
+    switch event {
+    case .didLogin:
+      appState = userStore.isOnboarded ? .loggedIn : .onboarding
+    case .didLogOut:
+      appState = .loggedOut
+    case .didFinishOnboarding:
+      appState = .loggedIn
+    }
+  }
+}
+
+extension MusculosApp {
+  enum AppState {
+    case loading
+    case loggedOut
+    case onboarding
+    case loggedIn
   }
 }

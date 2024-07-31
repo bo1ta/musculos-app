@@ -21,7 +21,6 @@ struct SignInView: View {
         .shadow(color: .black.opacity(0.5), radius: 1)
 
       loginForm
-        .padding([.top, .bottom], 20)
 
       signUpButton
     }
@@ -29,7 +28,7 @@ struct SignInView: View {
   }
 }
 
-// MARK: - Views
+// MARK: - Subviews
 
 extension SignInView {
 
@@ -51,6 +50,7 @@ extension SignInView {
       LoadableDotsButton(title: "Sign In", isLoading: viewModel.makeLoadingBinding(), action: viewModel.signIn)
         .padding(.top, 10)
     }
+    .padding(.vertical, 20)
   }
 
   private var socialLoginSection: some View {
