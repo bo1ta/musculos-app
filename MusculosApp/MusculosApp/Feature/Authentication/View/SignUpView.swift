@@ -84,7 +84,7 @@ extension SignUpView {
         isSecureField: true
       )
       FormField(
-        text: $viewModel.password,
+        text: $viewModel.confirmPassword,
         hint: "Confirm password",
         isSecureField: true
       )
