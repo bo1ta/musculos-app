@@ -6,14 +6,12 @@
 //
 
 import Foundation
-import SwiftUI
 
 enum TabBarItem: String {
   case explore
   case overview
   case workout
-//  case dashboard
-  
+
   var label: String {
     return self.rawValue.capitalized
   }
@@ -24,23 +22,8 @@ enum TabBarItem: String {
       "dumbbell"
     case .overview:
       "chart.bar.xaxis.ascending"
-//    case .dashboard:
-//      "rectangle.grid.2x2"
     case .workout:
       "list.bullet.rectangle"
-    }
-  }
-  
-  @ViewBuilder
-  @MainActor
-  var view: some View {
-    switch self {
-    case .explore:
-      ExploreExerciseView()
-    case .overview:
-      OverviewView()
-    case .workout:
-      WorkoutListView()
     }
   }
 }

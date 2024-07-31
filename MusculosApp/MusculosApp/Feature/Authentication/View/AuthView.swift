@@ -11,6 +11,7 @@ import Components
 
 struct AuthView: View {
   @Environment(\.userStore) private var userStore
+  @Environment(\.appManager) private var appManager
 
   @State private var viewModel: AuthViewModel
 
@@ -117,9 +118,9 @@ struct AuthView: View {
     case let .onRegisterSuccess(userSession):
       userStore.handlePostRegister(session: userSession)
     case let .onLoginFailure(error):
-      break
+      appManager.showToast(style: .error, message: "Could not log in. Please try again later")
     case let .onRegisterFailure(error):
-      break
+      appManager.showToast(style: .error, message: "Could not register in. Please try again later")
     }
   }
 

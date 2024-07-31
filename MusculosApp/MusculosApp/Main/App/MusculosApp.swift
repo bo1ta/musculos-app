@@ -15,6 +15,7 @@ struct MusculosApp: App {
   @State private var userStore = UserStore()
   @State private var exerciseStore = StorageStore<ExerciseEntity>()
   @State private var healthKitViewModel = HealthKitViewModel()
+  @State private var appManager = AppManager()
 
   @Bindable private var navigationRouter = NavigationRouter()
 
@@ -27,12 +28,15 @@ struct MusculosApp: App {
             SplashLoadingView()
           case .loggedOut:
             SplashView()
+              .transition(.asymmetric(insertion: .opacity, removal: .identity))
           case .onboarding:
             OnboardingWizardView()
+              .transition(.asymmetric(insertion: .push(from: .bottom), removal: .scale))
           case .loggedIn:
             AppTabView()
           }
         }
+        .animation(.smooth(duration: UIConstant.standardAnimationTime), value: appState)
         .onReceive(userStore.event) { event in
           handleUserEvent(event)
         }
@@ -52,6 +56,7 @@ struct MusculosApp: App {
             }
           }
         }
+        .toastView(toast: $appManager.toast)
       }
       .task {
         await loadInitialState()
@@ -60,6 +65,7 @@ struct MusculosApp: App {
       .environment(\.healthKitViewModel, healthKitViewModel)
       .environment(\.navigationRouter, navigationRouter)
       .environment(\.exerciseStore, exerciseStore)
+      .environment(\.appManager, appManager)
     }
   }
 

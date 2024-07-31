@@ -11,7 +11,7 @@ import Models
 
 public protocol UserDataStoreProtocol: Sendable {
   func createUser(profile: UserProfile) async throws
-  func updateProfile(userId: UUID, gender: String?, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws
+  func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws
   func loadProfile(userId: UUID) async -> UserProfile?
   func loadProfileByEmail(_ email: String) async -> UserProfile?
 }
@@ -31,13 +31,12 @@ public struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
     await storageManager.saveChanges()
   }
   
-  public func updateProfile(userId: UUID, gender: String? = nil, weight: Int? = nil, height: Int? = nil, primaryGoalId: Int? = nil, level: String?, isOnboarded: Bool = false) async throws {
+  public func updateProfile(userId: UUID, weight: Int? = nil, height: Int? = nil, primaryGoalId: Int? = nil, level: String?, isOnboarded: Bool = false) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       guard 
         let userProfile = UserProfileEntity.userFrom(userId: userId.uuidString, on: writerDerivedStorage)
       else { return }
       
-      userProfile.gender = gender
       userProfile.level = level
       
       if let weight {

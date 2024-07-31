@@ -89,7 +89,6 @@
 		BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BFD2B6AD33200124EC3 /* UserStore.swift */; };
 		BCA24C002B6AE68500124EC3 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BFF2B6AE68500124EC3 /* SignUpView.swift */; };
 		BCA24C082B6AFF8200124EC3 /* OnboardingWizardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C072B6AFF8200124EC3 /* OnboardingWizardView.swift */; };
-		BCA24C0B2B6B005B00124EC3 /* SelectGenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0A2B6B005B00124EC3 /* SelectGenderView.swift */; };
 		BCA24C0D2B6B14EE00124EC3 /* SelectSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */; };
 		BCA24C0F2B6B2B5D00124EC3 /* SelectGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */; };
 		BCA24C142B6C203600124EC3 /* SizePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C132B6C203600124EC3 /* SizePickerView.swift */; };
@@ -125,7 +124,6 @@
 		BCE19AC62C15036F005ABBF3 /* UserDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19AC52C15036F005ABBF3 /* UserDataStoreTests.swift */; };
 		BCE19AC92C15E615005ABBF3 /* StubExerciseDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE19AC82C15E615005ABBF3 /* StubExerciseDataStore.swift */; };
 		BCE417102A7D73380088D975 /* WorkoutTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4170F2A7D73380088D975 /* WorkoutTabBarButton.swift */; };
-		BCE484A42BB07A4C00BC8268 /* loading-animated.gif in Resources */ = {isa = PBXBuildFile; fileRef = BCE484A32BB07A4C00BC8268 /* loading-animated.gif */; };
 		BCEED79F2BFC0B96002A3656 /* WorkoutCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEED79E2BFC0B96002A3656 /* WorkoutCard.swift */; };
 		BCEED7A32BFC0C73002A3656 /* WorkoutListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEED7A22BFC0C73002A3656 /* WorkoutListViewModel.swift */; };
 		BCF6487B2C3C36CC00D1C46F /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = BCF6487A2C3C36CC00D1C46F /* Models */; };
@@ -226,7 +224,6 @@
 		BCA24BFD2B6AD33200124EC3 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 		BCA24BFF2B6AE68500124EC3 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		BCA24C072B6AFF8200124EC3 /* OnboardingWizardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWizardView.swift; sourceTree = "<group>"; };
-		BCA24C0A2B6B005B00124EC3 /* SelectGenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderView.swift; sourceTree = "<group>"; };
 		BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSizeView.swift; sourceTree = "<group>"; };
 		BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGoalView.swift; sourceTree = "<group>"; };
 		BCA24C132B6C203600124EC3 /* SizePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePickerView.swift; sourceTree = "<group>"; };
@@ -262,7 +259,6 @@
 		BCE19AC52C15036F005ABBF3 /* UserDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataStoreTests.swift; sourceTree = "<group>"; };
 		BCE19AC82C15E615005ABBF3 /* StubExerciseDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubExerciseDataStore.swift; sourceTree = "<group>"; };
 		BCE4170F2A7D73380088D975 /* WorkoutTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTabBarButton.swift; sourceTree = "<group>"; };
-		BCE484A32BB07A4C00BC8268 /* loading-animated.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "loading-animated.gif"; sourceTree = "<group>"; };
 		BCEED79E2BFC0B96002A3656 /* WorkoutCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCard.swift; sourceTree = "<group>"; };
 		BCEED7A22BFC0C73002A3656 /* WorkoutListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListViewModel.swift; sourceTree = "<group>"; };
 		BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
@@ -300,17 +296,8 @@
 			children = (
 				BC1160D32A2CFB830028D8FC /* Assets.xcassets */,
 				BCA24BF02B69D44600124EC3 /* Fonts */,
-				BC0D76A42B6525C800917680 /* GIF */,
 			);
 			path = Assets;
-			sourceTree = "<group>";
-		};
-		BC0D76A42B6525C800917680 /* GIF */ = {
-			isa = PBXGroup;
-			children = (
-				BCE484A32BB07A4C00BC8268 /* loading-animated.gif */,
-			);
-			path = GIF;
 			sourceTree = "<group>";
 		};
 		BC10E42C2A3B8AB00008A72E /* Authentication */ = {
@@ -415,7 +402,6 @@
 		BC2EAE2D2C223F9D00FB3C1F /* Steps */ = {
 			isa = PBXGroup;
 			children = (
-				BCA24C0A2B6B005B00124EC3 /* SelectGenderView.swift */,
 				BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */,
 				BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */,
 				BC2EAE292C223ACA00FB3C1F /* SelectEquipmentView.swift */,
@@ -1090,7 +1076,6 @@
 				BC1D27CB2C3C4F2F00345FD6 /* XCLocalSwiftPackageReference "Utility" */,
 				BC545E462C3C730E00713B86 /* XCLocalSwiftPackageReference "Storage" */,
 				BC569FD92C45965900F9C918 /* XCLocalSwiftPackageReference "Components" */,
-				BCA32E652C586803000EBA0F /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 				BCA904FD2C599468000BE5FF /* XCRemoteSwiftPackageReference "swiftui-gif" */,
 			);
 			productRefGroup = BC1160CD2A2CFB830028D8FC /* Products */;
@@ -1114,7 +1099,6 @@
 				BC7827602B9CF1F400DFC02C /* Epilogue-Bold.ttf in Resources */,
 				BC78275C2B9CF1BE00DFC02C /* Inter-Regular.ttf in Resources */,
 				BC78275E2B9CF1C200DFC02C /* Epilogue-Regular.ttf in Resources */,
-				BCE484A42BB07A4C00BC8268 /* loading-animated.gif in Resources */,
 				BC7827572B9CF1B100DFC02C /* Epilogue-Medium.ttf in Resources */,
 				BC7827582B9CF1BE00DFC02C /* Inter-Thin.ttf in Resources */,
 				BC78275B2B9CF1BE00DFC02C /* Inter-Medium.ttf in Resources */,
@@ -1145,7 +1129,6 @@
 				BC81E5CF2BD2F9350005891D /* AddExerciseView.swift in Sources */,
 				BC583B0D2BA8C76500236C0D /* OnboardingWizardViewModel.swift in Sources */,
 				BC5B12042B658A1F00B344A0 /* AppManager.swift in Sources */,
-				BCA24C0B2B6B005B00124EC3 /* SelectGenderView.swift in Sources */,
 				BC781FFF2B9B6061009F9FB5 /* ScoreCard.swift in Sources */,
 				BCC46FFB2C0E4A9F006D76E2 /* BulletPointText.swift in Sources */,
 				BC10EB742C4D7D2B003AD519 /* NavigationRouter.swift in Sources */,
@@ -1564,14 +1547,6 @@
 			requirement = {
 				kind = exactVersion;
 				version = 2.3.2;
-			};
-		};
-		BCA32E652C586803000EBA0F /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-async-algorithms.git";
-			requirement = {
-				kind = exactVersion;
-				version = 1.0.1;
 			};
 		};
 		BCA904FD2C599468000BE5FF /* XCRemoteSwiftPackageReference "swiftui-gif" */ = {

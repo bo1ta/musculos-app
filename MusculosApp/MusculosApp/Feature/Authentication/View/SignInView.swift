@@ -42,7 +42,7 @@ extension SignInView {
 
   @ViewBuilder
   private var loginForm: some View {
-    @Bindable var viewModel: AuthViewModel = viewModel
+    @Bindable var viewModel = viewModel
 
     VStack(alignment: .center, spacing: 15) {
       FormField(

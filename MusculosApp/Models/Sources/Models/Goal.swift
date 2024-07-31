@@ -39,6 +39,7 @@ public struct Goal: Sendable {
     guard targetValue != 0 else {
       return 0
     }
+
     let progress = Double(currentValue) / Double(targetValue) * 100
     return min(max(progress, 0), 100)
   }

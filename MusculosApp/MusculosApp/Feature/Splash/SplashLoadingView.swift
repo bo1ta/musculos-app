@@ -6,14 +6,15 @@
 //
 
 import SwiftUI
-import SwiftUIGIF
 import Utility
 
 struct SplashLoadingView: View {
   var body: some View {
     VStack {
-      GIFImage(name: "loading-animated")
-        .imageScale(.large)
+      Image("workout-tools-man")
+        .resizable()
+        .aspectRatio(contentMode: .fill)
+        .ignoresSafeArea()
     }
     .background(Color.AppColor.blue400)
     .ignoresSafeArea()

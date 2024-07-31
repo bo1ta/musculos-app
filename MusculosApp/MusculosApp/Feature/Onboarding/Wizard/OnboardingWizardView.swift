@@ -17,55 +17,18 @@ struct OnboardingWizardView: View {
   
   var body: some View {
     VStack {
-      navigationBar
-      VStack {
-        
-        Text(viewModel.wizardStep.title)
-          .font(.header(.bold, size: 22))
-          .padding(.top, 20)
-          .lineLimit(10)
-        Text(headerTitle)
-          .font(.header(.regular, size: 16))
-          .foregroundStyle(.gray)
-          .opacity(0.7)
-          .padding(.top, 5)
-        
-        Spacer()
-        
-        VStack {
-          switch viewModel.wizardStep {
-          case .gender:
-            SelectGenderView(selectedGender: $viewModel.selectedGender)
-              .transition(.move(edge: .leading))
-          case .heightAndWeight:
-            SelectSizeView(selectedWeight: $viewModel.selectedWeight, selectedHeight: $viewModel.selectedHeight)
-              .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
-          case .level:
-            SelectLevelView(selectedLevel: $viewModel.selectedLevel)
-              .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
-          case .goal:
-            SelectGoalView(selectedGoal: $viewModel.selectedGoal)
-              .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
-          case .equipment:
-            SelectEquipmentView(selectedEquipment: $viewModel.selectedEquipment)
-              .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
-          case .permissions:
-            PermissionsView(onDone: viewModel.handleNextStep)
-              .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .push(from: .top)))
-          }
-        }
-        .animation(.easeInOut(duration: 0.2), value: viewModel.wizardStep)
-        
-        Spacer()
-      }
+      backButton
+
+      header
+
+      Spacer()
+
+      currentWizardStep
+
+      Spacer()
     }
-    .onReceive(viewModel.successSubject) { isSuccessful in
-      if isSuccessful {
-        userStore.updateIsOnboarded(true)
-        userStore.refreshUser()
-      } else {
-        appManager.showToast(style: .warning, message: "Could not save onboarding data.")
-      }
+    .onReceive(viewModel.event) { event in
+      handleEvent(event)
     }
     .onDisappear(perform: viewModel.cleanUp)
     .safeAreaInset(edge: .bottom) {
@@ -75,15 +38,54 @@ struct OnboardingWizardView: View {
     }
     .padding(.horizontal, 10)
   }
+
+  private func handleEvent(_ event: OnboardingWizardViewModel.Event) {
+    switch event {
+    case .didFinishOnboarding:
+      userStore.updateIsOnboarded(true)
+    case .didFinishWithError(let error):
+      appManager.showToast(style: .warning, message: "Could not save onboarding data.")
+    }
+  }
 }
 
 // MARK: - Private views
 
 extension OnboardingWizardView {
-  private var navigationBar: some View {
+  private var currentWizardStep: some View {
+    Group {
+      switch viewModel.wizardStep {
+      case .heightAndWeight:
+        SelectSizeView(selectedWeight: $viewModel.selectedWeight, selectedHeight: $viewModel.selectedHeight)
+          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+      case .level:
+        SelectLevelView(selectedLevel: $viewModel.selectedLevel)
+          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+      case .goal:
+        SelectGoalView(selectedGoal: $viewModel.selectedGoal)
+          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+      case .equipment:
+        SelectEquipmentView(selectedEquipment: $viewModel.selectedEquipment)
+          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+      case .permissions:
+        PermissionsView(onDone: viewModel.handleNextStep)
+          .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .push(from: .top)))
+      }
+    }
+    .animation(.easeInOut(duration: 0.2), value: viewModel.wizardStep)
+  }
+
+  private var header: some View {
+    Text(viewModel.wizardStep.title)
+      .font(.header(.bold, size: 22))
+      .padding(.top, 20)
+      .lineLimit(10)
+  }
+
+  private var backButton: some View {
     VStack {
       HStack {
-        if viewModel.wizardStep != .gender {
+        if viewModel.wizardStep != .heightAndWeight {
           Button(action: viewModel.handleBack, label: {
             Image(systemName: "arrow.backward")
               .foregroundStyle(.black)
@@ -97,23 +99,11 @@ extension OnboardingWizardView {
   
   private var primaryButton: some View {
     Button(action: viewModel.handleNextStep, label: {
-      Text(buttonTitle)
+      Text("Continue")
         .frame(maxWidth: .infinity)
     })
     .buttonStyle(PrimaryButtonStyle())
     .padding(.bottom, 20)
-  }
-}
-
-// MARK: - Constants
-
-extension OnboardingWizardView {
-  private var headerTitle: String {
-    "Let's optimize your experience"
-  }
-  
-  private var buttonTitle: String {
-    "Continue"
   }
 }
 
