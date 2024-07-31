@@ -15,14 +15,15 @@ struct SignInView: View {
 
   var body: some View {
     VStack(alignment: .center) {
-      Text(headerTitle)
-        .font(.header(.bold, size: 45))
-        .foregroundColor(.white)
-        .shadow(color: .black.opacity(0.5), radius: 1)
-
+      header
       loginForm
-
-      signUpButton
+      LoadableDotsButton(
+        title: "Sign In",
+        isLoading: viewModel.makeLoadingBinding(),
+        isDisabled: !viewModel.isLoginFormValid,
+        action: viewModel.signIn
+      )
+      dontHaveAnAccountSection
     }
     .padding(.horizontal, 20)
   }
@@ -31,6 +32,13 @@ struct SignInView: View {
 // MARK: - Subviews
 
 extension SignInView {
+
+  private var header: some View {
+    Text(headerTitle)
+      .font(.header(.bold, size: 45))
+      .foregroundColor(.white)
+      .shadow(color: .black.opacity(0.5), radius: 1)
+  }
 
   @ViewBuilder
   private var loginForm: some View {
@@ -46,50 +54,16 @@ extension SignInView {
         hint: "Password",
         isSecureField: true
       )
-
-      LoadableDotsButton(title: "Sign In", isLoading: viewModel.makeLoadingBinding(), action: viewModel.signIn)
-        .padding(.top, 10)
     }
     .padding(.vertical, 20)
   }
 
-  private var socialLoginSection: some View {
-    VStack {
-      HStack {
-        Rectangle()
-          .frame(height: 1)
-          .frame(maxWidth: .infinity)
-          .foregroundStyle(.gray)
-          .opacity(0.3)
-        Text("OR LOG IN WITH")
-          .font(.header(.bold, size: 13))
-          .foregroundStyle(.gray)
-        Rectangle()
-          .frame(height: 1)
-          .frame(maxWidth: .infinity)
-          .foregroundStyle(.gray)
-          .opacity(0.3)
-      }
-      HStack {
-        Button(action: {}, label: {
-          Text("Google").frame(maxWidth: .infinity)
-        })
-        .buttonStyle(SecondaryButtonStyle())
-        Button(action: {}, label: {
-          Text("Facebook").frame(maxWidth: .infinity)
-        })
-        .buttonStyle(SecondaryButtonStyle())
-      }
-    }
-  }
-
-  private var signUpButton: some View {
+  private var dontHaveAnAccountSection: some View {
     HStack {
       Text("Don't have an account?")
         .font(Font.body(.regular, size: 16))
         .foregroundStyle(.white)
         .shadow(radius: 0.3)
-
       Button(action: {
         viewModel.step = .register
       }, label: {
@@ -99,6 +73,7 @@ extension SignInView {
           .shadow(radius: 0.3)
       })
     }
+    .padding(.top)
   }
 }
 

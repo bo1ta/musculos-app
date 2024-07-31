@@ -15,10 +15,17 @@ struct SignUpView: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
       Spacer()
-      Text(headerTitle)
-        .font(.header(.bold, size: 45))
-        .foregroundStyle(.white)
+
+      header
       registerForm
+      LoadableDotsButton(
+        title: "Sign Up",
+        isLoading: viewModel.makeLoadingBinding(),
+        isDisabled: !viewModel.isRegisterFormValid,
+        action: viewModel.signUp
+      )
+      .padding(.top, 10)
+
       Spacer()
     }
     .gesture(
@@ -32,16 +39,7 @@ struct SignUpView: View {
     .padding(.horizontal, 20)
     .onDisappear(perform: viewModel.cleanUp)
     .safeAreaInset(edge: .top) {
-      HStack {
-        Button(action: showLogin, label: {
-          Image(systemName: "chevron.left")
-            .font(Font.body(.bold, size: 18))
-            .foregroundStyle(.white)
-        })
-
-        Spacer()
-      }
-      .padding(.horizontal, 20)
+      backButton
     }
   }
 
@@ -50,9 +48,28 @@ struct SignUpView: View {
   }
 }
 
-// MARK: - Views
+// MARK: - Subviews
 
 extension SignUpView {
+
+  private var header: some View {
+    Text("Sign Up")
+      .font(.header(.bold, size: 45))
+      .foregroundStyle(.white)
+  }
+
+  private var backButton: some View {
+    HStack {
+      Button(action: showLogin, label: {
+        Image(systemName: "chevron.left")
+          .font(Font.body(.bold, size: 18))
+          .foregroundStyle(.white)
+      })
+
+      Spacer()
+    }
+    .padding(.horizontal, 20)
+  }
 
   @ViewBuilder
   private var registerForm: some View {
@@ -75,59 +92,7 @@ extension SignUpView {
         text: $viewModel.username,
         hint: "Username"
       )
-
-      LoadableDotsButton(title: headerTitle, isLoading: viewModel.makeLoadingBinding(), action: viewModel.signUp)
-        .padding(.top, 10)
     }
-  }
-  
-  private var socialLoginSection: some View {
-    VStack(alignment: .center) {
-      HStack {
-        Rectangle()
-          .frame(height: 1)
-          .frame(maxWidth: .infinity)
-          .foregroundStyle(.gray)
-          .opacity(0.3)
-        Text("or")
-          .font(.body(.regular, size: 19))
-          .padding()
-        Rectangle()
-          .frame(height: 1)
-          .frame(maxWidth: .infinity)
-          .foregroundStyle(.gray)
-          .opacity(0.3)
-      }
-      
-        Button(action: {}, label: {
-          Text(googleButtonTitle)
-            .font(.body(.light, size: 15))
-            .foregroundStyle(Color.AppColor.green700)
-        })
-  
-        Button(action: {}, label: {
-          Text(facebookButtonTitle)
-            .font(.body(.light, size: 15))
-            .foregroundStyle(Color.AppColor.green700)
-        })
-        .padding(.top, 5)
-    }
-  }
-}
-
-// MARK: - Constants
-
-extension SignUpView {
-  private var headerTitle: String {
-    "Sign up"
-  }
-  
-  private var googleButtonTitle: String {
-    "Sign up using Google"
-  }
-  
-  private var facebookButtonTitle: String {
-    "Sign up using Facebook"
   }
 }
 

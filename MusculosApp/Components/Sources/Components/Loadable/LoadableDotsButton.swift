@@ -12,6 +12,7 @@ public struct LoadableDotsButton: View {
   private let title: String
   private let dotsColor: Color
   private let animationDuration: Double
+  private let isDisabled: Bool
   private let action: () -> Void
 
   @Binding private var isLoading: Bool
@@ -21,12 +22,14 @@ public struct LoadableDotsButton: View {
     dotsColor: Color = .white,
     animationDuration: Double = 0.6,
     isLoading: Binding<Bool>,
+    isDisabled: Bool = false,
     action: @escaping () -> Void
   ) {
     self.title = title
     self.dotsColor = dotsColor
     self.animationDuration = animationDuration
     self.action = action
+    self.isDisabled = isDisabled
     self._isLoading = isLoading
   }
 
@@ -56,7 +59,8 @@ public struct LoadableDotsButton: View {
         }
         })
         .buttonStyle(PrimaryButtonStyle())
-        .disabled(isLoading)
+        .disabled(isLoading  || isDisabled)
+        .opacity(isDisabled ? 0.6 : 1.0)
     }
 }
 

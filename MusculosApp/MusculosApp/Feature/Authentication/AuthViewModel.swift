@@ -38,12 +38,20 @@ class AuthViewModel {
   var step: Step
   var uiState: UIState = .idle
   var email  = ""
-  var password = ""
   var username  = ""
-  var showRegister = false
+  var password = ""
+  var confirmPassword = ""
 
   var event: AnyPublisher<Event, Never> {
     _event.eraseToAnyPublisher()
+  }
+
+  var isLoginFormValid: Bool {
+    return RegexValidator.isValidEmail(email) && RegexValidator.isValidPassword(password)
+  }
+
+  var isRegisterFormValid: Bool {
+    return RegexValidator.isValidEmail(email) && RegexValidator.isValidUsername(username) && RegexValidator.isValidPassword(password) && password == confirmPassword
   }
 
   private(set) var authTask: Task<Void, Never>?

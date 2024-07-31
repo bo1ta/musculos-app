@@ -43,6 +43,9 @@ struct AuthView: View {
     .onReceive(viewModel.event, perform: { event in
       handleAuthEvent(event)
     })
+    .onChange(of: viewModel.step) { _, step in
+      handleStepUpdate(step)
+    }
     .dismissingGesture(
       direction: .left,
       action: {
@@ -77,6 +80,7 @@ struct AuthView: View {
         )
       .ignoresSafeArea()
       .animation(.spring(response: 0.7, dampingFraction: 0.6, blendDuration: 0), value: waveSize)
+      .animation(.smooth, value: horizontalOffset)
   }
 
   private func handleStepUpdate(_ step: AuthViewModel.Step) {
@@ -88,7 +92,7 @@ struct AuthView: View {
 
   private func startWaveAnimation() {
     timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { value in
-//      DispatchQueue.main.async {
+      DispatchQueue.main.async {
         withAnimation {
           if horizontalOffset > 2 {
             isWaveForward = false
@@ -98,7 +102,7 @@ struct AuthView: View {
 
           horizontalOffset += isWaveForward ? 0.03 : -0.03
         }
-//      }
+      }
     })
 
     if let timer {

@@ -316,6 +316,7 @@
 		BC10E42C2A3B8AB00008A72E /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				BC7827632B9D1D1000DFC02C /* AuthViewModel.swift */,
 				BC9937252B6426EB0067E556 /* View */,
 				BC2EAE302C22409800FB3C1F /* Networking */,
 			);
@@ -836,10 +837,9 @@
 		BC9937252B6426EB0067E556 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BC7827632B9D1D1000DFC02C /* AuthViewModel.swift */,
+				BC9A020D2C593ED5003C83A8 /* AuthView.swift */,
 				BCA24BFB2B6AB9AF00124EC3 /* SignInView.swift */,
 				BCA24BFF2B6AE68500124EC3 /* SignUpView.swift */,
-				BC9A020D2C593ED5003C83A8 /* AuthView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

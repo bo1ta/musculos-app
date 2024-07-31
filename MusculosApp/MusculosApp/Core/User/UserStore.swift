@@ -15,7 +15,7 @@ import Utility
 
 @Observable
 @MainActor
-class UserStore {
+final class UserStore {
 
   // MARK: - Injected Dependencies
 
@@ -50,9 +50,7 @@ class UserStore {
   }
 
   var displayName: String {
-    return currentUserProfile?.fullName
-    ?? currentUserProfile?.username
-    ?? "User"
+    return currentUserProfile?.username ?? "user"
   }
   
   var isOnboarded: Bool {
@@ -92,6 +90,8 @@ class UserStore {
     guard var userSession else { return }
 
     userSession.isOnboarded  = isOnboarded
+    updateSession(userSession)
+
     _event.send(.didFinishOnboarding)
   }
 
@@ -127,6 +127,8 @@ class UserStore {
 
     taskManager.addTask(task)
   }
+
+  // MARK: - Private helpers
 
   private func createUser(from session: UserSession) async {
     let profile = UserProfile(
