@@ -36,7 +36,7 @@ struct MusculosApp: App {
             AppTabView()
           }
         }
-        .animation(.smooth(duration: UIConstant.standardAnimationTime), value: appState)
+        .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: appState)
         .onReceive(userStore.event) { event in
           handleUserEvent(event)
         }

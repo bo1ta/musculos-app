@@ -123,19 +123,28 @@ extension ExploreExerciseViewModel {
   }
   
   func updateRecommendations() async {
+    async let recommendedByGoalsTask: Void = loadRecommendationsByGoals()
+    async let recommendedByPastSessionsTask: Void = loadRecommendationsByPastSessions()
+
+    _ = await (recommendedByGoalsTask, recommendedByPastSessionsTask)
+  }
+
+  private func loadRecommendationsByGoals() async {
     do {
-      async let recommendedByGoalsTask = recommendationEngine.recommendByGoals()
-      async let recommendedByPastSessionsTask = recommendationEngine.recommendByMuscleGroups()
-      
-      let (recommendedByGoals, recommendedByPastSessions) = try await (recommendedByGoalsTask, recommendedByPastSessionsTask)
-      
-      self.recommendedByGoals = recommendedByGoals
-      self.recommendedByPastSessions = recommendedByPastSessions
+      recommendedByGoals = try await recommendationEngine.recommendByGoals()
     } catch {
-      MusculosLogger.logError(error, message: "Recommendation engine blew up!", category: .recommendationEngine)
+      MusculosLogger.logError(error, message: "Could not load recommendations by goals", category: .coreData)
     }
   }
-  
+
+  private func loadRecommendationsByPastSessions() async {
+    do {
+      recommendedByPastSessions = try await recommendationEngine.recommendByMuscleGroups()
+    } catch {
+      MusculosLogger.logError(error, message: "Could not load recommendations by past sessions", category: .coreData)
+    }
+  }
+
   func loadRemoteExercises() async {
     do {
       let exercises = try await service.getExercises()

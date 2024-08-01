@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utility
 
 struct SizePickerView: View {
   @Binding var value: Int?
@@ -13,8 +14,8 @@ struct SizePickerView: View {
   var description: String
   var unit: String
   var options: [Int]
-  var showCheckMark: Bool = true
-  
+  var showCheckMark: Bool = false
+
   var body: some View {
     VStack {
       HStack {
@@ -25,22 +26,26 @@ struct SizePickerView: View {
           ForEach(options, id: \.self) { option in
             Text("\(option)")
               .font(.body(.regular, size: 20))
+              .foregroundStyle(.black)
+              .font(Font.body(.medium, size: 16))
               .tag(Int?.some(option))
           }
         }
         .pickerStyle(.wheel)
-        Text(unit)
-          .font(.body(.light, size: 20))
+
         
         if value != nil && showCheckMark {
           Circle()
             .frame(width: 30, height: 30)
-            .foregroundStyle(Color.AppColor.blue500)
+            .foregroundStyle(Color.orange)
             .overlay {
               Image(systemName: "checkmark")
                 .foregroundStyle(.white)
             }
             .padding(.leading, 30)
+        } else {
+          Text(unit)
+            .font(.body(.light, size: 20))
         }
       }
     }

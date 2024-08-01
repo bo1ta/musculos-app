@@ -23,7 +23,7 @@ struct SplashView: View {
           .transition(.asymmetric(insertion: .opacity, removal: .push(from: .bottom)))
       }
     }
-    .animation(.smooth(duration: UIConstant.standardAnimationTime), value: showLoginScreen)
+    .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: showLoginScreen)
   }
 
   private var splashScreen: some View {

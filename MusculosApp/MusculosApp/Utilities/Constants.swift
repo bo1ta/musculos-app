@@ -21,7 +21,7 @@ public struct HTTPHeaderConstant {
 
 public struct UIConstant {
   static let componentOpacity: Double = 0.95
-  static let standardAnimationTime: Double = 0.25
+  static let defaultAnimationDuration: Double = 0.25
 }
 
 struct UserDefaultsKeyConstant {

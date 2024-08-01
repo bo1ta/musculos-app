@@ -53,6 +53,7 @@ struct AuthService: MusculosService, AuthServiceProtocol {
       authToken: result.token,
       userId: UUID(),
       email: email,
+      username: email,
       isOnboarded: false
     )
   }

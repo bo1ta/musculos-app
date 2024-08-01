@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// MARK: - Dismiss Gesture
+
 public extension View {
   public func dismissingGesture(tolerance: Double = 24, direction: DragGesture.Value.Direction, action: @escaping () -> Void) -> some View {
     gesture(

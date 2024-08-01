@@ -21,8 +21,6 @@ struct OnboardingWizardView: View {
 
       header
 
-      Spacer()
-
       currentWizardStep
 
       Spacer()
@@ -73,11 +71,12 @@ extension OnboardingWizardView {
       }
     }
     .animation(.easeInOut(duration: 0.2), value: viewModel.wizardStep)
+    .padding(.top, 24)
   }
 
   private var header: some View {
     Text(viewModel.wizardStep.title)
-      .font(.header(.bold, size: 22))
+      .font(.header(.bold, size: 30))
       .padding(.top, 20)
       .lineLimit(10)
   }

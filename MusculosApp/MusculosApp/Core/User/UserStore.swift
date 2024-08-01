@@ -66,7 +66,7 @@ final class UserStore {
 
     self.userSession = userSession
 
-    if let currentProfile = await dataStore.loadProfile(userId: userSession.userId) {
+    if let currentProfile = await dataStore.loadProfileByEmail(userSession.email) {
       self.currentUserProfile = currentProfile
     }
   }

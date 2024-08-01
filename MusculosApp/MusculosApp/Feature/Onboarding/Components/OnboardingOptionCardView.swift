@@ -16,7 +16,7 @@ struct OnboardingOptionCardView: View {
   let didTap: () -> Void
   
   var color: Color {
-    isSelected ? Color.AppColor.blue500 : .black
+    isSelected ? Color.red : .black
   }
   
   var shouldDisplayContentInCenter: Bool {
@@ -26,15 +26,14 @@ struct OnboardingOptionCardView: View {
   var horizontalAlignment: HorizontalAlignment {
     shouldDisplayContentInCenter ? .center : .leading
   }
-  
-  
+
   var body: some View {
     Button(action: didTap, label: {
       RoundedRectangle(cornerRadius: 25)
         .frame(maxWidth: .infinity)
         .frame(height: 130)
         .foregroundStyle(.white)
-        .shadow(color: isSelected ? Color.AppColor.blue500 : .gray, radius: 3)
+        .shadow(color: isSelected ? Color.red : .gray, radius: 3)
         .overlay {
           HStack {
             if shouldDisplayContentInCenter {
@@ -55,7 +54,7 @@ struct OnboardingOptionCardView: View {
             if isSelected {
               Circle()
                 .frame(width: 35, height: 35)
-                .foregroundStyle(Color.AppColor.blue500)
+                .foregroundStyle(Color.orange)
                 .overlay {
                   Image(systemName: "checkmark")
                     .foregroundStyle(.white)
@@ -69,6 +68,7 @@ struct OnboardingOptionCardView: View {
           .padding(.horizontal, 20)
         }
     })
-    .scaleEffect(isSelected ? 0.98 : 1.0)
+    .scaleEffect(isSelected ? 0.90 : 1.0)
+    .animation(.bouncy(duration: UIConstant.defaultAnimationDuration), value: isSelected)
   }
 }

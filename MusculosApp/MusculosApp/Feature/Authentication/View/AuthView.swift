@@ -70,7 +70,7 @@ struct AuthView: View {
           .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       }
     }
-    .animation(.smooth(duration: UIConstant.standardAnimationTime), value: viewModel.step)
+    .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: viewModel.step)
   }
 
   private var waveShape: some View {
@@ -117,9 +117,9 @@ struct AuthView: View {
       userStore.handlePostLogin(session: userSession)
     case let .onRegisterSuccess(userSession):
       userStore.handlePostRegister(session: userSession)
-    case let .onLoginFailure(error):
+    case .onLoginFailure(_):
       appManager.showToast(style: .error, message: "Could not log in. Please try again later")
-    case let .onRegisterFailure(error):
+    case .onRegisterFailure(_):
       appManager.showToast(style: .error, message: "Could not register in. Please try again later")
     }
   }

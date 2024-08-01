@@ -92,7 +92,6 @@
 		BCA24C0D2B6B14EE00124EC3 /* SelectSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */; };
 		BCA24C0F2B6B2B5D00124EC3 /* SelectGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */; };
 		BCA24C142B6C203600124EC3 /* SizePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C132B6C203600124EC3 /* SizePickerView.swift */; };
-		BCA904FF2C599468000BE5FF /* SwiftUIGIF in Frameworks */ = {isa = PBXBuildFile; productRef = BCA904FE2C599468000BE5FF /* SwiftUIGIF */; };
 		BCA905022C5994A7000BE5FF /* SplashLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA905012C5994A7000BE5FF /* SplashLoadingView.swift */; };
 		BCAE95A52C4472C000AD91BE /* RecommendationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAE95A42C4472B700AD91BE /* RecommendationEngine.swift */; };
 		BCAE95AA2C447FAB00AD91BE /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAE95A92C447FA800AD91BE /* UserSession.swift */; };
@@ -277,7 +276,6 @@
 				BC828CDE2C02802500AB9D1D /* Factory in Frameworks */,
 				BC545E482C3C730E00713B86 /* Storage in Frameworks */,
 				BC8D07F32C3C52F900212EE8 /* Utility in Frameworks */,
-				BCA904FF2C599468000BE5FF /* SwiftUIGIF in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1017,7 +1015,6 @@
 				BC8D07F22C3C52F900212EE8 /* Utility */,
 				BC545E472C3C730E00713B86 /* Storage */,
 				BC569FDA2C45965900F9C918 /* Components */,
-				BCA904FE2C599468000BE5FF /* SwiftUIGIF */,
 			);
 			productName = MusculosApp;
 			productReference = BC1160CC2A2CFB830028D8FC /* MusculosApp.app */;
@@ -1076,7 +1073,6 @@
 				BC1D27CB2C3C4F2F00345FD6 /* XCLocalSwiftPackageReference "Utility" */,
 				BC545E462C3C730E00713B86 /* XCLocalSwiftPackageReference "Storage" */,
 				BC569FD92C45965900F9C918 /* XCLocalSwiftPackageReference "Components" */,
-				BCA904FD2C599468000BE5FF /* XCRemoteSwiftPackageReference "swiftui-gif" */,
 			);
 			productRefGroup = BC1160CD2A2CFB830028D8FC /* Products */;
 			projectDirPath = "";
@@ -1549,14 +1545,6 @@
 				version = 2.3.2;
 			};
 		};
-		BCA904FD2C599468000BE5FF /* XCRemoteSwiftPackageReference "swiftui-gif" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/globulus/swiftui-gif";
-			requirement = {
-				kind = exactVersion;
-				version = 1.1.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1582,11 +1570,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BC1D27CB2C3C4F2F00345FD6 /* XCLocalSwiftPackageReference "Utility" */;
 			productName = Utility;
-		};
-		BCA904FE2C599468000BE5FF /* SwiftUIGIF */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BCA904FD2C599468000BE5FF /* XCRemoteSwiftPackageReference "swiftui-gif" */;
-			productName = SwiftUIGIF;
 		};
 		BCF6487A2C3C36CC00D1C46F /* Models */ = {
 			isa = XCSwiftPackageProductDependency;
