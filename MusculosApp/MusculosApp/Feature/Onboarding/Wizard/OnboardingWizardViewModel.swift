@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 import Factory
 import Combine
-
 import Models
 import Utility
 import Storage
@@ -25,22 +24,30 @@ final class OnboardingWizardViewModel {
   
   @ObservationIgnored
   @Injected(\.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
-  
+
   @ObservationIgnored
-  private(set) var updateTask: Task<Void, Never>?
-    
+  @Injected(\.userManager) private var userManager: UserManagerProtocol
+
+  // MARK: - Event
+
+  enum Event {
+    case didFinishOnboarding
+    case didFinishWithError(Error)
+  }
+
   // MARK: Observed properties
   
-  var wizardStep: OnboardingWizardStep = .gender
-  var selectedGender: Gender? = nil
+  var wizardStep: OnboardingWizardStep = .heightAndWeight
   var selectedWeight: Int? = nil
   var selectedHeight: Int? = nil
   var selectedGoal: OnboardingData.Goal? = nil
   var selectedLevel: OnboardingData.Level? = nil
   var selectedEquipment: OnboardingData.Equipment? = nil
-  
-  var successSubject = PassthroughSubject<Bool, Never>()
-    
+
+  var event: AnyPublisher<Event, Never> {
+    _event.eraseToAnyPublisher()
+  }
+
   var canHandleNextStep: Bool {
     return OnboardingWizardStep(rawValue: wizardStep.rawValue + 1) != nil
   }
@@ -64,22 +71,23 @@ final class OnboardingWizardViewModel {
     updateTask = nil
   }
   
-  // MARK: - Tasks
-  
+  // MARK: - Private
+
+  @ObservationIgnored
+  private(set) var updateTask: Task<Void, Never>?
+
+  private let _event = PassthroughSubject<Event, Never>()
+
   private func updateData() {
     updateTask = Task {
       do {
-        try await updateGoal()
-        try await updateUser()
-        
-        await MainActor.run {
-          successSubject.send(true)
-        }
+        async let goalTask: Void = updateGoal()
+        async let userTask: Void = updateUser()
+
+        _ = try await (goalTask, userTask)
+        _event.send(.didFinishOnboarding)
       } catch {
-        await MainActor.run {
-          successSubject.send(false)
-        }
-        
+        _event.send(.didFinishWithError(error))
         MusculosLogger.logError(error, message: "Could not save onboarding data", category: .coreData)
       }
     }
@@ -95,11 +103,10 @@ final class OnboardingWizardViewModel {
   private func updateUser() async throws {
     var goalId: Int? // TODO: Handle Goal
     
-    guard let currentUser = await UserSessionActor.shared.currentUser() else { return }
-    
+    guard let currentUser = userManager.currentSession() else { return }
+
     try await userDataStore.updateProfile(
       userId: currentUser.userId,
-      gender: selectedGender?.rawValue,
       weight: selectedWeight,
       height: selectedHeight,
       primaryGoalId: goalId,
@@ -113,12 +120,10 @@ final class OnboardingWizardViewModel {
 
 extension OnboardingWizardViewModel {
   enum OnboardingWizardStep: Int {
-    case gender, heightAndWeight, level, goal, equipment, permissions
+    case heightAndWeight, level, goal, equipment, permissions
     
     var title: String {
       switch self {
-      case .gender:
-        "What is your gender?"
       case .heightAndWeight:
         "What is your weight and height?"
       case .level:

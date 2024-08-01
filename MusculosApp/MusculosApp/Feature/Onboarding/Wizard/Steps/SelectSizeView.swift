@@ -13,10 +13,9 @@ struct SelectSizeView: View {
   
     var body: some View {
       VStack {
-        SizePickerView(value: $selectedWeight, description: "Weight", unit: "KG", options: Array(30...250))
-        SizePickerView(value: $selectedHeight, description: "Height", unit: "CM", options: Array(100...230))
+        SizePickerView(value: $selectedWeight, description: "Weight", unit: "KG", options: Array(30...250), showCheckMark: selectedWeight != nil)
+        SizePickerView(value: $selectedHeight, description: "Height", unit: "CM", options: Array(100...230), showCheckMark: selectedHeight != nil)
       }
-      .padding()
     }
 }
 

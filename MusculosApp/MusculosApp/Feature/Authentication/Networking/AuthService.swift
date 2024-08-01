@@ -9,76 +9,60 @@ import Foundation
 import Utility
 import Models
 import Storage
+@preconcurrency import Factory
 
 protocol AuthServiceProtocol: Sendable {
-  var dataStore: UserDataStoreProtocol { get set }
-  func register(email: String, password: String, username: String, fullName: String) async throws
-  func login(email: String, password: String) async throws
+  func register(email: String, password: String, username: String) async throws -> UserSession
+  func login(email: String, password: String) async throws -> UserSession
 }
 
-struct AuthService: MusculosService {
-  var client: MusculosClientProtocol
-  var dataStore: UserDataStoreProtocol
-  
-  init(client: MusculosClientProtocol = MusculosClient(),
-       dataStore: UserDataStoreProtocol = UserDataStore()) {
-    self.client = client
-    self.dataStore = dataStore
-  }
-}
+struct AuthService: MusculosService, AuthServiceProtocol {
+  @Injected(\.client) var client: MusculosClientProtocol
 
-extension AuthService: AuthServiceProtocol {
-  func register(email: String, password: String, username: String, fullName: String) async throws {
-    var body = [
+  func register(email: String, password: String, username: String) async throws -> UserSession {
+    var request = APIRequest(method: .post, path: .register)
+    request.body = [
       "email": email,
       "password": password,
       "username": username
     ]
-    if fullName.count > 0 {
-      body["fullName"] = fullName
-    }
-    
-    let request = APIRequest(method: .post, path: .register, body: body)
+
     let data = try await client.dispatch(request)
-    let result = try AuthenticationResult.createFrom(data)
-    
-    try await saveCurrentUser(authResult: result, email: email, fullName: fullName, username: username, isOnboarded: false)
+    let authResult = try AuthenticationResult.createFrom(data)
+
+    return UserSession(
+      authToken: authResult.token,
+      userId: UUID(),
+      email: email,
+      username: username,
+      isOnboarded: false
+    )
   }
-  
-  func login(email: String, password: String) async throws {
-    let body = ["email": email, "password": password]
-    
-    let request = APIRequest(method: .post, path: .login, body: body)
+
+  func login(email: String, password: String) async throws -> UserSession {
+    var request = APIRequest(method: .post, path: .login)
+    request.body = [
+      "email": email,
+      "password": password
+    ]
+
     let data = try await client.dispatch(request)
     let result = try AuthenticationResult.createFrom(data)
-    
-    try await saveCurrentUser(authResult: result, email: email)
+
+    return UserSession(
+      authToken: result.token,
+      userId: UUID(),
+      email: email,
+      username: email,
+      isOnboarded: false
+    )
   }
 }
 
-// MARK: - Authentication Result helper
+// MARK: - AuthenticationResult
 //
 extension AuthService {
   struct AuthenticationResult: Codable, DecodableModel {
     var token: String
-  }
-  
-  private func saveCurrentUser(authResult: AuthenticationResult, email: String, fullName: String? = nil, username: String? = nil, isOnboarded: Bool = false) async throws {
-    
-    let token = authResult.token
-    guard token.count > 0 else { throw MusculosError.forbidden }
-    
-    
-    if let _ = await UserSessionActor.shared.currentUser() {
-      await UserSessionActor.shared.updateSession(token: token, isOnboarded: isOnboarded)
-    } else {
-      let userSession = UserSession(authToken: token, userId: UUID(), email: email, username: username, isOnboarded: false)
-      await UserSessionActor.shared.createSession(from: userSession)
-    }
-    
-    if let userId = await UserSessionActor.shared.currentUser()?.userId {
-      let profile = UserProfile(userId: userId, email: email, fullName: fullName, username: username)
-      try await dataStore.createUser(person: profile)
-    }
   }
 }

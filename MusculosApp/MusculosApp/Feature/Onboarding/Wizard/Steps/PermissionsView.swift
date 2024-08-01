@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Utility
+import Components
 
 struct PermissionsView: View {
   @Environment(\.healthKitViewModel) private var healthKitViewModel

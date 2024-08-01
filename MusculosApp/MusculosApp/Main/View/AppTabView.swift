@@ -11,30 +11,40 @@ import CoreData
 struct AppTabView: View {
   @Environment(\.navigationRouter) private var navigationRouter
 
-  @State private var appManager = AppManager()
-  
-  @State private var tabSelection: TabBarItem = .explore
+  @State private var selectedTab: TabBarItem = .explore
   @State private var showingSheet = false
   
   private let tabBarItems: [TabBarItem] = [.explore, .overview]
   
   var body: some View {
     CustomTabBarContainerView(
-      selection: $tabSelection,
+      selection: $selectedTab,
       tabBarItems: tabBarItems,
-      onAddTapped: {
-        navigationRouter.present(.addActionSheet)
-      }
+      onAddTapped: showAddActionSheet
     ) {
-      tabSelection.view
+      currentTab
     }
-    .toastView(toast: $appManager.toast)
-    .environment(\.appManager, appManager)
   }
-  
+
+  @ViewBuilder
+  private var currentTab: some View {
+    switch selectedTab {
+    case .explore:
+      ExploreExerciseView()
+    case .overview:
+      OverviewView()
+    case .workout:
+      WorkoutListView()
+    }
+  }
+
   @MainActor
   private func showSheet() {
     showingSheet.toggle()
+  }
+
+  private func showAddActionSheet() {
+    navigationRouter.present(.addActionSheet)
   }
 }
 

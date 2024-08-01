@@ -11,104 +11,69 @@ import Components
 
 struct SignInView: View {
   @Environment(\.userStore) private var userStore
-  @State private var viewModel = AuthViewModel()
-    
+  @Bindable var viewModel: AuthViewModel
+
   var body: some View {
-    NavigationStack {
-      VStack(alignment: .center) {
-        Spacer()
-        
-        Text(headerTitle)
-          .font(.header(.bold, size: 25))
-        Text(bodyTitle)
-          .font(.body(.light, size: 14))
-        
-        loginForm
-          .padding([.top, .bottom], 20)
-        
-//        socialLoginSection
-        
-        Spacer()
-        signUpButton
-      }
-      .padding(.horizontal, 20)
-      .onDisappear(perform: viewModel.cleanUp)
-      .navigationTitle("")
-      .navigationDestination(isPresented: $viewModel.showRegister) {
-        SignUpView(viewModel: viewModel)
-      }
-      .onChange(of: viewModel.state) { _, state in
-        switch state {
-        case .error(let errorMessage):
-          MusculosLogger.logError(MusculosError.badRequest, message: errorMessage, category: .networking)
-        case .loaded(_):
-          userStore.refreshSession()
-        default:
-          break
-        }
-      }
+    VStack(alignment: .center) {
+      header
+      loginForm
+      LoadableDotsButton(
+        title: "Sign In",
+        isLoading: viewModel.makeLoadingBinding(),
+        isDisabled: !viewModel.isLoginFormValid,
+        action: viewModel.signIn
+      )
+      dontHaveAnAccountSection
     }
+    .padding(.horizontal, 20)
   }
 }
 
-// MARK: - Views
+// MARK: - Subviews
 
 extension SignInView {
+
+  private var header: some View {
+    Text(headerTitle)
+      .font(.header(.bold, size: 45))
+      .foregroundColor(.white)
+      .shadow(color: .black.opacity(0.5), radius: 1)
+  }
+
+  @ViewBuilder
   private var loginForm: some View {
+    @Bindable var viewModel = viewModel
+
     VStack(alignment: .center, spacing: 15) {
-      CustomTextField(text: $viewModel.email,
-                       label: "Email")
-      CustomTextField(text: $viewModel.password,
-                       label: "Password",
-                       isSecureField: true)
-      .padding([.top, .bottom], 10)
-      
-      Button(action: viewModel.signIn, label: {
-        Text("Sign in")
-          .frame(maxWidth: .infinity)
+      FormField(
+        text: $viewModel.email,
+        hint: "Email"
+      )
+      FormField(
+        text: $viewModel.password,
+        hint: "Password",
+        isSecureField: true
+      )
+    }
+    .padding(.vertical, 20)
+  }
+
+  private var dontHaveAnAccountSection: some View {
+    HStack {
+      Text("Don't have an account?")
+        .font(Font.body(.regular, size: 16))
+        .foregroundStyle(.white)
+        .shadow(radius: 0.3)
+      Button(action: {
+        viewModel.step = .register
+      }, label: {
+        Text("Sign up")
+          .font(Font.body(.bold, size: 16))
           .foregroundStyle(.white)
+          .shadow(radius: 0.3)
       })
-      .buttonStyle(PrimaryButtonStyle())
     }
-  }
-  
-  private var socialLoginSection: some View {
-    VStack {
-      HStack {
-        Rectangle()
-          .frame(height: 1)
-          .frame(maxWidth: .infinity)
-          .foregroundStyle(.gray)
-          .opacity(0.3)
-        Text("OR LOG IN WITH")
-          .font(.header(.bold, size: 13))
-          .foregroundStyle(.gray)
-        Rectangle()
-          .frame(height: 1)
-          .frame(maxWidth: .infinity)
-          .foregroundStyle(.gray)
-          .opacity(0.3)
-      }
-      HStack {
-        Button(action: {}, label: {
-          Text("Google").frame(maxWidth: .infinity)
-        })
-        .buttonStyle(SecondaryButtonStyle())
-        Button(action: {}, label: {
-          Text("Facebook").frame(maxWidth: .infinity)
-        })
-        .buttonStyle(SecondaryButtonStyle())
-      }
-    }
-  }
-  
-  private var signUpButton: some View {
-    Button(action: {
-      viewModel.showRegister.toggle()
-    }, label: {
-      Text(dontHaveAnAccountTitle)
-        .font(.body(.light, size: 15))
-    })
+    .padding(.top)
   }
 }
 
@@ -116,12 +81,9 @@ extension SignInView {
 
 extension SignInView {
   private var headerTitle: String {
-    "Welcome! 👋"
+    "Welcome back!"
   }
-  
-  private var bodyTitle: String {
-    "Sign in to start your fitness journey"
-  }
+
   private var dontHaveAnAccountTitle: String {
     "Don't have an account? Sign up now"
   }
@@ -129,5 +91,5 @@ extension SignInView {
 
 
 #Preview {
-  SignInView()
+  AuthView(initialStep: .login)
 }

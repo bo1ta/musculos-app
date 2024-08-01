@@ -25,7 +25,10 @@ final class AddWorkoutSheetViewModel {
   
   @ObservationIgnored
   @Injected(\.workoutDataStore) private var workoutDataStore: WorkoutDataStoreProtocol
-  
+
+  @ObservationIgnored
+  @Injected(\.userManager) private var userManager: UserManagerProtocol
+
   // MARK: - Observed properties
   
   var workoutName: String = ""
@@ -167,7 +170,7 @@ extension AddWorkoutSheetViewModel {
     
     submitWorkoutTask = Task {
       
-      guard let userSession = await UserSessionActor.shared.currentUser() else { return }
+      guard let userSession = userManager.currentSession() else { return }
       
       let workout = Workout(
         name: self.workoutName,

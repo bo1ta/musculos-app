@@ -1,22 +1,23 @@
 //
 //  PrimaryButtonStyle.swift
-//  MusculosApp
+//  
 //
-//  Created by Solomon Alexandru on 10.06.2023.
+//  Created by Solomon Alexandru on 30.07.2024.
 //
 
-import Foundation
 import SwiftUI
 
 public struct PrimaryButtonStyle: ButtonStyle {
+  public init() {}
+
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .padding(14)
+      .padding(18)
       .fixedSize(horizontal: false, vertical: true)
       .font(.body(.bold, size: 15.0))
-      .background(Color.AppColor.blue500)
+      .background(Color(hex: "FF5722"))
       .foregroundColor(.white)
-      .clipShape(RoundedRectangle(cornerRadius: 20))
+      .clipShape(RoundedRectangle(cornerRadius: 10))
       .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
   }
 }

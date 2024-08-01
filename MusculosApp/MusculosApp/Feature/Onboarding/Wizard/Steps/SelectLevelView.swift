@@ -20,6 +20,7 @@ struct SelectLevelView: View {
           isSelected: selectedLevel == level,
           didTap: { selectedLevel = level }
         )
+        .animation(.smooth, value: selectedLevel)
       }
     }
     .padding(20)

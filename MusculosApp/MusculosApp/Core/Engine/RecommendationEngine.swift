@@ -16,9 +16,10 @@ public struct RecommendationEngine: Sendable {
   @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore
   @Injected(\.goalDataStore) private var goalDataStore
   @Injected(\.userDataStore) private var userDataStore
-  
+  @Injected(\.userManager) private var userManager: UserManagerProtocol
+
   public func recommendByGoals() async throws -> [Exercise] {
-    guard await UserSessionActor.shared.currentUser() != nil else {
+    guard userManager.currentSession() != nil else {
       throw MusculosError.notFound
     }
     
@@ -31,10 +32,10 @@ public struct RecommendationEngine: Sendable {
   }
 
   public func recommendByMuscleGroups() async throws -> [Exercise] {
-    guard let currentUser = await UserSessionActor.shared.currentUser() else {
+    guard let currentUser = userManager.currentSession() else {
       return []
     }
-    
+
     let exerciseSessions = await exerciseSessionDataStore.getAll(for: currentUser.userId)
     guard !exerciseSessions.isEmpty else {
       throw RecommendationError.emptyExerciseSessions

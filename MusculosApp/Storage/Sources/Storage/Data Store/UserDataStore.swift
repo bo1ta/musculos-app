@@ -10,34 +10,33 @@ import CoreData
 import Models
 
 public protocol UserDataStoreProtocol: Sendable {
-  func createUser(person: UserProfile) async throws
-  func updateProfile(userId: UUID, gender: String?, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws
+  func createUser(profile: UserProfile) async throws
+  func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws
   func loadProfile(userId: UUID) async -> UserProfile?
+  func loadProfileByEmail(_ email: String) async -> UserProfile?
 }
 
 public struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
   
   public init() { }
   
-  public func createUser(person: UserProfile) async throws {
+  public func createUser(profile: UserProfile) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       let userProfile = writerDerivedStorage.insertNewObject(ofType: UserProfileEntity.self)
-      userProfile.userId = person.userId.uuidString
-      userProfile.username = person.username
-      userProfile.email = person.email
-      userProfile.fullName = person.fullName
+      userProfile.userId = profile.userId.uuidString
+      userProfile.username = profile.username
+      userProfile.email = profile.email
     }
     
     await storageManager.saveChanges()
   }
   
-  public func updateProfile(userId: UUID, gender: String? = nil, weight: Int? = nil, height: Int? = nil, primaryGoalId: Int? = nil, level: String?, isOnboarded: Bool = false) async throws {
+  public func updateProfile(userId: UUID, weight: Int? = nil, height: Int? = nil, primaryGoalId: Int? = nil, level: String?, isOnboarded: Bool = false) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       guard 
         let userProfile = UserProfileEntity.userFrom(userId: userId.uuidString, on: writerDerivedStorage)
       else { return }
       
-      userProfile.gender = gender
       userProfile.level = level
       
       if let weight {
@@ -63,6 +62,15 @@ public struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
         .firstObject(
           of: UserProfileEntity.self,
           matching: predicate)?
+        .toReadOnly()
+    }
+  }
+
+  public func loadProfileByEmail(_ email: String) async -> UserProfile? {
+    return await storageManager.performRead { viewStorage in
+      let predicate = PredicateFactory.userProfileByEmail(email)
+      return viewStorage
+        .firstObject(of: UserProfileEntity.self, matching: predicate)?
         .toReadOnly()
     }
   }

@@ -30,10 +30,7 @@ struct WorkoutFlowView: View {
         ExerciseDetailsView(exercise: exercise, onComplete: viewModel.handleNextExercise)
       }
     case .completion:
-      CongratulationView(exerciseName: workout.name, onGetReward: {
-        
-        dismiss()
-      })
+      EmptyView()
     }
   }
 }

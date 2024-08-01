@@ -8,8 +8,8 @@
 import Foundation
 import SwiftUI
 
-public struct DarkButtonStyle: ButtonStyle {
-  public func makeBody(configuration: Configuration) -> some View {
+struct DarkButtonStyle: ButtonStyle {
+  func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .padding(16)
       .fixedSize(horizontal: false, vertical: true)

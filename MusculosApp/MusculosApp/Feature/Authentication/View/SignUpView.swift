@@ -7,101 +7,95 @@
 
 import SwiftUI
 import Components
+import Utility
 
 struct SignUpView: View {
-  @State private var viewModel: AuthViewModel
-  
-  init(viewModel: AuthViewModel) {
-    self.viewModel = viewModel
-  }
+  @Bindable var viewModel: AuthViewModel
 
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
-      Text(headerTitle)
-        .font(.header(.regular, size: 25))
+      Spacer()
+
+      header
       registerForm
-//      socialLoginSection
+      LoadableDotsButton(
+        title: "Sign Up",
+        isLoading: viewModel.makeLoadingBinding(),
+        isDisabled: !viewModel.isRegisterFormValid,
+        action: viewModel.signUp
+      )
+      .padding(.top, 10)
+
+      Spacer()
     }
+    .gesture(
+      DragGesture()
+        .onEnded({ gesture in
+          if gesture.translation.width > 30 {
+            showLogin()
+          }
+        })
+    )
     .padding(.horizontal, 20)
     .onDisappear(perform: viewModel.cleanUp)
+    .safeAreaInset(edge: .top) {
+      backButton
+    }
+  }
+
+  private func showLogin() {
+    viewModel.step = .login
   }
 }
 
-// MARK: - Views
+// MARK: - Subviews
 
 extension SignUpView {
-  private var registerForm: some View {
-    VStack(alignment: .leading, spacing: 15) {
-      CustomTextField(text: $viewModel.email,
-                       label: "Email")
-      CustomTextField(text: $viewModel.password,
-                       label: "Password",
-                       isSecureField: true)
-      CustomTextField(text: $viewModel.username,
-                       label: "Username")
-      CustomTextField(text: $viewModel.fullName,
-                       label: "Full Name (optional)")
-      
-      Button(action: viewModel.signUp, label: {
-        Text(headerTitle)
-          .frame(maxWidth: .infinity)
+
+  private var header: some View {
+    Text("Sign Up")
+      .font(.header(.bold, size: 45))
+      .foregroundStyle(.white)
+  }
+
+  private var backButton: some View {
+    HStack {
+      Button(action: showLogin, label: {
+        Image(systemName: "chevron.left")
+          .font(Font.body(.bold, size: 18))
           .foregroundStyle(.white)
       })
-      .buttonStyle(PrimaryButtonStyle())
-      .padding(.top, 10)
-    }
-  }
-  
-  private var socialLoginSection: some View {
-    VStack(alignment: .center) {
-      HStack {
-        Rectangle()
-          .frame(height: 1)
-          .frame(maxWidth: .infinity)
-          .foregroundStyle(.gray)
-          .opacity(0.3)
-        Text("or")
-          .font(.body(.regular, size: 19))
-          .padding()
-        Rectangle()
-          .frame(height: 1)
-          .frame(maxWidth: .infinity)
-          .foregroundStyle(.gray)
-          .opacity(0.3)
-      }
-      
-        Button(action: {}, label: {
-          Text(googleButtonTitle)
-            .font(.body(.light, size: 15))
-            .foregroundStyle(Color.AppColor.green700)
-        })
-  
-        Button(action: {}, label: {
-          Text(facebookButtonTitle)
-            .font(.body(.light, size: 15))
-            .foregroundStyle(Color.AppColor.green700)
-        })
-        .padding(.top, 5)
-    }
-  }
-}
 
-// MARK: - Constants
+      Spacer()
+    }
+    .padding(.horizontal, 20)
+  }
 
-extension SignUpView {
-  private var headerTitle: String {
-    "Sign up"
-  }
-  
-  private var googleButtonTitle: String {
-    "Sign up using Google"
-  }
-  
-  private var facebookButtonTitle: String {
-    "Sign up using Facebook"
+  @ViewBuilder
+  private var registerForm: some View {
+    VStack(alignment: .leading, spacing: 10) {
+      FormField(
+        text: $viewModel.email,
+        hint: "Email"
+      )
+      FormField(
+        text: $viewModel.password,
+        hint: "Password",
+        isSecureField: true
+      )
+      FormField(
+        text: $viewModel.confirmPassword,
+        hint: "Confirm password",
+        isSecureField: true
+      )
+      FormField(
+        text: $viewModel.username,
+        hint: "Username"
+      )
+    }
   }
 }
 
 #Preview {
-  SignUpView(viewModel: AuthViewModel())
+  SignUpView(viewModel: AuthViewModel(initialStep: .login))
 }

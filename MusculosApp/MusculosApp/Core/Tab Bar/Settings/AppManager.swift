@@ -39,8 +39,6 @@ protocol AppManagerProtocol {
 @Observable
 @MainActor
 final class AppManager {
-  static let live = AppManager()
-  
   private(set) var isTabBarHidden: Bool = false
   var toast: Toast? = nil
 }

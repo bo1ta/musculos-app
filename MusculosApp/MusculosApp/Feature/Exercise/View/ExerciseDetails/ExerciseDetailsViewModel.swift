@@ -27,7 +27,10 @@ final class ExerciseDetailsViewModel {
   
   @ObservationIgnored
   @Injected(\.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
-  
+
+  @ObservationIgnored
+  @Injected(\.userManager) private var userManager: UserManagerProtocol
+
   // MARK: - Observed properties
   
   private(set) var isFavorite = false
@@ -143,11 +146,10 @@ extension ExerciseDetailsViewModel {
   
   func saveExerciseSession() {
     saveExerciseSessionTask = Task.detached(priority: .background) { [weak self] in
-      guard 
-        let self,
-        let currentUser = await UserSessionActor.shared.currentUser()
-      else { return }
-      
+      guard let self, let currentUser = await userManager.currentSession() else {
+        return
+      }
+
       do {
         try await exerciseSessionDataStore.addSession(exercise, date: Date(), userId: currentUser.userId)
         try await maybeUpdateGoals()

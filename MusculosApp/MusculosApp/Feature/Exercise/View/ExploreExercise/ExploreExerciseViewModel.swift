@@ -21,7 +21,10 @@ final class ExploreExerciseViewModel {
   
   @ObservationIgnored
   @Injected(\.exerciseService) private var service: ExerciseServiceProtocol
-  
+
+  @ObservationIgnored
+  @Injected(\.userManager) private var userManager: UserManagerProtocol
+
   @ObservationIgnored
   @Injected(\.recommendationEngine) private var recommendationEngine: RecommendationEngine
   
@@ -37,11 +40,8 @@ final class ExploreExerciseViewModel {
   @ObservationIgnored
   private var cancellables = Set<AnyCancellable>()
   
-  @ObservationIgnored
   private var currentUser: UserSession? {
-    get async {
-      return await UserSessionActor.shared.currentUser()
-    }
+    userManager.currentSession()
   }
   
   // MARK: - Observed properties
@@ -123,19 +123,28 @@ extension ExploreExerciseViewModel {
   }
   
   func updateRecommendations() async {
+    async let recommendedByGoalsTask: Void = loadRecommendationsByGoals()
+    async let recommendedByPastSessionsTask: Void = loadRecommendationsByPastSessions()
+
+    _ = await (recommendedByGoalsTask, recommendedByPastSessionsTask)
+  }
+
+  private func loadRecommendationsByGoals() async {
     do {
-      async let recommendedByGoalsTask = recommendationEngine.recommendByGoals()
-      async let recommendedByPastSessionsTask = recommendationEngine.recommendByMuscleGroups()
-      
-      let (recommendedByGoals, recommendedByPastSessions) = try await (recommendedByGoalsTask, recommendedByPastSessionsTask)
-      
-      self.recommendedByGoals = recommendedByGoals
-      self.recommendedByPastSessions = recommendedByPastSessions
+      recommendedByGoals = try await recommendationEngine.recommendByGoals()
     } catch {
-      MusculosLogger.logError(error, message: "Recommendation engine blew up!", category: .recommendationEngine)
+      MusculosLogger.logError(error, message: "Could not load recommendations by goals", category: .coreData)
     }
   }
-  
+
+  private func loadRecommendationsByPastSessions() async {
+    do {
+      recommendedByPastSessions = try await recommendationEngine.recommendByMuscleGroups()
+    } catch {
+      MusculosLogger.logError(error, message: "Could not load recommendations by past sessions", category: .coreData)
+    }
+  }
+
   func loadRemoteExercises() async {
     do {
       let exercises = try await service.getExercises()
@@ -173,7 +182,7 @@ extension ExploreExerciseViewModel {
   }
   
   func refreshExercisesCompletedToday() async {
-    guard let currentUser = await self.currentUser else { return }
+    guard let currentUser else { return }
     exercisesCompletedToday = await exerciseSessionDataStore.getCompletedToday(userId: currentUser.userId)
   }
   

@@ -7,7 +7,6 @@ let package = Package(
     name: "Utility",
     platforms: [.iOS(.v17)],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "Utility",
             targets: ["Utility"]),

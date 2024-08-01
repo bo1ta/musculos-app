@@ -8,6 +8,7 @@
 import Foundation
 import Factory
 import Storage
+import Utility
 
 extension Container {
   var storageManager: Factory<StorageManagerType> {
@@ -17,7 +18,11 @@ extension Container {
       }
       .singleton
   }
-  
+
+  var client: Factory<MusculosClientProtocol> {
+    self { MusculosClient() }
+  }
+
   var exerciseDataStore: Factory<ExerciseDataStoreProtocol> {
     self { ExerciseDataStore() }
   }
@@ -44,5 +49,17 @@ extension Container {
   
   var recommendationEngine: Factory<RecommendationEngine> {
     self { RecommendationEngine() }
+  }
+
+  var authService: Factory<AuthServiceProtocol> {
+    self { AuthService() }
+  }
+
+  var userManager: Factory<UserManagerProtocol> {
+    self { UserManager() }.cached
+  }
+
+  var taskManager: Factory<TaskManagerProtocol> {
+    self { TaskManager() }.unique
   }
 }

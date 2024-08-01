@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Components
 
 struct MultiOptionsSelectView: View {
   @Binding var showOptions: Bool

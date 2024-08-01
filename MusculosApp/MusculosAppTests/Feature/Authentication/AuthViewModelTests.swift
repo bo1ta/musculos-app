@@ -6,37 +6,45 @@
 //
 
 import XCTest
+import Factory
 @testable import MusculosApp
 
 final class AuthViewModelTests: XCTestCase, MusculosTestBase {
+
+  @MainActor
   func testInitialValues() {
-    let viewModel = AuthViewModel()
-    XCTAssertEqual(viewModel.state, .empty)
+    let viewModel = AuthViewModel(initialStep: .login)
+    XCTAssertEqual(viewModel.step, .login)
     XCTAssertEqual(viewModel.email, "")
     XCTAssertEqual(viewModel.password, "")
-    XCTAssertEqual(viewModel.fullName, "")
+    XCTAssertEqual(viewModel.confirmPassword, "")
     XCTAssertEqual(viewModel.username, "")
-    XCTAssertFalse(viewModel.showRegister)
   }
   
+  @MainActor
   func testSignIn() async throws {
     let shouldSignInExpectation = self.expectation(description: "should sign in")
     
     let mockService = MockAuthService(dataStore: MockDataStore())
     mockService.expectation = shouldSignInExpectation
-    
-    let viewModel = AuthViewModel(service: mockService)
+
+    Container.shared.authService.register { mockService }
+    defer {
+      Container.shared.authService.reset()
+    }
+
+    let viewModel = AuthViewModel(initialStep: .login)
     XCTAssertNil(viewModel.authTask)
-    XCTAssertEqual(viewModel.state, .empty)
-    
+
     viewModel.email = "some-email@email.com"
     viewModel.password = "some-password"
     viewModel.signIn()
     await fulfillment(of: [shouldSignInExpectation], timeout: 1)
-    
+
+
+
     let authTask = try XCTUnwrap(viewModel.authTask)
     await authTask.value
-    XCTAssertEqual(viewModel.state, .loaded(true))
   }
   
   func testSignInFails() async throws {
