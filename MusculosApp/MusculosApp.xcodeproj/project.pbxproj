@@ -686,7 +686,6 @@
 		BC6F366B2BB4E805000F6CFA /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				BCFA25B92BB37A9D00F07A67 /* AuthServiceTests.swift */,
 				BC5BACD82ABB6694003C880E /* ExerciseServiceTests.swift */,
 			);
 			path = Networking;
@@ -991,6 +990,7 @@
 			isa = PBXGroup;
 			children = (
 				BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */,
+				BCFA25B92BB37A9D00F07A67 /* AuthServiceTests.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";

@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import Models
+import Storage
 
 @testable import MusculosApp
 
-class StubExerciseDataStore: ExerciseDataStoreProtocol {
+final class StubExerciseDataStore: ExerciseDataStoreProtocol {
   var expectedExercises: [Exercise] = []
   
   func getAll(fetchLimit: Int) async -> [Exercise] {

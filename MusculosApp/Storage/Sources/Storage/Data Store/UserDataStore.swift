@@ -9,15 +9,15 @@ import Foundation
 import CoreData
 import Models
 
-public protocol UserDataStoreProtocol: Sendable {
+public protocol UserDataStoreProtocol {
   func createUser(profile: UserProfile) async throws
   func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws
   func loadProfile(userId: UUID) async -> UserProfile?
   func loadProfileByEmail(_ email: String) async -> UserProfile?
 }
 
-public struct UserDataStore: BaseDataStore, UserDataStoreProtocol {
-  
+public struct UserDataStore: BaseDataStore, UserDataStoreProtocol, Sendable {
+
   public init() { }
   
   public func createUser(profile: UserProfile) async throws {

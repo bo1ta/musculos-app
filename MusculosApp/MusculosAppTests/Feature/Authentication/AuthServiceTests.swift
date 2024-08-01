@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import Factory
 
 @testable import MusculosApp
 
@@ -22,10 +23,13 @@ final class AuthServiceTests: XCTestCase, MusculosTestBase {
     let configuration = self.createMockSession(jsonFileName: "authenticationResult", expectation: requestExpectation)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = AuthService(client: client, dataStore: MockDataStore())
-  
+
+    Container.shared.client.register { client }
+    defer { Container.shared.client.reset() }
+
+    let service = AuthService()
     do {
-      try await module.login(email: "email", password: "password")
+      let session = try await service.login(email: "email", password: "password")
       succeedsExpectation.fulfill()
     } catch {
       XCTFail("Should not fail!")
@@ -113,4 +117,4 @@ extension AuthServiceTests {
       return expectedUser
     }
   }
-}
+//}
