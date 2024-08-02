@@ -41,12 +41,17 @@ final class ExerciseDetailsViewModel {
   }
 
   // MARK: - Observed properties
-  
-  private(set) var isFavorite = false
+
   private(set) var showChallengeExercise = false
   private(set) var isTimerActive = false
   private(set) var elapsedTime: Int = 0
-  
+
+  var isFavorite = false {
+    didSet {
+      updateFavorite(isFavorite)
+    }
+  }
+
   // MARK: - Publishers
 
   private let _event = PassthroughSubject<Event, Never>()
@@ -69,11 +74,54 @@ final class ExerciseDetailsViewModel {
     self.exercise = exercise
   }
 
-  // Public methods
+  // MARK: - Public methods
 
-  func toggleIsFavorite() {
-    isFavorite.toggle()
-    updateFavorite(isFavorite)
+  func initialLoad() async {
+    isFavorite = await exerciseDataStore.isFavorite(exercise)
+  }
+
+  func updateFavorite(_ isFavorite: Bool) {
+    markFavoriteTask?.cancel()
+
+    markFavoriteTask = Task { [weak self] in
+      guard let self else { return }
+
+      do {
+        // short debounce
+        try await Task.sleep(for: .milliseconds(500))
+        guard !Task.isCancelled else { return }
+
+        try await exerciseDataStore.setIsFavorite(exercise, isFavorite: isFavorite)
+        _event.send(.didUpdateFavorite(exercise, isFavorite))
+      } catch {
+        self.isFavorite = !isFavorite
+        _event.send(.didUpdateFavoriteFailure(error))
+        MusculosLogger.logError(error, message: "Could not update exercise.isFavorite", category: .coreData)
+      }
+    }
+  }
+
+  func saveExerciseSession() {
+    saveExerciseSessionTask = Task.detached(priority: .background) { [weak self] in
+      guard let self, let currentUser = await userManager.currentSession() else {
+        return
+      }
+
+      do {
+        try await exerciseSessionDataStore.addSession(exercise, date: Date(), userId: currentUser.userId)
+        try await maybeUpdateGoals()
+
+        await MainActor.run {
+          self._event.send(.didSaveSession)
+        }
+      } catch {
+        MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
+
+        await MainActor.run {
+          self._event.send(.didSaveSessionFailure(error))
+        }
+      }
+    }
   }
 
   func startTimer() {
@@ -97,7 +145,17 @@ final class ExerciseDetailsViewModel {
 
     saveExerciseSession()
   }
-  
+
+  private func maybeUpdateGoals() async throws {
+    let goals = await goalDataStore.getAll()
+
+    for goal in goals {
+      if let _ = ExerciseHelper.goalToExerciseCategories[goal.category] {
+        try await goalDataStore.incrementCurrentValue(goal)
+      }
+    }
+  }
+
   // MARK: - Clean up
   
   func cleanUp() {
@@ -109,68 +167,5 @@ final class ExerciseDetailsViewModel {
     
     timerTask?.cancel()
     timerTask = nil
-  }
-}
-
-// MARK: - Data store methods
-
-extension ExerciseDetailsViewModel {
-  
-  @MainActor
-  func initialLoad() async {
-    isFavorite = await exerciseDataStore.isFavorite(exercise)
-  }
-  
-  func updateFavorite(_ isFavorite: Bool) {
-    markFavoriteTask?.cancel()
-    
-    markFavoriteTask = Task { [weak self] in
-      guard let self else { return }
-
-      do {
-        // short debounce
-        try await Task.sleep(for: .milliseconds(500))
-        guard !Task.isCancelled else { return }
-
-        try await exerciseDataStore.setIsFavorite(exercise, isFavorite: isFavorite)
-        _event.send(.didUpdateFavorite(exercise, isFavorite))
-      } catch {
-        _event.send(.didUpdateFavoriteFailure(error))
-        MusculosLogger.logError(error, message: "Could not update exercise.isFavorite", category: .coreData)
-      }
-    }
-  }
-  
-  func saveExerciseSession() {
-    saveExerciseSessionTask = Task.detached(priority: .background) { [weak self] in
-      guard let self, let currentUser = await userManager.currentSession() else {
-        return
-      }
-
-      do {
-        try await exerciseSessionDataStore.addSession(exercise, date: Date(), userId: currentUser.userId)
-        try await maybeUpdateGoals()
-        
-        await MainActor.run {
-          self._event.send(.didSaveSession)
-        }
-      } catch {
-        MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
-        
-        await MainActor.run {
-          self._event.send(.didSaveSessionFailure(error))
-        }
-      }
-    }
-  }
-  
-  private func maybeUpdateGoals() async throws {
-    let goals = await goalDataStore.getAll()
-    
-    for goal in goals {
-      if let _ = ExerciseHelper.goalToExerciseCategories[goal.category] {
-        try await goalDataStore.incrementCurrentValue(goal)
-      }
-    }
   }
 }
