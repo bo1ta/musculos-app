@@ -31,80 +31,71 @@ final class ExerciseDetailsViewModel {
   @ObservationIgnored
   @Injected(\.userManager) private var userManager: UserManagerProtocol
 
+  // MARK: - Event
+
+  enum Event {
+    case didSaveSession
+    case didSaveSessionFailure(Error)
+    case didUpdateFavorite(Exercise, Bool)
+    case didUpdateFavoriteFailure(Error)
+  }
+
   // MARK: - Observed properties
   
   private(set) var isFavorite = false
   private(set) var showChallengeExercise = false
   private(set) var isTimerActive = false
-  private(set) var timer: Timer? = nil
   private(set) var elapsedTime: Int = 0
   
   // MARK: - Publishers
-  
-  private var cancellables = Set<AnyCancellable>()
-  private(set) var favoriteSubject = PassthroughSubject<Bool, Never>()
-  private(set) var didSaveSessionSubject = PassthroughSubject<Bool, Never>()
-  private(set) var didSaveFavoriteSubject = PassthroughSubject<Bool, Never>()
-  
+
+  private let _event = PassthroughSubject<Event, Never>()
+
+  var event: AnyPublisher<Event, Never> {
+    _event.eraseToAnyPublisher()
+  }
+
   // MARK: - Tasks
   
   private(set) var markFavoriteTask: Task<Void, Never>?
   private(set) var saveExerciseSessionTask: Task<Void, Never>?
-  
+  private(set) var timerTask: Task<Void, Never>?
+
   // MARK: - Init and Setup
   
   let exercise: Exercise
   
   init(exercise: Exercise) {
     self.exercise = exercise
-    self.setupPublishers()
   }
-  
-  /// Add a short debounce for `favoriteSubject` in case the favorite button is spammed
-  ///
-  private func setupPublishers() {
-    favoriteSubject
-      .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
-      .sink { [weak self] isFavorite in
-        self?.updateFavorite(isFavorite)
-      }
-      .store(in: &cancellables)
-  }
-  
+
+  // Public methods
+
   func toggleIsFavorite() {
     isFavorite.toggle()
-    favoriteSubject.send(isFavorite)
+    updateFavorite(isFavorite)
   }
-  
-  // MARK: - Timer
-  
-  private(set) var timerTask: Task<Void, Never>?
-  
+
   func startTimer() {
     isTimerActive = true
     elapsedTime = 0
     
-    timerTask = Task { [weak self] in
-      guard let self else { return }
-      
-      repeat {
-        guard !Task.isCancelled, ((try? await Task.sleep(for: .seconds(1))) != nil) else { break }
-      
-        self.elapsedTime += 1
-      } while isTimerActive
+    timerTask = Task { [weak self, isTimerActive] in
+      while isTimerActive {
+        try? await Task.sleep(for: .seconds(1))
+        await MainActor.run {
+          self?.elapsedTime += 1
+        }
+      }
     }
   }
   
-  private func incrementTime() {
-    elapsedTime += 1
-  }
-  
   func stopTimer() {
-    saveExerciseSession()
     isTimerActive = false
-    
-    timer?.invalidate()
-    timer = nil
+    timerTask?.cancel()
+    timerTask = nil
+
+    saveExerciseSession()
   }
   
   // MARK: - Clean up
@@ -116,8 +107,8 @@ final class ExerciseDetailsViewModel {
     saveExerciseSessionTask?.cancel()
     saveExerciseSessionTask = nil
     
-    timer?.invalidate()
-    timer = nil
+    timerTask?.cancel()
+    timerTask = nil
   }
 }
 
@@ -133,12 +124,18 @@ extension ExerciseDetailsViewModel {
   func updateFavorite(_ isFavorite: Bool) {
     markFavoriteTask?.cancel()
     
-    markFavoriteTask = Task { @MainActor in
+    markFavoriteTask = Task { [weak self] in
+      guard let self else { return }
+
       do {
+        // short debounce
+        try await Task.sleep(for: .milliseconds(500))
+        guard !Task.isCancelled else { return }
+
         try await exerciseDataStore.setIsFavorite(exercise, isFavorite: isFavorite)
-        didSaveFavoriteSubject.send(true)
+        _event.send(.didUpdateFavorite(exercise, isFavorite))
       } catch {
-        didSaveFavoriteSubject.send(false)
+        _event.send(.didUpdateFavoriteFailure(error))
         MusculosLogger.logError(error, message: "Could not update exercise.isFavorite", category: .coreData)
       }
     }
@@ -155,13 +152,13 @@ extension ExerciseDetailsViewModel {
         try await maybeUpdateGoals()
         
         await MainActor.run {
-          self.didSaveSessionSubject.send(true)
+          self._event.send(.didSaveSession)
         }
       } catch {
         MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
         
         await MainActor.run {
-          self.didSaveSessionSubject.send(true)
+          self._event.send(.didSaveSessionFailure(error))
         }
       }
     }
@@ -175,6 +172,5 @@ extension ExerciseDetailsViewModel {
         try await goalDataStore.incrementCurrentValue(goal)
       }
     }
-    
   }
 }
