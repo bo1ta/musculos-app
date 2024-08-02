@@ -25,8 +25,8 @@ public enum HapticFeedbackStyle {
 }
 
 public struct HapticFeedbackProvider {
+  @MainActor
   public static func hapticFeedback(_ style: HapticFeedbackStyle) {
-    DispatchQueue.main.async {
       switch style {
       case .lightImpact:
         lightImpactFeedbackGenerator.impactOccurred()
@@ -43,6 +43,5 @@ public struct HapticFeedbackProvider {
       case .notifyError:
         notificationFeedbackGenerator.notificationOccurred(.error)
       }
-    }
   }
 }
