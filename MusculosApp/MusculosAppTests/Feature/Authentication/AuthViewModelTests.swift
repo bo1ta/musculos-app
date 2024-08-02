@@ -13,6 +13,10 @@ import Models
 @testable import MusculosApp
 
 final class AuthViewModelTests: XCTestCase, MusculosTestBase {
+  override func tearDown() {
+    Container.shared.reset()
+    super.tearDown()
+  }
 
   @MainActor
   func testInitialValues() {
@@ -23,7 +27,7 @@ final class AuthViewModelTests: XCTestCase, MusculosTestBase {
     XCTAssertEqual(viewModel.confirmPassword, "")
     XCTAssertEqual(viewModel.username, "")
   }
-  
+
   @MainActor
   func testSignIn() async throws {
     let shouldSignInExpectation = self.expectation(description: "should sign in")
@@ -32,9 +36,6 @@ final class AuthViewModelTests: XCTestCase, MusculosTestBase {
     mockService.expectation = shouldSignInExpectation
 
     Container.shared.authService.register { mockService }
-    defer {
-      Container.shared.authService.reset()
-    }
 
     let viewModel = AuthViewModel(initialStep: .login)
 
@@ -61,9 +62,6 @@ final class AuthViewModelTests: XCTestCase, MusculosTestBase {
     mockService.shouldFail = true
 
     Container.shared.authService.register { mockService }
-    defer {
-      Container.shared.authService.reset()
-    }
 
     let viewModel = AuthViewModel(initialStep: .login)
 
@@ -89,9 +87,6 @@ final class AuthViewModelTests: XCTestCase, MusculosTestBase {
     mockService.expectation = shouldSignUpExpectation
 
     Container.shared.authService.register { mockService }
-    defer {
-      Container.shared.authService.reset()
-    }
 
     let viewModel = AuthViewModel(initialStep: .register)
     XCTAssertEqual(viewModel.step, .register)
@@ -120,9 +115,6 @@ final class AuthViewModelTests: XCTestCase, MusculosTestBase {
     mockService.shouldFail = true
 
     Container.shared.authService.register { mockService }
-    defer {
-      Container.shared.authService.reset()
-    }
 
     let viewModel = AuthViewModel(initialStep: .register)
     XCTAssertEqual(viewModel.step, .register)

@@ -25,7 +25,7 @@ class ExerciseDetailsViewModelTests: XCTestCase, MusculosTestBase {
     Container.shared.exerciseDataStore.register { StubExerciseDataStore() }
   }
 
-  override class func tearDown() {
+  override func tearDown() {
     Container.shared.reset()
     super.tearDown()
   }

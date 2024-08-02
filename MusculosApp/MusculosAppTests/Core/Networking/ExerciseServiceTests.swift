@@ -8,6 +8,7 @@
 import Foundation
 import XCTest
 import Factory
+import Models
 
 @testable import MusculosApp
 

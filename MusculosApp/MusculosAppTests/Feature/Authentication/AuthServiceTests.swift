@@ -13,6 +13,7 @@ import Factory
 final class AuthServiceTests: XCTestCase, MusculosTestBase {
   override func tearDown() {
     MockURLProtocol.clear()
+    Container.shared.reset()
     super.tearDown()
   }
   
@@ -23,7 +24,6 @@ final class AuthServiceTests: XCTestCase, MusculosTestBase {
     let client = MusculosClient(urlSession: urlSession)
 
     Container.shared.client.register { client }
-    defer { Container.shared.client.reset() }
 
     let service = AuthService()
     let session = try await service.login(email: "email", password: "password")
@@ -40,7 +40,6 @@ final class AuthServiceTests: XCTestCase, MusculosTestBase {
     let client = MusculosClient(urlSession: urlSession)
 
     Container.shared.client.register { client }
-    defer { Container.shared.client.reset() }
 
     let module = AuthService()
     do {
@@ -60,7 +59,6 @@ final class AuthServiceTests: XCTestCase, MusculosTestBase {
     let client = MusculosClient(urlSession: urlSession)
 
     Container.shared.client.register { client }
-    defer { Container.shared.client.reset() }
 
     let module = AuthService()
     let session =  try await module.register(email: "email", password: "password", username: "username")
@@ -77,7 +75,6 @@ final class AuthServiceTests: XCTestCase, MusculosTestBase {
     let client = MusculosClient(urlSession: urlSession)
 
     Container.shared.client.register { client }
-    defer { Container.shared.client.reset() }
 
     let module = AuthService()
     do {
