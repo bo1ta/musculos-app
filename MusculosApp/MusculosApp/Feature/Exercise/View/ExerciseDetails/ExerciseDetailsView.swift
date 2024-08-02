@@ -43,21 +43,9 @@ struct ExerciseDetailsView: View {
       await viewModel.initialLoad()
     }
     .onDisappear(perform: viewModel.cleanUp)
-    .onReceive(viewModel.didSaveSessionSubject, perform: { didSave in
-      if didSave {
-        appManager.showToast(style: .success, message: "Completed exercise in \(viewModel.elapsedTime) seconds")
-        appManager.notifyModelUpdate(.didAddExerciseSession)
-      } else {
-        appManager.showToast(style: .error, message: "Could not complete exercise")
-      }
-    })
-    .onReceive(viewModel.didSaveFavoriteSubject, perform: { didSave in
-      if didSave {
-        appManager.notifyModelUpdate(.didFavoriteExercise)
-      } else {
-        appManager.showToast(style: .error, message: "Could not favorite exercise")
-      }
-    })
+    .onReceive(viewModel.event) { event in
+      handleEvent(event)
+    }
     .navigationBarBackButtonHidden()
     .safeAreaInset(edge: .bottom) {
       if viewModel.isTimerActive {
@@ -80,6 +68,20 @@ struct ExerciseDetailsView: View {
         .padding()
         
       }
+    }
+  }
+
+  private func handleEvent(_ event: ExerciseDetailsViewModel.Event) {
+    switch event {
+    case .didSaveSession:
+      appManager.showToast(style: .success, message: "Completed exercise in \(viewModel.elapsedTime) seconds")
+      appManager.notifyModelUpdate(.didAddExerciseSession)
+    case .didSaveSessionFailure(let error):
+      appManager.showToast(style: .error, message: "Could not complete exercise. \(error.localizedDescription)")
+    case .didUpdateFavorite(let exercise, let bool):
+      appManager.notifyModelUpdate(.didFavoriteExercise)
+    case .didUpdateFavoriteFailure(let error):
+      appManager.showToast(style: .error, message: "Could not favorite exercise. \(error.localizedDescription)")
     }
   }
 }
@@ -132,7 +134,7 @@ extension ExerciseDetailsView {
   
   private var favoriteButton: some View {
     Button(action: {
-      viewModel.toggleIsFavorite()
+      viewModel.isFavorite.toggle()
     }, label: {
       Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
         .resizable()

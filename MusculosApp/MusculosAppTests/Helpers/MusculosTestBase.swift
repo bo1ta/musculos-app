@@ -7,6 +7,9 @@
 
 import Foundation
 import XCTest
+import Models
+import Storage
+import Utility
 
 @testable import MusculosApp
 

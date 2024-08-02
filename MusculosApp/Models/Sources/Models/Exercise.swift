@@ -20,8 +20,20 @@ public struct Exercise: Codable, Sendable {
   public var secondaryMuscles: [String]
   public var instructions: [String]
   public var imageUrls: [String]
-  
-  public init(category: String, equipment: String? = nil, force: String? = nil, id: UUID, level: String, name: String, primaryMuscles: [String], secondaryMuscles: [String], instructions: [String], imageUrls: [String]) {
+
+  public init(
+    category: String,
+    equipment: String? = nil,
+    force: String? = nil,
+    id: UUID,
+    level: String,
+    name: String,
+    primaryMuscles: [String],
+    secondaryMuscles: [String],
+    instructions: [String],
+    imageUrls: [String],
+    isFavorite: Bool = false
+  ) {
     self.category = category
     self.equipment = equipment
     self.force = force

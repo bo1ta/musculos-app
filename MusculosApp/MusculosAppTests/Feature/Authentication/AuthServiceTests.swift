@@ -6,32 +6,29 @@
 //
 
 import XCTest
+import Factory
 
 @testable import MusculosApp
 
 final class AuthServiceTests: XCTestCase, MusculosTestBase {
   override func tearDown() {
     MockURLProtocol.clear()
+    Container.shared.reset()
     super.tearDown()
   }
   
   func testLoginSucceeds() async throws {
     let requestExpectation = self.expectation(description: "should make a network request")
-    let succeedsExpectation = self.expectation(description: "should succeed")
-
     let configuration = self.createMockSession(jsonFileName: "authenticationResult", expectation: requestExpectation)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = AuthService(client: client, dataStore: MockDataStore())
-  
-    do {
-      try await module.login(email: "email", password: "password")
-      succeedsExpectation.fulfill()
-    } catch {
-      XCTFail("Should not fail!")
-    }
-    
-    await fulfillment(of: [requestExpectation, succeedsExpectation], timeout: 1)
+
+    Container.shared.client.register { client }
+
+    let service = AuthService()
+    let session = try await service.login(email: "email", password: "password")
+    XCTAssertEqual(session.authToken, "secret-token")
+    await fulfillment(of: [requestExpectation], timeout: 1)
   }
   
   func testLoginFails() async throws {
@@ -41,8 +38,10 @@ final class AuthServiceTests: XCTestCase, MusculosTestBase {
     let configuration = self.createMockSession(expectation: requestExpectation, shouldFail: true)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = AuthService(client: client, dataStore: MockDataStore())
-    
+
+    Container.shared.client.register { client }
+
+    let module = AuthService()
     do {
       _ = try await module.login(email: "email", password: "password")
       XCTFail("Should not succeed!")
@@ -55,24 +54,16 @@ final class AuthServiceTests: XCTestCase, MusculosTestBase {
   
   func testRegisterSucceeds() async throws {
     let requestExpectation = self.expectation(description: "should make a network request")
-    let succeedsExpectation = self.expectation(description: "should succeed")
-    let createUserExpectation = self.expectation(description: "should save user in the data store")
-
     let configuration = self.createMockSession(jsonFileName: "authenticationResult", expectation: requestExpectation)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let mockDataStore = MockDataStore()
-    mockDataStore.createUserExpectation = createUserExpectation
-    let module = AuthService(client: client, dataStore: mockDataStore)
-    
-    do {
-      try await module.register(email: "email", password: "password", username: "username", fullName: "full name")
-      succeedsExpectation.fulfill()
-    } catch {
-      XCTFail("Should not fail!")
-    }
-    
-    await fulfillment(of: [requestExpectation, succeedsExpectation, createUserExpectation], timeout: 1)
+
+    Container.shared.client.register { client }
+
+    let module = AuthService()
+    let session =  try await module.register(email: "email", password: "password", username: "username")
+    XCTAssertEqual(session.authToken, "secret-token")
+    await fulfillment(of: [requestExpectation], timeout: 1)
   }
   
   func testRegisterFails() async throws {
@@ -82,8 +73,10 @@ final class AuthServiceTests: XCTestCase, MusculosTestBase {
     let configuration = self.createMockSession(expectation: requestExpectation, shouldFail: true)
     let urlSession = URLSession(configuration: configuration)
     let client = MusculosClient(urlSession: urlSession)
-    let module = AuthService(client: client, dataStore: MockDataStore())
-    
+
+    Container.shared.client.register { client }
+
+    let module = AuthService()
     do {
       _ = try await module.login(email: "email", password: "password")
       XCTFail("Should not succeed!")
@@ -92,25 +85,5 @@ final class AuthServiceTests: XCTestCase, MusculosTestBase {
     }
     
     await fulfillment(of: [requestExpectation, failsExpectation], timeout: 1)
-  }
-}
-
-extension AuthServiceTests {
-  class MockDataStore: UserDataStoreProtocol {
-    var updateUserExpectation: XCTestExpectation?
-    func updateUser(gender: String?, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws {
-      updateUserExpectation?.fulfill()
-    }
-    
-    
-    var createUserExpectation: XCTestExpectation?
-    func createUser(person: User) async throws {
-      createUserExpectation?.fulfill()
-    }
-        
-    var expectedUser: User?
-    func loadCurrentUser() async -> User? {
-      return expectedUser
-    }
   }
 }

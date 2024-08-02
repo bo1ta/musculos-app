@@ -6,12 +6,16 @@
 //
 
 import Foundation
+import Models
+import Storage
+import Utility
 
 @testable import MusculosApp
 
-class StubExerciseDataStore: ExerciseDataStoreProtocol {
+final class StubExerciseDataStore: ExerciseDataStoreProtocol {
   var expectedExercises: [Exercise] = []
-  
+  var shouldFail: Bool = false
+
   func getAll(fetchLimit: Int) async -> [Exercise] {
     return expectedExercises
   }
@@ -44,7 +48,11 @@ class StubExerciseDataStore: ExerciseDataStoreProtocol {
     return expectedExercises
   }
   
-  func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws {}
+  func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws {
+    if shouldFail {
+      throw MusculosError.notFound
+    }
+  }
   
   func add(_ exercise: Exercise) async throws {}
   
