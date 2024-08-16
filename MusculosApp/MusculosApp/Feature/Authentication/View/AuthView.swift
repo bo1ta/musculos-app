@@ -70,6 +70,7 @@ struct AuthView: View {
           .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       }
     }
+    
     .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: viewModel.step)
   }
 
@@ -107,7 +108,7 @@ struct AuthView: View {
     })
 
     if let timer {
-      RunLoop.main.add(timer, forMode: .common)
+//      RunLoop.main.add(timer, forMode: .common)
     }
   }
 
@@ -132,4 +133,17 @@ struct AuthView: View {
 
 #Preview {
   AuthView(initialStep: .login)
+}
+
+struct SomeWaveShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
+        path.addCurve(to: CGPoint(x: rect.maxX, y: rect.maxY),
+                      control1: CGPoint(x: rect.width * 0.25, y: rect.height * 0.75),
+                      control2: CGPoint(x: rect.width * 0.75, y: rect.height * 0.9))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+        return path
+    }
 }
