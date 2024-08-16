@@ -21,6 +21,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
       .foregroundColor(.white)
       .clipShape(RoundedRectangle(cornerRadius: 30))
       .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+      .shadow(color: .orange.opacity(0.8), radius: 4)
   }
 }
 

@@ -26,11 +26,11 @@ public struct SineWaveAnimatableShape: Shape, Animatable {
 
   public var animatableData: AnimatablePair<CGFloat, CGFloat> {
     get {
-      return AnimatablePair(phase, frequency)
+      return AnimatablePair(phase, amplitude)
     }
     set {
       phase = newValue.first
-      frequency = newValue.second
+      amplitude = newValue.second
     }
   }
 

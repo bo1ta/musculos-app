@@ -39,27 +39,24 @@ public struct LoadableDotsButton: View {
           if isLoading {
             // mirror the text from the else statement, but with 0 opacity, to preserve the button's height
             Text(title)
-              .font(Font.body(.bold, size: 17))
+              .font(AppFont.poppins(.bold, size: 22))
               .frame(maxWidth: .infinity)
               .foregroundStyle(.white)
-              .shadow(radius: 2)
-              .shadow(color: .black.opacity(0.5), radius: 1)
               .opacity(0)
 
             LoadingDotsView(dotsColor: dotsColor, animationDuration: animationDuration)
               .frame(maxWidth: .infinity)
           } else {
             Text(title)
-              .font(Font.body(.bold, size: 17))
+              .font(AppFont.poppins(.bold, size: 22))
               .frame(maxWidth: .infinity)
               .foregroundStyle(.white)
-              .shadow(radius: 2)
-              .shadow(color: .black.opacity(0.5), radius: 1)
+              .shadow(radius: 1)
           }
         }
         })
         .buttonStyle(PrimaryButtonStyle())
-        .disabled(isLoading  || isDisabled)
+//        .disabled(isLoading  || isDisabled)
         .opacity(isDisabled ? 0.6 : 1.0)
     }
 }

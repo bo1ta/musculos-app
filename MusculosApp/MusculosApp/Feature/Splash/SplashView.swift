@@ -16,14 +16,16 @@ struct SplashView: View {
   var body: some View {
     VStack {
       if showLoginScreen {
-        AuthView(initialStep: initialAuthStep)
-          .transition(.asymmetric(insertion: .push(from: .bottom), removal: .slide))
+        AuthView(initialStep: initialAuthStep, onBack: {
+          showLoginScreen = false
+        })
+        .transition(.asymmetric(insertion: .push(from: .bottom), removal: .push(from:. top)))
       } else {
         splashScreen
-          .transition(.asymmetric(insertion: .opacity, removal: .push(from: .bottom)))
+          .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom)))
       }
     }
-    .background(.blue)
+    .background(AppColor.navyBlue)
     .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: showLoginScreen)
   }
 

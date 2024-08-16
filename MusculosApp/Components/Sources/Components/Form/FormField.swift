@@ -40,20 +40,20 @@ public struct FormField: View {
   }
 
   private var gradientRectangle: some View {
-    RoundedRectangle(cornerRadius: 15)
+    RoundedRectangle(cornerRadius: 18)
       .fill(LinearGradient(
         gradient: Gradient(colors: [Color.white, Color.white.opacity(0.9)]),
         startPoint: .top,
         endPoint: .bottom
       ))
-      .shadow(radius: 1.2)
+      .shadow(color: .gray.opacity(0.3), radius: 3)
       .frame(maxWidth: .infinity)
-      .frame(height: 55)
+      .frame(height: 50)
   }
 
   private var textHint: some View {
     Text(hint)
-      .font(Font.body(.light, size: 18))
+      .font(AppFont.poppins(.regular, size: 20))
       .foregroundStyle(hintColor)
   }
 

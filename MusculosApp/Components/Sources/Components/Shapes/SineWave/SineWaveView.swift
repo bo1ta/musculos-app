@@ -42,6 +42,7 @@ public struct SineWaveView: View {
     self.waveColors = waveColors
     self.isAnimated = isAnimated
     self.animationDuration = animationDuration
+    self._amplitude = State(initialValue: baseAmplitude)
   }
 
   public var body: some View {
@@ -61,8 +62,8 @@ public struct SineWaveView: View {
         ForEach(0..<waveCount, id: \.self) { index in
           SineWaveAnimatableShape(
             phase: phase,
-            amplitude: baseAmplitude,
-            frequency: frequency,
+            amplitude: amplitude,
+            frequency: baseFrequency,
             offset: CGFloat(index) / CGFloat(waveCount - 1),
             wavePosition: wavePosition
           )
@@ -75,7 +76,7 @@ public struct SineWaveView: View {
 
       withAnimation(.linear(duration: animationDuration).repeatForever(autoreverses: true)) {
         phase = .pi * 2
-        frequency = randomizeFrequency(baseFrequency)
+        amplitude = .pi * baseAmplitude / 1.5
       }
     }
     .ignoresSafeArea()
@@ -86,7 +87,7 @@ public struct SineWaveView: View {
       return color
     } else {
       if index == waveCount - 1 {
-        return backgroundColor
+        return waveColors?.last ?? backgroundColor
       }
       return Color.white.opacity(Double(index + 1) / Double(waveCount))
     }
