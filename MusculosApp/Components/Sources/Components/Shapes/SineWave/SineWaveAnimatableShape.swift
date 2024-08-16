@@ -24,9 +24,14 @@ public struct SineWaveAnimatableShape: Shape, Animatable {
     self.wavePosition = wavePosition
   }
 
-  public var animatableData: CGFloat {
-    get { phase }
-    set { phase = newValue }
+  public var animatableData: AnimatablePair<CGFloat, CGFloat> {
+    get {
+      return AnimatablePair(phase, frequency)
+    }
+    set {
+      phase = newValue.first
+      frequency = newValue.second
+    }
   }
 
   public func path(in rect: CGRect) -> Path {

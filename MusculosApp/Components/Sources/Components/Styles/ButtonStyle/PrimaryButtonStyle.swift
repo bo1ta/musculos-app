@@ -6,18 +6,27 @@
 //
 
 import SwiftUI
+import Utility
 
 public struct PrimaryButtonStyle: ButtonStyle {
   public init() {}
 
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .padding(18)
+      .padding(12)
       .fixedSize(horizontal: false, vertical: true)
-      .font(.body(.bold, size: 15.0))
-      .background(Color(hex: "FF5722"))
+      .background(
+        LinearGradient(colors: [AppColor.brightOrange, AppColor.lightBrown], startPoint: .center, endPoint: .bottom)
+      )
       .foregroundColor(.white)
-      .clipShape(RoundedRectangle(cornerRadius: 10))
+      .clipShape(RoundedRectangle(cornerRadius: 30))
       .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
   }
+}
+
+#Preview {
+  Button(action: {}) {
+    Text("Primary Button")
+  }
+  .buttonStyle(PrimaryButtonStyle())
 }

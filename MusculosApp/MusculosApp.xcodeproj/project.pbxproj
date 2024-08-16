@@ -96,6 +96,11 @@
 		BCAE95AA2C447FAB00AD91BE /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAE95A92C447FA800AD91BE /* UserSession.swift */; };
 		BCB724BF2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB724BE2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift */; };
 		BCBEBA342BF7C33D00FA4BF5 /* WorkoutCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBEBA332BF7C33D00FA4BF5 /* WorkoutCarousel.swift */; };
+		BCBFBC3C2C70088D0022FE88 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCBFBC392C70088D0022FE88 /* Poppins-Medium.ttf */; };
+		BCBFBC3D2C70088D0022FE88 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCBFBC382C70088D0022FE88 /* Poppins-Light.ttf */; };
+		BCBFBC3E2C70088D0022FE88 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCBFBC3A2C70088D0022FE88 /* Poppins-Regular.ttf */; };
+		BCBFBC3F2C70088D0022FE88 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCBFBC3B2C70088D0022FE88 /* Poppins-SemiBold.ttf */; };
+		BCBFBC402C70088D0022FE88 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCBFBC372C70088D0022FE88 /* Poppins-Bold.ttf */; };
 		BCC46FF42C0E2E97006D76E2 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC46FF32C0E2E97006D76E2 /* PermissionsView.swift */; };
 		BCC46FF92C0E3A7F006D76E2 /* StorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC46FF82C0E3A7F006D76E2 /* StorageHelper.swift */; };
 		BCC46FFB2C0E4A9F006D76E2 /* BulletPointText.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC46FFA2C0E4A9F006D76E2 /* BulletPointText.swift */; };
@@ -227,6 +232,11 @@
 		BCAE95A92C447FA800AD91BE /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		BCB724BE2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkoutSheetViewModel.swift; sourceTree = "<group>"; };
 		BCBEBA332BF7C33D00FA4BF5 /* WorkoutCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCarousel.swift; sourceTree = "<group>"; };
+		BCBFBC372C70088D0022FE88 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		BCBFBC382C70088D0022FE88 /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Light.ttf"; sourceTree = "<group>"; };
+		BCBFBC392C70088D0022FE88 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		BCBFBC3A2C70088D0022FE88 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		BCBFBC3B2C70088D0022FE88 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		BCC33E682BAE005E00488123 /* MusculosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MusculosApp.entitlements; sourceTree = "<group>"; };
 		BCC46FF32C0E2E97006D76E2 /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
 		BCC46FF82C0E3A7F006D76E2 /* StorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageHelper.swift; sourceTree = "<group>"; };
@@ -815,6 +825,11 @@
 		BCA24BF02B69D44600124EC3 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				BCBFBC372C70088D0022FE88 /* Poppins-Bold.ttf */,
+				BCBFBC382C70088D0022FE88 /* Poppins-Light.ttf */,
+				BCBFBC392C70088D0022FE88 /* Poppins-Medium.ttf */,
+				BCBFBC3A2C70088D0022FE88 /* Poppins-Regular.ttf */,
+				BCBFBC3B2C70088D0022FE88 /* Poppins-SemiBold.ttf */,
 				BC78274F2B9CEE7F00DFC02C /* Epilogue-Regular.ttf */,
 				BC78275F2B9CF1F300DFC02C /* Epilogue-Bold.ttf */,
 				BC7827552B9CEF4100DFC02C /* Inter-Bold.ttf */,
@@ -1075,6 +1090,11 @@
 				BC1160D72A2CFB830028D8FC /* Preview Assets.xcassets in Resources */,
 				BC7827592B9CF1BE00DFC02C /* Inter-Bold.ttf in Resources */,
 				BC78275D2B9CF1BE00DFC02C /* Inter-SemiBold.ttf in Resources */,
+				BCBFBC3C2C70088D0022FE88 /* Poppins-Medium.ttf in Resources */,
+				BCBFBC3D2C70088D0022FE88 /* Poppins-Light.ttf in Resources */,
+				BCBFBC3E2C70088D0022FE88 /* Poppins-Regular.ttf in Resources */,
+				BCBFBC3F2C70088D0022FE88 /* Poppins-SemiBold.ttf in Resources */,
+				BCBFBC402C70088D0022FE88 /* Poppins-Bold.ttf in Resources */,
 				BC7827602B9CF1F400DFC02C /* Epilogue-Bold.ttf in Resources */,
 				BC78275C2B9CF1BE00DFC02C /* Inter-Regular.ttf in Resources */,
 				BC78275E2B9CF1C200DFC02C /* Epilogue-Regular.ttf in Resources */,

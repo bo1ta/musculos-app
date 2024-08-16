@@ -23,80 +23,81 @@ struct SplashView: View {
           .transition(.asymmetric(insertion: .opacity, removal: .push(from: .bottom)))
       }
     }
+    .background(.blue)
     .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: showLoginScreen)
   }
 
   private var splashScreen: some View {
-    WaveShape()
-      .fill(
-        LinearGradient(
-          gradient: Gradient(colors: [Color.AppColor.blue800, Color.AppColor.blue700]),
-          startPoint: .bottomTrailing,
-          endPoint: .topTrailing
-        )
+    ZStack {
+      SineWaveView(
+        waveCount: 1,
+        baseAmplitude: 0.17,
+        backgroundColor: Color.white,
+        wavePosition: .top,
+        waveColors: [AppColor.navyBlue],
+        isAnimated: false
       )
-      .overlay {
-        VStack(alignment: .center) {
-          Spacer()
-          header
 
-          loginButton
-
-          dontHaveAnAccountText
-        }
-        .padding(.bottom, 80)
-      }
-      .ignoresSafeArea()
-      .background {
-        Image("workout-tools-man")
+      VStack(alignment: .center) {
+        Image("male-character-sitting")
           .resizable()
-          .aspectRatio(contentMode: .fill)
-          .ignoresSafeArea()
+          .aspectRatio(contentMode: .fit)
+          .shadow(radius: 10)
+          .frame(width: 400, height: 400)
+        Spacer()
+
+        signUpButton
+        header
+        signInButton
+
       }
+      .foregroundStyle(.red)
+      .padding(.bottom, 80)
+    }
+    .background(Color.AppColor.blue200)
   }
 
   private var header: some View {
-    Text("Start your workout plan today")
+    Text("Already a member?")
       .padding(20)
-      .font(Font.header(.bold, size: 25))
+      .font(AppFont.poppins(.semibold, size: 20))
       .foregroundStyle(.white)
   }
 
-  private var loginButton: some View {
+  private var signInButton: some View {
     Button(action: {
       lightHapticFeedback()
       withAnimation {
         showLoginScreen = true
       }
     }, label: {
-      Text("Log In")
+      Text("Sign In")
         .frame(maxWidth: .infinity)
-        .font(Font.body(.regular, size: 16))
+        .font(AppFont.poppins(.bold, size: 25))
+        .shadow(radius: 2)
     })
-    .buttonStyle(SecondaryButtonStyle())
+    .buttonStyle(PrimaryButtonStyle())
     .shadow(radius: 1.0)
-    .padding(.horizontal, 30)
+    .padding(.horizontal, 40)
   }
 
-  private var dontHaveAnAccountText: some View {
-    HStack {
-      Text("Don't have an account?")
-        .font(Font.body(.regular, size: 16))
-        .foregroundStyle(.white)
-        .shadow(radius: 0.3)
+  private var signUpButton: some View {
+    Button(action: {
+      lightHapticFeedback()
 
-      Button(action: {
-        lightHapticFeedback()
+      withAnimation {
         initialAuthStep = .register
         showLoginScreen = true
-      }, label: {
-        Text("Sign up")
-          .font(Font.body(.bold, size: 16))
-          .foregroundStyle(.white)
-          .shadow(radius: 0.3)
-      })
-    }
-    .padding(.top)
+      }
+    }, label: {
+      Text("Sign Up")
+        .frame(maxWidth: .infinity)
+        .font(AppFont.poppins(.bold, size: 25))
+        .shadow(radius: 2)
+    })
+    .buttonStyle(PrimaryButtonStyle())
+    .shadow(radius: 1.0)
+    .padding(.horizontal, 40)
   }
 
   private func lightHapticFeedback() {

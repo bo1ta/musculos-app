@@ -28,7 +28,12 @@ public extension Color {
     public static let green600 = Color("Green600")
     public static let green700 = Color("Green700")
     public static let green800 = Color("Green800")
-    
     public static let darkPurple = Color("DarkPurple")
   }
+}
+
+public struct AppColor {
+  public static let brightOrange = Color(hex: "FBC12E")
+  public static let lightBrown = Color(hex: "F18184")
+  public static let navyBlue = Color(hex: "0E2250")
 }
