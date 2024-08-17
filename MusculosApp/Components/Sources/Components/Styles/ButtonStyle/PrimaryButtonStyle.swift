@@ -13,7 +13,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
 
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .padding(12)
+      .padding(10)
       .fixedSize(horizontal: false, vertical: true)
       .background(
         LinearGradient(colors: [AppColor.brightOrange, AppColor.lightBrown], startPoint: .center, endPoint: .bottom)

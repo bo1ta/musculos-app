@@ -53,7 +53,7 @@ public struct FormField: View {
 
   private var textHint: some View {
     Text(hint)
-      .font(AppFont.poppins(.regular, size: 20))
+      .font(AppFont.poppins(.regular, size: 17))
       .foregroundStyle(hintColor)
   }
 

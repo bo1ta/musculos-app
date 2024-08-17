@@ -55,9 +55,9 @@ extension SignInView {
       viewModel.signIn()
     }, label: {
       Text("Sign In")
-        .foregroundStyle(.white)
         .frame(maxWidth: .infinity)
-        .font(AppFont.poppins(.semibold, size: 22))
+        .font(AppFont.poppins(.semibold, size: 20))
+        .shadow(radius: 2)
         .shadow(radius: 0.5)
     })
     .padding(.horizontal, 40)

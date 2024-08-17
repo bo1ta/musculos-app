@@ -62,7 +62,7 @@ struct SplashView: View {
   private var header: some View {
     Text("Already a member?")
       .padding(20)
-      .font(AppFont.poppins(.semibold, size: 20))
+      .font(AppFont.poppins(.semibold, size: 18))
       .foregroundStyle(.white)
   }
 
@@ -70,12 +70,13 @@ struct SplashView: View {
     Button(action: {
       lightHapticFeedback()
       withAnimation {
+        initialAuthStep = .login
         showLoginScreen = true
       }
     }, label: {
       Text("Sign In")
         .frame(maxWidth: .infinity)
-        .font(AppFont.poppins(.bold, size: 25))
+        .font(AppFont.poppins(.semibold, size: 20))
         .shadow(radius: 2)
     })
     .buttonStyle(PrimaryButtonStyle())
@@ -94,7 +95,7 @@ struct SplashView: View {
     }, label: {
       Text("Sign Up")
         .frame(maxWidth: .infinity)
-        .font(AppFont.poppins(.bold, size: 25))
+        .font(AppFont.poppins(.semibold, size: 20))
         .shadow(radius: 2)
     })
     .buttonStyle(PrimaryButtonStyle())

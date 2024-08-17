@@ -10,13 +10,15 @@ import SwiftUI
 import UIKit
 
 public struct SineWaveAnimatableShape: Shape, Animatable {
+  var waveSize: CGFloat
   var phase: CGFloat
   var amplitude: CGFloat
   var frequency: CGFloat
   var offset: CGFloat
   var wavePosition: WavePosition
 
-  public init(phase: CGFloat, amplitude: CGFloat, frequency: CGFloat, offset: CGFloat, wavePosition: WavePosition = .top) {
+  public init(waveSize: CGFloat, phase: CGFloat, amplitude: CGFloat, frequency: CGFloat, offset: CGFloat, wavePosition: WavePosition = .top) {
+    self.waveSize = waveSize
     self.phase = phase
     self.amplitude = amplitude
     self.frequency = frequency
@@ -24,47 +26,43 @@ public struct SineWaveAnimatableShape: Shape, Animatable {
     self.wavePosition = wavePosition
   }
 
-  public var animatableData: AnimatablePair<CGFloat, CGFloat> {
+  public var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
     get {
-      return AnimatablePair(phase, amplitude)
+      return AnimatablePair(AnimatablePair(phase, amplitude), waveSize)
     }
     set {
-      phase = newValue.first
-      amplitude = newValue.second
+      phase = newValue.first.first
+      amplitude = newValue.first.second
+      waveSize = newValue.second
     }
   }
 
   public func path(in rect: CGRect) -> Path {
-    var path = Path()
-    let width = rect.width
-    let height = rect.height
-    let midHeight = calculateMidHeight(from: height)
+    return Path { path in
+      let width = rect.width
+      let height = rect.height
+      let midHeight = calculateMidHeight(from: height)
+      path.move(to: CGPoint(x: 0, y: midHeight))
 
-    path.move(to: CGPoint(x: 0, y: midHeight))
-    
-    for x in stride(from: 0, through: width, by: 1) {
-      let relativeX = x / width
-      let y = midHeight + sin(relativeX * frequency * .pi * 2 + phase) * amplitude * height
-      path.addLine(to: CGPoint(x: x, y: y))
+      for x in stride(from: 0, through: width, by: 1) {
+        let relativeX = x / width
+        let y = midHeight + sin(relativeX * frequency * .pi * 2 + phase) * amplitude * height * waveSize
+        path.addLine(to: CGPoint(x: x, y: y))
+      }
+
+      path.addLine(to: CGPoint(x: width, y: height))
+      path.addLine(to: CGPoint(x: 0, y: height))
+      path.closeSubpath()
     }
-    
-    path.addLine(to: CGPoint(x: width, y: height))
-    path.addLine(to: CGPoint(x: 0, y: height))
-    path.closeSubpath()
-    
-    return path
   }
 
   private func calculateMidHeight(from height: CGFloat) -> CGFloat {
-    let midHeight: CGFloat
-
-    switch wavePosition {
+    let midHeight = switch wavePosition {
     case .top:
-      midHeight = height * (0.2 + 0.2 * offset)
+      height * (waveSize / 2 + 0.2 * offset)
     case .bottom:
-      midHeight = height * (0.7 + 0.2 * offset)
+      height * (1 - waveSize / 2 + 0.2 * offset)
     }
-
     return midHeight
   }
 }

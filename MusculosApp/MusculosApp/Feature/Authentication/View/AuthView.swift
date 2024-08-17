@@ -16,15 +16,12 @@ struct AuthView: View {
   @State private var viewModel: AuthViewModel
 
   // used for the wave animation
-  @State private var waveSize: Double
-  @State private var horizontalOffset: Double
+  @State private var waveSize: CGFloat
 
   var onBack: () -> Void
 
   init(initialStep: AuthViewModel.Step, onBack: @escaping () -> Void) {
-    self._waveSize = State(initialValue: initialStep == .login ? 0.1 : 0.9)
-    self._horizontalOffset = State(initialValue: initialStep == .login ? -1 : 1)
-
+    self._waveSize = State(initialValue: initialStep == .login ? 0.5 : 0.2)
     self.viewModel = AuthViewModel(initialStep: initialStep)
     self.onBack = onBack
   }
@@ -33,21 +30,10 @@ struct AuthView: View {
     ZStack {
       SineWaveView(
         waveCount: 8,
+        waveSize: $waveSize,
         backgroundColor: Color.white,
-        waveColors: [
-          AppColor.navyBlue.opacity(
-            0.3
-          ),
-          AppColor.navyBlue,
-          AppColor.navyBlue,
-          AppColor.navyBlue,
-          AppColor.navyBlue,
-          AppColor.navyBlue,
-          AppColor.navyBlue,
-          AppColor.navyBlue
-        ]
+        baseWaveColor: AppColor.navyBlue
       )
-
       authStep
     }
     .onDisappear {
@@ -86,10 +72,7 @@ struct AuthView: View {
   }
 
   private func handleStepUpdate(_ step: AuthViewModel.Step) {
-    withAnimation {
-      waveSize = step == .login ? 0.1 : 0.8
-      horizontalOffset = step == .login ? -1 : 1
-    }
+    waveSize = step == .login ? 0.5 : 0.2
   }
 
   private func handleAuthEvent(_ event: AuthViewModel.Event) {

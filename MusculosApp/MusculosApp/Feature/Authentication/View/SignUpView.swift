@@ -55,10 +55,9 @@ extension SignUpView {
       viewModel.signUp()
     }, label: {
       Text("Sign Up")
-        .foregroundStyle(.white)
         .frame(maxWidth: .infinity)
-        .font(AppFont.poppins(.semibold, size: 22))
-        .shadow(radius: 0.5)
+        .font(AppFont.poppins(.semibold, size: 20))
+        .shadow(radius: 2)
     })
     .padding(.horizontal, 40)
     .buttonStyle(PrimaryButtonStyle())
