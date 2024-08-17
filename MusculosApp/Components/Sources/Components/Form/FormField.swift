@@ -18,7 +18,7 @@ public struct FormField: View {
   public init(
     text: Binding<String>,
     hint: String,
-    hintColor: Color = .gray,
+    hintColor: Color = .black,
     keyboardType: UIKeyboardType = .default,
     isSecureField: Bool = false
   ) {

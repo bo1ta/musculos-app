@@ -78,7 +78,7 @@ struct AuthView: View {
         SignInView(viewModel: viewModel, onBack: onBack)
           .transition(.asymmetric(insertion: .push(from: .leading), removal: .push(from: .trailing)))
       case .register:
-        SignUpView(viewModel: viewModel)
+        SignUpView(viewModel: viewModel, onBack: onBack)
           .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       }
     }
