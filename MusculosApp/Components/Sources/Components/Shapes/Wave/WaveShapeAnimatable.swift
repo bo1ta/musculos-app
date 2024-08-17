@@ -55,8 +55,8 @@ public struct WaveShapeAnimatable: Shape, Animatable {
   }
   
   private func calculateWaveHeight(rectHeight: Double) -> Double {
-    let minWaveHeight = rectHeight * 0.75 // Covers 3/4 of the screen at minimum
-    let maxWaveHeight = rectHeight * 0.95 // Almost full screen at maximum
+    let minWaveHeight = rectHeight * 0.75
+    let maxWaveHeight = rectHeight * 0.95
     
     return minWaveHeight + (maxWaveHeight - minWaveHeight) * waveSize
   }
