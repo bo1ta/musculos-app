@@ -55,7 +55,7 @@ extension OnboardingWizardView {
           selectedHeight: $viewModel.selectedHeight,
           onContinue: viewModel.handleNextStep
         )
-          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+        .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       case .level:
         SelectLevelView(selectedLevel: $viewModel.selectedLevel)
           .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
