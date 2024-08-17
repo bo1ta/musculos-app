@@ -38,8 +38,8 @@ final class OnboardingWizardViewModel {
   // MARK: Observed properties
   
   var wizardStep: OnboardingWizardStep = .heightAndWeight
-  var selectedWeight: Int? = nil
-  var selectedHeight: Int? = nil
+  var selectedWeight: String = ""
+  var selectedHeight: String = ""
   var selectedGoal: OnboardingData.Goal? = nil
   var selectedLevel: OnboardingData.Level? = nil
   var selectedEquipment: OnboardingData.Equipment? = nil
@@ -107,8 +107,8 @@ final class OnboardingWizardViewModel {
 
     try await userDataStore.updateProfile(
       userId: currentUser.userId,
-      weight: selectedWeight,
-      height: selectedHeight,
+      weight: Int(selectedWeight),
+      height: Int(selectedHeight),
       primaryGoalId: goalId,
       level: selectedLevel?.title,
       isOnboarded: true
@@ -125,7 +125,7 @@ extension OnboardingWizardViewModel {
     var title: String {
       switch self {
       case .heightAndWeight:
-        "What is your weight and height?"
+        "Weight and height"
       case .level:
         "How would you describe your current workout experience level?"
       case .goal:

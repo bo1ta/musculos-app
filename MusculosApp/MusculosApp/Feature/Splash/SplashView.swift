@@ -16,9 +16,12 @@ struct SplashView: View {
   var body: some View {
     VStack {
       if showLoginScreen {
-        AuthView(initialStep: initialAuthStep, onBack: {
-          showLoginScreen = false
-        })
+        AuthView(
+          initialStep: initialAuthStep,
+          onBack: {
+            showLoginScreen = false
+          }
+        )
         .transition(.asymmetric(insertion: .push(from: .bottom), removal: .push(from:. top)))
       } else {
         splashScreen

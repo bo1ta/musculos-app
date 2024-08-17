@@ -29,11 +29,6 @@ struct OnboardingWizardView: View {
       handleEvent(event)
     }
     .onDisappear(perform: viewModel.cleanUp)
-    .safeAreaInset(edge: .bottom) {
-      if viewModel.wizardStep != .permissions {
-        primaryButton
-      }
-    }
     .padding(.horizontal, 10)
   }
 
@@ -43,6 +38,7 @@ struct OnboardingWizardView: View {
       userStore.updateIsOnboarded(true)
     case .didFinishWithError(let error):
       appManager.showToast(style: .warning, message: "Could not save onboarding data.")
+      MusculosLogger.logError(error, message: "Did finish onboarding with error", category: .ui)
     }
   }
 }
@@ -54,7 +50,11 @@ extension OnboardingWizardView {
     Group {
       switch viewModel.wizardStep {
       case .heightAndWeight:
-        SelectSizeView(selectedWeight: $viewModel.selectedWeight, selectedHeight: $viewModel.selectedHeight)
+        SelectSizeView(
+          selectedWeight: $viewModel.selectedWeight,
+          selectedHeight: $viewModel.selectedHeight,
+          onContinue: viewModel.handleNextStep
+        )
           .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       case .level:
         SelectLevelView(selectedLevel: $viewModel.selectedLevel)
@@ -76,7 +76,7 @@ extension OnboardingWizardView {
 
   private var header: some View {
     Text(viewModel.wizardStep.title)
-      .font(.header(.bold, size: 30))
+      .font(AppFont.poppins(.bold, size: 30))
       .padding(.top, 20)
       .lineLimit(10)
   }
