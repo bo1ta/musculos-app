@@ -91,7 +91,6 @@
 		BCA24C0F2B6B2B5D00124EC3 /* SelectGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */; };
 		BCA24C142B6C203600124EC3 /* SizePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C132B6C203600124EC3 /* SizePickerView.swift */; };
 		BCA600592C5BDE200063C5AB /* PublisherValueExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA600582C5BDE190063C5AB /* PublisherValueExpectation.swift */; };
-		BCA905022C5994A7000BE5FF /* SplashLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA905012C5994A7000BE5FF /* SplashLoadingView.swift */; };
 		BCAE95A52C4472C000AD91BE /* RecommendationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAE95A42C4472B700AD91BE /* RecommendationEngine.swift */; };
 		BCAE95AA2C447FAB00AD91BE /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAE95A92C447FA800AD91BE /* UserSession.swift */; };
 		BCB724BF2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB724BE2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift */; };
@@ -227,7 +226,6 @@
 		BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGoalView.swift; sourceTree = "<group>"; };
 		BCA24C132B6C203600124EC3 /* SizePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePickerView.swift; sourceTree = "<group>"; };
 		BCA600582C5BDE190063C5AB /* PublisherValueExpectation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherValueExpectation.swift; sourceTree = "<group>"; };
-		BCA905012C5994A7000BE5FF /* SplashLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashLoadingView.swift; sourceTree = "<group>"; };
 		BCAE95A42C4472B700AD91BE /* RecommendationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationEngine.swift; sourceTree = "<group>"; };
 		BCAE95A92C447FA800AD91BE /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		BCB724BE2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkoutSheetViewModel.swift; sourceTree = "<group>"; };
@@ -866,7 +864,6 @@
 			isa = PBXGroup;
 			children = (
 				BCA24BEE2B69D3AE00124EC3 /* SplashView.swift */,
-				BCA905012C5994A7000BE5FF /* SplashLoadingView.swift */,
 			);
 			path = Splash;
 			sourceTree = "<group>";
@@ -1136,7 +1133,6 @@
 				BC781FFC2B9B5E3E009F9FB5 /* OverviewView.swift in Sources */,
 				BC81E5D32BD2FC730005891D /* SingleOptionSelectView.swift in Sources */,
 				BCD59A952BB627CE0039F662 /* ExerciseContentLoadingView.swift in Sources */,
-				BCA905022C5994A7000BE5FF /* SplashLoadingView.swift in Sources */,
 				BC7827642B9D1D1000DFC02C /* AuthViewModel.swift in Sources */,
 				BC7820042B9B692E009F9FB5 /* HighlightCard.swift in Sources */,
 				BC52DDD12B8516B8005A4587 /* MusculosClient.swift in Sources */,

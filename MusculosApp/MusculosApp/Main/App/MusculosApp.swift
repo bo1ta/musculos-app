@@ -9,9 +9,11 @@ import SwiftUI
 import HealthKit
 import Storage
 import Models
+import Components
 
 struct MusculosApp: App {
   @State private var appState: AppState = .loading
+  @State private var progress: Double = 0.0
   @State private var userStore = UserStore()
   @State private var exerciseStore = StorageStore<ExerciseEntity>()
   @State private var healthKitViewModel = HealthKitViewModel()
@@ -25,7 +27,7 @@ struct MusculosApp: App {
         Group {
           switch appState {
           case .loading:
-            SplashLoadingView()
+            LoadingOverlayView(progress: $progress)
           case .loggedOut:
             SplashView()
               .transition(.asymmetric(insertion: .opacity, removal: .identity))
@@ -70,7 +72,11 @@ struct MusculosApp: App {
   }
 
   private func loadInitialState() async {
+    progress = 0.1
+
     await userStore.initialLoad()
+
+    progress = 0.9
 
     if userStore.isLoggedIn {
       if !userStore.isOnboarded {
