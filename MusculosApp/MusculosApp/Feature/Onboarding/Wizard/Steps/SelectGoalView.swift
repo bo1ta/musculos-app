@@ -26,13 +26,8 @@ struct SelectGoalView: View {
       }
     }
     .safeAreaInset(edge: .bottom, content: {
-      Button(action: onContinue, label: {
-        Text("Continue")
-          .font(AppFont.poppins(.medium, size: 18))
-          .frame(maxWidth: .infinity)
-      })
-      .buttonStyle(PrimaryButtonStyle())
-      .padding(.horizontal, 40)
+      PrimaryButton(title: "Continue", action: onContinue)
+      .padding(.horizontal, 20)
       .padding(.top, 30)
     })
     .padding(20)

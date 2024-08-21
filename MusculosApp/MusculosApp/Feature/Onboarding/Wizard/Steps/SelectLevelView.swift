@@ -37,20 +37,14 @@ struct SelectLevelView: View {
       }
     }
     .safeAreaInset(edge: .bottom) {
-      Button(action: onContinue, label: {
-        Text("Continue")
-          .font(AppFont.poppins(.bold, size: 14))
-          .frame(maxWidth: .infinity)
-      })
-      .buttonStyle(PrimaryButtonStyle())
-      .padding(.horizontal, 40)
-      .padding(.top, 30)
+      PrimaryButton(title: "Continue", action: onContinue)
+        .padding(.horizontal, 40)
+        .padding(.top, 30)
     }
   }
 
   @ViewBuilder
   private func makeStarsImage(for level: OnboardingData.Level) -> some View {
-    let isSelected = level == selectedLevel
     let imageName = isLevelSelected(level) ? "star-icon" : "star-icon-empty"
 
     let numberofStars = switch level {

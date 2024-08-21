@@ -41,17 +41,12 @@ struct SelectSizeView: View {
         }
         .padding(.bottom, 50)
 
-        Button(action: onContinue, label: {
-          Text("Continue")
-            .font(AppFont.poppins(.bold, size: 18))
-            .frame(maxWidth: .infinity)
-        })
-        .buttonStyle(PrimaryButtonStyle())
+        PrimaryButton(title: "Continue", action: onContinue)
 
         Image("female-character-question")
           .resizable()
           .aspectRatio(contentMode: .fit)
-          .frame(width: 500, height: 500)
+          .frame(width: 300, height: 300)
       }
       .padding(.horizontal, 50)
     }
