@@ -79,20 +79,27 @@ final class OnboardingWizardViewModel {
   private let _event = PassthroughSubject<Event, Never>()
 
   private func updateData() {
-    updateTask = Task {
+    updateTask = Task.detached { [weak self] in
+      guard let self else { return }
+
       do {
         async let goalTask: Void = updateGoal()
         async let userTask: Void = updateUser()
-
         _ = try await (goalTask, userTask)
-        _event.send(.didFinishOnboarding)
+
+        await sendEvent(.didFinishOnboarding)
       } catch {
-        _event.send(.didFinishWithError(error))
+        await sendEvent(.didFinishWithError(error))
         MusculosLogger.logError(error, message: "Could not save onboarding data", category: .coreData)
       }
     }
   }
-  
+
+  @MainActor
+  private func sendEvent(_ event: Event) {
+    _event.send(event)
+  }
+
   private func updateGoal() async throws {
     guard let selectedGoal else { return }
     
