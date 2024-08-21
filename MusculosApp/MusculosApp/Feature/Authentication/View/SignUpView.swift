@@ -19,9 +19,11 @@ struct SignUpView: View {
 
       headerStack
         .padding(.bottom, 40)
-      
+
       registerForm
-      signUpButton
+
+      PrimaryButton(title: "Sign up", action: viewModel.signUp)
+        .padding(.horizontal, 15)
         .padding(.top, 10)
 
       Spacer()
@@ -49,20 +51,6 @@ struct SignUpView: View {
 // MARK: - Subviews
 
 extension SignUpView {
-
-  private var signUpButton: some View {
-    Button(action: {
-      viewModel.signUp()
-    }, label: {
-      Text("Sign Up")
-        .frame(maxWidth: .infinity)
-        .font(AppFont.poppins(.semibold, size: 20))
-        .shadow(radius: 2)
-    })
-    .padding(.horizontal, 40)
-    .buttonStyle(PrimaryButtonStyle())
-  }
-
   private var headerStack: some View {
     HStack {
       Button(action: onBack, label: {

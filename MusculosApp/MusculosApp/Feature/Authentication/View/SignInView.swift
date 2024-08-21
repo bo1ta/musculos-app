@@ -20,7 +20,10 @@ struct SignInView: View {
     VStack {
       headerStack
       loginForm
-      loginButton
+
+      PrimaryButton(title: "Sign in", action: viewModel.signIn)
+        .padding(.horizontal, 15)
+
       dontHaveAnAccountSection
 
       Spacer()
@@ -50,20 +53,6 @@ extension SignInView {
     }
   }
 
-  private var loginButton: some View {
-    Button(action: {
-      viewModel.signIn()
-    }, label: {
-      Text("Sign In")
-        .frame(maxWidth: .infinity)
-        .font(AppFont.poppins(.semibold, size: 20))
-        .shadow(radius: 2)
-        .shadow(radius: 0.5)
-    })
-    .padding(.horizontal, 40)
-    .buttonStyle(PrimaryButtonStyle())
-  }
-
   @ViewBuilder
   private var loginForm: some View {
     @Bindable var viewModel = viewModel
@@ -91,6 +80,7 @@ extension SignInView {
         .font(Font.body(.regular, size: 16))
         .foregroundStyle(.gray)
         .shadow(radius: 0.3)
+      
       Button(action: {
         viewModel.step = .register
       }, label: {

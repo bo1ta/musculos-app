@@ -20,8 +20,9 @@ public struct PrimaryButton: View {
   public var body: some View {
     Button(action: action, label: {
       Text(title)
-        .font(AppFont.poppins(.bold, size: 18))
+        .font(AppFont.poppins(.semibold, size: 18))
         .frame(maxWidth: .infinity)
+        .shadow(radius: 1)
     })
     .buttonStyle(PrimaryButtonStyle())
   }

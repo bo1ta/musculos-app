@@ -51,10 +51,13 @@ struct SplashView: View {
           .frame(width: 400, height: 400)
         Spacer()
 
-        signUpButton
-        header
-        signInButton
+        PrimaryButton(title: "Sign up", action: goToSignUp)
+          .padding(.horizontal, 40)
 
+        header
+
+        PrimaryButton(title: "Sign In", action: goToSignIn)
+          .padding(.horizontal, 40)
       }
       .foregroundStyle(.red)
       .padding(.bottom, 80)
@@ -69,41 +72,22 @@ struct SplashView: View {
       .foregroundStyle(.white)
   }
 
-  private var signInButton: some View {
-    Button(action: {
-      lightHapticFeedback()
-      withAnimation {
-        initialAuthStep = .login
-        showLoginScreen = true
-      }
-    }, label: {
-      Text("Sign In")
-        .frame(maxWidth: .infinity)
-        .font(AppFont.poppins(.semibold, size: 20))
-        .shadow(radius: 2)
-    })
-    .buttonStyle(PrimaryButtonStyle())
-    .shadow(radius: 1.0)
-    .padding(.horizontal, 40)
+  private func goToSignIn() {
+    lightHapticFeedback()
+
+    withAnimation {
+      initialAuthStep = .login
+      showLoginScreen = true
+    }
   }
 
-  private var signUpButton: some View {
-    Button(action: {
-      lightHapticFeedback()
+  private func goToSignUp() {
+    lightHapticFeedback()
 
-      withAnimation {
-        initialAuthStep = .register
-        showLoginScreen = true
-      }
-    }, label: {
-      Text("Sign Up")
-        .frame(maxWidth: .infinity)
-        .font(AppFont.poppins(.semibold, size: 20))
-        .shadow(radius: 2)
-    })
-    .buttonStyle(PrimaryButtonStyle())
-    .shadow(radius: 1.0)
-    .padding(.horizontal, 40)
+    withAnimation {
+      initialAuthStep = .register
+      showLoginScreen = true
+    }
   }
 
   private func lightHapticFeedback() {
