@@ -6,19 +6,53 @@
 //
 
 import SwiftUI
+import Components
+import Utility
 
 struct SelectSizeView: View {
-  @Binding var selectedWeight: Int?
-  @Binding var selectedHeight: Int?
-  
-    var body: some View {
-      VStack {
-        SizePickerView(value: $selectedWeight, description: "Weight", unit: "KG", options: Array(30...250), showCheckMark: selectedWeight != nil)
-        SizePickerView(value: $selectedHeight, description: "Height", unit: "CM", options: Array(100...230), showCheckMark: selectedHeight != nil)
+  @Binding var selectedWeight: String
+  @Binding var selectedHeight: String
+
+  let onContinue: () -> Void
+
+  var body: some View {
+    VStack {
+      Header(text: "Select your weight and height")
+        .padding([.horizontal, .vertical], 20)
+        .padding(.top, 20)
+
+      Group {
+        HStack {
+          FormField(
+            text: $selectedWeight,
+            hint: "Weight",
+            keyboardType: .numberPad
+          )
+          .frame(width: 100)
+
+          Spacer()
+
+          FormField(
+            text: $selectedHeight,
+            hint: "Height",
+            keyboardType: .numberPad
+          )
+          .frame(width: 100)
+        }
+        .padding(.bottom, 50)
+
+        PrimaryButton(title: "Continue", action: onContinue)
+
+        Image("female-character-question")
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .frame(width: 300, height: 300)
       }
+      .padding(.horizontal, 50)
     }
+  }
 }
 
 #Preview {
-  SelectSizeView(selectedWeight: .constant(120), selectedHeight: .constant(nil))
+  SelectSizeView(selectedWeight: .constant("120"), selectedHeight: .constant("120"), onContinue: {})
 }

@@ -23,13 +23,25 @@ public struct AppFont {
     case light = "Inter-Light"
     case thin = "Inter-Thin"
   }
-  
+
+  public enum Poppins: String {
+    case regular = "Poppins-Regular"
+    case medium = "Poppins-Medium"
+    case bold = "Poppins-Bold"
+    case light = "Poppins-Light"
+    case semibold = "Poppins-SemiBold"
+  }
+
   public static func header(_ headerType: AppFont.Header, size: CGFloat = 12.0) -> Font {
     return Font.custom(headerType.rawValue, size: size)
   }
   
   public static func body(_ bodyType: AppFont.Body, size: CGFloat = 12.0) -> Font {
     return Font.custom(bodyType.rawValue, size: size)
+  }
+
+  public static func poppins(_ type: Poppins, size: CGFloat = 14.0) -> Font {
+    return Font.custom(type.rawValue, size: size)
   }
 }
 

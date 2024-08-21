@@ -11,20 +11,20 @@ import Utility
 
 struct SignUpView: View {
   @Bindable var viewModel: AuthViewModel
+  let onBack: () -> Void
 
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
       Spacer()
 
-      header
+      headerStack
+        .padding(.bottom, 40)
+
       registerForm
-      LoadableDotsButton(
-        title: "Sign Up",
-        isLoading: viewModel.makeLoadingBinding(),
-        isDisabled: !viewModel.isRegisterFormValid,
-        action: viewModel.signUp
-      )
-      .padding(.top, 10)
+
+      PrimaryButton(title: "Sign up", action: viewModel.signUp)
+        .padding(.horizontal, 15)
+        .padding(.top, 10)
 
       Spacer()
     }
@@ -51,11 +51,21 @@ struct SignUpView: View {
 // MARK: - Subviews
 
 extension SignUpView {
-
-  private var header: some View {
-    Text("Sign Up")
-      .font(.header(.bold, size: 45))
-      .foregroundStyle(.white)
+  private var headerStack: some View {
+    HStack {
+      Button(action: onBack, label: {
+        Image(systemName: "chevron.left")
+          .font(AppFont.header(.bold, size: 25))
+          .foregroundStyle(.black)
+      })
+      Spacer()
+      Text("Sign Up")
+        .font(AppFont.poppins(.bold, size: 35))
+        .foregroundColor(.black)
+        .shadow(color: .black.opacity(0.5), radius: 2.5)
+        .padding(.trailing, 20)
+      Spacer()
+    }
   }
 
   private var backButton: some View {
@@ -97,5 +107,5 @@ extension SignUpView {
 }
 
 #Preview {
-  SignUpView(viewModel: AuthViewModel(initialStep: .login))
+  AuthView(initialStep: .register, onBack: {})
 }

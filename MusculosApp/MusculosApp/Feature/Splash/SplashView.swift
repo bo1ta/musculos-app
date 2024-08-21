@@ -16,87 +16,78 @@ struct SplashView: View {
   var body: some View {
     VStack {
       if showLoginScreen {
-        AuthView(initialStep: initialAuthStep)
-          .transition(.asymmetric(insertion: .push(from: .bottom), removal: .slide))
+        AuthView(
+          initialStep: initialAuthStep,
+          onBack: {
+            showLoginScreen = false
+          }
+        )
+        .transition(.asymmetric(insertion: .push(from: .bottom), removal: .push(from:. top)))
       } else {
         splashScreen
-          .transition(.asymmetric(insertion: .opacity, removal: .push(from: .bottom)))
+          .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom)))
       }
     }
+    .background(AppColor.navyBlue)
     .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: showLoginScreen)
   }
 
   private var splashScreen: some View {
-    WaveShape()
-      .fill(
-        LinearGradient(
-          gradient: Gradient(colors: [Color.AppColor.blue800, Color.AppColor.blue700]),
-          startPoint: .bottomTrailing,
-          endPoint: .topTrailing
-        )
+    ZStack {
+      SineWaveView(
+        waveCount: 1,
+        baseAmplitude: 0.17,
+        backgroundColor: Color.white,
+        wavePosition: .top,
+        waveColors: [AppColor.navyBlue],
+        isAnimated: false
       )
-      .overlay {
-        VStack(alignment: .center) {
-          Spacer()
-          header
 
-          loginButton
-
-          dontHaveAnAccountText
-        }
-        .padding(.bottom, 80)
-      }
-      .ignoresSafeArea()
-      .background {
-        Image("workout-tools-man")
+      VStack(alignment: .center) {
+        Image("male-character-sitting")
           .resizable()
-          .aspectRatio(contentMode: .fill)
-          .ignoresSafeArea()
+          .aspectRatio(contentMode: .fit)
+          .shadow(radius: 10)
+          .frame(width: 400, height: 400)
+        Spacer()
+
+        PrimaryButton(title: "Sign up", action: goToSignUp)
+          .padding(.horizontal, 40)
+
+        header
+
+        PrimaryButton(title: "Sign In", action: goToSignIn)
+          .padding(.horizontal, 40)
       }
+      .foregroundStyle(.red)
+      .padding(.bottom, 80)
+    }
+    .background(Color.AppColor.blue200)
   }
 
   private var header: some View {
-    Text("Start your workout plan today")
+    Text("Already a member?")
       .padding(20)
-      .font(Font.header(.bold, size: 25))
+      .font(AppFont.poppins(.semibold, size: 18))
       .foregroundStyle(.white)
   }
 
-  private var loginButton: some View {
-    Button(action: {
-      lightHapticFeedback()
-      withAnimation {
-        showLoginScreen = true
-      }
-    }, label: {
-      Text("Log In")
-        .frame(maxWidth: .infinity)
-        .font(Font.body(.regular, size: 16))
-    })
-    .buttonStyle(SecondaryButtonStyle())
-    .shadow(radius: 1.0)
-    .padding(.horizontal, 30)
+  private func goToSignIn() {
+    lightHapticFeedback()
+
+    withAnimation {
+      initialAuthStep = .login
+      showLoginScreen = true
+    }
   }
 
-  private var dontHaveAnAccountText: some View {
-    HStack {
-      Text("Don't have an account?")
-        .font(Font.body(.regular, size: 16))
-        .foregroundStyle(.white)
-        .shadow(radius: 0.3)
+  private func goToSignUp() {
+    lightHapticFeedback()
 
-      Button(action: {
-        lightHapticFeedback()
-        initialAuthStep = .register
-        showLoginScreen = true
-      }, label: {
-        Text("Sign up")
-          .font(Font.body(.bold, size: 16))
-          .foregroundStyle(.white)
-          .shadow(radius: 0.3)
-      })
+    withAnimation {
+      initialAuthStep = .register
+      showLoginScreen = true
     }
-    .padding(.top)
   }
 
   private func lightHapticFeedback() {

@@ -11,51 +11,58 @@ import Utility
 public struct FormField: View {
   private let text: Binding<String>
   private let hint: String
+  private let hintColor: Color
   private let keyboardType: UIKeyboardType
   private let isSecureField: Bool
 
   public init(
     text: Binding<String>,
     hint: String,
+    hintColor: Color = .black,
     keyboardType: UIKeyboardType = .default,
     isSecureField: Bool = false
   ) {
     self.text = text
     self.hint = hint
+    self.hintColor = hintColor
     self.keyboardType = keyboardType
     self.isSecureField = isSecureField
   }
 
   public var body: some View {
-    VStack {
-      RoundedRectangle(cornerRadius: 10)
-        .foregroundStyle(.white)
-        .shadow(radius: 1.2)
-        .frame(maxWidth: .infinity)
-        .frame(height: 45)
-        .overlay {
-          RoundedRectangle(cornerRadius: 10)
-            .stroke(lineWidth: 1)
-            .foregroundStyle(Color.gray.opacity(0.7))
-        }
+    VStack(alignment: .leading) {
+      textHint
+
+      gradientRectangle
         .overlay { field }
         .shadow(radius: 0.3)
     }
   }
 
-  private var textHint: some View {
-    Text(hint)
-      .font(Font.body(.light, size: 15))
-      .foregroundStyle(.gray.opacity(0.9))
+  private var gradientRectangle: some View {
+    RoundedRectangle(cornerRadius: 18)
+      .fill(LinearGradient(
+        gradient: Gradient(colors: [Color.white, Color.white.opacity(0.9)]),
+        startPoint: .top,
+        endPoint: .bottom
+      ))
+      .shadow(color: .gray.opacity(0.3), radius: 3)
+      .frame(maxWidth: .infinity)
+      .frame(height: 50)
   }
 
-  @ViewBuilder
+  private var textHint: some View {
+    Text(hint)
+      .font(AppFont.poppins(.regular, size: 17))
+      .foregroundStyle(hintColor)
+  }
+
   private var field: some View {
     Group {
       if isSecureField {
-        SecureField(text: text, label: { textHint })
+        SecureField(text: text, label: { })
       } else {
-        TextField(text: text, label: { textHint })
+        TextField(text: text, label: { })
       }
     }
     .foregroundStyle(.black)
@@ -67,5 +74,5 @@ public struct FormField: View {
 }
 
 #Preview {
-  FormField(text: .constant(""), hint: "Username", keyboardType: .decimalPad)
+  FormField(text: .constant(""), hint: "Username", hintColor: .indigo, keyboardType: .decimalPad)
 }

@@ -19,8 +19,6 @@ struct OnboardingWizardView: View {
     VStack {
       backButton
 
-      header
-
       currentWizardStep
 
       Spacer()
@@ -29,11 +27,6 @@ struct OnboardingWizardView: View {
       handleEvent(event)
     }
     .onDisappear(perform: viewModel.cleanUp)
-    .safeAreaInset(edge: .bottom) {
-      if viewModel.wizardStep != .permissions {
-        primaryButton
-      }
-    }
     .padding(.horizontal, 10)
   }
 
@@ -43,6 +36,7 @@ struct OnboardingWizardView: View {
       userStore.updateIsOnboarded(true)
     case .didFinishWithError(let error):
       appManager.showToast(style: .warning, message: "Could not save onboarding data.")
+      MusculosLogger.logError(error, message: "Did finish onboarding with error", category: .ui)
     }
   }
 }
@@ -54,31 +48,34 @@ extension OnboardingWizardView {
     Group {
       switch viewModel.wizardStep {
       case .heightAndWeight:
-        SelectSizeView(selectedWeight: $viewModel.selectedWeight, selectedHeight: $viewModel.selectedHeight)
-          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+        SelectSizeView(
+          selectedWeight: $viewModel.selectedWeight,
+          selectedHeight: $viewModel.selectedHeight,
+          onContinue: viewModel.handleNextStep
+        )
+        .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       case .level:
-        SelectLevelView(selectedLevel: $viewModel.selectedLevel)
-          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+        SelectLevelView(
+          selectedLevel: $viewModel.selectedLevel,
+          onContinue: viewModel.handleNextStep
+        )
+        .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       case .goal:
-        SelectGoalView(selectedGoal: $viewModel.selectedGoal)
-          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
-      case .equipment:
-        SelectEquipmentView(selectedEquipment: $viewModel.selectedEquipment)
-          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+        SelectGoalView(
+          selectedGoal: $viewModel.selectedGoal,
+          onContinue: viewModel.handleNextStep
+        )
+        .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       case .permissions:
         PermissionsView(onDone: viewModel.handleNextStep)
           .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .push(from: .top)))
       }
     }
     .animation(.easeInOut(duration: 0.2), value: viewModel.wizardStep)
-    .padding(.top, 24)
-  }
-
-  private var header: some View {
-    Text(viewModel.wizardStep.title)
-      .font(.header(.bold, size: 30))
-      .padding(.top, 20)
-      .lineLimit(10)
+    .dismissingGesture(
+      direction: .left,
+      action: viewModel.handleBack
+    )
   }
 
   private var backButton: some View {
@@ -94,15 +91,6 @@ extension OnboardingWizardView {
       }
       .padding(.horizontal, 20)
     }
-  }
-  
-  private var primaryButton: some View {
-    Button(action: viewModel.handleNextStep, label: {
-      Text("Continue")
-        .frame(maxWidth: .infinity)
-    })
-    .buttonStyle(PrimaryButtonStyle())
-    .padding(.bottom, 20)
   }
 }
 

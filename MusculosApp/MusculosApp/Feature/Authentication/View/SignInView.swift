@@ -11,21 +11,24 @@ import Components
 
 struct SignInView: View {
   @Environment(\.userStore) private var userStore
+  @Environment(\.navigationRouter) private var navigationRouter
   @Bindable var viewModel: AuthViewModel
 
+  var onBack: () -> Void
+
   var body: some View {
-    VStack(alignment: .center) {
-      header
+    VStack {
+      headerStack
       loginForm
-      LoadableDotsButton(
-        title: "Sign In",
-        isLoading: viewModel.makeLoadingBinding(),
-        isDisabled: !viewModel.isLoginFormValid,
-        action: viewModel.signIn
-      )
+
+      PrimaryButton(title: "Sign in", action: viewModel.signIn)
+        .padding(.horizontal, 15)
+
       dontHaveAnAccountSection
+
+      Spacer()
     }
-    .padding(.horizontal, 20)
+    .padding([.horizontal, .vertical], 35)
   }
 }
 
@@ -33,25 +36,38 @@ struct SignInView: View {
 
 extension SignInView {
 
-  private var header: some View {
-    Text(headerTitle)
-      .font(.header(.bold, size: 45))
-      .foregroundColor(.white)
-      .shadow(color: .black.opacity(0.5), radius: 1)
+  private var headerStack: some View {
+    HStack {
+      Button(action: onBack, label: {
+        Image(systemName: "chevron.left")
+          .font(AppFont.header(.bold, size: 25))
+          .foregroundStyle(.black)
+      })
+      Spacer()
+      Text("Sign In")
+        .font(AppFont.poppins(.bold, size: 35))
+        .foregroundColor(.black)
+        .shadow(color: .black.opacity(0.5), radius: 2.5)
+        .padding(.trailing, 20)
+      Spacer()
+    }
   }
 
   @ViewBuilder
   private var loginForm: some View {
     @Bindable var viewModel = viewModel
+    let hintColor = Color.black
 
-    VStack(alignment: .center, spacing: 15) {
+    VStack(spacing: 15) {
       FormField(
         text: $viewModel.email,
-        hint: "Email"
+        hint: "Email",
+        hintColor: hintColor
       )
       FormField(
         text: $viewModel.password,
         hint: "Password",
+        hintColor: hintColor,
         isSecureField: true
       )
     }
@@ -62,14 +78,15 @@ extension SignInView {
     HStack {
       Text("Don't have an account?")
         .font(Font.body(.regular, size: 16))
-        .foregroundStyle(.white)
+        .foregroundStyle(.gray)
         .shadow(radius: 0.3)
+      
       Button(action: {
         viewModel.step = .register
       }, label: {
         Text("Sign up")
           .font(Font.body(.bold, size: 16))
-          .foregroundStyle(.white)
+          .foregroundStyle(.gray)
           .shadow(radius: 0.3)
       })
     }
@@ -77,19 +94,6 @@ extension SignInView {
   }
 }
 
-// MARK: - Constants
-
-extension SignInView {
-  private var headerTitle: String {
-    "Welcome back!"
-  }
-
-  private var dontHaveAnAccountTitle: String {
-    "Don't have an account? Sign up now"
-  }
-}
-
-
 #Preview {
-  AuthView(initialStep: .login)
+  AuthView(initialStep: .login, onBack: {})
 }

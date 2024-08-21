@@ -38,8 +38,8 @@ final class OnboardingWizardViewModel {
   // MARK: Observed properties
   
   var wizardStep: OnboardingWizardStep = .heightAndWeight
-  var selectedWeight: Int? = nil
-  var selectedHeight: Int? = nil
+  var selectedWeight: String = ""
+  var selectedHeight: String = ""
   var selectedGoal: OnboardingData.Goal? = nil
   var selectedLevel: OnboardingData.Level? = nil
   var selectedEquipment: OnboardingData.Equipment? = nil
@@ -79,20 +79,27 @@ final class OnboardingWizardViewModel {
   private let _event = PassthroughSubject<Event, Never>()
 
   private func updateData() {
-    updateTask = Task {
+    updateTask = Task.detached { [weak self] in
+      guard let self else { return }
+
       do {
         async let goalTask: Void = updateGoal()
         async let userTask: Void = updateUser()
-
         _ = try await (goalTask, userTask)
-        _event.send(.didFinishOnboarding)
+
+        await sendEvent(.didFinishOnboarding)
       } catch {
-        _event.send(.didFinishWithError(error))
+        await sendEvent(.didFinishWithError(error))
         MusculosLogger.logError(error, message: "Could not save onboarding data", category: .coreData)
       }
     }
   }
-  
+
+  @MainActor
+  private func sendEvent(_ event: Event) {
+    _event.send(event)
+  }
+
   private func updateGoal() async throws {
     guard let selectedGoal else { return }
     
@@ -107,8 +114,8 @@ final class OnboardingWizardViewModel {
 
     try await userDataStore.updateProfile(
       userId: currentUser.userId,
-      weight: selectedWeight,
-      height: selectedHeight,
+      weight: Int(selectedWeight),
+      height: Int(selectedHeight),
       primaryGoalId: goalId,
       level: selectedLevel?.title,
       isOnboarded: true
@@ -120,18 +127,16 @@ final class OnboardingWizardViewModel {
 
 extension OnboardingWizardViewModel {
   enum OnboardingWizardStep: Int {
-    case heightAndWeight, level, goal, equipment, permissions
+    case heightAndWeight, level, goal, permissions
     
     var title: String {
       switch self {
       case .heightAndWeight:
-        "What is your weight and height?"
+        "Weight and height"
       case .level:
         "How would you describe your current workout experience level?"
       case .goal:
         "What is your goal?"
-      case .equipment:
-        "What equipment do you have access to?"
       case .permissions:
         "Permissions"
       }
