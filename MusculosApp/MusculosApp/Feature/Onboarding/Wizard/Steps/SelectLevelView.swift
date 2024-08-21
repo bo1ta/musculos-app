@@ -21,26 +21,36 @@ struct SelectLevelView: View {
       Header(text: "Select your level")
         .padding(.top, 20)
 
+      Spacer()
+
       ForEach(OnboardingData.Level.allCases, id: \.self) { level in
-        Button(action: {
-          selectedLevel = level
-        }, label: {
-          DetailCard(
-            text: level.title,
-            font: AppFont.poppins(.medium, size: 18),
-            isSelected: isLevelSelected(level),
-            content: {
-              makeStarsImage(for: level)
-            })
-          .animation(.smooth, value: selectedLevel)
-        })
+        makeButtonCard(for: level)
       }
+      .padding(.top, 7)
+
+      Spacer()
     }
     .safeAreaInset(edge: .bottom) {
       PrimaryButton(title: "Continue", action: onContinue)
-        .padding(.horizontal, 40)
+        .padding(.horizontal, 30)
         .padding(.top, 30)
     }
+    .padding(20)
+  }
+
+  private func makeButtonCard(for level: OnboardingData.Level) -> some View {
+    Button(action: {
+      selectedLevel = level
+    }, label: {
+      DetailCard(
+        text: level.title,
+        font: AppFont.poppins(.medium, size: 18),
+        isSelected: isLevelSelected(level),
+        content: {
+          makeStarsImage(for: level)
+        })
+      .animation(.smooth, value: selectedLevel)
+    })
   }
 
   @ViewBuilder

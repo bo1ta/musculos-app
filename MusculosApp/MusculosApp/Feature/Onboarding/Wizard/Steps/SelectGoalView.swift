@@ -17,17 +17,21 @@ struct SelectGoalView: View {
 
   var body: some View {
     VStack(spacing: 15) {
-      Header(text: "Select your goal")
+      Header(text: "Select the goal you want to focus on")
         .padding(.vertical, 20)
         .padding(.top, 20)
+
+      Spacer()
 
       ForEach(OnboardingData.Goal.allCases, id: \.self) { goal in
         makeDetailCardButton(for: goal)
       }
+      .padding(.top, 8)
+      Spacer()
     }
     .safeAreaInset(edge: .bottom, content: {
       PrimaryButton(title: "Continue", action: onContinue)
-      .padding(.horizontal, 20)
+      .padding(.horizontal, 30)
       .padding(.top, 30)
     })
     .padding(20)

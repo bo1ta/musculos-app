@@ -72,14 +72,10 @@ extension OnboardingWizardView {
       }
     }
     .animation(.easeInOut(duration: 0.2), value: viewModel.wizardStep)
-    .padding(.top, 24)
-  }
-
-  private var header: some View {
-    Text(viewModel.wizardStep.title)
-      .font(AppFont.poppins(.bold, size: 30))
-      .padding(.top, 20)
-      .lineLimit(10)
+    .dismissingGesture(
+      direction: .left,
+      action: viewModel.handleBack
+    )
   }
 
   private var backButton: some View {
@@ -95,15 +91,6 @@ extension OnboardingWizardView {
       }
       .padding(.horizontal, 20)
     }
-  }
-  
-  private var primaryButton: some View {
-    Button(action: viewModel.handleNextStep, label: {
-      Text("Continue")
-        .frame(maxWidth: .infinity)
-    })
-    .buttonStyle(PrimaryButtonStyle())
-    .padding(.bottom, 20)
   }
 }
 
