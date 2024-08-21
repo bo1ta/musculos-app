@@ -19,8 +19,6 @@ struct OnboardingWizardView: View {
     VStack {
       backButton
 
-      header
-
       currentWizardStep
 
       Spacer()
@@ -57,14 +55,17 @@ extension OnboardingWizardView {
         )
         .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       case .level:
-        SelectLevelView(selectedLevel: $viewModel.selectedLevel)
-          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+        SelectLevelView(
+          selectedLevel: $viewModel.selectedLevel,
+          onContinue: viewModel.handleNextStep
+        )
+        .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       case .goal:
-        SelectGoalView(selectedGoal: $viewModel.selectedGoal)
-          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
-      case .equipment:
-        SelectEquipmentView(selectedEquipment: $viewModel.selectedEquipment)
-          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+        SelectGoalView(
+          selectedGoal: $viewModel.selectedGoal,
+          onContinue: viewModel.handleNextStep
+        )
+        .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       case .permissions:
         PermissionsView(onDone: viewModel.handleNextStep)
           .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .push(from: .top)))

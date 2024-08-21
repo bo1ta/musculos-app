@@ -13,9 +13,14 @@ import Utility
 
 struct SelectLevelView: View {
   @Binding var selectedLevel: OnboardingData.Level?
-  
+
+  let onContinue: () -> Void
+
   var body: some View {
     VStack(spacing: 15) {
+      Header(text: "Select your level")
+        .padding(.top, 20)
+
       ForEach(OnboardingData.Level.allCases, id: \.self) { level in
         Button(action: {
           selectedLevel = level
@@ -23,21 +28,31 @@ struct SelectLevelView: View {
           DetailCard(
             text: level.title,
             font: AppFont.poppins(.medium, size: 18),
+            isSelected: isLevelSelected(level),
             content: {
               makeStarsImage(for: level)
             })
-          .id(selectedLevel)
           .animation(.smooth, value: selectedLevel)
         })
       }
-      .padding(20)
+    }
+    .safeAreaInset(edge: .bottom) {
+      Button(action: onContinue, label: {
+        Text("Continue")
+          .font(AppFont.poppins(.bold, size: 14))
+          .frame(maxWidth: .infinity)
+      })
+      .buttonStyle(PrimaryButtonStyle())
+      .padding(.horizontal, 40)
+      .padding(.top, 30)
     }
   }
 
   @ViewBuilder
   private func makeStarsImage(for level: OnboardingData.Level) -> some View {
     let isSelected = level == selectedLevel
-    let imageName = isSelected ? "star-icon" : "star-icon-empty"
+    let imageName = isLevelSelected(level) ? "star-icon" : "star-icon-empty"
+
     let numberofStars = switch level {
     case .beginner: 1
     case .intermmediate: 2
@@ -53,8 +68,12 @@ struct SelectLevelView: View {
       }
     }
   }
+
+  private func isLevelSelected(_ level: OnboardingData.Level) -> Bool {
+    return selectedLevel == level
+  }
 }
 
 #Preview {
-  SelectLevelView(selectedLevel: .constant(.beginner))
+  SelectLevelView(selectedLevel: .constant(.beginner), onContinue: {})
 }

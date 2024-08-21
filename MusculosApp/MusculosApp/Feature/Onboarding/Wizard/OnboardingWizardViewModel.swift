@@ -120,7 +120,7 @@ final class OnboardingWizardViewModel {
 
 extension OnboardingWizardViewModel {
   enum OnboardingWizardStep: Int {
-    case heightAndWeight, level, goal, equipment, permissions
+    case heightAndWeight, level, goal, permissions
     
     var title: String {
       switch self {
@@ -130,8 +130,6 @@ extension OnboardingWizardViewModel {
         "How would you describe your current workout experience level?"
       case .goal:
         "What is your goal?"
-      case .equipment:
-        "What equipment do you have access to?"
       case .permissions:
         "Permissions"
       }

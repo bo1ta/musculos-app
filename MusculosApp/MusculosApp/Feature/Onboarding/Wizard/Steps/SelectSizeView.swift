@@ -17,38 +17,44 @@ struct SelectSizeView: View {
 
   var body: some View {
     VStack {
-      HStack {
-        FormField(
-          text: $selectedWeight,
-          hint: "Weight",
-          keyboardType: .numberPad
-        )
-        .frame(width: 100)
+      Header(text: "Select your weight and height")
+        .padding([.horizontal, .vertical], 20)
+        .padding(.top, 20)
 
-        Spacer()
+      Group {
+        HStack {
+          FormField(
+            text: $selectedWeight,
+            hint: "Weight",
+            keyboardType: .numberPad
+          )
+          .frame(width: 100)
 
-        FormField(
-          text: $selectedHeight,
-          hint: "Height",
-          keyboardType: .numberPad
-        )
-        .frame(width: 100)
+          Spacer()
+
+          FormField(
+            text: $selectedHeight,
+            hint: "Height",
+            keyboardType: .numberPad
+          )
+          .frame(width: 100)
+        }
+        .padding(.bottom, 50)
+
+        Button(action: onContinue, label: {
+          Text("Continue")
+            .font(AppFont.poppins(.bold, size: 18))
+            .frame(maxWidth: .infinity)
+        })
+        .buttonStyle(PrimaryButtonStyle())
+
+        Image("female-character-question")
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .frame(width: 500, height: 500)
       }
-      .padding(.bottom, 50)
-
-      Button(action: onContinue, label: {
-        Text("Continue")
-          .font(AppFont.poppins(.bold, size: 18))
-          .frame(maxWidth: .infinity)
-      })
-      .buttonStyle(PrimaryButtonStyle())
-
-      Image("female-character-question")
-        .resizable()
-        .aspectRatio(contentMode: .fit)
-        .frame(width: 500, height: 500)
+      .padding(.horizontal, 50)
     }
-    .padding(.horizontal, 50)
   }
 }
 
