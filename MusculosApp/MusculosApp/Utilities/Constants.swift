@@ -33,7 +33,7 @@ public enum MessageConstant: String {
   case genericErrorMessage = "Something went wrong. Please try again"
 }
 
-enum ModelUpdatedEvent {
+public enum ModelUpdatedEvent {
   case didAddGoal
   case didAddExerciseSession
   case didAddExercise

@@ -94,8 +94,7 @@ final class OnboardingWizardViewModel {
       }
     }
   }
-
-  @MainActor
+  
   private func sendEvent(_ event: Event) {
     _event.send(event)
   }

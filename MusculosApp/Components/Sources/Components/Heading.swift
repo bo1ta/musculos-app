@@ -8,11 +8,11 @@
 import SwiftUI
 import Utility
 
-public struct Header: View {
+public struct Heading: View {
   let text: String
   let fontSize: CGFloat
 
-  public init(text: String, fontSize: CGFloat = 28) {
+  public init(_ text: String, fontSize: CGFloat = 28) {
     self.text = text
     self.fontSize = fontSize
   }

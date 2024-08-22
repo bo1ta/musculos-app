@@ -17,9 +17,11 @@ struct SelectSizeView: View {
 
   var body: some View {
     VStack {
-      Header(text: "Select your weight and height")
+      Heading("Select your weight and height")
         .padding([.horizontal, .vertical], 20)
         .padding(.top, 20)
+
+      Spacer()
 
       Group {
         HStack {
@@ -41,12 +43,15 @@ struct SelectSizeView: View {
         }
         .padding(.bottom, 50)
 
-        PrimaryButton(title: "Continue", action: onContinue)
 
         Image("female-character-question")
           .resizable()
           .aspectRatio(contentMode: .fit)
-          .frame(width: 300, height: 300)
+          .frame(width: 330, height: 330)
+
+        Spacer()
+
+        PrimaryButton(title: "Continue", action: onContinue)
       }
       .padding(.horizontal, 50)
     }

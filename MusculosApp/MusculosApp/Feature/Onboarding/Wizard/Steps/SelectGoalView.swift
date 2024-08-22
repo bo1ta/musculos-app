@@ -17,7 +17,7 @@ struct SelectGoalView: View {
 
   var body: some View {
     VStack(spacing: 15) {
-      Header(text: "Select the goal you want to focus on")
+      Heading("Select the goal you want to focus on")
         .padding(.vertical, 20)
         .padding(.top, 20)
 
@@ -54,23 +54,21 @@ struct SelectGoalView: View {
 
   @ViewBuilder
   private func makeImageForGoal(_ goal: OnboardingData.Goal) -> some View {
-    if isGoalSelected(goal) {
-      Circle()
-        .frame(width: 35, height: 35)
-        .foregroundStyle(Color.orange)
-        .overlay {
-          Image(systemName: "checkmark")
-            .foregroundStyle(.white)
-        }
-    } else {
-      if let image = goal.image {
-        image
+    Group {
+      if isGoalSelected(goal) {
+        Image("orange-checkmark-icon")
           .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: 30, height: 30)
-          .foregroundStyle(AppColor.navyBlue)
+      } else {
+        if let image = goal.image {
+          image
+            .resizable()
+        }
       }
     }
+    .aspectRatio(contentMode: .fit)
+    .frame(width: 60, height: 60)
+    .shadow(radius: 1.0)
+    .foregroundStyle(AppColor.navyBlue)
   }
 
   private func isGoalSelected(_ goal: OnboardingData.Goal) -> Bool {

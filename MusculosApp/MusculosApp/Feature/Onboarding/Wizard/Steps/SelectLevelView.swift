@@ -18,7 +18,7 @@ struct SelectLevelView: View {
 
   var body: some View {
     VStack(spacing: 15) {
-      Header(text: "Select your level")
+      Heading("Select your level")
         .padding(.top, 20)
 
       Spacer()

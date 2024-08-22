@@ -101,9 +101,9 @@ public struct OnboardingData {
     
     public var image: Image? {
       switch self {
-      case .loseWeight: Image(systemName: "flame")
-      case .getFitter: Image(systemName: "bolt.heart")
-      case .gainMuscles: Image(systemName: "dumbbell")
+      case .loseWeight: Image("rope-icon")
+      case .getFitter: Image("barbell-icon")
+      case .gainMuscles: Image("muscle-icon")
       }
     }
   }
