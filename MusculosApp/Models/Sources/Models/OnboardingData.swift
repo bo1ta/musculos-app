@@ -42,6 +42,14 @@ public struct OnboardingData {
     public var image: Image? {
       return nil
     }
+
+    public var numberOfStars: Int {
+      switch self {
+      case .beginner: 1
+      case .intermmediate: 2
+      case .advanced: 3
+      }
+    }
   }
   
   // MARK: - Equipment

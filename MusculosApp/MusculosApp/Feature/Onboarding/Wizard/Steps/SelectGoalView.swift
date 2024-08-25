@@ -39,7 +39,10 @@ struct SelectGoalView: View {
 
   private func makeDetailCardButton(for goal: OnboardingData.Goal) -> some View {
     Button(action: {
-      selectedGoal = goal
+      withAnimation(.easeInOut(duration: 0.2)) {
+        HapticFeedbackProvider.haptic(.lightImpact)
+        selectedGoal = goal
+      }
     }, label: {
       DetailCard(
         text: goal.title,
@@ -58,10 +61,18 @@ struct SelectGoalView: View {
       if isGoalSelected(goal) {
         Image("orange-checkmark-icon")
           .resizable()
+          .transition(
+            .asymmetric(
+              insertion: .scale(scale: 0.5).combined(with: .opacity),
+              removal: .opacity
+            )
+          )
+          .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isGoalSelected(goal))
       } else {
         if let image = goal.image {
           image
             .resizable()
+            .transition(.opacity)
         }
       }
     }

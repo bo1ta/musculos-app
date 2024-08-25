@@ -22,7 +22,7 @@ public struct SecondaryButton: View {
       Text(title)
         .font(AppFont.poppins(.semibold, size: 18))
         .frame(maxWidth: .infinity)
-        .shadow(radius: 2)
+        .shadow(color: .black.opacity(0.7), radius: 1)
     })
     .buttonStyle(SecondaryButtonStyle())
   }

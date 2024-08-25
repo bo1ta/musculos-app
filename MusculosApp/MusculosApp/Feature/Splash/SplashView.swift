@@ -91,7 +91,7 @@ struct SplashView: View {
   }
 
   private func lightHapticFeedback() {
-    HapticFeedbackProvider.hapticFeedback(.lightImpact)
+    HapticFeedbackProvider.haptic(.lightImpact)
   }
 }
 

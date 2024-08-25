@@ -19,7 +19,7 @@ public struct SecondaryButtonStyle: ButtonStyle {
         LinearGradient(
           colors: [
             Color.white,
-            Color.white.opacity(0.90)
+            Color.white.opacity(0.98)
           ],
           startPoint: .top,
           endPoint: .bottom

@@ -7,35 +7,19 @@
 
 import Foundation
 import SwiftUI
+import Utility
 
 struct CustomTabBarView: View {
-  @Namespace private var namespace
-  @Binding var selection: TabBarItem
-  
-  private let tabBarItems: [TabBarItem]
-  private let onAddTapped: (() -> Void)?
-  
-  init(tabBarItems: [TabBarItem],
-       selection: Binding<TabBarItem>,
-       onAddTapped: (() -> Void)? = nil) {
-    self.tabBarItems = tabBarItems
-    self._selection = selection
-    self.onAddTapped = onAddTapped
-  }
-  
+  @Binding var currentTab: TabBarItem
+
+  let tabBarItems: [TabBarItem]
+  let onAddTapped: (() -> Void)?
+
   var body: some View {
     HStack(spacing: 24) {
       Spacer()
-      ForEach(tabBarItems.indices, id: \.self) { index in
-        if let onAddTapped, index == tabBarItems.count / 2 {
-          WorkoutTabBarButton(onTapGesture: onAddTapped)
-            .padding(.bottom, 20)
-        }
-        tabItem(with: tabBarItems[index],
-                isSelected: selection == tabBarItems[index],
-                onTapGesture: {
-          selection = tabBarItems[index]
-        })
+      ForEach(tabBarItems, id: \.self) { item in
+        tabButton(for: item)
       }
       Spacer()
     }
@@ -44,24 +28,44 @@ struct CustomTabBarView: View {
     .background(Color(.systemGray6))
     .cornerRadius(25)
     .shadow(radius: 2)
+    .opacity(0.95)
+  }
+
+  private func tabButton(for item: TabBarItem) -> some View {
+    Group {
+      if item == .workout, let onAddTapped = onAddTapped {
+        VStack {
+          WorkoutTabBarButton(onTapGesture: onAddTapped)
+          makeTabItemFor(item)
+        }
+      } else {
+        makeTabItemFor(item)
+      }
+    }
+  }
+
+  @ViewBuilder
+  private func makeTabItemFor(_ item: TabBarItem) -> some View {
+    let isTabSelected = currentTab == item
+    let imageSize = isTabSelected ? 30.0 : 28.0
+    let imageOpacity = isTabSelected ? 1.0 : 0.4
+
+    Image(item.imageName)
+      .renderingMode(.template)
+      .resizable()
+      .aspectRatio(contentMode: .fit)
+      .foregroundStyle(AppColor.orangeGradient)
+      .opacity(imageOpacity)
+      .onTapGesture { currentTab = item }
+      .frame(width: imageSize, height: imageSize)
   }
 }
-
-extension CustomTabBarView {
-  private func tabItem(with item: TabBarItem,
-                       isSelected: Bool,
-                       onTapGesture: @escaping () -> Void) -> some View {
-    Image(systemName: item.imageName)
-      .foregroundStyle(isSelected ? .black : .gray)
-      .onTapGesture(perform: onTapGesture)
-      .frame(height: 30)
-      .font(Font(CTFont(.menuItem, size: 23)))
-      .fontWeight(.bold)
-  }
-}
-
 
 #Preview {
-  CustomTabBarView(tabBarItems: [.overview, .overview], selection: Binding<TabBarItem>.constant(.overview), onAddTapped: {})
-    .previewLayout(.sizeThatFits)
+  CustomTabBarView(
+    currentTab: .constant(.overview),
+    tabBarItems: [.explore, .overview],
+    onAddTapped: {}
+  )
+  .previewLayout(.sizeThatFits)
 }
