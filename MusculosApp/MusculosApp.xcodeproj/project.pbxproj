@@ -42,6 +42,8 @@
 		BC5BACC32AB280C5003C880E /* getEquipment.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACC22AB280C5003C880E /* getEquipment.json */; };
 		BC5BACD52ABA28A7003C880E /* getExercises.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACD42ABA28A7003C880E /* getExercises.json */; };
 		BC5BACD92ABB6694003C880E /* ExerciseServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACD82ABB6694003C880E /* ExerciseServiceTests.swift */; };
+		BC5CC2C42C7B64990016D694 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5CC2C32C7B64990016D694 /* HomeView.swift */; };
+		BC5CC2C72C7B6A430016D694 /* HomeSearchCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5CC2C62C7B6A430016D694 /* HomeSearchCard.swift */; };
 		BC606A6E2C221CBD00154781 /* SelectLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC606A6D2C221CBD00154781 /* SelectLevelView.swift */; };
 		BC6249752BEC20BB00393915 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = BC6249742BEC20BB00393915 /* Shimmer */; };
 		BC6DE1BF2A770FAE006AE28C /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */; };
@@ -175,6 +177,8 @@
 		BC5BACC22AB280C5003C880E /* getEquipment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getEquipment.json; sourceTree = "<group>"; };
 		BC5BACD42ABA28A7003C880E /* getExercises.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getExercises.json; sourceTree = "<group>"; };
 		BC5BACD82ABB6694003C880E /* ExerciseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseServiceTests.swift; sourceTree = "<group>"; };
+		BC5CC2C32C7B64990016D694 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		BC5CC2C62C7B6A430016D694 /* HomeSearchCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSearchCard.swift; sourceTree = "<group>"; };
 		BC606A6D2C221CBD00154781 /* SelectLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLevelView.swift; sourceTree = "<group>"; };
 		BC6DE1BE2A770FAE006AE28C /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
@@ -632,6 +636,23 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		BC5CC2C22C7B645D0016D694 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				BC5CC2C32C7B64990016D694 /* HomeView.swift */,
+				BC5CC2C52C7B6A300016D694 /* Components */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		BC5CC2C52C7B6A300016D694 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BC5CC2C62C7B6A430016D694 /* HomeSearchCard.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		BC6249942BED749E00393915 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -643,6 +664,7 @@
 		BC6F365B2BB4E205000F6CFA /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				BC5CC2C22C7B645D0016D694 /* Home */,
 				BCA905002C59948C000BE5FF /* Splash */,
 				BC10E42C2A3B8AB00008A72E /* Authentication */,
 				BC34544F2B72DEFE0074106A /* Exercise */,
@@ -1136,6 +1158,7 @@
 				BC777F012BA127DC001669C8 /* AddActionSheetContainer.swift in Sources */,
 				BC97C9322BA0D5D500AA07C4 /* AddActionSheet.swift in Sources */,
 				BCD59AA92BB628220039F662 /* ExerciseSectionView.swift in Sources */,
+				BC5CC2C72C7B6A430016D694 /* HomeSearchCard.swift in Sources */,
 				BC4078D42C02373E000DE280 /* WorkoutIcon.swift in Sources */,
 				BCD59AAA2BB628220039F662 /* ExploreExerciseContentView.swift in Sources */,
 				BC261AB82B6DA0EF0018E21F /* ExerciseFilterView.swift in Sources */,
@@ -1158,6 +1181,7 @@
 				BCEED79F2BFC0B96002A3656 /* WorkoutCard.swift in Sources */,
 				BC52DDCB2B85144C005A4587 /* APIEndpoint.swift in Sources */,
 				BCA24C002B6AE68500124EC3 /* SignUpView.swift in Sources */,
+				BC5CC2C42C7B64990016D694 /* HomeView.swift in Sources */,
 				BCCE85E62A33D658001BEE8B /* AuthService.swift in Sources */,
 				BCD59AA42BB627E60039F662 /* ProgressCard.swift in Sources */,
 				BC1160D22A2CFB830028D8FC /* AppTabView.swift in Sources */,

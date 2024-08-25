@@ -8,6 +8,7 @@
 import Foundation
 
 enum TabBarItem: Hashable {
+  case home
   case explore
   case overview
   case workout
@@ -18,7 +19,8 @@ enum TabBarItem: Hashable {
 
   var imageName: String {
     switch self {
-    case .explore: return "house-icon"
+    case .home: return "house-icon"
+    case .explore: return "newspaper-icon"
     case .overview: return "graph-icon"
     case .workout: return "settings-icon"
     }

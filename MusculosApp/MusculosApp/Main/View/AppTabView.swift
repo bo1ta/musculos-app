@@ -11,11 +11,11 @@ import CoreData
 struct AppTabView: View {
   @Environment(\.navigationRouter) private var navigationRouter
 
-  @State private var selectedTab: TabBarItem = .explore
+  @State private var selectedTab: TabBarItem = .home
   @State private var showingSheet = false
   
-  private let tabBarItems: [TabBarItem] = [.explore, .overview]
-  
+  private let tabBarItems: [TabBarItem] = [.home, .explore, .overview]
+
   var body: some View {
     CustomTabBarContainerView(
       selection: $selectedTab,
@@ -29,6 +29,8 @@ struct AppTabView: View {
   @ViewBuilder
   private var currentTab: some View {
     switch selectedTab {
+    case .home:
+      HomeView()
     case .explore:
       ExploreExerciseView()
     case .overview:
