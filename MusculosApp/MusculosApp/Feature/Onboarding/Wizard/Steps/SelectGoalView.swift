@@ -34,15 +34,14 @@ struct SelectGoalView: View {
       .padding(.horizontal, 30)
       .padding(.top, 30)
     })
+    .animation(.easeInOut(duration: 0.2), value: selectedGoal)
     .padding(20)
   }
 
   private func makeDetailCardButton(for goal: OnboardingData.Goal) -> some View {
     Button(action: {
-      withAnimation(.easeInOut(duration: 0.2)) {
-        HapticFeedbackProvider.haptic(.lightImpact)
-        selectedGoal = goal
-      }
+      HapticFeedbackProvider.haptic(.lightImpact)
+      selectedGoal = goal
     }, label: {
       DetailCard(
         text: goal.title,

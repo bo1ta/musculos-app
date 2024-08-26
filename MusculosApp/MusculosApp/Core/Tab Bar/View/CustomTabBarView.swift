@@ -23,6 +23,7 @@ struct CustomTabBarView: View {
       }
       Spacer()
     }
+    .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: currentTab)
     .frame(height: 70)
     .fixedSize(horizontal: true, vertical: false)
     .background(Color(.systemGray6))
@@ -56,8 +57,11 @@ struct CustomTabBarView: View {
       .aspectRatio(contentMode: .fit)
       .foregroundStyle(AppColor.orangeGradient)
       .opacity(imageOpacity)
-      .onTapGesture { currentTab = item }
       .frame(width: imageSize, height: imageSize)
+      .scaleEffect(isTabSelected ? 1.1 : 1.0)
+      .onTapGesture {
+        currentTab = item
+      }
   }
 }
 

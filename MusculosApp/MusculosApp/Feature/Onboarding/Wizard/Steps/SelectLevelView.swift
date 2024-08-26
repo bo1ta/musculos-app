@@ -34,16 +34,14 @@ struct SelectLevelView: View {
         .padding(.horizontal, 30)
         .padding(.top, 30)
     }
+    .animation(.easeInOut(duration: 0.2), value: selectedLevel)
     .padding(20)
   }
 
   private func makeButtonCard(for level: OnboardingData.Level) -> some View {
     Button(action: {
       HapticFeedbackProvider.haptic(.lightImpact)
-
-      withAnimation(.easeInOut(duration: 0.2)) {
-        selectedLevel = level
-      }
+      selectedLevel = level
     }, label: {
       DetailCard(
         text: level.title,

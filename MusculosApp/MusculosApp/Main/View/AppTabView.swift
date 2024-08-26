@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import Utility
 
 struct AppTabView: View {
   @Environment(\.navigationRouter) private var navigationRouter
@@ -22,12 +23,13 @@ struct AppTabView: View {
       tabBarItems: tabBarItems,
       onAddTapped: showAddActionSheet
     ) {
-      currentTab
+      selectedTabView
+        .modifier(KeyboardDismissableViewModifier())
     }
   }
 
   @ViewBuilder
-  private var currentTab: some View {
+  private var selectedTabView: some View {
     switch selectedTab {
     case .home:
       HomeView()
