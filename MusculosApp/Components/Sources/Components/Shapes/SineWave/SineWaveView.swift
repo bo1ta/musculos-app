@@ -68,8 +68,10 @@ public struct SineWaveView: View {
         .drawingGroup()
       }
     }
+    .transition(.slide)
     .onAppear {
       guard isAnimated else { return }
+
       withAnimation(.linear(duration: animationDuration).repeatForever(autoreverses: true)) {
         phase = .pi * 2
         amplitude = .pi * baseAmplitude / 1.5

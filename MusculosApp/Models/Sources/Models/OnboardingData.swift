@@ -42,6 +42,14 @@ public struct OnboardingData {
     public var image: Image? {
       return nil
     }
+
+    public var numberOfStars: Int {
+      switch self {
+      case .beginner: 1
+      case .intermmediate: 2
+      case .advanced: 3
+      }
+    }
   }
   
   // MARK: - Equipment
@@ -101,9 +109,9 @@ public struct OnboardingData {
     
     public var image: Image? {
       switch self {
-      case .loseWeight: Image(systemName: "flame")
-      case .getFitter: Image(systemName: "bolt.heart")
-      case .gainMuscles: Image(systemName: "dumbbell")
+      case .loseWeight: Image("rope-icon")
+      case .getFitter: Image("barbell-icon")
+      case .gainMuscles: Image("muscle-icon")
       }
     }
   }

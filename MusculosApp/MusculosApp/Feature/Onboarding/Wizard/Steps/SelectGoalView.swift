@@ -17,7 +17,7 @@ struct SelectGoalView: View {
 
   var body: some View {
     VStack(spacing: 15) {
-      Header(text: "Select the goal you want to focus on")
+      Heading("Select the goal you want to focus on")
         .padding(.vertical, 20)
         .padding(.top, 20)
 
@@ -34,11 +34,13 @@ struct SelectGoalView: View {
       .padding(.horizontal, 30)
       .padding(.top, 30)
     })
+    .animation(.easeInOut(duration: 0.2), value: selectedGoal)
     .padding(20)
   }
 
   private func makeDetailCardButton(for goal: OnboardingData.Goal) -> some View {
     Button(action: {
+      HapticFeedbackProvider.haptic(.lightImpact)
       selectedGoal = goal
     }, label: {
       DetailCard(
@@ -54,23 +56,29 @@ struct SelectGoalView: View {
 
   @ViewBuilder
   private func makeImageForGoal(_ goal: OnboardingData.Goal) -> some View {
-    if isGoalSelected(goal) {
-      Circle()
-        .frame(width: 35, height: 35)
-        .foregroundStyle(Color.orange)
-        .overlay {
-          Image(systemName: "checkmark")
-            .foregroundStyle(.white)
-        }
-    } else {
-      if let image = goal.image {
-        image
+    Group {
+      if isGoalSelected(goal) {
+        Image("orange-checkmark-icon")
           .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: 30, height: 30)
-          .foregroundStyle(AppColor.navyBlue)
+          .transition(
+            .asymmetric(
+              insertion: .scale(scale: 0.5).combined(with: .opacity),
+              removal: .opacity
+            )
+          )
+          .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isGoalSelected(goal))
+      } else {
+        if let image = goal.image {
+          image
+            .resizable()
+            .transition(.opacity)
+        }
       }
     }
+    .aspectRatio(contentMode: .fit)
+    .frame(width: 60, height: 60)
+    .shadow(radius: 1.0)
+    .foregroundStyle(AppColor.navyBlue)
   }
 
   private func isGoalSelected(_ goal: OnboardingData.Goal) -> Bool {

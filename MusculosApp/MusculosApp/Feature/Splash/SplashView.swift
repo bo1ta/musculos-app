@@ -75,23 +75,19 @@ struct SplashView: View {
   private func goToSignIn() {
     lightHapticFeedback()
 
-    withAnimation {
-      initialAuthStep = .login
-      showLoginScreen = true
-    }
+    initialAuthStep = .login
+    showLoginScreen = true
   }
 
   private func goToSignUp() {
     lightHapticFeedback()
 
-    withAnimation {
-      initialAuthStep = .register
-      showLoginScreen = true
-    }
+    initialAuthStep = .register
+    showLoginScreen = true
   }
 
   private func lightHapticFeedback() {
-    HapticFeedbackProvider.hapticFeedback(.lightImpact)
+    HapticFeedbackProvider.haptic(.lightImpact)
   }
 }
 

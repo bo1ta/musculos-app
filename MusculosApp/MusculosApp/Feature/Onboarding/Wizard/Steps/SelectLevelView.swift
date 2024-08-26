@@ -13,12 +13,11 @@ import Utility
 
 struct SelectLevelView: View {
   @Binding var selectedLevel: OnboardingData.Level?
-
   let onContinue: () -> Void
 
   var body: some View {
     VStack(spacing: 15) {
-      Header(text: "Select your level")
+      Heading("Select your level")
         .padding(.top, 20)
 
       Spacer()
@@ -35,11 +34,13 @@ struct SelectLevelView: View {
         .padding(.horizontal, 30)
         .padding(.top, 30)
     }
+    .animation(.easeInOut(duration: 0.2), value: selectedLevel)
     .padding(20)
   }
 
   private func makeButtonCard(for level: OnboardingData.Level) -> some View {
     Button(action: {
+      HapticFeedbackProvider.haptic(.lightImpact)
       selectedLevel = level
     }, label: {
       DetailCard(
@@ -53,22 +54,20 @@ struct SelectLevelView: View {
     })
   }
 
-  @ViewBuilder
   private func makeStarsImage(for level: OnboardingData.Level) -> some View {
-    let imageName = isLevelSelected(level) ? "star-icon" : "star-icon-empty"
-
-    let numberofStars = switch level {
-    case .beginner: 1
-    case .intermmediate: 2
-    case .advanced: 3
-    }
-
     HStack(spacing: 5) {
-      ForEach(0..<numberofStars, id: \.self) { _ in
-        Image(imageName)
+      ForEach(0..<level.numberOfStars, id: \.self) { _ in
+        Image(isLevelSelected(level) ? "star-icon" : "star-icon-empty")
           .resizable()
           .aspectRatio(contentMode: .fit)
           .frame(width: 25, height: 25)
+          .transition(
+            .asymmetric(
+              insertion: .scale(scale: 0.5).combined(with: .opacity),
+              removal: .opacity
+            )
+          )
+          .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isLevelSelected(level))
       }
     }
   }

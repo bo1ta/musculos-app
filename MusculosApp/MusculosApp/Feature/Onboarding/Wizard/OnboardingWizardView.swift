@@ -71,7 +71,7 @@ extension OnboardingWizardView {
           .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .push(from: .top)))
       }
     }
-    .animation(.easeInOut(duration: 0.2), value: viewModel.wizardStep)
+    .animation(.smooth(duration: 0.2), value: viewModel.wizardStep)
     .dismissingGesture(
       direction: .left,
       action: viewModel.handleBack

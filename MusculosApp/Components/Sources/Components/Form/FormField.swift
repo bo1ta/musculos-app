@@ -14,19 +14,22 @@ public struct FormField: View {
   private let hintColor: Color
   private let keyboardType: UIKeyboardType
   private let isSecureField: Bool
+  private let imageIcon: Image?
 
   public init(
     text: Binding<String>,
     hint: String,
     hintColor: Color = .black,
     keyboardType: UIKeyboardType = .default,
-    isSecureField: Bool = false
+    isSecureField: Bool = false,
+    imageIcon: Image? = nil
   ) {
     self.text = text
     self.hint = hint
     self.hintColor = hintColor
     self.keyboardType = keyboardType
     self.isSecureField = isSecureField
+    self.imageIcon = imageIcon
   }
 
   public var body: some View {
@@ -58,11 +61,19 @@ public struct FormField: View {
   }
 
   private var field: some View {
-    Group {
+    HStack {
       if isSecureField {
         SecureField(text: text, label: { })
       } else {
         TextField(text: text, label: { })
+
+        if let imageIcon {
+          imageIcon
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 20, height: 20)
+            .padding(.trailing)
+        }
       }
     }
     .foregroundStyle(.black)
@@ -74,5 +85,5 @@ public struct FormField: View {
 }
 
 #Preview {
-  FormField(text: .constant(""), hint: "Username", hintColor: .indigo, keyboardType: .decimalPad)
+  FormField(text: .constant(""), hint: "Username", hintColor: .indigo, keyboardType: .decimalPad, imageIcon: Image("search-icon"))
 }

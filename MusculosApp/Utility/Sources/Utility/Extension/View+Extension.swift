@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+// MARK: - View Modifiers
+
+public extension View {
+  public func withKeyboardDismissingOnTap() -> some View {
+    self.modifier(KeyboardDismissableViewModifier())
+  }
+
+//  public func smoothTransition(
+//    isPresented:
+//  )
+}
+
 // MARK: - Dismiss Gesture
 
 public extension View {

@@ -7,33 +7,22 @@
 
 import Foundation
 
-enum TabBarItem: String {
+enum TabBarItem: Hashable {
+  case home
   case explore
   case overview
   case workout
-
-  var label: String {
-    return self.rawValue.capitalized
-  }
   
+  var label: String {
+    String(describing: self).capitalized
+  }
+
   var imageName: String {
     switch self {
-    case .explore:
-      "dumbbell"
-    case .overview:
-      "chart.bar.xaxis.ascending"
-    case .workout:
-      "list.bullet.rectangle"
+    case .home: return "house-icon"
+    case .explore: return "newspaper-icon"
+    case .overview: return "graph-icon"
+    case .workout: return "settings-icon"
     }
-  }
-}
-
-extension TabBarItem: Hashable {
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(self.label)
-  }
-  
-  static func ==(lhs: TabBarItem, rhs: TabBarItem) -> Bool {
-    return lhs.label == rhs.label
   }
 }

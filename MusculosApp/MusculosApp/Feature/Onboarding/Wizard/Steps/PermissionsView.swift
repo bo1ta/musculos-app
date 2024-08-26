@@ -22,58 +22,48 @@ struct PermissionsView: View {
 
   var body: some View {
     VStack(alignment: .center, spacing: 10) {
-      Header(text: "Allow Apple Health permissions")
-
-      Spacer()
-
+      Heading("Enable Apple Health permissions (optional)")
       VStack(alignment: .leading) {
-
         Text("In order to fully experience the app, you need to allow read and write permissions to Apple Health.")
-          .font(AppFont.body(.regular, size: 14))
+          .font(AppFont.poppins(.regular, size: 14))
         Text("The data you share is used by this app to provide better experience like:")
           .padding(.bottom)
-          .font(AppFont.body(.regular, size: 14))
-
+          .font(AppFont.poppins(.regular, size: 14))
 
         ForEach(permissionsReasons, id: \.self) { reason in
-          BulletPointText(text: reason)
+          BulletPointText(text: reason, color: .orange)
         }
       }
       .font(AppFont.header(.regular, size: 14))
       .padding()
 
-
-      Text("Note: All the data you share is private and is not uploaded to any server or shared with any service. That means you will lose the current progress when you uninstall the app." )
-        .padding(.top)
-        .font(AppFont.body(.regular, size: 14))
-
       Spacer()
+      doctorImage
     }
     .padding()
     .safeAreaInset(edge: .bottom) {
       HStack {
-        Button {
-          onDone()
-        } label: {
-          Text("Skip")
-            .frame(maxWidth: .infinity)
-        }
-        .buttonStyle(SecondaryButtonStyle())
-        .shadow(radius: 0.5)
-
-        Button {
-          Task {
-            await healthKitViewModel.requestPermissions()
-            onDone()
-          }
-        } label: {
-          Text("Allow")
-            .frame(maxWidth: .infinity)
-        }
-        .buttonStyle(PrimaryButtonStyle())
-        .shadow(radius: 0.5)
+        SecondaryButton(title: "Skip", action: onDone)
+        PrimaryButton(title: "Allow", action: requestPermissions)
       }
       .padding()
+    }
+  }
+
+  private func requestPermissions() {
+    Task {
+      await healthKitViewModel.requestPermissions()
+      onDone()
+    }
+  }
+
+  private var doctorImage: some View {
+    VStack {
+      Spacer()
+      Image("doctor-character")
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: 250, height: 250)
     }
   }
 }

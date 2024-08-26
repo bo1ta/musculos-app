@@ -86,7 +86,17 @@ public extension Goal {
       case .general: "General"
       }
     }
-    
+
+    public var imageName: String {
+      switch self {
+      case .loseWeight: "treadmill-character"
+      case .gainWeight: ""
+      case .growMuscle: "muscle-icon"
+      case .drinkWater: ""
+      case .general: "dumbbell-icon"
+      }
+    }
+
     public static func initFromLabel(_ label: String) -> Self? {
       return Self.allCases.first { $0.label == label }
     }

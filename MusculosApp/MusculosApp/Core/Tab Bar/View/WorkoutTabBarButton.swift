@@ -17,19 +17,12 @@ struct WorkoutTabBarButton: View {
   }
 
   var body: some View {
-    Circle()
-      .foregroundStyle(.white)
-      .overlay {
-        Circle()
-          .foregroundStyle(.black)
-          .overlay {
-            Image(systemName: "plus")
-              .font(Font(CTFont(.menuItem, size: 18)))
-              .foregroundStyle(Color.AppColor.green500)
-              .onTapGesture(perform: self.onTapGesture)
-          }
-          .frame(width: 50, height: 50)
-      }
-      .frame(width: 60, height: 60)
+    Image("add-icon")
+      .renderingMode(.template)
+      .resizable()
+      .aspectRatio(contentMode: .fit)
+      .frame(width: 30, height: 30)
+      .foregroundStyle(AppColor.brightOrange)
+      .onTapGesture(perform: onTapGesture)
   }
 }

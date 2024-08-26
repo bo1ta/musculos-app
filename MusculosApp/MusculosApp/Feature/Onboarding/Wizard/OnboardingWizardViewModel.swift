@@ -55,6 +55,7 @@ final class OnboardingWizardViewModel {
   func handleNextStep() {
     if let nextStep = OnboardingWizardStep(rawValue: wizardStep.rawValue + 1) {
       wizardStep = nextStep
+      HapticFeedbackProvider.haptic(.heavyImpact)
     } else {
       updateData()
     }
@@ -87,15 +88,16 @@ final class OnboardingWizardViewModel {
         async let userTask: Void = updateUser()
         _ = try await (goalTask, userTask)
 
+        await HapticFeedbackProvider.haptic(.notifySuccess)
         await sendEvent(.didFinishOnboarding)
       } catch {
+        await HapticFeedbackProvider.haptic(.notifyError)
         await sendEvent(.didFinishWithError(error))
         MusculosLogger.logError(error, message: "Could not save onboarding data", category: .coreData)
       }
     }
   }
 
-  @MainActor
   private func sendEvent(_ event: Event) {
     _event.send(event)
   }

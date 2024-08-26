@@ -13,14 +13,21 @@ public struct SecondaryButtonStyle: ButtonStyle {
 
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .font(.body(.light, size: 15))
-      .padding(18)
+      .padding(10)
       .fixedSize(horizontal: false, vertical: true)
-      .background(.white)
-      .foregroundColor(.black)
-      .fontWeight(.semibold)
-      .clipShape(RoundedRectangle(cornerRadius: 10))
-      .shadow(radius: 1.0)
+      .background(
+        LinearGradient(
+          colors: [
+            Color.white,
+            Color.white.opacity(0.98)
+          ],
+          startPoint: .top,
+          endPoint: .bottom
+        )
+      )
+      .foregroundColor(.white)
+      .clipShape(RoundedRectangle(cornerRadius: 30))
       .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+      .shadow(color: .black.opacity(0.8), radius: 1)
   }
 }
