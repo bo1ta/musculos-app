@@ -1,4 +1,4 @@
-# Workout App built with SwiftUI
+# iOS Workout App
 
 - Modular architecture:
   - Storage - provides a thread-safe Core Data integration with various data stores like ExerciseDataStore, GoalDataStore, etc. 
