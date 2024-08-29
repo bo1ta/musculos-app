@@ -1,6 +1,6 @@
 # iOS Workout App
 
-- Modular architecture:
+- Modules:
   - Storage - provides a thread-safe Core Data integration with various data stores like ExerciseDataStore, GoalDataStore, etc. 
   - Components - provides common UI components used accross the app
   - Utility - provides various utility functions, extensions, etc.
