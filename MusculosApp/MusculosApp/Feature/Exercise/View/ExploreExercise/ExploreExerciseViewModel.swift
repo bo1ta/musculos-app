@@ -18,7 +18,10 @@ import Storage
 final class ExploreExerciseViewModel {
   
   // MARK: - Dependencies
-  
+
+  @ObservationIgnored
+  @Injected(\.dataController) private var dataController: DataController
+
   @ObservationIgnored
   @Injected(\.exerciseService) private var service: ExerciseServiceProtocol
 
@@ -27,15 +30,6 @@ final class ExploreExerciseViewModel {
 
   @ObservationIgnored
   @Injected(\.recommendationEngine) private var recommendationEngine: RecommendationEngine
-  
-  @ObservationIgnored
-  @Injected(\.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
-  
-  @ObservationIgnored
-  @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
-  
-  @ObservationIgnored
-  @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
   
   @ObservationIgnored
   private var cancellables = Set<AnyCancellable>()
@@ -172,23 +166,35 @@ extension ExploreExerciseViewModel {
   }
   
   func loadLocalExercises() async {
-    let exercises = await exerciseDataStore.getAll(fetchLimit: 20)
-    contentState = .loaded(exercises)
+    do {
+      let exercises = try await dataController.getExercises()
+      contentState = .loaded(exercises)
+    } catch {
+      contentState = .error(MessageConstant.genericErrorMessage.rawValue)
+      MusculosLogger.logError(error, message: "Data controller failed to get exercises", category: .coreData)
+    }
   }
   
   func loadFavoriteExercises() async {
-    let exercises = await exerciseDataStore.getAllFavorites()
+    let exercises = await dataController.getFavoriteExercises()
     contentState = .loaded(exercises)
   }
   
   func refreshExercisesCompletedToday() async {
-    guard let currentUser else { return }
-    exercisesCompletedToday = await exerciseSessionDataStore.getCompletedToday(userId: currentUser.userId)
+    do {
+      exercisesCompletedToday = try await dataController.getExercisesCompletedToday()
+    } catch {
+      MusculosLogger.logError(error, message: "Data controller failed to get exercises completed today", category: .coreData)
+    }
   }
   
   @MainActor
   func refreshGoals() async {
-    goals = await goalDataStore.getAll()
+    do {
+      goals = try await dataController.getGoals()
+    } catch {
+      MusculosLogger.logError(error, message: "Data controller failed to get goals", category: .coreData)
+    }
   }
 }
 

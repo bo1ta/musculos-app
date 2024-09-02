@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 import Models
 
-public protocol UserDataStoreProtocol {
+public protocol UserDataStoreProtocol: Sendable {
   func createUser(profile: UserProfile) async throws
   func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws
   func loadProfile(userId: UUID) async -> UserProfile?

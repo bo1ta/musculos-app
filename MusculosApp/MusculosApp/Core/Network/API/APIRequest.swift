@@ -7,6 +7,7 @@
 
 import Foundation
 import Factory
+import Utility
 
 struct APIRequest {
   var method: HTTPMethod

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utility
 
 struct DetailCardView: View {
   var title: String

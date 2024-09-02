@@ -29,7 +29,6 @@
 		BC52DDD12B8516B8005A4587 /* MusculosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDD02B8516B8005A4587 /* MusculosClient.swift */; };
 		BC52DDD82B852AB2005A4587 /* MusculosService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52DDD72B852AB2005A4587 /* MusculosService.swift */; };
 		BC545E3E2C3C6A8F00713B86 /* EnvironmentValues+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC545E392C3C6A8F00713B86 /* EnvironmentValues+Extension.swift */; };
-		BC545E3F2C3C6A8F00713B86 /* ContentLengthPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC545E3B2C3C6A8F00713B86 /* ContentLengthPreferenceKey.swift */; };
 		BC545E432C3C6AD400713B86 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC545E402C3C6AD400713B86 /* HealthKitManager.swift */; };
 		BC545E442C3C6AD400713B86 /* HealthKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC545E412C3C6AD400713B86 /* HealthKitViewModel.swift */; };
 		BC545E482C3C730E00713B86 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = BC545E472C3C730E00713B86 /* Storage */; };
@@ -104,8 +103,9 @@
 		BCCA2C9A2C3C615600D4DEAD /* Container+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA2C992C3C615600D4DEAD /* Container+Extension.swift */; };
 		BCCA2C9C2C3C61AD00D4DEAD /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA2C9B2C3C61A300D4DEAD /* ImageCacheManager.swift */; };
 		BCCA2C9E2C3C61FC00D4DEAD /* AsyncCachedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA2C9D2C3C61FC00D4DEAD /* AsyncCachedImage.swift */; };
+		BCCD52872C815206006FAF6D /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCD52862C815206006FAF6D /* DataController.swift */; };
 		BCCE85E62A33D658001BEE8B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE85E52A33D658001BEE8B /* AuthService.swift */; };
-		BCCF2EE72C3C677200D22BFB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF2EE62C3C677200D22BFB /* Constants.swift */; };
+		BCD2529C2C860DBD00DC61AE /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = BCD2529B2C860DBD00DC61AE /* Cache */; };
 		BCD59A8E2BB627CE0039F662 /* ExploreExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59A782BB627CE0039F662 /* ExploreExerciseView.swift */; };
 		BCD59A952BB627CE0039F662 /* ExerciseContentLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59A812BB627CE0039F662 /* ExerciseContentLoadingView.swift */; };
 		BCD59A962BB627CE0039F662 /* SearchFilterField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59A822BB627CE0039F662 /* SearchFilterField.swift */; };
@@ -166,7 +166,6 @@
 		BC52DDD02B8516B8005A4587 /* MusculosClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosClient.swift; sourceTree = "<group>"; };
 		BC52DDD72B852AB2005A4587 /* MusculosService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusculosService.swift; sourceTree = "<group>"; };
 		BC545E392C3C6A8F00713B86 /* EnvironmentValues+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Extension.swift"; sourceTree = "<group>"; };
-		BC545E3B2C3C6A8F00713B86 /* ContentLengthPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLengthPreferenceKey.swift; sourceTree = "<group>"; };
 		BC545E402C3C6AD400713B86 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		BC545E412C3C6AD400713B86 /* HealthKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitViewModel.swift; sourceTree = "<group>"; };
 		BC583B0C2BA8C76500236C0D /* OnboardingWizardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWizardViewModel.swift; sourceTree = "<group>"; };
@@ -238,8 +237,8 @@
 		BCCA2C992C3C615600D4DEAD /* Container+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+Extension.swift"; sourceTree = "<group>"; };
 		BCCA2C9B2C3C61A300D4DEAD /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		BCCA2C9D2C3C61FC00D4DEAD /* AsyncCachedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncCachedImage.swift; sourceTree = "<group>"; };
+		BCCD52862C815206006FAF6D /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		BCCE85E52A33D658001BEE8B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		BCCF2EE62C3C677200D22BFB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BCD59A782BB627CE0039F662 /* ExploreExerciseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreExerciseView.swift; sourceTree = "<group>"; };
 		BCD59A812BB627CE0039F662 /* ExerciseContentLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseContentLoadingView.swift; sourceTree = "<group>"; };
 		BCD59A822BB627CE0039F662 /* SearchFilterField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFilterField.swift; sourceTree = "<group>"; };
@@ -269,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC6249752BEC20BB00393915 /* Shimmer in Frameworks */,
+				BCD2529C2C860DBD00DC61AE /* Cache in Frameworks */,
 				BCF6487B2C3C36CC00D1C46F /* Models in Frameworks */,
 				BC569FDB2C45965900F9C918 /* Components in Frameworks */,
 				BC828CDE2C02802500AB9D1D /* Factory in Frameworks */,
@@ -333,7 +333,6 @@
 				BC5834252B1CE34500BD7690 /* Main */,
 				BC6F365B2BB4E205000F6CFA /* Feature */,
 				BC352AE32A326D6C00DAA3AB /* Core */,
-				BC34545A2B758AE10074106A /* Utilities */,
 				BC0D76A32B6525B700917680 /* Assets */,
 				BC1160D52A2CFB830028D8FC /* Preview Content */,
 				BC1160DD2A2CFB830028D8FC /* Info.plist */,
@@ -470,18 +469,10 @@
 			path = Exercise;
 			sourceTree = "<group>";
 		};
-		BC34545A2B758AE10074106A /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				BCCF2EE62C3C677200D22BFB /* Constants.swift */,
-				BC545E3B2C3C6A8F00713B86 /* ContentLengthPreferenceKey.swift */,
-			);
-			path = Utilities;
-			sourceTree = "<group>";
-		};
 		BC352AE32A326D6C00DAA3AB /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				BCCD52862C815206006FAF6D /* DataController.swift */,
 				BC10EB732C4D7D26003AD519 /* NavigationRouter.swift */,
 				BCAE95A72C447EB600AD91BE /* Cache Manager */,
 				BCAE95A82C447EC700AD91BE /* Engine */,
@@ -1012,6 +1003,7 @@
 				BC8D07F22C3C52F900212EE8 /* Utility */,
 				BC545E472C3C730E00713B86 /* Storage */,
 				BC569FDA2C45965900F9C918 /* Components */,
+				BCD2529B2C860DBD00DC61AE /* Cache */,
 			);
 			productName = MusculosApp;
 			productReference = BC1160CC2A2CFB830028D8FC /* MusculosApp.app */;
@@ -1070,6 +1062,7 @@
 				BC1D27CB2C3C4F2F00345FD6 /* XCLocalSwiftPackageReference "Utility" */,
 				BC545E462C3C730E00713B86 /* XCLocalSwiftPackageReference "Storage" */,
 				BC569FD92C45965900F9C918 /* XCLocalSwiftPackageReference "Components" */,
+				BCD2529A2C860DBD00DC61AE /* XCRemoteSwiftPackageReference "Cache" */,
 			);
 			productRefGroup = BC1160CD2A2CFB830028D8FC /* Products */;
 			projectDirPath = "";
@@ -1139,7 +1132,6 @@
 				BC52DDD12B8516B8005A4587 /* MusculosClient.swift in Sources */,
 				BC1674D42BE2F8F70012048D /* AddGoalSheetViewModel.swift in Sources */,
 				BCAE95AA2C447FAB00AD91BE /* UserSession.swift in Sources */,
-				BCCF2EE72C3C677200D22BFB /* Constants.swift in Sources */,
 				BCBEBA342BF7C33D00FA4BF5 /* WorkoutCarousel.swift in Sources */,
 				BC777EF32BA0F2E1001669C8 /* WorkoutListView.swift in Sources */,
 				BCA24BFC2B6AB9AF00124EC3 /* SignInView.swift in Sources */,
@@ -1153,7 +1145,6 @@
 				BCCA2C9A2C3C615600D4DEAD /* Container+Extension.swift in Sources */,
 				BC1674B62BE2E73F0012048D /* AddGoalSheet.swift in Sources */,
 				BC545E3E2C3C6A8F00713B86 /* EnvironmentValues+Extension.swift in Sources */,
-				BC545E3F2C3C6A8F00713B86 /* ContentLengthPreferenceKey.swift in Sources */,
 				BC7820012B9B64F1009F9FB5 /* ScoreBadge.swift in Sources */,
 				BC777F012BA127DC001669C8 /* AddActionSheetContainer.swift in Sources */,
 				BC97C9322BA0D5D500AA07C4 /* AddActionSheet.swift in Sources */,
@@ -1174,6 +1165,7 @@
 				BCD59AB02BB628700039F662 /* AnimatedURLImageView.swift in Sources */,
 				BC1674B12BE26EBB0012048D /* AddDetailOptionCardView.swift in Sources */,
 				BCD59A8E2BB627CE0039F662 /* ExploreExerciseView.swift in Sources */,
+				BCCD52872C815206006FAF6D /* DataController.swift in Sources */,
 				BC606A6E2C221CBD00154781 /* SelectLevelView.swift in Sources */,
 				BCC46FF42C0E2E97006D76E2 /* PermissionsView.swift in Sources */,
 				BC828CE32C028E9200AB9D1D /* ExerciseDetailsViewModel.swift in Sources */,
@@ -1541,6 +1533,14 @@
 				version = 2.3.2;
 			};
 		};
+		BCD2529A2C860DBD00DC61AE /* XCRemoteSwiftPackageReference "Cache" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hyperoslo/Cache.git";
+			requirement = {
+				kind = exactVersion;
+				version = 7.4.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1566,6 +1566,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BC1D27CB2C3C4F2F00345FD6 /* XCLocalSwiftPackageReference "Utility" */;
 			productName = Utility;
+		};
+		BCD2529B2C860DBD00DC61AE /* Cache */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BCD2529A2C860DBD00DC61AE /* XCRemoteSwiftPackageReference "Cache" */;
+			productName = Cache;
 		};
 		BCF6487A2C3C36CC00D1C46F /* Models */ = {
 			isa = XCSwiftPackageProductDependency;

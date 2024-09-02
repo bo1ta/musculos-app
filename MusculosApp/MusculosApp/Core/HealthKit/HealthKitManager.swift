@@ -47,8 +47,8 @@ extension HealthKitManager {
   }
   
   private func setUpQueryAnchor() {
-    guard let data = UserDefaults.standard.object(forKey: UserDefaultsKeyConstant.healthKitAnchorKey) as? Data else { return }
-    
+    guard let data = UserDefaults.standard.object(forKey: UserDefaultsKey.healthKitAnchor) as? Data else { return }
+
     do {
       let anchor = try NSKeyedUnarchiver.unarchivedObject(ofClass: HKQueryAnchor.self, from: data)
       self.queryAnchor = anchor
@@ -129,7 +129,7 @@ extension HealthKitManager {
     self.queryAnchor = anchor
     
     if let anchorData = try? NSKeyedArchiver.archivedData(withRootObject: anchor as Any, requiringSecureCoding: false) {
-      UserDefaults.standard.setValue(anchorData, forKey: UserDefaultsKeyConstant.healthKitAnchorKey)
+      UserDefaults.standard.setValue(anchorData, forKey: UserDefaultsKey.healthKitAnchor)
     }
   }
 }

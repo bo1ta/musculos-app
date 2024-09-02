@@ -10,6 +10,7 @@ import HealthKit
 import Storage
 import Models
 import Components
+import Utility
 
 struct MusculosApp: App {
   @State private var appState: AppState = .loading

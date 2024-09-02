@@ -62,4 +62,8 @@ extension Container {
   var taskManager: Factory<TaskManagerProtocol> {
     self { TaskManager() }.unique
   }
+
+  var dataController: Factory<DataController> {
+    self { DataController() }.cached
+  }
 }
