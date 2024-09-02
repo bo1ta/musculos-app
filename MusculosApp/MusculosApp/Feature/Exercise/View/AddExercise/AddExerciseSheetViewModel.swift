@@ -17,8 +17,8 @@ import Storage
 final class AddExerciseSheetViewModel {
   
   @ObservationIgnored
-  @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
-  
+  @Injected(\.dataController) private var dataController: DataController
+
   var exerciseName = ""
   var equipment = ""
   var force = ""
@@ -68,7 +68,7 @@ final class AddExerciseSheetViewModel {
       )
       
       do {
-        try await exerciseDataStore.add(exercise)
+        try await dataController.addExercise(exercise)
         didSaveSubject.send(true)
       } catch {
         didSaveSubject.send(false)

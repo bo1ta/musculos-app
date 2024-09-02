@@ -16,19 +16,16 @@ protocol ExerciseServiceProtocol: Sendable {
 
 struct ExerciseService: ExerciseServiceProtocol, MusculosService {
   var client: MusculosClientProtocol
-  var dataStore: ExerciseDataStoreProtocol
 
-  init(client: MusculosClientProtocol = MusculosClient(), dataStore: ExerciseDataStoreProtocol = ExerciseDataStore()) {
+  init(client: MusculosClientProtocol = MusculosClient()) {
     self.client = client
-    self.dataStore = dataStore
   }
   
   func getExercises() async throws -> [Exercise] {
     let request = APIRequest(method: .get, path: .exercises)
     
     let data = try await client.dispatch(request)
-    let results = try Exercise.createArrayFrom(data)
-    return try await dataStore.importFrom(results)
+    return try Exercise.createArrayFrom(data)
   }
   
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
@@ -36,7 +33,6 @@ struct ExerciseService: ExerciseServiceProtocol, MusculosService {
     request.queryParams = [URLQueryItem(name: "query", value: query)]
 
     let data = try await client.dispatch(request)
-    let results = try Exercise.createArrayFrom(data)
-    return try await dataStore.importFrom(results)
+    return try Exercise.createArrayFrom(data)
   }
 }

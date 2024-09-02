@@ -16,20 +16,10 @@ import Utility
 @Observable
 @MainActor
 final class ExerciseDetailsViewModel {
-  
-  // MARK: - Dependencies
-  
-  @ObservationIgnored
-  @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
-  
-  @ObservationIgnored
-  @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
-  
-  @ObservationIgnored
-  @Injected(\.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
 
   @ObservationIgnored
-  @Injected(\.userManager) private var userManager: UserManagerProtocol
+  @Injected(\.dataController) private var dataController: DataController
+
 
   // MARK: - Event
 
@@ -77,7 +67,7 @@ final class ExerciseDetailsViewModel {
   // MARK: - Public methods
 
   func initialLoad() async {
-    isFavorite = await exerciseDataStore.isFavorite(exercise)
+    isFavorite = await dataController.isExerciseFavorite(exercise)
   }
 
   func updateFavorite(_ isFavorite: Bool) {
@@ -91,7 +81,7 @@ final class ExerciseDetailsViewModel {
         try await Task.sleep(for: .milliseconds(500))
         guard !Task.isCancelled else { return }
 
-        try await exerciseDataStore.setIsFavorite(exercise, isFavorite: isFavorite)
+        try await dataController.updateIsFavoriteForExercise(exercise, isFavorite: isFavorite)
         _event.send(.didUpdateFavorite(exercise, isFavorite))
       } catch {
         self.isFavorite = !isFavorite
@@ -103,12 +93,10 @@ final class ExerciseDetailsViewModel {
 
   func saveExerciseSession() {
     saveExerciseSessionTask = Task.detached(priority: .background) { [weak self] in
-      guard let self, let currentUser = await userManager.currentSession() else {
-        return
-      }
+      guard let self else { return }
 
       do {
-        try await exerciseSessionDataStore.addSession(exercise, date: Date(), userId: currentUser.userId)
+        try await dataController.addExerciseSession(for: exercise, date: Date())
         try await maybeUpdateGoals()
 
         await MainActor.run {
@@ -147,11 +135,11 @@ final class ExerciseDetailsViewModel {
   }
 
   private func maybeUpdateGoals() async throws {
-    let goals = await goalDataStore.getAll()
+    let goals = try await dataController.getGoals()
 
     for goal in goals {
       if let _ = ExerciseHelper.goalToExerciseCategories[goal.category] {
-        try await goalDataStore.incrementCurrentValue(goal)
+        try await dataController.incrementGoalScore(goal)
       }
     }
   }

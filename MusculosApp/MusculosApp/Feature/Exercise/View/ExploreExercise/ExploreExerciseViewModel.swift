@@ -23,13 +23,10 @@ final class ExploreExerciseViewModel {
   @Injected(\.dataController) private var dataController: DataController
 
   @ObservationIgnored
-  @Injected(\.exerciseService) private var service: ExerciseServiceProtocol
+  @Injected(\.exerciseService) private var exerciseService: ExerciseServiceProtocol
 
   @ObservationIgnored
   @Injected(\.userManager) private var userManager: UserManagerProtocol
-
-  @ObservationIgnored
-  @Injected(\.recommendationEngine) private var recommendationEngine: RecommendationEngine
   
   @ObservationIgnored
   private var cancellables = Set<AnyCancellable>()
@@ -125,7 +122,7 @@ extension ExploreExerciseViewModel {
 
   private func loadRecommendationsByGoals() async {
     do {
-      recommendedByGoals = try await recommendationEngine.recommendByGoals()
+      recommendedByGoals = try await dataController.getRecommendedExercisesByGoals()
     } catch {
       MusculosLogger.logError(error, message: "Could not load recommendations by goals", category: .coreData)
     }
@@ -133,7 +130,7 @@ extension ExploreExerciseViewModel {
 
   private func loadRecommendationsByPastSessions() async {
     do {
-      recommendedByPastSessions = try await recommendationEngine.recommendByMuscleGroups()
+      recommendedByPastSessions = try await dataController.getRecommendedExercisesByMuscleGroups()
     } catch {
       MusculosLogger.logError(error, message: "Could not load recommendations by past sessions", category: .coreData)
     }
@@ -141,7 +138,8 @@ extension ExploreExerciseViewModel {
 
   func loadRemoteExercises() async {
     do {
-      let exercises = try await service.getExercises()
+      let exercises = try await exerciseService.getExercises()
+      try await dataController.importExercises(exercises)
       contentState = .loaded(exercises)
     } catch {
       contentState = .error(MessageConstant.genericErrorMessage.rawValue)
@@ -156,7 +154,7 @@ extension ExploreExerciseViewModel {
       contentState = .loading
       
       do {
-        let exercises = try await service.searchByMuscleQuery(query)
+        let exercises = try await exerciseService.searchByMuscleQuery(query)
         contentState = .loaded(exercises)
       } catch {
         contentState = .error(MessageConstant.genericErrorMessage.rawValue)
@@ -176,8 +174,13 @@ extension ExploreExerciseViewModel {
   }
   
   func loadFavoriteExercises() async {
-    let exercises = await dataController.getFavoriteExercises()
-    contentState = .loaded(exercises)
+    do {
+      let exercises = try await dataController.getFavoriteExercises()
+      contentState = .loaded(exercises)
+    } catch {
+      contentState = .error(MessageConstant.genericErrorMessage.rawValue)
+      MusculosLogger.logError(error, message: "Data controller failed to get exercises", category: .coreData)
+    }
   }
   
   func refreshExercisesCompletedToday() async {
@@ -240,7 +243,7 @@ extension ExploreExerciseViewModel {
   private func handleDidAddGoalEvent() async {
     await refreshGoals()
   }
-  
+
   private func handleDidAddExerciseSession() async {
     await refreshExercisesCompletedToday()
     await refreshGoals()

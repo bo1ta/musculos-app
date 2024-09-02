@@ -20,8 +20,8 @@ final class AddGoalSheetViewModel {
   // MARK: - Dependency
   
   @ObservationIgnored
-  @Injected(\.goalDataStore) private var dataStore: GoalDataStoreProtocol
-  
+  @Injected(\.dataController) private var dataController: DataController
+
   // MARK: - Observed properties
   
   var name: String = ""
@@ -59,8 +59,8 @@ final class AddGoalSheetViewModel {
       )
       
       do {
-        try await dataStore.add(goal)
-        
+        try await dataController.addGoal(goal)
+
         await MainActor.run {
           didSaveGoalPublisher.send(true)
         }

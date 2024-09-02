@@ -31,7 +31,7 @@ public struct UserDataStore: BaseDataStore, UserDataStoreProtocol, Sendable {
     await storageManager.saveChanges()
   }
   
-  public func updateProfile(userId: UUID, weight: Int? = nil, height: Int? = nil, primaryGoalId: Int? = nil, level: String?, isOnboarded: Bool = false) async throws {
+  public func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       guard 
         let userProfile = UserProfileEntity.userFrom(userId: userId.uuidString, on: writerDerivedStorage)

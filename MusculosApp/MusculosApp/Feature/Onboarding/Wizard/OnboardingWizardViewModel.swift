@@ -20,13 +20,7 @@ final class OnboardingWizardViewModel {
   // MARK: - Dependencies
   
   @ObservationIgnored
-  @Injected(\.userDataStore) private var userDataStore: UserDataStoreProtocol
-  
-  @ObservationIgnored
-  @Injected(\.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
-
-  @ObservationIgnored
-  @Injected(\.userManager) private var userManager: UserManagerProtocol
+  @Injected(\.dataController) private var dataController: DataController
 
   // MARK: - Event
 
@@ -106,16 +100,13 @@ final class OnboardingWizardViewModel {
     guard let selectedGoal else { return }
     
     let goal = Goal(onboardingGoal: selectedGoal)
-    try await goalDataStore.add(goal)
+    try await dataController.addGoal(goal)
   }
   
   private func updateUser() async throws {
     var goalId: Int? // TODO: Handle Goal
-    
-    guard let currentUser = userManager.currentSession() else { return }
 
-    try await userDataStore.updateProfile(
-      userId: currentUser.userId,
+    try await dataController.updateUserProfile(
       weight: Int(selectedWeight),
       height: Int(selectedHeight),
       primaryGoalId: goalId,

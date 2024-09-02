@@ -21,8 +21,8 @@ final class AddWorkoutSheetViewModel {
   // MARK: - Dependencies
   
   @ObservationIgnored
-  @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
-  
+  @Injected(\.dataController) private var dataController: DataController
+
   @ObservationIgnored
   @Injected(\.workoutDataStore) private var workoutDataStore: WorkoutDataStoreProtocol
 
@@ -109,7 +109,7 @@ final class AddWorkoutSheetViewModel {
     updateTask = Task {
       state = .loading
       
-      let results = await exerciseDataStore.getByMuscles(selectedMuscleTypes)
+      let results = await dataController.getExercisesByMuscles(selectedMuscleTypes)
       state = .loaded(results)
     }
   }
@@ -155,7 +155,7 @@ extension AddWorkoutSheetViewModel {
     loadTask = Task { @MainActor in
       state = .loading
       
-      let results = await exerciseDataStore.getByName(name)
+      let results = await dataController.getExercisesByName(name)
       if results.isEmpty {
         state = .empty
       } else {
