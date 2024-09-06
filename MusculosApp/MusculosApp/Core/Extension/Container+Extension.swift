@@ -62,4 +62,8 @@ extension Container {
   var dataController: Factory<DataController> {
     self { DataController() }.cached
   }
+
+  var modelCacheManager: Factory<ModelCacheManager> {
+    self { ModelCacheManager() }
+  }
 }

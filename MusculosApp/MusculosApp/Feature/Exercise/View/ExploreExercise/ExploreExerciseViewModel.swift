@@ -77,7 +77,7 @@ final class ExploreExerciseViewModel {
 
   private func setupNotificationPublisher() {
     dataController
-      .updateEventPublisher
+      .modelEventPublisher
       .sink { [weak self] updateObjectEvent in
         self?.handleUpdate(updateObjectEvent)
       }
@@ -226,7 +226,7 @@ extension ExploreExerciseViewModel {
 // MARK: - Model Event Handling
 
 extension ExploreExerciseViewModel {
-  func handleUpdate(_ event: DataController.UpdateEvent) {
+  func handleUpdate(_ event: CoreModelNotificationHandler.Event) {
     updateTask?.cancel()
 
     updateTask = Task {

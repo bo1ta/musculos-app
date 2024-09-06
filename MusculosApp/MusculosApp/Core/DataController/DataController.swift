@@ -11,7 +11,6 @@ import Factory
 import Combine
 import Storage
 import CoreData
-import Cache
 import Utility
 
 public final class DataController: @unchecked Sendable {
@@ -22,18 +21,20 @@ public final class DataController: @unchecked Sendable {
   @Injected(\.modelCacheManager) private var modelCacheManager
   @Injected(\.userManager) private var userManager
 
-  private let coreModelNotificationHandler: CoreModelNotificationHandler
-
-  init() {
-    self.coreModelNotificationHandler = CoreModelNotificationHandler(managedObjectContext: StorageManager.shared.writerDerivedStorage as? NSManagedObjectContext)
+  private var currentUserSession: UserSession? {
+    return userManager.currentSession()
   }
 
   var modelEventPublisher: AnyPublisher<CoreModelNotificationHandler.Event, Never> {
     return coreModelNotificationHandler.eventPublisher
   }
 
-  private var currentUserSession: UserSession? {
-    return userManager.currentSession()
+  private let coreModelNotificationHandler: CoreModelNotificationHandler
+
+  init() {
+    self.coreModelNotificationHandler = CoreModelNotificationHandler(
+      managedObjectContext: StorageManager.shared.writerDerivedStorage as? NSManagedObjectContext
+    )
   }
 }
 
