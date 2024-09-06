@@ -19,7 +19,7 @@ import Storage
 final class AddWorkoutSheetViewModel {
   
   // MARK: - Dependencies
-  
+
   @ObservationIgnored
   @Injected(\.dataController) private var dataController: DataController
 
@@ -66,7 +66,7 @@ final class AddWorkoutSheetViewModel {
   
   // MARK: - Subjects
   
-  var didSaveSubject = PassthroughSubject<Bool, Never>()
+  let didSaveSubject = PassthroughSubject<Void, Never>()
   var searchQuerySubject = PassthroughSubject<Void, Never>()
   var musclesChanged = PassthroughSubject<Void, Never>()
   
@@ -83,7 +83,18 @@ final class AddWorkoutSheetViewModel {
   init() {
     setupPublishers()
   }
-  
+
+  private func initialLoad() async {
+    state = .loading
+
+    do {
+      let exercises = try await dataController.getExercises()
+      state = .loaded(exercises)
+    } catch {
+      state = .error("Could not fetch exercises")
+    }
+  }
+
   private func setupPublishers() {
     searchQuerySubject
       .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
@@ -168,10 +179,9 @@ extension AddWorkoutSheetViewModel {
   func submitWorkout() {
     guard !selectedExercises.isEmpty, !workoutName.isEmpty, !muscleSearchQuery.isEmpty else { return }
     
-    submitWorkoutTask = Task {
-      
-      guard let userSession = userManager.currentSession() else { return }
-      
+    submitWorkoutTask = Task { [weak self] in
+      guard let self, let userSession = userManager.currentSession() else { return }
+
       let workout = Workout(
         name: self.workoutName,
         targetMuscles: [self.muscleSearchQuery],
@@ -181,13 +191,8 @@ extension AddWorkoutSheetViewModel {
       
       do {
         try await self.workoutDataStore.create(workout, userId: userSession.userId)
-        await MainActor.run {
-          self.didSaveSubject.send(true)
-        }
+        didSaveSubject.send(())
       } catch {
-        await MainActor.run {
-          self.didSaveSubject.send(false)
-        }
         MusculosLogger.logError(error, message: "Could not add workout", category: .coreData)
       }
     }

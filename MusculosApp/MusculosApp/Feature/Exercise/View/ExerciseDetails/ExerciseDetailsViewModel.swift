@@ -20,16 +20,6 @@ final class ExerciseDetailsViewModel {
   @ObservationIgnored
   @Injected(\.dataController) private var dataController: DataController
 
-
-  // MARK: - Event
-
-  enum Event {
-    case didSaveSession
-    case didSaveSessionFailure(Error)
-    case didUpdateFavorite(Exercise, Bool)
-    case didUpdateFavoriteFailure(Error)
-  }
-
   // MARK: - Observed properties
 
   private(set) var showChallengeExercise = false
@@ -40,14 +30,6 @@ final class ExerciseDetailsViewModel {
     didSet {
       updateFavorite(isFavorite)
     }
-  }
-
-  // MARK: - Publishers
-
-  private let _event = PassthroughSubject<Event, Never>()
-
-  var event: AnyPublisher<Event, Never> {
-    _event.eraseToAnyPublisher()
   }
 
   // MARK: - Tasks
@@ -82,10 +64,8 @@ final class ExerciseDetailsViewModel {
         guard !Task.isCancelled else { return }
 
         try await dataController.updateIsFavoriteForExercise(exercise, isFavorite: isFavorite)
-        _event.send(.didUpdateFavorite(exercise, isFavorite))
       } catch {
         self.isFavorite = !isFavorite
-        _event.send(.didUpdateFavoriteFailure(error))
         MusculosLogger.logError(error, message: "Could not update exercise.isFavorite", category: .coreData)
       }
     }
@@ -98,16 +78,8 @@ final class ExerciseDetailsViewModel {
       do {
         try await dataController.addExerciseSession(for: exercise, date: Date())
         try await maybeUpdateGoals()
-
-        await MainActor.run {
-          self._event.send(.didSaveSession)
-        }
       } catch {
         MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
-
-        await MainActor.run {
-          self._event.send(.didSaveSessionFailure(error))
-        }
       }
     }
   }

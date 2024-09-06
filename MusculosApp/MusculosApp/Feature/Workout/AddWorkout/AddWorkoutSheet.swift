@@ -13,9 +13,6 @@ import Storage
 
 struct AddWorkoutSheet: View {
   @Environment(\.dismiss) private var dismiss
-  @Environment(\.appManager) private var appManager
-
-  @Environment(\.exerciseStore) private var exerciseStore: StorageStore<ExerciseEntity>
 
   @State private var viewModel = AddWorkoutSheetViewModel()
   
@@ -42,19 +39,28 @@ struct AddWorkoutSheet: View {
         MultiOptionsSelectView(showOptions: $viewModel.showSelectMuscles, selectedOptions: $viewModel.selectedMuscles, title: "Target muscles", options: muscleOptions)
       }
       .padding(.horizontal, 5)
-      
+
       VStack(alignment: .leading) {
         Text("Recommended exercises")
           .font(.body(.bold, size: 14))
 
-        ForEach(combineWithSelected(exerciseStore.results), id: \.hashValue) { exercise in
-          CardItem(
-            title: exercise.name,
-            isSelected: viewModel.isExerciseSelected(exercise),
-            onSelect: {
-              viewModel.currentSelectedExercise = exercise
-            }
-          )
+        switch viewModel.state {
+        case .loading:
+          CardItemShimmering()
+        case .loaded(let exercises):
+          ForEach(combineWithSelected(exercises), id: \.hashValue) { exercise in
+            CardItem(
+              title: exercise.name,
+              isSelected: viewModel.isExerciseSelected(exercise),
+              onSelect: {
+                viewModel.currentSelectedExercise = exercise
+              }
+            )
+          }
+        case .empty:
+          EmptyView()
+        case .error(let errorMessage):
+          Text(errorMessage)
         }
       }
       .transition(.blurReplace)
@@ -78,16 +84,10 @@ struct AddWorkoutSheet: View {
       isPresented: $viewModel.showRepsDialog,
       onSelectedValue: viewModel.didSelectExercise
     )
-    .onReceive(viewModel.didSaveSubject, perform: { isSuccessful in
-      if isSuccessful {
-        appManager.showToast(style: .info, message: "Goal saved! Good luck!")
-        appManager.notifyModelUpdate(.didAddGoal)
-        dismiss()
-      } else {
-        appManager.showToast(style: .error, message: "Could not save goal. Please try again")
-      }
-    })
     .animation(.easeInOut(duration: 0.2), value: viewModel.state)
+    .onReceive(viewModel.didSaveSubject, perform: { _ in
+      dismiss()
+    })
     .onDisappear(perform: viewModel.cleanUp)
   }
 }

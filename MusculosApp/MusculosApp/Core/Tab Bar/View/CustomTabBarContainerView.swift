@@ -8,18 +8,17 @@
 import SwiftUI
 
 struct CustomTabBarContainerView<Content: View>: View {
-  @Environment(\.appManager) private var appManager
-
   @Binding var selection: TabBarItem
+  
   let tabBarItems: [TabBarItem]
   let onAddTapped: () -> Void
   let content: Content
 
   init(
     selection: Binding<TabBarItem>,
-       tabBarItems: [TabBarItem],
-       onAddTapped: @escaping () -> Void,
-       @ViewBuilder content: () -> Content
+    tabBarItems: [TabBarItem],
+    onAddTapped: @escaping () -> Void,
+    @ViewBuilder content: () -> Content
   ) {
     self._selection = selection
     self.tabBarItems = tabBarItems
@@ -31,13 +30,11 @@ struct CustomTabBarContainerView<Content: View>: View {
     ZStack(alignment: .bottom) {
       content
 
-      if !appManager.isTabBarHidden {
-        CustomTabBarView(
-          currentTab: $selection,
-          tabBarItems: tabBarItems,
-          onAddTapped: onAddTapped
-        )
-      }
+      CustomTabBarView(
+        currentTab: $selection,
+        tabBarItems: tabBarItems,
+        onAddTapped: onAddTapped
+      )
     }
   }
 }

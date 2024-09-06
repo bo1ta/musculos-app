@@ -22,14 +22,25 @@ public final class DataController: @unchecked Sendable {
 
   @Injected(\.userManager) private var userManager
 
-  private let cacheExpiry: Expiry = Expiry.date(DateHelper.nowPlusMinutes(5))
+  enum UpdateEvent {
+    case didUpdateGoal
+    case didUpdateExercise
+    case didUpdateExerciseSession
+  }
+
+  private let updateEventSubject = PassthroughSubject<UpdateEvent, Never>()
+
+  var updateEventPublisher: AnyPublisher<UpdateEvent, Never> {
+    return updateEventSubject.eraseToAnyPublisher()
+  }
+
+  private let cacheExpiry = Expiry.date(DateHelper.nowPlusMinutes(5))
   private let cacheLimit: UInt = 40
   private let defaultCacheKey = "default"
 
   private var goalCache: MemoryStorage<String, [Goal]>
   private var exerciseCache: MemoryStorage<String, [Exercise]>
   private var exerciseSessionCache: MemoryStorage<String, [ExerciseSession]>
-  private var userCache: MemoryStorage<String, UserProfile?>
 
   private var currentUserSession: UserSession? {
     return userManager.currentSession()
@@ -44,9 +55,13 @@ public final class DataController: @unchecked Sendable {
     self.goalCache = MemoryStorage(config: memoryConfig)
     self.exerciseCache = MemoryStorage(config: memoryConfig)
     self.exerciseSessionCache = MemoryStorage(config: memoryConfig)
-    self.userCache = MemoryStorage(config: memoryConfig)
 
-    NotificationCenter.default.addObserver(self, selector: #selector(invalidateCache), name: .NSManagedObjectContextDidSave, object: StorageManager.shared.viewStorage as? NSManagedObjectContext)
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(managedObjectContextDidSave),
+      name: .NSManagedObjectContextDidSave,
+      object: StorageManager.shared.writerDerivedStorage as? NSManagedObjectContext
+    )
   }
 
   deinit {
@@ -54,11 +69,58 @@ public final class DataController: @unchecked Sendable {
   }
 
   @objc
+  private func managedObjectContextDidSave(_ notification: Notification) {
+    guard let userInfo = notification.userInfo else { return }
+
+    let insertedObjects = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject> ?? []
+    let updatedObjects = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject> ?? []
+    let deletedObjects = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject> ?? []
+
+    handleChangedObjects(insertedObjects)
+    handleChangedObjects(updatedObjects)
+    handleChangedObjects(deletedObjects)
+
+    invalidateCache()
+  }
+
+  private func handleChangedObjects(_ objects: Set<NSManagedObject>) {
+    var didUpdateGoal = false
+    var didUpdateExercise = false
+    var didUpdateExerciseSession = false
+
+    for object in objects {
+      switch object {
+      case is GoalEntity:
+        didUpdateGoal = true
+      case is ExerciseEntity:
+        didUpdateExercise = true
+      case is ExerciseSessionEntity:
+        didUpdateExerciseSession = true
+      default:
+        break
+      }
+    }
+
+    if didUpdateGoal {
+      updateEventSubject.send(.didUpdateGoal)
+    }
+    if didUpdateExercise {
+      updateEventSubject.send(.didUpdateExercise)
+    }
+    if didUpdateExerciseSession {
+      updateEventSubject.send(.didUpdateExerciseSession)
+    }
+  }
+
+  @objc
   private func invalidateCache() {
-    userCache.removeAll()
     exerciseCache.removeAll()
     goalCache.removeAll()
     exerciseSessionCache.removeAll()
+  }
+
+  private func handleInsertedObjects(_ objects: Set<NSManagedObject>) {
+    
   }
 }
 
@@ -225,20 +287,5 @@ extension DataController {
       level: level,
       isOnboarded: isOnboarded
     )
-  }
-
-  func getCurrentUserProfile() async throws -> UserProfile? {
-    guard let currentUserSession else {
-      throw MusculosError.notFound
-    }
-
-    let isCacheExpired = try userCache.isExpiredObject(forKey: defaultCacheKey)
-    if isCacheExpired {
-      let userProfile = await userDataStore.loadProfile(userId: currentUserSession.userId)
-      userCache.setObject(userProfile, forKey: defaultCacheKey)
-      return userProfile
-    } else {
-      return try userCache.object(forKey: defaultCacheKey)
-    }
   }
 }

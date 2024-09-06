@@ -40,8 +40,8 @@ final class AddGoalSheetViewModel {
     }
   }
   
-  private(set) var didSaveGoalPublisher = PassthroughSubject<Bool, Never>()
-  
+  private(set) var didSavePublisher = PassthroughSubject<Void, Never>()
+
   // MARK: - Tasks
   
   @ObservationIgnored
@@ -60,14 +60,8 @@ final class AddGoalSheetViewModel {
       
       do {
         try await dataController.addGoal(goal)
-
-        await MainActor.run {
-          didSaveGoalPublisher.send(true)
-        }
+        didSavePublisher.send(())
       } catch {
-        await MainActor.run {
-          didSaveGoalPublisher.send(false)
-        }
         MusculosLogger.logError(error, message: "Could not save goal", category: .coreData)
       }
     }

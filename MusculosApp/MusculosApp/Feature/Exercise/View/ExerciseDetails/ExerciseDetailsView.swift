@@ -12,7 +12,6 @@ import Components
 
 struct ExerciseDetailsView: View {
   @Environment(\.dismiss) private var dismiss
-  @Environment(\.appManager) private var appManager
 
   @State private var viewModel: ExerciseDetailsViewModel
   
@@ -43,14 +42,10 @@ struct ExerciseDetailsView: View {
       await viewModel.initialLoad()
     }
     .onDisappear(perform: viewModel.cleanUp)
-    .onReceive(viewModel.event) { event in
-      handleEvent(event)
-    }
     .navigationBarBackButtonHidden()
     .safeAreaInset(edge: .bottom) {
       if viewModel.isTimerActive {
         Button(action: {
-          appManager.showToast(style: .success, message: "Finished in \(viewModel.elapsedTime) seconds!")
           viewModel.stopTimer()
           onComplete?()
         }, label: {
@@ -68,20 +63,6 @@ struct ExerciseDetailsView: View {
         .padding()
         
       }
-    }
-  }
-
-  private func handleEvent(_ event: ExerciseDetailsViewModel.Event) {
-    switch event {
-    case .didSaveSession:
-      appManager.showToast(style: .success, message: "Completed exercise in \(viewModel.elapsedTime) seconds")
-      appManager.notifyModelUpdate(.didAddExerciseSession)
-    case .didSaveSessionFailure(let error):
-      appManager.showToast(style: .error, message: "Could not complete exercise. \(error.localizedDescription)")
-    case .didUpdateFavorite(let exercise, let bool):
-      appManager.notifyModelUpdate(.didFavoriteExercise)
-    case .didUpdateFavoriteFailure(let error):
-      appManager.showToast(style: .error, message: "Could not favorite exercise. \(error.localizedDescription)")
     }
   }
 }
