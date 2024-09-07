@@ -11,7 +11,6 @@ import Utility
 
 public final class ModelCacheManager: @unchecked Sendable {
   private let defaultCacheKey = "default"
-
   private let cacheExpiry = Expiry.date(DateHelper.nowPlusMinutes(5))
   private let cacheLimit: UInt = 40
 
@@ -69,5 +68,9 @@ public final class ModelCacheManager: @unchecked Sendable {
   func getCachedExerciseSessions() throws -> [ExerciseSession]? {
     let isExpired = try exerciseSessionCache.isExpiredObject(forKey: defaultCacheKey)
     return isExpired ? nil : try exerciseSessionCache.object(forKey: defaultCacheKey)
+  }
+
+  func invalidateExerciseSessionCache() {
+    exerciseSessionCache.removeAll()
   }
 }
