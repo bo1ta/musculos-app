@@ -17,8 +17,8 @@ import Storage
 final class AddExerciseSheetViewModel {
   
   @ObservationIgnored
-  @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
-  
+  @Injected(\.dataController) private var dataController: DataController
+
   var exerciseName = ""
   var equipment = ""
   var force = ""
@@ -35,9 +35,9 @@ final class AddExerciseSheetViewModel {
   var showEquipmentOptions = true
   
   private(set) var saveExerciseTask: Task<Void, Never>?
-  
-  var didSaveSubject = PassthroughSubject<Bool, Never>()
-    
+
+  let didSavePublisher = PassthroughSubject<Void, Never>()
+
   private var isExerciseValid: Bool {
     exerciseName.count > 0 &&
     equipment.count > 0 &&
@@ -68,10 +68,9 @@ final class AddExerciseSheetViewModel {
       )
       
       do {
-        try await exerciseDataStore.add(exercise)
-        didSaveSubject.send(true)
+        try await dataController.addExercise(exercise)
+        didSavePublisher.send(())
       } catch {
-        didSaveSubject.send(false)
         MusculosLogger.logError(error, message: "Could not save exercise", category: .coreData)
       }
     }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Utility
 
 protocol UserManagerProtocol: Sendable {
   func currentSession() -> UserSession?
@@ -14,42 +15,43 @@ protocol UserManagerProtocol: Sendable {
 }
 
 final class UserManager: @unchecked Sendable, UserManagerProtocol {
-    private let lock = NSLock()
+  private let lock = NSLock()
+  private let userDefaultsKey = UserDefaultsKey.userSession
 
-    private var _currentSession: UserSession?
+  private var _currentSession: UserSession?
 
-    func currentSession() -> UserSession? {
-        lock.withLock {
-            if _currentSession != nil {
-                return _currentSession
-            } else {
-                guard
-                    let data = UserDefaults.standard.data(forKey: UserDefaultsKeyConstant.userSessionKey),
-                    let authSession = try? UserSession.createFrom(data)
-                else {
-                    return nil
-                }
-
-                _currentSession = authSession
-                return authSession
-            }
+  func currentSession() -> UserSession? {
+    lock.withLock {
+      if _currentSession != nil {
+        return _currentSession
+      } else {
+        guard
+          let data = UserDefaults.standard.data(forKey: userDefaultsKey),
+          let authSession = try? UserSession.createFrom(data)
+        else {
+          return nil
         }
+
+        _currentSession = authSession
+        return authSession
+      }
     }
+  }
 
   func updateSession(_ session: UserSession) {
-        lock.withLock {
-          if let data = try? JSONEncoder().encode(session) {
-                UserDefaults.standard.set(data, forKey: UserDefaultsKeyConstant.userSessionKey)
-            }
+    lock.withLock {
+      if let data = try? JSONEncoder().encode(session) {
+        UserDefaults.standard.set(data, forKey: userDefaultsKey)
+      }
 
-          _currentSession = session
-        }
+      _currentSession = session
     }
+  }
 
-    func clearSession() {
-        lock.withLock {
-            _currentSession = nil
-            UserDefaults.standard.removeObject(forKey: UserDefaultsKeyConstant.userSessionKey)
-        }
+  func clearSession() {
+    lock.withLock {
+      _currentSession = nil
+      UserDefaults.standard.removeObject(forKey: userDefaultsKey)
     }
+  }
 }

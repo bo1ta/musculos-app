@@ -11,8 +11,6 @@ import Utility
 import Components
 
 struct WorkoutIntroView: View {
-  @Environment(\.appManager) private var appManager
-
   let workout: Workout
   let onStartTapped: () -> Void
   
@@ -37,7 +35,7 @@ struct WorkoutIntroView: View {
         .font(AppFont.header(.medium, size: 16.0))
         .foregroundStyle(.white)
         .shadow(radius: 1.2)
-
+      
       Button(action: onStartTapped) {
         Text("Start")
           .frame(maxWidth: .infinity)
@@ -53,7 +51,6 @@ struct WorkoutIntroView: View {
         .opacity(0.8)
     }
     .ignoresSafeArea()
-    .onAppear(perform: appManager.hideTabBar)
   }
   
   @ViewBuilder

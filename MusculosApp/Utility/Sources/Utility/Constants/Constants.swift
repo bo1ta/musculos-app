@@ -15,32 +15,38 @@ public enum HTTPMethod: String {
 }
 
 public struct HTTPHeaderConstant {
-  static let contentType = "Content-Type"
-  static let authorization = "Authorization"
+  public static let contentType = "Content-Type"
+  public static let authorization = "Authorization"
 }
 
 public struct UIConstant {
-  static let componentOpacity: Double = 0.95
+  public static let componentOpacity: Double = 0.95
+
+  public static let defaultAnimationDuration: Double = 0.25
+
+  public static let smallIconSize: Double = 16.0
+  public static let mediumIconSize: Double = 23.0
+  public static let largeIconSize: Double = 25.0
 }
 
-public enum UserDefaultsKeyConstant: String {
-  case isAuthenticated = "is_authenticated"
-  case authToken = "auth_token"
-  case isOnboarded = "is_onboarded"
-  case healthKitAnchor = "health_kit_anchor"
+public struct UserDefaultsKey {
+  public static let userSession = "user_session"
+  public static let authToken = "auth_token"
+  public static let isOnboarded = "is_onboarded"
+  public static let healthKitAnchor = "health_kit_anchor"
 }
 
 public enum MessageConstant: String {
   case genericErrorMessage = "Something went wrong. Please try again"
 }
 
-enum ModelUpdatedEvent {
+public enum ModelUpdatedEvent {
   case didAddGoal
   case didAddExerciseSession
   case didAddExercise
   case didFavoriteExercise
 
-  static var userInfoKey: String {
+  public static var userInfoKey: String {
     return "ModelUpdatedEventKey"
   }
 }

@@ -45,4 +45,8 @@ public struct DateHelper {
     dateFormatter.dateFormat = "E dd MMM" // Format: Tue 11 Jul
     return dateFormatter.string(from: Date())
   }
+
+  public static func nowPlusMinutes(_ minutes: Double) -> Date {
+    return Date().addingTimeInterval(minutes * 60)
+  }
 }

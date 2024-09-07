@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 import Models
 import Components
+import Utility
 
 struct AddGoalSheet: View {
-  @Environment(\.appManager) private var appManager
   @Environment(\.dismiss) private var dismiss
   @State private var viewModel = AddGoalSheetViewModel()
   
@@ -63,15 +63,6 @@ struct AddGoalSheet: View {
       
       Spacer()
     }
-    .onReceive(viewModel.didSaveGoalPublisher) { didSaveGoal in
-      if didSaveGoal {
-        appManager.showToast(style: .success, message: "Added new goal! Good luck!")
-        appManager.notifyModelUpdate(.didAddGoal)
-        dismiss()
-      } else {
-        appManager.showToast(style: .error, message: "Could not add goal. Please try again")
-      }
-    }
     .padding([.horizontal, .top], 15)
     .safeAreaInset(edge: .bottom) {
       Button(action: {
@@ -83,6 +74,9 @@ struct AddGoalSheet: View {
       .buttonStyle(PrimaryButtonStyle())
       .padding(.horizontal, 10)
     }
+    .onReceive(viewModel.didSavePublisher, perform: { _ in
+      dismiss()
+    })
     .onDisappear {
       viewModel.cleanUp()
     }

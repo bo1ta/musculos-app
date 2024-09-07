@@ -11,7 +11,6 @@ import Utility
 import Components
 
 struct OnboardingWizardView: View {
-  @Environment(\.appManager) private var appManager: AppManager
   @Environment(\.userStore) private var userStore: UserStore
   @State private var viewModel = OnboardingWizardViewModel()
   
@@ -35,7 +34,6 @@ struct OnboardingWizardView: View {
     case .didFinishOnboarding:
       userStore.updateIsOnboarded(true)
     case .didFinishWithError(let error):
-      appManager.showToast(style: .warning, message: "Could not save onboarding data.")
       MusculosLogger.logError(error, message: "Did finish onboarding with error", category: .ui)
     }
   }

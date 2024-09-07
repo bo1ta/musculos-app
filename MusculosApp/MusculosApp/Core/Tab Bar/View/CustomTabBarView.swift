@@ -48,7 +48,7 @@ struct CustomTabBarView: View {
   @ViewBuilder
   private func makeTabItemFor(_ item: TabBarItem) -> some View {
     let isTabSelected = currentTab == item
-    let imageSize = isTabSelected ? 30.0 : 28.0
+    let imageSize = isTabSelected ? UIConstant.largeIconSize : UIConstant.mediumIconSize
     let imageOpacity = isTabSelected ? 1.0 : 0.4
 
     Image(item.imageName)

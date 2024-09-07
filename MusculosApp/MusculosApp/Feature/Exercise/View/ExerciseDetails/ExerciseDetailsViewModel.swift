@@ -16,29 +16,9 @@ import Utility
 @Observable
 @MainActor
 final class ExerciseDetailsViewModel {
-  
-  // MARK: - Dependencies
-  
-  @ObservationIgnored
-  @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
-  
-  @ObservationIgnored
-  @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
-  
-  @ObservationIgnored
-  @Injected(\.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
 
   @ObservationIgnored
-  @Injected(\.userManager) private var userManager: UserManagerProtocol
-
-  // MARK: - Event
-
-  enum Event {
-    case didSaveSession
-    case didSaveSessionFailure(Error)
-    case didUpdateFavorite(Exercise, Bool)
-    case didUpdateFavoriteFailure(Error)
-  }
+  @Injected(\.dataController) private var dataController: DataController
 
   // MARK: - Observed properties
 
@@ -50,14 +30,6 @@ final class ExerciseDetailsViewModel {
     didSet {
       updateFavorite(isFavorite)
     }
-  }
-
-  // MARK: - Publishers
-
-  private let _event = PassthroughSubject<Event, Never>()
-
-  var event: AnyPublisher<Event, Never> {
-    _event.eraseToAnyPublisher()
   }
 
   // MARK: - Tasks
@@ -77,7 +49,7 @@ final class ExerciseDetailsViewModel {
   // MARK: - Public methods
 
   func initialLoad() async {
-    isFavorite = await exerciseDataStore.isFavorite(exercise)
+    isFavorite = await dataController.isExerciseFavorite(exercise)
   }
 
   func updateFavorite(_ isFavorite: Bool) {
@@ -91,11 +63,9 @@ final class ExerciseDetailsViewModel {
         try await Task.sleep(for: .milliseconds(500))
         guard !Task.isCancelled else { return }
 
-        try await exerciseDataStore.setIsFavorite(exercise, isFavorite: isFavorite)
-        _event.send(.didUpdateFavorite(exercise, isFavorite))
+        try await dataController.updateIsFavoriteForExercise(exercise, isFavorite: isFavorite)
       } catch {
         self.isFavorite = !isFavorite
-        _event.send(.didUpdateFavoriteFailure(error))
         MusculosLogger.logError(error, message: "Could not update exercise.isFavorite", category: .coreData)
       }
     }
@@ -103,23 +73,13 @@ final class ExerciseDetailsViewModel {
 
   func saveExerciseSession() {
     saveExerciseSessionTask = Task.detached(priority: .background) { [weak self] in
-      guard let self, let currentUser = await userManager.currentSession() else {
-        return
-      }
+      guard let self else { return }
 
       do {
-        try await exerciseSessionDataStore.addSession(exercise, date: Date(), userId: currentUser.userId)
+        try await dataController.addExerciseSession(for: exercise, date: Date())
         try await maybeUpdateGoals()
-
-        await MainActor.run {
-          self._event.send(.didSaveSession)
-        }
       } catch {
         MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
-
-        await MainActor.run {
-          self._event.send(.didSaveSessionFailure(error))
-        }
       }
     }
   }
@@ -147,11 +107,11 @@ final class ExerciseDetailsViewModel {
   }
 
   private func maybeUpdateGoals() async throws {
-    let goals = await goalDataStore.getAll()
+    let goals = try await dataController.getGoals()
 
     for goal in goals {
       if let _ = ExerciseHelper.goalToExerciseCategories[goal.category] {
-        try await goalDataStore.incrementCurrentValue(goal)
+        try await dataController.incrementGoalScore(goal)
       }
     }
   }

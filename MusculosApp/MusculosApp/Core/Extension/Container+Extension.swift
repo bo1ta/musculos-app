@@ -46,10 +46,6 @@ extension Container {
   var exerciseService: Factory<ExerciseServiceProtocol> {
     self { ExerciseService() }
   }
-  
-  var recommendationEngine: Factory<RecommendationEngine> {
-    self { RecommendationEngine() }
-  }
 
   var authService: Factory<AuthServiceProtocol> {
     self { AuthService() }
@@ -61,5 +57,13 @@ extension Container {
 
   var taskManager: Factory<TaskManagerProtocol> {
     self { TaskManager() }.unique
+  }
+
+  var dataController: Factory<DataController> {
+    self { DataController() }.cached
+  }
+
+  var modelCacheManager: Factory<ModelCacheManager> {
+    self { ModelCacheManager() }
   }
 }

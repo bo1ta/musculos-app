@@ -20,8 +20,8 @@ final class AddGoalSheetViewModel {
   // MARK: - Dependency
   
   @ObservationIgnored
-  @Injected(\.goalDataStore) private var dataStore: GoalDataStoreProtocol
-  
+  @Injected(\.dataController) private var dataController: DataController
+
   // MARK: - Observed properties
   
   var name: String = ""
@@ -40,8 +40,8 @@ final class AddGoalSheetViewModel {
     }
   }
   
-  private(set) var didSaveGoalPublisher = PassthroughSubject<Bool, Never>()
-  
+  private(set) var didSavePublisher = PassthroughSubject<Void, Never>()
+
   // MARK: - Tasks
   
   @ObservationIgnored
@@ -59,15 +59,9 @@ final class AddGoalSheetViewModel {
       )
       
       do {
-        try await dataStore.add(goal)
-        
-        await MainActor.run {
-          didSaveGoalPublisher.send(true)
-        }
+        try await dataController.addGoal(goal)
+        didSavePublisher.send(())
       } catch {
-        await MainActor.run {
-          didSaveGoalPublisher.send(false)
-        }
         MusculosLogger.logError(error, message: "Could not save goal", category: .coreData)
       }
     }

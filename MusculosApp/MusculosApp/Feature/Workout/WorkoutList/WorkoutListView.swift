@@ -9,7 +9,6 @@ import SwiftUI
 import Shimmer
 
 struct WorkoutListView: View {
-  @Environment(\.appManager) private var appManager
   @Environment(\.navigationRouter) private var navigationRouter
 
   @State private var viewModel = WorkoutListViewModel()
@@ -42,10 +41,7 @@ struct WorkoutListView: View {
           Text(errorMessage)
         }
       }
-      .onAppear {
-        appManager.showTabBar()
-        viewModel.initialLoad()
-      }
+      .onAppear(perform: viewModel.initialLoad)
     }
   }
   

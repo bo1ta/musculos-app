@@ -13,10 +13,8 @@ import Storage
 
 struct AddExerciseView: View {
   @Environment(\.dismiss) private var dismiss
-  @Environment(\.appManager) private var appManager
-  
+
   @State private var viewModel = AddExerciseSheetViewModel()
-  
   @State private var showPhotosPicker: Bool = false
   @State private var pickedPhotos: [PhotoModel] = []
   
@@ -89,14 +87,8 @@ struct AddExerciseView: View {
     .sheet(isPresented: $showPhotosPicker, content: {
       PhotosPicker(assets: $pickedPhotos)
     })
-    .onReceive(viewModel.didSaveSubject, perform: { isSuccessful in
-      if isSuccessful {
-        appManager.showToast(style: .success, message: "Exercise saved successfuly!")
-        appManager.notifyModelUpdate(.didAddExercise)
-        dismiss()
-      } else {
-        appManager.showToast(style: .error, message: "Error saving exercise. Please try again.")
-      }
+    .onReceive(viewModel.didSavePublisher, perform: { _ in
+      dismiss()
     })
     .safeAreaInset(edge: .bottom) {
       Button(action: {

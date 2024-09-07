@@ -10,14 +10,13 @@ import HealthKit
 import Storage
 import Models
 import Components
+import Utility
 
 struct MusculosApp: App {
   @State private var appState: AppState = .loading
   @State private var progress: Double = 0.0
   @State private var userStore = UserStore()
-  @State private var exerciseStore = StorageStore<ExerciseEntity>()
   @State private var healthKitViewModel = HealthKitViewModel()
-  @State private var appManager = AppManager()
 
   @Bindable private var navigationRouter = NavigationRouter()
 
@@ -58,7 +57,6 @@ struct MusculosApp: App {
             }
           }
         }
-        .toastView(toast: $appManager.toast)
       }
       .task {
         await loadInitialState()
@@ -66,8 +64,6 @@ struct MusculosApp: App {
       .environment(\.userStore, userStore)
       .environment(\.healthKitViewModel, healthKitViewModel)
       .environment(\.navigationRouter, navigationRouter)
-      .environment(\.exerciseStore, exerciseStore)
-      .environment(\.appManager, appManager)
     }
   }
 

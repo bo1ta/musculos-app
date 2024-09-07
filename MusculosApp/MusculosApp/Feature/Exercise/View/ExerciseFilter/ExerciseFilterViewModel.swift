@@ -18,8 +18,8 @@ import Models
 class ExerciseFilterViewModel {
   
   @ObservationIgnored
-  @Injected(\.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
-  
+  @Injected(\.dataController) private var dataController: DataController
+
   enum FilterDisplayable {
     case muscle, category, difficulty, equipment
   }
@@ -95,7 +95,7 @@ class ExerciseFilterViewModel {
       let equipments = filters[.equipment] ?? []
       
       let muscleTypes = muscles.compactMap { MuscleType(rawValue: $0) }
-      var filteredExercises = await self.exerciseDataStore.getByMuscles(muscleTypes)
+      var filteredExercises = await self.dataController.getExercisesByMuscles(muscleTypes)
       
       if categories.count > 0 {
         filteredExercises = filteredExercises.filter { categories.contains($0.category) }
