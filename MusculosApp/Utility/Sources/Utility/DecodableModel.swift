@@ -18,7 +18,6 @@ public protocol DecodableModel {
 public extension DecodableModel where Self: Codable {
   public static func createFrom(_ data: Data) throws -> Self {
     let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
 
     do {
       let decoded = try decoder.decode(Self.self, from: data)
@@ -28,13 +27,12 @@ public extension DecodableModel where Self: Codable {
                               message: "Could not decode object",
                               category: .networking,
                               properties: ["object": String(describing: Self.self)])
-      throw MusculosError.decodingError
+      throw error
     }
   }
 
   public static func createArrayFrom(_ data: Data) throws -> [Self] {
     let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
 
     do {
       let decoded = try decoder.decode([Self].self, from: data)
@@ -44,7 +42,7 @@ public extension DecodableModel where Self: Codable {
                               message: "Could not decode object",
                               category: .networking,
                               properties: ["object": String(describing: Self.self)])
-      throw MusculosError.decodingError
+      throw error
     }
   }
 }

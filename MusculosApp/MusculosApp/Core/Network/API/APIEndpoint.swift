@@ -13,11 +13,11 @@ enum Endpoint {
   var path: String {
     switch self {
     case .login:
-      return "/me/login"
+      return "/users/login"
     case .register:
-      return "/me/register"
+      return "/users/register"
     case .exercises:
-      return "/db0/exercises"
+      return "/exercises"
     case .exercisesByMuscle:
       return "/db0/searchMuscle"
     }
@@ -25,7 +25,7 @@ enum Endpoint {
 }
 
 struct APIEndpoint {
-  private static let base = "http://musclehustle.xyz:3000"
+  private static let base = "http://musclehustle.xyz:3000/api/v1/"
 
   static func baseWithEndpoint(endpoint: Endpoint) -> URL? {
     return URL(

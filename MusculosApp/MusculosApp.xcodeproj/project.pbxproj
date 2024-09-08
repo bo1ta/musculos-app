@@ -90,7 +90,6 @@
 		BCA24C0D2B6B14EE00124EC3 /* SelectSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */; };
 		BCA24C0F2B6B2B5D00124EC3 /* SelectGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */; };
 		BCA600592C5BDE200063C5AB /* PublisherValueExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA600582C5BDE190063C5AB /* PublisherValueExpectation.swift */; };
-		BCAE95AA2C447FAB00AD91BE /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAE95A92C447FA800AD91BE /* UserSession.swift */; };
 		BCB724BF2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB724BE2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift */; };
 		BCBEBA342BF7C33D00FA4BF5 /* WorkoutCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBEBA332BF7C33D00FA4BF5 /* WorkoutCarousel.swift */; };
 		BCBFBC3C2C70088D0022FE88 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCBFBC392C70088D0022FE88 /* Poppins-Medium.ttf */; };
@@ -223,7 +222,6 @@
 		BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSizeView.swift; sourceTree = "<group>"; };
 		BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGoalView.swift; sourceTree = "<group>"; };
 		BCA600582C5BDE190063C5AB /* PublisherValueExpectation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherValueExpectation.swift; sourceTree = "<group>"; };
-		BCAE95A92C447FA800AD91BE /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		BCB724BE2BC1EC43003F53EA /* AddWorkoutSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkoutSheetViewModel.swift; sourceTree = "<group>"; };
 		BCBEBA332BF7C33D00FA4BF5 /* WorkoutCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCarousel.swift; sourceTree = "<group>"; };
 		BCBFBC372C70088D0022FE88 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
@@ -436,7 +434,6 @@
 			isa = PBXGroup;
 			children = (
 				BC310C562C5960FE00059DF5 /* UserManager.swift */,
-				BCAE95A92C447FA800AD91BE /* UserSession.swift */,
 				BCA24BFD2B6AD33200124EC3 /* UserStore.swift */,
 			);
 			path = User;
@@ -1123,7 +1120,6 @@
 				BC7820042B9B692E009F9FB5 /* HighlightCard.swift in Sources */,
 				BC52DDD12B8516B8005A4587 /* MusculosClient.swift in Sources */,
 				BC1674D42BE2F8F70012048D /* AddGoalSheetViewModel.swift in Sources */,
-				BCAE95AA2C447FAB00AD91BE /* UserSession.swift in Sources */,
 				BCBEBA342BF7C33D00FA4BF5 /* WorkoutCarousel.swift in Sources */,
 				BC777EF32BA0F2E1001669C8 /* WorkoutListView.swift in Sources */,
 				BCA24BFC2B6AB9AF00124EC3 /* SignInView.swift in Sources */,

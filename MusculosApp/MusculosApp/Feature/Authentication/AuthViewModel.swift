@@ -10,6 +10,7 @@ import Combine
 import Utility
 import Factory
 import SwiftUI
+import Models
 
 @Observable
 @MainActor

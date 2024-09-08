@@ -180,7 +180,7 @@ extension AddWorkoutSheetViewModel {
     guard !selectedExercises.isEmpty, !workoutName.isEmpty, !muscleSearchQuery.isEmpty else { return }
     
     submitWorkoutTask = Task { [weak self] in
-      guard let self, let userSession = userManager.currentSession() else { return }
+      guard let self, let userSession = userManager.currentSession(), let userID = userSession.user.id else { return }
 
       let workout = Workout(
         name: self.workoutName,
@@ -190,7 +190,7 @@ extension AddWorkoutSheetViewModel {
       )
       
       do {
-        try await self.workoutDataStore.create(workout, userId: userSession.userId)
+        try await self.workoutDataStore.create(workout, userId: userID)
         didSaveSubject.send(())
       } catch {
         MusculosLogger.logError(error, message: "Could not add workout", category: .coreData)
