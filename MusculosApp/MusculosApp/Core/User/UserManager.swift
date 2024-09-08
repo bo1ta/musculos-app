@@ -7,6 +7,7 @@
 
 import Foundation
 import Utility
+import Models
 
 protocol UserManagerProtocol: Sendable {
   func currentSession() -> UserSession?

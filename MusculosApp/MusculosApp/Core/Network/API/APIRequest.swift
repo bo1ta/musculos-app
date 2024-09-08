@@ -8,6 +8,7 @@
 import Foundation
 import Factory
 import Utility
+import Models
 
 struct APIRequest {
   var method: HTTPMethod
@@ -47,7 +48,7 @@ struct APIRequest {
     if let authToken = self.authToken {
       newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(authToken)"
     } else {
-      if let fetchedToken = currentSession?.authToken {
+      if let fetchedToken = currentSession?.token.value {
         newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(fetchedToken)"
       }
     }

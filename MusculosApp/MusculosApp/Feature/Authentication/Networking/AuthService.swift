@@ -28,15 +28,7 @@ struct AuthService: MusculosService, AuthServiceProtocol {
     ]
 
     let data = try await client.dispatch(request)
-    let authResult = try AuthenticationResult.createFrom(data)
-
-    return UserSession(
-      authToken: authResult.token,
-      userId: UUID(),
-      email: email,
-      username: username,
-      isOnboarded: false
-    )
+    return try UserSession.createFrom(data)
   }
 
   func login(email: String, password: String) async throws -> UserSession {
@@ -47,15 +39,7 @@ struct AuthService: MusculosService, AuthServiceProtocol {
     ]
 
     let data = try await client.dispatch(request)
-    let result = try AuthenticationResult.createFrom(data)
-
-    return UserSession(
-      authToken: result.token,
-      userId: UUID(),
-      email: email,
-      username: email,
-      isOnboarded: false
-    )
+    return try UserSession.createFrom(data)
   }
 }
 
@@ -63,6 +47,8 @@ struct AuthService: MusculosService, AuthServiceProtocol {
 //
 extension AuthService {
   struct AuthenticationResult: Codable, DecodableModel {
-    var token: String
+    var value: String
+    var createdAt: Date?
+    var expiresAt: Date?
   }
 }

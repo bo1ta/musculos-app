@@ -54,7 +54,7 @@ final class UserStore {
   }
   
   var isOnboarded: Bool {
-    return userSession?.isOnboarded ?? false
+    return userSession?.user.isOnboarded ?? false
   }
   
   var isLoggedIn: Bool {
@@ -66,7 +66,7 @@ final class UserStore {
 
     self.userSession = userSession
 
-    if let currentProfile = await dataStore.loadProfileByEmail(userSession.email) {
+    if let currentProfile = await dataStore.loadProfileByEmail(userSession.user.email) {
       self.currentUserProfile = currentProfile
     }
   }
@@ -78,10 +78,10 @@ final class UserStore {
   }
 
   func refreshUser() {
-    guard let userSession else { return }
+    guard let userSession, let userID = userSession.user.id else { return }
 
     let task = Task {
-      currentUserProfile = await dataStore.loadProfile(userId: userSession.userId)
+      currentUserProfile = await dataStore.loadProfile(userId: userID)
     }
     taskManager.addTask(task)
   }
@@ -89,7 +89,7 @@ final class UserStore {
   func updateIsOnboarded(_ isOnboarded: Bool) {
     guard var userSession else { return }
 
-    userSession.isOnboarded  = isOnboarded
+    userSession.user.setIsOnboarded(isOnboarded)
     updateSession(userSession)
 
     _event.send(.didFinishOnboarding)
@@ -117,7 +117,7 @@ final class UserStore {
       isLoading = true
       defer { isLoading = false }
 
-      if let profile = await dataStore.loadProfileByEmail(session.email) {
+      if let profile = await dataStore.loadProfileByEmail(session.user.email) {
         currentUserProfile = profile
         _event.send(.didLogin)
       } else {
@@ -131,10 +131,11 @@ final class UserStore {
   // MARK: - Private helpers
 
   private func createUser(from session: UserSession) async {
+    let user = session.user
     let profile = UserProfile(
-      userId: session.userId,
-      email: session.email,
-      username: session.username
+      userId: user.id ?? UUID(),
+      email: user.email,
+      username: user.username
     )
 
     do {
