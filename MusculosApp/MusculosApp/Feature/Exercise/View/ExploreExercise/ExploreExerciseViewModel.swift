@@ -138,7 +138,6 @@ extension ExploreExerciseViewModel {
   func loadRemoteExercises() async {
     do {
       let exercises = try await exerciseService.getExercises()
-      try await dataController.importExercises(exercises)
       contentState = .loaded(exercises)
     } catch {
       contentState = .error(MessageConstant.genericErrorMessage.rawValue)

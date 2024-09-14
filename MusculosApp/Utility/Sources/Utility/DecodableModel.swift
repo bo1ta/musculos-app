@@ -11,8 +11,8 @@ import Foundation
 /// Supports single objects or arrays
 ///
 public protocol DecodableModel {
-  static func createFrom(_ data: Data) async throws -> Self
-  static func createArrayFrom(_ data: Data) async throws -> [Self]
+  static func createFrom(_ data: Data) throws -> Self
+  static func createArrayFrom(_ data: Data) throws -> [Self]
 }
 
 public extension DecodableModel where Self: Codable {
@@ -20,13 +20,14 @@ public extension DecodableModel where Self: Codable {
     let decoder = JSONDecoder()
 
     do {
-      let decoded = try decoder.decode(Self.self, from: data)
-      return decoded
+      return try decoder.decode(Self.self, from: data)
     } catch {
-      MusculosLogger.logError(error,
-                              message: "Could not decode object",
-                              category: .networking,
-                              properties: ["object": String(describing: Self.self)])
+      MusculosLogger.logError(
+        error,
+        message: "Could not decode object",
+        category: .networking,
+        properties: ["object": String(describing: Self.self)]
+      )
       throw error
     }
   }
@@ -35,13 +36,14 @@ public extension DecodableModel where Self: Codable {
     let decoder = JSONDecoder()
 
     do {
-      let decoded = try decoder.decode([Self].self, from: data)
-      return decoded
+      return try decoder.decode([Self].self, from: data)
     } catch {
-      MusculosLogger.logError(error,
-                              message: "Could not decode object",
-                              category: .networking,
-                              properties: ["object": String(describing: Self.self)])
+      MusculosLogger.logError(
+        error,
+        message: "Could not decode object",
+        category: .networking,
+        properties: ["object": String(describing: Self.self)]
+      )
       throw error
     }
   }

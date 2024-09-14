@@ -1,6 +1,6 @@
 //
-//  ExerciseEntity+CoreDataProperties.swift
-//  MusculosApp
+//  ExerciseEntity+CoreDataClass.swift
+//  Storage
 //
 //  Created by Solomon Alexandru on 09.05.2024.
 //
@@ -10,11 +10,8 @@ import Foundation
 import CoreData
 import Models
 
-extension ExerciseEntity {
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<ExerciseEntity> {
-    return NSFetchRequest<ExerciseEntity>(entityName: "ExerciseEntity")
-  }
-  
+@objc(ExerciseEntity)
+public class ExerciseEntity: NSManagedObject {
   @NSManaged public var category: String?
   @NSManaged public var equipment: String?
   @NSManaged public var exerciseId: UUID?
@@ -27,6 +24,18 @@ extension ExerciseEntity {
   @NSManaged public var primaryMuscles: Set<PrimaryMuscleEntity>
   @NSManaged public var secondaryMuscles: Set<SecondaryMuscleEntity>
   @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
+  
+  @nonobjc public class func fetchRequest() -> NSFetchRequest<ExerciseEntity> {
+    return NSFetchRequest<ExerciseEntity>(entityName: "ExerciseEntity")
+  }
+  
+  /// Populate default fields where is needed
+  ///
+  public override func awakeFromInsert() {
+    super.awakeFromInsert()
+    
+    self.exerciseSessions = Set<ExerciseSessionEntity>()
+  }
 }
 
 // MARK: Generated accessors for primaryMuscles
@@ -97,5 +106,50 @@ extension ExerciseEntity: ReadOnlyConvertible {
       instructions: self.instructions!,
       imageUrls: self.imageUrls!
     )
+  }
+  
+  public func update(from readable: Exercise) {
+    self.category = readable.category
+    self.exerciseId = readable.id
+    self.category = readable.category
+    self.equipment = readable.equipment
+    self.level = readable.level
+    self.name = readable.name
+    self.instructions = readable.instructions
+    self.imageUrls = readable.imageUrls
+    self.isFavorite = readable.isFavorite ?? false
+  }
+}
+
+extension ExerciseEntity: EntityPopulatable {
+  public func populateEntity(from readable: Exercise, using storage: StorageType) -> NSManagedObject {
+    self.defaultPopulateEntity(from: readable, using: storage)
+
+    updateRelationships(for: readable, storage: storage)
+    return self
+  }
+  
+  public func updateEntity(from readable: Exercise, using storage: StorageType) -> NSManagedObject {
+    guard let isFavorite = readable.isFavorite else {
+      return self
+    }
+    
+    self.isFavorite = isFavorite
+    return self
+  }
+  
+  func updateRelationships(for exercise: Exercise, storage: StorageType) {
+    self.primaryMuscles = PrimaryMuscleEntity.createFor(exerciseEntity: self, from: exercise.primaryMuscles, using: storage)
+    self.secondaryMuscles = SecondaryMuscleEntity.createFor(exerciseEntity: self, from: exercise.secondaryMuscles, using: storage)
+  }
+}
+
+extension Exercise: SyncableObject {
+  public typealias EntityType = ExerciseEntity
+  
+  public static var identifierKey: String = "exerciseId"
+  
+  public var identifierValue: String {
+    return id.uuidString
   }
 }

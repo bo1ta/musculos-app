@@ -10,8 +10,11 @@ import Models
 import Storage
 
 protocol ExerciseServiceProtocol: Sendable {
-  func getExercises() async throws -> [Exercise]
+  func  getExercises() async throws -> [Exercise]
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise]
+  func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise
+  func getFavoriteExercises() async throws -> [Exercise]
+  func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws
 }
 
 struct ExerciseService: ExerciseServiceProtocol, MusculosService {
@@ -25,7 +28,7 @@ struct ExerciseService: ExerciseServiceProtocol, MusculosService {
     let request = APIRequest(method: .get, path: .exercises)
     
     let data = try await client.dispatch(request)
-    return try Exercise.createArrayFrom(data)
+    return try await Exercise.createArrayWithTaskFrom(data)
   }
   
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
@@ -34,5 +37,29 @@ struct ExerciseService: ExerciseServiceProtocol, MusculosService {
 
     let data = try await client.dispatch(request)
     return try Exercise.createArrayFrom(data)
+  }
+
+  func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise {
+    let request = APIRequest(method: .get, path: .exerciseDetails(exerciseID))
+    
+    let data = try await client.dispatch(request)
+    return try await Exercise.createWithTaskFrom(data)
+  }
+
+  func getFavoriteExercises() async throws -> [Exercise] {
+    let request = APIRequest(method: .get, path: .favoriteExercise)
+
+    let data = try await client.dispatch(request)
+    return try Exercise.createArrayFrom(data)
+  }
+
+  func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
+    var request = APIRequest(method: .post, path: .favoriteExercise)
+    request.body = [
+      "exercise_id": exercise.id.uuidString,
+      "is_favorite": isFavorite
+    ]
+
+    _ = try await client.dispatch(request)
   }
 }

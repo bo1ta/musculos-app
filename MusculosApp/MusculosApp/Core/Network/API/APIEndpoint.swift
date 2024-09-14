@@ -8,7 +8,8 @@
 import Foundation
 
 enum Endpoint {
-  case login, register, exercises, exercisesByMuscle
+  case login, register, exercises, exercisesByMuscle, favoriteExercise
+  case exerciseDetails(_ exerciseID: UUID)
 
   var path: String {
     switch self {
@@ -18,6 +19,10 @@ enum Endpoint {
       return "/users/register"
     case .exercises:
       return "/exercises"
+    case let .exerciseDetails(exerciseID):
+      return "/exercises/\(exerciseID)"
+    case .favoriteExercise:
+      return "/exercises/favorites"
     case .exercisesByMuscle:
       return "/db0/searchMuscle"
     }
@@ -25,7 +30,7 @@ enum Endpoint {
 }
 
 struct APIEndpoint {
-  private static let base = "http://musclehustle.xyz:3000/api/v1/"
+  private static let base = "http://0.0.0.0:3000/api/v1/"
 
   static func baseWithEndpoint(endpoint: Endpoint) -> URL? {
     return URL(

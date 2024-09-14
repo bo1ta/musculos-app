@@ -44,17 +44,12 @@ struct APIRequest {
 
     var newHeaders: [String: String] = [:]
     newHeaders[HTTPHeaderConstant.contentType] = self.contentType
-    
-    if let authToken = self.authToken {
-      newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(authToken)"
-    } else {
-      if let fetchedToken = currentSession?.token.value {
-        newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(fetchedToken)"
-      }
+
+    if let fetchedToken = currentSession?.token.value {
+      newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(fetchedToken)"
     }
     
     request.allHTTPHeaderFields = newHeaders
-
     return request
   }
 

@@ -20,6 +20,7 @@ public struct Exercise: Codable, Sendable {
   public var secondaryMuscles: [String]
   public var instructions: [String]
   public var imageUrls: [String]
+  public var isFavorite: Bool?
 
   public init(
     category: String,
@@ -44,6 +45,7 @@ public struct Exercise: Codable, Sendable {
     self.secondaryMuscles = secondaryMuscles
     self.instructions = instructions
     self.imageUrls = imageUrls
+    self.isFavorite = isFavorite
   }
   
   public var muscleTypes: [MuscleType] {
@@ -62,7 +64,7 @@ public struct Exercise: Codable, Sendable {
   }
 
   enum CodingKeys: String, CodingKey {
-    case category, equipment, force, id, level, name, primaryMuscles, secondaryMuscles, instructions, imageUrls
+    case category, equipment, force, id, level, name, primaryMuscles, secondaryMuscles, instructions, imageUrls, isFavorite
   }
   
   public func getImagesURLs() -> [URL] {

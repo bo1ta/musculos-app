@@ -20,17 +20,16 @@ final class ExerciseDetailsViewModel {
   @ObservationIgnored
   @Injected(\.dataController) private var dataController: DataController
 
+  @ObservationIgnored
+  @Injected(\.exerciseService) private var exerciseService: ExerciseServiceProtocol
+
   // MARK: - Observed properties
 
   private(set) var showChallengeExercise = false
   private(set) var isTimerActive = false
   private(set) var elapsedTime: Int = 0
 
-  var isFavorite = false {
-    didSet {
-      updateFavorite(isFavorite)
-    }
-  }
+  var isFavorite = false
 
   // MARK: - Tasks
   
@@ -40,8 +39,8 @@ final class ExerciseDetailsViewModel {
 
   // MARK: - Init and Setup
   
-  let exercise: Exercise
-  
+  var exercise: Exercise
+
   init(exercise: Exercise) {
     self.exercise = exercise
   }
@@ -50,6 +49,15 @@ final class ExerciseDetailsViewModel {
 
   func initialLoad() async {
     isFavorite = await dataController.isExerciseFavorite(exercise)
+
+    do {
+      exercise = try await exerciseService.getExerciseDetails(for: exercise.id)
+      if let isFavorite = exercise.isFavorite {
+        self.isFavorite = isFavorite
+      }
+    } catch {
+      MusculosLogger.logError(error, message: "Could not load details for exercise", category: .networking, properties: ["exercise_id": exercise.id])
+    }
   }
 
   func updateFavorite(_ isFavorite: Bool) {
@@ -63,6 +71,7 @@ final class ExerciseDetailsViewModel {
         try await Task.sleep(for: .milliseconds(500))
         guard !Task.isCancelled else { return }
 
+        try await exerciseService.setFavoriteExercise(exercise, isFavorite: isFavorite)
         try await dataController.updateIsFavoriteForExercise(exercise, isFavorite: isFavorite)
       } catch {
         self.isFavorite = !isFavorite
