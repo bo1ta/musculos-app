@@ -16,7 +16,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   public static let shared = StorageManager()
   
   private var cancellables = Set<AnyCancellable>()
-  private let coalesceInterval: Double = 2.0 // coalesce interval for Core Data saving
+  private let coalesceInterval: Double = 0.3 // coalesce interval for Core Data saving
   
   private var backgroundSaveTask: Task<Void, Never>?
   

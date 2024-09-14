@@ -122,19 +122,21 @@ extension ExerciseEntity: ReadOnlyConvertible {
 }
 
 extension ExerciseEntity: EntityPopulatable {
-  public func populateEntity(from readable: Exercise, using storage: StorageType) -> NSManagedObject {
-    self.defaultPopulateEntity(from: readable, using: storage)
+  public func populateEntity(from model: Exercise, using storage: StorageType) -> NSManagedObject {
+    self.defaultPopulateEntity(from: model, using: storage)
+    self.exerciseId = model.id
 
-    updateRelationships(for: readable, storage: storage)
+    updateRelationships(for: model, storage: storage)
     return self
   }
   
-  public func updateEntity(from readable: Exercise, using storage: StorageType) -> NSManagedObject {
-    guard let isFavorite = readable.isFavorite else {
+  public func updateEntity(from model: Exercise, using storage: StorageType) -> NSManagedObject {
+    guard let isFavorite = model.isFavorite else {
       return self
     }
-    
+    self.exerciseId = model.id
     self.isFavorite = isFavorite
+    
     return self
   }
   
