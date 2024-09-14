@@ -78,6 +78,7 @@ final class ExploreExerciseViewModel {
   private func setupNotificationPublisher() {
     dataController
       .modelEventPublisher
+      .debounce(for: .milliseconds(700), scheduler: RunLoop.main)
       .sink { [weak self] updateObjectEvent in
         self?.handleUpdate(updateObjectEvent)
       }

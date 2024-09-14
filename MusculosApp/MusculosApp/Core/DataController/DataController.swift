@@ -35,10 +35,25 @@ public final class DataController: @unchecked Sendable {
 
   private let coreModelNotificationHandler: CoreModelNotificationHandler
 
+  private var cancellables = Set<AnyCancellable>()
+
   init() {
     self.coreModelNotificationHandler = CoreModelNotificationHandler(
       managedObjectContext: StorageManager.shared.writerDerivedStorage as? NSManagedObjectContext
     )
+    self.coreModelNotificationHandler.eventPublisher
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] event in
+        switch event {
+        case .didUpdateExercise:
+          self?.modelCacheManager.invalidateExerciseCache()
+        case .didUpdateExerciseSession:
+          self?.modelCacheManager.invalidateExerciseSessionCache()
+        case .didUpdateGoal:
+          self?.modelCacheManager.invalidateGoalCache()
+        }
+      }
+      .store(in: &cancellables)
   }
 }
 
