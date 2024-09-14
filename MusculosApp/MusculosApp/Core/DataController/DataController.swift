@@ -94,11 +94,6 @@ extension DataController {
     return try await exerciseDataStore.setIsFavorite(exercise, isFavorite: isFavorite)
   }
 
-  @discardableResult
-  func importExercises(_ exercises: [Exercise]) async throws -> [Exercise] {
-    return try await exerciseDataStore.importFrom(exercises)
-  }
-
   func addExercise(_ exercise: Exercise) async throws {
     return try await exerciseDataStore.add(exercise)
   }

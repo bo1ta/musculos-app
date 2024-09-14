@@ -50,10 +50,6 @@ public protocol ExerciseDataStoreProtocol: Sendable {
   ///
   func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws
 
-  /// Imports exercises into the data store
-  ///
-  func importFrom(_ exercises: [Exercise]) async throws -> [Exercise]
-
   /// Adds exercise to the data store
   ///
   func add(_ exercise: Exercise) async throws
@@ -120,7 +116,7 @@ public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
   
   public func getAllByGoals(_ goals: [Goal], fetchLimit: Int) async -> [Exercise] {
     return await storageManager.performRead { viewStorage in
-      let predicate = mapGoalsToCategoryPredicate(goals)
+      let predicate = Self.mapGoalsToCategoryPredicate(goals)
       return viewStorage.allObjects(
         ofType: ExerciseEntity.self,
         fetchLimit: fetchLimit,
@@ -159,46 +155,6 @@ public extension ExerciseDataStore {
       }
       exercise.isFavorite = isFavorite
     }
-    
-    await storageManager.saveChanges()
-  }
-  
-  public func importFrom(_ exercises: [Exercise]) async throws -> [Exercise] {
-    try await storageManager.performWrite { writerStorage in
-      let existingExercises: Set<UUID>? = writerStorage
-        .fetchUniquePropertyValues(
-          ofType: ExerciseEntity.self,
-          property: "exerciseId",
-          expressionResultType: .UUIDAttributeType
-        )
-      
-      for exercise in exercises {
-        let alreadyExists = existingExercises?.contains(exercise.id) ?? false
-        guard !alreadyExists else { continue }
-        
-        let exerciseEntity = writerStorage.insertNewObject(ofType: ExerciseEntity.self)
-        
-        exerciseEntity.exerciseId = exercise.id
-        exerciseEntity.name = exercise.name
-        exerciseEntity.equipment = exercise.equipment
-        exerciseEntity.category = exercise.category
-        exerciseEntity.force = exercise.force
-        exerciseEntity.imageUrls = exercise.imageUrls
-        exerciseEntity.instructions = exercise.instructions
-        exerciseEntity.level = exercise.level
-        
-        let (primaryMuscles, secondaryMuscles) = self.syncMusclesToExerciseEntity(
-          exerciseEntity: exerciseEntity,
-          primaryMuscles: exercise.primaryMuscles,
-          secondaryMuscles: exercise.secondaryMuscles,
-          writerStorage: writerStorage
-        )
-        exerciseEntity.primaryMuscles = primaryMuscles
-        exerciseEntity.secondaryMuscles = secondaryMuscles
-      }
-    }
-    
-    return exercises
   }
   
   public func add(_ exercise: Exercise) async throws {
@@ -213,105 +169,29 @@ public extension ExerciseDataStore {
       exerciseEntity.imageUrls = exercise.imageUrls
       exerciseEntity.instructions = exercise.instructions
       exerciseEntity.level = exercise.level
-      
-      let (primaryMuscles, secondaryMuscles) = self.syncMusclesToExerciseEntity(
-        exerciseEntity: exerciseEntity,
-        primaryMuscles: exercise.primaryMuscles,
-        secondaryMuscles: exercise.secondaryMuscles,
-        writerStorage: writerStorage
-      )
-      exerciseEntity.primaryMuscles = primaryMuscles
-      exerciseEntity.secondaryMuscles = secondaryMuscles
-    }
-  }
-}
 
-// MARK: - Helpers
-
-extension ExerciseDataStore {
-  
-  /// Syncs muscles to an ExerciseEntity, ensuring relationships are properly maintained.
-  /// - Parameters:
-  ///   - exerciseEntity: The `ExerciseEntity` to update.
-  ///   - primaryMuscles: A list of primary muscle IDs.
-  ///   - secondaryMuscles: A list of secondary muscle IDs.
-  ///   - writerStorage: The storage context for writing.
-  /// - Returns: A tuple containing sets of primary and secondary muscle entities.
-  ///
-  private func syncMusclesToExerciseEntity(
-    exerciseEntity: ExerciseEntity,
-    primaryMuscles: [String],
-    secondaryMuscles: [String],
-    writerStorage: StorageType
-  ) -> (Set<PrimaryMuscleEntity>, Set<SecondaryMuscleEntity>) {
-    let primaryMusclesEntity = Set<PrimaryMuscleEntity>(
-      primaryMuscles
-        .compactMap { muscle in
-          guard let muscleType = MuscleType(rawValue: muscle) else { return nil }
-          
-          let predicate = NSPredicate(
-            format: "%K == %d",
-            #keyPath(PrimaryMuscleEntity.muscleId),
-            muscleType.id
-          )
-          
-          if let entity = writerStorage.firstObject(of: PrimaryMuscleEntity.self, matching: predicate) {
-            entity.exercises.insert(exerciseEntity)
-            return entity
-          } else {
-            let entity = writerStorage.insertNewObject(ofType: PrimaryMuscleEntity.self)
-            entity.muscleId = NSNumber(integerLiteral: muscleType.id)
-            entity.name = muscleType.rawValue
-            entity.exercises.insert(exerciseEntity)
-            return entity
-          }
-        }
-    )
-    
-    let secondaryMusclesEntity = Set<SecondaryMuscleEntity>(
-      secondaryMuscles
-        .compactMap { muscle in
-          guard let muscleType = MuscleType(rawValue: muscle) else { return nil }
-          
-          let predicate = NSPredicate(
-            format: "%K == %d",
-            #keyPath(SecondaryMuscleEntity.muscleId),
-            muscleType.id
-          )
-          
-          if let entity = writerStorage.firstObject(of: SecondaryMuscleEntity.self, matching: predicate) {
-            entity.exercises.insert(exerciseEntity)
-            return entity
-          } else {
-            let entity = writerStorage.insertNewObject(ofType: SecondaryMuscleEntity.self)
-            entity.muscleId = NSNumber(integerLiteral: muscleType.id)
-            entity.name = muscleType.rawValue
-            entity.exercises.insert(exerciseEntity)
-            return entity
-          }
-        }
-    )
-    
-    return (primaryMusclesEntity, secondaryMusclesEntity)
-  }
-  
-  private func mapGoalsToCategoryPredicate(_ goals: [Goal]) -> NSPredicate? {
-    var predicate: NSPredicate?
-    
-    for goal in goals {
-      if let categories = Self.goalToExerciseCategories[goal.category] {
-        let categoryPredicate = NSPredicate(format: "category IN %@", categories)
-        predicate = predicate == nil ? categoryPredicate : NSCompoundPredicate(orPredicateWithSubpredicates: [predicate!, categoryPredicate])
-      }
+      exerciseEntity.primaryMuscles = PrimaryMuscleEntity.createFor(exerciseEntity: exerciseEntity, from: exercise.primaryMuscles, using: writerStorage)
+      exerciseEntity.secondaryMuscles = SecondaryMuscleEntity.createFor(exerciseEntity: exerciseEntity, from: exercise.secondaryMuscles, using: writerStorage)
     }
-    
-    return predicate
   }
 }
 
 // MARK: - Static properties
 
 extension ExerciseDataStore {
+  private static func mapGoalsToCategoryPredicate(_ goals: [Goal]) -> NSPredicate? {
+    var predicate: NSPredicate?
+
+    for goal in goals {
+      if let categories = Self.goalToExerciseCategories[goal.category] {
+        let categoryPredicate = NSPredicate(format: "category IN %@", categories)
+        predicate = predicate == nil ? categoryPredicate : NSCompoundPredicate(orPredicateWithSubpredicates: [predicate!, categoryPredicate])
+      }
+    }
+
+    return predicate
+  }
+  
   static let goalToExerciseCategories: [Goal.Category: [String]] = [
     .growMuscle: [
       ExerciseConstants.CategoryType.strength.rawValue,

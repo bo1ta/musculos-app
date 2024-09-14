@@ -27,8 +27,6 @@ public struct UserDataStore: BaseDataStore, UserDataStoreProtocol, Sendable {
       userProfile.username = profile.username
       userProfile.email = profile.email
     }
-    
-    await storageManager.saveChanges()
   }
   
   public func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws {
@@ -50,9 +48,7 @@ public struct UserDataStore: BaseDataStore, UserDataStoreProtocol, Sendable {
       if let primaryGoalId {
         userProfile.primaryGoalId = NSNumber(integerLiteral: primaryGoalId)
       }
-    }
-    
-    await storageManager.saveChanges()
+    }    
   }
   
   public func loadProfile(userId: UUID) async -> UserProfile? {
