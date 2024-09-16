@@ -10,16 +10,16 @@ import Foundation
 import Utility
 
 public struct Exercise: Codable, Sendable {
-  public var category: String
-  public var equipment: String?
+  public var category: String = ""
+  public var equipment: String? = ""
   public var force: String?
-  public var id: UUID
-  public var level: String
-  public var name: String
-  public var primaryMuscles: [String]
-  public var secondaryMuscles: [String]
-  public var instructions: [String]
-  public var imageUrls: [String]
+  public var id: UUID = UUID()
+  public var level: String = ""
+  public var name: String = ""
+  public var primaryMuscles: [String] = []
+  public var secondaryMuscles: [String] = []
+  public var instructions: [String] = []
+  public var imageUrls: [String] = []
   public var isFavorite: Bool?
 
   public init(
@@ -47,7 +47,7 @@ public struct Exercise: Codable, Sendable {
     self.imageUrls = imageUrls
     self.isFavorite = isFavorite
   }
-  
+
   public var muscleTypes: [MuscleType] {
     var allMuscles = primaryMuscles
     allMuscles.append(contentsOf: secondaryMuscles)

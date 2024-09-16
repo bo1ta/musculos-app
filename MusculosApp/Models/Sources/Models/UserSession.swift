@@ -28,6 +28,10 @@ public struct UserSession: Codable, DecodableModel {
     public var email: String
     public var id: UUID?
     public var isOnboarded: Bool?
+    public var weight: Double?
+    public var height: Double?
+    public var level: String?
+    public var primaryGoal: String?
 
     public init(username: String, email: String, id: UUID? = nil, isOnboarded: Bool = false) {
       self.username = username

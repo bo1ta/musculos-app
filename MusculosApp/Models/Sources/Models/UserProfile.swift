@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Utility
 
 public struct UserProfile: Codable, Sendable {
   public var userId: UUID
@@ -46,17 +47,22 @@ public struct UserProfile: Codable, Sendable {
     self.primaryGoalId = primaryGoalId
   }
 
+  enum CodingKeys: String, CodingKey {
+    case userId = "id"
+    case avatar
+    case fullName
+    case username
+    case email
+    case gender
+    case weight
+    case height
+    case level
+    case availableEquipment = "equipment"
+    case primaryGoalId
+  }
+
   public var avatarUrl: URL? {
     guard let avatar else { return nil }
     return URL(string: avatar)
-  }
-}
-
-extension UserProfile: Hashable {
-  public func hash(into hasher: inout Hasher) {
-    hasher.combine(avatar)
-    hasher.combine(fullName)
-    hasher.combine(username)
-    hasher.combine(email)
   }
 }

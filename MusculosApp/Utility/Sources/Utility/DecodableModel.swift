@@ -7,10 +7,10 @@
 
 import Foundation
 
-/// Utility that decodes Data into  a Codable object
+/// Utility that decodes Data into a Codable object
 /// Supports single objects or arrays
 ///
-public protocol DecodableModel {
+public protocol DecodableModel: Codable {
   static func createFrom(_ data: Data) throws -> Self
   static func createArrayFrom(_ data: Data) throws -> [Self]
 }

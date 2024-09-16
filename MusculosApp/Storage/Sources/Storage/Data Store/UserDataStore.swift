@@ -23,7 +23,7 @@ public struct UserDataStore: BaseDataStore, UserDataStoreProtocol, Sendable {
   public func createUser(profile: UserProfile) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       let userProfile = writerDerivedStorage.insertNewObject(ofType: UserProfileEntity.self)
-      userProfile.userId = profile.userId.uuidString
+      userProfile.userId = profile.userId
       userProfile.username = profile.username
       userProfile.email = profile.email
     }

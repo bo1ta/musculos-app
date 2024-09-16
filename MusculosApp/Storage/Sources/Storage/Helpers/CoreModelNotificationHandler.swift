@@ -1,28 +1,31 @@
 //
 //  CoreModelNotificationHandler.swift
-//  MusculosApp
+//
 //
 //  Created by Solomon Alexandru on 06.09.2024.
 //
 
 import CoreData
 import Utility
-import Storage
 import Combine
 
+/// Class that listens to "core" models that are used accross the app
+/// and publishes an event when updates happen
+/// `
 public final class CoreModelNotificationHandler {
-  enum Event {
+  public enum Event {
     case didUpdateGoal
     case didUpdateExercise
     case didUpdateExerciseSession
   }
 
   private let eventSubject = PassthroughSubject<Event, Never>()
-  var eventPublisher: AnyPublisher<Event, Never> {
+
+  public var eventPublisher: AnyPublisher<Event, Never> {
     return eventSubject.eraseToAnyPublisher()
   }
 
-  init(managedObjectContext: NSManagedObjectContext?) {
+  public init(managedObjectContext: NSManagedObjectContext?) {
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(managedObjectContextDidSave),

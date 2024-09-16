@@ -12,7 +12,7 @@ import Models
 
 @objc(UserProfileEntity)
 public class UserProfileEntity: NSManagedObject {
-  @NSManaged public var userId: String?
+  @NSManaged public var userId: UUID
   @NSManaged public var availableEquipment: [String]?
   @NSManaged public var avatarUrl: String?
   @NSManaged public var email: String?
@@ -53,9 +53,18 @@ extension UserProfileEntity {
 
 extension UserProfileEntity: ReadOnlyConvertible {
   public func toReadOnly() -> UserProfile? {
-    guard let email, let username, let userId else { return nil }
+    guard let email, let username else { return nil }
 
-    return UserProfile(userId: UUID(uuidString: userId)!, email: email, username: username, weight: weight?.doubleValue, height: height?.doubleValue, level: level, availableEquipment: availableEquipment, primaryGoalId: primaryGoalId?.intValue)
+    return UserProfile(
+      userId: userId,
+      email: email,
+      username: username,
+      weight: weight?.doubleValue,
+      height: height?.doubleValue,
+      level: level,
+      availableEquipment: availableEquipment,
+      primaryGoalId: primaryGoalId?.intValue
+    )
   }
 
   public var synchronizationState: SynchronizationState {
@@ -72,7 +81,6 @@ extension UserProfileEntity: ReadOnlyConvertible {
 // MARK: - Common predicate
 
 extension UserProfileEntity {
-
   static func userFrom(userId: String, on storage: StorageType) -> UserProfileEntity? {
     return storage.firstObject(of: UserProfileEntity.self, matching: CommonPredicate.currentUser(userId).nsPredicate)
   }
@@ -90,5 +98,48 @@ extension UserProfileEntity {
         )
       }
     }
+  }
+}
+
+// MARK: - EntitySyncable
+
+extension UserProfileEntity: EntitySyncable {
+  public func populateEntityFrom(_ model: UserProfile, using storage: StorageType) throws {
+    self.userId = model.userId
+    self.availableEquipment = model.availableEquipment
+    self.avatarUrl = model.avatar
+    self.email = model.email
+    self.fullName = model.fullName
+    self.gender = model.gender
+    self.level = model.level
+    self.username = model.username
+
+    if let weight = model.weight {
+      self.weight = NSNumber(floatLiteral: weight)
+    }
+    if let height = model.height {
+      self.height = NSNumber(floatLiteral: height)
+    }
+    if let primaryGoalId = model.primaryGoalId {
+      self.primaryGoalId = NSNumber(integerLiteral: primaryGoalId)
+    }
+
+    self.synchronized = SynchronizationState.synchronized.asNSNumber()
+  }
+  
+  public func updateEntityFrom(_ model: UserProfile, using storage: any StorageType) throws {
+    self.avatarUrl = model.avatar
+
+    if let weight = model.weight {
+      self.weight = NSNumber(floatLiteral: weight)
+    }
+    if let height = model.height {
+      self.height = NSNumber(floatLiteral: height)
+    }
+    if let primaryGoalId = model.primaryGoalId {
+      self.primaryGoalId = NSNumber(integerLiteral: primaryGoalId)
+    }
+
+    self.synchronized = SynchronizationState.synchronized.asNSNumber()
   }
 }

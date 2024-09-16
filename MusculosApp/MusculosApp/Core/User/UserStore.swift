@@ -20,6 +20,9 @@ final class UserStore {
   // MARK: - Injected Dependencies
 
   @ObservationIgnored
+  @Injected(\.userService) private var userService: UserService
+
+  @ObservationIgnored
   @Injected(\.userDataStore) private var dataStore: UserDataStoreProtocol
 
   @ObservationIgnored
@@ -65,6 +68,14 @@ final class UserStore {
     guard let userSession = userManager.currentSession() else { return }
 
     self.userSession = userSession
+
+    do {
+      let user = try await userService.currentUser()
+      print("aha: \(user)")
+    } catch {
+      print(error)
+      print("opssiss")
+    }
 
     if let currentProfile = await dataStore.loadProfileByEmail(userSession.user.email) {
       self.currentUserProfile = currentProfile

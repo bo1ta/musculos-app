@@ -21,7 +21,9 @@
 		BC18AB5A2C250DAA00ED258C /* ExerciseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18AB592C250DAA00ED258C /* ExerciseHelper.swift */; };
 		BC261AB82B6DA0EF0018E21F /* ExerciseFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC261AB72B6DA0EF0018E21F /* ExerciseFilterView.swift */; };
 		BC310C572C59615800059DF5 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC310C562C5960FE00059DF5 /* UserManager.swift */; };
-		BC3163D52C8B2A1F000BF411 /* CoreModelNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3163D42C8B2A1B000BF411 /* CoreModelNotificationHandler.swift */; };
+		BC3163D92C9633B4000BF411 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3163D82C9633B1000BF411 /* UserService.swift */; };
+		BC3163DC2C971F06000BF411 /* Exercise+SyncableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3163DB2C971F00000BF411 /* Exercise+SyncableObject.swift */; };
+		BC3163DE2C972BBD000BF411 /* UserProfile+SyncableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3163DD2C972BB8000BF411 /* UserProfile+SyncableObject.swift */; };
 		BC4078D42C02373E000DE280 /* WorkoutIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D32C02373E000DE280 /* WorkoutIcon.swift */; };
 		BC4078D62C02402E000DE280 /* WorkoutFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D52C02402E000DE280 /* WorkoutFlowView.swift */; };
 		BC43D33B2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D33A2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift */; };
@@ -157,7 +159,9 @@
 		BC18AB592C250DAA00ED258C /* ExerciseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseHelper.swift; sourceTree = "<group>"; };
 		BC261AB72B6DA0EF0018E21F /* ExerciseFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFilterView.swift; sourceTree = "<group>"; };
 		BC310C562C5960FE00059DF5 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
-		BC3163D42C8B2A1B000BF411 /* CoreModelNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreModelNotificationHandler.swift; sourceTree = "<group>"; };
+		BC3163D82C9633B1000BF411 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		BC3163DB2C971F00000BF411 /* Exercise+SyncableObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Exercise+SyncableObject.swift"; sourceTree = "<group>"; };
+		BC3163DD2C972BB8000BF411 /* UserProfile+SyncableObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfile+SyncableObject.swift"; sourceTree = "<group>"; };
 		BC4078D32C02373E000DE280 /* WorkoutIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutIcon.swift; sourceTree = "<group>"; };
 		BC4078D52C02402E000DE280 /* WorkoutFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFlowView.swift; sourceTree = "<group>"; };
 		BC43D33A2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFilterViewModel.swift; sourceTree = "<group>"; };
@@ -433,6 +437,7 @@
 		BC2EAE322C22412900FB3C1F /* User */ = {
 			isa = PBXGroup;
 			children = (
+				BC3163D82C9633B1000BF411 /* UserService.swift */,
 				BC310C562C5960FE00059DF5 /* UserManager.swift */,
 				BCA24BFD2B6AD33200124EC3 /* UserStore.swift */,
 			);
@@ -456,13 +461,13 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		BC3163D32C8B2A03000BF411 /* DataController */ = {
+		BC3163DA2C971EF3000BF411 /* SyncableObjects */ = {
 			isa = PBXGroup;
 			children = (
-				BC3163D42C8B2A1B000BF411 /* CoreModelNotificationHandler.swift */,
-				BCCD52862C815206006FAF6D /* DataController.swift */,
+				BC3163DD2C972BB8000BF411 /* UserProfile+SyncableObject.swift */,
+				BC3163DB2C971F00000BF411 /* Exercise+SyncableObject.swift */,
 			);
-			path = DataController;
+			path = SyncableObjects;
 			sourceTree = "<group>";
 		};
 		BC34544F2B72DEFE0074106A /* Exercise */ = {
@@ -478,7 +483,7 @@
 		BC352AE32A326D6C00DAA3AB /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				BC3163D32C8B2A03000BF411 /* DataController */,
+				BCCD52862C815206006FAF6D /* DataController.swift */,
 				BC10EB732C4D7D26003AD519 /* NavigationRouter.swift */,
 				BCAE95A72C447EB600AD91BE /* Cache Manager */,
 				BCAE95A62C447E9600AD91BE /* Extension */,
@@ -651,13 +656,13 @@
 		BC6F365B2BB4E205000F6CFA /* Feature */ = {
 			isa = PBXGroup;
 			children = (
-				BC5CC2C22C7B645D0016D694 /* Home */,
-				BCA905002C59948C000BE5FF /* Splash */,
 				BC10E42C2A3B8AB00008A72E /* Authentication */,
 				BC34544F2B72DEFE0074106A /* Exercise */,
 				BC2EAE362C2241D300FB3C1F /* Goal */,
+				BC5CC2C22C7B645D0016D694 /* Home */,
 				BCA24C052B6AFF7000124EC3 /* Onboarding */,
 				BC781FFA2B9B5E2F009F9FB5 /* Overview */,
+				BCA905002C59948C000BE5FF /* Splash */,
 				BC777EF12BA0F2D9001669C8 /* Workout */,
 			);
 			path = Feature;
@@ -860,8 +865,9 @@
 		BCAE95A62C447E9600AD91BE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				BC545E392C3C6A8F00713B86 /* EnvironmentValues+Extension.swift */,
 				BCCA2C992C3C615600D4DEAD /* Container+Extension.swift */,
+				BC545E392C3C6A8F00713B86 /* EnvironmentValues+Extension.swift */,
+				BC3163DA2C971EF3000BF411 /* SyncableObjects */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1133,6 +1139,7 @@
 				BCCA2C9A2C3C615600D4DEAD /* Container+Extension.swift in Sources */,
 				BC1674B62BE2E73F0012048D /* AddGoalSheet.swift in Sources */,
 				BC545E3E2C3C6A8F00713B86 /* EnvironmentValues+Extension.swift in Sources */,
+				BC3163DC2C971F06000BF411 /* Exercise+SyncableObject.swift in Sources */,
 				BC7820012B9B64F1009F9FB5 /* ScoreBadge.swift in Sources */,
 				BC777F012BA127DC001669C8 /* AddActionSheetContainer.swift in Sources */,
 				BC97C9322BA0D5D500AA07C4 /* AddActionSheet.swift in Sources */,
@@ -1160,7 +1167,7 @@
 				BCA24C082B6AFF8200124EC3 /* OnboardingWizardView.swift in Sources */,
 				BCEED79F2BFC0B96002A3656 /* WorkoutCard.swift in Sources */,
 				BC52DDCB2B85144C005A4587 /* APIEndpoint.swift in Sources */,
-				BC3163D52C8B2A1F000BF411 /* CoreModelNotificationHandler.swift in Sources */,
+				BC3163D92C9633B4000BF411 /* UserService.swift in Sources */,
 				BCA24C002B6AE68500124EC3 /* SignUpView.swift in Sources */,
 				BC5CC2C42C7B64990016D694 /* HomeView.swift in Sources */,
 				BCCE85E62A33D658001BEE8B /* AuthService.swift in Sources */,
@@ -1180,6 +1187,7 @@
 				BCA24C0D2B6B14EE00124EC3 /* SelectSizeView.swift in Sources */,
 				BC4078D62C02402E000DE280 /* WorkoutFlowView.swift in Sources */,
 				BC9937292B6441D90067E556 /* ExerciseService.swift in Sources */,
+				BC3163DE2C972BBD000BF411 /* UserProfile+SyncableObject.swift in Sources */,
 				BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */,
 				BC310C572C59615800059DF5 /* UserManager.swift in Sources */,
 				BCD59AA32BB627E60039F662 /* DashboardHeaderCard.swift in Sources */,

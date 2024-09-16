@@ -30,7 +30,11 @@ extension Container {
   var userDataStore: Factory<UserDataStoreProtocol> {
     self { UserDataStore() }
   }
-  
+
+  var userService: Factory<UserService> {
+    self { UserService() }
+  }
+
   var exerciseSessionDataStore: Factory<ExerciseSessionDataStoreProtocol> {
     self { ExerciseSessionDataStore() }
   }

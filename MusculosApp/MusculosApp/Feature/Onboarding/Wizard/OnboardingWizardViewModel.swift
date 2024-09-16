@@ -22,6 +22,9 @@ final class OnboardingWizardViewModel {
   @ObservationIgnored
   @Injected(\.dataController) private var dataController: DataController
 
+  @ObservationIgnored
+  @Injected(\.userService) private var userService: UserService
+
   // MARK: - Event
 
   enum Event {
@@ -36,7 +39,6 @@ final class OnboardingWizardViewModel {
   var selectedHeight: String = ""
   var selectedGoal: OnboardingData.Goal? = nil
   var selectedLevel: OnboardingData.Level? = nil
-  var selectedEquipment: OnboardingData.Equipment? = nil
 
   var event: AnyPublisher<Event, Never> {
     _event.eraseToAnyPublisher()
@@ -106,7 +108,7 @@ final class OnboardingWizardViewModel {
   private func updateUser() async throws {
     var goalId: Int? // TODO: Handle Goal
 
-    try await dataController.updateUserProfile(
+    try await userService.updateUser(
       weight: Int(selectedWeight),
       height: Int(selectedHeight),
       primaryGoalId: goalId,

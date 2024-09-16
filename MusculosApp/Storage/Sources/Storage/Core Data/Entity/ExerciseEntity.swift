@@ -9,9 +9,10 @@
 import Foundation
 import CoreData
 import Models
+import Utility
 
 @objc(ExerciseEntity)
-public class ExerciseEntity: NSManagedObject {
+public final class ExerciseEntity: NSManagedObject {
   @NSManaged public var category: String?
   @NSManaged public var equipment: String?
   @NSManaged public var exerciseId: UUID?
@@ -88,7 +89,7 @@ extension ExerciseEntity {
 
 extension ExerciseEntity : Identifiable { }
 
-// MARK: - ReadOnlyConvertible impl
+// MARK: - ReadOnlyConvertible
 
 extension ExerciseEntity: ReadOnlyConvertible {
   public func toReadOnly() -> Exercise {
@@ -107,51 +108,28 @@ extension ExerciseEntity: ReadOnlyConvertible {
       imageUrls: self.imageUrls!
     )
   }
-  
-  public func update(from readable: Exercise) {
-    self.category = readable.category
-    self.exerciseId = readable.id
-    self.category = readable.category
-    self.equipment = readable.equipment
-    self.level = readable.level
-    self.name = readable.name
-    self.instructions = readable.instructions
-    self.imageUrls = readable.imageUrls
-    self.isFavorite = readable.isFavorite ?? false
-  }
 }
 
-extension ExerciseEntity: EntityPopulatable {
-  public func populateEntity(from model: Exercise, using storage: StorageType) -> NSManagedObject {
-    self.defaultPopulateEntity(from: model, using: storage)
-    self.exerciseId = model.id
+// MARK: - EntitySyncable
 
-    updateRelationships(for: model, storage: storage)
-    return self
-  }
-  
-  public func updateEntity(from model: Exercise, using storage: StorageType) -> NSManagedObject {
-    guard let isFavorite = model.isFavorite else {
-      return self
-    }
+extension ExerciseEntity: EntitySyncable {
+  public func populateEntityFrom(_ model: Exercise, using storage: StorageType) throws {
+    self.category = model.category
     self.exerciseId = model.id
+    self.category = model.category
+    self.equipment = model.equipment
+    self.level = model.level
+    self.name = model.name
+    self.instructions = model.instructions
+    self.imageUrls = model.imageUrls
+    self.isFavorite = model.isFavorite ?? false
+    self.primaryMuscles = PrimaryMuscleEntity.createFor(exerciseEntity: self, from: model.primaryMuscles, using: storage)
+    self.secondaryMuscles = SecondaryMuscleEntity.createFor(exerciseEntity: self, from: model.secondaryMuscles, using: storage)
+  }
+
+  public func updateEntityFrom(_ model: Exercise, using storage: StorageType) throws {
+    guard let isFavorite = model.isFavorite else { return }
+
     self.isFavorite = isFavorite
-    
-    return self
-  }
-  
-  func updateRelationships(for exercise: Exercise, storage: StorageType) {
-    self.primaryMuscles = PrimaryMuscleEntity.createFor(exerciseEntity: self, from: exercise.primaryMuscles, using: storage)
-    self.secondaryMuscles = SecondaryMuscleEntity.createFor(exerciseEntity: self, from: exercise.secondaryMuscles, using: storage)
-  }
-}
-
-extension Exercise: SyncableObject {
-  public typealias EntityType = ExerciseEntity
-  
-  public static var identifierKey: String = "exerciseId"
-  
-  public var identifierValue: String {
-    return id.uuidString
   }
 }

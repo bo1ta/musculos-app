@@ -12,6 +12,20 @@ import SwiftUI
 @Observable
 @MainActor
 public final class NavigationRouter {
+
+  // MARK: - Destinations
+
+  public enum Destination: Codable, Hashable {
+    case exerciseDetails(Exercise)
+  }
+
+  // MARK: - Sheets
+
+  public enum Sheet: Hashable {
+    case addActionSheet
+    case workoutFlow(Workout)
+  }
+
   var navPath = NavigationPath()
 
   var presentingSheet: Sheet?
@@ -50,18 +64,5 @@ public final class NavigationRouter {
         self.presentingFullScreenCover = nil
       }
     })
-  }
-}
-
-// MARK: - Types
-
-extension NavigationRouter {
-  public enum Destination: Codable, Hashable {
-    case exerciseDetails(Exercise)
-  }
-
-  public enum Sheet: Hashable {
-    case addActionSheet
-    case workoutFlow(Workout)
   }
 }

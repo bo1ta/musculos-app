@@ -11,7 +11,6 @@ import Factory
 import Combine
 import Storage
 import CoreData
-import Cache
 import Utility
 
 public final class DataController: @unchecked Sendable {
@@ -22,18 +21,39 @@ public final class DataController: @unchecked Sendable {
   @Injected(\.modelCacheManager) private var modelCacheManager
   @Injected(\.userManager) private var userManager
 
-  private let coreModelNotificationHandler: CoreModelNotificationHandler
+  private var currentUserSession: UserSession? {
+    return userManager.currentSession()
+  }
 
-  init() {
-    self.coreModelNotificationHandler = CoreModelNotificationHandler(managedObjectContext: StorageManager.shared.writerDerivedStorage as? NSManagedObjectContext)
+  private var currentUserID: UUID? {
+    return currentUserSession?.user.id
   }
 
   var modelEventPublisher: AnyPublisher<CoreModelNotificationHandler.Event, Never> {
     return coreModelNotificationHandler.eventPublisher
   }
 
-  private var currentUserSession: UserSession? {
-    return userManager.currentSession()
+  private let coreModelNotificationHandler: CoreModelNotificationHandler
+
+  private var cancellables = Set<AnyCancellable>()
+
+  init() {
+    self.coreModelNotificationHandler = CoreModelNotificationHandler(
+      managedObjectContext: StorageManager.shared.writerDerivedStorage as? NSManagedObjectContext
+    )
+    self.coreModelNotificationHandler.eventPublisher
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] event in
+        switch event {
+        case .didUpdateExercise:
+          self?.modelCacheManager.invalidateExerciseCache()
+        case .didUpdateExerciseSession:
+          self?.modelCacheManager.invalidateExerciseSessionCache()
+        case .didUpdateGoal:
+          self?.modelCacheManager.invalidateGoalCache()
+        }
+      }
+      .store(in: &cancellables)
   }
 }
 
@@ -74,21 +94,16 @@ extension DataController {
     return try await exerciseDataStore.setIsFavorite(exercise, isFavorite: isFavorite)
   }
 
-  @discardableResult
-  func importExercises(_ exercises: [Exercise]) async throws -> [Exercise] {
-    return try await exerciseDataStore.importFrom(exercises)
-  }
-
   func addExercise(_ exercise: Exercise) async throws {
     return try await exerciseDataStore.add(exercise)
   }
 
   func getRecommendedExercisesByMuscleGroups() async throws -> [Exercise] {
-    guard let currentUserSession else {
+    guard let currentUserID else {
       throw MusculosError.notFound
     }
 
-    let exerciseSessions = await exerciseSessionDataStore.getAll(for: currentUserSession.userId)
+    let exerciseSessions = await exerciseSessionDataStore.getAll(for: currentUserID)
     guard !exerciseSessions.isEmpty else {
       throw MusculosError.notFound
     }
@@ -115,38 +130,38 @@ extension DataController {
 
 extension DataController {
   func getExerciseSessions() async throws -> [ExerciseSession] {
-    guard let currentUserSession else {
+    guard let currentUserID  else {
       throw MusculosError.notFound
     }
 
     if let cachedExerciseSessions = try modelCacheManager.getCachedExerciseSessions() {
       return cachedExerciseSessions
     } else {
-      let exerciseSessions = await exerciseSessionDataStore.getAll(for: currentUserSession.userId)
+      let exerciseSessions = await exerciseSessionDataStore.getAll(for: currentUserID)
       modelCacheManager.cacheExerciseSessions(exerciseSessions)
       return exerciseSessions
     }
   }
 
   func getExercisesCompletedToday() async throws -> [ExerciseSession] {
-    guard let currentUserSession else {
+    guard let currentUserID else {
       throw MusculosError.notFound
     }
-    return await exerciseSessionDataStore.getCompletedToday(userId: currentUserSession.userId)
+    return await exerciseSessionDataStore.getCompletedToday(userId: currentUserID)
   }
 
   func getExercisesCompletedSinceLastWeek() async throws -> [ExerciseSession] {
-    guard let currentUserSession else {
+    guard let currentUserID else {
       throw MusculosError.notFound
     }
-    return await exerciseSessionDataStore.getCompletedSinceLastWeek(userId: currentUserSession.userId)
+    return await exerciseSessionDataStore.getCompletedSinceLastWeek(userId: currentUserID)
   }
 
   func addExerciseSession(for exercise: Exercise, date: Date) async throws {
-    guard let currentUserSession else {
+    guard let currentUserID else {
       throw MusculosError.notFound
     }
-    return try await exerciseSessionDataStore.addSession(exercise, date: date, userId: currentUserSession.userId)
+    return try await exerciseSessionDataStore.addSession(exercise, date: date, userId: currentUserID)
   }
 }
 
@@ -186,11 +201,11 @@ extension DataController {
     level: String? = nil,
     isOnboarded: Bool = false
   ) async throws {
-    guard let currentUserSession else {
+    guard let currentUserID else {
       throw MusculosError.notFound
     }
     return try await userDataStore.updateProfile(
-      userId: currentUserSession.userId,
+      userId: currentUserID,
       weight: weight,
       height: height,
       primaryGoalId: primaryGoalId,
