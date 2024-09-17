@@ -39,11 +39,6 @@ extension StorageContainer {
       .singleton
   }
 
-  public var modelCacheManager: Factory<ModelCacheManager> {
-    self { ModelCacheManager() }
-      .cached
-  }
-
   public var dataController: Factory<DataController> {
     self { DataController() }
       .cached

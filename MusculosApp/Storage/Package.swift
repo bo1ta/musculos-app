@@ -16,7 +16,6 @@ let package = Package(
     .package(name: "Utility", path: "../Utility"),
     .package(name: "Models", path: "../Models"),
     .package(url: "https://github.com/hmlongco/Factory", exact: "2.3.2"),
-    .package(url: "https://github.com/hyperoslo/Cache", exact: "7.4.0")
   ],
   targets: [
     // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -32,8 +31,7 @@ let package = Package(
           name: "Models",
           package: "Models"
         ),
-        "Factory",
-        "Cache"
+        "Factory"
       ]
     ),
     .target(

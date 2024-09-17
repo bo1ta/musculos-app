@@ -14,8 +14,4 @@ extension Container {
   var taskManager: Factory<TaskManagerProtocol> {
     self { TaskManager() }.unique
   }
-
-  var modelCacheManager: Factory<ModelCacheManager> {
-    self { ModelCacheManager() }.cached
-  }
 }

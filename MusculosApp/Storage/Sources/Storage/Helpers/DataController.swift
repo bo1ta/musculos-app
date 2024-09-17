@@ -19,16 +19,10 @@ public final class DataController: @unchecked Sendable {
   @Injected(\StorageContainer.exerciseSessionDataStore) private var exerciseSessionDataStore
   @Injected(\StorageContainer.workoutDataStore) private var workoutDataStore
   @Injected(\StorageContainer.userDataStore) private var userDataStore
-  @Injected(\StorageContainer.modelCacheManager) private var modelCacheManager
   @Injected(\StorageContainer.userManager) private var userManager
 
   private var currentUserSession: UserSession? {
-    switch userManager.currentState() {
-    case .authenticated(let userSession):
-      return userSession
-    default:
-      return nil
-    }
+    return userManager.currentUserSession
   }
 
   private var currentUserID: UUID? {
@@ -41,39 +35,18 @@ public final class DataController: @unchecked Sendable {
 
   private let coreModelNotificationHandler: CoreModelNotificationHandler
 
-  private var cancellables = Set<AnyCancellable>()
-
   public init() {
     self.coreModelNotificationHandler = CoreModelNotificationHandler(
       managedObjectContext: StorageContainer.shared.storageManager().writerDerivedStorage as? NSManagedObjectContext
     )
-    self.coreModelNotificationHandler.eventPublisher
-      .receive(on: DispatchQueue.main)
-      .sink { [weak self] event in
-        switch event {
-        case .didUpdateExercise:
-          self?.modelCacheManager.invalidateExerciseCache()
-        case .didUpdateExerciseSession:
-          self?.modelCacheManager.invalidateExerciseSessionCache()
-        case .didUpdateGoal:
-          self?.modelCacheManager.invalidateGoalCache()
-        }
-      }
-      .store(in: &cancellables)
   }
 }
 
 // MARK: - Exercise data
 
 extension DataController {
-  public func getExercises() async throws -> [Exercise] {
-    if let cachedExercises = try modelCacheManager.getCachedExercises() {
-      return cachedExercises
-    } else {
-      let exercises = await exerciseDataStore.getAll(fetchLimit: 20)
-      modelCacheManager.cacheExercises(exercises)
-      return exercises
-    }
+  public func getExercises(fetchLimit: Int = 20) async -> [Exercise] {
+    return await exerciseDataStore.getAll(fetchLimit: fetchLimit)
   }
 
   public func isExerciseFavorite(_ exercise: Exercise) async -> Bool {
@@ -139,14 +112,7 @@ extension DataController {
     guard let currentUserID  else {
       throw MusculosError.notFound
     }
-
-    if let cachedExerciseSessions = try modelCacheManager.getCachedExerciseSessions() {
-      return cachedExerciseSessions
-    } else {
-      let exerciseSessions = await exerciseSessionDataStore.getAll(for: currentUserID)
-      modelCacheManager.cacheExerciseSessions(exerciseSessions)
-      return exerciseSessions
-    }
+    return await exerciseSessionDataStore.getAll(for: currentUserID)
   }
 
   public func getExercisesCompletedToday() async throws -> [ExerciseSession] {
@@ -174,14 +140,8 @@ extension DataController {
 // MARK: - Goal Data
 
 extension DataController {
-  public func getGoals() async throws -> [Goal] {
-    if let cachedGoals = try modelCacheManager.getCachedGoals() {
-      return cachedGoals
-    } else {
-      let goals = await goalDataStore.getAll()
-      modelCacheManager.cacheGoals(goals)
-      return goals
-    }
+  public func getGoals() async -> [Goal] {
+    return await goalDataStore.getAll()
   }
 
   public func addGoal(_ goal: Goal) async throws {
