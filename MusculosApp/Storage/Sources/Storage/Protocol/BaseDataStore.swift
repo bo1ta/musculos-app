@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Factory
 
 /// Helper protocol for Core Data store operations
 ///
@@ -17,6 +18,6 @@ protocol BaseDataStore {
 
 extension BaseDataStore {
   var storageManager: StorageManagerType {
-    return StorageManager.shared
+    return StorageContainer.shared.storageManager()
   }
 }

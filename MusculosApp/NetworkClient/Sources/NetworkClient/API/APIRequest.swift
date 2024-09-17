@@ -9,18 +9,21 @@ import Foundation
 import Factory
 import Utility
 import Models
+import Storage
 
-struct APIRequest {
-  var method: HTTPMethod
-  var path: Endpoint
-  var queryParams: [URLQueryItem]?
-  var body: [String: Any]?
-  var authToken: String?
-  var opk: String?
+public struct APIRequest {
+  @Injected(\StorageContainer.userManager) var userManager
+
+  public var method: HTTPMethod
+  public var path: Endpoint
+  public var queryParams: [URLQueryItem]?
+  public var body: [String: Any]?
+  public var authToken: String?
+  public var opk: String?
 
   var contentType: String { return "application/json" }
 
-  func asURLRequest() async -> URLRequest? {
+  public func asURLRequest() async -> URLRequest? {
     guard var baseURL = APIEndpoint.baseWithEndpoint(endpoint: path) else { return nil }
 
     if let opk {
@@ -54,7 +57,7 @@ struct APIRequest {
   }
 
   private var currentSession: UserSession? {
-    return Container.shared.userManager().currentSession()
+    userManager.currentUserSession
   }
 
   private func requestBody(from body: [String: Any]) -> Data? {

@@ -11,11 +11,18 @@ let package = Package(
             name: "Utility",
             targets: ["Utility"]),
     ],
+    dependencies: [
+      .package(url: "https://github.com/hmlongco/Factory", exact: "2.3.2")
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "Utility"),
+          name: "Utility",
+          dependencies: [
+            "Factory"
+          ]
+        ),
         .testTarget(
             name: "UtilityTests",
             dependencies: ["Utility"]

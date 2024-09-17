@@ -14,22 +14,28 @@ import CoreData
 import Utility
 
 public final class DataController: @unchecked Sendable {
-  @Injected(\.exerciseDataStore) private var exerciseDataStore
-  @Injected(\.goalDataStore) private var goalDataStore
-  @Injected(\.exerciseSessionDataStore) private var exerciseSessionDataStore
-  @Injected(\.userDataStore) private var userDataStore
-  @Injected(\.modelCacheManager) private var modelCacheManager
-  @Injected(\.userManager) private var userManager
+  @Injected(\StorageContainer.exerciseDataStore) private var exerciseDataStore
+  @Injected(\StorageContainer.goalDataStore) private var goalDataStore
+  @Injected(\StorageContainer.exerciseSessionDataStore) private var exerciseSessionDataStore
+  @Injected(\StorageContainer.workoutDataStore) private var workoutDataStore
+  @Injected(\StorageContainer.userDataStore) private var userDataStore
+  @Injected(\StorageContainer.modelCacheManager) private var modelCacheManager
+  @Injected(\StorageContainer.userManager) private var userManager
 
   private var currentUserSession: UserSession? {
-    return userManager.currentSession()
+    switch userManager.currentState() {
+    case .authenticated(let userSession):
+      return userSession
+    default:
+      return nil
+    }
   }
 
   private var currentUserID: UUID? {
     return currentUserSession?.user.id
   }
 
-  var modelEventPublisher: AnyPublisher<CoreModelNotificationHandler.Event, Never> {
+  public var modelEventPublisher: AnyPublisher<CoreModelNotificationHandler.Event, Never> {
     return coreModelNotificationHandler.eventPublisher
   }
 
@@ -37,9 +43,9 @@ public final class DataController: @unchecked Sendable {
 
   private var cancellables = Set<AnyCancellable>()
 
-  init() {
+  public init() {
     self.coreModelNotificationHandler = CoreModelNotificationHandler(
-      managedObjectContext: StorageManager.shared.writerDerivedStorage as? NSManagedObjectContext
+      managedObjectContext: StorageContainer.shared.storageManager().writerDerivedStorage as? NSManagedObjectContext
     )
     self.coreModelNotificationHandler.eventPublisher
       .receive(on: DispatchQueue.main)
@@ -60,7 +66,7 @@ public final class DataController: @unchecked Sendable {
 // MARK: - Exercise data
 
 extension DataController {
-  func getExercises() async throws -> [Exercise] {
+  public func getExercises() async throws -> [Exercise] {
     if let cachedExercises = try modelCacheManager.getCachedExercises() {
       return cachedExercises
     } else {
@@ -70,35 +76,35 @@ extension DataController {
     }
   }
 
-  func isExerciseFavorite(_ exercise: Exercise) async -> Bool {
+  public func isExerciseFavorite(_ exercise: Exercise) async -> Bool {
     return await exerciseDataStore.isFavorite(exercise)
   }
 
-  func getFavoriteExercises() async throws -> [Exercise] {
+  public func getFavoriteExercises() async throws -> [Exercise] {
     return await exerciseDataStore.getAllFavorites()
   }
 
-  func getExercisesByName(_ name: String) async -> [Exercise] {
+  public func getExercisesByName(_ name: String) async -> [Exercise] {
     return await exerciseDataStore.getByName(name)
   }
 
-  func getExercisesByMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
+  public func getExercisesByMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
     return await exerciseDataStore.getByMuscles(muscles)
   }
 
-  func getExercisesExcludingMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
+  public func getExercisesExcludingMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
     return await exerciseDataStore.getAllExcludingMuscles(muscles)
   }
 
-  func updateIsFavoriteForExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
+  public func updateIsFavoriteForExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
     return try await exerciseDataStore.setIsFavorite(exercise, isFavorite: isFavorite)
   }
 
-  func addExercise(_ exercise: Exercise) async throws {
+  public func addExercise(_ exercise: Exercise) async throws {
     return try await exerciseDataStore.add(exercise)
   }
 
-  func getRecommendedExercisesByMuscleGroups() async throws -> [Exercise] {
+  public func getRecommendedExercisesByMuscleGroups() async throws -> [Exercise] {
     guard let currentUserID else {
       throw MusculosError.notFound
     }
@@ -129,7 +135,7 @@ extension DataController {
 // MARK: - ExerciseSession Data
 
 extension DataController {
-  func getExerciseSessions() async throws -> [ExerciseSession] {
+  public func getExerciseSessions() async throws -> [ExerciseSession] {
     guard let currentUserID  else {
       throw MusculosError.notFound
     }
@@ -143,21 +149,21 @@ extension DataController {
     }
   }
 
-  func getExercisesCompletedToday() async throws -> [ExerciseSession] {
+  public func getExercisesCompletedToday() async throws -> [ExerciseSession] {
     guard let currentUserID else {
       throw MusculosError.notFound
     }
     return await exerciseSessionDataStore.getCompletedToday(userId: currentUserID)
   }
 
-  func getExercisesCompletedSinceLastWeek() async throws -> [ExerciseSession] {
+  public func getExercisesCompletedSinceLastWeek() async throws -> [ExerciseSession] {
     guard let currentUserID else {
       throw MusculosError.notFound
     }
     return await exerciseSessionDataStore.getCompletedSinceLastWeek(userId: currentUserID)
   }
 
-  func addExerciseSession(for exercise: Exercise, date: Date) async throws {
+  public func addExerciseSession(for exercise: Exercise, date: Date) async throws {
     guard let currentUserID else {
       throw MusculosError.notFound
     }
@@ -168,7 +174,7 @@ extension DataController {
 // MARK: - Goal Data
 
 extension DataController {
-  func getGoals() async throws -> [Goal] {
+  public func getGoals() async throws -> [Goal] {
     if let cachedGoals = try modelCacheManager.getCachedGoals() {
       return cachedGoals
     } else {
@@ -178,11 +184,11 @@ extension DataController {
     }
   }
 
-  func addGoal(_ goal: Goal) async throws {
+  public func addGoal(_ goal: Goal) async throws {
     return try await goalDataStore.add(goal)
   }
 
-  func incrementGoalScore(_ goal: Goal) async throws {
+  public func incrementGoalScore(_ goal: Goal) async throws {
     return try await goalDataStore.incrementCurrentValue(goal)
   }
 }
@@ -190,11 +196,11 @@ extension DataController {
 // MARK: - UserProfile Data
 
 extension DataController {
-  func addUserProfile(_ profile: UserProfile) async throws {
+  public func addUserProfile(_ profile: UserProfile) async throws {
     return try await userDataStore.createUser(profile: profile)
   }
 
-  func updateUserProfile(
+  public func updateUserProfile(
     weight: Int? = nil,
     height: Int? = nil,
     primaryGoalId: Int? = nil,
@@ -212,5 +218,22 @@ extension DataController {
       level: level,
       isOnboarded: isOnboarded
     )
+  }
+
+  public func getCurrentUserProfile() async -> UserProfile? {
+    guard let currentUserID else {
+      return nil
+    }
+    return await userDataStore.loadProfile(userId: currentUserID)
+  }
+}
+
+// MARK: - Workout data
+
+extension DataController {
+  public func addWorkout(_ workout: Workout) async throws {
+    guard let currentUserID else { throw MusculosError.notFound }
+
+    try await workoutDataStore.create(workout, userId: currentUserID)
   }
 }

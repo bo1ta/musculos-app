@@ -9,7 +9,7 @@ import Utility
 import Storage
 import Models
 
-extension Exercise: @retroactive SyncableObject {
+extension Exercise: SyncableObject {
   public typealias EntityType = ExerciseEntity
 
   public static let identifierKey: String = "exerciseId"

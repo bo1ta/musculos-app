@@ -29,11 +29,11 @@ public struct LoadingDotsView: View {
           .animation(.easeInOut(duration: animationDuration), value: currentDotIndex)
       }
     }
-    .onAppear {
-      timer = Timer.scheduledTimer(withTimeInterval: animationDuration, repeats: true) { _ in
-        currentDotIndex = (currentDotIndex + 1) % 3
-      }
-    }
+//    .onAppear {
+//      timer = Timer.scheduledTimer(withTimeInterval: animationDuration, repeats: true) { _ in
+//        currentDotIndex = (currentDotIndex + 1) % 3
+//      }
+//    }
     .onDisappear {
       timer?.invalidate()
       timer = nil

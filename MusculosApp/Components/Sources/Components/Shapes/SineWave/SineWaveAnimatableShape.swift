@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import UIKit
 
-public struct SineWaveAnimatableShape: Shape, Animatable {
+public struct SineWaveAnimatableShape: Shape, Animatable, @unchecked Sendable {
   var waveSize: CGFloat
   var phase: CGFloat
   var amplitude: CGFloat

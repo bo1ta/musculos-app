@@ -21,13 +21,7 @@ final class AddWorkoutSheetViewModel {
   // MARK: - Dependencies
 
   @ObservationIgnored
-  @Injected(\.dataController) private var dataController: DataController
-
-  @ObservationIgnored
-  @Injected(\.workoutDataStore) private var workoutDataStore: WorkoutDataStoreProtocol
-
-  @ObservationIgnored
-  @Injected(\.userManager) private var userManager: UserManagerProtocol
+  @Injected(\StorageContainer.dataController) private var dataController: DataController
 
   // MARK: - Observed properties
   
@@ -180,7 +174,7 @@ extension AddWorkoutSheetViewModel {
     guard !selectedExercises.isEmpty, !workoutName.isEmpty, !muscleSearchQuery.isEmpty else { return }
     
     submitWorkoutTask = Task { [weak self] in
-      guard let self, let userSession = userManager.currentSession(), let userID = userSession.user.id else { return }
+      guard let self else { return }
 
       let workout = Workout(
         name: self.workoutName,
@@ -190,7 +184,7 @@ extension AddWorkoutSheetViewModel {
       )
       
       do {
-        try await self.workoutDataStore.create(workout, userId: userID)
+        try await dataController.addWorkout(workout)
         didSaveSubject.send(())
       } catch {
         MusculosLogger.logError(error, message: "Could not add workout", category: .coreData)

@@ -32,7 +32,7 @@ public struct UserDataStore: BaseDataStore, UserDataStoreProtocol, Sendable {
   public func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       guard 
-        let userProfile = UserProfileEntity.userFrom(userId: userId.uuidString, on: writerDerivedStorage)
+        let userProfile = UserProfileEntity.userFromID(userId, on: writerDerivedStorage)
       else { return }
       
       userProfile.level = level
@@ -53,21 +53,21 @@ public struct UserDataStore: BaseDataStore, UserDataStoreProtocol, Sendable {
   
   public func loadProfile(userId: UUID) async -> UserProfile? {
     return await storageManager.performRead { viewStorage in
-      let predicate = UserProfileEntity.CommonPredicate.currentUser(userId.uuidString).nsPredicate
       return viewStorage
         .firstObject(
           of: UserProfileEntity.self,
-          matching: predicate)?
-        .toReadOnly()
+          matching: PredicateFactory.userProfileById(userId)
+        )?.toReadOnly()
     }
   }
 
   public func loadProfileByEmail(_ email: String) async -> UserProfile? {
     return await storageManager.performRead { viewStorage in
-      let predicate = PredicateFactory.userProfileByEmail(email)
       return viewStorage
-        .firstObject(of: UserProfileEntity.self, matching: predicate)?
-        .toReadOnly()
+        .firstObject(
+          of: UserProfileEntity.self,
+          matching: PredicateFactory.userProfileByEmail(email)
+        )?.toReadOnly()
     }
   }
 }

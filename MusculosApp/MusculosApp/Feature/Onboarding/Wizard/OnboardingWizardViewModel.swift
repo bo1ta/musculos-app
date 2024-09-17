@@ -12,6 +12,7 @@ import Combine
 import Models
 import Utility
 import Storage
+import NetworkClient
 
 @Observable
 @MainActor
@@ -20,10 +21,10 @@ final class OnboardingWizardViewModel {
   // MARK: - Dependencies
   
   @ObservationIgnored
-  @Injected(\.dataController) private var dataController: DataController
+  @Injected(\StorageContainer.dataController) private var dataController: DataController
 
   @ObservationIgnored
-  @Injected(\.userService) private var userService: UserService
+  @Injected(\NetworkContainer.userService) private var userService
 
   // MARK: - Event
 
@@ -106,12 +107,10 @@ final class OnboardingWizardViewModel {
   }
   
   private func updateUser() async throws {
-    var goalId: Int? // TODO: Handle Goal
-
-    try await userService.updateUser(
+    let updatedUser = try await userService.updateUser(
       weight: Int(selectedWeight),
       height: Int(selectedHeight),
-      primaryGoalId: goalId,
+      primaryGoal: selectedGoal?.title ?? "",
       level: selectedLevel?.title,
       isOnboarded: true
     )

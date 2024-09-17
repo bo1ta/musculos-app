@@ -11,15 +11,15 @@ import Foundation
 
 /// Shared instance of cached images
 ///
-actor ImageCacheManager {
-  static let shared = ImageCacheManager()
-  
+public actor ImageCacheManager {
+  public static let shared = ImageCacheManager()
+
   private var cache: [URL: Image] = [:]
   private var downloadTask: Task<Image?, Never>?
   
   private let imageDownloader = ImageDownloader()
 
-  subscript(url: URL?) -> Image? {
+  public subscript(url: URL?) -> Image? {
     get {
       guard let url else { return nil }
       return cache[url]
@@ -30,11 +30,11 @@ actor ImageCacheManager {
     }
   }
   
-  func add(_ image: Image, for url: URL) {
+  public func add(_ image: Image, for url: URL) {
     cache[url] = image
   }
   
-  func imageForURL(_ url: URL) async -> Image? {
+  public func imageForURL(_ url: URL) async -> Image? {
     if let image = cache[url] {
       return image
     } else {
@@ -69,7 +69,6 @@ struct ImageDownloader {
       } else {
         return nil
       }
-      
     } catch {
       return nil
     }

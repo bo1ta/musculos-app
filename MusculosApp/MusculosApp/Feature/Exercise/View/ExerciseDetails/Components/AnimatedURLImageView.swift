@@ -10,6 +10,7 @@ import SwiftUI
 import Combine
 import Shimmer
 import Utility
+import NetworkClient
 
 /// Loops through a list of image URLs indefinitely to make them appear as "GIFs"
 ///

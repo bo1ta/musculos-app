@@ -20,7 +20,8 @@ public struct UserProfile: Codable, Sendable {
   public let level: String?
   public let availableEquipment: [String]?
   public let primaryGoalId: Int?
-  
+  public var isOnboarded: Bool?
+
   public init(
     userId: UUID,
     email: String,
@@ -32,7 +33,8 @@ public struct UserProfile: Codable, Sendable {
     height: Double? = nil,
     level: String? = nil,
     availableEquipment: [String]? = nil,
-    primaryGoalId: Int? = nil
+    primaryGoalId: Int? = nil,
+    isOnboarded: Bool? = false
   ) {
     self.userId = userId
     self.email = email
@@ -45,6 +47,7 @@ public struct UserProfile: Codable, Sendable {
     self.level = level
     self.availableEquipment = availableEquipment
     self.primaryGoalId = primaryGoalId
+    self.isOnboarded = isOnboarded
   }
 
   enum CodingKeys: String, CodingKey {

@@ -8,30 +8,27 @@
 import Foundation
 import Models
 import Storage
+import Factory
 
-protocol ExerciseServiceProtocol: Sendable {
-  func  getExercises() async throws -> [Exercise]
+public protocol ExerciseServiceProtocol {
+  func getExercises() async throws -> [Exercise]
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise]
   func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise
   func getFavoriteExercises() async throws -> [Exercise]
   func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws
 }
 
-struct ExerciseService: ExerciseServiceProtocol, MusculosService {
-  var client: MusculosClientProtocol
+public struct ExerciseService: ExerciseServiceProtocol, MusculosService, @unchecked Sendable {
+  @Injected(\NetworkContainer.client) var client: MusculosClientProtocol
 
-  init(client: MusculosClientProtocol = MusculosClient()) {
-    self.client = client
-  }
-  
-  func getExercises() async throws -> [Exercise] {
+  public func getExercises() async throws -> [Exercise] {
     let request = APIRequest(method: .get, path: .exercises)
     
     let data = try await client.dispatch(request)
     return try await Exercise.createArrayWithTaskFrom(data)
   }
   
-  func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
+  public func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
     var request = APIRequest(method: .get, path: .exercisesByMuscle)
     request.queryParams = [URLQueryItem(name: "query", value: query)]
 
@@ -39,21 +36,21 @@ struct ExerciseService: ExerciseServiceProtocol, MusculosService {
     return try Exercise.createArrayFrom(data)
   }
 
-  func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise {
+  public func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise {
     let request = APIRequest(method: .get, path: .exerciseDetails(exerciseID))
     
     let data = try await client.dispatch(request)
     return try await Exercise.createWithTaskFrom(data)
   }
 
-  func getFavoriteExercises() async throws -> [Exercise] {
+  public func getFavoriteExercises() async throws -> [Exercise] {
     let request = APIRequest(method: .get, path: .favoriteExercise)
 
     let data = try await client.dispatch(request)
     return try Exercise.createArrayFrom(data)
   }
 
-  func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
+  public func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
     var request = APIRequest(method: .post, path: .favoriteExercise)
     request.body = [
       "exercise_id": exercise.id.uuidString,

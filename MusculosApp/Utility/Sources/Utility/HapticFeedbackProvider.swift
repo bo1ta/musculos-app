@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 import CoreHaptics
 
+@MainActor
 public struct HapticFeedbackProvider {
   public enum HapticFeedbackStyle {
     case lightImpact
@@ -26,7 +27,6 @@ public struct HapticFeedbackProvider {
   private static let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
   private static let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
 
-  @MainActor
   public static func haptic(_ style: HapticFeedbackStyle) {
     guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else {
       return
