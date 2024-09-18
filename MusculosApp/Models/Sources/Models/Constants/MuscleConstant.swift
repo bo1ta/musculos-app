@@ -12,7 +12,7 @@ public struct MuscleConstant {
     case back, cardio, chest, lowerArms, lowerLegs, neck, shoulders, upperArms, upperLegs, waist
   }
 
-  public struct MuscleImageInfo: Hashable {
+  public struct MuscleImageInfo: Hashable, Sendable {
     public let uuid = UUID()
 
     public let frontAnatomyIds: [Int]?

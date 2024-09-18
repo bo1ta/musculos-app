@@ -91,7 +91,7 @@ public struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreP
           of: ExerciseEntity.self,
           matching: PredicateFactory.exerciseById(exercise.id)
         ),
-        let userProfile = UserProfileEntity.userFrom(userId: userId.uuidString, on: writerDerivedStorage)
+        let userProfile = UserProfileEntity.userFromID(userId, on: writerDerivedStorage)
       else { throw MusculosError.notFound }
       
       let entity = writerDerivedStorage.insertNewObject(ofType: ExerciseSessionEntity.self)

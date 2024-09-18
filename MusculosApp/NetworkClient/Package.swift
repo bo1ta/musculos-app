@@ -4,40 +4,35 @@
 import PackageDescription
 
 let package = Package(
-    name: "Models",
+    name: "NetworkClient",
     platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "Models",
-            targets: ["Models"]),
+            name: "NetworkClient",
+            targets: ["NetworkClient"]),
     ],
     dependencies: [
       .package(name: "Utility", path: "../Utility"),
+      .package(name: "Models", path: "../Models"),
+      .package(name: "Storage", path: "../Storage"),
       .package(url: "https://github.com/hmlongco/Factory", exact: "2.3.2")
     ],
     targets: [
-      .target(
-        name: "MusculosApp",
-        dependencies: [
-          .product(
-          name: "Utility",
-          package: "Utility"
-        ),
-          "Factory"
-        ]
-      ),
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "Models",
+            name: "NetworkClient",
             dependencies: [
               .product(name: "Utility", package: "Utility"),
+              .product(name: "Models", package: "Models"),
+              .product(name: "Storage", package: "Storage"),
+              "Factory"
             ]
         ),
         .testTarget(
-            name: "ModelsTests",
-            dependencies: ["Models"]
+            name: "NetworkClientTests",
+            dependencies: ["NetworkClient"]
         ),
     ]
 )

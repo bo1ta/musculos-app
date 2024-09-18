@@ -17,7 +17,7 @@ import Storage
 final class AddExerciseSheetViewModel {
   
   @ObservationIgnored
-  @Injected(\.dataController) private var dataController: DataController
+  @Injected(\StorageContainer.dataController) private var dataController: DataController
 
   var exerciseName = ""
   var equipment = ""

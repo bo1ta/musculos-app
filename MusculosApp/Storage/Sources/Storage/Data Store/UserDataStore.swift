@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 import Models
+import Utility
 
 public protocol UserDataStoreProtocol: Sendable {
   func createUser(profile: UserProfile) async throws
@@ -29,14 +30,18 @@ public struct UserDataStore: BaseDataStore, UserDataStoreProtocol, Sendable {
     }
   }
   
-  public func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws {
+  public func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool = false) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
-      guard 
-        let userProfile = UserProfileEntity.userFrom(userId: userId.uuidString, on: writerDerivedStorage)
-      else { return }
-      
+      guard let userProfile = writerDerivedStorage.firstObject(
+        of: UserProfileEntity.self,
+        matching: PredicateFactory.userProfileById(userId)
+      ) else {
+        throw MusculosError.notFound
+      }
+
       userProfile.level = level
-      
+      userProfile.isOnboarded = isOnboarded
+
       if let weight {
         userProfile.weight = NSNumber(integerLiteral: weight)
       }
@@ -48,26 +53,27 @@ public struct UserDataStore: BaseDataStore, UserDataStoreProtocol, Sendable {
       if let primaryGoalId {
         userProfile.primaryGoalId = NSNumber(integerLiteral: primaryGoalId)
       }
-    }    
+      
+    }
   }
   
   public func loadProfile(userId: UUID) async -> UserProfile? {
     return await storageManager.performRead { viewStorage in
-      let predicate = UserProfileEntity.CommonPredicate.currentUser(userId.uuidString).nsPredicate
       return viewStorage
         .firstObject(
           of: UserProfileEntity.self,
-          matching: predicate)?
-        .toReadOnly()
+          matching: PredicateFactory.userProfileById(userId)
+        )?.toReadOnly()
     }
   }
 
   public func loadProfileByEmail(_ email: String) async -> UserProfile? {
     return await storageManager.performRead { viewStorage in
-      let predicate = PredicateFactory.userProfileByEmail(email)
       return viewStorage
-        .firstObject(of: UserProfileEntity.self, matching: predicate)?
-        .toReadOnly()
+        .firstObject(
+          of: UserProfileEntity.self,
+          matching: PredicateFactory.userProfileByEmail(email)
+        )?.toReadOnly()
     }
   }
 }

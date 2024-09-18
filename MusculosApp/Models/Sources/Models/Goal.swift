@@ -74,7 +74,7 @@ public struct Goal: Sendable {
 // MARK: - Helper types
 
 public extension Goal {
-  public enum Category: String, CaseIterable {
+  public enum Category: String, CaseIterable, Sendable {
     case loseWeight, gainWeight, growMuscle, drinkWater, general
     
     public var label: String {
@@ -102,7 +102,7 @@ public extension Goal {
     }
   }
   
-  public enum Frequency: String, CaseIterable {
+  public enum Frequency: String, CaseIterable, Sendable {
     case daily
     case weekly
     case fixedDate

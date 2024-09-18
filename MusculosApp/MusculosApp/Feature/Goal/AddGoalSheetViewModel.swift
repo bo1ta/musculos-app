@@ -20,7 +20,7 @@ final class AddGoalSheetViewModel {
   // MARK: - Dependency
   
   @ObservationIgnored
-  @Injected(\.dataController) private var dataController: DataController
+  @Injected(\StorageContainer.dataController) private var dataController: DataController
 
   // MARK: - Observed properties
   

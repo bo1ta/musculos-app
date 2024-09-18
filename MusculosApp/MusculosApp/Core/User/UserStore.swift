@@ -12,6 +12,7 @@ import Combine
 import Models
 import Storage
 import Utility
+import NetworkClient
 
 @Observable
 @MainActor
@@ -20,13 +21,13 @@ final class UserStore {
   // MARK: - Injected Dependencies
 
   @ObservationIgnored
-  @Injected(\.userService) private var userService: UserService
+  @Injected(\NetworkContainer.userService) private var userService
 
   @ObservationIgnored
-  @Injected(\.userDataStore) private var dataStore: UserDataStoreProtocol
+  @Injected(\StorageContainer.dataController) private var dataController
 
   @ObservationIgnored
-  @Injected(\.userManager) private var userManager: UserManagerProtocol
+  @Injected(\StorageContainer.userManager) private var userManager
 
   @ObservationIgnored
   @Injected(\.taskManager) private var taskManager: TaskManagerProtocol
@@ -41,82 +42,66 @@ final class UserStore {
 
   // MARK: - Private
 
-  private let _event = PassthroughSubject<Event, Never>()
+  private let eventSubject = PassthroughSubject<Event, Never>()
+
   private(set) var currentUserProfile: UserProfile?
-  private(set) var userSession: UserSession?
+  private(set) var currentUserState: UserSessionState = .unauthenticated
   private(set) var isLoading: Bool = false
 
   // MARK: - Public
 
-  var event: AnyPublisher<Event, Never> {
-    _event.eraseToAnyPublisher()
+  var eventPublisher: AnyPublisher<Event, Never> {
+    eventSubject.eraseToAnyPublisher()
   }
 
   var displayName: String {
-    return currentUserProfile?.username ?? "user"
+    return currentUserProfile?.username ?? ""
   }
   
   var isOnboarded: Bool {
-    return userSession?.user.isOnboarded ?? false
+    return currentUserProfile?.isOnboarded ?? true
   }
   
   var isLoggedIn: Bool {
-    return userSession != nil && currentUserProfile != nil
+    return userManager.isAuthenticated && currentUserProfile != nil
   }
 
   func initialLoad() async {
-    guard let userSession = userManager.currentSession() else { return }
-
-    self.userSession = userSession
-
-    do {
-      let user = try await userService.currentUser()
-      print("aha: \(user)")
-    } catch {
-      print(error)
-      print("opssiss")
-    }
-
-    if let currentProfile = await dataStore.loadProfileByEmail(userSession.user.email) {
-      self.currentUserProfile = currentProfile
+    currentUserState = userManager.currentState()
+    switch currentUserState {
+    case .authenticated(let userSession):
+      handlePostLogin(session: userSession)
+    case .unauthenticated:
+      MusculosLogger.logInfo(message: "Could not find user. Using logged-out state ", category: .coreData)
     }
   }
-  
-  func refreshSession() {
-    if let session = userManager.currentSession() {
-      userSession = session
-    }
+
+  private func loadUserFromLocalStorage() async {
+    currentUserProfile = await dataController.getCurrentUserProfile()
   }
 
   func refreshUser() {
-    guard let userSession, let userID = userSession.user.id else { return }
-
     let task = Task {
-      currentUserProfile = await dataStore.loadProfile(userId: userID)
+      await loadUserFromServer()
     }
     taskManager.addTask(task)
   }
 
   func updateIsOnboarded(_ isOnboarded: Bool) {
-    guard var userSession else { return }
-
-    userSession.user.setIsOnboarded(isOnboarded)
-    updateSession(userSession)
-
-    _event.send(.didFinishOnboarding)
+    let task = Task { [weak self] in
+      do {
+        try await self?.dataController.updateUserProfile(isOnboarded: isOnboarded)
+        self?.sendEvent(.didFinishOnboarding)
+      } catch {
+        MusculosLogger.logError(error, message: "Could not update isOnboarded field.", category: .coreData)
+      }
+    }
+    taskManager.addTask(task)
   }
 
   func handlePostRegister(session: UserSession) {
     updateSession(session)
-
-    let task = Task {
-      isLoading = true
-      defer { isLoading = false }
-
-      await createUser(from: session)
-    }
-
-    taskManager.addTask(task)
+    handlePostLogin(session: session)
   }
 
   func handlePostLogin(session: UserSession) {
@@ -128,38 +113,31 @@ final class UserStore {
       isLoading = true
       defer { isLoading = false }
 
-      if let profile = await dataStore.loadProfileByEmail(session.user.email) {
+      if let profile = await dataController.getCurrentUserProfile() {
         currentUserProfile = profile
-        _event.send(.didLogin)
+        sendEvent(.didLogin)
       } else {
-        await createUser(from: session)
+        await loadUserFromServer()
       }
     }
 
     taskManager.addTask(task)
   }
 
-  // MARK: - Private helpers
-
-  private func createUser(from session: UserSession) async {
-    let user = session.user
-    let profile = UserProfile(
-      userId: user.id ?? UUID(),
-      email: user.email,
-      username: user.username
-    )
-
+  private func loadUserFromServer() async {
     do {
-      try await dataStore.createUser(profile: profile)
-      currentUserProfile = profile
-      _event.send(.didLogin)
+      currentUserProfile = try await userService.currentUser()
+      sendEvent(.didLogin)
     } catch {
-      MusculosLogger.logError(error, message: "Cannot create user", category: .coreData)
+      MusculosLogger.logError(error, message: "Initial load failed", category: .networking)
     }
   }
 
+  private func sendEvent(_ event: Event) {
+    eventSubject.send(event)
+  }
+
   private func updateSession(_ session: UserSession) {
-    userSession = session
     userManager.updateSession(session)
   }
 }

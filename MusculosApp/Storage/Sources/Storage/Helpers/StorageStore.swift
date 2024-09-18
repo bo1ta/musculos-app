@@ -9,12 +9,13 @@ import SwiftUI
 import CoreData
 import Combine
 import Utility
+import Factory
 
 public typealias ResultsControllerMutableType = NSManagedObject & ReadOnlyConvertible
 
 @Observable
 @MainActor
-public class StorageStore<T: ResultsControllerMutableType>: NSObject, NSFetchedResultsControllerDelegate {
+public class StorageStore<T: ResultsControllerMutableType>: NSObject, @preconcurrency NSFetchedResultsControllerDelegate {
 
     // MARK: - Private properties -- no need to be observed
 
@@ -67,7 +68,7 @@ public class StorageStore<T: ResultsControllerMutableType>: NSObject, NSFetchedR
     // MARK: - Initializer
 
     public init(
-        viewStorage: StorageType = StorageManager.shared.viewStorage,
+        viewStorage: StorageType = StorageContainer.shared.storageManager().viewStorage,
         sectionNameKeyPath: String? = nil,
         matching predicate: NSPredicate? = nil,
         fetchLimit: Int = 10,

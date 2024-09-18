@@ -26,6 +26,7 @@ public class UserProfileEntity: NSManagedObject {
   @NSManaged public var username: String?
   @NSManaged public var weight: NSNumber?
   @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
+  @NSManaged public var isOnboarded: Bool
 
   @nonobjc public class func fetchRequest() -> NSFetchRequest<UserProfileEntity> {
     return NSFetchRequest<UserProfileEntity>(entityName: "UserProfileEntity")
@@ -63,7 +64,8 @@ extension UserProfileEntity: ReadOnlyConvertible {
       height: height?.doubleValue,
       level: level,
       availableEquipment: availableEquipment,
-      primaryGoalId: primaryGoalId?.intValue
+      primaryGoalId: primaryGoalId?.intValue,
+      isOnboarded: isOnboarded
     )
   }
 
@@ -81,23 +83,13 @@ extension UserProfileEntity: ReadOnlyConvertible {
 // MARK: - Common predicate
 
 extension UserProfileEntity {
-  static func userFrom(userId: String, on storage: StorageType) -> UserProfileEntity? {
-    return storage.firstObject(of: UserProfileEntity.self, matching: CommonPredicate.currentUser(userId).nsPredicate)
-  }
-
-  enum CommonPredicate {
-    case currentUser(String)
-
-    var nsPredicate: NSPredicate {
-      switch self {
-      case .currentUser(let userId):
-        NSPredicate(
-          format: "%K == %@",
-          #keyPath(UserProfileEntity.userId),
-          userId
-        )
-      }
-    }
+  static func userFromID(_ userID: UUID, on storage: StorageType) -> UserProfileEntity? {
+    let predicate =  NSPredicate(
+      format: "%K == %@",
+      #keyPath(UserProfileEntity.userId),
+      userID as NSUUID
+    )
+    return storage.firstObject(of: UserProfileEntity.self, matching: PredicateFactory.userProfileById(userID))
   }
 }
 
@@ -113,6 +105,7 @@ extension UserProfileEntity: EntitySyncable {
     self.gender = model.gender
     self.level = model.level
     self.username = model.username
+    self.isOnboarded = model.isOnboarded ?? false
 
     if let weight = model.weight {
       self.weight = NSNumber(floatLiteral: weight)
@@ -129,6 +122,7 @@ extension UserProfileEntity: EntitySyncable {
   
   public func updateEntityFrom(_ model: UserProfile, using storage: any StorageType) throws {
     self.avatarUrl = model.avatar
+    self.isOnboarded = model.isOnboarded ?? false
 
     if let weight = model.weight {
       self.weight = NSNumber(floatLiteral: weight)

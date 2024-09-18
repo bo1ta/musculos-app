@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utility
 
 public struct BulletPointText: View {
   let text: String

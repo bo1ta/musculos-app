@@ -31,8 +31,6 @@ public struct UIConstant {
 
 public struct UserDefaultsKey {
   public static let userSession = "user_session"
-  public static let authToken = "auth_token"
-  public static let isOnboarded = "is_onboarded"
   public static let healthKitAnchor = "health_kit_anchor"
 }
 

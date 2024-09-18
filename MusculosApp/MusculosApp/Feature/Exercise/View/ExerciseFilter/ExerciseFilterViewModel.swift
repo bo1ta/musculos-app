@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 import Factory
 import Combine
-
 import Storage
 import Models
 
@@ -18,7 +17,7 @@ import Models
 class ExerciseFilterViewModel {
   
   @ObservationIgnored
-  @Injected(\.dataController) private var dataController: DataController
+  @Injected(\StorageContainer.dataController) private var dataController
 
   enum FilterDisplayable {
     case muscle, category, difficulty, equipment

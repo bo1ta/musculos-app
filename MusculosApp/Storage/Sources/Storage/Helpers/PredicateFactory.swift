@@ -46,4 +46,12 @@ public struct PredicateFactory {
       email
     )
   }
+
+  public static func userProfileById(_ id: UUID) -> NSPredicate {
+    return NSPredicate(
+      format: "%K == %@",
+      #keyPath(UserProfileEntity.userId),
+      id as NSUUID
+    )
+  }
 }

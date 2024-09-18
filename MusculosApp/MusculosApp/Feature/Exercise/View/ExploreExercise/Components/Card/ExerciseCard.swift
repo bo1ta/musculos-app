@@ -9,6 +9,7 @@ import SwiftUI
 import Shimmer
 import Models
 import Components
+import NetworkClient
 
 struct ExerciseCard: View {
   let exercise: Exercise

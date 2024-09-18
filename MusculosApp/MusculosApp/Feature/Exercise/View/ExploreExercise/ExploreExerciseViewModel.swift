@@ -12,6 +12,7 @@ import Factory
 import Utility
 import Models
 import Storage
+import NetworkClient
 
 @Observable
 @MainActor
@@ -20,19 +21,19 @@ final class ExploreExerciseViewModel {
   // MARK: - Dependencies
 
   @ObservationIgnored
-  @Injected(\.dataController) private var dataController: DataController
+  @Injected(\StorageContainer.dataController) private var dataController: DataController
 
   @ObservationIgnored
-  @Injected(\.exerciseService) private var exerciseService: ExerciseServiceProtocol
+  @Injected(\NetworkContainer.exerciseService) private var exerciseService: ExerciseServiceProtocol
 
   @ObservationIgnored
-  @Injected(\.userManager) private var userManager: UserManagerProtocol
+  @Injected(\StorageContainer.userManager) private var userManager
 
   @ObservationIgnored
   private var cancellables = Set<AnyCancellable>()
 
   private var currentUser: UserSession? {
-    userManager.currentSession()
+    userManager.currentUserSession
   }
 
   // MARK: - Observed properties

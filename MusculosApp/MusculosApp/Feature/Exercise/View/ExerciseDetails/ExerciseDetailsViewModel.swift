@@ -12,16 +12,17 @@ import SwiftUI
 import Models
 import Storage
 import Utility
+import NetworkClient
 
 @Observable
 @MainActor
 final class ExerciseDetailsViewModel {
 
   @ObservationIgnored
-  @Injected(\.dataController) private var dataController: DataController
+  @Injected(\StorageContainer.dataController) private var dataController: DataController
 
   @ObservationIgnored
-  @Injected(\.exerciseService) private var exerciseService: ExerciseServiceProtocol
+  @Injected(\NetworkContainer.exerciseService) private var exerciseService: ExerciseServiceProtocol
 
   // MARK: - Observed properties
 

@@ -11,12 +11,13 @@ import Utility
 import Factory
 import SwiftUI
 import Models
+import NetworkClient
 
 @Observable
 @MainActor
 class AuthViewModel {
   @ObservationIgnored
-  @Injected(\.authService) private var authService: AuthServiceProtocol
+  @Injected(\NetworkContainer.userService) private var userService
 
   // MARK: - Auth step
 
@@ -80,7 +81,7 @@ class AuthViewModel {
       defer { uiState = .idle }
 
       do {
-        let session = try await authService.login(email: email, password: password)
+        let session = try await userService.login(email: email, password: password)
         _event.send(.onLoginSuccess(session))
       } catch {
         _event.send(.onLoginFailure(error))
@@ -99,7 +100,7 @@ class AuthViewModel {
       defer { uiState = .idle }
 
       do {
-        let session = try await authService.register(
+        let session = try await userService.register(
           email: email,
           password: password,
           username: username

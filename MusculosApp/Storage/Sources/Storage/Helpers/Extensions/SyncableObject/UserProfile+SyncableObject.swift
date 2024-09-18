@@ -9,7 +9,7 @@ import Utility
 import Storage
 import Models
 
-extension UserProfile: @retroactive SyncableObject {
+extension UserProfile: SyncableObject {
   public typealias EntityType = UserProfileEntity
 
   public static let identifierKey: String = "userId"

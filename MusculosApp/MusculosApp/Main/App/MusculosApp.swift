@@ -38,7 +38,7 @@ struct MusculosApp: App {
           }
         }
         .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: appState)
-        .onReceive(userStore.event) { event in
+        .onReceive(userStore.eventPublisher) { event in
           handleUserEvent(event)
         }
         .navigationDestination(for: NavigationRouter.Destination.self) { destination in

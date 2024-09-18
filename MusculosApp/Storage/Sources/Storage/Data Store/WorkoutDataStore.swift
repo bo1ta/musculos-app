@@ -19,7 +19,7 @@ public struct WorkoutDataStore: BaseDataStore, WorkoutDataStoreProtocol {
   
   public func create(_ workout: Workout, userId: UUID) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
-      guard let profile = UserProfileEntity.userFrom(userId: userId.uuidString, on: writerDerivedStorage) else { return }
+      guard let profile = UserProfileEntity.userFromID(userId, on: writerDerivedStorage) else { return }
 
       let workoutEntity = writerDerivedStorage.insertNewObject(ofType: WorkoutEntity.self)
       workoutEntity.name = workout.name
