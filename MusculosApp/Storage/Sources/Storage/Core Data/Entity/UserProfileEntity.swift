@@ -89,7 +89,7 @@ extension UserProfileEntity {
       #keyPath(UserProfileEntity.userId),
       userID as NSUUID
     )
-    return storage.firstObject(of: UserProfileEntity.self, matching: predicate)
+    return storage.firstObject(of: UserProfileEntity.self, matching: PredicateFactory.userProfileById(userID))
   }
 }
 

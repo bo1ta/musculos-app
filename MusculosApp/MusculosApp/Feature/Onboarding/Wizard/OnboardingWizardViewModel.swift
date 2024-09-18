@@ -23,9 +23,6 @@ final class OnboardingWizardViewModel {
   @ObservationIgnored
   @Injected(\StorageContainer.dataController) private var dataController: DataController
 
-  @ObservationIgnored
-  @Injected(\NetworkContainer.userService) private var userService
-
   // MARK: - Event
 
   enum Event {
@@ -107,10 +104,10 @@ final class OnboardingWizardViewModel {
   }
   
   private func updateUser() async throws {
-    let updatedUser = try await userService.updateUser(
+    try await dataController.updateUserProfile(
       weight: Int(selectedWeight),
       height: Int(selectedHeight),
-      primaryGoal: selectedGoal?.title ?? "",
+      primaryGoalId: selectedGoal?.hashValue ?? 0,
       level: selectedLevel?.title,
       isOnboarded: true
     )

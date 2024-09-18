@@ -14,12 +14,16 @@ import CoreData
 import Utility
 
 public final class DataController: @unchecked Sendable {
-  @Injected(\StorageContainer.exerciseDataStore) private var exerciseDataStore
-  @Injected(\StorageContainer.goalDataStore) private var goalDataStore
-  @Injected(\StorageContainer.exerciseSessionDataStore) private var exerciseSessionDataStore
-  @Injected(\StorageContainer.workoutDataStore) private var workoutDataStore
+
+  // MARK: - Dependencies
+
   @Injected(\StorageContainer.userDataStore) private var userDataStore
   @Injected(\StorageContainer.userManager) private var userManager
+
+  @LazyInjected(\StorageContainer.exerciseDataStore) private var exerciseDataStore
+  @LazyInjected(\StorageContainer.goalDataStore) private var goalDataStore
+  @LazyInjected(\StorageContainer.exerciseSessionDataStore) private var exerciseSessionDataStore
+  @LazyInjected(\StorageContainer.workoutDataStore) private var workoutDataStore
 
   private var currentUserSession: UserSession? {
     return userManager.currentUserSession

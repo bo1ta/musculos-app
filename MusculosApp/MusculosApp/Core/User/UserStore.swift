@@ -45,7 +45,7 @@ final class UserStore {
   private let eventSubject = PassthroughSubject<Event, Never>()
 
   private(set) var currentUserProfile: UserProfile?
-  private(set) var currentUserState: UserSessionState = .none
+  private(set) var currentUserState: UserSessionState = .unauthenticated
   private(set) var isLoading: Bool = false
 
   // MARK: - Public
@@ -73,8 +73,6 @@ final class UserStore {
       handlePostLogin(session: userSession)
     case .unauthenticated:
       MusculosLogger.logInfo(message: "Could not find user. Using logged-out state ", category: .coreData)
-    case .none:
-      MusculosLogger.logInfo(message: "Loading user...", category: .coreData)
     }
   }
 
@@ -115,14 +113,12 @@ final class UserStore {
       isLoading = true
       defer { isLoading = false }
 
-      await loadUserFromServer()
-
-//      if let profile = await dataController.getCurrentUserProfile() {
-//        currentUserProfile = profile
-//        sendEvent(.didLogin)
-//      } else {
-//        await loadUserFromServer()
-//      }
+      if let profile = await dataController.getCurrentUserProfile() {
+        currentUserProfile = profile
+        sendEvent(.didLogin)
+      } else {
+        await loadUserFromServer()
+      }
     }
 
     taskManager.addTask(task)
