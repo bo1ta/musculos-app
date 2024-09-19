@@ -115,6 +115,9 @@
 		BCFA25BA2BB37A9D00F07A67 /* AuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B92BB37A9D00F07A67 /* AuthServiceTests.swift */; };
 		BCFA25BC2BB37B2900F07A67 /* authenticationResult.json in Resources */ = {isa = PBXBuildFile; fileRef = BCFA25BB2BB37B2900F07A67 /* authenticationResult.json */; };
 		BCFC24C32C98FB9A00F28D7A /* NetworkClient in Frameworks */ = {isa = PBXBuildFile; productRef = BCFC24C22C98FB9A00F28D7A /* NetworkClient */; };
+		BCFC24C72C9C7EBC00F28D7A /* GoalDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFC24C62C9C7EB900F28D7A /* GoalDataStoreTests.swift */; };
+		BCFC24C92C9C837C00F28D7A /* ExerciseDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFC24C82C9C837700F28D7A /* ExerciseDataStoreTests.swift */; };
+		BCFC24CB2C9C87FD00F28D7A /* UserDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFC24CA2C9C87F900F28D7A /* UserDataStoreTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -234,6 +237,9 @@
 		BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
 		BCFA25B92BB37A9D00F07A67 /* AuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceTests.swift; sourceTree = "<group>"; };
 		BCFA25BB2BB37B2900F07A67 /* authenticationResult.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = authenticationResult.json; sourceTree = "<group>"; };
+		BCFC24C62C9C7EB900F28D7A /* GoalDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDataStoreTests.swift; sourceTree = "<group>"; };
+		BCFC24C82C9C837700F28D7A /* ExerciseDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDataStoreTests.swift; sourceTree = "<group>"; };
+		BCFC24CA2C9C87F900F28D7A /* UserDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataStoreTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,6 +330,7 @@
 		BC1160E52A2CFB840028D8FC /* MusculosAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				BCFC24C42C9C7EAF00F28D7A /* Storage */,
 				BC6F36682BB4E7AD000F6CFA /* Feature */,
 				BC6249942BED749E00393915 /* Core */,
 				BC5BAC932AB26350003C880E /* Helpers */,
@@ -869,6 +876,24 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
+		BCFC24C42C9C7EAF00F28D7A /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				BCFC24C52C9C7EB400F28D7A /* DataStore */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		BCFC24C52C9C7EB400F28D7A /* DataStore */ = {
+			isa = PBXGroup;
+			children = (
+				BCFC24CA2C9C87F900F28D7A /* UserDataStoreTests.swift */,
+				BCFC24C82C9C837700F28D7A /* ExerciseDataStoreTests.swift */,
+				BCFC24C62C9C7EB900F28D7A /* GoalDataStoreTests.swift */,
+			);
+			path = DataStore;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1083,10 +1108,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCFC24CB2C9C87FD00F28D7A /* UserDataStoreTests.swift in Sources */,
 				BCE19AC92C15E615005ABBF3 /* StubExerciseDataStore.swift in Sources */,
 				BCE19AC42C150240005ABBF3 /* OnboardingWizardViewModelTests.swift in Sources */,
 				BC5BACB72AB26F40003C880E /* MusculosTestBase.swift in Sources */,
 				BC6F36672BB4E79F000F6CFA /* AuthViewModelTests.swift in Sources */,
+				BCFC24C72C9C7EBC00F28D7A /* GoalDataStoreTests.swift in Sources */,
+				BCFC24C92C9C837C00F28D7A /* ExerciseDataStoreTests.swift in Sources */,
 				BCE19AB82C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift in Sources */,
 				BCA600592C5BDE200063C5AB /* PublisherValueExpectation.swift in Sources */,
 				BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */,

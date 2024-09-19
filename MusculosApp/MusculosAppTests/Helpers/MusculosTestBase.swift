@@ -44,7 +44,7 @@ extension MusculosTestBase {
   
   func populateStorageWithExercise(exercise: Exercise = ExerciseFactory.createExercise()) async throws {
     let exerciseDataStore = ExerciseDataStore()
-    _ = try await exerciseDataStore.importFrom([exercise])
+//    _ = try await exerciseDataStore.importFrom([exercise])
   }
   
   func createMockSession(jsonFileName: String? = nil, expectation: XCTestExpectation? = nil, shouldFail: Bool = false) -> URLSessionConfiguration {
