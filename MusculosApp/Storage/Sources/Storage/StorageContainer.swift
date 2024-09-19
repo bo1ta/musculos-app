@@ -36,6 +36,7 @@ extension StorageContainer {
 
   public var storageManager: Factory<StorageManagerType> {
     self { StorageManager() }
+      .onTest { InMemoryStorageManager() }
       .singleton
   }
 

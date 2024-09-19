@@ -14,7 +14,7 @@ public protocol GoalDataStoreProtocol: Sendable {
   func incrementCurrentValue(_ goal: Goal) async throws
 }
 
-public struct GoalDataStore: BaseDataStore, GoalDataStoreProtocol {
+public struct GoalDataStore: DataStoreBase, GoalDataStoreProtocol {
   
   public init() { }
   

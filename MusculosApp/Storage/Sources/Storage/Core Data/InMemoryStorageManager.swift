@@ -19,11 +19,12 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
       if let persistentContainer = _persistentContainer {
         return persistentContainer
       } else {
-        let container = NSPersistentContainer(name: "MusculosDataStore")
-        let description = container.persistentStoreDescriptions.first
-        description?.type = NSInMemoryStoreType
-        description?.shouldAddStoreAsynchronously = false
-        
+        let modelURL = Bundle.module.url(forResource: "MusculosDataStore", withExtension: ".momd")!
+        let model = NSManagedObjectModel(contentsOf: modelURL)!
+        let description = NSPersistentStoreDescription(url: URL(filePath: "/dev/null"))
+
+        let container = NSPersistentContainer(name: "MusculosDataStore", managedObjectModel: model)
+        container.persistentStoreDescriptions = [description]
         container.loadPersistentStores { _, error in
           if let error = error {
             MusculosLogger.logError(error, message: "Failed to load persistent store", category: .coreData)

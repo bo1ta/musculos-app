@@ -17,7 +17,7 @@ public protocol UserDataStoreProtocol: Sendable {
   func loadProfileByEmail(_ email: String) async -> UserProfile?
 }
 
-public struct UserDataStore: BaseDataStore, UserDataStoreProtocol, Sendable {
+public struct UserDataStore: DataStoreBase, UserDataStoreProtocol, Sendable {
 
   public init() { }
   
