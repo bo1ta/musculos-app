@@ -57,7 +57,7 @@ public protocol ExerciseDataStoreProtocol: Sendable {
 
 // MARK: - Read methods implementation
 
-public struct ExerciseDataStore: BaseDataStore, ExerciseDataStoreProtocol {
+public struct ExerciseDataStore: DataStoreBase, ExerciseDataStoreProtocol {
   public init() { }
   
   public func isFavorite(_ exercise: Exercise) async -> Bool {

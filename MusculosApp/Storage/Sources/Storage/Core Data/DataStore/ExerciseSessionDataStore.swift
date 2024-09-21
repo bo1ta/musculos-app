@@ -17,7 +17,7 @@ public protocol ExerciseSessionDataStoreProtocol: Sendable {
   func getCompletedSinceLastWeek(userId: UUID) async -> [ExerciseSession]
 }
 
-public struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol {
+public struct ExerciseSessionDataStore: DataStoreBase, ExerciseSessionDataStoreProtocol {
   public init() { }
   
   public func getAll(for userId: UUID) async -> [ExerciseSession] {

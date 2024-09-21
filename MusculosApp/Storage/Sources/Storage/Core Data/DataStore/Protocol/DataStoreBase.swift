@@ -1,5 +1,5 @@
 //
-//  BaseDataStore.swift
+//  DataStoreBase.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 16.03.2024.
@@ -10,13 +10,13 @@ import Factory
 
 /// Helper protocol for Core Data store operations
 ///
-protocol BaseDataStore {
+protocol DataStoreBase {
   /// Represents the Core Data storage manager
   ///
   var storageManager: StorageManagerType { get }
 }
 
-extension BaseDataStore {
+extension DataStoreBase {
   var storageManager: StorageManagerType {
     return StorageContainer.shared.storageManager()
   }

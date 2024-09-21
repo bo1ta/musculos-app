@@ -12,7 +12,7 @@ public typealias ReadStorageClosure<ResultType> = (StorageType) -> ResultType
 public typealias WriteStorageClosure = (StorageType) throws -> Void
 
 public protocol StorageManagerType {
-    
+
   /// Returns the `Storage` associated to the main thread
   ///
   var viewStorage: StorageType { get }
@@ -20,7 +20,12 @@ public protocol StorageManagerType {
   /// Returns a shared derived instance for write operations
   ///
   var writerDerivedStorage: StorageType { get }
-  
+
+  /// The time interval to save, after the last write
+  ///
+
+  var coalesceSaveInterval: Double { get }
+
   /// Save core data changes
   ///
   func saveChanges() async

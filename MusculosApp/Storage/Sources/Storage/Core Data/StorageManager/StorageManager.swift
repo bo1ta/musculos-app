@@ -7,33 +7,34 @@
 
 import Foundation
 import Combine
-import UIKit
 import Utility
 import Models
+import Factory
 @preconcurrency import CoreData
 
 public class StorageManager: StorageManagerType, @unchecked Sendable {
   private var cancellables = Set<AnyCancellable>()
-  private let coalesceInterval: Double = 0.3 // coalesce interval for Core Data saving
-  
-  private var backgroundSaveTask: Task<Void, Never>?
-  
+
+  public var coalesceSaveInterval: Double {
+    return 0.5
+  }
+
   public init() {
     setupNotificationPublisher()
   }
-  
+
   /// Setup `onChange` notification for `writerDerivedStorage`
   /// Debounces for 2 seconds then saves changes in a background task
   ///
-  func setupNotificationPublisher() {
+  private func setupNotificationPublisher() {
     NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: writerDerivedStorage as? NSManagedObjectContext)
-      .debounce(for: .seconds(coalesceInterval), scheduler: DispatchQueue.global())
-      .sink { [performBackgroundSave] _ in
-        performBackgroundSave()
+      .debounce(for: .seconds(coalesceSaveInterval), scheduler: DispatchQueue.global())
+      .sink { [saveChanges] _ in
+        saveChanges { }
       }
       .store(in: &cancellables)
   }
-  
+
   // MARK: - Core Data Stack
   
   lazy var persistentContainer: NSPersistentContainer = {
@@ -69,27 +70,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   }()
   
   // MARK: - Save methods
-  
-  /// Starts a background task to save the changes
-  /// This ensures data is saved even if the app goes from foreground to background
-  ///
-  private func performBackgroundSave() {
-    backgroundSaveTask = Task { @MainActor [weak self] in
-      let app = UIApplication.shared
-      var bgTask: UIBackgroundTaskIdentifier = .invalid
-      
-      bgTask = app.beginBackgroundTask(withName: "CoreDataSave", expirationHandler: {
-        app.endBackgroundTask(bgTask)
-        bgTask = .invalid
-      })
-      
-      self?.saveChanges {
-        app.endBackgroundTask(bgTask)
-        bgTask = .invalid
-      }
-    }
-  }
-  
+
   /// Saves changes from `writerDerivedStorage`, followed by `viewStorage`
   /// Escapes a void completion block
   ///
