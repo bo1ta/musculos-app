@@ -10,6 +10,10 @@ import CoreData
 import Utility
 
 public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
+  public override var coalesceSaveInterval: Double {
+    return 0.0
+  }
+
   private var _persistentContainer: NSPersistentContainer?
   
   public override init() {}
@@ -39,11 +43,6 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
     set { }
   }
   
-  public override func performWrite(_ writeClosure: @escaping WriteStorageClosure) async throws {
-    try await super.performWrite(writeClosure)
-    await saveChanges()
-  }
-  
   public override func deleteAllStoredObjects() {
     let viewContext = persistentContainer.viewContext
     
@@ -63,3 +62,4 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
     }
   }
 }
+

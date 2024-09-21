@@ -31,6 +31,8 @@ public struct GoalDataStoreTests {
     )
     try await dataStore.add(goal)
 
+    try await Task.sleep(for: .seconds(0.1))
+
     let goals = await dataStore.getAll()
     #expect(!goals.isEmpty)
 
@@ -48,9 +50,12 @@ public struct GoalDataStoreTests {
       dateAdded: Date()
     )
     try await dataStore.add(goal)
+
+    try await Task.sleep(for: .seconds(0.1))
     #expect(goal.currentValue == 0)
 
     try await dataStore.incrementCurrentValue(goal)
+    try await Task.sleep(for: .seconds(0.1))
 
     let goals = await dataStore.getAll()
     print(goals.count)

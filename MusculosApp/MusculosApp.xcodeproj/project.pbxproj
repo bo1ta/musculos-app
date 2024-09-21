@@ -112,6 +112,8 @@
 		BCEED7A32BFC0C73002A3656 /* WorkoutListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEED7A22BFC0C73002A3656 /* WorkoutListViewModel.swift */; };
 		BCF6487B2C3C36CC00D1C46F /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = BCF6487A2C3C36CC00D1C46F /* Models */; };
 		BCF7DE712A7DB2EC00FC960B /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */; };
+		BCF9E5BE2C9EF23100841F2C /* UIApplicationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF9E5BD2C9EF22B00841F2C /* UIApplicationWrapper.swift */; };
+		BCF9E5C02C9EF3CC00841F2C /* MockUIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF9E5BF2C9EF3BE00841F2C /* MockUIApplication.swift */; };
 		BCFA25BA2BB37A9D00F07A67 /* AuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA25B92BB37A9D00F07A67 /* AuthServiceTests.swift */; };
 		BCFA25BC2BB37B2900F07A67 /* authenticationResult.json in Resources */ = {isa = PBXBuildFile; fileRef = BCFA25BB2BB37B2900F07A67 /* authenticationResult.json */; };
 		BCFC24C32C98FB9A00F28D7A /* NetworkClient in Frameworks */ = {isa = PBXBuildFile; productRef = BCFC24C22C98FB9A00F28D7A /* NetworkClient */; };
@@ -235,6 +237,8 @@
 		BCEED79E2BFC0B96002A3656 /* WorkoutCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCard.swift; sourceTree = "<group>"; };
 		BCEED7A22BFC0C73002A3656 /* WorkoutListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListViewModel.swift; sourceTree = "<group>"; };
 		BCF7DE702A7DB2EC00FC960B /* CustomTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
+		BCF9E5BD2C9EF22B00841F2C /* UIApplicationWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationWrapper.swift; sourceTree = "<group>"; };
+		BCF9E5BF2C9EF3BE00841F2C /* MockUIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUIApplication.swift; sourceTree = "<group>"; };
 		BCFA25B92BB37A9D00F07A67 /* AuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceTests.swift; sourceTree = "<group>"; };
 		BCFA25BB2BB37B2900F07A67 /* authenticationResult.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = authenticationResult.json; sourceTree = "<group>"; };
 		BCFC24C62C9C7EB900F28D7A /* GoalDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDataStoreTests.swift; sourceTree = "<group>"; };
@@ -425,6 +429,7 @@
 		BC352AE32A326D6C00DAA3AB /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				BCF9E5BD2C9EF22B00841F2C /* UIApplicationWrapper.swift */,
 				BC10EB732C4D7D26003AD519 /* NavigationRouter.swift */,
 				BCAE95A62C447E9600AD91BE /* Extension */,
 				BC545E422C3C6AD400713B86 /* HealthKit */,
@@ -511,6 +516,7 @@
 		BC5BAC932AB26350003C880E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BCF9E5BF2C9EF3BE00841F2C /* MockUIApplication.swift */,
 				BCA600582C5BDE190063C5AB /* PublisherValueExpectation.swift */,
 				BC5BACB62AB26F40003C880E /* MusculosTestBase.swift */,
 				BC5BACBC2AB2769B003C880E /* MockURLProtocol.swift */,
@@ -1086,6 +1092,7 @@
 				BC6F365A2BB4E14D000F6CFA /* AppLauncher.swift in Sources */,
 				BC81E5D72BD3063B0005891D /* AddExerciseSheetViewModel.swift in Sources */,
 				BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */,
+				BCF9E5BE2C9EF23100841F2C /* UIApplicationWrapper.swift in Sources */,
 				BCA24C0F2B6B2B5D00124EC3 /* SelectGoalView.swift in Sources */,
 				BCD59AB12BB628700039F662 /* ExerciseDetailsView.swift in Sources */,
 				BC777F042BA20901001669C8 /* AddWorkoutSheet.swift in Sources */,
@@ -1120,6 +1127,7 @@
 				BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */,
 				BC5BACD92ABB6694003C880E /* ExerciseServiceTests.swift in Sources */,
 				BCFA25BA2BB37A9D00F07A67 /* AuthServiceTests.swift in Sources */,
+				BCF9E5C02C9EF3CC00841F2C /* MockUIApplication.swift in Sources */,
 				BCC46FF92C0E3A7F006D76E2 /* StorageHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

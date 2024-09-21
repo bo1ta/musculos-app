@@ -22,6 +22,7 @@ public struct UserDataStoreTests {
       username: "johnny"
     )
     try await dataStore.createUser(profile: profile)
+    try await Task.sleep(for: .seconds(0.1))
 
     await #expect(dataStore.loadProfile(userId: profile.userId)?.userId == profile.userId)
   }
@@ -34,6 +35,7 @@ public struct UserDataStoreTests {
       weight: 80
     )
     try await dataStore.createUser(profile: profile)
+    try await Task.sleep(for: .seconds(0.1))
 
     #expect(profile.weight == 80)
 
@@ -50,6 +52,7 @@ public struct UserDataStoreTests {
       level: newLevel,
       isOnboarded: newIsOnboarded
     )
+    try await Task.sleep(for: .seconds(0.1))
 
     let fetchedProfile = try #require(await dataStore.loadProfile(userId: profile.userId))
     #expect(Int(fetchedProfile.weight ?? 0) == newWeight)
