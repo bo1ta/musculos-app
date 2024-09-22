@@ -13,6 +13,12 @@ import Components
 import Utility
 
 struct MusculosApp: App {
+  enum AppState {
+    case loading
+    case loggedOut
+    case onboarding
+    case loggedIn
+  }
   @State private var appState: AppState = .loading
   @State private var progress: Double = 0.0
   @State private var userStore = UserStore()
@@ -42,10 +48,7 @@ struct MusculosApp: App {
           handleUserEvent(event)
         }
         .navigationDestination(for: NavigationRouter.Destination.self) { destination in
-          switch destination {
-          case .exerciseDetails(let exercise):
-            ExerciseDetailsView(exercise: exercise)
-          }
+          getViewForDestination(destination)
         }
         .sheet(isPresented: navigationRouter.isPresentingBinding()) {
           if let currentSheet = navigationRouter.currentSheet {
@@ -64,6 +67,20 @@ struct MusculosApp: App {
       .environment(\.userStore, userStore)
       .environment(\.healthKitViewModel, healthKitViewModel)
       .environment(\.navigationRouter, navigationRouter)
+    }
+  }
+
+  @ViewBuilder
+  private func getViewForDestination(_ destination: NavigationRouter.Destination) -> some View {
+    switch destination {
+    case .exerciseDetails(let exercise):
+      ExerciseDetailsView(exercise: exercise)
+    case .search:
+      EmptyView()
+    case .notifications:
+      EmptyView()
+    case .filteredByGoal(let goal):
+      EmptyView()
     }
   }
 
@@ -94,14 +111,5 @@ struct MusculosApp: App {
     case .didFinishOnboarding:
       appState = .loggedIn
     }
-  }
-}
-
-extension MusculosApp {
-  enum AppState {
-    case loading
-    case loggedOut
-    case onboarding
-    case loggedIn
   }
 }

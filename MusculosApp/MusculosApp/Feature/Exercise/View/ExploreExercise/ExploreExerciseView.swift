@@ -45,7 +45,7 @@ struct ExploreExerciseView: View {
           recommendedExercisesByGoals: $viewModel.recommendedByGoals,
           recommendedExercisesByPastSessions: $viewModel.recommendedByPastSessions,
           onExerciseTap: { exercise in
-            navigationRouter.push(to: .exerciseDetails(exercise))
+            navigationRouter.push(.exerciseDetails(exercise))
           }
         )
         .transition(.slide)

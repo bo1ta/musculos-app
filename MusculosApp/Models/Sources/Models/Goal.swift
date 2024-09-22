@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Utility
 
-public struct Goal: Sendable {
+public struct Goal: Sendable, Codable {
   public let name: String
   public let category: Category
   public let frequency: Frequency
@@ -74,7 +74,7 @@ public struct Goal: Sendable {
 // MARK: - Helper types
 
 public extension Goal {
-  public enum Category: String, CaseIterable, Sendable {
+  public enum Category: String, CaseIterable, Sendable, Codable {
     case loseWeight, gainWeight, growMuscle, drinkWater, general
     
     public var label: String {
@@ -102,7 +102,7 @@ public extension Goal {
     }
   }
   
-  public enum Frequency: String, CaseIterable, Sendable {
+  public enum Frequency: String, CaseIterable, Sendable, Codable {
     case daily
     case weekly
     case fixedDate
@@ -114,5 +114,12 @@ public extension Goal {
       case .fixedDate: "fixed date"
       }
     }
+  }
+}
+
+extension Goal: Hashable {
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(name)
+    hasher.combine(dateAdded)
   }
 }
