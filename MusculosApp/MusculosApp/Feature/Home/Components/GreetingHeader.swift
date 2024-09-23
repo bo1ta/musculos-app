@@ -18,34 +18,12 @@ struct GreetingHeader: View {
 
   var body: some View {
     HStack {
-      AsyncCachedImage(url: profile?.avatarUrl) { imagePhase in
-        switch imagePhase {
-        case .success(let image):
-          image
-            .resizable()
-            .frame(width: 40, height: 40)
-            .aspectRatio(contentMode: .fit)
-            .clipShape(Circle())
-        case .empty, .failure(_):
-          Circle()
-            .frame(height: 40)
-            .foregroundStyle(.green)
-        @unknown default:
-          EmptyView()
-            .onAppear {
-              MusculosLogger.logError(
-                MusculosError.unknownError,
-                message: "Unknown error while fetching avatar",
-                category: .networking
-              )
-            }
-        }
-      }
+      UserAvatar(profile: profile)
 
       VStack(alignment: .leading, spacing: 2) {
         Text(greetingForCurrentTime)
           .font(AppFont.poppins(.medium, size: 14))
-          .foregroundStyle(AppColor.brightOrange)
+          .foregroundStyle(.orange)
 
         if let username = profile?.username {
           Heading(username, fontSize: 18)
@@ -56,18 +34,18 @@ struct GreetingHeader: View {
 
       Group {
         Button(action: onSearchTap, label: {
-          Image(systemName: "magnifyingglass")
+          Image("search-icon")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(height: 25)
-            .foregroundStyle(.gray)
+            .frame(height: 35)
+            .foregroundStyle(.black.opacity(0.9))
         })
         Button(action: onNotificationsTap, label: {
-          Image(systemName: "bell")
+          Image("notification-icon")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(height: 25)
-            .foregroundStyle(.gray)
+            .frame(height: 35)
+            .foregroundStyle(.black.opacity(0.9))
         })
       }
       .padding(10)

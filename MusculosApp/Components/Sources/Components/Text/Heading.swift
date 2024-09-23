@@ -11,10 +11,12 @@ import Utility
 public struct Heading: View {
   let text: String
   let fontSize: CGFloat
+  let fontColor: Color
 
-  public init(_ text: String, fontSize: CGFloat = 28) {
+  public init(_ text: String, fontSize: CGFloat = 28, fontColor: Color = .black) {
     self.text = text
     self.fontSize = fontSize
+    self.fontColor = fontColor
   }
 
   public var body: some View {
@@ -22,5 +24,6 @@ public struct Heading: View {
       .font(AppFont.poppins(.bold, size: fontSize))
       .fixedSize(horizontal: false, vertical: true)
       .lineLimit(3)
+      .foregroundStyle(fontColor)
   }
 }

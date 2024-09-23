@@ -20,39 +20,20 @@ struct HomeView: View {
       GreetingHeader(
         profile: viewModel.currentUser,
         onSearchTap: {
-          navigateTo(.search)
+          navigationRouter.push(.search)
         },
         onNotificationsTap: {
-          navigateTo(.notifications)
+          navigationRouter.push(.notifications)
         }
       )
-      .padding(.horizontal, 10)
+
+      AchievementCard()
 
       Spacer()
     }
+    .padding(.horizontal, 10)
     .task {
       await viewModel.fetchData()
-    }
-  }
-}
-
-// MARK: - Navigation handling
-
-extension HomeView {
-  enum NavigationDestination {
-    case search
-    case notifications
-    case filteredByGoal(Goal)
-  }
-
-  private func navigateTo(_ destination: NavigationDestination) {
-    switch destination {
-    case .search:
-      navigationRouter.push(.search)
-    case .notifications:
-      navigationRouter.push(.notifications)
-    case .filteredByGoal(let goal):
-      navigationRouter.push(.filteredByGoal(goal))
     }
   }
 }
