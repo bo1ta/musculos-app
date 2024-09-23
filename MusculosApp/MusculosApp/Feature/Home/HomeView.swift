@@ -16,7 +16,7 @@ struct HomeView: View {
   @State private var viewModel = HomeViewModel()
 
   var body: some View {
-    VStack {
+    VStack(spacing: 15) {
       GreetingHeader(
         profile: viewModel.currentUser,
         onSearchTap: {
@@ -28,6 +28,9 @@ struct HomeView: View {
       )
 
       AchievementCard()
+      FeaturedWorkoutsSection()
+      RecommendationSection()
+        .fixedSize(horizontal: false, vertical: true)
 
       Spacer()
     }

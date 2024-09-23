@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		BC0DA8732CA1CE700011EC63 /* UserAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0DA8722CA1CE700011EC63 /* UserAvatar.swift */; };
+		BC0DA8752CA1FC310011EC63 /* FeaturedWorkoutsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0DA8742CA1FC310011EC63 /* FeaturedWorkoutsSection.swift */; };
+		BC0DA8792CA209D70011EC63 /* RecommendationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0DA8782CA209D70011EC63 /* RecommendationSection.swift */; };
 		BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C462A7D70E7009DFC4B /* CustomTabBarButton.swift */; };
 		BC10EB742C4D7D2B003AD519 /* NavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC10EB732C4D7D26003AD519 /* NavigationRouter.swift */; };
 		BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160CF2A2CFB830028D8FC /* MusculosApp.swift */; };
@@ -136,6 +138,8 @@
 
 /* Begin PBXFileReference section */
 		BC0DA8722CA1CE700011EC63 /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
+		BC0DA8742CA1FC310011EC63 /* FeaturedWorkoutsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedWorkoutsSection.swift; sourceTree = "<group>"; };
+		BC0DA8782CA209D70011EC63 /* RecommendationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationSection.swift; sourceTree = "<group>"; };
 		BC0E9C462A7D70E7009DFC4B /* CustomTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarButton.swift; sourceTree = "<group>"; };
 		BC10EB732C4D7D26003AD519 /* NavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
 		BC1160CC2A2CFB830028D8FC /* MusculosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusculosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -565,6 +569,8 @@
 				BC811F712CA03A0A00C3CC01 /* GreetingHeader.swift */,
 				BC5CC2C62C7B6A430016D694 /* HomeSearchCard.swift */,
 				BC0DA8722CA1CE700011EC63 /* UserAvatar.swift */,
+				BC0DA8742CA1FC310011EC63 /* FeaturedWorkoutsSection.swift */,
+				BC0DA8782CA209D70011EC63 /* RecommendationSection.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1062,6 +1068,7 @@
 				BC545E442C3C6AD400713B86 /* HealthKitViewModel.swift in Sources */,
 				BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */,
 				BC74C1B62C0107CA0021B932 /* WorkoutIntroView.swift in Sources */,
+				BC0DA8792CA209D70011EC63 /* RecommendationSection.swift in Sources */,
 				BCD59AA22BB627E60039F662 /* ExerciseCard.swift in Sources */,
 				BCE417102A7D73380088D975 /* WorkoutTabBarButton.swift in Sources */,
 				BC43D33B2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift in Sources */,
@@ -1116,6 +1123,7 @@
 				BC81E5D12BD2F9D90005891D /* SheetNavBar.swift in Sources */,
 				BCEED7A32BFC0C73002A3656 /* WorkoutListViewModel.swift in Sources */,
 				BC1191912C24DF18004ADF04 /* InformationCard.swift in Sources */,
+				BC0DA8752CA1FC310011EC63 /* FeaturedWorkoutsSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
