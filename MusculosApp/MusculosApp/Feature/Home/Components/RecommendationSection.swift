@@ -16,10 +16,24 @@ struct RecommendationSection: View {
       GridItem(.flexible())   // Defines the second column
   ]
 
+  let onSeeMore: () -> Void
+  init(onSeeMore: @escaping () -> Void) {
+    self.onSeeMore = onSeeMore
+  }
+
   var body: some View {
     VStack(alignment: .leading) {
-      Text("Best for you")
-        .font(AppFont.poppins(.medium, size: 20))
+      HStack {
+        Text("Best for you")
+          .font(AppFont.spartan(.semiBold, size: 20))
+        Spacer()
+
+        Button(action: onSeeMore, label: {
+          Text("See more")
+            .font(AppFont.spartan(.regular, size: 17))
+            .foregroundStyle(.orange)
+        })
+      }
 
       ScrollView(.horizontal) {
         LazyHGrid(rows: rows, spacing: 20) {
@@ -39,5 +53,5 @@ struct RecommendationSection: View {
 }
 
 #Preview {
-  RecommendationSection()
+  RecommendationSection(onSeeMore: {})
 }

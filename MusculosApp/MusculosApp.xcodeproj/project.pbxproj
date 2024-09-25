@@ -10,6 +10,15 @@
 		BC0DA8732CA1CE700011EC63 /* UserAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0DA8722CA1CE700011EC63 /* UserAvatar.swift */; };
 		BC0DA8752CA1FC310011EC63 /* FeaturedWorkoutsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0DA8742CA1FC310011EC63 /* FeaturedWorkoutsSection.swift */; };
 		BC0DA8792CA209D70011EC63 /* RecommendationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0DA8782CA209D70011EC63 /* RecommendationSection.swift */; };
+		BC0DA87B2CA392D00011EC63 /* ChallengesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0DA87A2CA392D00011EC63 /* ChallengesSection.swift */; };
+		BC0DA8942CA396FF0011EC63 /* LeagueSpartan-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0DA88E2CA396FF0011EC63 /* LeagueSpartan-ExtraBold.ttf */; };
+		BC0DA8952CA396FF0011EC63 /* LeagueSpartan-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0DA8902CA396FF0011EC63 /* LeagueSpartan-Light.ttf */; };
+		BC0DA8962CA396FF0011EC63 /* LeagueSpartan-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0DA8932CA396FF0011EC63 /* LeagueSpartan-SemiBold.ttf */; };
+		BC0DA8972CA396FF0011EC63 /* LeagueSpartan-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0DA88F2CA396FF0011EC63 /* LeagueSpartan-ExtraLight.ttf */; };
+		BC0DA8982CA396FF0011EC63 /* LeagueSpartan-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0DA88C2CA396FF0011EC63 /* LeagueSpartan-Black.ttf */; };
+		BC0DA8992CA396FF0011EC63 /* LeagueSpartan-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0DA8912CA396FF0011EC63 /* LeagueSpartan-Medium.ttf */; };
+		BC0DA89A2CA396FF0011EC63 /* LeagueSpartan-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0DA88D2CA396FF0011EC63 /* LeagueSpartan-Bold.ttf */; };
+		BC0DA89B2CA396FF0011EC63 /* LeagueSpartan-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0DA8922CA396FF0011EC63 /* LeagueSpartan-Regular.ttf */; };
 		BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C462A7D70E7009DFC4B /* CustomTabBarButton.swift */; };
 		BC10EB742C4D7D2B003AD519 /* NavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC10EB732C4D7D26003AD519 /* NavigationRouter.swift */; };
 		BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160CF2A2CFB830028D8FC /* MusculosApp.swift */; };
@@ -140,6 +149,15 @@
 		BC0DA8722CA1CE700011EC63 /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
 		BC0DA8742CA1FC310011EC63 /* FeaturedWorkoutsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedWorkoutsSection.swift; sourceTree = "<group>"; };
 		BC0DA8782CA209D70011EC63 /* RecommendationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationSection.swift; sourceTree = "<group>"; };
+		BC0DA87A2CA392D00011EC63 /* ChallengesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesSection.swift; sourceTree = "<group>"; };
+		BC0DA88C2CA396FF0011EC63 /* LeagueSpartan-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-Black.ttf"; sourceTree = "<group>"; };
+		BC0DA88D2CA396FF0011EC63 /* LeagueSpartan-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-Bold.ttf"; sourceTree = "<group>"; };
+		BC0DA88E2CA396FF0011EC63 /* LeagueSpartan-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-ExtraBold.ttf"; sourceTree = "<group>"; };
+		BC0DA88F2CA396FF0011EC63 /* LeagueSpartan-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-ExtraLight.ttf"; sourceTree = "<group>"; };
+		BC0DA8902CA396FF0011EC63 /* LeagueSpartan-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-Light.ttf"; sourceTree = "<group>"; };
+		BC0DA8912CA396FF0011EC63 /* LeagueSpartan-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-Medium.ttf"; sourceTree = "<group>"; };
+		BC0DA8922CA396FF0011EC63 /* LeagueSpartan-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-Regular.ttf"; sourceTree = "<group>"; };
+		BC0DA8932CA396FF0011EC63 /* LeagueSpartan-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-SemiBold.ttf"; sourceTree = "<group>"; };
 		BC0E9C462A7D70E7009DFC4B /* CustomTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarButton.swift; sourceTree = "<group>"; };
 		BC10EB732C4D7D26003AD519 /* NavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
 		BC1160CC2A2CFB830028D8FC /* MusculosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusculosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -571,6 +589,7 @@
 				BC0DA8722CA1CE700011EC63 /* UserAvatar.swift */,
 				BC0DA8742CA1FC310011EC63 /* FeaturedWorkoutsSection.swift */,
 				BC0DA8782CA209D70011EC63 /* RecommendationSection.swift */,
+				BC0DA87A2CA392D00011EC63 /* ChallengesSection.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -767,6 +786,14 @@
 				BC78275F2B9CF1F300DFC02C /* Epilogue-Bold.ttf */,
 				BC7827552B9CEF4100DFC02C /* Inter-Bold.ttf */,
 				BC7827512B9CEF4100DFC02C /* Inter-Light.ttf */,
+				BC0DA88C2CA396FF0011EC63 /* LeagueSpartan-Black.ttf */,
+				BC0DA88D2CA396FF0011EC63 /* LeagueSpartan-Bold.ttf */,
+				BC0DA88E2CA396FF0011EC63 /* LeagueSpartan-ExtraBold.ttf */,
+				BC0DA88F2CA396FF0011EC63 /* LeagueSpartan-ExtraLight.ttf */,
+				BC0DA8902CA396FF0011EC63 /* LeagueSpartan-Light.ttf */,
+				BC0DA8912CA396FF0011EC63 /* LeagueSpartan-Medium.ttf */,
+				BC0DA8922CA396FF0011EC63 /* LeagueSpartan-Regular.ttf */,
+				BC0DA8932CA396FF0011EC63 /* LeagueSpartan-SemiBold.ttf */,
 				BC7827522B9CEF4100DFC02C /* Inter-Medium.ttf */,
 				BC7827532B9CEF4100DFC02C /* Inter-Regular.ttf */,
 				BC7827562B9CEF4100DFC02C /* Inter-SemiBold.ttf */,
@@ -1025,6 +1052,14 @@
 				BC7827572B9CF1B100DFC02C /* Epilogue-Medium.ttf in Resources */,
 				BC7827582B9CF1BE00DFC02C /* Inter-Thin.ttf in Resources */,
 				BC78275B2B9CF1BE00DFC02C /* Inter-Medium.ttf in Resources */,
+				BC0DA8942CA396FF0011EC63 /* LeagueSpartan-ExtraBold.ttf in Resources */,
+				BC0DA8952CA396FF0011EC63 /* LeagueSpartan-Light.ttf in Resources */,
+				BC0DA8962CA396FF0011EC63 /* LeagueSpartan-SemiBold.ttf in Resources */,
+				BC0DA8972CA396FF0011EC63 /* LeagueSpartan-ExtraLight.ttf in Resources */,
+				BC0DA8982CA396FF0011EC63 /* LeagueSpartan-Black.ttf in Resources */,
+				BC0DA8992CA396FF0011EC63 /* LeagueSpartan-Medium.ttf in Resources */,
+				BC0DA89A2CA396FF0011EC63 /* LeagueSpartan-Bold.ttf in Resources */,
+				BC0DA89B2CA396FF0011EC63 /* LeagueSpartan-Regular.ttf in Resources */,
 				BC78275A2B9CF1BE00DFC02C /* Inter-Light.ttf in Resources */,
 				BC1160D42A2CFB830028D8FC /* Assets.xcassets in Resources */,
 			);
@@ -1050,6 +1085,7 @@
 			files = (
 				BCD59AA82BB628220039F662 /* MultiOptionsSelectView.swift in Sources */,
 				BC81E5CF2BD2F9350005891D /* AddExerciseView.swift in Sources */,
+				BC0DA87B2CA392D00011EC63 /* ChallengesSection.swift in Sources */,
 				BC583B0D2BA8C76500236C0D /* OnboardingWizardViewModel.swift in Sources */,
 				BC781FFF2B9B6061009F9FB5 /* ScoreCard.swift in Sources */,
 				BC10EB742C4D7D2B003AD519 /* NavigationRouter.swift in Sources */,

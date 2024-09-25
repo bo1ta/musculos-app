@@ -23,6 +23,14 @@
 		<string>Poppins-SemiBold.ttf</string>
 		<string>Poppins-Medium.ttf</string>
 		<string>Poppins-Regular.ttf</string>
+		<string>LeagueSpartan-Black.ttf</string>
+		<string>LeagueSpartan-Bold.ttf</string>
+		<string>LeagueSpartan-ExtraBold.ttf</string>
+		<string>LeagueSpartan-ExtraLight.ttf</string>
+		<string>LeagueSpartan-Light.ttf</string>
+		<string>LeagueSpartan-Medium.ttf</string>
+		<string>LeagueSpartan-Regular.ttf</string>
+		<string>LeagueSpartan-SemiBold.ttf</string>
 	</array>
 	<key>UIInterfaceStyle</key>
 	<string>Light</string>

@@ -32,6 +32,17 @@ public struct AppFont {
     case semibold = "Poppins-SemiBold"
   }
 
+  public enum LeagueSpartan: String {
+    case black = "LeagueSpartan-Black"
+    case bold = "LeagueSpartan-Bold"
+    case extraBold = "LeagueSpartan-ExtraBold"
+    case extraLight = "LeagueSpartan-ExtraLight"
+    case light = "LeagueSpartan-Light"
+    case medium = "LeagueSpartan-Medium"
+    case regular = "LeagueSpartan-Regular"
+    case semiBold = "LeagueSpartan-SemiBold"
+  }
+
   public static func header(_ headerType: AppFont.Header, size: CGFloat = 12.0) -> Font {
     return Font.custom(headerType.rawValue, size: size)
   }
@@ -41,6 +52,10 @@ public struct AppFont {
   }
 
   public static func poppins(_ type: Poppins, size: CGFloat = 14.0) -> Font {
+    return Font.custom(type.rawValue, size: size)
+  }
+
+  public static func spartan(_ type: LeagueSpartan, size: CGFloat = 14.0) -> Font {
     return Font.custom(type.rawValue, size: size)
   }
 }

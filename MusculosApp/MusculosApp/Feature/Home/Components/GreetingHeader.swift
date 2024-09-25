@@ -22,7 +22,7 @@ struct GreetingHeader: View {
 
       VStack(alignment: .leading, spacing: 2) {
         Text(greetingForCurrentTime)
-          .font(AppFont.poppins(.medium, size: 14))
+          .font(AppFont.spartan(.medium, size: 14))
           .foregroundStyle(.orange)
 
         if let username = profile?.username {
@@ -37,14 +37,14 @@ struct GreetingHeader: View {
           Image("search-icon")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(height: 35)
+            .frame(height: 25)
             .foregroundStyle(.black.opacity(0.9))
         })
         Button(action: onNotificationsTap, label: {
           Image("notification-icon")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(height: 35)
+            .frame(height: 25)
             .foregroundStyle(.black.opacity(0.9))
         })
       }

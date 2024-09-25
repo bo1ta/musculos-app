@@ -1,17 +1,17 @@
 //
-//  FeaturedWorkoutsSection.swift
+//  ChallengesSection.swift
 //  MusculosApp
 //
-//  Created by Solomon Alexandru on 23.09.2024.
+//  Created by Solomon Alexandru on 25.09.2024.
 //
 
 import SwiftUI
+import Utility
 import Components
 import Models
-import Utility
 
-struct FeaturedWorkoutsSection: View {
-  let colors: [Color] = [.red, .blue, .green, .yellow]
+struct ChallengesSection: View {
+  let colors: [Color] = [.yellow, .red, .green, .gray]
 
   let onSeeMore: () -> Void
 
@@ -22,7 +22,7 @@ struct FeaturedWorkoutsSection: View {
   var body: some View {
     VStack(alignment: .leading) {
       HStack {
-        Text("Featured workouts")
+        Text("Today Challenge")
           .font(AppFont.spartan(.semiBold, size: 20))
         Spacer()
 
@@ -36,7 +36,7 @@ struct FeaturedWorkoutsSection: View {
       ScrollView(.horizontal) {
         HStack {
           ForEach(Goal.Category.allCases, id: \.self) { category in
-            IconTitleCard(icon: Image("muscle-icon"), imageColor: colors.randomElement() ?? .black, title: category.label)
+            ChallengeCard(label: "New card", level: "expert", cardColor: colors.randomElement() ?? .black)
           }
           .padding(.vertical, 5)
           .padding(.horizontal, 5)
@@ -48,5 +48,5 @@ struct FeaturedWorkoutsSection: View {
 }
 
 #Preview {
-  FeaturedWorkoutsSection(onSeeMore: {})
+  ChallengesSection(onSeeMore: {})
 }

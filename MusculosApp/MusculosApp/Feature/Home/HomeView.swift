@@ -16,28 +16,32 @@ struct HomeView: View {
   @State private var viewModel = HomeViewModel()
 
   var body: some View {
-    VStack(spacing: 15) {
-      GreetingHeader(
-        profile: viewModel.currentUser,
-        onSearchTap: {
-          navigationRouter.push(.search)
-        },
-        onNotificationsTap: {
-          navigationRouter.push(.notifications)
-        }
-      )
+    ScrollView {
+      VStack(spacing: 15) {
+        GreetingHeader(
+          profile: viewModel.currentUser,
+          onSearchTap: {
+            navigationRouter.push(.search)
+          },
+          onNotificationsTap: {
+            navigationRouter.push(.notifications)
+          }
+        )
 
-      AchievementCard()
-      FeaturedWorkoutsSection()
-      RecommendationSection()
-        .fixedSize(horizontal: false, vertical: true)
-
-      Spacer()
+        AchievementCard()
+        FeaturedWorkoutsSection(onSeeMore: {})
+        RecommendationSection(onSeeMore: {})
+          .fixedSize(horizontal: false, vertical: true)
+        ChallengesSection(onSeeMore: {})
+        WhiteBackgroundCard()
+        Spacer()
+      }
+      .padding(.horizontal, 10)
     }
-    .padding(.horizontal, 10)
     .task {
       await viewModel.fetchData()
     }
+    .scrollIndicators(.hidden)
   }
 }
 
