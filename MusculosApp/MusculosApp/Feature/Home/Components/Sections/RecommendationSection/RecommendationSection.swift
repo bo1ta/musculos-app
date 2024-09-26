@@ -11,13 +11,22 @@ import Utility
 import Models
 
 struct RecommendationSection: View {
-  let rows = [
-      GridItem(.flexible()),  // Defines the first column
-      GridItem(.flexible())   // Defines the second column
+  private let gridRows = [
+    GridItem(.flexible()),
+    GridItem(.flexible())
   ]
 
+  let exercises: [Exercise]
+  let onSelectExercise: (Exercise) -> Void
   let onSeeMore: () -> Void
-  init(onSeeMore: @escaping () -> Void) {
+
+  init(
+    exercises: [Exercise],
+    onSelectExercise: @escaping (Exercise) -> Void,
+    onSeeMore: @escaping () -> Void
+  ) {
+    self.exercises = exercises
+    self.onSelectExercise = onSelectExercise
     self.onSeeMore = onSeeMore
   }
 
@@ -36,13 +45,15 @@ struct RecommendationSection: View {
       }
 
       ScrollView(.horizontal) {
-        LazyHGrid(rows: rows, spacing: 20) {
-            ForEach(Goal.Category.allCases, id: \.self) { category in
-              ImageTitleOptionsCard(
-                image: Image("muscle-icon"),
-                title: category.label,
-                options: ["10 min", "beginner"]
-              )
+        LazyHGrid(rows: gridRows, spacing: 20) {
+            ForEach(exercises, id: \.id) { exercise in
+              Button(action: {
+                onSelectExercise(exercise)
+              }, label: {
+                ContentTitleOptionsCard(title: exercise.name, options: exercise.primaryMuscles, content: {
+                  SectionItemImage(imageURL: exercise.displayImageURL)
+                })
+              })
             }
           }
         .padding(.vertical, 10)
@@ -50,8 +61,4 @@ struct RecommendationSection: View {
       .scrollIndicators(.hidden)
     }
   }
-}
-
-#Preview {
-  RecommendationSection(onSeeMore: {})
 }

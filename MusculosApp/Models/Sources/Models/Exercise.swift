@@ -72,6 +72,13 @@ public struct Exercise: Codable, Sendable {
       URL(string: imageUrlString)
     }
   }
+
+  public var displayImageURL: URL? {
+    if let firstImageUrl = imageUrls.first {
+      return URL(string: firstImageUrl)
+    }
+    return nil
+  }
 }
 
 public extension Exercise {

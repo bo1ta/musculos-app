@@ -19,6 +19,7 @@
 		BC0DA8992CA396FF0011EC63 /* LeagueSpartan-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0DA8912CA396FF0011EC63 /* LeagueSpartan-Medium.ttf */; };
 		BC0DA89A2CA396FF0011EC63 /* LeagueSpartan-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0DA88D2CA396FF0011EC63 /* LeagueSpartan-Bold.ttf */; };
 		BC0DA89B2CA396FF0011EC63 /* LeagueSpartan-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0DA8922CA396FF0011EC63 /* LeagueSpartan-Regular.ttf */; };
+		BC0DA8A02CA5EACF0011EC63 /* RecommendationSection+SectionItemImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0DA89F2CA5EAC40011EC63 /* RecommendationSection+SectionItemImage.swift */; };
 		BC0E9C472A7D70E7009DFC4B /* CustomTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C462A7D70E7009DFC4B /* CustomTabBarButton.swift */; };
 		BC10EB742C4D7D2B003AD519 /* NavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC10EB732C4D7D26003AD519 /* NavigationRouter.swift */; };
 		BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160CF2A2CFB830028D8FC /* MusculosApp.swift */; };
@@ -158,6 +159,7 @@
 		BC0DA8912CA396FF0011EC63 /* LeagueSpartan-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-Medium.ttf"; sourceTree = "<group>"; };
 		BC0DA8922CA396FF0011EC63 /* LeagueSpartan-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-Regular.ttf"; sourceTree = "<group>"; };
 		BC0DA8932CA396FF0011EC63 /* LeagueSpartan-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LeagueSpartan-SemiBold.ttf"; sourceTree = "<group>"; };
+		BC0DA89F2CA5EAC40011EC63 /* RecommendationSection+SectionItemImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecommendationSection+SectionItemImage.swift"; sourceTree = "<group>"; };
 		BC0E9C462A7D70E7009DFC4B /* CustomTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarButton.swift; sourceTree = "<group>"; };
 		BC10EB732C4D7D26003AD519 /* NavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
 		BC1160CC2A2CFB830028D8FC /* MusculosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusculosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -304,6 +306,25 @@
 				BCA24BF02B69D44600124EC3 /* Fonts */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		BC0DA89D2CA5EA970011EC63 /* Sections */ = {
+			isa = PBXGroup;
+			children = (
+				BC0DA87A2CA392D00011EC63 /* ChallengesSection.swift */,
+				BC0DA8742CA1FC310011EC63 /* FeaturedWorkoutsSection.swift */,
+				BC0DA89E2CA5EA9E0011EC63 /* RecommendationSection */,
+			);
+			path = Sections;
+			sourceTree = "<group>";
+		};
+		BC0DA89E2CA5EA9E0011EC63 /* RecommendationSection */ = {
+			isa = PBXGroup;
+			children = (
+				BC0DA89F2CA5EAC40011EC63 /* RecommendationSection+SectionItemImage.swift */,
+				BC0DA8782CA209D70011EC63 /* RecommendationSection.swift */,
+			);
+			path = RecommendationSection;
 			sourceTree = "<group>";
 		};
 		BC10E42C2A3B8AB00008A72E /* Authentication */ = {
@@ -587,9 +608,7 @@
 				BC811F712CA03A0A00C3CC01 /* GreetingHeader.swift */,
 				BC5CC2C62C7B6A430016D694 /* HomeSearchCard.swift */,
 				BC0DA8722CA1CE700011EC63 /* UserAvatar.swift */,
-				BC0DA8742CA1FC310011EC63 /* FeaturedWorkoutsSection.swift */,
-				BC0DA8782CA209D70011EC63 /* RecommendationSection.swift */,
-				BC0DA87A2CA392D00011EC63 /* ChallengesSection.swift */,
+				BC0DA89D2CA5EA970011EC63 /* Sections */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1109,6 +1128,7 @@
 				BCE417102A7D73380088D975 /* WorkoutTabBarButton.swift in Sources */,
 				BC43D33B2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift in Sources */,
 				BCCA2C9A2C3C615600D4DEAD /* Container+Extension.swift in Sources */,
+				BC0DA8A02CA5EACF0011EC63 /* RecommendationSection+SectionItemImage.swift in Sources */,
 				BC1674B62BE2E73F0012048D /* AddGoalSheet.swift in Sources */,
 				BC545E3E2C3C6A8F00713B86 /* EnvironmentValues+Extension.swift in Sources */,
 				BC7820012B9B64F1009F9FB5 /* ScoreBadge.swift in Sources */,

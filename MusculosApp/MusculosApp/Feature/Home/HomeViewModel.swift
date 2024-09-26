@@ -36,7 +36,7 @@ final class HomeViewModel {
   @MainActor
   private func loadRecommendedExercises() async {
     do {
-      recommendedExercises = try await dataController.getRecommendedExercisesByGoals()
+      recommendedExercises = try await dataController.getExercises()
     } catch {
       MusculosLogger.logError(error, message: "Could not load recommended exercies", category: .coreData)
     }

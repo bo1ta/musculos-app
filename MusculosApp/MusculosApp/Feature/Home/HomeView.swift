@@ -30,7 +30,7 @@ struct HomeView: View {
 
         AchievementCard()
         FeaturedWorkoutsSection(onSeeMore: {})
-        RecommendationSection(onSeeMore: {})
+        RecommendationSection(exercises: viewModel.recommendedExercises, onSelectExercise: { _ in }, onSeeMore: {})
           .fixedSize(horizontal: false, vertical: true)
         ChallengesSection(onSeeMore: {})
         WhiteBackgroundCard()

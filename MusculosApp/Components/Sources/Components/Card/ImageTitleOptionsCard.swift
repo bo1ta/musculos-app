@@ -1,5 +1,5 @@
 //
-//  ImageTitleOptionsCard.swift
+//  ContentTitleOptionsCard.swift
 //  Components
 //
 //  Created by Solomon Alexandru on 23.09.2024.
@@ -8,15 +8,15 @@
 import SwiftUI
 import Utility
 
-public struct ImageTitleOptionsCard: View {
-  let image: Image
+public struct ContentTitleOptionsCard<Content: View>: View {
+  let content: Content
   let title: String
   let options: [String]
 
-  public init(image: Image, title: String, options: [String]) {
-    self.image = image
+  public init(title: String, options: [String], @ViewBuilder content: @escaping () -> Content) {
     self.title = title
     self.options = options
+    self.content = content()
   }
 
   public var body: some View {
@@ -27,10 +27,7 @@ public struct ImageTitleOptionsCard: View {
       .shadow(radius: 1.2)
       .overlay {
         HStack {
-          image
-            .resizable()
-            .scaledToFit()
-            .frame(width: 60)
+          content
 
           VStack(alignment: .leading) {
             Text(title)
@@ -59,14 +56,14 @@ public struct ImageTitleOptionsCard: View {
       }
   }
 }
-
-#Preview {
-  ImageTitleOptionsCard(
-    image: Image(systemName: "star"),
-    title: "Sit ups",
-    options: [
-      "5 min",
-      "expert"
-    ]
-  )
-}
+//
+//#Preview {
+//  ImageTitleOptionsCard(
+//    image: Image(systemName: "star"),
+//    title: "Sit ups",
+//    options: [
+//      "5 min",
+//      "expert"
+//    ]
+//  )
+//}
