@@ -59,7 +59,7 @@ final class UserStore {
   }
   
   var isOnboarded: Bool {
-    return currentUserProfile?.isOnboarded ?? true
+    return currentUserProfile?.isOnboarded ?? false
   }
   
   var isLoggedIn: Bool {
