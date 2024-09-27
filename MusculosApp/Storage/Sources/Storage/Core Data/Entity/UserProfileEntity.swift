@@ -15,7 +15,7 @@ public class UserProfileEntity: NSManagedObject {
   @NSManaged public var userId: UUID
   @NSManaged public var availableEquipment: [String]?
   @NSManaged public var avatarUrl: String?
-  @NSManaged public var email: String?
+  @NSManaged public var email: String
   @NSManaged public var fullName: String?
   @NSManaged public var gender: String?
   @NSManaged public var height: NSNumber?
@@ -23,7 +23,7 @@ public class UserProfileEntity: NSManagedObject {
   @NSManaged public var primaryGoalId: NSNumber?
   @NSManaged public var synchronized: NSNumber
   @NSManaged public var updatedAt: Date?
-  @NSManaged public var username: String?
+  @NSManaged public var username: String
   @NSManaged public var weight: NSNumber?
   @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
   @NSManaged public var isOnboarded: Bool
@@ -48,14 +48,23 @@ extension UserProfileEntity {
   @objc(removeExerciseSessions:)
   @NSManaged public func removeFromExerciseSessions(_ values: NSSet)
 
+  @objc(addGoalsObject:)
+  @NSManaged public func addToGoals(_ value: GoalEntity)
+
+  @objc(removeFromGoalsObject:)
+  @NSManaged public func removeFromGoals(_ value: GoalEntity)
+
+  @objc(addGoals:)
+  @NSManaged public func addToGoals(_ values: NSSet)
+
+  @objc(removeGoals:)
+  @NSManaged public func removeFromGoals(_ values: NSSet)
 }
 
 // MARK: - ReadOnlyConvertible impl
 
 extension UserProfileEntity: ReadOnlyConvertible {
-  public func toReadOnly() -> UserProfile? {
-    guard let email, let username else { return nil }
-
+  public func toReadOnly() -> UserProfile {
     return UserProfile(
       userId: userId,
       email: email,

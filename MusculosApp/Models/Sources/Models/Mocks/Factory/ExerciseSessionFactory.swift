@@ -11,6 +11,6 @@ public struct ExerciseSessionFactory {
   public static func createExerciseSession() -> ExerciseSession {
     let person = UserProfileFactory.createProfile()
     let exercise = ExerciseFactory.createExercise()
-    return ExerciseSession(date: Date(), sessionId: UUID(), user: person, exercise: exercise)
+    return ExerciseSession(dateAdded: Date(), sessionId: UUID(), user: person, exercise: exercise)
   }
 }

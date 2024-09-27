@@ -39,7 +39,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   
   lazy var persistentContainer: NSPersistentContainer = {
     let bundle = Bundle.module
-    let modelURL = bundle.url(forResource: "MusculosDataStore", withExtension: ".momd")!
+    let modelURL = bundle.url(forResource: "MusculosDataModel", withExtension: ".momd")!
     let model = NSManagedObjectModel(contentsOf: modelURL)!
     
     let container = NSPersistentContainer(name: "MusculosDataStore", managedObjectModel: model)

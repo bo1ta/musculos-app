@@ -16,7 +16,8 @@ public struct GoalFactory {
       frequency: frequency,
       targetValue: targetValue,
       endDate: endDate,
-      dateAdded: dateAdded
+      dateAdded: dateAdded,
+      user: UserProfileFactory.createProfile()
     )
   }
 }

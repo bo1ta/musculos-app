@@ -29,9 +29,18 @@ struct HomeView: View {
         )
 
         AchievementCard()
+          .defaultShimmering(active: viewModel.isLoading)
         FeaturedWorkoutsSection(onSeeMore: {})
-        RecommendationSection(exercises: viewModel.recommendedExercises, onSelectExercise: { _ in }, onSeeMore: {})
-          .fixedSize(horizontal: false, vertical: true)
+        RecommendationSection(
+          exercises: viewModel.recommendedExercises,
+          onSelectExercise: { exercise in
+            navigationRouter.push(.exerciseDetails(exercise))
+          },
+          onSeeMore: {
+            navigationRouter.push(.search)
+          }
+        )
+        .fixedSize(horizontal: false, vertical: true)
         ChallengesSection(onSeeMore: {})
         WhiteBackgroundCard()
         Spacer()

@@ -23,10 +23,10 @@ public protocol SyncableObject: Codable {
   static var identifierKey: String { get }
 }
 
-public extension SyncableObject {
+extension SyncableObject {
   /// Decodes the `Data` object that holds multiple codable objects. Imports the results or updates if needed
   ///
-  static func createWithTaskFrom(_ data: Data) async throws -> Self {
+  public static func createWithTaskFrom(_ data: Data) async throws -> Self {
     let decoder = JSONDecoder()
 
     do {
@@ -38,7 +38,9 @@ public extension SyncableObject {
         }
       } catch {
         MusculosLogger.logError(error, message: "Could not write object", category: .coreData, properties: ["object_name": object.self])
+        throw StorageError.syncingFailed(error.localizedDescription)
       }
+
 
       return object
     } catch {
@@ -50,7 +52,7 @@ public extension SyncableObject {
 
   /// Decodes the `Data` object that holds multiple codable objects. Imports the results or updates if needed
   ///
-  static func createArrayWithTaskFrom(_ data: Data) async throws -> [Self] {
+  public static func createArrayWithTaskFrom(_ data: Data) async throws -> [Self] {
     let decoder = JSONDecoder()
     let objects = try decoder.decode([Self].self, from: data)
 

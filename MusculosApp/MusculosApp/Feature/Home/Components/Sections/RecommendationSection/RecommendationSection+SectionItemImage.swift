@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Shimmer
+import Utility
 import NetworkClient
 
 extension RecommendationSection {
@@ -23,7 +23,7 @@ extension RecommendationSection {
           Rectangle()
             .foregroundStyle(.white)
             .frame(width: imageWidth, height: imageHeight)
-            .shimmering(gradient: Gradient(colors: [.white, .white.opacity(0.8)]))
+            .defaultShimmering()
         case .success(let image):
           image
             .resizable()

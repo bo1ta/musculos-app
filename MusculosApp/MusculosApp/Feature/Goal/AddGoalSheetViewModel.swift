@@ -48,14 +48,21 @@ final class AddGoalSheetViewModel {
   private(set) var saveTask: Task<Void, Never>?
 
   func saveGoal() {
-    saveTask = Task {
+    saveTask = Task { [weak self] in
+      guard let self else { return }
+
+      guard let currentUser = await dataController.getCurrentUserProfile() else {
+        return
+      }
+
       let goal = Goal(
         name: name,
         category: Goal.Category.initFromLabel(self.category) ?? .general,
         frequency: Goal.Frequency(rawValue: self.frequency) ?? .daily,
         targetValue: Int(self.targetValue) ?? 5,
         endDate: endDate,
-        dateAdded: Date()
+        dateAdded: Date(),
+        user: currentUser
       )
       
       do {

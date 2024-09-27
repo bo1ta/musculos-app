@@ -6,17 +6,26 @@
 //
 
 import SwiftUI
+import Shimmer
 
+public extension View {
+  public func defaultShimmering(active: Bool = true) -> some View {
+    self.shimmering(
+      active: active,
+      gradient: Gradient(
+        colors: [
+          .white,
+          .white.opacity(0.8)
+        ]
+      ))
+  }
+}
 // MARK: - View Modifiers
 
 public extension View {
   public func withKeyboardDismissingOnTap() -> some View {
     self.modifier(KeyboardDismissableViewModifier())
   }
-
-//  public func smoothTransition(
-//    isPresented:
-//  )
 }
 
 // MARK: - Dismiss Gesture

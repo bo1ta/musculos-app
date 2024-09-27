@@ -86,7 +86,7 @@ public struct OnboardingData {
   
   // MARK: - Goal
   
-  public enum Goal: OnboardingOption, CaseIterable {
+  public enum Goal: OnboardingOption, CaseIterable, Sendable {
     case loseWeight
     case getFitter
     case gainMuscles

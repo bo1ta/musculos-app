@@ -44,7 +44,7 @@ public struct ExerciseSessionDataStore: DataStoreBase, ExerciseSessionDataStoreP
         userId.uuidString
       )
       let datePredicate = NSPredicate(
-        format: "date >= %@ AND date <= %@",
+        format: "dateAdded >= %@ AND dateAdded <= %@",
         argumentArray: [startOfDay, endOfDay]
       )
       let compundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [userPredicate, datePredicate])
@@ -96,7 +96,7 @@ public struct ExerciseSessionDataStore: DataStoreBase, ExerciseSessionDataStoreP
       
       let entity = writerDerivedStorage.insertNewObject(ofType: ExerciseSessionEntity.self)
       entity.sessionId = UUID()
-      entity.date = date
+      entity.dateAdded = date
       entity.exercise = exerciseEntity
       entity.user = userProfile
     }

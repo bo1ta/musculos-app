@@ -11,32 +11,32 @@ import CoreData
 import Models
 
 @objc(WorkoutEntity)
-public class WorkoutEntity: NSManagedObject {
-     @NSManaged public var name: String
-     @NSManaged public var targetMuscles: [String]
-     @NSManaged public var workoutType: String
-     @NSManaged public var createdBy: UserProfileEntity
-     @NSManaged public var workoutExercises: Set<WorkoutExerciseEntity>
+class WorkoutEntity: NSManagedObject {
+  @NSManaged var name: String
+  @NSManaged var targetMuscles: [String]
+  @NSManaged var workoutType: String
+  @NSManaged var createdBy: UserProfileEntity
+  @NSManaged var workoutExercises: Set<WorkoutExerciseEntity>
 
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<WorkoutEntity> {
-         return NSFetchRequest<WorkoutEntity>(entityName: "WorkoutEntity")
-     }
+  @nonobjc class func fetchRequest() -> NSFetchRequest<WorkoutEntity> {
+    return NSFetchRequest<WorkoutEntity>(entityName: "WorkoutEntity")
+  }
 }
 
 // MARK: Generated accessors for workoutExercises
 extension WorkoutEntity {
 
   @objc(addWorkoutExercisesObject:)
-  @NSManaged public func addToWorkoutExercises(_ value: WorkoutExerciseEntity)
+  @NSManaged func addToWorkoutExercises(_ value: WorkoutExerciseEntity)
 
   @objc(removeWorkoutExercisesObject:)
-  @NSManaged public func removeFromWorkoutExercises(_ value: WorkoutExerciseEntity)
+  @NSManaged func removeFromWorkoutExercises(_ value: WorkoutExerciseEntity)
 
   @objc(addWorkoutExercises:)
-  @NSManaged public func addToWorkoutExercises(_ values: NSSet)
+  @NSManaged func addToWorkoutExercises(_ values: NSSet)
 
   @objc(removeWorkoutExercises:)
-  @NSManaged public func removeFromWorkoutExercises(_ values: NSSet)
+  @NSManaged func removeFromWorkoutExercises(_ values: NSSet)
 
 }
 

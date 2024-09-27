@@ -74,19 +74,28 @@ final class OnboardingWizardViewModel {
   private let _event = PassthroughSubject<Event, Never>()
 
   private func updateData() {
-    updateTask = Task.detached { [weak self] in
+    updateTask = Task { [weak self] in
       guard let self else { return }
 
       do {
-        async let goalTask: Void = updateGoal()
-        async let userTask: Void = updateUser()
-        _ = try await (goalTask, userTask)
+        try await dataController.updateUserProfile(
+          weight: Int(selectedWeight),
+          height: Int(selectedHeight),
+          primaryGoalId: selectedGoal?.hashValue ?? 0,
+          level: selectedLevel?.title,
+          isOnboarded: true
+        )
 
-        await HapticFeedbackProvider.haptic(.notifySuccess)
-        await sendEvent(.didFinishOnboarding)
+        if let selectedGoal, let currentUser = await dataController.getCurrentUserProfile() {
+          let goal = Goal(onboardingGoal: selectedGoal, user: currentUser)
+          try await dataController.addGoal(goal)
+        }
+
+        HapticFeedbackProvider.haptic(.notifySuccess)
+        sendEvent(.didFinishOnboarding)
       } catch {
-        await HapticFeedbackProvider.haptic(.notifyError)
-        await sendEvent(.didFinishWithError(error))
+        HapticFeedbackProvider.haptic(.notifyError)
+        sendEvent(.didFinishWithError(error))
         MusculosLogger.logError(error, message: "Could not save onboarding data", category: .coreData)
       }
     }
@@ -99,8 +108,7 @@ final class OnboardingWizardViewModel {
   private func updateGoal() async throws {
     guard let selectedGoal else { return }
     
-    let goal = Goal(onboardingGoal: selectedGoal)
-    try await dataController.addGoal(goal)
+    try await dataController.addOnboardingGoal(selectedGoal)
   }
   
   private func updateUser() async throws {

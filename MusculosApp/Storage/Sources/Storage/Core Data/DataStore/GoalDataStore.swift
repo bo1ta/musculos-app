@@ -20,7 +20,16 @@ public struct GoalDataStore: DataStoreBase, GoalDataStoreProtocol {
   
   public func add(_ goal: Goal) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
+      guard let currentUser = writerDerivedStorage.firstObject(
+        of: UserProfileEntity.self,
+        matching: PredicateFactory.userProfileById(goal.user.userId)
+      ) else {
+        throw StorageError.invalidUser
+      }
+
       let entity = writerDerivedStorage.insertNewObject(ofType: GoalEntity.self)
+      entity.user = currentUser
+      entity.goalID = goal.id
       entity.name = goal.name
       entity.category = goal.category.rawValue
       entity.dateAdded = goal.dateAdded
@@ -44,18 +53,18 @@ public struct GoalDataStore: DataStoreBase, GoalDataStoreProtocol {
   }
   
   public func incrementCurrentValue(_ goal: Goal) async throws {
-    try await storageManager.performWrite { writerDerivedStorageq in
-      let predicate = NSPredicate(format: "%K == %@", #keyPath(GoalEntity.name), goal.name)
-      guard
-        let goalEntity = writerDerivedStorageq.firstObject(of: GoalEntity.self, matching: predicate),
-        !goalEntity.isCompleted,
-        let currentValue = goalEntity.currentValue?.intValue
-      else { return }
-      
-      goalEntity.currentValue = NSNumber(integerLiteral: currentValue + 1)
-      if goalEntity.currentValue == goalEntity.targetValue {
-        goalEntity.isCompleted = true
-      }
-    }
+//    try await storageManager.performWrite { writerDerivedStorageq in
+//      let predicate = NSPredicate(format: "%K == %@", #keyPath(GoalEntity.name), goal.name)
+//      guard
+//        let goalEntity = writerDerivedStorageq.firstObject(of: GoalEntity.self, matching: predicate),
+//        !goalEntity.isCompleted,
+//        let currentValue = goalEntity.currentValue?.intValue
+//      else { return }
+//      
+//      goalEntity.currentValue = NSNumber(integerLiteral: currentValue + 1)
+//      if goalEntity.currentValue == goalEntity.targetValue {
+//        goalEntity.isCompleted = true
+//      }
+//    }
   }
 }

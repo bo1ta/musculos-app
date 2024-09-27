@@ -8,15 +8,17 @@
 import Foundation
 
 public struct ExerciseSession: Codable, Sendable {
-  public let date: Date
+  public let dateAdded: Date
   public let sessionId: UUID
   public let user: UserProfile
   public let exercise: Exercise
-  
-  public init(date: Date, sessionId: UUID, user: UserProfile, exercise: Exercise) {
-    self.date = date
+  public let duration: Double
+
+  public init(dateAdded: Date = Date(), sessionId: UUID, user: UserProfile, exercise: Exercise, duration: Double = 0) {
+    self.dateAdded = dateAdded
     self.sessionId = sessionId
     self.user = user
     self.exercise = exercise
+    self.duration = duration
   }
 }

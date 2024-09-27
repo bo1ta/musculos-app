@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC08E99C2CA628B60082EDF8 /* Utility in Frameworks */ = {isa = PBXBuildFile; productRef = BC08E99B2CA628B60082EDF8 /* Utility */; };
 		BC0DA8732CA1CE700011EC63 /* UserAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0DA8722CA1CE700011EC63 /* UserAvatar.swift */; };
 		BC0DA8752CA1FC310011EC63 /* FeaturedWorkoutsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0DA8742CA1FC310011EC63 /* FeaturedWorkoutsSection.swift */; };
 		BC0DA8792CA209D70011EC63 /* RecommendationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0DA8782CA209D70011EC63 /* RecommendationSection.swift */; };
@@ -85,7 +86,6 @@
 		BC828CDE2C02802500AB9D1D /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = BC828CDD2C02802500AB9D1D /* Factory */; };
 		BC828CE32C028E9200AB9D1D /* ExerciseDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC828CE22C028E9200AB9D1D /* ExerciseDetailsViewModel.swift */; };
 		BC828CE52C02924200AB9D1D /* WorkoutFlowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC828CE42C02924200AB9D1D /* WorkoutFlowViewModel.swift */; };
-		BC8D07F32C3C52F900212EE8 /* Utility in Frameworks */ = {isa = PBXBuildFile; productRef = BC8D07F22C3C52F900212EE8 /* Utility */; };
 		BC97C9322BA0D5D500AA07C4 /* AddActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC97C9312BA0D5D500AA07C4 /* AddActionSheet.swift */; };
 		BC9A020E2C593ED5003C83A8 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A020D2C593ED5003C83A8 /* AuthView.swift */; };
 		BCA24BEF2B69D3AE00124EC3 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BEE2B69D3AE00124EC3 /* SplashView.swift */; };
@@ -284,8 +284,8 @@
 				BC569FDB2C45965900F9C918 /* Components in Frameworks */,
 				BC828CDE2C02802500AB9D1D /* Factory in Frameworks */,
 				BC545E482C3C730E00713B86 /* Storage in Frameworks */,
+				BC08E99C2CA628B60082EDF8 /* Utility in Frameworks */,
 				BCFC24C32C98FB9A00F28D7A /* NetworkClient in Frameworks */,
-				BC8D07F32C3C52F900212EE8 /* Utility in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,8 +321,8 @@
 		BC0DA89E2CA5EA9E0011EC63 /* RecommendationSection */ = {
 			isa = PBXGroup;
 			children = (
-				BC0DA89F2CA5EAC40011EC63 /* RecommendationSection+SectionItemImage.swift */,
 				BC0DA8782CA209D70011EC63 /* RecommendationSection.swift */,
+				BC0DA89F2CA5EAC40011EC63 /* RecommendationSection+SectionItemImage.swift */,
 			);
 			path = RecommendationSection;
 			sourceTree = "<group>";
@@ -978,10 +978,10 @@
 				BC6249742BEC20BB00393915 /* Shimmer */,
 				BC828CDD2C02802500AB9D1D /* Factory */,
 				BCF6487A2C3C36CC00D1C46F /* Models */,
-				BC8D07F22C3C52F900212EE8 /* Utility */,
 				BC545E472C3C730E00713B86 /* Storage */,
 				BC569FDA2C45965900F9C918 /* Components */,
 				BCFC24C22C98FB9A00F28D7A /* NetworkClient */,
+				BC08E99B2CA628B60082EDF8 /* Utility */,
 			);
 			productName = MusculosApp;
 			productReference = BC1160CC2A2CFB830028D8FC /* MusculosApp.app */;
@@ -1037,10 +1037,10 @@
 				BC6249732BEC20AC00393915 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				BC828CDC2C02802500AB9D1D /* XCRemoteSwiftPackageReference "Factory" */,
 				BCF648792C3C36CC00D1C46F /* XCLocalSwiftPackageReference "Models" */,
-				BC1D27CB2C3C4F2F00345FD6 /* XCLocalSwiftPackageReference "Utility" */,
 				BC545E462C3C730E00713B86 /* XCLocalSwiftPackageReference "Storage" */,
 				BC569FD92C45965900F9C918 /* XCLocalSwiftPackageReference "Components" */,
 				BCFC24C12C98FB9A00F28D7A /* XCLocalSwiftPackageReference "NetworkClient" */,
+				BC08E99A2CA628B60082EDF8 /* XCLocalSwiftPackageReference "Utility" */,
 			);
 			productRefGroup = BC1160CD2A2CFB830028D8FC /* Products */;
 			projectDirPath = "";
@@ -1482,7 +1482,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		BC1D27CB2C3C4F2F00345FD6 /* XCLocalSwiftPackageReference "Utility" */ = {
+		BC08E99A2CA628B60082EDF8 /* XCLocalSwiftPackageReference "Utility" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Utility;
 		};
@@ -1524,6 +1524,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BC08E99B2CA628B60082EDF8 /* Utility */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Utility;
+		};
 		BC545E472C3C730E00713B86 /* Storage */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Storage;
@@ -1541,11 +1545,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BC828CDC2C02802500AB9D1D /* XCRemoteSwiftPackageReference "Factory" */;
 			productName = Factory;
-		};
-		BC8D07F22C3C52F900212EE8 /* Utility */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BC1D27CB2C3C4F2F00345FD6 /* XCLocalSwiftPackageReference "Utility" */;
-			productName = Utility;
 		};
 		BCF6487A2C3C36CC00D1C46F /* Models */ = {
 			isa = XCSwiftPackageProductDependency;
