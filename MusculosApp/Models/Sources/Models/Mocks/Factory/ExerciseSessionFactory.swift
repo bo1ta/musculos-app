@@ -8,9 +8,25 @@
 import Foundation
 
 public struct ExerciseSessionFactory {
-  public static func createExerciseSession() -> ExerciseSession {
-    let person = UserProfileFactory.createProfile()
-    let exercise = ExerciseFactory.createExercise()
-    return ExerciseSession(dateAdded: Date(), sessionId: UUID(), user: person, exercise: exercise)
+  public struct Default {
+    public static let dateAdded = Date()
+    public static let sessionID = UUID()
+
+    public static let profile = UserProfileFactory.createProfile()
+    public static let exercise = ExerciseFactory.createExercise()
+  }
+
+  public static func createExerciseSession(
+    dateAdded: Date = Default.dateAdded,
+    sessionID: UUID = Default.sessionID,
+    profile: UserProfile = Default.profile,
+    exercise: Exercise = Default.exercise
+  ) -> ExerciseSession {
+    return ExerciseSession(
+      dateAdded: dateAdded,
+      sessionId: sessionID,
+      user: profile,
+      exercise: exercise
+    )
   }
 }

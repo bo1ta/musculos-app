@@ -8,53 +8,44 @@
 import Foundation
 
 public struct ExerciseFactory {
-  public var category: String?
-  public var equipment: String?
-  public var force: String?
-  public var level: String?
-  public var name: String?
-  public var primaryMuscles: [String] = []
-  public var secondaryMuscles: [String] = []
-  public var instructions: [String] = []
-  public var imageUrls: [String] = []
-  
-  public func create() -> Exercise {
-    Exercise(category: category ?? "home workout",
-             id: UUID(),
-             level: level ?? "beginner",
-             name: name ?? "3/4 Sit-ups",
-             primaryMuscles: primaryMuscles.count > 0 ? primaryMuscles : ["legs", "abs"],
-             secondaryMuscles: secondaryMuscles.count > 0 ? secondaryMuscles : ["back"],
-             instructions: instructions.count > 0 ? instructions : ["Instruction 1", "Instruction 2", "Instruction 3"],
-             imageUrls: imageUrls)
+  public struct Default {
+    public static let category = "home workout"
+    public static let equipment = "bodyweight"
+    public static let force = "push"
+    public static let level = "beginner"
+    public static let name = "3/4 Sit-ups"
+    public static let primaryMuscles = ["legs", "abs"]
+    public static let secondaryMuscles = ["back"]
+    public static let instructions = ["Instruction 1", "Instruction 2", "Instruction 3"]
+    public static let imageUrls: [String] = []
+    public static let isFavorite = false
   }
-  
+
   public static func createExercise(
-    uuid: UUID = UUID(),
-    name: String = "Power Stairs",
-    primaryMuscles: [String] = ["hamstrings"],
-    secondaryMuscles: [String] = ["calves", "glutes", "traps"],
-    equipment: String = "barbell",
-    category: String = "powerlifting",
-    force: String = "pull",
-    level: String = "intermediate",
-    instructions: [String] =
-    [
-      "In the power stairs, implements are moved up a staircase. For training purposes, these can be performed with a tire or box.",
-      "Begin by taking the implement with both hands. Set your feet wide, with your head and chest up. Drive through the ground with your heels, extending your knees and hips to raise the weight from the ground.",
-      "As you lean back, attempt to swing the weight onto the stairs, which are usually around 16-18\" high. You can use your legs to help push the weight onto the stair.",
-      "Repeat for 3-5 repetitions, and continue with a heavier weight, moving as fast as possible."
-    ]
+    id: UUID = UUID(),
+    category: String = Default.category,
+    equipment: String = Default.equipment,
+    force: String = Default.force,
+    level: String = Default.level,
+    name: String = Default.name,
+    primaryMuscles: [String] = Default.primaryMuscles,
+    secondaryMuscles: [String] = Default.secondaryMuscles,
+    instructions: [String] = Default.instructions,
+    imageUrls: [String] = Default.imageUrls,
+    isFavorite: Bool = Default.isFavorite
   ) -> Exercise {
     return Exercise(
       category: category,
-      id: uuid,
+      equipment: equipment,
+      force: force,
+      id: id,
       level: level,
       name: name,
       primaryMuscles: primaryMuscles,
       secondaryMuscles: secondaryMuscles,
       instructions: instructions,
-      imageUrls: []
+      imageUrls: imageUrls,
+      isFavorite: isFavorite
     )
   }
 }

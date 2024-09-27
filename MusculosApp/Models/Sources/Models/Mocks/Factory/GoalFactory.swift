@@ -9,7 +9,25 @@ import Foundation
 import Utility
 
 public struct GoalFactory {
-  public static func createGoal(name: String =  "Lose weight", category: Goal.Category = .loseWeight, frequency: Goal.Frequency = .weekly, targetValue: Int = 20, endDate: Date = Date().dayAfter, dateAdded: Date = Date()) -> Goal {
+  public struct Default {
+    public static let name = "Lose weight"
+    public static let category: Goal.Category = .loseWeight
+    public static let frequency: Goal.Frequency = .weekly
+    public static let targetValue = 20
+    public static let endDate: Date = Date().dayAfter
+    public static let dateAdded: Date = Date()
+    public static let user = UserProfileFactory.createProfile()
+  }
+
+  public static func createGoal(
+    name: String = Default.name,
+    category: Goal.Category = Default.category,
+    frequency: Goal.Frequency = Default.frequency,
+    targetValue: Int = Default.targetValue,
+    endDate: Date = Default.endDate,
+    dateAdded: Date = Default.dateAdded,
+    user: UserProfile = Default.user
+  ) -> Goal {
     return Goal(
       name: name,
       category: category,
@@ -17,7 +35,7 @@ public struct GoalFactory {
       targetValue: targetValue,
       endDate: endDate,
       dateAdded: dateAdded,
-      user: UserProfileFactory.createProfile()
+      user: user
     )
   }
 }

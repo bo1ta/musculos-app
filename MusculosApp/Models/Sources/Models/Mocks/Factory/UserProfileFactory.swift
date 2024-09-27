@@ -8,7 +8,21 @@
 import Foundation
 
 public struct UserProfileFactory {
-  public static func createProfile(userId: UUID = UUID(), email: String = "test@test.com", username: String =  "test_user") -> UserProfile {
-    return UserProfile(userId: userId, email: email, username: username)
+  public struct Default {
+    public static let userId: UUID = UUID()
+    public static let email: String = "test@test.com"
+    public static let username: String =  "test_user"
+  }
+
+  public static func createProfile(
+    userId: UUID = Default.userId,
+    email: String = Default.email,
+    username: String = Default.username
+  ) -> UserProfile {
+    return UserProfile(
+      userId: userId,
+      email: email,
+      username: username
+    )
   }
 }
