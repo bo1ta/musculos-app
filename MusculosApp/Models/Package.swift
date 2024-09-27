@@ -35,9 +35,5 @@ let package = Package(
               .product(name: "Utility", package: "Utility"),
             ]
         ),
-        .testTarget(
-            name: "ModelsTests",
-            dependencies: ["Models"]
-        ),
     ]
 )

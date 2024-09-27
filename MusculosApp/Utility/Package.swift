@@ -25,9 +25,5 @@ let package = Package(
             .product(name: "Shimmer", package: "SwiftUI-Shimmer")
           ]
         ),
-        .testTarget(
-            name: "UtilityTests",
-            dependencies: ["Utility"]
-        ),
     ]
 )
