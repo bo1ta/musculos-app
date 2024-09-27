@@ -358,13 +358,13 @@
 		BC1160CE2A2CFB830028D8FC /* MusculosApp */ = {
 			isa = PBXGroup;
 			children = (
-				BC82446E2BAE6AE700CFA645 /* MusculosAppDebug.entitlements */,
-				BCC33E682BAE005E00488123 /* MusculosApp.entitlements */,
 				BC5834252B1CE34500BD7690 /* Main */,
 				BC6F365B2BB4E205000F6CFA /* Feature */,
 				BC352AE32A326D6C00DAA3AB /* Core */,
 				BC0D76A32B6525B700917680 /* Assets */,
 				BC1160D52A2CFB830028D8FC /* Preview Content */,
+				BCC33E682BAE005E00488123 /* MusculosApp.entitlements */,
+				BC82446E2BAE6AE700CFA645 /* MusculosAppDebug.entitlements */,
 				BC1160DD2A2CFB830028D8FC /* Info.plist */,
 			);
 			path = MusculosApp;
