@@ -38,10 +38,13 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   // MARK: - Core Data Stack
   
   lazy var persistentContainer: NSPersistentContainer = {
-    let bundle = Bundle.module
-    let modelURL = bundle.url(forResource: "MusculosDataModel", withExtension: ".momd")!
-    let model = NSManagedObjectModel(contentsOf: modelURL)!
-    
+    guard
+      let modelURL = Bundle.module.url(forResource: "MusculosDataModel", withExtension: ".momd"),
+      let model = NSManagedObjectModel(contentsOf: modelURL)
+    else {
+      fatalError("Could not load Core Data model")
+    }
+
     let container = NSPersistentContainer(name: "MusculosDataStore", managedObjectModel: model)
     
     let description = container.persistentStoreDescriptions.first
@@ -141,8 +144,10 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   }
   
   func deleteSql() {
-    let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("MusculosDataStore.sqlite")
-    
+    let url = FileManager.default
+      .urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+      .appendingPathComponent("MusculosDataModel.sqlite")
+
     guard FileManager.default.fileExists(atPath: url.path) else {
       MusculosLogger.logError(MusculosError.notFound, message: "Could not find sqlite db", category: .coreData)
       return

@@ -63,6 +63,22 @@ public struct Exercise: Codable, Sendable {
     return secondaryMuscles.compactMap { MuscleType(rawValue: $0) }
   }
 
+  public var displayOptions: [String] {
+    var result: [String] = []
+
+    if let firstMuscle = primaryMuscles.first {
+      result.append(firstMuscle)
+    }
+
+    if let equipment {
+      result.append(equipment)
+    }
+
+    result.append(category)
+
+    return result
+  }
+
   enum CodingKeys: String, CodingKey {
     case category, equipment, force, id, level, name, primaryMuscles, secondaryMuscles, instructions, imageUrls, isFavorite
   }

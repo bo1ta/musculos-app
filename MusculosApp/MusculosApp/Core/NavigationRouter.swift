@@ -57,14 +57,15 @@ public final class NavigationRouter {
 
 extension NavigationRouter {
   public enum Destination: Hashable {
-     case exerciseDetails(Exercise)
-     case search
-     case notifications
-     case filteredByGoal(Goal)
-   }
+    case exerciseDetails(Exercise)
+    case search
+    case notifications
+    case filteredByGoal(Goal)
+    case exerciseListByGoal(WorkoutGoal)
+  }
 
-   public enum Sheet: Hashable {
-     case addActionSheet
-     case workoutFlow(Workout)
-   }
+  public enum Sheet: Hashable {
+    case addActionSheet
+    case workoutFlow(Workout)
+  }
 }

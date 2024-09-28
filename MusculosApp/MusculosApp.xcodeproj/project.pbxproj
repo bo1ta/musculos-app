@@ -37,6 +37,7 @@
 		BC4078D42C02373E000DE280 /* WorkoutIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D32C02373E000DE280 /* WorkoutIcon.swift */; };
 		BC4078D62C02402E000DE280 /* WorkoutFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D52C02402E000DE280 /* WorkoutFlowView.swift */; };
 		BC43D33B2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D33A2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift */; };
+		BC44CDB32CA77C9A007421C4 /* ExerciseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44CDB22CA77C9A007421C4 /* ExerciseListView.swift */; };
 		BC545E3E2C3C6A8F00713B86 /* EnvironmentValues+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC545E392C3C6A8F00713B86 /* EnvironmentValues+Extension.swift */; };
 		BC545E432C3C6AD400713B86 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC545E402C3C6AD400713B86 /* HealthKitManager.swift */; };
 		BC545E442C3C6AD400713B86 /* HealthKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC545E412C3C6AD400713B86 /* HealthKitViewModel.swift */; };
@@ -179,6 +180,7 @@
 		BC4078D32C02373E000DE280 /* WorkoutIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutIcon.swift; sourceTree = "<group>"; };
 		BC4078D52C02402E000DE280 /* WorkoutFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFlowView.swift; sourceTree = "<group>"; };
 		BC43D33A2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFilterViewModel.swift; sourceTree = "<group>"; };
+		BC44CDB22CA77C9A007421C4 /* ExerciseListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListView.swift; sourceTree = "<group>"; };
 		BC545E392C3C6A8F00713B86 /* EnvironmentValues+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Extension.swift"; sourceTree = "<group>"; };
 		BC545E402C3C6AD400713B86 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		BC545E412C3C6AD400713B86 /* HealthKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitViewModel.swift; sourceTree = "<group>"; };
@@ -431,6 +433,7 @@
 		BC2EAE2E2C22401500FB3C1F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BC44CDB12CA77C85007421C4 /* ExerciseList */,
 				BC81E5D52BD306040005891D /* AddExercise */,
 				BC261AB02B6D71A90018E21F /* ExploreExercise */,
 				BC97C9342BA0EFFE00AA07C4 /* ExerciseDetails */,
@@ -522,6 +525,14 @@
 				BC97C9382BA0F06200AA07C4 /* Components */,
 			);
 			path = ExerciseFilter;
+			sourceTree = "<group>";
+		};
+		BC44CDB12CA77C85007421C4 /* ExerciseList */ = {
+			isa = PBXGroup;
+			children = (
+				BC44CDB22CA77C9A007421C4 /* ExerciseListView.swift */,
+			);
+			path = ExerciseList;
 			sourceTree = "<group>";
 		};
 		BC545E422C3C6AD400713B86 /* HealthKit */ = {
@@ -1143,6 +1154,7 @@
 				BC261AB82B6DA0EF0018E21F /* ExerciseFilterView.swift in Sources */,
 				BC9A020E2C593ED5003C83A8 /* AuthView.swift in Sources */,
 				BC18AB5A2C250DAA00ED258C /* ExerciseHelper.swift in Sources */,
+				BC44CDB32CA77C9A007421C4 /* ExerciseListView.swift in Sources */,
 				BCF7DE712A7DB2EC00FC960B /* CustomTabBarView.swift in Sources */,
 				BCA24BEF2B69D3AE00124EC3 /* SplashView.swift in Sources */,
 				BCD59A962BB627CE0039F662 /* SearchFilterField.swift in Sources */,

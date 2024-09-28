@@ -11,14 +11,14 @@ import Models
 @objc(GoalEntity)
 public class GoalEntity: NSManagedObject {
   @NSManaged public var goalID: UUID
-  @NSManaged public var name: String?
+  @NSManaged public var name: String
   @NSManaged public var endDate: Date?
   @NSManaged public var category: String?
   @NSManaged public var targetValue: NSNumber?
   @NSManaged public var isCompleted: Bool
   @NSManaged public var frequency: String?
   @NSManaged public var targetMuscles: [String]?
-  @NSManaged public var dateAdded: Date?
+  @NSManaged public var dateAdded: Date
   @NSManaged public var progressHistory: Set<ProgressEntryEntity>
   @NSManaged public var user: UserProfileEntity
 
@@ -53,15 +53,15 @@ extension GoalEntity: ReadOnlyConvertible {
     }
 
     return Goal(
-      name: self.name ?? "",
+      name: name,
       category: goalCategory,
       frequency: goalFrequency,
       progressHistory: [],
-      targetValue: self.targetValue?.intValue ?? 0,
-      endDate: self.endDate,
-      isCompleted: self.isCompleted,
-      dateAdded: self.dateAdded ?? Date(),
-      user: self.user.toReadOnly()
+      targetValue: targetValue?.intValue ?? 0,
+      endDate: endDate,
+      isCompleted: isCompleted,
+      dateAdded: dateAdded,
+      user: user.toReadOnly()
     )
   }
 }

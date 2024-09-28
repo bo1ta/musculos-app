@@ -11,12 +11,12 @@ import Models
 import Utility
 
 struct FeaturedWorkoutsSection: View {
-  let colors: [Color] = [.red, .blue, .green, .yellow]
-
   let onSeeMore: () -> Void
+  let onWorkoutGoalSelected: (WorkoutGoal) -> Void
 
-  init(onSeeMore: @escaping () -> Void) {
+  init(onSeeMore: @escaping () -> Void, onWorkoutGoalSelected: @escaping (WorkoutGoal) -> Void) {
     self.onSeeMore = onSeeMore
+    self.onWorkoutGoalSelected = onWorkoutGoalSelected
   }
 
   var body: some View {
@@ -35,8 +35,16 @@ struct FeaturedWorkoutsSection: View {
 
       ScrollView(.horizontal) {
         HStack {
-          ForEach(Goal.Category.allCases, id: \.self) { category in
-            IconTitleCard(icon: Image("muscle-icon"), imageColor: colors.randomElement() ?? .black, title: category.label)
+          ForEach(WorkoutGoal.allCases, id: \.rawValue) { workoutGoal in
+            Button(action: {
+              onWorkoutGoalSelected(workoutGoal)
+            }, label: {
+              IconTitleCard(
+                icon: Image(workoutGoal.iconName),
+                imageColor: workoutGoal.color,
+                title: workoutGoal.title
+              )
+            })
           }
           .padding(.vertical, 5)
           .padding(.horizontal, 5)
@@ -48,5 +56,5 @@ struct FeaturedWorkoutsSection: View {
 }
 
 #Preview {
-  FeaturedWorkoutsSection(onSeeMore: {})
+  FeaturedWorkoutsSection(onSeeMore: {}, onWorkoutGoalSelected: { _ in })
 }

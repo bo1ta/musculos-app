@@ -13,12 +13,14 @@ import Components
 import Utility
 
 struct MusculosApp: App {
-  enum AppState {
-    case loading
+
+  private enum AppState {
+    case loggedIn
     case loggedOut
     case onboarding
-    case loggedIn
+    case loading
   }
+
   @State private var appState: AppState = .loading
   @State private var progress: Double = 0.0
   @State private var userStore = UserStore()
@@ -31,16 +33,16 @@ struct MusculosApp: App {
       NavigationStack(path: $navigationRouter.navPath) {
         Group {
           switch appState {
-          case .loading:
-            LoadingOverlayView(progress: $progress)
+          case .loggedIn:
+            AppTabView()
           case .loggedOut:
             SplashView()
               .transition(.asymmetric(insertion: .opacity, removal: .identity))
           case .onboarding:
             OnboardingWizardView()
               .transition(.asymmetric(insertion: .push(from: .bottom), removal: .scale))
-          case .loggedIn:
-            AppTabView()
+          case .loading:
+            LoadingOverlayView(progress: $progress)
           }
         }
         .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: appState)
@@ -75,6 +77,8 @@ struct MusculosApp: App {
     switch destination {
     case .exerciseDetails(let exercise):
       ExerciseDetailsView(exercise: exercise)
+    case .exerciseListByGoal(let workoutGoal):
+      ExerciseListView(workoutGoal: workoutGoal)
     case .search:
       EmptyView()
     case .notifications:

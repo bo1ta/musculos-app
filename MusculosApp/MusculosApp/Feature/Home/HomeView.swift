@@ -30,7 +30,9 @@ struct HomeView: View {
 
         AchievementCard()
           .defaultShimmering(active: viewModel.isLoading)
-        FeaturedWorkoutsSection(onSeeMore: {})
+        FeaturedWorkoutsSection(onSeeMore: {}, onWorkoutGoalSelected: { workoutGoal in
+          navigationRouter.push(.exerciseListByGoal(workoutGoal))
+        })
         RecommendationSection(
           exercises: viewModel.recommendedExercises,
           onSelectExercise: { exercise in

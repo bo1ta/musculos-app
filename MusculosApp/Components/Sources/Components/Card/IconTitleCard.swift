@@ -31,10 +31,11 @@ public struct IconTitleCard: View {
             .renderingMode(.template)
             .scaledToFit()
             .foregroundStyle(imageColor)
-            .frame(width: 30)
+            .frame(width: 50)
           Text(title)
             .font(AppFont.poppins(.light, size: 14))
             .lineLimit(nil)
+            .fixedSize(horizontal: true, vertical: false)
         }
         .padding()
       }

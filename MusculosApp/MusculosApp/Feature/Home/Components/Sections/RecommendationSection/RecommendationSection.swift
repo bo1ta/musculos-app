@@ -54,6 +54,7 @@ struct RecommendationSection: View {
                   SectionItemImage(imageURL: exercise.displayImageURL)
                 })
               })
+              .buttonStyle(.plain)
             }
           }
         .padding(.vertical, 10)

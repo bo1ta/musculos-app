@@ -181,7 +181,7 @@ extension DataController {
     isOnboarded: Bool = false
   ) async throws {
     guard let currentUserID else {
-      throw MusculosError.notFound
+      throw StorageError.invalidUser
     }
     return try await userDataStore.updateProfile(
       userId: currentUserID,
