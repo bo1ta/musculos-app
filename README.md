@@ -6,6 +6,6 @@
   - Utility - provides various utility functions, extensions, etc.
   - Models - provides the core models used by the app
 
-- Backend hosted on a private server with the db provided by [Exercises.json](https://github.com/wrkout/exercises.json)
+- [Backend](https://github.com/bo1ta/musculos-api) built with Vapor(Swift)
 
 ![App Flow](exported-preview.png)
