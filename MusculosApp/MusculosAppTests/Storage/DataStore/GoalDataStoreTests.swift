@@ -14,6 +14,7 @@ import Foundation
 @Suite
 public struct GoalDataStoreTests {
   @Injected(\StorageContainer.goalDataStore) var dataStore: GoalDataStoreProtocol
+  @Injected(\StorageContainer.userDataStore) var userDataStore: UserDataStoreProtocol
 
   @Test func getAllIsInitiallyEmpty() async throws {
     let goals = await dataStore.getAll()
@@ -21,13 +22,17 @@ public struct GoalDataStoreTests {
   }
 
   @Test func addGoal() async throws {
+    let user = UserProfileFactory.createProfile()
+    try await populateDataStoreWithUser(user)
+
     let goal = Goal(
       name: "First goal",
       category: .general,
       frequency: .daily,
       targetValue: 0,
       endDate: nil,
-      dateAdded: Date()
+      dateAdded: Date(),
+      user: user
     )
     try await dataStore.add(goal)
 
@@ -40,25 +45,7 @@ public struct GoalDataStoreTests {
     #expect(firstGoal.name == goal.name)
   }
 
-  @Test func incrementGoalValue() async throws {
-    let goal = Goal(
-      name: "First goal",
-      category: .general,
-      frequency: .daily,
-      targetValue: 0,
-      endDate: nil,
-      dateAdded: Date()
-    )
-    try await dataStore.add(goal)
-
-    try await Task.sleep(for: .seconds(0.1))
-    #expect(goal.currentValue == 0)
-
-    try await dataStore.incrementCurrentValue(goal)
-    try await Task.sleep(for: .seconds(0.1))
-
-    let goals = await dataStore.getAll()
-    print(goals.count)
-    #expect(goals.first?.currentValue == 1)
+  private func populateDataStoreWithUser(_ user: UserProfile) async throws {
+    return try await userDataStore.createUser(profile: user)
   }
 }

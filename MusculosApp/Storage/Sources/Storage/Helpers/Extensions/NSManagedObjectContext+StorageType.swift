@@ -179,15 +179,11 @@ extension NSManagedObjectContext: StorageType {
   ///
   private func loadObjects<T: Object>(ofType type: T.Type, with request: NSFetchRequest<NSFetchRequestResult>) -> [T] {
     var objects: [T]?
-    
-    performAndWait { [weak self] in
-      guard let self else { return }
-      
-      do {
-        objects = try self.fetch(request) as? [T]
-      } catch {
-        MusculosLogger.logError(error, message: "Could not load objects", category: .coreData)
-      }
+
+    do {
+      objects = try self.fetch(request) as? [T]
+    } catch {
+      MusculosLogger.logError(error, message: "Could not load objects", category: .coreData)
     }
     return objects ?? []
   }

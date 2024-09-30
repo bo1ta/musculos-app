@@ -11,7 +11,7 @@ import CoreData
 import Models
 
 @objc(WorkoutExerciseEntity)
-public class WorkoutExerciseEntity: NSManagedObject {
+class WorkoutExerciseEntity: NSManagedObject {
   @NSManaged public var numberOfReps: NSNumber
   @NSManaged public var exercise: ExerciseEntity
   @NSManaged public var workout: WorkoutEntity?

@@ -12,9 +12,9 @@ import Models
 
 @objc(SecondaryMuscleEntity)
 public class SecondaryMuscleEntity: NSManagedObject {
-  @NSManaged public var muscleId: NSNumber
-  @NSManaged public var name: String
-  @NSManaged public var exercises: Set<ExerciseEntity>
+  @NSManaged var muscleId: NSNumber
+  @NSManaged var name: String
+  @NSManaged var exercises: Set<ExerciseEntity>
 
   @nonobjc public class func fetchRequest() -> NSFetchRequest<SecondaryMuscleEntity> {
     return NSFetchRequest<SecondaryMuscleEntity>(entityName: "SecondaryMuscleEntity")
@@ -50,16 +50,16 @@ public class SecondaryMuscleEntity: NSManagedObject {
 // MARK: Generated accessors for exercises
 extension SecondaryMuscleEntity {
   @objc(addExercisesObject:)
-  @NSManaged public func addToExercises(_ value: ExerciseEntity)
+  @NSManaged func addToExercises(_ value: ExerciseEntity)
 
   @objc(removeExercisesObject:)
-  @NSManaged public func removeFromExercises(_ value: ExerciseEntity)
+  @NSManaged func removeFromExercises(_ value: ExerciseEntity)
 
   @objc(addExercises:)
-  @NSManaged public func addToExercises(_ values: Set<ExerciseEntity>)
+  @NSManaged func addToExercises(_ values: Set<ExerciseEntity>)
 
   @objc(removeExercises:)
-  @NSManaged public func removeFromExercises(_ values: Set<ExerciseEntity>)
+  @NSManaged func removeFromExercises(_ values: Set<ExerciseEntity>)
 }
 
 extension SecondaryMuscleEntity : Identifiable { }

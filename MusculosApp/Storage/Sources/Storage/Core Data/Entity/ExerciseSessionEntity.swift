@@ -16,7 +16,8 @@ public class ExerciseSessionEntity: NSManagedObject {
     return NSFetchRequest<ExerciseSessionEntity>(entityName: "ExerciseSessionEntity")
   }
 
-  @NSManaged public var date: Date
+  @NSManaged public var dateAdded: Date
+  @NSManaged public var duration: NSNumber
   @NSManaged public var sessionId: UUID
   @NSManaged public var user: UserProfileEntity
   @NSManaged public var exercise: ExerciseEntity
@@ -30,9 +31,9 @@ extension ExerciseSessionEntity: ReadOnlyConvertible {
     let exercise = self.exercise.toReadOnly()
 
     return ExerciseSession(
-      date: self.date,
+      dateAdded: self.dateAdded,
       sessionId: self.sessionId,
-      user: user!,
+      user: user,
       exercise: exercise
     )
   }

@@ -23,10 +23,14 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
       if let persistentContainer = _persistentContainer {
         return persistentContainer
       } else {
-        let modelURL = Bundle.module.url(forResource: "MusculosDataStore", withExtension: ".momd")!
-        let model = NSManagedObjectModel(contentsOf: modelURL)!
-        let description = NSPersistentStoreDescription(url: URL(filePath: "/dev/null"))
+        guard
+          let modelURL = Bundle.module.url(forResource: "MusculosDataModel", withExtension: ".momd"),
+          let model = NSManagedObjectModel(contentsOf: modelURL)
+        else {
+          fatalError("Could not load Core Data model")
+        }
 
+        let description = NSPersistentStoreDescription(url: URL(filePath: "/dev/null"))
         let container = NSPersistentContainer(name: "MusculosDataStore", managedObjectModel: model)
         container.persistentStoreDescriptions = [description]
         container.loadPersistentStores { _, error in

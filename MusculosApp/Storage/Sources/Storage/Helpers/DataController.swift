@@ -152,6 +152,15 @@ extension DataController {
     return try await goalDataStore.add(goal)
   }
 
+  public func addOnboardingGoal(_ onboardingGoal: OnboardingData.Goal) async throws {
+    guard let currentUser = await getCurrentUserProfile() else {
+      throw StorageError.invalidUser
+    }
+
+    let goal = Goal(onboardingGoal: onboardingGoal, user: currentUser)
+    try await addGoal(goal)
+  }
+
   public func incrementGoalScore(_ goal: Goal) async throws {
     return try await goalDataStore.incrementCurrentValue(goal)
   }
@@ -172,7 +181,7 @@ extension DataController {
     isOnboarded: Bool = false
   ) async throws {
     guard let currentUserID else {
-      throw MusculosError.notFound
+      throw StorageError.invalidUser
     }
     return try await userDataStore.updateProfile(
       userId: currentUserID,

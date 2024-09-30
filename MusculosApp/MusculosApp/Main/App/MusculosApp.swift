@@ -13,6 +13,14 @@ import Components
 import Utility
 
 struct MusculosApp: App {
+
+  private enum AppState {
+    case loggedIn
+    case loggedOut
+    case onboarding
+    case loading
+  }
+
   @State private var appState: AppState = .loading
   @State private var progress: Double = 0.0
   @State private var userStore = UserStore()
@@ -25,16 +33,16 @@ struct MusculosApp: App {
       NavigationStack(path: $navigationRouter.navPath) {
         Group {
           switch appState {
-          case .loading:
-            LoadingOverlayView(progress: $progress)
+          case .loggedIn:
+            AppTabView()
           case .loggedOut:
             SplashView()
               .transition(.asymmetric(insertion: .opacity, removal: .identity))
           case .onboarding:
             OnboardingWizardView()
               .transition(.asymmetric(insertion: .push(from: .bottom), removal: .scale))
-          case .loggedIn:
-            AppTabView()
+          case .loading:
+            LoadingOverlayView(progress: $progress)
           }
         }
         .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: appState)
@@ -42,10 +50,7 @@ struct MusculosApp: App {
           handleUserEvent(event)
         }
         .navigationDestination(for: NavigationRouter.Destination.self) { destination in
-          switch destination {
-          case .exerciseDetails(let exercise):
-            ExerciseDetailsView(exercise: exercise)
-          }
+          getViewForDestination(destination)
         }
         .sheet(isPresented: navigationRouter.isPresentingBinding()) {
           if let currentSheet = navigationRouter.currentSheet {
@@ -64,6 +69,22 @@ struct MusculosApp: App {
       .environment(\.userStore, userStore)
       .environment(\.healthKitViewModel, healthKitViewModel)
       .environment(\.navigationRouter, navigationRouter)
+    }
+  }
+
+  @ViewBuilder
+  private func getViewForDestination(_ destination: NavigationRouter.Destination) -> some View {
+    switch destination {
+    case .exerciseDetails(let exercise):
+      ExerciseDetailsView(exercise: exercise)
+    case .exerciseListByGoal(let workoutGoal):
+      ExerciseListView(workoutGoal: workoutGoal)
+    case .search:
+      EmptyView()
+    case .notifications:
+      EmptyView()
+    case .filteredByGoal(let goal):
+      EmptyView()
     }
   }
 
@@ -94,14 +115,5 @@ struct MusculosApp: App {
     case .didFinishOnboarding:
       appState = .loggedIn
     }
-  }
-}
-
-extension MusculosApp {
-  enum AppState {
-    case loading
-    case loggedOut
-    case onboarding
-    case loggedIn
   }
 }

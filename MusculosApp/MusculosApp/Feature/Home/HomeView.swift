@@ -2,38 +2,57 @@
 //  HomeView.swift
 //  MusculosApp
 //
-//  Created by Solomon Alexandru on 25.08.2024.
+//  Created by Solomon Alexandru on 21.09.2024.
 //
 
 import SwiftUI
-import Utility
-import Components
 import Models
+import Components
 
 struct HomeView: View {
-  @Environment(\.userStore) private var userStore: UserStore
-  @State private var text: String = ""
+  @Environment(\.userStore) private var userStore
+  @Environment(\.navigationRouter) private var navigationRouter
 
-  let goals: [Goal.Category] = [.general, .growMuscle, .loseWeight]
+  @State private var viewModel = HomeViewModel()
 
   var body: some View {
-    VStack {
-      HomeSearchCard(displayName: userStore.displayName, searchQueryText: $text)
-        .padding(.bottom, 40)
+    ScrollView {
+      VStack(spacing: 15) {
+        GreetingHeader(
+          profile: viewModel.currentUser,
+          onSearchTap: {
+            navigationRouter.push(.search)
+          },
+          onNotificationsTap: {
+            navigationRouter.push(.notifications)
+          }
+        )
 
-      ForEach(goals, id: \.self) { goal in
-        DetailCard(text: goal.label, font: AppFont.poppins(.semibold, size: 19), content: {
-          Image(goal.imageName)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 70, height: 70)
+        AchievementCard()
+          .defaultShimmering(active: viewModel.isLoading)
+        FeaturedWorkoutsSection(onSeeMore: {}, onWorkoutGoalSelected: { workoutGoal in
+          navigationRouter.push(.exerciseListByGoal(workoutGoal))
         })
+        RecommendationSection(
+          exercises: viewModel.recommendedExercises,
+          onSelectExercise: { exercise in
+            navigationRouter.push(.exerciseDetails(exercise))
+          },
+          onSeeMore: {
+            navigationRouter.push(.search)
+          }
+        )
+        .fixedSize(horizontal: false, vertical: true)
+        ChallengesSection(onSeeMore: {})
+        WhiteBackgroundCard()
+        Spacer()
       }
-      .padding(.top, 30)
-
-      Spacer()
+      .padding(.horizontal, 10)
     }
-    .ignoresSafeArea()
+    .task {
+      await viewModel.fetchData()
+    }
+    .scrollIndicators(.hidden)
   }
 }
 

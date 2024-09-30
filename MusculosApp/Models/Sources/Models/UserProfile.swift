@@ -12,7 +12,7 @@ public struct UserProfile: Codable, Sendable {
   public var userId: UUID
   public let avatar: String?
   public let fullName: String?
-  public let username: String?
+  public let username: String
   public let email: String
   public let gender: String?
   public let weight: Double?
@@ -26,7 +26,7 @@ public struct UserProfile: Codable, Sendable {
     userId: UUID,
     email: String,
     fullName: String? = nil,
-    username: String? = nil,
+    username: String,
     avatar: String? = nil,
     gender: String? = nil,
     weight: Double? = nil,
@@ -67,5 +67,11 @@ public struct UserProfile: Codable, Sendable {
   public var avatarUrl: URL? {
     guard let avatar else { return nil }
     return URL(string: avatar)
+  }
+}
+
+extension UserProfile: Equatable {
+  public static func ==(_ lhs: UserProfile, rhs: UserProfile) -> Bool {
+    return lhs.userId == rhs.userId
   }
 }

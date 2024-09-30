@@ -16,6 +16,7 @@ public protocol ExerciseServiceProtocol {
   func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise
   func getFavoriteExercises() async throws -> [Exercise]
   func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws
+  func getByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise]
 }
 
 public struct ExerciseService: ExerciseServiceProtocol, MusculosService, @unchecked Sendable {
@@ -58,5 +59,15 @@ public struct ExerciseService: ExerciseServiceProtocol, MusculosService, @unchec
     ]
 
     _ = try await client.dispatch(request)
+  }
+
+  public func getByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise] {
+    var request = APIRequest(method: .get, path: .exercisesByGoals)
+    request.queryParams = [
+      URLQueryItem(name: "goal", value: String(workoutGoal.rawValue))
+    ]
+
+    let data = try await client.dispatch(request)
+    return try await Exercise.createArrayWithTaskFrom(data)
   }
 }

@@ -48,6 +48,10 @@ public struct Exercise: Codable, Sendable {
     self.isFavorite = isFavorite
   }
 
+  enum CodingKeys: String, CodingKey {
+    case category, equipment, force, id, level, name, primaryMuscles, secondaryMuscles, instructions, imageUrls, isFavorite
+  }
+
   public var muscleTypes: [MuscleType] {
     var allMuscles = primaryMuscles
     allMuscles.append(contentsOf: secondaryMuscles)
@@ -63,14 +67,42 @@ public struct Exercise: Codable, Sendable {
     return secondaryMuscles.compactMap { MuscleType(rawValue: $0) }
   }
 
-  enum CodingKeys: String, CodingKey {
-    case category, equipment, force, id, level, name, primaryMuscles, secondaryMuscles, instructions, imageUrls, isFavorite
+  public var displayOptions: [String] {
+    var result: [String] = []
+
+    if let firstMuscle = primaryMuscles.first {
+      result.append(firstMuscle)
+    }
+
+    if let equipment {
+      result.append(equipment)
+    }
+
+    result.append(category)
+
+    return result
+  }
+
+  public var displayName: String {
+    let separatedName = name.components(separatedBy: .whitespaces)
+    if separatedName.count > 2 {
+      return separatedName.prefix(2).joined(separator: " ")
+    } else {
+      return name
+    }
   }
   
   public func getImagesURLs() -> [URL] {
     return imageUrls.compactMap { imageUrlString in
       URL(string: imageUrlString)
     }
+  }
+
+  public var displayImageURL: URL? {
+    if let firstImageUrl = imageUrls.first {
+      return URL(string: firstImageUrl)
+    }
+    return nil
   }
 }
 
