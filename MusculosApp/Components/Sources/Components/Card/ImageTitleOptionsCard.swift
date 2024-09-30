@@ -31,7 +31,9 @@ public struct ContentTitleOptionsCard<Content: View>: View {
 
           VStack(alignment: .leading) {
             Text(title)
-              .font(AppFont.poppins(.medium, size: 15))
+              .font(AppFont.poppins(.medium, size: 14))
+              .fixedSize(horizontal: false, vertical: true)
+              .multilineTextAlignment(.center)
 
             Spacer()
 
@@ -44,15 +46,15 @@ public struct ContentTitleOptionsCard<Content: View>: View {
                 .foregroundStyle(.gray.opacity(0.2))
                 .overlay {
                   Text(option)
-                    .font(AppFont.poppins(.light, size: 15))
+                    .font(AppFont.poppins(.light, size: 13))
                 }
             }
           }
-          .padding()
+          .padding(.leading)
 
           Spacer()
         }
-        .padding()
+        .padding([.leading, .vertical])
       }
   }
 }

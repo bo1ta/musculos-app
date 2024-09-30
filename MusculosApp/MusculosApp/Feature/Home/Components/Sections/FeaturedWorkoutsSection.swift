@@ -20,38 +20,31 @@ struct FeaturedWorkoutsSection: View {
   }
 
   var body: some View {
-    VStack(alignment: .leading) {
-      HStack {
-        Text("Featured workouts")
-          .font(AppFont.spartan(.semiBold, size: 20))
-        Spacer()
-
-        Button(action: onSeeMore, label: {
-          Text("See more")
-            .font(AppFont.poppins(.regular, size: 15))
-            .foregroundStyle(.orange)
-        })
-      }
-
-      ScrollView(.horizontal) {
-        HStack {
-          ForEach(WorkoutGoal.allCases, id: \.rawValue) { workoutGoal in
-            Button(action: {
-              onWorkoutGoalSelected(workoutGoal)
-            }, label: {
-              IconTitleCard(
-                icon: Image(workoutGoal.iconName),
-                imageColor: workoutGoal.color,
-                title: workoutGoal.title
-              )
-            })
+    ContentSectionWithHeaderAndButton(
+      headerTitle: "Featured workouts",
+      buttonTitle: "See more",
+      onAction: onSeeMore,
+      content: {
+        ScrollView(.horizontal) {
+          HStack {
+            ForEach(WorkoutGoal.allCases, id: \.rawValue) { workoutGoal in
+              Button(action: {
+                onWorkoutGoalSelected(workoutGoal)
+              }, label: {
+                IconTitleCard(
+                  icon: Image(workoutGoal.iconName),
+                  imageColor: workoutGoal.color,
+                  title: workoutGoal.title
+                )
+              })
+              .buttonStyle(.plain)
+            }
+            .padding(.vertical, 5)
+            .padding(.horizontal, 5)
           }
-          .padding(.vertical, 5)
-          .padding(.horizontal, 5)
         }
-      }
-      .scrollIndicators(.hidden)
-    }
+        .scrollIndicators(.hidden)
+      })
   }
 }
 

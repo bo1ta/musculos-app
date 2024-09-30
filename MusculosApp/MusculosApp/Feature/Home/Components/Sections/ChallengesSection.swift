@@ -20,30 +20,21 @@ struct ChallengesSection: View {
   }
 
   var body: some View {
-    VStack(alignment: .leading) {
-      HStack {
-        Text("Today Challenge")
-          .font(AppFont.spartan(.semiBold, size: 20))
-        Spacer()
-
-        Button(action: onSeeMore, label: {
-          Text("See more")
-            .font(AppFont.poppins(.regular, size: 15))
-            .foregroundStyle(.orange)
-        })
-      }
-
-      ScrollView(.horizontal) {
-        HStack {
-          ForEach(Goal.Category.allCases, id: \.self) { category in
-            ChallengeCard(label: "New card", level: "expert", cardColor: colors.randomElement() ?? .black)
+    ContentSectionWithHeaderAndButton(
+      headerTitle: "Today Challenge",
+      buttonTitle: "See more",
+      onAction: onSeeMore,
+      content: {
+        ScrollView(.horizontal) {
+          HStack {
+            ForEach(Goal.Category.allCases, id: \.self) { category in
+              ChallengeCard(label: "New card", level: "expert", cardColor: colors.randomElement() ?? .black)
+            }
+            .padding([.vertical, .horizontal], 5)
           }
-          .padding(.vertical, 5)
-          .padding(.horizontal, 5)
         }
-      }
-      .scrollIndicators(.hidden)
-    }
+        .scrollIndicators(.hidden)
+      })
   }
 }
 

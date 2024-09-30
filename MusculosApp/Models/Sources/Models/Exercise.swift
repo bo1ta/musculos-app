@@ -48,6 +48,10 @@ public struct Exercise: Codable, Sendable {
     self.isFavorite = isFavorite
   }
 
+  enum CodingKeys: String, CodingKey {
+    case category, equipment, force, id, level, name, primaryMuscles, secondaryMuscles, instructions, imageUrls, isFavorite
+  }
+
   public var muscleTypes: [MuscleType] {
     var allMuscles = primaryMuscles
     allMuscles.append(contentsOf: secondaryMuscles)
@@ -79,8 +83,13 @@ public struct Exercise: Codable, Sendable {
     return result
   }
 
-  enum CodingKeys: String, CodingKey {
-    case category, equipment, force, id, level, name, primaryMuscles, secondaryMuscles, instructions, imageUrls, isFavorite
+  public var displayName: String {
+    let separatedName = name.components(separatedBy: .whitespaces)
+    if separatedName.count > 2 {
+      return separatedName.prefix(2).joined(separator: " ")
+    } else {
+      return name
+    }
   }
   
   public func getImagesURLs() -> [URL] {

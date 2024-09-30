@@ -35,7 +35,7 @@ public struct IconTitleCard: View {
           Text(title)
             .font(AppFont.poppins(.light, size: 14))
             .lineLimit(nil)
-            .fixedSize(horizontal: true, vertical: false)
+            .minimumScaleFactor(0.85)
         }
         .padding()
       }

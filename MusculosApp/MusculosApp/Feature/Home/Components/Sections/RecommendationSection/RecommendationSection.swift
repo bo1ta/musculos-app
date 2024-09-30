@@ -31,35 +31,31 @@ struct RecommendationSection: View {
   }
 
   var body: some View {
-    VStack(alignment: .leading) {
-      HStack {
-        Text("Best for you")
-          .font(AppFont.spartan(.semiBold, size: 20))
-        Spacer()
-
-        Button(action: onSeeMore, label: {
-          Text("See more")
-            .font(AppFont.spartan(.regular, size: 17))
-            .foregroundStyle(.orange)
-        })
-      }
-
-      ScrollView(.horizontal) {
-        LazyHGrid(rows: gridRows, spacing: 20) {
+    ContentSectionWithHeaderAndButton(
+      headerTitle: "Best for you",
+      buttonTitle: "See more",
+      onAction: onSeeMore,
+      content: {
+        ScrollView(.horizontal) {
+          LazyHGrid(rows: gridRows, spacing: 20) {
             ForEach(exercises, id: \.id) { exercise in
               Button(action: {
                 onSelectExercise(exercise)
               }, label: {
-                ContentTitleOptionsCard(title: exercise.name, options: exercise.primaryMuscles, content: {
-                  SectionItemImage(imageURL: exercise.displayImageURL)
-                })
+                ContentTitleOptionsCard(
+                  title: exercise.displayName,
+                  options: exercise.primaryMuscles,
+                  content: {
+                    SectionItemImage(imageURL: exercise.displayImageURL)
+                  })
               })
               .buttonStyle(.plain)
             }
           }
-        .padding(.vertical, 10)
-      }
-      .scrollIndicators(.hidden)
-    }
+          .padding(.vertical, 10)
+        }
+        .scrollIndicators(.hidden)
+      })
   }
 }
+
