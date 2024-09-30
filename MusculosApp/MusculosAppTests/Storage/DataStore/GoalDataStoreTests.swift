@@ -27,7 +27,8 @@ public struct GoalDataStoreTests {
       frequency: .daily,
       targetValue: 0,
       endDate: nil,
-      dateAdded: Date()
+      dateAdded: Date(),
+      user: UserProfileFactory.createProfile()
     )
     try await dataStore.add(goal)
 
@@ -47,7 +48,8 @@ public struct GoalDataStoreTests {
       frequency: .daily,
       targetValue: 0,
       endDate: nil,
-      dateAdded: Date()
+      dateAdded: Date(),
+      user: UserProfileFactory.createProfile()
     )
     try await dataStore.add(goal)
 
