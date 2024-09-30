@@ -37,7 +37,7 @@ public struct IconTitleCard: View {
             .lineLimit(nil)
             .minimumScaleFactor(0.85)
         }
-        .padding()
+        .padding(.vertical)
       }
   }
 }

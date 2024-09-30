@@ -21,7 +21,7 @@ public struct ChallengeCard: View {
     subLabel: String? = nil,
     level: String,
     icon: Image? = nil,
-    iconColor: Color = .black,
+    iconColor: Color = .white,
     cardColor: Color = .blue
   ) {
     self.label = label
@@ -59,8 +59,9 @@ public struct ChallengeCard: View {
                 .resizable()
                 .renderingMode(.template)
                 .scaledToFit()
-                .frame(width: 40, height: 40)
+                .frame(width: 55, height: 55)
                 .foregroundStyle(iconColor)
+                .shadow(radius: 1.0)
             }
 
             Text(label)
