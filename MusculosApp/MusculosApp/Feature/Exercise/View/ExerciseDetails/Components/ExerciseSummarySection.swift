@@ -19,7 +19,7 @@ struct ExerciseSummarySection: View {
   }
 
   var body: some View {
-    VStack(alignment: .leading) {
+    VStack(alignment: .leading, spacing: 5) {
       HStack {
         Text(exercise.name)
           .font(AppFont.poppins(.bold, size: 17))

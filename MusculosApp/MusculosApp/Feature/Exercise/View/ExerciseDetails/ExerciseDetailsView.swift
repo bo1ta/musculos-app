@@ -27,23 +27,25 @@ struct ExerciseDetailsView: View {
   var body: some View {
     VStack(spacing: 10) {
       AnimatedURLImageView(imageURLs: exercise.getImagesURLs())
-        .ignoresSafeArea()
       ExerciseSummarySection(exercise: exercise, onFavorite: {})
 
-      HStack {
-        EquipmentCard(equipmentType: exercise.equipmentType)
-        StarsRatingCard(stars: 4.0)
+      ScrollView {
+        HStack {
+          EquipmentCard(equipmentType: exercise.equipmentType)
+          StarsRatingCard(stars: 4.0)
+        }
+        VStack {
+          ForEach(Array(exercise.instructions.enumerated()), id: \.element) { index, instruction in
+            DetailCardView(title: instruction, index: index + 1)
+          }
+        }
       }
+      .scrollIndicators(.hidden)
 
-//      ScrollView {
-//        stepsSection
-//          .padding([.top, .bottom], 10)
-//      }
-//      .scrollIndicators(.hidden)
-//      .padding(.top, -50)
-//      
-//      Spacer()
+      Spacer()
     }
+    .ignoresSafeArea()
+    .padding()
     .task {
       await viewModel.initialLoad()
     }
@@ -149,14 +151,6 @@ extension ExerciseDetailsView {
         .frame(width: 20, height: 20)
       Text(title)
         .font(.body(.light, size: 14))
-    }
-  }
-  
-  private var stepsSection: some View {
-    VStack {
-      ForEach(Array(exercise.instructions.enumerated()), id: \.element) { index, instruction in
-        DetailCardView(title: instruction, index: index + 1)
-      }
     }
   }
 }

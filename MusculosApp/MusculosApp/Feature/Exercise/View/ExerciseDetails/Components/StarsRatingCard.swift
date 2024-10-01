@@ -42,7 +42,7 @@ struct StarsRatingCard: View {
               Text(String(stars))
                 .foregroundStyle(.yellow)
                 .font(AppFont.poppins(.bold, size: 15))
-                .fixedSize(horizontal: false, vertical: true)
+                .fixedSize(horizontal: true, vertical: false)
             }
           }
 

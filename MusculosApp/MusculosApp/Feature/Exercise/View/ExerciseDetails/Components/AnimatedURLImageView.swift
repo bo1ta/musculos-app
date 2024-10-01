@@ -38,6 +38,7 @@ struct AnimatedURLImageView: View {
               .aspectRatio(contentMode: .fit)
               .frame(maxWidth: .infinity)
               .frame(minHeight: 300)
+              .ignoresSafeArea()
           case .empty, .failure(_):
             Color.white
               .frame(maxWidth: .infinity)

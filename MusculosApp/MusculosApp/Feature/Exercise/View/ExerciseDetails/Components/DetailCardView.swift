@@ -19,22 +19,21 @@ struct DetailCardView: View {
       .frame(maxWidth: .infinity)
       .frame(minHeight: textHeight)
       .padding(.horizontal)
-      .foregroundStyle(.white)
+      .foregroundStyle(.white.opacity(0.99))
       .shadow(color: .black.opacity(0.5), radius: 0.8)
       .overlay {
         HStack {
-          Circle()
-            .frame(width: 40, height: 40)
-            .foregroundStyle(.white)
-            .shadow(radius: 1)
+          RoundedRectangle(cornerRadius: 18)
+            .frame(width: 20, height: 40)
+            .foregroundStyle(AppColor.navyBlue)
             .overlay {
               Text("\(index)")
-                .font(.body(.regular, size: 15))
-                .foregroundStyle(.black)
-                .opacity(0.8)
+                .font(AppFont.poppins(.regular, size: 15))
+                .foregroundStyle(.white)
             }
+
           Text(title)
-            .font(.body(.light, size: 13))
+            .font(AppFont.poppins(.regular, size: 13))
             .padding(.trailing, 5)
             .fixedSize(horizontal: false, vertical: true)
             .lineLimit(nil)
@@ -49,7 +48,7 @@ struct DetailCardView: View {
             .padding()
           Spacer()
         }
-        .padding(.leading, 35)
+        .padding(.horizontal, 35)
       }
       .onPreferenceChange(ContentLengthPreferenceKey.self, perform: { value in
         DispatchQueue.main.async {
