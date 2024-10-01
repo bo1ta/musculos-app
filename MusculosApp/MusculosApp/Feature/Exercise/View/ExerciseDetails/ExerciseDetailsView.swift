@@ -12,6 +12,7 @@ import Components
 
 struct ExerciseDetailsView: View {
   @Environment(\.dismiss) private var dismiss
+  @Environment(\.navigationRouter) private var navigationRouter
 
   @State private var viewModel: ExerciseDetailsViewModel
   
@@ -49,6 +50,7 @@ struct ExerciseDetailsView: View {
     .task {
       await viewModel.initialLoad()
     }
+    .dismissingGesture(direction: .left, action: navigationRouter.pop)
     .onDisappear(perform: viewModel.cleanUp)
     .navigationBarBackButtonHidden()
     .safeAreaInset(edge: .bottom) {
