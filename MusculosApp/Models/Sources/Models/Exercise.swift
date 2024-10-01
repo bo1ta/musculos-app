@@ -104,6 +104,13 @@ public struct Exercise: Codable, Sendable {
     }
     return nil
   }
+
+  public var equipmentType: ExerciseConstants.EquipmentType {
+    guard let equipment else {
+      return .other
+    }
+    return ExerciseConstants.EquipmentType(rawValue: equipment) ?? .other
+  }
 }
 
 public extension Exercise {

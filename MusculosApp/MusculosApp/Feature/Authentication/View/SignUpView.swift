@@ -28,14 +28,7 @@ struct SignUpView: View {
 
       Spacer()
     }
-    .gesture(
-      DragGesture()
-        .onEnded({ gesture in
-          if gesture.translation.width > 30 {
-            showLogin()
-          }
-        })
-    )
+    .dismissingGesture(direction: .left, action: showLogin)
     .padding(.horizontal, 20)
     .onDisappear(perform: viewModel.cleanUp)
     .safeAreaInset(edge: .top) {
