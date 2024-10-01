@@ -26,17 +26,23 @@ struct ExerciseDetailsView: View {
   
   var body: some View {
     VStack(spacing: 10) {
-      imageSection
-      
-      ScrollView {
-        detailsSection
-        stepsSection
-          .padding([.top, .bottom], 10)
+      AnimatedURLImageView(imageURLs: exercise.getImagesURLs())
+        .ignoresSafeArea()
+      ExerciseSummarySection(exercise: exercise, onFavorite: {})
+
+      HStack {
+        EquipmentCard(equipmentType: exercise.equipmentType)
+        StarsRatingCard(stars: 4.0)
       }
-      .scrollIndicators(.hidden)
-      .padding(.top, -50)
-      
-      Spacer()
+
+//      ScrollView {
+//        stepsSection
+//          .padding([.top, .bottom], 10)
+//      }
+//      .scrollIndicators(.hidden)
+//      .padding(.top, -50)
+//      
+//      Spacer()
     }
     .task {
       await viewModel.initialLoad()
@@ -70,14 +76,6 @@ struct ExerciseDetailsView: View {
 // MARK: - Views
 
 extension ExerciseDetailsView {
-  private var imageSection: some View {
-    AnimatedURLImageView(imageURLs: exercise.getImagesURLs())
-      .overlay {
-        imageOverlay
-      }
-      .ignoresSafeArea()
-  }
-  
   private var imageOverlay: some View {
     VStack {
       HStack {
@@ -164,5 +162,5 @@ extension ExerciseDetailsView {
 }
   
 #Preview {
-  ExerciseDetailsView(exercise: ExerciseFactory.createExercise())
+  ExerciseDetailsView(exercise: ExerciseFactory.createExercise(isFavorite: true))
 }

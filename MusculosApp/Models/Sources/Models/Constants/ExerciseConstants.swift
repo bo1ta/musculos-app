@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 public struct ExerciseConstants {
   public enum ForceType: String, CaseIterable {
@@ -33,6 +34,39 @@ public struct ExerciseConstants {
     case medicineBall = "medicine ball"
     case exerciseBall = "exercise ball"
     case ezCurlBar = "e-z curl bar"
+
+    public var imageName: String {
+      switch self {
+      case .dumbbell: "health-dumbbell"
+      case .barbell: "health-barbell"
+      default: "health-sheet"
+      }
+    }
+
+    public var color: Color {
+      switch self {
+      case .dumbbell: .blue
+      case .barbell: .green
+      default: .orange
+      }
+    }
+
+    public var title: String {
+      switch self {
+      case .dumbbell: "Dumbbells"
+      case .barbell: "Barbells"
+      case .bands: "Bands"
+      case .bodyOnly: "Body Only"
+      case .cable: "Cable"
+      case .exerciseBall: "Exercise Ball"
+      case .ezCurlBar: "E-Z Curl Bar"
+      case .medicineBall: "Medicine Ball"
+      case .kettlebells: "Kettlebells"
+      case .other: "Other"
+      case .machine: "Machine"
+      case .foamRoll: "Foam Roll"
+      }
+    }
   }
   
   public enum CategoryType: String, CaseIterable {

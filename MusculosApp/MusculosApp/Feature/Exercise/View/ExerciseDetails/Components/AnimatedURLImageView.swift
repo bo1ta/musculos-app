@@ -35,7 +35,6 @@ struct AnimatedURLImageView: View {
           case .success(let image):
             image
               .resizable()
-              .ignoresSafeArea()
               .aspectRatio(contentMode: .fit)
               .frame(maxWidth: .infinity)
               .frame(minHeight: 300)
