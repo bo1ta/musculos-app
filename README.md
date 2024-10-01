@@ -6,6 +6,6 @@
   - Utility - provides various utility functions, extensions, etc.
   - Models - provides the core models used by the app
 
-- [Backend](https://github.com/bo1ta/musculos-api) built with Vapor(Swift)
+- [Backend](https://github.com/bo1ta/musculos-api) built with Vapor
 
 ![App Flow](exported-preview.png)
