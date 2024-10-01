@@ -38,7 +38,6 @@
 		BC4078D62C02402E000DE280 /* WorkoutFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D52C02402E000DE280 /* WorkoutFlowView.swift */; };
 		BC43D33B2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D33A2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift */; };
 		BC44CDB32CA77C9A007421C4 /* ExerciseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44CDB22CA77C9A007421C4 /* ExerciseListView.swift */; };
-		BC4E5D512CAB5D660046ABEE /* ExerciseDetailsView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E5D502CAB5D660046ABEE /* ExerciseDetailsView2.swift */; };
 		BC4E5D532CAB601F0046ABEE /* ExerciseSummarySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E5D522CAB601F0046ABEE /* ExerciseSummarySection.swift */; };
 		BC4E5D552CAC58070046ABEE /* EquipmentCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E5D542CAC58070046ABEE /* EquipmentCard.swift */; };
 		BC4E5D572CAC61050046ABEE /* StarsRatingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E5D562CAC61050046ABEE /* StarsRatingCard.swift */; };
@@ -185,7 +184,6 @@
 		BC4078D52C02402E000DE280 /* WorkoutFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFlowView.swift; sourceTree = "<group>"; };
 		BC43D33A2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFilterViewModel.swift; sourceTree = "<group>"; };
 		BC44CDB22CA77C9A007421C4 /* ExerciseListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListView.swift; sourceTree = "<group>"; };
-		BC4E5D502CAB5D660046ABEE /* ExerciseDetailsView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsView2.swift; sourceTree = "<group>"; };
 		BC4E5D522CAB601F0046ABEE /* ExerciseSummarySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSummarySection.swift; sourceTree = "<group>"; };
 		BC4E5D542CAC58070046ABEE /* EquipmentCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquipmentCard.swift; sourceTree = "<group>"; };
 		BC4E5D562CAC61050046ABEE /* StarsRatingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarsRatingCard.swift; sourceTree = "<group>"; };
@@ -790,7 +788,6 @@
 				BCD59AAE2BB628700039F662 /* ExerciseDetailsView.swift */,
 				BC828CE22C028E9200AB9D1D /* ExerciseDetailsViewModel.swift */,
 				BCD59AAD2BB628700039F662 /* Components */,
-				BC4E5D502CAB5D660046ABEE /* ExerciseDetailsView2.swift */,
 			);
 			path = ExerciseDetails;
 			sourceTree = "<group>";
@@ -1175,7 +1172,6 @@
 				BC6F365D2BB4E2A3000F6CFA /* CardItem.swift in Sources */,
 				BCD59AB02BB628700039F662 /* AnimatedURLImageView.swift in Sources */,
 				BC4E5D532CAB601F0046ABEE /* ExerciseSummarySection.swift in Sources */,
-				BC4E5D512CAB5D660046ABEE /* ExerciseDetailsView2.swift in Sources */,
 				BC1674B12BE26EBB0012048D /* AddDetailOptionCardView.swift in Sources */,
 				BCD59A8E2BB627CE0039F662 /* ExploreExerciseView.swift in Sources */,
 				BC606A6E2C221CBD00154781 /* SelectLevelView.swift in Sources */,
