@@ -40,8 +40,7 @@ struct DetailCardView: View {
             .shadow(radius: 0.5)
             .overlay {
               GeometryReader { proxy in
-                Color
-                  .clear
+                Color.clear
                   .preference(key: ContentLengthPreferenceKey.self, value: proxy.size.height + 40)
               }
             }

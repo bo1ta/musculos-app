@@ -22,7 +22,7 @@ struct ExerciseSummarySection: View {
     VStack(alignment: .leading, spacing: 5) {
       HStack {
         Text(exercise.name)
-          .font(AppFont.poppins(.bold, size: 17))
+          .font(AppFont.poppins(.bold, size: 19))
         Spacer()
         Button(action: onFavorite, label: {
           Image("heart-icon")

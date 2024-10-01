@@ -21,7 +21,7 @@ struct StarsRatingCard: View {
           VStack(alignment: .leading, spacing: 2) {
             Text("Rating")
               .shadow(radius: 0.2)
-              .font(AppFont.poppins(.regular, size: 16))
+              .font(AppFont.poppins(.regular, size: 14))
               .foregroundStyle(.gray)
 
             HStack {
@@ -41,7 +41,7 @@ struct StarsRatingCard: View {
 
               Text(String(stars))
                 .foregroundStyle(.yellow)
-                .font(AppFont.poppins(.bold, size: 15))
+                .font(AppFont.poppins(.bold, size: 13))
                 .fixedSize(horizontal: true, vertical: false)
             }
           }

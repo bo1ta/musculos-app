@@ -26,7 +26,7 @@ public struct OptionPill: View {
       })
       .overlay {
         Text(title)
-          .font(AppFont.poppins(.light, size: 12))
+          .font(AppFont.poppins(.light, size: 10))
       }
   }
 }

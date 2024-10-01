@@ -23,7 +23,7 @@ struct EquipmentCard: View {
             VStack(alignment: .leading, spacing: 2) {
               Text("Category")
                 .shadow(radius: 0.2)
-                .font(AppFont.poppins(.regular, size: 16))
+                .font(AppFont.poppins(.regular, size: 14))
                 .foregroundStyle(.gray)
 
               HStack {
@@ -31,11 +31,11 @@ struct EquipmentCard: View {
                   .resizable()
                   .renderingMode(.template)
                   .aspectRatio(contentMode: .fit)
-                  .frame(height: 22)
+                  .frame(height: 18)
                   .rotationEffect(Angle(degrees: 45))
                   .foregroundStyle(equipmentType.color)
                 Text(equipmentType.title)
-                  .font(AppFont.poppins(.semibold, size: 17))
+                  .font(AppFont.poppins(.semibold, size: 13))
                   .foregroundStyle(equipmentType.color)
               }
             }

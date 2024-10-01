@@ -49,7 +49,7 @@ struct ExerciseDetailsView: View {
       ScrollView {
         ExerciseSummarySection(exercise: exercise, onFavorite: {})
           .padding(.horizontal)
-        HStack {
+        HStack(spacing: 15) {
           EquipmentCard(equipmentType: exercise.equipmentType)
           StarsRatingCard(stars: 4.0)
         }
@@ -60,39 +60,31 @@ struct ExerciseDetailsView: View {
             DetailCardView(title: instruction, index: index + 1)
           }
         }
+        .padding(.top)
       }
       .padding(.top, -60)
       .scrollIndicators(.hidden)
 
       Spacer()
     }
+    .safeAreaInset(edge: .bottom) {
+      ActionButton(title: "Start workout", systemImageName: "arrow.up.right", onClick: {
+        if viewModel.isTimerActive {
+          viewModel.stopTimer()
+          onComplete?()
+        } else {
+          viewModel.startTimer()
+        }
+      })
+      .padding(.horizontal)
+    }
     .task {
       await viewModel.initialLoad()
     }
-    .dismissingGesture(direction: .left, action: navigationRouter.pop)
     .onDisappear(perform: viewModel.cleanUp)
+    .dismissingGesture(direction: .left, action: navigationRouter.pop)
     .navigationBarBackButtonHidden()
-    .safeAreaInset(edge: .bottom) {
-      if viewModel.isTimerActive {
-        Button(action: {
-          viewModel.stopTimer()
-          onComplete?()
-        }, label: {
-          Text("Finish (\(viewModel.elapsedTime) sec)")
-            .frame(maxWidth: .infinity)
-        })
-        .buttonStyle(SecondaryButtonStyle())
-        .padding()
-      } else {
-        Button(action: viewModel.startTimer, label: {
-          Text("Start workout")
-            .frame(maxWidth: .infinity)
-        })
-        .buttonStyle(PrimaryButtonStyle())
-        .padding()
 
-      }
-    }
   }
 }
 
