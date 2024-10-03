@@ -282,7 +282,7 @@ enum ExploreCategorySection: String, CaseIterable {
     case .workout:
       "Workout"
     case .myFavorites:
-      "My Favorites"
+      "Favorites"
     }
   }
 }

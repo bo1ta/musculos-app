@@ -79,21 +79,21 @@ extension SignUpView {
     VStack(alignment: .leading, spacing: 10) {
       FormField(
         text: $viewModel.email,
-        hint: "Email"
+        label: "Email"
       )
       FormField(
         text: $viewModel.password,
-        hint: "Password",
+        label: "Password",
         isSecureField: true
       )
       FormField(
         text: $viewModel.confirmPassword,
-        hint: "Confirm password",
+        label: "Confirm password",
         isSecureField: true
       )
       FormField(
         text: $viewModel.username,
-        hint: "Username"
+        label: "Username"
       )
     }
   }

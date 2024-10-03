@@ -10,23 +10,26 @@ import Utility
 
 public struct FormField: View {
   private let text: Binding<String>
-  private let hint: String
-  private let hintColor: Color
+  private let label: String?
+  private let labelColor: Color
+  private let textHint: String?
   private let keyboardType: UIKeyboardType
   private let isSecureField: Bool
   private let imageIcon: Image?
 
   public init(
     text: Binding<String>,
-    hint: String,
-    hintColor: Color = .black,
+    label: String? = nil,
+    labelColor: Color = .black,
+    textHint: String? = nil,
     keyboardType: UIKeyboardType = .default,
     isSecureField: Bool = false,
     imageIcon: Image? = nil
   ) {
     self.text = text
-    self.hint = hint
-    self.hintColor = hintColor
+    self.label = label
+    self.labelColor = labelColor
+    self.textHint = textHint
     self.keyboardType = keyboardType
     self.isSecureField = isSecureField
     self.imageIcon = imageIcon
@@ -34,56 +37,56 @@ public struct FormField: View {
 
   public var body: some View {
     VStack(alignment: .leading) {
-      textHint
+      if let label {
+        Text(label)
+          .font(AppFont.poppins(.regular, size: 17))
+          .foregroundStyle(labelColor)
+      }
 
-      gradientRectangle
-        .overlay { field }
+      RoundedRectangle(cornerRadius: 18)
+        .fill(
+          LinearGradient(
+            gradient: Gradient(colors: [Color.white, Color.white.opacity(0.9)]),
+            startPoint: .top,
+            endPoint: .bottom
+          ))
+        .shadow(color: .gray.opacity(0.3), radius: 3)
+        .frame(maxWidth: .infinity)
+        .frame(height: 50)
+        .overlay {
+          HStack {
+            if let imageIcon {
+              imageIcon
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 20, height: 20)
+            }
+
+            if isSecureField {
+              SecureField(text: text, label: {
+                if let textHint {
+                  Text(textHint)
+                }
+              })
+            } else {
+              TextField(text: text, label: {
+                if let textHint {
+                  Text(textHint)
+                }
+              })
+            }
+          }
+          .foregroundStyle(.black)
+          .textInputAutocapitalization(.never)
+          .autocorrectionDisabled()
+          .keyboardType(keyboardType)
+          .padding(.leading)
+        }
         .shadow(radius: 0.3)
     }
-  }
-
-  private var gradientRectangle: some View {
-    RoundedRectangle(cornerRadius: 18)
-      .fill(LinearGradient(
-        gradient: Gradient(colors: [Color.white, Color.white.opacity(0.9)]),
-        startPoint: .top,
-        endPoint: .bottom
-      ))
-      .shadow(color: .gray.opacity(0.3), radius: 3)
-      .frame(maxWidth: .infinity)
-      .frame(height: 50)
-  }
-
-  private var textHint: some View {
-    Text(hint)
-      .font(AppFont.poppins(.regular, size: 17))
-      .foregroundStyle(hintColor)
-  }
-
-  private var field: some View {
-    HStack {
-      if isSecureField {
-        SecureField(text: text, label: { })
-      } else {
-        TextField(text: text, label: { })
-
-        if let imageIcon {
-          imageIcon
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 20, height: 20)
-            .padding(.trailing)
-        }
-      }
-    }
-    .foregroundStyle(.black)
-    .textInputAutocapitalization(.never)
-    .autocorrectionDisabled()
-    .keyboardType(keyboardType)
-    .padding(.leading)
   }
 }
 
 #Preview {
-  FormField(text: .constant(""), hint: "Username", hintColor: .indigo, keyboardType: .decimalPad, imageIcon: Image("search-icon"))
+  FormField(text: .constant(""), label: "Username", labelColor: .indigo, keyboardType: .decimalPad, imageIcon: Image("search-icon"))
 }

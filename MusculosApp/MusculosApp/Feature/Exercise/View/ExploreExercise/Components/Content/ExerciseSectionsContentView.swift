@@ -14,15 +14,7 @@ import Storage
 struct ExerciseSectionsContentView: View {
   @Binding var categorySection: ExploreCategorySection
   @Binding var contentState: LoadingViewState<[Exercise]>
-  
-  /// Separate exercise result feed from the `RecommendationEngine`
-  /// Represents exercises considering the user goals
-  ///
   @Binding var recommendedExercisesByGoals: [Exercise]?
-  
-  /// Separate exercise result feed from the `RecommendatonEngine`
-  /// Represents exercises considering the past completed user exercise sessions
-  ///
   @Binding var recommendedExercisesByPastSessions: [Exercise]?
   
   let onExerciseTap: (Exercise) -> Void
@@ -56,7 +48,6 @@ struct ExerciseSectionsContentView: View {
           .padding(.top, 20)
       }
     }
-//    .animation(.easeInOut, value: categorySection)
   }
   
   private func makeCategoryItems(_ categorySection: ExploreCategorySection, exercises: [Exercise]) -> some View {
