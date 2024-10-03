@@ -8,7 +8,7 @@
 import SwiftUI
 import Utility
 
-public struct OptionPill: View {
+public struct TextPill: View {
   let title: String
 
   public init(title: String) {
@@ -32,5 +32,5 @@ public struct OptionPill: View {
 }
 
 #Preview {
-  OptionPill(title: "biceps")
+  TextPill(title: "biceps")
 }

@@ -18,13 +18,10 @@ struct ExploreCategorySectionView: View {
         Button(action: {
           onChangeSection?(section)
         }, label: {
-          let isSelected = section == currentSection
-          let widthOfString = section.title.widthOfString(usingFont: UIFont(name: AppFont.Body.medium.rawValue, size: 16) ?? .boldSystemFont(ofSize: 18))
-
           VStack(spacing: 0) {
             Text(section.title)
               .font(AppFont.poppins(section == currentSection ? .semibold : .regular, size: 16))
-              .foregroundColor(section == currentSection ? .black : .gray)
+              .foregroundColor(section == currentSection ? .red : .gray)
               .padding(.horizontal, 16)
               .padding(.vertical, 8)
 

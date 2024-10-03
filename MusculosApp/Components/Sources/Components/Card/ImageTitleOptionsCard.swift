@@ -24,48 +24,27 @@ public struct ContentTitleOptionsCard<Content: View>: View {
       .frame(maxWidth: .infinity)
       .frame(width: 240, height: 110)
       .foregroundStyle(.white)
-      .shadow(radius: 1.2)
       .overlay {
         HStack {
           content
+
+          Spacer()
 
           VStack(alignment: .leading) {
             Text(title)
               .font(AppFont.poppins(.medium, size: 14))
               .fixedSize(horizontal: false, vertical: true)
               .multilineTextAlignment(.center)
-
-            Spacer()
+              .shadow(radius: 1)
 
             ForEach(options, id: \.self) { option in
-              Rectangle()
-                .frame(
-                  width: option.widthOfString(usingFont: UIFont.systemFont(ofSize: 13)) + 20,
-                  height: 30
-                )
-                .foregroundStyle(.gray.opacity(0.2))
-                .overlay {
-                  Text(option)
-                    .font(AppFont.poppins(.light, size: 13))
-                }
+              TextResizablePill(title: option)
             }
           }
           .padding(.leading)
 
           Spacer()
         }
-        .padding([.leading, .vertical])
       }
   }
 }
-//
-//#Preview {
-//  ImageTitleOptionsCard(
-//    image: Image(systemName: "star"),
-//    title: "Sit ups",
-//    options: [
-//      "5 min",
-//      "expert"
-//    ]
-//  )
-//}

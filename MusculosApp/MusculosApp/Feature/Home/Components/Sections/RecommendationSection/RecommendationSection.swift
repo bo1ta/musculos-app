@@ -48,12 +48,15 @@ struct RecommendationSection: View {
                   content: {
                     SectionItemImage(imageURL: exercise.displayImageURL)
                   })
+                .padding(.vertical)
               })
               .buttonStyle(.plain)
             }
           }
           .padding(.vertical, 10)
         }
+        .shadow(radius: 1.2)
+        .ignoresSafeArea()
         .scrollIndicators(.hidden)
       })
   }

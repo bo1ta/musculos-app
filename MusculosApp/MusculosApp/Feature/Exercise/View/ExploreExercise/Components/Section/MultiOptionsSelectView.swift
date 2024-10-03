@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utility
 import Components
 
 struct MultiOptionsSelectView: View {
@@ -22,7 +23,7 @@ struct MultiOptionsSelectView: View {
       } label: {
         HStack {
           Text(title)
-            .font(.body(.bold, size: 14))
+            .font(AppFont.poppins(.regular, size: 16))
           Spacer()
           Image(systemName: showOptions ? "chevron.up" : "chevron.down")
         }
@@ -47,13 +48,15 @@ struct MultiOptionsSelectView: View {
               .buttonStyle(SelectedButtonStyle(isSelected: selectedOptions.contains(filter)))
             }
           }
-        .transition(.blurReplace)
+        .transition(.push(from: .bottom))
       }
     }
-    .animation(.easeInOut(duration: 0.2), value: showOptions)
+    .animation(.easeInOut(duration: UIConstant.defaultAnimationDuration), value: showOptions)
   }
   
   private func handleFilterTap(_ filter: String) {
+    HapticFeedbackProvider.haptic(.selection)
+
     if let index = selectedOptions.firstIndex(of: filter) {
       selectedOptions.remove(at: index)
     } else {

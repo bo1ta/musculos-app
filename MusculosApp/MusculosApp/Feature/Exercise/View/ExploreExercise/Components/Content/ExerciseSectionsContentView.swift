@@ -25,7 +25,7 @@ struct ExerciseSectionsContentView: View {
       case .loading:
         ExerciseContentLoadingView()
       case .loaded(let exercises):
-        VStack {
+        VStack(spacing: 20) {
           ExploreCategorySectionView(currentSection: categorySection, onChangeSection: { section in
             switch section {
             case .myFavorites:
@@ -51,7 +51,7 @@ struct ExerciseSectionsContentView: View {
   }
   
   private func makeCategoryItems(_ categorySection: ExploreCategorySection, exercises: [Exercise]) -> some View {
-    VStack {
+    VStack(spacing: 10) {
       switch categorySection {
       case .discover:
         ExerciseSectionView(
@@ -62,18 +62,16 @@ struct ExerciseSectionsContentView: View {
         
         if let recommendedExercisesByGoals {
           ExerciseSectionView(
-            title: "Recommended exercises based on your goals",
+            title: "Quick muscle-building",
             exercises: recommendedExercisesByGoals,
-            isSmallCard: true,
             onExerciseTap: onExerciseTap
           )
         }
         
         if let recommendedExercisesByPastSessions {
           ExerciseSectionView(
-            title: "Recommended exercises based on your past sessions",
+            title: "Recommendation based on your past sessions",
             exercises: recommendedExercisesByPastSessions,
-            isSmallCard: true,
             onExerciseTap: onExerciseTap
           )
         }
@@ -85,7 +83,7 @@ struct ExerciseSectionsContentView: View {
               Button(action: {
                 onExerciseTap(exercise)
               }, label: {
-                ExerciseCard(exercise: exercise, cardWidth: 350)
+                ExerciseCard(exercise: exercise)
               })
               .id(exercise)
             }

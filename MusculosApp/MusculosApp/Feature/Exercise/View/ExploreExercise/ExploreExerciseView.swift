@@ -61,6 +61,9 @@ struct ExploreExerciseView: View {
     .task {
       await viewModel.initialLoad()
     }
+    .background(
+      Color.white.opacity(0.98)
+    )
     .onDisappear(perform: viewModel.cleanUp)
   }
 }
