@@ -27,17 +27,7 @@ struct ExerciseSectionView: View {
       buttonTitle: "See more",
       onAction: {},
       content: {
-        ScrollView(.horizontal, showsIndicators: false) {
-          LazyHStack(spacing: 20) {
-            ForEach(exercises, id: \.hashValue) { exercise in
-              Button(action: {
-                onExerciseTap(exercise)
-              }, label: {
-                ExerciseCard(exercise: exercise)
-              })
-            }
-          }
-        }
+        ExerciseCardsStack(exercises: exercises, onTapExercise: onExerciseTap)
         .shadow(radius: 1.0)
       })
   }

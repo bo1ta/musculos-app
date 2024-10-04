@@ -12,11 +12,15 @@ struct ExploreCategorySectionView: View {
   var currentSection: ExploreCategorySection
   var onChangeSection: ((ExploreCategorySection) -> Void)?
 
+  @Namespace private var animationNamespace
+
   var body: some View {
     HStack(spacing: 0) {
       ForEach(ExploreCategorySection.allCases, id: \.title) { section in
         Button(action: {
-          onChangeSection?(section)
+          withAnimation(.easeInOut(duration: UIConstant.defaultAnimationDuration)) {
+            onChangeSection?(section)
+          }
         }, label: {
           VStack(spacing: 0) {
             Text(section.title)
@@ -29,6 +33,7 @@ struct ExploreCategorySectionView: View {
               Rectangle()
                 .fill(Color.red)
                 .frame(height: 2)
+                .matchedGeometryEffect(id: "underline", in: animationNamespace)  // Matching the animation effect
             } else {
               Color.gray
                 .opacity(0.2)

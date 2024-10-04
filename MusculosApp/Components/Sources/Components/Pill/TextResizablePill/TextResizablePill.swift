@@ -10,9 +10,20 @@ import Utility
 
 public struct TextResizablePill: View {
   public var title: String
+  public var color: Color
+  public var selectionColor: Color
+  public var isSelected: Bool
 
-  public init(title: String) {
+  public init(
+    title: String,
+    color: Color = .gray.opacity(0.2),
+    selectionColor: Color = .orange,
+    isSelected: Bool = false
+  ) {
     self.title = title
+    self.color = color
+    self.selectionColor = selectionColor
+    self.isSelected = isSelected
   }
 
   public var body: some View {
@@ -21,10 +32,11 @@ public struct TextResizablePill: View {
         width: title.widthOfString(usingFont: UIFont.systemFont(ofSize: 13)) + 20,
         height: 30
       )
-      .foregroundStyle(.gray.opacity(0.2))
+      .foregroundStyle(isSelected ? selectionColor : color)
       .overlay {
         Text(title)
-          .font(AppFont.poppins(.light, size: 13))
+          .font(AppFont.poppins(isSelected ? .medium : .light, size: 13))
+          .foregroundStyle(isSelected ? .white : .black)
       }
   }
 }
