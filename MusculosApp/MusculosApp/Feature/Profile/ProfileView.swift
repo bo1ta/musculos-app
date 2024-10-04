@@ -13,11 +13,11 @@ import Factory
 import Storage
 
 struct ProfileView: View {
-  @Namespace private var animationNamespace
   @Injected(\StorageContainer.dataController) private var dataController
 
   @Environment(\.userStore) private var userStore
   @Environment(\.healthKitViewModel) private var healthKitViewModel
+  @Environment(\.navigationRouter) private var navigationRouter
 
   @State private var selectedWorkout: String? = nil
   @State private var exercises: [Exercise] = []
@@ -50,8 +50,14 @@ struct ProfileView: View {
         })
 
         ContentSectionWithHeaderAndButton(headerTitle: "Your workout", buttonTitle: "See more", onAction: {}, content: {
-          SelectTextResizablePillsStack(options: ExerciseConstants.categoryOptions, selectedOption: $selectedWorkout)
-          ExerciseCardsStack(exercises: exercises, onTapExercise: { _ in })
+          SelectTextResizablePillsStack(
+            options: ExerciseConstants.categoryOptions,
+            selectedOption: $selectedWorkout
+          )
+          ExerciseCardsStack(
+            exercises: exercises,
+            onTapExercise: { navigationRouter.push(.exerciseDetails($0)) }
+          )
         })
 
         WhiteBackgroundCard()
