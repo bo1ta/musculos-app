@@ -22,7 +22,7 @@ struct AppTabView: View {
         }
         .tag(1)
 
-      OverviewView()
+      ProfileView()
         .tabItem {
           Label("Overview", systemImage: "person")
         }

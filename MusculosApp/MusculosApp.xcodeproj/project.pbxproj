@@ -60,11 +60,10 @@
 		BC777EF32BA0F2E1001669C8 /* WorkoutListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777EF22BA0F2E1001669C8 /* WorkoutListView.swift */; };
 		BC777F012BA127DC001669C8 /* AddActionSheetContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777F002BA127DC001669C8 /* AddActionSheetContainer.swift */; };
 		BC777F042BA20901001669C8 /* AddWorkoutSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC777F032BA20901001669C8 /* AddWorkoutSheet.swift */; };
-		BC781FFC2B9B5E3E009F9FB5 /* OverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC781FFB2B9B5E3E009F9FB5 /* OverviewView.swift */; };
+		BC781FFC2B9B5E3E009F9FB5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC781FFB2B9B5E3E009F9FB5 /* ProfileView.swift */; };
 		BC781FFF2B9B6061009F9FB5 /* ScoreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC781FFE2B9B6061009F9FB5 /* ScoreCard.swift */; };
 		BC7820012B9B64F1009F9FB5 /* ScoreBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7820002B9B64F1009F9FB5 /* ScoreBadge.swift */; };
 		BC7820042B9B692E009F9FB5 /* HighlightCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7820032B9B692E009F9FB5 /* HighlightCard.swift */; };
-		BC7820062B9B8F91009F9FB5 /* StatReportCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7820052B9B8F91009F9FB5 /* StatReportCard.swift */; };
 		BC7827572B9CF1B100DFC02C /* Epilogue-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC7827502B9CEE8900DFC02C /* Epilogue-Medium.ttf */; };
 		BC7827582B9CF1BE00DFC02C /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC7827542B9CEF4100DFC02C /* Inter-Thin.ttf */; };
 		BC7827592B9CF1BE00DFC02C /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC7827552B9CEF4100DFC02C /* Inter-Bold.ttf */; };
@@ -197,11 +196,10 @@
 		BC777EF22BA0F2E1001669C8 /* WorkoutListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListView.swift; sourceTree = "<group>"; };
 		BC777F002BA127DC001669C8 /* AddActionSheetContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddActionSheetContainer.swift; sourceTree = "<group>"; };
 		BC777F032BA20901001669C8 /* AddWorkoutSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkoutSheet.swift; sourceTree = "<group>"; };
-		BC781FFB2B9B5E3E009F9FB5 /* OverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewView.swift; sourceTree = "<group>"; };
+		BC781FFB2B9B5E3E009F9FB5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		BC781FFE2B9B6061009F9FB5 /* ScoreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCard.swift; sourceTree = "<group>"; };
 		BC7820002B9B64F1009F9FB5 /* ScoreBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreBadge.swift; sourceTree = "<group>"; };
 		BC7820032B9B692E009F9FB5 /* HighlightCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightCard.swift; sourceTree = "<group>"; };
-		BC7820052B9B8F91009F9FB5 /* StatReportCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatReportCard.swift; sourceTree = "<group>"; };
 		BC78274F2B9CEE7F00DFC02C /* Epilogue-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Epilogue-Regular.ttf"; sourceTree = "<group>"; };
 		BC7827502B9CEE8900DFC02C /* Epilogue-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Epilogue-Medium.ttf"; sourceTree = "<group>"; };
 		BC7827512B9CEF4100DFC02C /* Inter-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Light.ttf"; sourceTree = "<group>"; };
@@ -588,7 +586,7 @@
 				BC2EAE362C2241D300FB3C1F /* Goal */,
 				BC5CC2C22C7B645D0016D694 /* Home */,
 				BCA24C052B6AFF7000124EC3 /* Onboarding */,
-				BC781FFA2B9B5E2F009F9FB5 /* Overview */,
+				BC781FFA2B9B5E2F009F9FB5 /* Profile */,
 				BCA905002C59948C000BE5FF /* Splash */,
 				BC777EF12BA0F2D9001669C8 /* Workout */,
 			);
@@ -663,32 +661,31 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		BC781FFA2B9B5E2F009F9FB5 /* Overview */ = {
+		BC781FFA2B9B5E2F009F9FB5 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				BC781FFB2B9B5E3E009F9FB5 /* OverviewView.swift */,
+				BC781FFB2B9B5E3E009F9FB5 /* ProfileView.swift */,
 				BC781FFD2B9B6057009F9FB5 /* Components */,
 			);
-			path = Overview;
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		BC781FFD2B9B6057009F9FB5 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				BC7820032B9B692E009F9FB5 /* HighlightCard.swift */,
-				BC7820052B9B8F91009F9FB5 /* StatReportCard.swift */,
-				BC7820022B9B64F6009F9FB5 /* Score Card */,
+				BC7820022B9B64F6009F9FB5 /* ScoreCard */,
 			);
 			path = Components;
 			sourceTree = "<group>";
 		};
-		BC7820022B9B64F6009F9FB5 /* Score Card */ = {
+		BC7820022B9B64F6009F9FB5 /* ScoreCard */ = {
 			isa = PBXGroup;
 			children = (
 				BC781FFE2B9B6061009F9FB5 /* ScoreCard.swift */,
 				BC7820002B9B64F1009F9FB5 /* ScoreBadge.swift */,
 			);
-			path = "Score Card";
+			path = ScoreCard;
 			sourceTree = "<group>";
 		};
 		BC81E5D42BD305F50005891D /* AddWorkout */ = {
@@ -1071,8 +1068,7 @@
 				BC781FFF2B9B6061009F9FB5 /* ScoreCard.swift in Sources */,
 				BC10EB742C4D7D2B003AD519 /* NavigationRouter.swift in Sources */,
 				BC828CE52C02924200AB9D1D /* WorkoutFlowViewModel.swift in Sources */,
-				BC7820062B9B8F91009F9FB5 /* StatReportCard.swift in Sources */,
-				BC781FFC2B9B5E3E009F9FB5 /* OverviewView.swift in Sources */,
+				BC781FFC2B9B5E3E009F9FB5 /* ProfileView.swift in Sources */,
 				BC81E5D32BD2FC730005891D /* SingleOptionSelectView.swift in Sources */,
 				BCD59A952BB627CE0039F662 /* ExerciseContentLoadingView.swift in Sources */,
 				BC7827642B9D1D1000DFC02C /* AuthViewModel.swift in Sources */,

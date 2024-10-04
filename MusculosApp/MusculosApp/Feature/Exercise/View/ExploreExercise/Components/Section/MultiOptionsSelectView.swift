@@ -19,7 +19,9 @@ struct MultiOptionsSelectView: View {
   var body: some View {
     VStack {
       Button {
-        showOptions.toggle()
+        withAnimation(.interpolatingSpring(stiffness: 120, damping: 15)) {
+          showOptions.toggle()
+        }
       } label: {
         HStack {
           Text(title)
@@ -29,7 +31,7 @@ struct MultiOptionsSelectView: View {
         }
         .foregroundStyle(.black)
       }
-      
+
       if showOptions {
         LazyVGrid(
           columns: [
@@ -48,10 +50,9 @@ struct MultiOptionsSelectView: View {
               .buttonStyle(SelectedButtonStyle(isSelected: selectedOptions.contains(filter)))
             }
           }
-        .transition(.push(from: .bottom))
+        .transition(.opacity.combined(with: .move(edge: .top)))
       }
     }
-    .animation(.easeInOut(duration: UIConstant.defaultAnimationDuration), value: showOptions)
   }
   
   private func handleFilterTap(_ filter: String) {
