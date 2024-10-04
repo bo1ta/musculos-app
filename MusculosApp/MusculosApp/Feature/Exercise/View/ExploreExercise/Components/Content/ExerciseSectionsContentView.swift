@@ -14,15 +14,7 @@ import Storage
 struct ExerciseSectionsContentView: View {
   @Binding var categorySection: ExploreCategorySection
   @Binding var contentState: LoadingViewState<[Exercise]>
-  
-  /// Separate exercise result feed from the `RecommendationEngine`
-  /// Represents exercises considering the user goals
-  ///
   @Binding var recommendedExercisesByGoals: [Exercise]?
-  
-  /// Separate exercise result feed from the `RecommendatonEngine`
-  /// Represents exercises considering the past completed user exercise sessions
-  ///
   @Binding var recommendedExercisesByPastSessions: [Exercise]?
   
   let onExerciseTap: (Exercise) -> Void
@@ -33,7 +25,7 @@ struct ExerciseSectionsContentView: View {
       case .loading:
         ExerciseContentLoadingView()
       case .loaded(let exercises):
-        VStack {
+        VStack(spacing: 20) {
           ExploreCategorySectionView(currentSection: categorySection, onChangeSection: { section in
             switch section {
             case .myFavorites:
@@ -56,11 +48,10 @@ struct ExerciseSectionsContentView: View {
           .padding(.top, 20)
       }
     }
-//    .animation(.easeInOut, value: categorySection)
   }
   
   private func makeCategoryItems(_ categorySection: ExploreCategorySection, exercises: [Exercise]) -> some View {
-    VStack {
+    VStack(spacing: 10) {
       switch categorySection {
       case .discover:
         ExerciseSectionView(
@@ -71,18 +62,16 @@ struct ExerciseSectionsContentView: View {
         
         if let recommendedExercisesByGoals {
           ExerciseSectionView(
-            title: "Recommended exercises based on your goals",
+            title: "Quick muscle-building",
             exercises: recommendedExercisesByGoals,
-            isSmallCard: true,
             onExerciseTap: onExerciseTap
           )
         }
         
         if let recommendedExercisesByPastSessions {
           ExerciseSectionView(
-            title: "Recommended exercises based on your past sessions",
+            title: "Recommendation based on your past sessions",
             exercises: recommendedExercisesByPastSessions,
-            isSmallCard: true,
             onExerciseTap: onExerciseTap
           )
         }
@@ -94,7 +83,7 @@ struct ExerciseSectionsContentView: View {
               Button(action: {
                 onExerciseTap(exercise)
               }, label: {
-                ExerciseCard(exercise: exercise, cardWidth: 350)
+                ExerciseCard(exercise: exercise)
               })
               .id(exercise)
             }

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Utility
 
 public struct SelectedButtonStyle: ButtonStyle {
   var isSelected: Bool
@@ -18,13 +19,13 @@ public struct SelectedButtonStyle: ButtonStyle {
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .padding(16)
-      .background(isSelected ? Color.AppColor.blue500 : .white)
+      .background(isSelected ? AppColor.navyBlue : .white)
       .foregroundColor(isSelected ? .white : .black)
       .font(isSelected ? .body(.bold) : .body(.regular))
       .clipShape(RoundedRectangle(cornerRadius: 25))
       .overlay(
         RoundedRectangle(cornerRadius: 25)
-          .stroke(isSelected ? Color.AppColor.blue500 : .gray, lineWidth: 0.75)
+          .stroke(isSelected ? AppColor.navyBlue : .gray, lineWidth: 0.75)
       )
       .scaleEffect(configuration.isPressed ? 0.85 : 1.0)
   }

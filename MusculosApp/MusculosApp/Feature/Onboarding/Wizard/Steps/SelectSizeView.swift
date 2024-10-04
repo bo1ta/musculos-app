@@ -27,7 +27,7 @@ struct SelectSizeView: View {
         HStack {
           FormField(
             text: $selectedWeight,
-            hint: "Weight",
+            label: "Weight",
             keyboardType: .numberPad
           )
           .frame(width: 100)
@@ -36,7 +36,7 @@ struct SelectSizeView: View {
 
           FormField(
             text: $selectedHeight,
-            hint: "Height",
+            label: "Height",
             keyboardType: .numberPad
           )
           .frame(width: 100)

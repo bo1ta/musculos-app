@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct OptionsHorizontalStack: View {
+public struct TextPillsStack: View {
   let options: [String]
 
   public init(options: [String]) {
@@ -17,7 +17,7 @@ public struct OptionsHorizontalStack: View {
   public var body: some View {
     HStack {
       ForEach(options, id: \.self) { option in
-        OptionPill(title: option)
+        TextPill(title: option)
       }
     }
   }

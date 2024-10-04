@@ -56,18 +56,18 @@ extension SignInView {
   @ViewBuilder
   private var loginForm: some View {
     @Bindable var viewModel = viewModel
-    let hintColor = Color.black
+    let labelColor = Color.black
 
     VStack(spacing: 15) {
       FormField(
         text: $viewModel.email,
-        hint: "Email",
-        hintColor: hintColor
+        label: "Email",
+        labelColor: labelColor
       )
       FormField(
         text: $viewModel.password,
-        hint: "Password",
-        hintColor: hintColor,
+        label: "Password",
+        labelColor: labelColor,
         isSecureField: true
       )
     }

@@ -26,7 +26,7 @@ struct FeaturedWorkoutsSection: View {
       onAction: onSeeMore,
       content: {
         ScrollView(.horizontal) {
-          HStack {
+          LazyHStack {
             ForEach(WorkoutGoal.allCases, id: \.rawValue) { workoutGoal in
               Button(action: {
                 onWorkoutGoalSelected(workoutGoal)

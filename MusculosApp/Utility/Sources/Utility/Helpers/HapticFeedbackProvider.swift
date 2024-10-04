@@ -34,26 +34,38 @@ public struct HapticFeedbackProvider {
 
     switch style {
     case .lightImpact:
-      lightImpactFeedbackGenerator.prepare()
       lightImpactFeedbackGenerator.impactOccurred()
     case .mediumImpact:
-      mediumImpactFeedbackGenerator.prepare()
       mediumImpactFeedbackGenerator.impactOccurred()
     case .heavyImpact:
-      heavyImpactFeedbackGenerator.prepare()
       heavyImpactFeedbackGenerator.impactOccurred()
     case .selection:
-      selectionFeedbackGenerator.prepare()
       selectionFeedbackGenerator.selectionChanged()
     case .notifySuccess:
-      notificationFeedbackGenerator.prepare()
       notificationFeedbackGenerator.notificationOccurred(.success)
     case .notifyWarning:
-      notificationFeedbackGenerator.prepare()
       notificationFeedbackGenerator.notificationOccurred(.warning)
     case .notifyError:
-      notificationFeedbackGenerator.prepare()
       notificationFeedbackGenerator.notificationOccurred(.error)
+    }
+  }
+
+  public static func prepareHaptic(_ style: HapticFeedbackStyle) {
+    switch style {
+    case .lightImpact:
+      lightImpactFeedbackGenerator.prepare()
+    case .mediumImpact:
+      mediumImpactFeedbackGenerator.prepare()
+    case .heavyImpact:
+      heavyImpactFeedbackGenerator.prepare()
+    case .selection:
+      selectionFeedbackGenerator.prepare()
+    case .notifySuccess:
+      notificationFeedbackGenerator.prepare()
+    case .notifyWarning:
+      notificationFeedbackGenerator.prepare()
+    case .notifyError:
+      notificationFeedbackGenerator.prepare()
     }
   }
 }

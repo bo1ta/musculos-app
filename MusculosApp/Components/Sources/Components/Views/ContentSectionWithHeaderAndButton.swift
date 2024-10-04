@@ -25,7 +25,7 @@ public struct ContentSectionWithHeaderAndButton<Content: View>: View {
     VStack(alignment: .leading) {
       HStack {
         Text(headerTitle)
-          .font(AppFont.spartan(.semiBold, size: 20))
+          .font(AppFont.spartan(.semiBold, size: 23))
         Spacer()
         
         Button(action: onAction, label: {
@@ -34,7 +34,8 @@ public struct ContentSectionWithHeaderAndButton<Content: View>: View {
             .foregroundStyle(.orange)
         })
       }
-      
+      .padding(.vertical)
+
       content
     }
   }

@@ -13,30 +13,29 @@ struct ExploreCategorySectionView: View {
   var onChangeSection: ((ExploreCategorySection) -> Void)?
 
   var body: some View {
-    VStack {
-      ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 50) {
-          ForEach(ExploreCategorySection.allCases, id: \.title) { section in
-            Button(action: {
-              onChangeSection?(section)
-            }, label: {
-              let isSelected = section == currentSection
-              let widthOfString = section.title.widthOfString(usingFont: UIFont(name: AppFont.Body.medium.rawValue, size: 16) ?? .boldSystemFont(ofSize: 18))
-              
-              VStack(spacing: 2) {
-                Text(section.title)
-                  .font(isSelected ? .body(.medium, size: 16) : .body(.light, size: 15))
-                  .foregroundStyle(.black)
-                if isSelected {
-                  Rectangle()
-                    .frame(width: widthOfString, height: 2)
-                    .foregroundStyle(Color.AppColor.blue300)
-                }
-              }
-            })
+    HStack(spacing: 0) {
+      ForEach(ExploreCategorySection.allCases, id: \.title) { section in
+        Button(action: {
+          onChangeSection?(section)
+        }, label: {
+          VStack(spacing: 0) {
+            Text(section.title)
+              .font(AppFont.poppins(section == currentSection ? .semibold : .regular, size: 16))
+              .foregroundColor(section == currentSection ? .red : .gray)
+              .padding(.horizontal, 16)
+              .padding(.vertical, 8)
+
+            if section == currentSection {
+              Rectangle()
+                .fill(Color.red)
+                .frame(height: 2)
+            } else {
+              Color.gray
+                .opacity(0.2)
+                .frame(height: 2)
+            }
           }
-          .padding()
-        }
+        })
       }
     }
   }

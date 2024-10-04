@@ -34,7 +34,7 @@ struct ExerciseSummarySection: View {
         })
       }
 
-      OptionsHorizontalStack(options: exercise.displayOptions)
+      TextPillsStack(options: exercise.displayOptions)
     }
   }
 }

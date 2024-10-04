@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Models
+import Utility
 import Components
 
 struct ExerciseFilterView: View {
@@ -62,10 +63,13 @@ struct ExerciseFilterView: View {
           Text(searchButtonText)
             .frame(maxWidth: .infinity)
         })
-        .buttonStyle(PrimaryButtonStyle())
+        .buttonStyle(ActionButtonStyle())
         .padding()
         .padding(.bottom, 10)
       })
+      .onAppear {
+        HapticFeedbackProvider.prepareHaptic(.selection)
+      }
     }
   }
   

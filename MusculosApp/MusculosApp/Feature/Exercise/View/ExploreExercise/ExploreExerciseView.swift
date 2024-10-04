@@ -17,27 +17,24 @@ struct ExploreExerciseView: View {
 
   var body: some View {
     ScrollView {
-      VStack {
-        if let goal = viewModel.displayGoal {
-          ProgressCard(
-            title: "You've completed \(goal.currentValue) exercises",
-            description: "\(goal.formattedProgressPercentage) of your \(goal.frequency.description) \(goal.name) goal",
-            progress: Float(goal.progressPercentage / 100)
-          )
-          .padding(.horizontal, 10)
-          .padding(.top, 20)
-        } else {
-          InformationCard(
-            title: "No goals selected",
-            description: "Add some goals to track your fitness progress",
-            style: .general
-          )
-        }
+      VStack(spacing: 20) {
+        AchievementCard()
 
-        SearchFilterField(
-          showFilterView: $viewModel.showFilterView,
-          hasObservedQuery: { viewModel.searchByMuscleQuery($0) }
-        )
+        HStack {
+          FormField(text: $viewModel.searchQuery, textHint: "Search by muscle", imageIcon: Image("search-icon"))
+          Button(action: {
+            viewModel.showFilterView.toggle()
+          }, label: {
+            Image(systemName: "line.3.horizontal.decrease")
+              .resizable()
+              .renderingMode(.template)
+              .aspectRatio(contentMode: .fit)
+              .frame(height: 15)
+              .foregroundStyle(.black.opacity(0.9))
+          })
+            .buttonStyle(.plain)
+            .padding(.horizontal, 5)
+        }
 
         ExerciseSectionsContentView(
           categorySection: $viewModel.currentSection,
@@ -52,6 +49,7 @@ struct ExploreExerciseView: View {
 
         WhiteBackgroundCard()
       }
+      .padding()
       .animation(.snappy(), value: viewModel.currentSection)
       .scrollIndicators(.hidden)
     }
@@ -63,6 +61,9 @@ struct ExploreExerciseView: View {
     .task {
       await viewModel.initialLoad()
     }
+    .background(
+      Color.white.opacity(0.98)
+    )
     .onDisappear(perform: viewModel.cleanUp)
   }
 }

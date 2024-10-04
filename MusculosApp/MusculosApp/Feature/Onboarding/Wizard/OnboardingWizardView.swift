@@ -25,6 +25,7 @@ struct OnboardingWizardView: View {
     .onReceive(viewModel.event) { event in
       handleEvent(event)
     }
+    .modifier(KeyboardDismissableViewModifier())
     .onDisappear(perform: viewModel.cleanUp)
     .padding(.horizontal, 10)
   }
