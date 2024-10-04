@@ -9,10 +9,18 @@ import SwiftUI
 import Models
 import Utility
 import Components
+import Factory
+import Storage
 
 struct ProfileView: View {
+  @Namespace private var animationNamespace
+  @Injected(\StorageContainer.dataController) private var dataController
+
   @Environment(\.userStore) private var userStore
   @Environment(\.healthKitViewModel) private var healthKitViewModel
+
+  @State private var selectedWorkout: String? = nil
+  @State private var exercises: [Exercise] = []
 
   private let highlights: [ProfileHighlight] = [
     ProfileHighlight(highlightType: .steps, value: "5432", description: "updated 10 mins ago"),
@@ -41,6 +49,11 @@ struct ProfileView: View {
           }
         })
 
+        ContentSectionWithHeaderAndButton(headerTitle: "Your workout", buttonTitle: "See more", onAction: {}, content: {
+          SelectTextResizablePillsStack(options: ExerciseConstants.categoryOptions, selectedOption: $selectedWorkout)
+          ExerciseCardsStack(exercises: exercises, onTapExercise: { _ in })
+        })
+
         WhiteBackgroundCard()
       }
       .padding(.horizontal, 15)
@@ -51,6 +64,8 @@ struct ProfileView: View {
       } else {
         // load different data
       }
+
+      exercises = await dataController.getExercises()
     }
     .scrollIndicators(.hidden)
   }

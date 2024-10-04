@@ -53,6 +53,8 @@
 		BC5BACD92ABB6694003C880E /* ExerciseServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACD82ABB6694003C880E /* ExerciseServiceTests.swift */; };
 		BC606A6E2C221CBD00154781 /* SelectLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC606A6D2C221CBD00154781 /* SelectLevelView.swift */; };
 		BC6249752BEC20BB00393915 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = BC6249742BEC20BB00393915 /* Shimmer */; };
+		BC655B012CB0497600C19E07 /* YourWorkoutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC655B002CB0497600C19E07 /* YourWorkoutSection.swift */; };
+		BC655B032CB055B300C19E07 /* ExerciseCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC655B022CB055B300C19E07 /* ExerciseCardStack.swift */; };
 		BC6F365A2BB4E14D000F6CFA /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */; };
 		BC6F365D2BB4E2A3000F6CFA /* CardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F365C2BB4E2A3000F6CFA /* CardItem.swift */; };
 		BC6F36672BB4E79F000F6CFA /* AuthViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */; };
@@ -189,6 +191,8 @@
 		BC5BACD42ABA28A7003C880E /* getExercises.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getExercises.json; sourceTree = "<group>"; };
 		BC5BACD82ABB6694003C880E /* ExerciseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseServiceTests.swift; sourceTree = "<group>"; };
 		BC606A6D2C221CBD00154781 /* SelectLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLevelView.swift; sourceTree = "<group>"; };
+		BC655B002CB0497600C19E07 /* YourWorkoutSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourWorkoutSection.swift; sourceTree = "<group>"; };
+		BC655B022CB055B300C19E07 /* ExerciseCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCardStack.swift; sourceTree = "<group>"; };
 		BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
 		BC6F365C2BB4E2A3000F6CFA /* CardItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardItem.swift; sourceTree = "<group>"; };
 		BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModelTests.swift; sourceTree = "<group>"; };
@@ -673,6 +677,7 @@
 		BC781FFD2B9B6057009F9FB5 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				BC655B002CB0497600C19E07 /* YourWorkoutSection.swift */,
 				BC7820032B9B692E009F9FB5 /* HighlightCard.swift */,
 				BC7820022B9B64F6009F9FB5 /* ScoreCard */,
 			);
@@ -829,6 +834,7 @@
 				BCD59A9F2BB627E60039F662 /* ExerciseCard.swift */,
 				BCD59AA12BB627E60039F662 /* ProgressCard.swift */,
 				BC1191902C24DF18004ADF04 /* InformationCard.swift */,
+				BC655B022CB055B300C19E07 /* ExerciseCardStack.swift */,
 			);
 			path = Card;
 			sourceTree = "<group>";
@@ -1086,6 +1092,7 @@
 				BC43D33B2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift in Sources */,
 				BCCA2C9A2C3C615600D4DEAD /* Container+Extension.swift in Sources */,
 				BC0DA8A02CA5EACF0011EC63 /* RecommendationSection+SectionItemImage.swift in Sources */,
+				BC655B032CB055B300C19E07 /* ExerciseCardStack.swift in Sources */,
 				BC4E5D552CAC58070046ABEE /* EquipmentCard.swift in Sources */,
 				BC1674B62BE2E73F0012048D /* AddGoalSheet.swift in Sources */,
 				BC545E3E2C3C6A8F00713B86 /* EnvironmentValues+Extension.swift in Sources */,
@@ -1099,6 +1106,7 @@
 				BCD59AAA2BB628220039F662 /* ExploreExerciseContentView.swift in Sources */,
 				BC261AB82B6DA0EF0018E21F /* ExerciseFilterView.swift in Sources */,
 				BC9A020E2C593ED5003C83A8 /* AuthView.swift in Sources */,
+				BC655B012CB0497600C19E07 /* YourWorkoutSection.swift in Sources */,
 				BC18AB5A2C250DAA00ED258C /* ExerciseHelper.swift in Sources */,
 				BC44CDB32CA77C9A007421C4 /* ExerciseListView.swift in Sources */,
 				BCA24BEF2B69D3AE00124EC3 /* SplashView.swift in Sources */,
