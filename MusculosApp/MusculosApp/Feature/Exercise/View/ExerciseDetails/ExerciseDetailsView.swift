@@ -9,11 +9,14 @@ import SwiftUI
 import Factory
 import Models
 import Components
+import Utility
 
 struct ExerciseDetailsView: View {
   @Environment(\.navigationRouter) private var navigationRouter
-
+  @Namespace private var animationNamespace
   @State private var viewModel: ExerciseDetailsViewModel
+
+  private let timerActionAnimationID = "timerActionAnimationID"
 
   var exercise: Exercise
   var onComplete: (() -> Void)? = nil
@@ -68,14 +71,18 @@ struct ExerciseDetailsView: View {
       Spacer()
     }
     .safeAreaInset(edge: .bottom) {
-      ActionButton(title: "Start workout", systemImageName: "arrow.up.right", onClick: {
+      Group {
         if viewModel.isTimerActive {
-          viewModel.stopTimer()
-          onComplete?()
+          ProgressButton(elapsedTime: viewModel.elapsedTime, onStop: viewModel.stopTimer)
+            .transition(.asymmetric(insertion: .push(from: .bottom), removal: .opacity))
+            .matchedGeometryEffect(id: timerActionAnimationID, in: animationNamespace)
         } else {
-          viewModel.startTimer()
+          ActionButton(title: "Start workout", systemImageName: "arrow.up.right", onClick: viewModel.startTimer)
+            .transition(.asymmetric(insertion: .opacity, removal: .push(from: .top)))
+            .matchedGeometryEffect(id: timerActionAnimationID, in: animationNamespace)
         }
-      })
+      }
+      .animation(.easeInOut(duration: UIConstant.shortAnimationDuration), value: viewModel.isTimerActive)
       .padding(.horizontal)
     }
     .task {

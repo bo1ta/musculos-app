@@ -22,6 +22,7 @@ public struct HTTPHeaderConstant {
 public struct UIConstant {
   public static let componentOpacity: Double = 0.95
 
+  public static let shortAnimationDuration: Double = 0.1
   public static let defaultAnimationDuration: Double = 0.25
 
   public static let smallIconSize: Double = 16.0
