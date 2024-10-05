@@ -55,6 +55,7 @@
 		BC6249752BEC20BB00393915 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = BC6249742BEC20BB00393915 /* Shimmer */; };
 		BC655B012CB0497600C19E07 /* YourWorkoutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC655B002CB0497600C19E07 /* YourWorkoutSection.swift */; };
 		BC655B032CB055B300C19E07 /* ExerciseCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC655B022CB055B300C19E07 /* ExerciseCardStack.swift */; };
+		BC655B052CB1615200C19E07 /* ProgressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC655B042CB1615200C19E07 /* ProgressButton.swift */; };
 		BC6F365A2BB4E14D000F6CFA /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */; };
 		BC6F365D2BB4E2A3000F6CFA /* CardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F365C2BB4E2A3000F6CFA /* CardItem.swift */; };
 		BC6F36672BB4E79F000F6CFA /* AuthViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */; };
@@ -193,6 +194,7 @@
 		BC606A6D2C221CBD00154781 /* SelectLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLevelView.swift; sourceTree = "<group>"; };
 		BC655B002CB0497600C19E07 /* YourWorkoutSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourWorkoutSection.swift; sourceTree = "<group>"; };
 		BC655B022CB055B300C19E07 /* ExerciseCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCardStack.swift; sourceTree = "<group>"; };
+		BC655B042CB1615200C19E07 /* ProgressButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressButton.swift; sourceTree = "<group>"; };
 		BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
 		BC6F365C2BB4E2A3000F6CFA /* CardItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardItem.swift; sourceTree = "<group>"; };
 		BC6F36662BB4E79F000F6CFA /* AuthViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModelTests.swift; sourceTree = "<group>"; };
@@ -868,6 +870,7 @@
 				BC4E5D522CAB601F0046ABEE /* ExerciseSummarySection.swift */,
 				BC4E5D542CAC58070046ABEE /* EquipmentCard.swift */,
 				BC4E5D562CAC61050046ABEE /* StarsRatingCard.swift */,
+				BC655B042CB1615200C19E07 /* ProgressButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1091,6 +1094,7 @@
 				BCD59AA22BB627E60039F662 /* ExerciseCard.swift in Sources */,
 				BC43D33B2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift in Sources */,
 				BCCA2C9A2C3C615600D4DEAD /* Container+Extension.swift in Sources */,
+				BC655B052CB1615200C19E07 /* ProgressButton.swift in Sources */,
 				BC0DA8A02CA5EACF0011EC63 /* RecommendationSection+SectionItemImage.swift in Sources */,
 				BC655B032CB055B300C19E07 /* ExerciseCardStack.swift in Sources */,
 				BC4E5D552CAC58070046ABEE /* EquipmentCard.swift in Sources */,

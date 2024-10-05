@@ -9,17 +9,30 @@ import SwiftUI
 import Utility
 
 public struct ActionButtonStyle: ButtonStyle {
-  public init() {}
+  let actionType: ButtonActionType
+  let buttonSize: ButtonSize
+
+  public init(actionType: ButtonActionType = .positive, buttonSize: ButtonSize = .medium) {
+    self.actionType = actionType
+    self.buttonSize = buttonSize
+  }
 
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .padding(13)
+      .padding(buttonSize.labelPadding)
       .fixedSize(horizontal: false, vertical: true)
-      .background(AppColor.navyBlue)
+      .background(buttonColor)
       .foregroundColor(.white)
       .clipShape(RoundedRectangle(cornerRadius: 10))
       .scaleEffect(configuration.isPressed ? 0.90 : 1.0)
       .shadow(radius: 1.0)
+  }
+
+  private var buttonColor: Color {
+    switch actionType {
+    case .positive: return AppColor.navyBlue
+    case .negative: return .red
+    }
   }
 }
 

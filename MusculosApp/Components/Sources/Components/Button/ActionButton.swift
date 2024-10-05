@@ -9,11 +9,15 @@ import SwiftUI
 import Utility
 
 public struct ActionButton: View {
+  let actionType: ButtonActionType
+  let buttonSize: ButtonSize
   let title: String
   let systemImageName: String?
   let onClick: () -> Void
 
-  public init(title: String, systemImageName: String? = nil, onClick: @escaping () -> Void) {
+  public init(actionType: ButtonActionType = .positive, buttonSize: ButtonSize = .medium, title: String, systemImageName: String? = nil, onClick: @escaping () -> Void) {
+    self.actionType = actionType
+    self.buttonSize = buttonSize
     self.title = title
     self.systemImageName = systemImageName
     self.onClick = onClick
@@ -41,7 +45,7 @@ public struct ActionButton: View {
       .frame(maxWidth: .infinity)
       .padding(.horizontal)
     })
-    .buttonStyle(ActionButtonStyle())
+    .buttonStyle(ActionButtonStyle(actionType: actionType, buttonSize: buttonSize))
   }
 }
 

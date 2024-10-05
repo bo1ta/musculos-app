@@ -49,4 +49,11 @@ public struct DateHelper {
   public static func nowPlusMinutes(_ minutes: Double) -> Date {
     return Date().addingTimeInterval(minutes * 60)
   }
+
+  public static func formatTimeFromSeconds(_ seconds: Double) -> String {
+    let formatter = DateComponentsFormatter()
+    formatter.allowedUnits = [.minute, .second]
+    formatter.zeroFormattingBehavior = .pad
+    return formatter.string(from: TimeInterval(seconds)) ?? ""
+  }
 }
