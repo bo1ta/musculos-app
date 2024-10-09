@@ -57,7 +57,7 @@ public struct UserDataStoreTests {
     let fetchedProfile = try #require(await dataStore.loadProfile(userId: profile.userId))
     #expect(Int(fetchedProfile.weight ?? 0) == newWeight)
     #expect(Int(fetchedProfile.height ?? 0) == newHeight)
-    #expect(fetchedProfile.primaryGoalId == newPrimaryGoal)
+    #expect(fetchedProfile.primaryGoalID == newPrimaryGoal)
     #expect(fetchedProfile.level == newLevel)
     #expect(fetchedProfile.isOnboarded == newIsOnboarded)
   }

@@ -78,7 +78,7 @@ struct ExerciseDetailsView: View {
             .matchedGeometryEffect(id: timerActionAnimationID, in: animationNamespace)
         } else {
           ActionButton(title: "Start workout", systemImageName: "arrow.up.right", onClick: viewModel.startTimer)
-            .transition(.asymmetric(insertion: .opacity, removal: .push(from: .top)))
+            .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .top)))
             .matchedGeometryEffect(id: timerActionAnimationID, in: animationNamespace)
         }
       }
@@ -91,7 +91,7 @@ struct ExerciseDetailsView: View {
     .onDisappear(perform: viewModel.cleanUp)
     .dismissingGesture(direction: .left, action: navigationRouter.pop)
     .navigationBarBackButtonHidden()
-
+    .animatedScreenBorder(isActive: viewModel.isTimerActive)
   }
 }
 
