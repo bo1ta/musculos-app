@@ -10,7 +10,7 @@ import Models
 import Storage
 import Factory
 
-public protocol ExerciseServiceProtocol {
+public protocol ExerciseServiceProtocol: Sendable {
   func getExercises() async throws -> [Exercise]
   func searchByMuscleQuery(_ query: String) async throws -> [Exercise]
   func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise

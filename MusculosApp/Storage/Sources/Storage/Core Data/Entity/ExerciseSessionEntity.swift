@@ -38,3 +38,25 @@ extension ExerciseSessionEntity: ReadOnlyConvertible {
     )
   }
 }
+
+extension ExerciseSessionEntity: EntitySyncable {
+  public func populateEntityFrom(_ model: ExerciseSession, using storage: StorageType) throws {
+    guard let user = storage.firstObject(
+      of: UserProfileEntity.self,
+      matching: PredicateFactory.userProfileById(model.user.userId)
+    )
+    else {
+      throw StorageError.invalidUser
+    }
+
+    self.dateAdded = model.dateAdded
+    self.duration = NSNumber(floatLiteral: model.duration)
+    self.sessionId = model.sessionId
+    self.exercise = try ExerciseEntity.findOrCreate(from: model.exercise, using: storage)
+  }
+
+  public func updateEntityFrom(_ model: ExerciseSession, using storage: StorageType) throws {
+    self.dateAdded = model.dateAdded
+    self.duration = NSNumber(floatLiteral: model.duration)
+  }
+}

@@ -24,6 +24,9 @@ final class ExerciseDetailsViewModel {
   @ObservationIgnored
   @Injected(\NetworkContainer.exerciseService) private var exerciseService: ExerciseServiceProtocol
 
+  @ObservationIgnored
+  @Injected(\NetworkContainer.exerciseSessionService) private var exerciseSessionService: ExerciseSessionServiceProtocol
+
   // MARK: - Observed properties
 
   private(set) var showChallengeExercise = false
@@ -85,8 +88,11 @@ final class ExerciseDetailsViewModel {
     saveExerciseSessionTask = Task.detached(priority: .background) { [weak self] in
       guard let self else { return }
 
+      async let dataStoreTask: Void = dataController.addExerciseSession(for: exercise, date: Date())
+      async let networkTask: Void = exerciseSessionService.add(exerciseID: exercise.id, duration: Double(elapsedTime), dateAdded: Date())
+
       do {
-        try await dataController.addExerciseSession(for: exercise, date: Date())
+        let (_, _) = try await (dataStoreTask, networkTask)
         try await maybeUpdateGoals()
       } catch {
         MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
@@ -115,7 +121,7 @@ final class ExerciseDetailsViewModel {
   }
 
   private func maybeUpdateGoals() async throws {
-    let goals = try await dataController.getGoals()
+    let goals = await dataController.getGoals()
 
     for goal in goals {
       if let _ = ExerciseHelper.goalToExerciseCategories[goal.category] {

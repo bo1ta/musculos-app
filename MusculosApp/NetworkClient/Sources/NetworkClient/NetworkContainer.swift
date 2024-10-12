@@ -24,4 +24,8 @@ extension NetworkContainer {
   public var exerciseService: Factory<ExerciseServiceProtocol> {
     self { ExerciseService() }
   }
+
+  public var exerciseSessionService: Factory<ExerciseSessionServiceProtocol> {
+    self { ExerciseSessionService() }
+  }
 }

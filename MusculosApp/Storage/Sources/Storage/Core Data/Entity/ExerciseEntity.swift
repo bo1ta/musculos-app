@@ -132,4 +132,14 @@ extension ExerciseEntity: EntitySyncable {
 
     self.isFavorite = isFavorite
   }
+
+  static func findOrCreate(from model: Exercise, using storage: StorageType) throws -> ExerciseEntity {
+    if let exerciseEntity = storage.firstObject(of: ExerciseEntity.self, matching: PredicateFactory.exerciseById(model.id)) {
+      return exerciseEntity
+    }
+
+    let exerciseEntity = storage.insertNewObject(ofType: ExerciseEntity.self)
+    try exerciseEntity.populateEntityFrom(model, using: storage)
+    return exerciseEntity
+  }
 }
