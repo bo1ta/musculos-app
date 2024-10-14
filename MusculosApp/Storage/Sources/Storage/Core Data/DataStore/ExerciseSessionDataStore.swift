@@ -70,7 +70,7 @@ public struct ExerciseSessionDataStore: DataStoreBase, ExerciseSessionDataStoreP
         userId.uuidString
       )
       let datePredicate = NSPredicate(
-        format: "date >= %@ AND date <= %@",
+        format: "dateAdded >= %@ AND dateAdded <= %@",
         argumentArray: [startDay, endDay]
       )
       let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [userPredicate, datePredicate])
