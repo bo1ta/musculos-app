@@ -13,7 +13,7 @@ import Utility
 
 public protocol ExerciseSessionServiceProtocol: Sendable {
   func getAll() async throws -> [ExerciseSession]
-  func add(exerciseID: UUID, duration: Double, dateAdded: Date) async throws
+  func add(exerciseID: UUID, duration: Double, dateAdded: Date) async throws -> ExerciseSession
 }
 
 public struct ExerciseSessionService: ExerciseSessionServiceProtocol, MusculosService, @unchecked Sendable {
@@ -25,7 +25,7 @@ public struct ExerciseSessionService: ExerciseSessionServiceProtocol, MusculosSe
     return try await ExerciseSession.createArrayWithTaskFrom(data)
   }
 
-  public func add(exerciseID: UUID, duration: Double, dateAdded: Date = Date()) async throws {
+  public func add(exerciseID: UUID, duration: Double, dateAdded: Date = Date()) async throws -> ExerciseSession {
     var request = APIRequest(method: .post, path: .exerciseSession)
     request.body = [
       "dateAdded": dateAdded.ISO8601Format() as Any,
@@ -33,6 +33,7 @@ public struct ExerciseSessionService: ExerciseSessionServiceProtocol, MusculosSe
       "exerciseID": exerciseID.uuidString as Any
     ]
 
-    try await client.dispatch(request)
+    let data = try await client.dispatch(request)
+    return try await ExerciseSession.createWithTaskFrom(data)
   }
 }

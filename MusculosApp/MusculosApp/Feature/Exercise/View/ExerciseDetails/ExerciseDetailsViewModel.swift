@@ -89,10 +89,11 @@ final class ExerciseDetailsViewModel {
       guard let self else { return }
 
       async let dataStoreTask: Void = dataController.addExerciseSession(for: exercise, date: Date())
-      async let networkTask: Void = exerciseSessionService.add(exerciseID: exercise.id, duration: Double(elapsedTime), dateAdded: Date())
+      async let networkTask = exerciseSessionService.add(exerciseID: exercise.id, duration: Double(elapsedTime), dateAdded: Date())
 
       do {
-        let (_, _) = try await (dataStoreTask, networkTask)
+        let (_, exerciseSession) = try await (dataStoreTask, networkTask)
+        print(exerciseSession)
         try await maybeUpdateGoals()
       } catch {
         MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
