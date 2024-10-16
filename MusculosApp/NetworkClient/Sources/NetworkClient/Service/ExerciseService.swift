@@ -26,7 +26,7 @@ public struct ExerciseService: ExerciseServiceProtocol, MusculosService, @unchec
     let request = APIRequest(method: .get, path: .exercises)
     
     let data = try await client.dispatch(request)
-    return try await Exercise.createArrayWithTaskFrom(data)
+    return try Exercise.createArrayFrom(data)
   }
   
   public func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
@@ -41,7 +41,7 @@ public struct ExerciseService: ExerciseServiceProtocol, MusculosService, @unchec
     let request = APIRequest(method: .get, path: .exerciseDetails(exerciseID))
     
     let data = try await client.dispatch(request)
-    return try await Exercise.createWithTaskFrom(data)
+    return try Exercise.createFrom(data)
   }
 
   public func getFavoriteExercises() async throws -> [Exercise] {
@@ -68,6 +68,6 @@ public struct ExerciseService: ExerciseServiceProtocol, MusculosService, @unchec
     ]
 
     let data = try await client.dispatch(request)
-    return try await Exercise.createArrayWithTaskFrom(data)
+    return try Exercise.createArrayFrom(data)
   }
 }

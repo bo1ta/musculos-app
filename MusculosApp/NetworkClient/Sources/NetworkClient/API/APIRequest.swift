@@ -18,10 +18,9 @@ public struct APIRequest {
   public var path: Endpoint
   public var queryParams: [URLQueryItem]?
   public var body: [String: Any]?
-  public var authToken: String?
   public var opk: String?
 
-  var contentType: String { return "application/json" }
+  var contentType: String { "application/json" }
 
   public func asURLRequest() async -> URLRequest? {
     guard var baseURL = APIEndpoint.baseWithEndpoint(endpoint: path) else { return nil }
