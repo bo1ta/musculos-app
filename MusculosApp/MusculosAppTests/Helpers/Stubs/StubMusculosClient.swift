@@ -11,20 +11,25 @@ import Testing
 @testable import Utility
 
 struct StubMusculosClient: MusculosClientProtocol, @unchecked Sendable {
-  var expectedPath: Endpoint?
+  var expectedEndpoint: Endpoint?
   var expectedMethod: HTTPMethod?
   var expectedBody: [String: Any]?
   var expectedOpk: String?
   var expectedQueryParams: [URLQueryItem]?
-  var expectedData: Data?
+  var expectedResponseData: Data?
+  var expectedAuthToken: String?
 
   func dispatch(_ request: APIRequest) async throws -> Data {
-    #expect(request.path.path == expectedPath!.path)
+    #expect(request.path.path == expectedEndpoint!.path)
     #expect(request.method == expectedMethod)
     #expect(request.opk == expectedOpk)
     #expect(request.queryParams == expectedQueryParams)
     #expect(NSDictionary(dictionary: request.body ?? [:]).isEqual(to: expectedBody ?? [:]))
 
-    return expectedData ?? Data()
+    if let expectedAuthToken {
+      #expect(request.authToken == expectedAuthToken)
+    }
+
+    return expectedResponseData ?? Data()
   }
 }

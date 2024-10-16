@@ -20,8 +20,8 @@ final class ExerciseServiceTests: MusculosTestBase {
   @Test func getExercises() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
-    stubClient.expectedPath = .exercises
-    stubClient.expectedData = try readFromFile(name: "exercises")
+    stubClient.expectedEndpoint = .exercises
+    stubClient.expectedResponseData = try parseDataFromFile(name: "exercises")
 
     NetworkContainer.shared.client.register { stubClient }
     defer {
@@ -36,8 +36,8 @@ final class ExerciseServiceTests: MusculosTestBase {
   @Test func getFavoriteExercises() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
-    stubClient.expectedPath = .favoriteExercise
-    stubClient.expectedData = try readFromFile(name: "exercises")
+    stubClient.expectedEndpoint = .favoriteExercise
+    stubClient.expectedResponseData = try parseDataFromFile(name: "exercises")
 
     NetworkContainer.shared.client.register { stubClient }
     defer {
@@ -52,9 +52,9 @@ final class ExerciseServiceTests: MusculosTestBase {
   @Test func getByWorkoutGoal() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
-    stubClient.expectedPath = .exercisesByGoals
+    stubClient.expectedEndpoint = .exercisesByGoals
     stubClient.expectedQueryParams = [URLQueryItem(name: "goal", value: String(WorkoutGoal.flexibility.rawValue))]
-    stubClient.expectedData = try readFromFile(name: "exercises")
+    stubClient.expectedResponseData = try parseDataFromFile(name: "exercises")
 
     NetworkContainer.shared.client.register { stubClient }
     defer {
@@ -69,9 +69,9 @@ final class ExerciseServiceTests: MusculosTestBase {
   @Test func searchByMuscleQuery() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
-    stubClient.expectedPath = .exercisesByMuscle
+    stubClient.expectedEndpoint = .exercisesByMuscle
     stubClient.expectedQueryParams = [URLQueryItem(name: "query", value: "chest")]
-    stubClient.expectedData = try readFromFile(name: "exercises")
+    stubClient.expectedResponseData = try parseDataFromFile(name: "exercises")
 
     NetworkContainer.shared.client.register { stubClient }
     defer {
@@ -88,8 +88,8 @@ final class ExerciseServiceTests: MusculosTestBase {
 
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
-    stubClient.expectedPath = .exerciseDetails(exerciseID)
-    stubClient.expectedData = try readFromFile(name: "exerciseDetails")
+    stubClient.expectedEndpoint = .exerciseDetails(exerciseID)
+    stubClient.expectedResponseData = try parseDataFromFile(name: "exerciseDetails")
 
     NetworkContainer.shared.client.register { stubClient }
     defer {

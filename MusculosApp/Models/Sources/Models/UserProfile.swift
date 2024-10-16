@@ -80,3 +80,5 @@ extension UserProfile: Equatable {
     return lhs.userId == rhs.userId
   }
 }
+
+extension UserProfile: DecodableModel {}

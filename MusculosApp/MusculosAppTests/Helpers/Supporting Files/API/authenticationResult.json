@@ -1,3 +1,10 @@
 {
-	"token": "secret-token"
+    "user": {
+        "id": "E64DE495-D63C-4C12-B8EA-957668EDDF71"
+    },
+    "token": {
+        "value": "super-secret-token",
+        "expiresAt": "4001-01-01T00:00:00Z",
+        "createdAt": "2024-10-16T20:14:04Z"
+    }
 }

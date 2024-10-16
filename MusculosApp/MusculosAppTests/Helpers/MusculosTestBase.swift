@@ -22,7 +22,7 @@ protocol MusculosTestBase: AnyObject {
   ///`name` - The name of the file
   ///`withExtension` - The file extension. Default json
   ///
-  func readFromFile(name: String, withExtension: String) throws -> Data
+  func parseDataFromFile(name: String, withExtension: String) throws -> Data
   
   /// Creates a mock session configuration which that works with the `MusculosClient`
   /// `expectation` - Fulfilled when the request ended
@@ -35,7 +35,7 @@ protocol MusculosTestBase: AnyObject {
 /// MARK: - Default implementation
 ///
 extension MusculosTestBase {
-  func readFromFile(name: String, withExtension: String = "json") throws -> Data {
+  func parseDataFromFile(name: String, withExtension: String = "json") throws -> Data {
     let bundle = Bundle(for: (type(of: self)))
     let fileUrl = bundle.url(forResource: name, withExtension: withExtension)
     let data = try Data(contentsOf: fileUrl!)
@@ -56,7 +56,7 @@ extension MusculosTestBase {
       var data = Data()
       
       if let jsonFileName {
-        data = try XCTUnwrap(self.readFromFile(name: jsonFileName))
+        data = try XCTUnwrap(self.parseDataFromFile(name: jsonFileName))
       }
   
       return (response, data)

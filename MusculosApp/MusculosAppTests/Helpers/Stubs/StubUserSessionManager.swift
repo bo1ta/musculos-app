@@ -10,10 +10,12 @@ import Foundation
 @testable import Models
 
 struct StubUserSessionManager: UserSessionManagerProtocol, @unchecked Sendable {
+  var expectedTokenValue: String?
+
   func currentState() -> UserSessionState {
     UserSessionState.authenticated(
       UserSession(
-        token: UserSession.Token(value: "testtoken"),
+        token: UserSession.Token(value: expectedTokenValue ?? "token"),
         user: UserSession.User(id: UUID())
       )
     )
