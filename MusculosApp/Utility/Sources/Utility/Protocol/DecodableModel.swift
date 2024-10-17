@@ -18,6 +18,7 @@ public protocol DecodableModel: Codable {
 public extension DecodableModel where Self: Codable {
   public static func createFrom(_ data: Data) throws -> Self {
     let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .iso8601
 
     do {
       return try decoder.decode(Self.self, from: data)
@@ -34,6 +35,7 @@ public extension DecodableModel where Self: Codable {
 
   public static func createArrayFrom(_ data: Data) throws -> [Self] {
     let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .iso8601
 
     do {
       return try decoder.decode([Self].self, from: data)

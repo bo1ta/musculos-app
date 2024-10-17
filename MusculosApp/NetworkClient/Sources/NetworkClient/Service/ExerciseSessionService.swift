@@ -22,7 +22,7 @@ public struct ExerciseSessionService: ExerciseSessionServiceProtocol, MusculosSe
   public func getAll() async throws -> [ExerciseSession] {
     let request = APIRequest(method: .get, path: .exerciseSession)
     let data = try await client.dispatch(request)
-    return try await ExerciseSession.createArrayWithTaskFrom(data)
+    return try ExerciseSession.createArrayFrom(data)
   }
 
   public func add(exerciseID: UUID, duration: Double, dateAdded: Date = Date()) async throws -> ExerciseSession {
@@ -34,6 +34,6 @@ public struct ExerciseSessionService: ExerciseSessionServiceProtocol, MusculosSe
     ]
 
     let data = try await client.dispatch(request)
-    return try await ExerciseSession.createWithTaskFrom(data)
+    return try ExerciseSession.createFrom(data)
   }
 }

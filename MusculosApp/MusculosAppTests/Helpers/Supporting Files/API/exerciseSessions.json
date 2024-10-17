@@ -1,0 +1,38 @@
+[
+    {
+        "sessionId": "E98DB1E6-DC1D-4D1F-BE3F-C60CFE5BCA99",
+        "duration": 15,
+        "user": {
+            "isOnboarded": false,
+            "xp": 0,
+            "id": "31A6745A-13BD-4D03-982B-F4C9DFE75B34",
+            "email": "someEssmail@email.com",
+            "username": "jonsny_email"
+        },
+        "dateAdded": "4001-01-01T00:00:00Z",
+        "exercise": {
+            "name": "90/90 Hamstring",
+            "primaryMuscles": [
+                "hamstrings"
+            ],
+            "dateUpdated": "2024-10-14T15:47:14Z",
+            "category": "stretching",
+            "id": "6B5765CB-CD52-4F1D-8B33-14D771063943",
+            "level": "beginner",
+            "instructions": [
+                "Lie on your back, with one leg extended straight out.",
+                "With the other leg, bend the hip and knee to 90 degrees. You may brace your leg with your hands if necessary. This will be your starting position.",
+                "Extend your leg straight into the air, pausing briefly at the top. Return the leg to the starting position.",
+                "Repeat for 10-20 repetitions, and then switch to the other leg."
+            ],
+            "dateCreated": "2024-10-14T15:47:13Z",
+            "equipment": "body only",
+            "force": "push",
+            "imageUrls": [],
+            "isFavorite": false,
+            "secondaryMuscles": [
+                "calves"
+            ]
+        }
+    }
+]

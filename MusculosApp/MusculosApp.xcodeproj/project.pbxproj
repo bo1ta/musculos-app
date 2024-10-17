@@ -114,6 +114,9 @@
 		BCD0118E2CC0437A0012CEA0 /* exerciseDetails.json in Resources */ = {isa = PBXBuildFile; fileRef = BCD0118D2CC0437A0012CEA0 /* exerciseDetails.json */; };
 		BCD011902CC055730012CEA0 /* UserServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD0118F2CC0556D0012CEA0 /* UserServiceTests.swift */; };
 		BCD011922CC05A600012CEA0 /* userProfile.json in Resources */ = {isa = PBXBuildFile; fileRef = BCD011912CC05A600012CEA0 /* userProfile.json */; };
+		BCD011942CC05ED10012CEA0 /* ExerciseSessionServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD011932CC05ECC0012CEA0 /* ExerciseSessionServiceTests.swift */; };
+		BCD011962CC060470012CEA0 /* exerciseSessions.json in Resources */ = {isa = PBXBuildFile; fileRef = BCD011952CC060470012CEA0 /* exerciseSessions.json */; };
+		BCD011982CC060F70012CEA0 /* exerciseSession.json in Resources */ = {isa = PBXBuildFile; fileRef = BCD011972CC060F70012CEA0 /* exerciseSession.json */; };
 		BCD59A8E2BB627CE0039F662 /* ExploreExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59A782BB627CE0039F662 /* ExploreExerciseView.swift */; };
 		BCD59A952BB627CE0039F662 /* ExerciseContentLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59A812BB627CE0039F662 /* ExerciseContentLoadingView.swift */; };
 		BCD59A962BB627CE0039F662 /* SearchFilterField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59A822BB627CE0039F662 /* SearchFilterField.swift */; };
@@ -260,6 +263,9 @@
 		BCD0118D2CC0437A0012CEA0 /* exerciseDetails.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = exerciseDetails.json; sourceTree = "<group>"; };
 		BCD0118F2CC0556D0012CEA0 /* UserServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceTests.swift; sourceTree = "<group>"; };
 		BCD011912CC05A600012CEA0 /* userProfile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = userProfile.json; sourceTree = "<group>"; };
+		BCD011932CC05ECC0012CEA0 /* ExerciseSessionServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSessionServiceTests.swift; sourceTree = "<group>"; };
+		BCD011952CC060470012CEA0 /* exerciseSessions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = exerciseSessions.json; sourceTree = "<group>"; };
+		BCD011972CC060F70012CEA0 /* exerciseSession.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = exerciseSession.json; sourceTree = "<group>"; };
 		BCD59A782BB627CE0039F662 /* ExploreExerciseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreExerciseView.swift; sourceTree = "<group>"; };
 		BCD59A812BB627CE0039F662 /* ExerciseContentLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseContentLoadingView.swift; sourceTree = "<group>"; };
 		BCD59A822BB627CE0039F662 /* SearchFilterField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFilterField.swift; sourceTree = "<group>"; };
@@ -560,7 +566,9 @@
 		BC5BACB92AB26FD0003C880E /* API */ = {
 			isa = PBXGroup;
 			children = (
+				BCD011952CC060470012CEA0 /* exerciseSessions.json */,
 				BCD011912CC05A600012CEA0 /* userProfile.json */,
+				BCD011972CC060F70012CEA0 /* exerciseSession.json */,
 				BCD0118D2CC0437A0012CEA0 /* exerciseDetails.json */,
 				BCFA25BB2BB37B2900F07A67 /* authenticationResult.json */,
 				BC5BACBA2AB270C2003C880E /* getMuscles.json */,
@@ -838,6 +846,7 @@
 		BCD011862CBDBE5F0012CEA0 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				BCD011932CC05ECC0012CEA0 /* ExerciseSessionServiceTests.swift */,
 				BCD0118F2CC0556D0012CEA0 /* UserServiceTests.swift */,
 				BCD011872CBDBE660012CEA0 /* ExerciseServiceTests.swift */,
 			);
@@ -1074,6 +1083,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCD011982CC060F70012CEA0 /* exerciseSession.json in Resources */,
+				BCD011962CC060470012CEA0 /* exerciseSessions.json in Resources */,
 				BC5BACD52ABA28A7003C880E /* exercises.json in Resources */,
 				BCFA25BC2BB37B2900F07A67 /* authenticationResult.json in Resources */,
 				BCD0118E2CC0437A0012CEA0 /* exerciseDetails.json in Resources */,
@@ -1180,6 +1191,7 @@
 				BCE19AC92C15E615005ABBF3 /* StubExerciseDataStore.swift in Sources */,
 				BCE19AC42C150240005ABBF3 /* OnboardingWizardViewModelTests.swift in Sources */,
 				BC5BACB72AB26F40003C880E /* MusculosTestBase.swift in Sources */,
+				BCD011942CC05ED10012CEA0 /* ExerciseSessionServiceTests.swift in Sources */,
 				BC6F36672BB4E79F000F6CFA /* AuthViewModelTests.swift in Sources */,
 				BCFC24C72C9C7EBC00F28D7A /* GoalDataStoreTests.swift in Sources */,
 				BCD011842CBD7B470012CEA0 /* ExerciseSessionDataStoreTests.swift in Sources */,
