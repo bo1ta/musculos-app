@@ -20,13 +20,14 @@ public class UserProfileEntity: NSManagedObject {
   @NSManaged public var gender: String?
   @NSManaged public var height: NSNumber?
   @NSManaged public var level: String?
-  @NSManaged public var primaryGoalId: NSNumber?
+  @NSManaged public var primaryGoalID: NSNumber?
   @NSManaged public var synchronized: NSNumber
   @NSManaged public var updatedAt: Date?
   @NSManaged public var username: String
   @NSManaged public var weight: NSNumber?
   @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
   @NSManaged public var isOnboarded: Bool
+  @NSManaged public var xp: NSNumber
 
   @nonobjc public class func fetchRequest() -> NSFetchRequest<UserProfileEntity> {
     return NSFetchRequest<UserProfileEntity>(entityName: "UserProfileEntity")
@@ -73,8 +74,9 @@ extension UserProfileEntity: ReadOnlyConvertible {
       height: height?.doubleValue,
       level: level,
       availableEquipment: availableEquipment,
-      primaryGoalId: primaryGoalId?.intValue,
-      isOnboarded: isOnboarded
+      primaryGoalId: primaryGoalID?.intValue,
+      isOnboarded: isOnboarded,
+      xp: xp.intValue
     )
   }
 
@@ -115,6 +117,7 @@ extension UserProfileEntity: EntitySyncable {
     self.level = model.level
     self.username = model.username
     self.isOnboarded = model.isOnboarded ?? false
+    self.xp = NSNumber(integerLiteral: model.xp ?? 0)
 
     if let weight = model.weight {
       self.weight = NSNumber(floatLiteral: weight)
@@ -122,8 +125,8 @@ extension UserProfileEntity: EntitySyncable {
     if let height = model.height {
       self.height = NSNumber(floatLiteral: height)
     }
-    if let primaryGoalId = model.primaryGoalId {
-      self.primaryGoalId = NSNumber(integerLiteral: primaryGoalId)
+    if let primaryGoalID = model.primaryGoalID {
+      self.primaryGoalID = NSNumber(integerLiteral: primaryGoalID)
     }
 
     self.synchronized = SynchronizationState.synchronized.asNSNumber()
@@ -139,8 +142,11 @@ extension UserProfileEntity: EntitySyncable {
     if let height = model.height {
       self.height = NSNumber(floatLiteral: height)
     }
-    if let primaryGoalId = model.primaryGoalId {
-      self.primaryGoalId = NSNumber(integerLiteral: primaryGoalId)
+    if let primaryGoalID = model.primaryGoalID {
+      self.primaryGoalID = NSNumber(integerLiteral: primaryGoalID)
+    }
+    if let xp = model.xp, xp > self.xp.intValue {
+      self.xp = NSNumber(integerLiteral: xp)
     }
 
     self.synchronized = SynchronizationState.synchronized.asNSNumber()

@@ -1,6 +1,6 @@
 //
 //  View+Extension.swift
-//  
+//
 //
 //  Created by Solomon Alexandru on 29.07.2024.
 //
@@ -25,6 +25,10 @@ public extension View {
 public extension View {
   public func withKeyboardDismissingOnTap() -> some View {
     self.modifier(KeyboardDismissableViewModifier())
+  }
+
+  func animatedScreenBorder(isActive: Bool) -> some View {
+    self.modifier(AnimatedScreenBordersModifier(isActive: isActive))
   }
 }
 

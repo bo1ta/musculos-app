@@ -167,7 +167,11 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
       let r = NSBatchDeleteRequest(
         fetchRequest: NSFetchRequest(entityName: e.name ?? "")
       )
-      _ = try? viewContext.execute(r)
+      do {
+        try viewContext.execute(r)
+      } catch {
+        MusculosLogger.logError(error, message: "Could not delete stored objects", category: .coreData)
+      }
     }
     viewContext.saveIfNeeded()
   }

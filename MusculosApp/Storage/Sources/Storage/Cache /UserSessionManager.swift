@@ -23,7 +23,7 @@ public protocol UserSessionManagerProtocol: Sendable {
   var currentUserSession: UserSession? { get }
 }
 
-public final class UserSessionManager: @unchecked Sendable, UserSessionManagerProtocol {
+extension UserSessionManagerProtocol {
   public var isAuthenticated: Bool {
     if case .authenticated = currentState() {
       return true
@@ -37,7 +37,9 @@ public final class UserSessionManager: @unchecked Sendable, UserSessionManagerPr
     }
     return nil
   }
+}
 
+public final class UserSessionManager: @unchecked Sendable, UserSessionManagerProtocol {
   public func currentState() -> UserSessionState {
     if let session = loadSessionFromUserDefaults() {
       return .authenticated(session)

@@ -44,7 +44,7 @@ public struct UserService: UserServiceProtocol {
   public func currentUser() async throws -> UserProfile {
     let request = APIRequest(method: .get, path: .currentProfile)
     let data = try await client.dispatch(request)
-    return try await UserProfile.createWithTaskFrom(data)
+    return try await UserProfile.createFrom(data)
   }
 
   public func updateUser(
@@ -65,6 +65,6 @@ public struct UserService: UserServiceProtocol {
     ]
 
     let data = try await client.dispatch(request)
-    return try await UserProfile.createWithTaskFrom(data)
+    return try await UserProfile.createFrom(data)
   }
 }

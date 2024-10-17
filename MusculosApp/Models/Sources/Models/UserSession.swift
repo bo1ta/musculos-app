@@ -21,9 +21,19 @@ public struct UserSession: Sendable, Codable, DecodableModel {
     public var createdAt: String?
     public var expiresAt: String?
     public var value: String
+
+    public init(createdAt: String? = nil, expiresAt: String? = nil, value: String) {
+      self.createdAt = createdAt
+      self.expiresAt = expiresAt
+      self.value = value
+    }
   }
 
   public struct User: Codable, Sendable {
     public var id: UUID
+
+    public init(id: UUID) {
+      self.id = id
+    }
   }
 }

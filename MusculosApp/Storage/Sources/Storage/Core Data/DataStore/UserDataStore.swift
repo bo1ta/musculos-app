@@ -51,7 +51,7 @@ public struct UserDataStore: DataStoreBase, UserDataStoreProtocol, Sendable {
       }
       
       if let primaryGoalId {
-        userProfile.primaryGoalId = NSNumber(integerLiteral: primaryGoalId)
+        userProfile.primaryGoalID = NSNumber(integerLiteral: primaryGoalId)
       }
       
     }

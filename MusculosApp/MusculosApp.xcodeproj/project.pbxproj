@@ -49,8 +49,7 @@
 		BC5BACBB2AB270C2003C880E /* getMuscles.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACBA2AB270C2003C880E /* getMuscles.json */; };
 		BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACBC2AB2769B003C880E /* MockURLProtocol.swift */; };
 		BC5BACC32AB280C5003C880E /* getEquipment.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACC22AB280C5003C880E /* getEquipment.json */; };
-		BC5BACD52ABA28A7003C880E /* getExercises.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACD42ABA28A7003C880E /* getExercises.json */; };
-		BC5BACD92ABB6694003C880E /* ExerciseServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BACD82ABB6694003C880E /* ExerciseServiceTests.swift */; };
+		BC5BACD52ABA28A7003C880E /* exercises.json in Resources */ = {isa = PBXBuildFile; fileRef = BC5BACD42ABA28A7003C880E /* exercises.json */; };
 		BC606A6E2C221CBD00154781 /* SelectLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC606A6D2C221CBD00154781 /* SelectLevelView.swift */; };
 		BC6249752BEC20BB00393915 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = BC6249742BEC20BB00393915 /* Shimmer */; };
 		BC655B012CB0497600C19E07 /* YourWorkoutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC655B002CB0497600C19E07 /* YourWorkoutSection.swift */; };
@@ -108,6 +107,16 @@
 		BCC46FF42C0E2E97006D76E2 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC46FF32C0E2E97006D76E2 /* PermissionsView.swift */; };
 		BCC46FF92C0E3A7F006D76E2 /* StorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC46FF82C0E3A7F006D76E2 /* StorageHelper.swift */; };
 		BCCA2C9A2C3C615600D4DEAD /* Container+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA2C992C3C615600D4DEAD /* Container+Extension.swift */; };
+		BCD011842CBD7B470012CEA0 /* ExerciseSessionDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD011832CBD7B3F0012CEA0 /* ExerciseSessionDataStoreTests.swift */; };
+		BCD011882CBDBE6A0012CEA0 /* ExerciseServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD011872CBDBE660012CEA0 /* ExerciseServiceTests.swift */; };
+		BCD0118A2CC041480012CEA0 /* StubMusculosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD011892CC041450012CEA0 /* StubMusculosClient.swift */; };
+		BCD0118C2CC041880012CEA0 /* StubUserSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD0118B2CC041830012CEA0 /* StubUserSessionManager.swift */; };
+		BCD0118E2CC0437A0012CEA0 /* exerciseDetails.json in Resources */ = {isa = PBXBuildFile; fileRef = BCD0118D2CC0437A0012CEA0 /* exerciseDetails.json */; };
+		BCD011902CC055730012CEA0 /* UserServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD0118F2CC0556D0012CEA0 /* UserServiceTests.swift */; };
+		BCD011922CC05A600012CEA0 /* userProfile.json in Resources */ = {isa = PBXBuildFile; fileRef = BCD011912CC05A600012CEA0 /* userProfile.json */; };
+		BCD011942CC05ED10012CEA0 /* ExerciseSessionServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD011932CC05ECC0012CEA0 /* ExerciseSessionServiceTests.swift */; };
+		BCD011962CC060470012CEA0 /* exerciseSessions.json in Resources */ = {isa = PBXBuildFile; fileRef = BCD011952CC060470012CEA0 /* exerciseSessions.json */; };
+		BCD011982CC060F70012CEA0 /* exerciseSession.json in Resources */ = {isa = PBXBuildFile; fileRef = BCD011972CC060F70012CEA0 /* exerciseSession.json */; };
 		BCD59A8E2BB627CE0039F662 /* ExploreExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59A782BB627CE0039F662 /* ExploreExerciseView.swift */; };
 		BCD59A952BB627CE0039F662 /* ExerciseContentLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59A812BB627CE0039F662 /* ExerciseContentLoadingView.swift */; };
 		BCD59A962BB627CE0039F662 /* SearchFilterField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD59A822BB627CE0039F662 /* SearchFilterField.swift */; };
@@ -189,8 +198,7 @@
 		BC5BACBA2AB270C2003C880E /* getMuscles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getMuscles.json; sourceTree = "<group>"; };
 		BC5BACBC2AB2769B003C880E /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		BC5BACC22AB280C5003C880E /* getEquipment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getEquipment.json; sourceTree = "<group>"; };
-		BC5BACD42ABA28A7003C880E /* getExercises.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getExercises.json; sourceTree = "<group>"; };
-		BC5BACD82ABB6694003C880E /* ExerciseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseServiceTests.swift; sourceTree = "<group>"; };
+		BC5BACD42ABA28A7003C880E /* exercises.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = exercises.json; sourceTree = "<group>"; };
 		BC606A6D2C221CBD00154781 /* SelectLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLevelView.swift; sourceTree = "<group>"; };
 		BC655B002CB0497600C19E07 /* YourWorkoutSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourWorkoutSection.swift; sourceTree = "<group>"; };
 		BC655B022CB055B300C19E07 /* ExerciseCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCardStack.swift; sourceTree = "<group>"; };
@@ -248,6 +256,16 @@
 		BCC46FF32C0E2E97006D76E2 /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
 		BCC46FF82C0E3A7F006D76E2 /* StorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageHelper.swift; sourceTree = "<group>"; };
 		BCCA2C992C3C615600D4DEAD /* Container+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+Extension.swift"; sourceTree = "<group>"; };
+		BCD011832CBD7B3F0012CEA0 /* ExerciseSessionDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSessionDataStoreTests.swift; sourceTree = "<group>"; };
+		BCD011872CBDBE660012CEA0 /* ExerciseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseServiceTests.swift; sourceTree = "<group>"; };
+		BCD011892CC041450012CEA0 /* StubMusculosClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubMusculosClient.swift; sourceTree = "<group>"; };
+		BCD0118B2CC041830012CEA0 /* StubUserSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubUserSessionManager.swift; sourceTree = "<group>"; };
+		BCD0118D2CC0437A0012CEA0 /* exerciseDetails.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = exerciseDetails.json; sourceTree = "<group>"; };
+		BCD0118F2CC0556D0012CEA0 /* UserServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceTests.swift; sourceTree = "<group>"; };
+		BCD011912CC05A600012CEA0 /* userProfile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = userProfile.json; sourceTree = "<group>"; };
+		BCD011932CC05ECC0012CEA0 /* ExerciseSessionServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSessionServiceTests.swift; sourceTree = "<group>"; };
+		BCD011952CC060470012CEA0 /* exerciseSessions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = exerciseSessions.json; sourceTree = "<group>"; };
+		BCD011972CC060F70012CEA0 /* exerciseSession.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = exerciseSession.json; sourceTree = "<group>"; };
 		BCD59A782BB627CE0039F662 /* ExploreExerciseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreExerciseView.swift; sourceTree = "<group>"; };
 		BCD59A812BB627CE0039F662 /* ExerciseContentLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseContentLoadingView.swift; sourceTree = "<group>"; };
 		BCD59A822BB627CE0039F662 /* SearchFilterField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFilterField.swift; sourceTree = "<group>"; };
@@ -381,9 +399,9 @@
 		BC1160E52A2CFB840028D8FC /* MusculosAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				BCFC24C42C9C7EAF00F28D7A /* Storage */,
+				BCD011852CBDBE4F0012CEA0 /* NetworkClientTests */,
+				BCFC24C42C9C7EAF00F28D7A /* StorageTests */,
 				BC6F36682BB4E7AD000F6CFA /* Feature */,
-				BC6249942BED749E00393915 /* Core */,
 				BC5BAC932AB26350003C880E /* Helpers */,
 			);
 			path = MusculosAppTests;
@@ -548,10 +566,14 @@
 		BC5BACB92AB26FD0003C880E /* API */ = {
 			isa = PBXGroup;
 			children = (
+				BCD011952CC060470012CEA0 /* exerciseSessions.json */,
+				BCD011912CC05A600012CEA0 /* userProfile.json */,
+				BCD011972CC060F70012CEA0 /* exerciseSession.json */,
+				BCD0118D2CC0437A0012CEA0 /* exerciseDetails.json */,
 				BCFA25BB2BB37B2900F07A67 /* authenticationResult.json */,
 				BC5BACBA2AB270C2003C880E /* getMuscles.json */,
 				BC5BACC22AB280C5003C880E /* getEquipment.json */,
-				BC5BACD42ABA28A7003C880E /* getExercises.json */,
+				BC5BACD42ABA28A7003C880E /* exercises.json */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -574,14 +596,6 @@
 				BC0DA89D2CA5EA970011EC63 /* Sections */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		BC6249942BED749E00393915 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				BC6F366B2BB4E805000F6CFA /* Networking */,
-			);
-			path = Core;
 			sourceTree = "<group>";
 		};
 		BC6F365B2BB4E205000F6CFA /* Feature */ = {
@@ -607,14 +621,6 @@
 				BCE19AC22C150228005ABBF3 /* Onboarding */,
 			);
 			path = Feature;
-			sourceTree = "<group>";
-		};
-		BC6F366B2BB4E805000F6CFA /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				BC5BACD82ABB6694003C880E /* ExerciseServiceTests.swift */,
-			);
-			path = Networking;
 			sourceTree = "<group>";
 		};
 		BC74C1B02C00FE110021B932 /* WorkoutList */ = {
@@ -829,6 +835,24 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		BCD011852CBDBE4F0012CEA0 /* NetworkClientTests */ = {
+			isa = PBXGroup;
+			children = (
+				BCD011862CBDBE5F0012CEA0 /* Service */,
+			);
+			path = NetworkClientTests;
+			sourceTree = "<group>";
+		};
+		BCD011862CBDBE5F0012CEA0 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				BCD011932CC05ECC0012CEA0 /* ExerciseSessionServiceTests.swift */,
+				BCD0118F2CC0556D0012CEA0 /* UserServiceTests.swift */,
+				BCD011872CBDBE660012CEA0 /* ExerciseServiceTests.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		BCD59A7C2BB627CE0039F662 /* Card */ = {
 			isa = PBXGroup;
 			children = (
@@ -894,6 +918,8 @@
 		BCE19AC72C15E60A005ABBF3 /* Stubs */ = {
 			isa = PBXGroup;
 			children = (
+				BCD0118B2CC041830012CEA0 /* StubUserSessionManager.swift */,
+				BCD011892CC041450012CEA0 /* StubMusculosClient.swift */,
 				BCE19AC82C15E615005ABBF3 /* StubExerciseDataStore.swift */,
 			);
 			path = Stubs;
@@ -908,17 +934,18 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
-		BCFC24C42C9C7EAF00F28D7A /* Storage */ = {
+		BCFC24C42C9C7EAF00F28D7A /* StorageTests */ = {
 			isa = PBXGroup;
 			children = (
 				BCFC24C52C9C7EB400F28D7A /* DataStore */,
 			);
-			path = Storage;
+			path = StorageTests;
 			sourceTree = "<group>";
 		};
 		BCFC24C52C9C7EB400F28D7A /* DataStore */ = {
 			isa = PBXGroup;
 			children = (
+				BCD011832CBD7B3F0012CEA0 /* ExerciseSessionDataStoreTests.swift */,
 				BCFC24CA2C9C87F900F28D7A /* UserDataStoreTests.swift */,
 				BCFC24C82C9C837700F28D7A /* ExerciseDataStoreTests.swift */,
 				BCFC24C62C9C7EB900F28D7A /* GoalDataStoreTests.swift */,
@@ -1056,9 +1083,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC5BACD52ABA28A7003C880E /* getExercises.json in Resources */,
+				BCD011982CC060F70012CEA0 /* exerciseSession.json in Resources */,
+				BCD011962CC060470012CEA0 /* exerciseSessions.json in Resources */,
+				BC5BACD52ABA28A7003C880E /* exercises.json in Resources */,
 				BCFA25BC2BB37B2900F07A67 /* authenticationResult.json in Resources */,
+				BCD0118E2CC0437A0012CEA0 /* exerciseDetails.json in Resources */,
 				BC5BACBB2AB270C2003C880E /* getMuscles.json in Resources */,
+				BCD011922CC05A600012CEA0 /* userProfile.json in Resources */,
 				BC5BACC32AB280C5003C880E /* getEquipment.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1156,16 +1187,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCFC24CB2C9C87FD00F28D7A /* UserDataStoreTests.swift in Sources */,
+				BCD011882CBDBE6A0012CEA0 /* ExerciseServiceTests.swift in Sources */,
 				BCE19AC92C15E615005ABBF3 /* StubExerciseDataStore.swift in Sources */,
 				BCE19AC42C150240005ABBF3 /* OnboardingWizardViewModelTests.swift in Sources */,
 				BC5BACB72AB26F40003C880E /* MusculosTestBase.swift in Sources */,
+				BCD011942CC05ED10012CEA0 /* ExerciseSessionServiceTests.swift in Sources */,
 				BC6F36672BB4E79F000F6CFA /* AuthViewModelTests.swift in Sources */,
 				BCFC24C72C9C7EBC00F28D7A /* GoalDataStoreTests.swift in Sources */,
+				BCD011842CBD7B470012CEA0 /* ExerciseSessionDataStoreTests.swift in Sources */,
 				BCFC24C92C9C837C00F28D7A /* ExerciseDataStoreTests.swift in Sources */,
 				BCE19AB82C14F611005ABBF3 /* ExerciseDetailsViewModelTests.swift in Sources */,
 				BCA600592C5BDE200063C5AB /* PublisherValueExpectation.swift in Sources */,
+				BCD0118A2CC041480012CEA0 /* StubMusculosClient.swift in Sources */,
+				BCD0118C2CC041880012CEA0 /* StubUserSessionManager.swift in Sources */,
 				BC5BACBD2AB2769B003C880E /* MockURLProtocol.swift in Sources */,
-				BC5BACD92ABB6694003C880E /* ExerciseServiceTests.swift in Sources */,
+				BCD011902CC055730012CEA0 /* UserServiceTests.swift in Sources */,
 				BCFA25BA2BB37A9D00F07A67 /* AuthServiceTests.swift in Sources */,
 				BCF9E5C02C9EF3CC00841F2C /* MockUIApplication.swift in Sources */,
 				BCC46FF92C0E3A7F006D76E2 /* StorageHelper.swift in Sources */,

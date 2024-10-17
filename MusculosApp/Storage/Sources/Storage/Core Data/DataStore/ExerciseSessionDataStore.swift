@@ -13,7 +13,7 @@ import Utility
 public protocol ExerciseSessionDataStoreProtocol: Sendable {
   func getAll(for userId: UUID) async -> [ExerciseSession]
   func getCompletedToday(userId: UUID) async -> [ExerciseSession]
-  func addSession(_ exercise: Exercise, date: Date, userId: UUID) async throws
+  func addSession(_ exercise: Exercise, date: Date, duration: Double, userId: UUID) async throws
   func getCompletedSinceLastWeek(userId: UUID) async -> [ExerciseSession]
 }
 
@@ -70,7 +70,7 @@ public struct ExerciseSessionDataStore: DataStoreBase, ExerciseSessionDataStoreP
         userId.uuidString
       )
       let datePredicate = NSPredicate(
-        format: "date >= %@ AND date <= %@",
+        format: "dateAdded >= %@ AND dateAdded <= %@",
         argumentArray: [startDay, endDay]
       )
       let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [userPredicate, datePredicate])
@@ -84,21 +84,21 @@ public struct ExerciseSessionDataStore: DataStoreBase, ExerciseSessionDataStoreP
     }
   }
   
-  public func addSession(_ exercise: Exercise, date: Date, userId: UUID) async throws {
+  public func addSession(_ exercise: Exercise, date: Date, duration: Double, userId: UUID) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       guard
-        let exerciseEntity = writerDerivedStorage.firstObject(
-          of: ExerciseEntity.self,
-          matching: PredicateFactory.exerciseById(exercise.id)
-        ),
+        let exerciseEntity = writerDerivedStorage.firstObject(of: ExerciseEntity.self, matching: PredicateFactory.exerciseById(exercise.id)),
         let userProfile = UserProfileEntity.userFromID(userId, on: writerDerivedStorage)
-      else { throw MusculosError.notFound }
-      
+      else {
+        throw MusculosError.notFound
+      }
+
       let entity = writerDerivedStorage.insertNewObject(ofType: ExerciseSessionEntity.self)
       entity.sessionId = UUID()
       entity.dateAdded = date
       entity.exercise = exerciseEntity
       entity.user = userProfile
+      entity.duration = NSNumber(floatLiteral: duration)
     }
   }
 }

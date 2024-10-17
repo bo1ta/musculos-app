@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Utility
 
 public struct ExerciseSession: Codable, Sendable {
   public let dateAdded: Date
@@ -22,3 +23,5 @@ public struct ExerciseSession: Codable, Sendable {
     self.duration = duration
   }
 }
+
+extension ExerciseSession: DecodableModel {}

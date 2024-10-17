@@ -18,10 +18,9 @@ public struct APIRequest {
   public var path: Endpoint
   public var queryParams: [URLQueryItem]?
   public var body: [String: Any]?
-  public var authToken: String?
   public var opk: String?
 
-  var contentType: String { return "application/json" }
+  var contentType: String { "application/json" }
 
   public func asURLRequest() async -> URLRequest? {
     guard var baseURL = APIEndpoint.baseWithEndpoint(endpoint: path) else { return nil }
@@ -48,16 +47,16 @@ public struct APIRequest {
     var newHeaders: [String: String] = [:]
     newHeaders[HTTPHeaderConstant.contentType] = self.contentType
 
-    if let fetchedToken = currentSession?.token.value {
-      newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(fetchedToken)"
+    if let authToken {
+      newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(authToken)"
     }
     
     request.allHTTPHeaderFields = newHeaders
     return request
   }
 
-  private var currentSession: UserSession? {
-    userManager.currentUserSession
+  public var authToken: String? {
+    return userManager.currentUserSession?.token.value
   }
 
   private func requestBody(from body: [String: Any]) -> Data? {

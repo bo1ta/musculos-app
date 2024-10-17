@@ -133,11 +133,11 @@ extension DataController {
     return await exerciseSessionDataStore.getCompletedSinceLastWeek(userId: currentUserID)
   }
 
-  public func addExerciseSession(for exercise: Exercise, date: Date) async throws {
+  public func addExerciseSession(for exercise: Exercise, date: Date = Date(), duration: Double = 0) async throws {
     guard let currentUserID else {
       throw MusculosError.notFound
     }
-    return try await exerciseSessionDataStore.addSession(exercise, date: date, userId: currentUserID)
+    return try await exerciseSessionDataStore.addSession(exercise, date: date, duration: duration, userId: currentUserID)
   }
 }
 

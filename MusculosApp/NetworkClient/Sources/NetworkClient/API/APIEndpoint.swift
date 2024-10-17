@@ -8,7 +8,7 @@
 import Foundation
 
 public enum Endpoint {
-  case login, register, exercises, exercisesByMuscle, favoriteExercise, currentProfile, updateProfile, exercisesByGoals
+  case login, register, exercises, exercisesByMuscle, favoriteExercise, currentProfile, updateProfile, exercisesByGoals, exerciseSession
   case exerciseDetails(_ exerciseID: UUID)
 
   public var path: String {
@@ -31,6 +31,8 @@ public enum Endpoint {
       return "/users/me"
     case .exercisesByMuscle:
       return "/db0/searchMuscle"
+    case .exerciseSession:
+      return "/exercise-session"
     }
   }
 }

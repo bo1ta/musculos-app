@@ -19,8 +19,9 @@ public struct UserProfile: Codable, Sendable {
   public let height: Double?
   public let level: String?
   public let availableEquipment: [String]?
-  public let primaryGoalId: Int?
+  public let primaryGoalID: Int?
   public var isOnboarded: Bool?
+  public var xp: Int? = 0
 
   public init(
     userId: UUID,
@@ -34,7 +35,8 @@ public struct UserProfile: Codable, Sendable {
     level: String? = nil,
     availableEquipment: [String]? = nil,
     primaryGoalId: Int? = nil,
-    isOnboarded: Bool? = false
+    isOnboarded: Bool? = false,
+    xp: Int? = 0
   ) {
     self.userId = userId
     self.email = email
@@ -46,8 +48,9 @@ public struct UserProfile: Codable, Sendable {
     self.height = height
     self.level = level
     self.availableEquipment = availableEquipment
-    self.primaryGoalId = primaryGoalId
+    self.primaryGoalID = primaryGoalId
     self.isOnboarded = isOnboarded
+    self.xp = xp
   }
 
   enum CodingKeys: String, CodingKey {
@@ -61,7 +64,9 @@ public struct UserProfile: Codable, Sendable {
     case height
     case level
     case availableEquipment = "equipment"
-    case primaryGoalId
+    case primaryGoalID
+    case isOnboarded
+    case xp
   }
 
   public var avatarUrl: URL? {
@@ -75,3 +80,5 @@ extension UserProfile: Equatable {
     return lhs.userId == rhs.userId
   }
 }
+
+extension UserProfile: DecodableModel {}

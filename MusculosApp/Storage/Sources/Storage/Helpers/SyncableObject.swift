@@ -28,6 +28,7 @@ extension SyncableObject {
   ///
   public static func createWithTaskFrom(_ data: Data) async throws -> Self {
     let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .iso8601
 
     do {
       let object = try decoder.decode(Self.self, from: data)
@@ -40,11 +41,9 @@ extension SyncableObject {
         MusculosLogger.logError(error, message: "Could not write object", category: .coreData, properties: ["object_name": object.self])
         throw StorageError.syncingFailed(error.localizedDescription)
       }
-
-
       return object
     } catch {
-      MusculosLogger.logError(error, message: "Could not decode object", category: .decoderError)
+      MusculosLogger.logError(error, message: "Could not decode object", category: .decoderError, properties: ["json": String(data: data, encoding: .utf8)])
       throw MusculosError.decodingError
     }
 
@@ -54,6 +53,8 @@ extension SyncableObject {
   ///
   public static func createArrayWithTaskFrom(_ data: Data) async throws -> [Self] {
     let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .iso8601
+
     let objects = try decoder.decode([Self].self, from: data)
 
     try await Self.storageManager.performWrite { storage in
