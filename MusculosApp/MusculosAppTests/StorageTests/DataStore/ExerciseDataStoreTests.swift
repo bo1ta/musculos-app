@@ -25,7 +25,6 @@ public class ExerciseDataStoreTests: MusculosTestBase {
 
     let exercise = ExerciseFactory.createExercise(name: "First Exercise")
     try await dataStore.add(exercise)
-
     try await Task.sleep(for: .seconds(0.1))
 
     let exercises = await dataStore.getAll(fetchLimit: 10)

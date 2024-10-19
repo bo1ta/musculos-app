@@ -40,7 +40,6 @@ final class ExerciseSessionServiceTests: MusculosTestBase {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .exerciseSession
-    stubClient.expectedResponseData = try parseDataFromFile(name: "exerciseSession")
     stubClient.expectedBody = [
       "dateAdded": mockDate.ISO8601Format(),
       "duration": 15,
@@ -52,12 +51,7 @@ final class ExerciseSessionServiceTests: MusculosTestBase {
       NetworkContainer.shared.client.reset()
     }
 
-    let exerciseSession = try await ExerciseSessionService().add(
-      exerciseID: UUID(uuidString: exerciseID)!,
-      duration: 15.0,
-      dateAdded: mockDate
-    )
-    #expect(exerciseSession.duration == 15)
-    #expect(exerciseSession.exercise.id.uuidString == exerciseID)
+    let exerciseSession = ExerciseSessionFactory.createExerciseSession(exercise: ExerciseFactory.createExercise(id: UUID(uuidString: exerciseID)!))
+    try await ExerciseSessionService().add(exerciseSession)
   }
 }

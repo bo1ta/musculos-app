@@ -90,9 +90,9 @@ public struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreP
 
   public func getCompletedSinceLastWeek(userId: UUID) async -> [ExerciseSession] {
     return await storageManager.performRead { viewStorage in
-      guard
-        let (startDay, endDay) = DateHelper.getPastWeekRange() as? (Date, Date)
-      else { return [] }
+      guard let (startDay, endDay) = DateHelper.getPastWeekRange() as? (Date, Date) else {
+        return []
+      }
 
       let userPredicate = NSPredicate(
         format: "user.userId == %@",

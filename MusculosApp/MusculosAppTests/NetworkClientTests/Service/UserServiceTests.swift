@@ -84,6 +84,8 @@ final class UserServiceTests: MusculosTestBase {
   }
 
   @Test func updateUser() async throws {
+    let primaryGoalID = UUID()
+
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .updateProfile
@@ -92,7 +94,7 @@ final class UserServiceTests: MusculosTestBase {
     stubClient.expectedBody = [
       "isOnboarded": true,
       "level": ExerciseConstants.LevelType.beginner.rawValue,
-      "primaryGoal": Goal.Category.growMuscle.rawValue,
+      "primaryGoalID": primaryGoalID,
       "height": 50,
       "weight": 50
     ]
@@ -109,7 +111,7 @@ final class UserServiceTests: MusculosTestBase {
     let userProfile = try await UserService().updateUser(
       weight: 50,
       height: 50,
-      primaryGoal: Goal.Category.growMuscle.rawValue,
+      primaryGoalID: primaryGoalID,
       level: ExerciseConstants.LevelType.beginner.rawValue,
       isOnboarded: true
     )

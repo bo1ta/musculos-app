@@ -45,14 +45,14 @@ public class UserDataStoreTests: MusculosTestBase {
 
     let newWeight = 100
     let newHeight = 100
-    let newPrimaryGoal = 1
+    let newPrimaryGoal = UUID()
     let newLevel = ExerciseConstants.LevelType.beginner.rawValue
     let newIsOnboarded = true
     try await dataStore.updateProfile(
       userId: profile.userId,
       weight: newWeight,
       height: newHeight,
-      primaryGoalId: newPrimaryGoal,
+      primaryGoalID: newPrimaryGoal,
       level: newLevel,
       isOnboarded: newIsOnboarded
     )
