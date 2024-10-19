@@ -11,13 +11,14 @@ import Combine
 import Models
 import Utility
 import Storage
+import DataRepository
 
 @Observable
 @MainActor
 final class AddExerciseSheetViewModel {
-  
+
   @ObservationIgnored
-  @Injected(\StorageContainer.dataController) private var dataController: DataController
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
 
   var exerciseName = ""
   var equipment = ""
@@ -68,7 +69,7 @@ final class AddExerciseSheetViewModel {
       )
       
       do {
-        try await dataController.addExercise(exercise)
+        try await exerciseRepository.addExercise(exercise)
         didSavePublisher.send(())
       } catch {
         MusculosLogger.logError(error, message: "Could not save exercise", category: .coreData)

@@ -42,11 +42,6 @@ extension StorageContainer {
       .singleton
   }
 
-  public var dataController: Factory<DataController> {
-    self { DataController() }
-      .cached
-  }
-
   public var userManager: Factory<UserSessionManagerProtocol> {
     self { UserSessionManager() }
       .cached

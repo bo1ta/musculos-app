@@ -14,6 +14,12 @@ public final class DataRepositoryContainer: SharedContainer {
   public var manager = ContainerManager()
 }
 
+extension DataRepositoryContainer: AutoRegistering {
+  public func autoRegister() {
+    manager.defaultScope = .shared
+  }
+}
+
 extension DataRepositoryContainer {
   public var userRepository: Factory<UserRepository> {
     self { UserRepository() }
@@ -21,5 +27,14 @@ extension DataRepositoryContainer {
 
   public var exerciseRepository: Factory<ExerciseRepository> {
     self { ExerciseRepository() }
+  }
+
+  public var exerciseSessionRepository: Factory<ExerciseSessionRepository> {
+    self { ExerciseSessionRepository() }
+  }
+
+  internal var backgroundWorker: Factory<BackgroundWorker> {
+    self { BackgroundWorker() }
+      .singleton
   }
 }

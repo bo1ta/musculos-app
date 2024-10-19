@@ -12,20 +12,20 @@ import SwiftUI
 import Models
 import Storage
 import Utility
-import NetworkClient
+import DataRepository
 
 @Observable
 @MainActor
 final class ExerciseDetailsViewModel {
 
   @ObservationIgnored
-  @Injected(\StorageContainer.dataController) private var dataController: DataController
+  @Injected(\StorageContainer.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
 
   @ObservationIgnored
-  @Injected(\NetworkContainer.exerciseService) private var exerciseService: ExerciseServiceProtocol
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
 
   @ObservationIgnored
-  @Injected(\NetworkContainer.exerciseSessionService) private var exerciseSessionService: ExerciseSessionServiceProtocol
+  @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepository
 
   // MARK: - Observed properties
 
@@ -52,10 +52,8 @@ final class ExerciseDetailsViewModel {
   // MARK: - Public methods
 
   func initialLoad() async {
-    isFavorite = await dataController.isExerciseFavorite(exercise)
-
     do {
-      exercise = try await exerciseService.getExerciseDetails(for: exercise.id)
+      exercise = try await exerciseRepository.getExerciseDetails(for: exercise.id)
       if let isFavorite = exercise.isFavorite {
         self.isFavorite = isFavorite
       }
@@ -75,8 +73,8 @@ final class ExerciseDetailsViewModel {
         try await Task.sleep(for: .milliseconds(500))
         guard !Task.isCancelled else { return }
 
-        try await exerciseService.setFavoriteExercise(exercise, isFavorite: isFavorite)
-        try await dataController.updateIsFavoriteForExercise(exercise, isFavorite: isFavorite)
+        try await exerciseRepository.setFavoriteExercise(exercise, isFavorite: self.isFavorite)
+
       } catch {
         self.isFavorite = !isFavorite
         MusculosLogger.logError(error, message: "Could not update exercise.isFavorite", category: .coreData)
@@ -87,12 +85,8 @@ final class ExerciseDetailsViewModel {
   func saveExerciseSession() {
     saveExerciseSessionTask = Task.detached(priority: .background) { [weak self] in
       guard let self else { return }
-
-      async let dataStoreTask: Void = dataController.addExerciseSession(for: exercise, date: Date())
-      async let networkTask = exerciseSessionService.add(exerciseID: exercise.id, duration: Double(elapsedTime), dateAdded: Date())
-
       do {
-        let (_, exerciseSession) = try await (dataStoreTask, networkTask)
+        try await exerciseSessionRepository.addSession(exercise, dateAdded: Date(), duration: Double(self.elapsedTime))
         try await maybeUpdateGoals()
       } catch {
         MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
@@ -121,11 +115,11 @@ final class ExerciseDetailsViewModel {
   }
 
   private func maybeUpdateGoals() async throws {
-    let goals = await dataController.getGoals()
+    let goals = await goalDataStore.getAll()
 
     for goal in goals {
       if let _ = ExerciseHelper.goalToExerciseCategories[goal.category] {
-        try await dataController.incrementGoalScore(goal)
+        try await goalDataStore.incrementCurrentValue(goal)
       }
     }
   }

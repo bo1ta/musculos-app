@@ -13,9 +13,10 @@ import Utility
 public protocol ExerciseSessionDataStoreProtocol: Sendable, BaseDataStore {
   func getAll(for userId: UUID) async -> [ExerciseSession]
   func getCompletedToday(userId: UUID) async -> [ExerciseSession]
-  func addSession(_ exercise: Exercise, date: Date, duration: Double, userId: UUID) async throws
+  func getRecommendedExercisesBasedOnPastSessions(userID: UUID) async -> [Exercise]
   func getCompletedSinceLastWeek(userId: UUID) async -> [ExerciseSession]
   func getCount() async -> Int
+  func addSession(_ exerciseSession: ExerciseSession) async throws
 }
 
 public struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreProtocol {
@@ -37,23 +38,6 @@ public struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreP
   public func getCount() async -> Int {
     return await storageManager.performRead { viewStorage in
       return viewStorage.countObjects(ofType: ExerciseEntity.self)
-    }
-  }
-
-  public func importFrom(_ exerciseSessions: [ExerciseSession]) async throws {
-    return try await storageManager.performWrite { storage in
-      let existingSessions = storage.fetchUniquePropertyValues(of: ExerciseSessionEntity.self, property: "sessionId")
-      let newSessions = exerciseSessions.filter { !existingSessions.contains($0.sessionId) }
-
-      newSessions.forEach { exerciseSession in
-        let entity = storage.insertNewObject(ofType: ExerciseSessionEntity.self)
-        entity.populateEntityFrom(exerciseSession, using: storage)
-      }
-
-      MusculosLogger.logInfo(
-        message: "Imported \(newSessions.count) new exercise sessions.",
-        category: .coreData
-      )
     }
   }
 
@@ -83,6 +67,27 @@ public struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreP
     }
   }
 
+  public func getRecommendedExercisesBasedOnPastSessions(userID: UUID) async -> [Exercise] {
+    return await storageManager.performRead { storage in
+      let exerciseSessions = storage.allObjects(
+        ofType: ExerciseSessionEntity.self,
+        matching: nil,
+        sortedBy: nil
+      ).map { $0.toReadOnly() }
+
+      let muscles = Array(Set(exerciseSessions.flatMap { $0.exercise.muscleTypes }))
+      let muscleIds = muscles.map { $0.id }
+
+      return storage.allObjects(
+        ofType: PrimaryMuscleEntity.self,
+        matching: NSPredicate(format: "NOT (muscleId IN %@)", muscleIds),
+        sortedBy: nil
+      )
+      .flatMap { $0.exercises }
+      .map { $0.toReadOnly() }
+    }
+  }
+
   public func getCompletedSinceLastWeek(userId: UUID) async -> [ExerciseSession] {
     return await storageManager.performRead { viewStorage in
       guard
@@ -108,21 +113,21 @@ public struct ExerciseSessionDataStore: BaseDataStore, ExerciseSessionDataStoreP
     }
   }
 
-  public func addSession(_ exercise: Exercise, date: Date, duration: Double, userId: UUID) async throws {
+  public func addSession(_ exerciseSession: ExerciseSession) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       guard
-        let exerciseEntity = writerDerivedStorage.firstObject(of: ExerciseEntity.self, matching: PredicateFactory.exerciseById(exercise.id)),
-        let userProfile = UserProfileEntity.userFromID(userId, on: writerDerivedStorage)
+        let exerciseEntity = writerDerivedStorage.firstObject(of: ExerciseEntity.self, matching: PredicateFactory.exerciseById(exerciseSession.exercise.id)),
+        let userProfile = UserProfileEntity.userFromID(exerciseSession.user.userId, on: writerDerivedStorage)
       else {
         throw MusculosError.notFound
       }
 
       let entity = writerDerivedStorage.insertNewObject(ofType: ExerciseSessionEntity.self)
-      entity.sessionId = UUID()
-      entity.dateAdded = date
+      entity.sessionId = exerciseSession.sessionId
+      entity.dateAdded = exerciseSession.dateAdded
       entity.exercise = exerciseEntity
       entity.user = userProfile
-      entity.duration = NSNumber(floatLiteral: duration)
+      entity.duration = NSNumber(floatLiteral: exerciseSession.duration)
     }
   }
 }

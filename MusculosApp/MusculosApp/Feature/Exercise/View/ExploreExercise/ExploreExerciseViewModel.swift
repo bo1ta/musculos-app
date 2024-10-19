@@ -25,7 +25,13 @@ final class ExploreExerciseViewModel {
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
 
   @ObservationIgnored
-  @Injected(\StorageContainer.userManager) private var userManager
+  @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepository
+
+  @ObservationIgnored
+  @Injected(\StorageContainer.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
+
+  @ObservationIgnored
+  @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
 
   @ObservationIgnored
   @Injected(\.taskManager) private var taskManager: TaskManagerProtocol
@@ -127,7 +133,7 @@ extension ExploreExerciseViewModel {
       contentState = .loading
 
       do {
-        let exercises = try await exerciseService.searchByMuscleQuery(query)
+        let exercises = try await exerciseRepository.searchByMuscleQuery(query)
         contentState = .loaded(exercises)
       } catch {
         contentState = .error(MessageConstant.genericErrorMessage.rawValue)
@@ -150,7 +156,7 @@ extension ExploreExerciseViewModel {
 
   func refreshExercisesCompletedToday() async {
     do {
-      exercisesCompletedToday = try await exerciseRepository.getExercisesCompletedToday()
+      exercisesCompletedToday = try await exerciseSessionRepository.getCompletedToday()
     } catch {
       MusculosLogger.logError(error, message: "Data controller failed to get exercises completed today", category: .coreData)
     }
@@ -158,11 +164,7 @@ extension ExploreExerciseViewModel {
 
   @MainActor
   func refreshGoals() async {
-    do {
-      goals = try await dataController.getGoals()
-    } catch {
-      MusculosLogger.logError(error, message: "Data controller failed to get goals", category: .coreData)
-    }
+    goals = await goalDataStore.getAll()
   }
 }
 
@@ -177,12 +179,22 @@ extension ExploreExerciseViewModel {
     })
   }
 
+  private func loadExercises() async {
+    do {
+      let exercises = try await exerciseRepository.getExercises()
+      contentState = .loaded(exercises)
+    } catch {
+      MusculosLogger.logError(error, message: "Could not load exercises", category: .dataRepository)
+    }
+  }
+
   private func loadExercisesForSection(_ section: ExploreCategorySection) async {
     switch section {
     case .discover:
-      await loadRemoteExercises()
+      await loadExercises()
     case .workout:
-      await loadLocalExercises()
+      await loadRecommendationsByPastSessions()
+      self.contentState = .loaded(recommendedByPastSessions ?? [])
     case .myFavorites:
       await loadFavoriteExercises()
     }
@@ -193,9 +205,7 @@ extension ExploreExerciseViewModel {
 
 extension ExploreExerciseViewModel {
   func handleUpdate(_ event: CoreModelNotificationHandler.Event) {
-    updateTask?.cancel()
-
-    updateTask = Task {
+    let task = Task {
       switch event {
       case .didUpdateGoal:
         await refreshGoals()
@@ -203,15 +213,15 @@ extension ExploreExerciseViewModel {
         switch currentSection {
         case .myFavorites:
           await loadFavoriteExercises()
-        case .workout:
-          await loadLocalExercises()
-        case .discover:
+        case .workout, .discover:
           break
         }
       case .didUpdateExerciseSession:
         await updateRecommendations()
       }
     }
+
+    taskManager.addTask(task)
   }
 
   private func handleDidAddGoalEvent() async {
@@ -221,12 +231,6 @@ extension ExploreExerciseViewModel {
   private func handleDidAddExerciseSession() async {
     await refreshExercisesCompletedToday()
     await refreshGoals()
-  }
-
-  private func handleDidAddExerciseEvent() async {
-    if currentSection == .workout {
-      await loadLocalExercises()
-    }
   }
 
   private func handleDidFavoriteExercise() async {

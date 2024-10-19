@@ -11,17 +11,13 @@ import Utility
 import Storage
 import NetworkClient
 import Factory
-import Queue
 
 public actor UserRepository: BaseRepository {
   @Injected(\StorageContainer.userManager) private var userSessionManager: UserSessionManagerProtocol
   @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
   @Injected(\StorageContainer.userDataStore) private var dataStore: UserDataStoreProtocol
   @Injected(\StorageContainer.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
-
-  private let backgroundQueue = AsyncQueue()
-
-  public init() {}
+  @Injected(\DataRepositoryContainer.backgroundWorker) private var backgroundWorker: BackgroundWorker
 
   public func register(email: String, password: String, username: String) async throws -> UserSession {
     return try await service.register(email: email, password: password, username: username)
@@ -36,7 +32,7 @@ public actor UserRepository: BaseRepository {
       return nil
     }
 
-    let backgroundTask = backgroundQueue.addOperation(priority: .medium) { [weak self] in
+    let backgroundTask = backgroundWorker.queueOperation(priority: .high) { [weak self] in
       try await self?.syncCurrentUser()
     }
 
@@ -58,7 +54,7 @@ public actor UserRepository: BaseRepository {
     let goal = try await insertUserPrimaryGoalIfNeeded(profile: currentProfile, goalCategory: primaryGoal)
     try await dataStore.updateProfile(userId: currentUserID, weight: weight, height: height, primaryGoalID: goal?.id, level: level, isOnboarded: isOnboarded)
 
-    backgroundQueue.addOperation { [weak self, goal] in
+    backgroundWorker.queueOperation(priority: .low) { [weak self, goal] in
       try await self?.service.updateUser(weight: weight, height: height, primaryGoalID: goal?.id, level: level, isOnboarded: isOnboarded)
     }
   }
