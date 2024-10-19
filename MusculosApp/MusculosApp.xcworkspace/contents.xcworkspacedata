@@ -4,7 +4,4 @@
    <FileRef
       location = "group:MusculosApp.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:TestPlans/MusculosApp.xctestplan">
-   </FileRef>
 </Workspace>

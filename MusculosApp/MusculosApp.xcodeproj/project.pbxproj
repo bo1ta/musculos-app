@@ -153,6 +153,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC0198792CC459E8003C80B2 /* MusculosApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MusculosApp.xctestplan; sourceTree = "<group>"; };
 		BC0DA8722CA1CE700011EC63 /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
 		BC0DA8742CA1FC310011EC63 /* FeaturedWorkoutsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedWorkoutsSection.swift; sourceTree = "<group>"; };
 		BC0DA8782CA209D70011EC63 /* RecommendationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationSection.swift; sourceTree = "<group>"; };
@@ -311,6 +312,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC01987A2CC459E8003C80B2 /* TestPlans */ = {
+			isa = PBXGroup;
+			children = (
+				BC0198792CC459E8003C80B2 /* MusculosApp.xctestplan */,
+			);
+			path = TestPlans;
+			sourceTree = "<group>";
+		};
 		BC0D76A32B6525B700917680 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -352,6 +361,7 @@
 			isa = PBXGroup;
 			children = (
 				BC1160CE2A2CFB830028D8FC /* MusculosApp */,
+				BC01987A2CC459E8003C80B2 /* TestPlans */,
 				BC1160E52A2CFB840028D8FC /* MusculosAppTests */,
 				BC1160CD2A2CFB830028D8FC /* Products */,
 				BC8D07F12C3C52F900212EE8 /* Frameworks */,
