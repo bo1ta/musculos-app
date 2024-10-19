@@ -13,10 +13,10 @@ import Foundation
 
 @Suite(.serialized)
 public class UserDataStoreTests: MusculosTestBase {
-  @Injected(\StorageContainer.userDataStore) private var dataStore
-
   @Test func createUser() async throws {
     defer { clearStorage() }
+
+    let dataStore = UserDataStore()
 
     let profile = UserProfile(
       userId: UUID(),
@@ -24,13 +24,14 @@ public class UserDataStoreTests: MusculosTestBase {
       username: "johnny"
     )
     try await dataStore.createUser(profile: profile)
-    try await Task.sleep(for: .seconds(0.1))
 
     await #expect(dataStore.loadProfile(userId: profile.userId)?.userId == profile.userId)
   }
 
   @Test func updateProfile() async throws {
     defer { clearStorage() }
+
+    let dataStore = UserDataStore()
 
     let profile = UserProfile(
       userId: UUID(),
@@ -39,7 +40,6 @@ public class UserDataStoreTests: MusculosTestBase {
       weight: 80
     )
     try await dataStore.createUser(profile: profile)
-    try await Task.sleep(for: .seconds(0.1))
 
     #expect(profile.weight == 80)
 
@@ -56,7 +56,6 @@ public class UserDataStoreTests: MusculosTestBase {
       level: newLevel,
       isOnboarded: newIsOnboarded
     )
-    try await Task.sleep(for: .seconds(0.1))
 
     let fetchedProfile = try #require(await dataStore.loadProfile(userId: profile.userId))
     #expect(Int(fetchedProfile.weight ?? 0) == newWeight)

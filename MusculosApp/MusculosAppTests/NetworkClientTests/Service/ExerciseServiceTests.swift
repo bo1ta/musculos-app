@@ -15,8 +15,6 @@ import Factory
 
 @Suite(.serialized)
 final class ExerciseServiceTests: MusculosTestBase {
-  @Injected(\NetworkContainer.client) var client: MusculosClientProtocol
-
   @Test func getExercises() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get

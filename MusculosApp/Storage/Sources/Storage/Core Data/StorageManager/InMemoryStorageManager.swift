@@ -46,7 +46,13 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
     
     set { }
   }
-  
+
+  public override func performWrite(_ writeClosure: @escaping WriteStorageClosure) async throws {
+    try await super.performWrite(writeClosure)
+
+    await saveChanges()
+  }
+
   public override func deleteAllStoredObjects() {
     let viewContext = persistentContainer.viewContext
     
@@ -60,6 +66,7 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
         for object in objects {
           viewContext.delete(object)
         }
+        viewContext.saveIfNeeded()
       } catch {
         print("Failed to fetch objects for entity \(entityName): \(error)")
       }

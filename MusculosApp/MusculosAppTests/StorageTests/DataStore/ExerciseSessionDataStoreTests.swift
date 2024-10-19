@@ -22,14 +22,12 @@ public class ExerciseSessionDataStoreTests: MusculosTestBase {
   private func setupCurrentUser() async throws -> UserProfile {
     let profile = UserProfileFactory.createProfile()
     try await userDataStore.createUser(profile: profile)
-    try await Task.sleep(for: .seconds(0.1))
     return profile
   }
 
   private func setupExercise() async throws -> Exercise {
     let exercise = ExerciseFactory.createExercise()
     try await exerciseDataStore.add(exercise)
-    try await Task.sleep(for: .seconds(0.1))
     return exercise
   }
   
@@ -73,8 +71,7 @@ public class ExerciseSessionDataStoreTests: MusculosTestBase {
     let dateFrom2DaysAgo = try #require(Calendar.current.date(byAdding: .day, value: -2, to: dateFromToday))
 
     try await dataStore.addSession(ExerciseSessionFactory.createExerciseSession(dateAdded: dateFromToday, profile: profile, exercise: exercise))
-       try await dataStore.addSession(ExerciseSessionFactory.createExerciseSession(dateAdded: dateFrom2DaysAgo, profile: profile, exercise: exercise))
-    try await Task.sleep(for: .seconds(0.1))
+    try await dataStore.addSession(ExerciseSessionFactory.createExerciseSession(dateAdded: dateFrom2DaysAgo, profile: profile, exercise: exercise))
 
     let results = await dataStore.getCompletedToday(userId: profile.userId)
     #expect(results.count == 1)
@@ -88,7 +85,6 @@ public class ExerciseSessionDataStoreTests: MusculosTestBase {
 
     let exerciseSession = ExerciseSessionFactory.createExerciseSession(profile: profile, exercise: exercise)
     try await dataStore.addSession(exerciseSession)
-    try await Task.sleep(for: .seconds(0.1))
 
     let results = await dataStore.getAll(for: profile.userId)
     #expect(results.count == 1)

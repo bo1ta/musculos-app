@@ -13,11 +13,8 @@ import Foundation
 
 @Suite(.serialized)
 public class GoalDataStoreTests: MusculosTestBase {
-  @Injected(\StorageContainer.goalDataStore) var dataStore: GoalDataStoreProtocol
-  @Injected(\StorageContainer.userDataStore) var userDataStore: UserDataStoreProtocol
-
   @Test func getAllIsInitiallyEmpty() async throws {
-    let goals = await dataStore.getAll()
+    let goals = await GoalDataStore().getAll()
     #expect(goals.isEmpty)
   }
 
@@ -26,6 +23,8 @@ public class GoalDataStoreTests: MusculosTestBase {
 
     let user = UserProfileFactory.createProfile()
     try await populateDataStoreWithUser(user)
+
+    let dataStore = GoalDataStore()
 
     let goal = Goal(
       name: "First goal",
@@ -38,8 +37,6 @@ public class GoalDataStoreTests: MusculosTestBase {
     )
     try await dataStore.add(goal)
 
-    try await Task.sleep(for: .seconds(0.1))
-
     let goals = await dataStore.getAll()
     #expect(!goals.isEmpty)
 
@@ -48,6 +45,6 @@ public class GoalDataStoreTests: MusculosTestBase {
   }
 
   private func populateDataStoreWithUser(_ user: UserProfile) async throws {
-    return try await userDataStore.createUser(profile: user)
+    return try await UserDataStore().createUser(profile: user)
   }
 }
