@@ -8,7 +8,6 @@
 import Foundation
 import Models
 import Factory
-import Storage
 import Utility
 
 public protocol ExerciseSessionServiceProtocol: Sendable {
@@ -20,13 +19,13 @@ public struct ExerciseSessionService: ExerciseSessionServiceProtocol, MusculosSe
   @Injected(\NetworkContainer.client) var client: MusculosClientProtocol
 
   public func getAll() async throws -> [ExerciseSession] {
-    let request = APIRequest(method: .get, path: .exerciseSession)
+    let request = APIRequest(method: .get, endpoint: .exerciseSession)
     let data = try await client.dispatch(request)
     return try ExerciseSession.createArrayFrom(data)
   }
 
   public func add(exerciseID: UUID, duration: Double, dateAdded: Date = Date()) async throws -> ExerciseSession {
-    var request = APIRequest(method: .post, path: .exerciseSession)
+    var request = APIRequest(method: .post, endpoint: .exerciseSession)
     request.body = [
       "dateAdded": dateAdded.ISO8601Format() as Any,
       "duration": duration as Any,

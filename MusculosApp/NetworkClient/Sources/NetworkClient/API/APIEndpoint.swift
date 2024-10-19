@@ -35,6 +35,15 @@ public enum Endpoint {
       return "/exercise-session"
     }
   }
+
+  public var isAuthorizationRequired: Bool {
+    switch self {
+    case .login, .register:
+      return false
+    default:
+      return true
+    }
+  }
 }
 
 public struct APIEndpoint {

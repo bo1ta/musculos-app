@@ -11,8 +11,8 @@ import Models
 import Foundation
 @testable import Storage
 
-@Suite
-public struct GoalDataStoreTests {
+@Suite(.serialized)
+public class GoalDataStoreTests: MusculosTestBase {
   @Injected(\StorageContainer.goalDataStore) var dataStore: GoalDataStoreProtocol
   @Injected(\StorageContainer.userDataStore) var userDataStore: UserDataStoreProtocol
 
@@ -22,6 +22,8 @@ public struct GoalDataStoreTests {
   }
 
   @Test func addGoal() async throws {
+    defer { clearStorage() }
+
     let user = UserProfileFactory.createProfile()
     try await populateDataStoreWithUser(user)
 

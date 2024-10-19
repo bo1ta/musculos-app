@@ -11,8 +11,8 @@ import Models
 import Foundation
 @testable import Storage
 
-@Suite
-public class ExerciseDataStoreTests {
+@Suite(.serialized)
+public class ExerciseDataStoreTests: MusculosTestBase {
   @Injected(\StorageContainer.exerciseDataStore) private var dataStore
 
   @Test func getAllIsInitiallyEmpty() async throws {
@@ -21,6 +21,8 @@ public class ExerciseDataStoreTests {
   }
 
   @Test func addExercise() async throws {
+    defer { clearStorage() }
+
     let exercise = ExerciseFactory.createExercise(name: "First Exercise")
     try await dataStore.add(exercise)
 
@@ -31,6 +33,8 @@ public class ExerciseDataStoreTests {
   }
 
   @Test func isFavorite() async throws {
+    defer { clearStorage() }
+
     let exercise = ExerciseFactory.createExercise(name: "First Exercise")
     try await dataStore.add(exercise)
 
@@ -44,6 +48,8 @@ public class ExerciseDataStoreTests {
   }
 
   @Test func getByName() async throws {
+    defer { clearStorage() }
+
     let exercise = ExerciseFactory.createExercise(name: "First Exercise")
     try await dataStore.add(exercise)
 
@@ -54,6 +60,8 @@ public class ExerciseDataStoreTests {
   }
 
   @Test func getByMuscles() async throws {
+    defer { clearStorage() }
+    
     let exercise = ExerciseFactory.createExercise(
       name: "First Exercise",
       primaryMuscles: [MuscleType.chest.rawValue]

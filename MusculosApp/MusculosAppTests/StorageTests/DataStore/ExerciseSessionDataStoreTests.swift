@@ -14,7 +14,7 @@ import XCTest
 @testable import Storage
 
 @Suite(.serialized)
-public class ExerciseSessionDataStoreTests {
+public class ExerciseSessionDataStoreTests: MusculosTestBase {
   @Injected(\StorageContainer.exerciseSessionDataStore) private var dataStore
   @Injected(\StorageContainer.exerciseDataStore) private var exerciseDataStore
   @Injected(\StorageContainer.userDataStore) private var userDataStore
@@ -47,6 +47,8 @@ public class ExerciseSessionDataStoreTests {
   }
 
   @Test func getCompletedSinceLastWeek() async throws {
+    defer { clearStorage() }
+
     let dateFromToday = Date()
     let dateFrom2DaysAgo = try #require(Calendar.current.date(byAdding: .day, value: -2, to: dateFromToday))
     let dateFromDistantPast = Date.distantPast
@@ -58,11 +60,11 @@ public class ExerciseSessionDataStoreTests {
 
     let results = await dataStore.getCompletedSinceLastWeek(userId: profile.userId)
     #expect(results.count == 2)
-
-    StorageContainer.shared.storageManager().reset()
   }
 
   @Test func getCompletedToday() async throws {
+    defer { clearStorage() }
+
     let dateFromToday = Date()
     let dateFrom2DaysAgo = try #require(Calendar.current.date(byAdding: .day, value: -2, to: dateFromToday))
 
@@ -77,6 +79,8 @@ public class ExerciseSessionDataStoreTests {
   }
 
   @Test func addSession() async throws {
+    defer { clearStorage() }
+
     try await dataStore.addSession(
       exercise,
       date: Date(),

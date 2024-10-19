@@ -79,7 +79,7 @@ struct AuthView: View {
     case let .onLoginSuccess(userSession):
       userStore.handlePostLogin(session: userSession)
     case let .onRegisterSuccess(userSession):
-      userStore.handlePostRegister(session: userSession)
+      userStore.handlePostLogin(session: userSession)
     case .onLoginFailure(let error):
       MusculosLogger.logError(
         error,

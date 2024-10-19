@@ -7,24 +7,22 @@
 
 import Foundation
 import SwiftUI
-
 import Utility
 import Storage
 import Models
+import Factory
 
 @Observable
 @MainActor
 final class WorkoutListViewModel {
+
+  @ObservationIgnored
+  @Injected(\StorageContainer.workoutDataStore) private var dataStore: WorkoutDataStoreProtocol
+
   var state: LoadingViewState<[Workout]> = .empty
   var searchQuery: String = ""
 
-  private let dataStore: WorkoutDataStore
-  
   private(set) var loadTask: Task<Void, Never>?
-  
-  init(dataStore: WorkoutDataStore = WorkoutDataStore()) {
-    self.dataStore = dataStore
-  }
   
   var isLoading: Bool {
     return state == .loading

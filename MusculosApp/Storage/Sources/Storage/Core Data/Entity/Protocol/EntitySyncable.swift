@@ -10,8 +10,8 @@ import CoreData
 import Utility
 
 public protocol EntitySyncable {
-  associatedtype ModelType: Codable
+  associatedtype ModelType: IdentifiableEntity
 
-  func populateEntityFrom(_ model: ModelType, using storage: StorageType) throws
-  func updateEntityFrom(_ model: ModelType, using storage: StorageType) throws
+  func populateEntityFrom(_ model: ModelType, using storage: StorageType)
+  func updateEntityFrom(_ model: ModelType, using storage: StorageType)
 }

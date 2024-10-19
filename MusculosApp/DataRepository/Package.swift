@@ -4,21 +4,24 @@
 import PackageDescription
 
 let package = Package(
-  name: "Storage",
+  name: "DataRepository",
   platforms: [.iOS(.v17)],
   products: [
     .library(
-      name: "Storage",
-      targets: ["Storage"]),
+      name: "DataRepository",
+      targets: ["DataRepository"]),
   ],
   dependencies: [
     .package(name: "Utility", path: "../Utility"),
     .package(name: "Models", path: "../Models"),
+    .package(name: "Storage", path: "../Storage"),
+    .package(name: "NetworkClient", path: "../NetworkClient"),
     .package(url: "https://github.com/hmlongco/Factory", exact: "2.3.2"),
+    .package(url: "https://github.com/mattmassicotte/Queue", from: "0.1.4")
   ],
   targets: [
     .target(
-      name: "MusculosApp",
+      name: "DataRepository",
       dependencies: [
         .product(
           name: "Utility",
@@ -28,19 +31,21 @@ let package = Package(
           name: "Models",
           package: "Models"
         ),
-        "Factory"
-      ]
-    ),
-    .target(
-      name: "Storage",
-      dependencies: [
-        .product(name: "Utility", package: "Utility"),
-        .product(name: "Models", package: "Models")
+        .product(
+          name: "Storage",
+          package: "Storage"
+        ),
+        .product(
+          name: "NetworkClient",
+          package: "NetworkClient"
+        ),
+        "Factory",
+        "Queue"
       ]
     ),
     .testTarget(
-      name: "StorageTests",
-      dependencies: ["Storage"]
+      name: "DataRepositoryTests",
+      dependencies: ["DataRepository"]
     ),
   ]
 )

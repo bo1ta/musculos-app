@@ -59,13 +59,9 @@ public protocol StorageType {
   ///
   func loadObject<T: Object>(ofType type: T.Type, with objectID: T.ObjectID) -> T?
   
-  /// Returns a set of a property values for a given type.
-  /// - Parameters:
-  ///   - type: Managed object that conforms to `Object` protocol
-  ///   - propertyToFetch: The name of the property to fetch values for.
-  /// - Returns: A set of hashable values for the specified property, or nil if an error occurs.
+  /// Returns a set of a unique property values for a given type.
   ///
-  func fetchUniquePropertyValues<T: Object, V: Hashable>(ofType type: T.Type, property propertyToFetch: String, expressionResultType: NSAttributeType) -> Set<V>?
+  func fetchUniquePropertyValues<T: Object>(of type: T.Type, property propertyToFetch: String) -> Set<UUID>
 
   /// Saves context, if it has changes
   ///

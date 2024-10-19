@@ -93,7 +93,6 @@ final class ExerciseDetailsViewModel {
 
       do {
         let (_, exerciseSession) = try await (dataStoreTask, networkTask)
-        print(exerciseSession)
         try await maybeUpdateGoals()
       } catch {
         MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)

@@ -41,7 +41,7 @@ public final class DataController: @unchecked Sendable {
 
   public init() {
     self.coreModelNotificationHandler = CoreModelNotificationHandler(
-      managedObjectContext: StorageContainer.shared.storageManager().writerDerivedStorage as? NSManagedObjectContext
+      storageType: StorageContainer.shared.storageManager().writerDerivedStorage
     )
   }
 }
@@ -176,7 +176,7 @@ extension DataController {
   public func updateUserProfile(
     weight: Int? = nil,
     height: Int? = nil,
-    primaryGoalId: Int? = nil,
+    primaryGoalID: UUID? = nil,
     level: String? = nil,
     isOnboarded: Bool = false
   ) async throws {
@@ -187,7 +187,7 @@ extension DataController {
       userId: currentUserID,
       weight: weight,
       height: height,
-      primaryGoalId: primaryGoalId,
+      primaryGoalID: primaryGoalID,
       level: level,
       isOnboarded: isOnboarded
     )

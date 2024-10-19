@@ -5,16 +5,13 @@
 //  Created by Solomon Alexandru on 15.09.2024.
 //
 
-import Utility
-import Storage
+import Foundation
 import Models
 
-extension Exercise: SyncableObject {
-  public typealias EntityType = ExerciseEntity
-
+extension Exercise: IdentifiableEntity {
   public static let identifierKey: String = "exerciseId"
 
-  public var identifierValue: String {
-    self.id.uuidString
+  public var identifierValue: UUID {
+    self.id
   }
 }

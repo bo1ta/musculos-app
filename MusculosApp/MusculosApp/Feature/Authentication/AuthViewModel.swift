@@ -8,16 +8,17 @@
 import Foundation
 import Combine
 import Utility
-import Factory
 import SwiftUI
 import Models
-import NetworkClient
+import DataRepository
+import Factory
 
 @Observable
 @MainActor
 class AuthViewModel {
+
   @ObservationIgnored
-  @Injected(\NetworkContainer.userService) private var userService
+  @Injected(\DataRepositoryContainer.userRepository) private var repository: UserRepository
 
   // MARK: - Auth step
 
@@ -60,15 +61,7 @@ class AuthViewModel {
   private let _event = PassthroughSubject<Event, Never>()
 
   init(initialStep: Step) {
-    step = initialStep
-  }
-
-  func makeLoadingBinding() -> Binding<Bool> {
-    Binding(get: {
-      return self.uiState == .loading
-    }, set: {
-      self.uiState = $0 ? .loading : .idle
-    })
+    self.step = initialStep
   }
 
   func signIn() {
@@ -81,7 +74,7 @@ class AuthViewModel {
       defer { uiState = .idle }
 
       do {
-        let session = try await userService.login(email: email, password: password)
+        let session = try await repository.login(email: email, password: password)
         _event.send(.onLoginSuccess(session))
       } catch {
         _event.send(.onLoginFailure(error))
@@ -100,7 +93,7 @@ class AuthViewModel {
       defer { uiState = .idle }
 
       do {
-        let session = try await userService.register(
+        let session = try await repository.register(
           email: email,
           password: password,
           username: username
@@ -116,5 +109,13 @@ class AuthViewModel {
   func cleanUp() {
     authTask?.cancel()
     authTask = nil
+  }
+
+  func makeLoadingBinding() -> Binding<Bool> {
+    Binding(get: {
+      return self.uiState == .loading
+    }, set: {
+      self.uiState = $0 ? .loading : .idle
+    })
   }
 }

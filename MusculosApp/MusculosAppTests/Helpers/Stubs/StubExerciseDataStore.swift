@@ -12,7 +12,7 @@ import Utility
 
 @testable import MusculosApp
 
-final class StubExerciseDataStore: ExerciseDataStoreProtocol {
+final class StubExerciseDataStore: ExerciseDataStoreProtocol, @unchecked Sendable {
   var expectedExercises: [Exercise] = []
   var shouldFail: Bool = false
 
@@ -22,10 +22,6 @@ final class StubExerciseDataStore: ExerciseDataStoreProtocol {
   
   func getAllFavorites() async -> [Exercise] {
     return expectedExercises
-  }
-  
-  func importFrom(_ exercises: [Exercise]) async throws -> [Exercise] {
-    return exercises
   }
   
   func isFavorite(_ exercise: Exercise) async -> Bool {
@@ -55,5 +51,13 @@ final class StubExerciseDataStore: ExerciseDataStoreProtocol {
   }
   
   func add(_ exercise: Exercise) async throws {}
-  
+
+  func getByID(_ exerciseID: UUID) async -> Models.Exercise? {
+    return expectedExercises.first ?? nil
+  }
+
+  func getCount() async -> Int {
+    return expectedExercises.count
+  }
+
 }

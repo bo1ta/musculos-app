@@ -1,5 +1,5 @@
 {
-  "originHash" : "5304115f8f2aaed1be2255a245ab419ad06353990d83750bc64ed54b99f6e78e",
+  "originHash" : "4e8bc7f08fd3dc3032ee1ef8b649dd023c4b83893da359425578f26dcbc8f7d0",
   "pins" : [
     {
       "identity" : "factory",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "587995f7d5cc667951d635fbf6b4252324ba0439",
         "version" : "2.3.2"
+      }
+    },
+    {
+      "identity" : "queue",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mattmassicotte/Queue",
+      "state" : {
+        "revision" : "8d6f936097888f97011610ced40313655dc5948d",
+        "version" : "0.1.4"
       }
     },
     {

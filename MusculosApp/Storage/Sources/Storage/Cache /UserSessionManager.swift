@@ -37,6 +37,10 @@ extension UserSessionManagerProtocol {
     }
     return nil
   }
+
+  public var currentUserID: UUID? {
+    return currentUserSession?.user.id
+  }
 }
 
 public final class UserSessionManager: @unchecked Sendable, UserSessionManagerProtocol {

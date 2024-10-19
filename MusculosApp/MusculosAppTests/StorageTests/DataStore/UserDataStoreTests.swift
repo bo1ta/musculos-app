@@ -11,11 +11,13 @@ import Models
 import Foundation
 @testable import Storage
 
-@Suite
-public struct UserDataStoreTests {
+@Suite(.serialized)
+public class UserDataStoreTests: MusculosTestBase {
   @Injected(\StorageContainer.userDataStore) private var dataStore
 
   @Test func createUser() async throws {
+    defer { clearStorage() }
+
     let profile = UserProfile(
       userId: UUID(),
       email: "test@test.com",
@@ -28,6 +30,8 @@ public struct UserDataStoreTests {
   }
 
   @Test func updateProfile() async throws {
+    defer { clearStorage() }
+
     let profile = UserProfile(
       userId: UUID(),
       email: "test@test.com",

@@ -28,8 +28,13 @@ final class HomeViewModel {
     isLoading = true
     defer { isLoading = false }
 
-    currentUser = await dataController.getCurrentUserProfile()
-    goals = await dataController.getGoals()
-    recommendedExercises = await dataController.getExercises()
+    await withTaskGroup(of: Void.self) { group in
+      group.addTask {
+        self.goals = await self.dataController.getGoals()
+      }
+      group.addTask {
+        self.recommendedExercises = await self.dataController.getExercises()
+      }
+    }
   }
 }

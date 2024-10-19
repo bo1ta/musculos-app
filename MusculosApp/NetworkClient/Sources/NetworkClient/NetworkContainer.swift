@@ -28,4 +28,15 @@ extension NetworkContainer {
   public var exerciseSessionService: Factory<ExerciseSessionServiceProtocol> {
     self { ExerciseSessionService() }
   }
+
+  public var someService: Factory<SomeService> {
+    self { SomeService() }
+  }
 }
+
+public class SomeService {
+    init() { print("SomeService initialized") }
+    deinit { print("SomeService deinitialized") }
+}
+
+
