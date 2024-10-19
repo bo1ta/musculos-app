@@ -20,14 +20,6 @@ public actor ExerciseSessionRepository: BaseRepository {
   @Injected(\NetworkContainer.exerciseSessionService) private var service: ExerciseSessionServiceProtocol
   @Injected(\DataRepositoryContainer.backgroundWorker) private var backgroundWorker: BackgroundWorker
 
-  public init() {
-    print("a aparut fortareata")
-  }
-
-  deinit {
-    print("a disparut fortareata")
-  }
-
   public func getExerciseSessions() async throws -> [ExerciseSession] {
     guard let currentUserID = userSessionManager.currentUserID else {
       throw MusculosError.notFound

@@ -44,22 +44,35 @@ extension UserSessionManagerProtocol {
 }
 
 public final class UserSessionManager: @unchecked Sendable, UserSessionManagerProtocol {
+  private let queue = DispatchQueue(label: "UserSessionManager queue")
+  private var cachedSessionState: UserSessionState?
+
   public func currentState() -> UserSessionState {
-    if let session = loadSessionFromUserDefaults() {
-      return .authenticated(session)
-    } else {
-      return .unauthenticated
+    return queue.sync {
+      if let cachedSessionState {
+        return cachedSessionState
+      }
+
+      let session = loadSessionFromUserDefaults()
+      cachedSessionState =  session != nil ? .authenticated(session!) : .unauthenticated
+      return cachedSessionState!
     }
   }
 
   public func updateSession(_ session: UserSession) {
-    if let data = try? JSONEncoder().encode(session) {
-      UserDefaults.standard.set(data, forKey: UserDefaultsKey.userSession)
+    queue.sync {
+      if let data = try? JSONEncoder().encode(session) {
+        UserDefaults.standard.set(data, forKey: UserDefaultsKey.userSession)
+        cachedSessionState = .authenticated(session)
+      }
     }
   }
 
   public func clearSession() {
-    UserDefaults.standard.removeObject(forKey: UserDefaultsKey.userSession)
+    queue.sync {
+      UserDefaults.standard.removeObject(forKey: UserDefaultsKey.userSession)
+      cachedSessionState = nil
+    }
   }
 
   private func loadSessionFromUserDefaults() -> UserSession? {
