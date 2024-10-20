@@ -20,15 +20,6 @@
       }
     },
     {
-      "identity" : "swift-async-queue",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/dfed/swift-async-queue",
-      "state" : {
-        "revision" : "b51448d3347a3aedd828c491de3e78035f18759c",
-        "version" : "0.6.1"
-      }
-    },
-    {
       "identity" : "swiftui-shimmer",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/markiv/SwiftUI-Shimmer",
