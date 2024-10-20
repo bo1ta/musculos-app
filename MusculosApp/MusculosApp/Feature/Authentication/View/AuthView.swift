@@ -38,7 +38,7 @@ struct AuthView: View {
     .onDisappear {
       viewModel.cleanUp()
     }
-    .onReceive(viewModel.event, perform: { event in
+    .onReceive(viewModel.eventPublisher, perform: { event in
       handleAuthEvent(event)
     })
     .onChange(of: viewModel.step) { _, step in

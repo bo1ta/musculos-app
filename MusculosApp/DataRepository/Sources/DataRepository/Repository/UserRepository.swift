@@ -54,7 +54,7 @@ public actor UserRepository: BaseRepository {
     let goal = try await insertUserPrimaryGoalIfNeeded(profile: currentProfile, goalCategory: primaryGoal)
     try await dataStore.updateProfile(userId: currentUserID, weight: weight, height: height, primaryGoalID: goal?.id, level: level, isOnboarded: isOnboarded)
 
-    backgroundWorker.queueOperation(priority: .low) { [weak self, goal] in
+    backgroundWorker.queueOperation(priority: .low) { [weak self] in
       try await self?.service.updateUser(weight: weight, height: height, primaryGoalID: goal?.id, level: level, isOnboarded: isOnboarded)
     }
   }

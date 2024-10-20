@@ -36,7 +36,7 @@ public actor ExerciseRepository: BaseRepository {
 
     let exercises = try await service.getExercises()
 
-    backgroundWorker.queueOperation(priority: .low) { [weak self] in
+    backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
       try await self?.exerciseDataStore.importToStorage(remoteObjects: exercises, localObjectType: ExerciseEntity.self)
     }
 
@@ -48,7 +48,7 @@ public actor ExerciseRepository: BaseRepository {
       return exercise
     } else {
       let exercise = try await service.getExerciseDetails(for: exerciseID)
-      backgroundWorker.queueOperation(priority: .medium) { [weak self] in
+      backgroundWorker.queueOperation(priority: .medium, operationType: .local) { [weak self] in
         try await self?.exerciseDataStore.add(exercise)
       }
       return exercise
@@ -61,7 +61,7 @@ public actor ExerciseRepository: BaseRepository {
     }
 
     let exercises = try await service.getFavoriteExercises()
-    backgroundWorker.queueOperation(priority: .medium) { [weak self] in
+    backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
       try await self?.exerciseDataStore.importToStorage(remoteObjects: exercises, localObjectType: ExerciseEntity.self)
     }
     return exercises
@@ -70,14 +70,14 @@ public actor ExerciseRepository: BaseRepository {
 
   public func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
     try await exerciseDataStore.setIsFavorite(exercise, isFavorite: isFavorite)
-    backgroundWorker.queueOperation { [weak self] in
+    backgroundWorker.queueOperation(priority: .medium) { [weak self] in
       try await self?.service.setFavoriteExercise(exercise, isFavorite: isFavorite)
     }
   }
 
   public func getExercisesByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise] {
     let exercises = try await service.getByWorkoutGoal(workoutGoal)
-    backgroundWorker.queueOperation(priority: .low) { [weak self] in
+    backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
       try await self?.exerciseDataStore.importToStorage(remoteObjects: exercises, localObjectType: ExerciseEntity.self)
     }
     return exercises
@@ -112,7 +112,7 @@ public actor ExerciseRepository: BaseRepository {
 
   public func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
     let exercises = try await service.searchByMuscleQuery(query)
-    backgroundWorker.queueOperation(priority: .low) { [weak self] in
+    backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
       try await self?.exerciseDataStore.importToStorage(remoteObjects: exercises, localObjectType: ExerciseEntity.self)
     }
     return exercises

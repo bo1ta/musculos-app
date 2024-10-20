@@ -12,7 +12,6 @@ public enum MusculosError: LocalizedError, CustomStringConvertible {
   case error4xx(_ code: Int)
   case error5xx(_ code: Int)
   case urlSessionFailed(_ error: URLError)
-  case sdkError(_ error: Error)
   
   public var description: String {
     switch self {
@@ -38,21 +37,39 @@ public enum MusculosError: LocalizedError, CustomStringConvertible {
       return "URL session failed: \(error.localizedDescription)"
     case .unknownError:
       return "Unknown error"
-    case .sdkError(let error):
-      return "SDK Error: \(error.localizedDescription)"
     }
   }
   
   public static func httpError(_ statusCode: Int) -> MusculosError {
     switch statusCode {
-    case 400: return .badRequest
-    case 401: return .unauthorized
-    case 403: return .forbidden
-    case 404: return .notFound
-    case 402, 405...499: return .error4xx(statusCode)
-    case 500: return .serverError
-    case 501...599: return .error5xx(statusCode)
-    default: return .unknownError
+    case 400:
+      return .badRequest
+    case 401:
+      return .unauthorized
+    case 403:
+      return .forbidden
+    case 404:
+      return .notFound
+    case 402, 405...499:
+      return .error4xx(statusCode)
+    case 500:
+      return .serverError
+    case 501...599:
+      return .error5xx(statusCode)
+    default:
+      return .unknownError
+    }
+  }
+
+  public static func isRetryableError(_ error: Error) -> Bool {
+    guard let error = error as? MusculosError else {
+      return false
+    }
+    switch error {
+    case .badRequest, .unauthorized, .forbidden, .notFound:
+      return true
+    default:
+      return false
     }
   }
 }

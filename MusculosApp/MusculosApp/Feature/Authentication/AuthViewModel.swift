@@ -38,15 +38,14 @@ class AuthViewModel {
 
   // MARK: - Public
 
-  var step: Step
   var uiState: UIState = .idle
   var email  = ""
   var username  = ""
   var password = ""
   var confirmPassword = ""
 
-  var event: AnyPublisher<Event, Never> {
-    _event.eraseToAnyPublisher()
+  var eventPublisher: AnyPublisher<Event, Never> {
+    eventSubject.eraseToAnyPublisher()
   }
 
   var isLoginFormValid: Bool {
@@ -58,8 +57,9 @@ class AuthViewModel {
   }
 
   private(set) var authTask: Task<Void, Never>?
-  private let _event = PassthroughSubject<Event, Never>()
+  private let eventSubject = PassthroughSubject<Event, Never>()
 
+  var step: Step
   init(initialStep: Step) {
     self.step = initialStep
   }
@@ -75,9 +75,9 @@ class AuthViewModel {
 
       do {
         let session = try await repository.login(email: email, password: password)
-        _event.send(.onLoginSuccess(session))
+        sendEvent(.onLoginSuccess(session))
       } catch {
-        _event.send(.onLoginFailure(error))
+        sendEvent(.onLoginFailure(error))
         MusculosLogger.logError(error, message: "Sign in failed", category: .networking)
       }
     }
@@ -98,9 +98,9 @@ class AuthViewModel {
           password: password,
           username: username
         )
-        _event.send(.onRegisterSuccess(session))
+        sendEvent(.onRegisterSuccess(session))
       } catch {
-        _event.send(.onRegisterFailure(error))
+        sendEvent(.onRegisterFailure(error))
         MusculosLogger.logError(error, message: "Sign Up failed", category: .networking)
       }
     }
@@ -111,11 +111,7 @@ class AuthViewModel {
     authTask = nil
   }
 
-  func makeLoadingBinding() -> Binding<Bool> {
-    Binding(get: {
-      return self.uiState == .loading
-    }, set: {
-      self.uiState = $0 ? .loading : .idle
-    })
+  private func sendEvent(_ event: Event) {
+    eventSubject.send(event)
   }
 }
