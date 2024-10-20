@@ -13,7 +13,6 @@ import NetworkClient
 import Factory
 
 public actor ExerciseRepository: BaseRepository {
-  @Injected(\StorageContainer.userManager) private var userSessionManager: UserSessionManagerProtocol
   @Injected(\NetworkContainer.exerciseService) private var service: ExerciseServiceProtocol
   @Injected(\StorageContainer.exerciseDataStore) private var exerciseDataStore: ExerciseDataStoreProtocol
   @Injected(\StorageContainer.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
@@ -88,7 +87,7 @@ public actor ExerciseRepository: BaseRepository {
   }
 
   public func getRecommendedExercisesByMuscleGroups() async throws -> [Exercise] {
-    guard let currentUserID = userSessionManager.currentUserID else {
+    guard let currentUserID = self.currentUserID else {
       throw MusculosError.notFound
     }
 

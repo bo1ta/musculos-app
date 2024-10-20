@@ -55,7 +55,7 @@ final class AddGoalSheetViewModel {
     saveTask = Task { [weak self] in
       guard let self else { return }
 
-      guard let currentUser = await userRepository.currentUser() else {
+      guard let currentUser = await userRepository.getCurrentUser() else {
         return
       }
 

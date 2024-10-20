@@ -120,7 +120,7 @@ final class UserStore {
   /// Listens to a stream that first returns the local user, and then the api user
   ///
   private func loadCurrentUser() async throws {
-    currentUserProfile = await userRepository.currentUser()
+    currentUserProfile = await userRepository.getCurrentUser()
   }
 
   private func sendEvent(_ event: Event) {

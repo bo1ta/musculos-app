@@ -14,8 +14,8 @@ import Storage
 protocol BaseRepository { }
 
 extension BaseRepository {
-  var currentUserSession: UserSession? {
-    return StorageContainer.shared.userManager().currentUserSession
+  var currentUserID: UUID? {
+    return StorageContainer.shared.userManager().currentUserID
   }
 }
 

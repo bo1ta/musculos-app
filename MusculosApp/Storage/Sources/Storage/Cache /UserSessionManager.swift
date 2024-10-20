@@ -18,9 +18,6 @@ public protocol UserSessionManagerProtocol: Sendable {
   func currentState() -> UserSessionState
   func updateSession(_ session: UserSession)
   func clearSession()
-
-  var isAuthenticated: Bool { get }
-  var currentUserSession: UserSession? { get }
 }
 
 extension UserSessionManagerProtocol {

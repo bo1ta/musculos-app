@@ -13,7 +13,6 @@ import NetworkClient
 import Factory
 
 public actor UserRepository: BaseRepository {
-  @Injected(\StorageContainer.userManager) private var userSessionManager: UserSessionManagerProtocol
   @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
   @Injected(\StorageContainer.userDataStore) private var dataStore: UserDataStoreProtocol
   @Injected(\StorageContainer.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
@@ -27,8 +26,8 @@ public actor UserRepository: BaseRepository {
     return try await service.login(email: email, password: password)
   }
 
-  public func currentUser() async -> UserProfile? {
-    guard let currentUserID = currentUserSession?.user.id else {
+  public func getCurrentUser() async -> UserProfile? {
+    guard let currentUserID = self.currentUserID else {
       return nil
     }
 
@@ -45,7 +44,7 @@ public actor UserRepository: BaseRepository {
 
   public func updateProfile(weight: Int? = nil, height: Int? = nil, primaryGoal: Goal.Category? = nil, level: String? = nil, isOnboarded: Bool = false) async throws {
     guard
-      let currentUserID = currentUserSession?.user.id,
+      let currentUserID = self.currentUserID,
       let currentProfile = await dataStore.loadProfile(userId: currentUserID)
     else {
       throw MusculosError.notFound
