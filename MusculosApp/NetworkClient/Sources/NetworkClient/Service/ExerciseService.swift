@@ -7,7 +7,6 @@
 
 import Foundation
 import Models
-import Storage
 import Factory
 
 public protocol ExerciseServiceProtocol: Sendable {
@@ -19,18 +18,18 @@ public protocol ExerciseServiceProtocol: Sendable {
   func getByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise]
 }
 
-public struct ExerciseService: ExerciseServiceProtocol, MusculosService, @unchecked Sendable {
+public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
   @Injected(\NetworkContainer.client) var client: MusculosClientProtocol
 
   public func getExercises() async throws -> [Exercise] {
-    let request = APIRequest(method: .get, path: .exercises)
+    let request = APIRequest(method: .get, endpoint: .exercises)
     
     let data = try await client.dispatch(request)
     return try Exercise.createArrayFrom(data)
   }
   
   public func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
-    var request = APIRequest(method: .get, path: .exercisesByMuscle)
+    var request = APIRequest(method: .get, endpoint: .exercisesByMuscle)
     request.queryParams = [URLQueryItem(name: "query", value: query)]
 
     let data = try await client.dispatch(request)
@@ -38,21 +37,21 @@ public struct ExerciseService: ExerciseServiceProtocol, MusculosService, @unchec
   }
 
   public func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise {
-    let request = APIRequest(method: .get, path: .exerciseDetails(exerciseID))
+    let request = APIRequest(method: .get, endpoint: .exerciseDetails(exerciseID))
     
     let data = try await client.dispatch(request)
     return try Exercise.createFrom(data)
   }
 
   public func getFavoriteExercises() async throws -> [Exercise] {
-    let request = APIRequest(method: .get, path: .favoriteExercise)
+    let request = APIRequest(method: .get, endpoint: .favoriteExercise)
 
     let data = try await client.dispatch(request)
     return try Exercise.createArrayFrom(data)
   }
 
   public func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
-    var request = APIRequest(method: .post, path: .favoriteExercise)
+    var request = APIRequest(method: .post, endpoint: .favoriteExercise)
     request.body = [
       "exercise_id": exercise.id.uuidString,
       "is_favorite": isFavorite
@@ -62,7 +61,7 @@ public struct ExerciseService: ExerciseServiceProtocol, MusculosService, @unchec
   }
 
   public func getByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise] {
-    var request = APIRequest(method: .get, path: .exercisesByGoals)
+    var request = APIRequest(method: .get, endpoint: .exercisesByGoals)
     request.queryParams = [
       URLQueryItem(name: "goal", value: String(workoutGoal.rawValue))
     ]

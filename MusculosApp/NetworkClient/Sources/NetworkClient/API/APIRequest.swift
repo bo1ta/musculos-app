@@ -15,7 +15,7 @@ public struct APIRequest {
   @Injected(\StorageContainer.userManager) var userManager
 
   public var method: HTTPMethod
-  public var path: Endpoint
+  public var endpoint: Endpoint
   public var queryParams: [URLQueryItem]?
   public var body: [String: Any]?
   public var opk: String?
@@ -23,7 +23,7 @@ public struct APIRequest {
   var contentType: String { "application/json" }
 
   public func asURLRequest() async -> URLRequest? {
-    guard var baseURL = APIEndpoint.baseWithEndpoint(endpoint: path) else { return nil }
+    guard var baseURL = APIEndpoint.baseWithEndpoint(endpoint: endpoint) else { return nil }
 
     if let opk {
       baseURL.appendPathComponent(opk)
@@ -47,8 +47,12 @@ public struct APIRequest {
     var newHeaders: [String: String] = [:]
     newHeaders[HTTPHeaderConstant.contentType] = self.contentType
 
-    if let authToken {
-      newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(authToken)"
+    if endpoint.isAuthorizationRequired {
+      if let authToken {
+        newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(authToken)"
+      } else {
+        return nil
+      }
     }
     
     request.allHTTPHeaderFields = newHeaders

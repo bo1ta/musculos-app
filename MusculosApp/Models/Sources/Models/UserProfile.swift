@@ -19,7 +19,7 @@ public struct UserProfile: Codable, Sendable {
   public let height: Double?
   public let level: String?
   public let availableEquipment: [String]?
-  public let primaryGoalID: Int?
+  public let primaryGoalID: UUID?
   public var isOnboarded: Bool?
   public var xp: Int? = 0
 
@@ -34,7 +34,7 @@ public struct UserProfile: Codable, Sendable {
     height: Double? = nil,
     level: String? = nil,
     availableEquipment: [String]? = nil,
-    primaryGoalId: Int? = nil,
+    primaryGoalID: UUID? = nil,
     isOnboarded: Bool? = false,
     xp: Int? = 0
   ) {
@@ -48,7 +48,7 @@ public struct UserProfile: Codable, Sendable {
     self.height = height
     self.level = level
     self.availableEquipment = availableEquipment
-    self.primaryGoalID = primaryGoalId
+    self.primaryGoalID = primaryGoalID
     self.isOnboarded = isOnboarded
     self.xp = xp
   }

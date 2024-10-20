@@ -25,12 +25,12 @@ public final class CoreModelNotificationHandler {
     return eventSubject.eraseToAnyPublisher()
   }
 
-  public init(managedObjectContext: NSManagedObjectContext?) {
+  public init(storageType: StorageType) {
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(managedObjectContextDidSave),
       name: .NSManagedObjectContextDidSave,
-      object: managedObjectContext
+      object: storageType as? NSManagedObjectContext
     )
   }
 

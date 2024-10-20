@@ -13,18 +13,14 @@ import Models
 import Utility
 import Storage
 import NetworkClient
+import DataRepository
 
 @Observable
 @MainActor
 final class OnboardingWizardViewModel {
-  
-  // MARK: - Dependencies
-  
-  @ObservationIgnored
-  @Injected(\StorageContainer.dataController) private var dataController: DataController
 
   @ObservationIgnored
-  @Injected(\NetworkContainer.userService) private var userService: UserServiceProtocol
+  @Injected(\DataRepositoryContainer.userRepository) private var userRepository: UserRepository
 
   // MARK: - Event
 
@@ -81,18 +77,18 @@ final class OnboardingWizardViewModel {
       guard let self else { return }
 
       do {
-        _ = try await userService.updateUser(
-            weight: Int(selectedWeight),
-            height: Int(selectedHeight),
-            primaryGoal: selectedGoal?.title ?? "",
-            level: selectedLevel?.title,
-            isOnboarded: true
-          )
+//        _ = try await userRepository.updateProfile(
+//            weight: Int(selectedWeight),
+//            height: Int(selectedHeight),
+//            primaryGoal: selectedGoal?.title ?? "",
+//            level: selectedLevel?.title,
+//            isOnboarded: true
+//          )
 
-        if let selectedGoal, let currentUser = await dataController.getCurrentUserProfile() {
-          let goal = Goal(onboardingGoal: selectedGoal, user: currentUser)
-          try await dataController.addGoal(goal)
-        }
+//        if let selectedGoal, let currentUser = await dataController.getCurrentUserProfile() {
+//          let goal = Goal(onboardingGoal: selectedGoal, user: currentUser)
+//          try await dataController.addGoal(goal)
+//        }
 
         HapticFeedbackProvider.haptic(.notifySuccess)
         sendEvent(.didFinishOnboarding)

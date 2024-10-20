@@ -13,7 +13,7 @@ public protocol WorkoutDataStoreProtocol: Sendable {
   func getAll() async -> [Workout]
 }
 
-public struct WorkoutDataStore: DataStoreBase, WorkoutDataStoreProtocol {
+public struct WorkoutDataStore: BaseDataStore, WorkoutDataStoreProtocol {
 
   public init() { }
   

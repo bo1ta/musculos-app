@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 import Factory
 import Combine
-
 import Models
 import Utility
+import DataRepository
 import Storage
 
 @Observable
@@ -21,7 +21,14 @@ final class AddWorkoutSheetViewModel {
   // MARK: - Dependencies
 
   @ObservationIgnored
-  @Injected(\StorageContainer.dataController) private var dataController: DataController
+  @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
+
+  @ObservationIgnored
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
+
+  @ObservationIgnored
+  @Injected(\StorageContainer.workoutDataStore) private var workoutDataStore: WorkoutDataStoreProtocol
+
 
   // MARK: - Observed properties
   
@@ -82,7 +89,7 @@ final class AddWorkoutSheetViewModel {
     state = .loading
 
     do {
-      let exercises = try await dataController.getExercises()
+      let exercises = try await exerciseRepository.getExercises()
       state = .loaded(exercises)
     } catch {
       state = .error("Could not fetch exercises")
@@ -114,7 +121,7 @@ final class AddWorkoutSheetViewModel {
     updateTask = Task {
       state = .loading
       
-      let results = await dataController.getExercisesByMuscles(selectedMuscleTypes)
+      let results = await exerciseRepository.getExercisesForMuscleTypes(selectedMuscleTypes)
       state = .loaded(results)
     }
   }
@@ -160,11 +167,15 @@ extension AddWorkoutSheetViewModel {
     loadTask = Task { @MainActor in
       state = .loading
       
-      let results = await dataController.getExercisesByName(name)
-      if results.isEmpty {
-        state = .empty
-      } else {
-        state = .loaded(results)
+      do {
+        let results = try await exerciseRepository.searchByMuscleQuery(name)
+        if results.isEmpty {
+          state = .empty
+        } else {
+          state = .loaded(results)
+        }
+      } catch {
+        MusculosLogger.logError(error, message: "Error searching query", category: .dataRepository)
       }
     }
   }
@@ -172,7 +183,9 @@ extension AddWorkoutSheetViewModel {
   
   func submitWorkout() {
     guard !selectedExercises.isEmpty, !workoutName.isEmpty, !muscleSearchQuery.isEmpty else { return }
-    
+
+    guard let currentUserID = userManager.currentUserID else { return }
+
     submitWorkoutTask = Task { [weak self] in
       guard let self else { return }
 
@@ -184,7 +197,7 @@ extension AddWorkoutSheetViewModel {
       )
       
       do {
-        try await dataController.addWorkout(workout)
+        try await workoutDataStore.create(workout, userId: currentUserID)
         didSaveSubject.send(())
       } catch {
         MusculosLogger.logError(error, message: "Could not add workout", category: .coreData)

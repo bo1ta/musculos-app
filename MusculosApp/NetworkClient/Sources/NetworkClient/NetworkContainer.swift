@@ -29,3 +29,10 @@ extension NetworkContainer {
     self { ExerciseSessionService() }
   }
 }
+
+public class SomeService {
+    init() { print("SomeService initialized") }
+    deinit { print("SomeService deinitialized") }
+}
+
+

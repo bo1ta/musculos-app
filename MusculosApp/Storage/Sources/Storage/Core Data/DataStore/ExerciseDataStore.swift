@@ -11,8 +11,8 @@ import CoreData
 @preconcurrency import Models
 import Utility
 
-public protocol ExerciseDataStoreProtocol: Sendable {
-  
+public protocol ExerciseDataStoreProtocol: BaseDataStore, Sendable {
+
   // MARK: - Read methods
   
   /// Checks if the given exercise is favorite
@@ -26,7 +26,11 @@ public protocol ExerciseDataStoreProtocol: Sendable {
   /// Get all exercises where name contains a given query
   ///
   func getByName(_ query: String) async -> [Exercise]
-  
+
+  /// Get by the unique ID
+  ///
+  func getByID(_ exerciseID: UUID) async -> Exercise?
+
   /// Get all exercises given a list of muscle types
   ///
   func getByMuscles(_ muscles: [MuscleType]) async -> [Exercise]
@@ -43,7 +47,11 @@ public protocol ExerciseDataStoreProtocol: Sendable {
   /// Get all exercises excluding a list of muscle types
   ///
   func getAllExcludingMuscles(_ muscles: [MuscleType]) async -> [Exercise]
-  
+
+  /// Returns the total count of `ExerciseEntity` objects
+  ///
+  func getCount() async -> Int
+
   // MARK: - Write methods
   
   /// Update favorite state for an exercise
@@ -57,9 +65,18 @@ public protocol ExerciseDataStoreProtocol: Sendable {
 
 // MARK: - Read methods implementation
 
-public struct ExerciseDataStore: DataStoreBase, ExerciseDataStoreProtocol {
+public struct ExerciseDataStore: ExerciseDataStoreProtocol {
   public init() { }
-  
+
+  public func getByID(_ exerciseID: UUID) async -> Exercise? {
+    return await storageManager.performRead { viewStorage in
+      return viewStorage.firstObject(
+        of: ExerciseEntity.self,
+        matching: PredicateFactory.exerciseById(exerciseID)
+      )?.toReadOnly()
+    }
+  }
+
   public func isFavorite(_ exercise: Exercise) async -> Bool {
     return await storageManager.performRead { viewStorage in
       return viewStorage
@@ -138,6 +155,12 @@ public struct ExerciseDataStore: DataStoreBase, ExerciseDataStoreProtocol {
       )
       .flatMap { $0.exercises }
       .map { $0.toReadOnly() }
+    }
+  }
+
+  public func getCount() async -> Int {
+    return await storageManager.performRead { viewStorage in
+      return viewStorage.countObjects(ofType: ExerciseEntity.self)
     }
   }
 }
