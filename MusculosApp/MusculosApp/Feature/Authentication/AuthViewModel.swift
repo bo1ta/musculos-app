@@ -38,11 +38,11 @@ class AuthViewModel {
 
   // MARK: - Public
 
-  var uiState: UIState = .idle
   var email  = ""
   var username  = ""
   var password = ""
   var confirmPassword = ""
+  var isLoading: Bool = false
 
   var eventPublisher: AnyPublisher<Event, Never> {
     eventSubject.eraseToAnyPublisher()
@@ -70,8 +70,8 @@ class AuthViewModel {
     authTask = Task { [weak self] in
       guard let self else { return }
 
-      uiState = .loading
-      defer { uiState = .idle }
+      isLoading = true
+      defer { isLoading = false }
 
       do {
         let session = try await repository.login(email: email, password: password)
@@ -89,8 +89,8 @@ class AuthViewModel {
     authTask = Task { [weak self] in
       guard let self else { return }
 
-      uiState = .loading
-      defer { uiState = .idle }
+      isLoading = true
+      defer { isLoading = false }
 
       do {
         let session = try await repository.register(

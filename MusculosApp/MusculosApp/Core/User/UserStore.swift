@@ -12,7 +12,6 @@ import Combine
 import Models
 import Storage
 import Utility
-import NetworkClient
 import DataRepository
 
 @Observable
@@ -44,7 +43,7 @@ final class UserStore {
 
   private(set) var currentUserProfile: UserProfile?
   private(set) var currentUserState: UserSessionState = .unauthenticated
-  private(set) var isLoading: Bool = false
+  private(set) var isLoading = false
 
   var eventPublisher: AnyPublisher<Event, Never> {
     eventSubject.eraseToAnyPublisher()

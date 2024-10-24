@@ -22,7 +22,7 @@ struct SignUpView: View {
 
       registerForm
 
-      PrimaryButton(title: "Sign up", action: viewModel.signUp)
+      LoadableButton(title: "Sign up", isLoading: $viewModel.isLoading, action: viewModel.signUp)
         .padding(.horizontal, 15)
         .padding(.top, 10)
 
@@ -31,9 +31,6 @@ struct SignUpView: View {
     .dismissingGesture(direction: .left, action: showLogin)
     .padding(.horizontal, 20)
     .onDisappear(perform: viewModel.cleanUp)
-    .safeAreaInset(edge: .top) {
-      backButton
-    }
   }
 
   private func showLogin() {
@@ -49,14 +46,9 @@ extension SignUpView {
       Button(action: onBack, label: {
         Image(systemName: "chevron.left")
           .font(AppFont.header(.bold, size: 25))
-          .foregroundStyle(.black)
+          .foregroundStyle(.white)
+          .shadow(radius: 1.2)
       })
-      Spacer()
-      Text("Sign Up")
-        .font(AppFont.poppins(.bold, size: 35))
-        .foregroundColor(.black)
-        .shadow(color: .black.opacity(0.5), radius: 2.5)
-        .padding(.trailing, 20)
       Spacer()
     }
   }
@@ -79,21 +71,25 @@ extension SignUpView {
     VStack(alignment: .leading, spacing: 10) {
       FormField(
         text: $viewModel.email,
-        label: "Email"
+        label: "Email",
+        labelColor: .white
       )
       FormField(
         text: $viewModel.password,
         label: "Password",
+        labelColor: .white,
         isSecureField: true
       )
       FormField(
         text: $viewModel.confirmPassword,
         label: "Confirm password",
+        labelColor: .white,
         isSecureField: true
       )
       FormField(
         text: $viewModel.username,
-        label: "Username"
+        label: "Username",
+        labelColor: .white
       )
     }
   }

@@ -29,16 +29,15 @@ struct SplashView: View {
       }
     }
     .background(AppColor.navyBlue)
-    .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: showLoginScreen)
+    .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: showLoginScreen)
   }
 
   private var splashScreen: some View {
     ZStack {
       SineWaveView(
-        waveCount: 1,
-        baseAmplitude: 0.17,
-        backgroundColor: Color.white,
-        wavePosition: .top,
+        waveSize: .constant(1.2),
+        backgroundColor: .white,
+        wavePosition: .bottom,
         waveColors: [AppColor.navyBlue],
         isAnimated: false
       )

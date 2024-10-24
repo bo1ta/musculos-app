@@ -14,7 +14,7 @@ public struct Toast: Equatable, Sendable {
   var duration: Double
   var width: Double
 
-  public init(style: ToastStyle, message: String, duration: Double = 1, width: Double = .infinity) {
+  public init(style: ToastStyle, message: String, duration: Double = 1.5, width: Double = .infinity) {
     self.style = style
     self.message = message
     self.duration = duration
@@ -40,9 +40,9 @@ public extension Toast {
     var backgroundColor: Color {
       switch self {
       case .success: Color.AppColor.green100
-      case .info: Color.gray.opacity(0.1)
-      case .warning: Color.yellow.opacity(0.1)
-      case .error: Color.red.opacity(0.1)
+      case .info: Color.gray
+      case .warning: Color.yellow
+      case .error: Color.red
       }
     }
     

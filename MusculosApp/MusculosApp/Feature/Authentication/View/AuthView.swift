@@ -13,14 +13,18 @@ struct AuthView: View {
   @Environment(\.userStore) private var userStore
 
   @State private var viewModel: AuthViewModel
+  @State private var toast: Toast? = nil
 
   // used for the wave animation
   @State private var waveSize: CGFloat
 
+  private let originalSignInWaveSize = 1.9
+  private let originalSignUpWaveSize = 1.7
+
   var onBack: () -> Void
 
   init(initialStep: AuthViewModel.Step, onBack: @escaping () -> Void) {
-    self._waveSize = State(initialValue: initialStep == .login ? 0.5 : 0.2)
+    self._waveSize = State(initialValue: initialStep == .login ? originalSignInWaveSize : originalSignUpWaveSize)
     self.viewModel = AuthViewModel(initialStep: initialStep)
     self.onBack = onBack
   }
@@ -31,6 +35,7 @@ struct AuthView: View {
         waveCount: 8,
         waveSize: $waveSize,
         backgroundColor: Color.white,
+        wavePosition: .bottom,
         baseWaveColor: AppColor.navyBlue
       )
       authStep
@@ -44,6 +49,7 @@ struct AuthView: View {
     .onChange(of: viewModel.step) { _, step in
       handleStepUpdate(step)
     }
+    .toastView(toast: $toast)
     .dismissingGesture(
       direction: .left,
       action: {
@@ -67,31 +73,23 @@ struct AuthView: View {
           .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       }
     }
-    .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: viewModel.step)
+    .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: viewModel.step)
   }
 
   private func handleStepUpdate(_ step: AuthViewModel.Step) {
-    waveSize = step == .login ? 0.5 : 0.2
+    waveSize = step == .login ? originalSignInWaveSize : originalSignUpWaveSize
   }
 
   private func handleAuthEvent(_ event: AuthViewModel.Event) {
     switch event {
-    case let .onLoginSuccess(userSession):
-      userStore.handlePostLogin(session: userSession)
-    case let .onRegisterSuccess(userSession):
+    case let .onLoginSuccess(userSession), let .onRegisterSuccess(userSession):
       userStore.handlePostLogin(session: userSession)
     case .onLoginFailure(let error):
-      MusculosLogger.logError(
-        error,
-        message: "Could not login",
-        category: .networking
-      )
+      toast = .init(style: .error, message: "Could not register. Please try again later")
+      MusculosLogger.logError(error, message: "Login failed", category: .networking)
     case .onRegisterFailure(let error):
-      MusculosLogger.logError(
-        error,
-        message: "Could not register",
-        category: .networking
-      )
+      toast = .init(style: .error, message: "Could not register. Please try again later")
+      MusculosLogger.logError(error, message: "Register failed", category: .networking)
     }
   }
 }
