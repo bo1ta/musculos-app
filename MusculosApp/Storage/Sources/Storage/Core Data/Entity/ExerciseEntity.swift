@@ -113,7 +113,7 @@ extension ExerciseEntity: ReadOnlyConvertible {
 // MARK: - EntitySyncable
 
 extension ExerciseEntity: EntitySyncable {
-  public func populateEntityFrom(_ model: Exercise, using storage: StorageType) throws {
+  public func populateEntityFrom(_ model: Exercise, using storage: StorageType) {
     self.category = model.category
     self.exerciseId = model.id
     self.category = model.category
@@ -127,13 +127,13 @@ extension ExerciseEntity: EntitySyncable {
     self.secondaryMuscles = SecondaryMuscleEntity.createFor(exerciseEntity: self, from: model.secondaryMuscles, using: storage)
   }
 
-  public func updateEntityFrom(_ model: Exercise, using storage: StorageType) throws {
+  public func updateEntityFrom(_ model: Exercise, using storage: StorageType) {
     guard let isFavorite = model.isFavorite else { return }
 
     self.isFavorite = isFavorite
   }
 
-  static func findOrCreate(from model: Exercise, using storage: StorageType) throws -> ExerciseEntity {
+  static func findOrCreate(from model: Exercise, using storage: StorageType) -> ExerciseEntity {
     if let exerciseEntity = storage.firstObject(of: ExerciseEntity.self, matching: PredicateFactory.exerciseById(model.id)) {
       return exerciseEntity
     }

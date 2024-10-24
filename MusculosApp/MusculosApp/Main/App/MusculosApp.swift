@@ -45,7 +45,7 @@ struct MusculosApp: App {
             LoadingOverlayView(progress: $progress)
           }
         }
-        .animation(.smooth(duration: UIConstant.defaultAnimationDuration), value: appState)
+        .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: appState)
         .onReceive(userStore.eventPublisher) { event in
           handleUserEvent(event)
         }

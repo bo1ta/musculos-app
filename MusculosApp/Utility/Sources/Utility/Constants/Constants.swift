@@ -23,7 +23,8 @@ public struct UIConstant {
   public static let componentOpacity: Double = 0.95
 
   public static let shortAnimationDuration: Double = 0.1
-  public static let defaultAnimationDuration: Double = 0.25
+  public static let mediumAnimationDuration: Double = 0.25
+  public static let longAnimationDuration: Double = 0.5
 
   public static let smallIconSize: Double = 16.0
   public static let mediumIconSize: Double = 23.0

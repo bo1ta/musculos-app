@@ -38,11 +38,40 @@ public struct SineWaveAnimatableShape: Shape, Animatable, @unchecked Sendable {
   }
 
   public func path(in rect: CGRect) -> Path {
+    switch wavePosition {
+    case .top:
+      return makePathAtTheTop(in: rect)
+    case .bottom:
+      return makePathAtTheBottom(in: rect)
+    }
+  }
+
+  private func makePathAtTheBottom(in rect: CGRect) -> Path {
+    return Path { path in
+       let width = rect.width
+       let height = rect.height
+       let midHeight = calculateMidHeight(from: height)
+       path.move(to: CGPoint(x: 0, y: midHeight))
+       for x in stride(from: 0, through: width, by: 1) {
+         let relativeX = x / width
+         let y = midHeight + sin(relativeX * frequency * .pi * 2 + phase) * amplitude * height * waveSize
+         path.addLine(to: CGPoint(x: x, y: y))
+       }
+       path.addLine(to: CGPoint(x: width, y: height))
+       path.addLine(to: CGPoint(x: 0, y: height))
+       path.closeSubpath()
+     }
+  }
+
+  private func makePathAtTheTop(in rect: CGRect) -> Path {
     return Path { path in
       let width = rect.width
       let height = rect.height
       let midHeight = calculateMidHeight(from: height)
-      path.move(to: CGPoint(x: 0, y: midHeight))
+
+      path.move(to: CGPoint(x: 0, y: 0))
+
+      path.addLine(to: CGPoint(x: 0, y: midHeight))
 
       for x in stride(from: 0, through: width, by: 1) {
         let relativeX = x / width
@@ -50,8 +79,7 @@ public struct SineWaveAnimatableShape: Shape, Animatable, @unchecked Sendable {
         path.addLine(to: CGPoint(x: x, y: y))
       }
 
-      path.addLine(to: CGPoint(x: width, y: height))
-      path.addLine(to: CGPoint(x: 0, y: height))
+      path.addLine(to: CGPoint(x: width, y: 0))
       path.closeSubpath()
     }
   }

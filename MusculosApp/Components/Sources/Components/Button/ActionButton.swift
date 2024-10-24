@@ -15,7 +15,13 @@ public struct ActionButton: View {
   let systemImageName: String?
   let onClick: () -> Void
 
-  public init(actionType: ButtonActionType = .positive, buttonSize: ButtonSize = .medium, title: String, systemImageName: String? = nil, onClick: @escaping () -> Void) {
+  public init(
+    actionType: ButtonActionType = .positive,
+    buttonSize: ButtonSize = .medium,
+    title: String,
+    systemImageName: String? = nil,
+    onClick: @escaping () -> Void
+  ) {
     self.actionType = actionType
     self.buttonSize = buttonSize
     self.title = title
@@ -30,7 +36,6 @@ public struct ActionButton: View {
 
         Text(title)
           .font(AppFont.poppins(.medium, size: 17))
-        
 
         Spacer()
 

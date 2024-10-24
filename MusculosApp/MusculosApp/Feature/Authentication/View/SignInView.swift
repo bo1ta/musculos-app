@@ -17,18 +17,20 @@ struct SignInView: View {
   var onBack: () -> Void
 
   var body: some View {
-    VStack {
+    VStack(alignment: .center, spacing: 20) {
+      Spacer()
+
       headerStack
       loginForm
 
-      PrimaryButton(title: "Sign in", action: viewModel.signIn)
+      LoadableButton(title: "Sign in", isLoading: $viewModel.isLoading, action: viewModel.signIn)
         .padding(.horizontal, 15)
 
       dontHaveAnAccountSection
 
       Spacer()
     }
-    .padding([.horizontal, .vertical], 35)
+    .padding([.horizontal], 35)
   }
 }
 
@@ -41,14 +43,9 @@ extension SignInView {
       Button(action: onBack, label: {
         Image(systemName: "chevron.left")
           .font(AppFont.header(.bold, size: 25))
-          .foregroundStyle(.black)
+          .foregroundStyle(.white)
+          .shadow(radius: 1.2)
       })
-      Spacer()
-      Text("Sign In")
-        .font(AppFont.poppins(.bold, size: 35))
-        .foregroundColor(.black)
-        .shadow(color: .black.opacity(0.5), radius: 2.5)
-        .padding(.trailing, 20)
       Spacer()
     }
   }
@@ -56,9 +53,9 @@ extension SignInView {
   @ViewBuilder
   private var loginForm: some View {
     @Bindable var viewModel = viewModel
-    let labelColor = Color.black
+    let labelColor = Color.white
 
-    VStack(spacing: 15) {
+    VStack(spacing: 10) {
       FormField(
         text: $viewModel.email,
         label: "Email",
@@ -77,20 +74,18 @@ extension SignInView {
   private var dontHaveAnAccountSection: some View {
     HStack {
       Text("Don't have an account?")
-        .font(Font.body(.regular, size: 16))
-        .foregroundStyle(.gray)
+        .font(AppFont.poppins(.regular, size: 15))
         .shadow(radius: 0.3)
       
       Button(action: {
         viewModel.step = .register
       }, label: {
         Text("Sign up")
-          .font(Font.body(.bold, size: 16))
-          .foregroundStyle(.gray)
+          .font(AppFont.poppins(.bold, size: 17))
           .shadow(radius: 0.3)
       })
     }
-    .padding(.top)
+    .foregroundStyle(.white)
   }
 }
 

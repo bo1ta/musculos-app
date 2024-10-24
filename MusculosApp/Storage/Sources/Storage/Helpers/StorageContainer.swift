@@ -15,6 +15,12 @@ public final class StorageContainer: SharedContainer {
   public var manager = ContainerManager()
 }
 
+extension StorageContainer: AutoRegistering {
+  public func autoRegister() {
+    manager.defaultScope = .shared
+  }
+}
+
 extension StorageContainer {
   public var exerciseDataStore: Factory<ExerciseDataStoreProtocol> {
     self { ExerciseDataStore() }
@@ -40,11 +46,6 @@ extension StorageContainer {
     self { StorageManager() }
       .onTest { InMemoryStorageManager() }
       .singleton
-  }
-
-  public var dataController: Factory<DataController> {
-    self { DataController() }
-      .cached
   }
 
   public var userManager: Factory<UserSessionManagerProtocol> {

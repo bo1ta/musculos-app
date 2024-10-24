@@ -94,7 +94,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   /// With `async` flavour
   ///
   public func saveChanges() async {
-    await writerDerivedStorage.performAndWait {
+    try? await writerDerivedStorage.perform {
       self.writerDerivedStorage.saveIfNeeded()
       
       self.viewStorage.performAndWait {

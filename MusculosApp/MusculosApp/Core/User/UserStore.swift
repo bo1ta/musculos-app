@@ -12,7 +12,7 @@ import Combine
 import Models
 import Storage
 import Utility
-import NetworkClient
+import DataRepository
 
 @Observable
 @MainActor
@@ -21,13 +21,10 @@ final class UserStore {
   // MARK: - Injected Dependencies
 
   @ObservationIgnored
-  @Injected(\NetworkContainer.userService) private var userService
+  @Injected(\DataRepositoryContainer.userRepository) private var userRepository: UserRepository
 
   @ObservationIgnored
-  @Injected(\StorageContainer.dataController) private var dataController
-
-  @ObservationIgnored
-  @Injected(\StorageContainer.userManager) private var userManager
+  @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
 
   @ObservationIgnored
   @Injected(\.taskManager) private var taskManager: TaskManagerProtocol
@@ -46,9 +43,7 @@ final class UserStore {
 
   private(set) var currentUserProfile: UserProfile?
   private(set) var currentUserState: UserSessionState = .unauthenticated
-  private(set) var isLoading: Bool = false
-
-  // MARK: - Public
+  private(set) var isLoading = false
 
   var eventPublisher: AnyPublisher<Event, Never> {
     eventSubject.eraseToAnyPublisher()
@@ -57,17 +52,18 @@ final class UserStore {
   var displayName: String {
     return currentUserProfile?.username ?? ""
   }
-  
+
   var isOnboarded: Bool {
     return currentUserProfile?.isOnboarded ?? false
   }
-  
+
   var isLoggedIn: Bool {
     return userManager.isAuthenticated && currentUserProfile != nil
   }
 
   func initialLoad() async {
     currentUserState = userManager.currentState()
+
     switch currentUserState {
     case .authenticated(let userSession):
       handlePostLogin(session: userSession)
@@ -76,32 +72,16 @@ final class UserStore {
     }
   }
 
-  private func loadUserFromLocalStorage() async {
-    currentUserProfile = await dataController.getCurrentUserProfile()
-  }
-
   func refreshUser() {
     let task = Task {
-      await loadUserFromServer()
-    }
-    taskManager.addTask(task)
-  }
-
-  func updateIsOnboarded(_ isOnboarded: Bool) {
-    let task = Task { [weak self] in
       do {
-        try await self?.dataController.updateUserProfile(isOnboarded: isOnboarded)
-        self?.sendEvent(.didFinishOnboarding)
+        try await loadCurrentUser()
       } catch {
-        MusculosLogger.logError(error, message: "Could not update isOnboarded field.", category: .coreData)
+        MusculosLogger.logError(error, message: "Could not refresh user", category: .coreData)
       }
     }
-    taskManager.addTask(task)
-  }
 
-  func handlePostRegister(session: UserSession) {
-    updateSession(session)
-    handlePostLogin(session: session)
+    taskManager.addTask(task)
   }
 
   func handlePostLogin(session: UserSession) {
@@ -113,28 +93,41 @@ final class UserStore {
       isLoading = true
       defer { isLoading = false }
 
-      if let profile = await dataController.getCurrentUserProfile() {
-        currentUserProfile = profile
+      do {
+        try await loadCurrentUser()
         sendEvent(.didLogin)
-      } else {
-        await loadUserFromServer()
+      } catch {
+        MusculosLogger.logError(error, message: "Error loading current user", category: .coreData)
       }
     }
 
     taskManager.addTask(task)
   }
 
-  private func loadUserFromServer() async {
-    do {
-      currentUserProfile = try await userService.currentUser()
-      sendEvent(.didLogin)
-    } catch {
-      MusculosLogger.logError(error, message: "Initial load failed", category: .networking)
+  func updateIsOnboarded(_ isOnboarded: Bool) {
+    let task = Task { [weak self] in
+      do {
+        try await self?.userRepository.updateProfile(isOnboarded: isOnboarded)
+        self?.sendEvent(.didFinishOnboarding)
+      } catch {
+        MusculosLogger.logError(error, message: "Could not update isOnboarded field.", category: .coreData)
+      }
     }
+    taskManager.addTask(task)
+  }
+
+  /// Listens to a stream that first returns the local user, and then the api user
+  ///
+  private func loadCurrentUser() async throws {
+    currentUserProfile = await userRepository.getCurrentUser()
   }
 
   private func sendEvent(_ event: Event) {
     eventSubject.send(event)
+  }
+
+  private func cleanUp() {
+    taskManager.cancelAllTasks()
   }
 
   private func updateSession(_ session: UserSession) {

@@ -18,7 +18,7 @@ struct ExploreCategorySectionView: View {
     HStack(spacing: 0) {
       ForEach(ExploreCategorySection.allCases, id: \.title) { section in
         Button(action: {
-          withAnimation(.easeInOut(duration: UIConstant.defaultAnimationDuration)) {
+          withAnimation(.easeInOut(duration: UIConstant.mediumAnimationDuration)) {
             onChangeSection?(section)
           }
         }, label: {

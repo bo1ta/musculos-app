@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Utility
 
 public struct ToastView: View {
   var style: Toast.ToastStyle
@@ -18,21 +19,22 @@ public struct ToastView: View {
       .frame(height: 40)
       .shadow(radius: 3)
       .padding(.horizontal, 16)
-      .foregroundStyle(style.backgroundColor.opacity(0.9))
+      .foregroundStyle(.black.opacity(0.9))
       .overlay {
         RoundedRectangle(cornerRadius: 8)
-          .stroke(style.borderColor)
+          .stroke(.white)
           .shadow(radius: 3)
-          .opacity(0.3)
+          .opacity(0.8)
           .padding(.horizontal, 16)
       }
       .overlay {
         HStack(alignment: .center, spacing: 12) {
           Image(systemName: style.systemImageName)
-            .foregroundColor(style.borderColor)
+            .renderingMode(.template)
+            .foregroundStyle(.white)
           Text(message)
             .font(.body(.medium))
-            .foregroundStyle(.black)
+            .foregroundStyle(.white)
         }
       }
   }

@@ -28,7 +28,7 @@ public struct SineWaveView: View {
 
   public init(
     waveCount: Int = 2,
-    waveSize: Binding<CGFloat> = .constant(0.3),
+    waveSize: Binding<CGFloat> = .constant(0.15),
     baseAmplitude: CGFloat = 0.05,
     baseFrequency: CGFloat = 1.3,
     backgroundColor: Color = .blue,

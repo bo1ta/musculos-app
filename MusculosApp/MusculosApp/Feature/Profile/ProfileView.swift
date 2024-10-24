@@ -10,10 +10,10 @@ import Models
 import Utility
 import Components
 import Factory
-import Storage
+import DataRepository
 
 struct ProfileView: View {
-  @Injected(\StorageContainer.dataController) private var dataController
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
 
   @Environment(\.userStore) private var userStore
   @Environment(\.healthKitViewModel) private var healthKitViewModel
@@ -71,8 +71,8 @@ struct ProfileView: View {
         // load different data
       }
 
-      exercises = await dataController.getExercises()
-    }
+      exercises = (try? await exerciseRepository.getExercises()) ?? []
+     }
     .scrollIndicators(.hidden)
   }
 }

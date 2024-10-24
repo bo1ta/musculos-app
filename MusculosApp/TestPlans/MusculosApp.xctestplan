@@ -1,0 +1,53 @@
+{
+  "configurations" : [
+    {
+      "id" : "37A806F0-7881-4580-B73A-17A102D70ABC",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-com.apple.CoreData.ConcurrencyDebug 1"
+      },
+      {
+        "argument" : " -com.apple.CoreData.SQLDebug 1",
+        "enabled" : false
+      }
+    ],
+    "environmentVariableEntries" : [
+      {
+        "key" : "export SQLITE_DEBUG=1",
+        "value" : ""
+      }
+    ],
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:MusculosApp.xcodeproj",
+      "identifier" : "BC1160CB2A2CFB830028D8FC",
+      "name" : "MusculosApp"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:MusculosApp.xcodeproj",
+        "identifier" : "BC1160E12A2CFB840028D8FC",
+        "name" : "MusculosAppTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:MusculosApp.xcodeproj",
+        "identifier" : "BC1160EB2A2CFB840028D8FC",
+        "name" : "MusculosAppUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

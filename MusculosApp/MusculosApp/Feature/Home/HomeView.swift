@@ -19,7 +19,7 @@ struct HomeView: View {
     ScrollView {
       VStack(spacing: 15) {
         GreetingHeader(
-          profile: viewModel.currentUser,
+          profile: userStore.currentUserProfile,
           onSearchTap: {
             navigationRouter.push(.search)
           },

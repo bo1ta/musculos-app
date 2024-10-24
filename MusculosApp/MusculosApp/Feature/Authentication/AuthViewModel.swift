@@ -8,16 +8,17 @@
 import Foundation
 import Combine
 import Utility
-import Factory
 import SwiftUI
 import Models
-import NetworkClient
+import DataRepository
+import Factory
 
 @Observable
 @MainActor
 class AuthViewModel {
+
   @ObservationIgnored
-  @Injected(\NetworkContainer.userService) private var userService
+  @Injected(\DataRepositoryContainer.userRepository) private var repository: UserRepository
 
   // MARK: - Auth step
 
@@ -37,15 +38,14 @@ class AuthViewModel {
 
   // MARK: - Public
 
-  var step: Step
-  var uiState: UIState = .idle
   var email  = ""
   var username  = ""
   var password = ""
   var confirmPassword = ""
+  var isLoading: Bool = false
 
-  var event: AnyPublisher<Event, Never> {
-    _event.eraseToAnyPublisher()
+  var eventPublisher: AnyPublisher<Event, Never> {
+    eventSubject.eraseToAnyPublisher()
   }
 
   var isLoginFormValid: Bool {
@@ -57,18 +57,11 @@ class AuthViewModel {
   }
 
   private(set) var authTask: Task<Void, Never>?
-  private let _event = PassthroughSubject<Event, Never>()
+  private let eventSubject = PassthroughSubject<Event, Never>()
 
+  var step: Step
   init(initialStep: Step) {
-    step = initialStep
-  }
-
-  func makeLoadingBinding() -> Binding<Bool> {
-    Binding(get: {
-      return self.uiState == .loading
-    }, set: {
-      self.uiState = $0 ? .loading : .idle
-    })
+    self.step = initialStep
   }
 
   func signIn() {
@@ -77,14 +70,14 @@ class AuthViewModel {
     authTask = Task { [weak self] in
       guard let self else { return }
 
-      uiState = .loading
-      defer { uiState = .idle }
+      isLoading = true
+      defer { isLoading = false }
 
       do {
-        let session = try await userService.login(email: email, password: password)
-        _event.send(.onLoginSuccess(session))
+        let session = try await repository.login(email: email, password: password)
+        sendEvent(.onLoginSuccess(session))
       } catch {
-        _event.send(.onLoginFailure(error))
+        sendEvent(.onLoginFailure(error))
         MusculosLogger.logError(error, message: "Sign in failed", category: .networking)
       }
     }
@@ -96,18 +89,18 @@ class AuthViewModel {
     authTask = Task { [weak self] in
       guard let self else { return }
 
-      uiState = .loading
-      defer { uiState = .idle }
+      isLoading = true
+      defer { isLoading = false }
 
       do {
-        let session = try await userService.register(
+        let session = try await repository.register(
           email: email,
           password: password,
           username: username
         )
-        _event.send(.onRegisterSuccess(session))
+        sendEvent(.onRegisterSuccess(session))
       } catch {
-        _event.send(.onRegisterFailure(error))
+        sendEvent(.onRegisterFailure(error))
         MusculosLogger.logError(error, message: "Sign Up failed", category: .networking)
       }
     }
@@ -116,5 +109,9 @@ class AuthViewModel {
   func cleanUp() {
     authTask?.cancel()
     authTask = nil
+  }
+
+  private func sendEvent(_ event: Event) {
+    eventSubject.send(event)
   }
 }

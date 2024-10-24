@@ -12,15 +12,19 @@ import Factory
 import Models
 import Utility
 import Storage
+import DataRepository
 
 @Observable
 @MainActor
 final class AddGoalSheetViewModel {
   
   // MARK: - Dependency
-  
+
   @ObservationIgnored
-  @Injected(\StorageContainer.dataController) private var dataController: DataController
+  @Injected(\DataRepositoryContainer.userRepository) private var userRepository: UserRepository
+
+  @ObservationIgnored
+  @Injected(\StorageContainer.goalDataStore) private var dataStore: GoalDataStoreProtocol
 
   // MARK: - Observed properties
   
@@ -51,7 +55,7 @@ final class AddGoalSheetViewModel {
     saveTask = Task { [weak self] in
       guard let self else { return }
 
-      guard let currentUser = await dataController.getCurrentUserProfile() else {
+      guard let currentUser = await userRepository.getCurrentUser() else {
         return
       }
 
@@ -66,7 +70,7 @@ final class AddGoalSheetViewModel {
       )
       
       do {
-        try await dataController.addGoal(goal)
+        try await dataStore.add(goal)
         didSavePublisher.send(())
       } catch {
         MusculosLogger.logError(error, message: "Could not save goal", category: .coreData)

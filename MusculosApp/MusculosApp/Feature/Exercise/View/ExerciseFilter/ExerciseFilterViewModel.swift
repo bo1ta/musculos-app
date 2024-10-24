@@ -11,13 +11,14 @@ import Factory
 import Combine
 import Storage
 import Models
+import DataRepository
 
 @Observable
 @MainActor
 class ExerciseFilterViewModel {
-  
+
   @ObservationIgnored
-  @Injected(\StorageContainer.dataController) private var dataController
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
 
   enum FilterDisplayable {
     case muscle, category, difficulty, equipment
@@ -94,8 +95,8 @@ class ExerciseFilterViewModel {
       let equipments = filters[.equipment] ?? []
       
       let muscleTypes = muscles.compactMap { MuscleType(rawValue: $0) }
-      var filteredExercises = await self.dataController.getExercisesByMuscles(muscleTypes)
-      
+      var filteredExercises = await exerciseRepository.getExercisesForMuscleTypes(muscleTypes)
+
       if categories.count > 0 {
         filteredExercises = filteredExercises.filter { categories.contains($0.category) }
       }

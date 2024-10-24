@@ -50,6 +50,10 @@ public struct DateHelper {
     return Date().addingTimeInterval(minutes * 60)
   }
 
+  public static func nowPlusDays(_ days: Int) -> Date {
+    return Calendar.current.date(byAdding: .day, value: days, to: Date())!
+  }
+
   public static func formatTimeFromSeconds(_ seconds: Double) -> String {
     let formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.minute, .second]

@@ -10,14 +10,14 @@ import CoreData
 import Models
 import Utility
 
-public protocol UserDataStoreProtocol: Sendable {
+public protocol UserDataStoreProtocol: BaseDataStore, Sendable {
   func createUser(profile: UserProfile) async throws
-  func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool) async throws
+  func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalID: UUID?, level: String?, isOnboarded: Bool) async throws
   func loadProfile(userId: UUID) async -> UserProfile?
   func loadProfileByEmail(_ email: String) async -> UserProfile?
 }
 
-public struct UserDataStore: DataStoreBase, UserDataStoreProtocol, Sendable {
+public struct UserDataStore: UserDataStoreProtocol {
 
   public init() { }
   
@@ -30,7 +30,7 @@ public struct UserDataStore: DataStoreBase, UserDataStoreProtocol, Sendable {
     }
   }
   
-  public func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalId: Int?, level: String?, isOnboarded: Bool = false) async throws {
+  public func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalID: UUID?, level: String?, isOnboarded: Bool = false) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       guard let userProfile = writerDerivedStorage.firstObject(
         of: UserProfileEntity.self,
@@ -50,8 +50,8 @@ public struct UserDataStore: DataStoreBase, UserDataStoreProtocol, Sendable {
         userProfile.height = NSNumber(integerLiteral: height)
       }
       
-      if let primaryGoalId {
-        userProfile.primaryGoalID = NSNumber(integerLiteral: primaryGoalId)
+      if let primaryGoalID {
+        userProfile.primaryGoalID = primaryGoalID
       }
       
     }

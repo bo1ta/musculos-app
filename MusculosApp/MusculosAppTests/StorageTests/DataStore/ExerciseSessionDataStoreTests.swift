@@ -14,76 +14,77 @@ import XCTest
 @testable import Storage
 
 @Suite(.serialized)
-public class ExerciseSessionDataStoreTests {
+public class ExerciseSessionDataStoreTests: MusculosTestBase {
   @Injected(\StorageContainer.exerciseSessionDataStore) private var dataStore
   @Injected(\StorageContainer.exerciseDataStore) private var exerciseDataStore
   @Injected(\StorageContainer.userDataStore) private var userDataStore
 
-  private var profile: UserProfile!
-  private var exercise: Exercise!
-
-  init() async throws {
-    self.profile = try await setupCurrentUser()
-    self.exercise = try await setupExercise()
-  }
-
   private func setupCurrentUser() async throws -> UserProfile {
     let profile = UserProfileFactory.createProfile()
     try await userDataStore.createUser(profile: profile)
-    try await Task.sleep(for: .seconds(0.1))
     return profile
   }
 
   private func setupExercise() async throws -> Exercise {
     let exercise = ExerciseFactory.createExercise()
     try await exerciseDataStore.add(exercise)
-    try await Task.sleep(for: .seconds(0.1))
     return exercise
   }
   
   @Test func getAllIsInitiallyEmpty() async throws {
+    defer { clearStorage() }
+
+    let profile = try await setupCurrentUser()
+
     let results = await dataStore.getAll(for: profile.userId)
     #expect(results.count == 0)
   }
 
   @Test func getCompletedSinceLastWeek() async throws {
-    let dateFromToday = Date()
-    let dateFrom2DaysAgo = try #require(Calendar.current.date(byAdding: .day, value: -2, to: dateFromToday))
-    let dateFromDistantPast = Date.distantPast
+    defer { clearStorage() }
 
-    try await dataStore.addSession(exercise,date: dateFromToday, duration: 1, userId: profile.userId)
-    try await dataStore.addSession(exercise, date: dateFrom2DaysAgo, duration: 2, userId: profile.userId)
-    try await dataStore.addSession(exercise, date: dateFromDistantPast, duration: 2, userId: profile.userId)
+    let exercise = try await setupExercise()
+    let profile = try await setupCurrentUser()
+
+    let sessionFromToday = ExerciseSessionFactory.createExerciseSession(profile: profile, exercise: exercise)
+    try await dataStore.addSession(sessionFromToday)
+
+    let sessionFrom2DaysAgo = ExerciseSessionFactory.createExerciseSession(dateAdded: Calendar.current.date(byAdding: .day, value: -2, to: Date())!, profile: profile, exercise: exercise)
+    try await dataStore.addSession(sessionFrom2DaysAgo)
+
+    let sessionFromDistantPast = ExerciseSessionFactory.createExerciseSession(dateAdded: Date.distantPast, profile: profile, exercise: exercise)
+    try await dataStore.addSession(sessionFromDistantPast)
+
     try await Task.sleep(for: .seconds(0.1))
 
     let results = await dataStore.getCompletedSinceLastWeek(userId: profile.userId)
     #expect(results.count == 2)
-
-    StorageContainer.shared.storageManager().reset()
   }
 
   @Test func getCompletedToday() async throws {
+    defer { clearStorage() }
+
+    let exercise = try await setupExercise()
+    let profile = try await setupCurrentUser()
+
     let dateFromToday = Date()
     let dateFrom2DaysAgo = try #require(Calendar.current.date(byAdding: .day, value: -2, to: dateFromToday))
 
-    try await dataStore.addSession(exercise,date: dateFromToday, duration: 1, userId: profile.userId)
-    try await dataStore.addSession(exercise, date: dateFrom2DaysAgo, duration: 2, userId: profile.userId)
-    try await Task.sleep(for: .seconds(0.1))
+    try await dataStore.addSession(ExerciseSessionFactory.createExerciseSession(dateAdded: dateFromToday, profile: profile, exercise: exercise))
+    try await dataStore.addSession(ExerciseSessionFactory.createExerciseSession(dateAdded: dateFrom2DaysAgo, profile: profile, exercise: exercise))
 
     let results = await dataStore.getCompletedToday(userId: profile.userId)
     #expect(results.count == 1)
-
-    StorageContainer.shared.storageManager().reset()
   }
 
   @Test func addSession() async throws {
-    try await dataStore.addSession(
-      exercise,
-      date: Date(),
-      duration: 1,
-      userId: profile.userId
-    )
-    try await Task.sleep(for: .seconds(0.1))
+    defer { clearStorage() }
+
+    let exercise = try await setupExercise()
+    let profile = try await setupCurrentUser()
+
+    let exerciseSession = ExerciseSessionFactory.createExerciseSession(profile: profile, exercise: exercise)
+    try await dataStore.addSession(exerciseSession)
 
     let results = await dataStore.getAll(for: profile.userId)
     #expect(results.count == 1)
@@ -91,7 +92,5 @@ public class ExerciseSessionDataStoreTests {
     let result = try #require(results.first)
     #expect(result.exercise.id == exercise.id)
     #expect(result.user.userId == profile.userId)
-
-    StorageContainer.shared.storageManager().reset()
   }
 }

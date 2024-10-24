@@ -8,21 +8,23 @@
 import SwiftUI
 import Models
 import Components
-import Factory
 import NetworkClient
+import Factory
 import Utility
 
 struct ExerciseListView: View {
   @Environment(\.navigationRouter) private var navigationRouter
 
-  @State private var viewModel = ExerciseListViewModel()
+  @State private var state: LoadingViewState<[Exercise]> = .empty
+
+  @Injected(\NetworkContainer.exerciseService) private var exerciseService: ExerciseServiceProtocol
 
   var workoutGoal: WorkoutGoal
 
   var body: some View {
     VStack {
       ScrollView {
-        switch viewModel.state {
+        switch state {
         case .loading:
           LoadingDotsView(dotsColor: .green)
         case .loaded(let exercises):
@@ -43,21 +45,9 @@ struct ExerciseListView: View {
       }
     }
     .task {
-      await viewModel.fetchExercises(for: workoutGoal)
+      await fetchExercises(for: workoutGoal)
     }
   }
-}
-
-#Preview {
-  ExerciseListView(workoutGoal: .flexibility)
-}
-
-@Observable
-public final class ExerciseListViewModel {
-  @ObservationIgnored
-  @Injected(\NetworkContainer.exerciseService) private var exerciseService
-
-  private(set) var state: LoadingViewState<[Exercise]> = .empty
 
   @MainActor
   func fetchExercises(for workoutGoal: WorkoutGoal) async {
@@ -70,4 +60,8 @@ public final class ExerciseListViewModel {
       MusculosLogger.logError(error, message: "Could not fetch exercises for exercise list", category: .networking)
     }
   }
+}
+
+#Preview {
+  ExerciseListView(workoutGoal: .flexibility)
 }

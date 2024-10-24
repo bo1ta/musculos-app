@@ -20,7 +20,7 @@ public class UserProfileEntity: NSManagedObject {
   @NSManaged public var gender: String?
   @NSManaged public var height: NSNumber?
   @NSManaged public var level: String?
-  @NSManaged public var primaryGoalID: NSNumber?
+  @NSManaged public var primaryGoalID: UUID?
   @NSManaged public var synchronized: NSNumber
   @NSManaged public var updatedAt: Date?
   @NSManaged public var username: String
@@ -74,7 +74,7 @@ extension UserProfileEntity: ReadOnlyConvertible {
       height: height?.doubleValue,
       level: level,
       availableEquipment: availableEquipment,
-      primaryGoalId: primaryGoalID?.intValue,
+      primaryGoalID: primaryGoalID,
       isOnboarded: isOnboarded,
       xp: xp.intValue
     )
@@ -107,7 +107,7 @@ extension UserProfileEntity {
 // MARK: - EntitySyncable
 
 extension UserProfileEntity: EntitySyncable {
-  public func populateEntityFrom(_ model: UserProfile, using storage: StorageType) throws {
+  public func populateEntityFrom(_ model: UserProfile, using storage: StorageType) {
     self.userId = model.userId
     self.availableEquipment = model.availableEquipment
     self.avatarUrl = model.avatar
@@ -126,13 +126,13 @@ extension UserProfileEntity: EntitySyncable {
       self.height = NSNumber(floatLiteral: height)
     }
     if let primaryGoalID = model.primaryGoalID {
-      self.primaryGoalID = NSNumber(integerLiteral: primaryGoalID)
+      self.primaryGoalID = primaryGoalID
     }
 
     self.synchronized = SynchronizationState.synchronized.asNSNumber()
   }
   
-  public func updateEntityFrom(_ model: UserProfile, using storage: any StorageType) throws {
+  public func updateEntityFrom(_ model: UserProfile, using storage: any StorageType) {
     self.avatarUrl = model.avatar
     self.isOnboarded = model.isOnboarded ?? false
 
@@ -143,7 +143,7 @@ extension UserProfileEntity: EntitySyncable {
       self.height = NSNumber(floatLiteral: height)
     }
     if let primaryGoalID = model.primaryGoalID {
-      self.primaryGoalID = NSNumber(integerLiteral: primaryGoalID)
+      self.primaryGoalID = primaryGoalID
     }
     if let xp = model.xp, xp > self.xp.intValue {
       self.xp = NSNumber(integerLiteral: xp)

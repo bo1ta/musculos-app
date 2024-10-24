@@ -40,22 +40,20 @@ extension ExerciseSessionEntity: ReadOnlyConvertible {
 }
 
 extension ExerciseSessionEntity: EntitySyncable {
-  public func populateEntityFrom(_ model: ExerciseSession, using storage: StorageType) throws {
+  public func populateEntityFrom(_ model: ExerciseSession, using storage: StorageType) {
     guard let user = storage.firstObject(
       of: UserProfileEntity.self,
       matching: PredicateFactory.userProfileById(model.user.userId)
     )
-    else {
-      throw StorageError.invalidUser
-    }
+    else { return }
 
     self.dateAdded = model.dateAdded
     self.duration = NSNumber(floatLiteral: model.duration)
     self.sessionId = model.sessionId
-    self.exercise = try ExerciseEntity.findOrCreate(from: model.exercise, using: storage)
+    self.exercise = ExerciseEntity.findOrCreate(from: model.exercise, using: storage)
   }
 
-  public func updateEntityFrom(_ model: ExerciseSession, using storage: StorageType) throws {
+  public func updateEntityFrom(_ model: ExerciseSession, using storage: StorageType) {
     self.dateAdded = model.dateAdded
     self.duration = NSNumber(floatLiteral: model.duration)
   }
