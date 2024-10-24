@@ -20,12 +20,21 @@ struct StubMusculosClient: MusculosClientProtocol, @unchecked Sendable {
   var expectedAuthToken: String?
 
   func dispatch(_ request: APIRequest) async throws -> Data {
-    #expect(request.endpoint.path == expectedEndpoint!.path)
-    #expect(request.method == expectedMethod)
-    #expect(request.opk == expectedOpk)
-    #expect(request.queryParams == expectedQueryParams)
-    #expect(NSDictionary(dictionary: request.body ?? [:]).isEqual(to: expectedBody ?? [:]))
-
+    if let expectedEndpoint {
+      #expect(request.endpoint.path == expectedEndpoint.path)
+    }
+    if let expectedMethod {
+      #expect(request.method == expectedMethod)
+    }
+    if let expectedBody {
+      #expect(NSDictionary(dictionary: request.body ?? [:]).isEqual(to: expectedBody))
+    }
+    if let expectedOpk {
+      #expect(request.opk == expectedOpk)
+    }
+    if let expectedQueryParams {
+      #expect(request.queryParams == expectedQueryParams)
+    }
     if let expectedAuthToken {
       #expect(request.authToken == expectedAuthToken)
     }

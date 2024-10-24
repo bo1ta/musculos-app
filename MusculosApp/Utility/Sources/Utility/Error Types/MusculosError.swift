@@ -9,6 +9,7 @@ import Foundation
 
 public enum MusculosError: LocalizedError, CustomStringConvertible {
   case invalidRequest, badRequest, unauthorized, forbidden, notFound, serverError, decodingError, unknownError
+  case cancelled
   case error4xx(_ code: Int)
   case error5xx(_ code: Int)
   case urlSessionFailed(_ error: URLError)
@@ -37,6 +38,8 @@ public enum MusculosError: LocalizedError, CustomStringConvertible {
       return "URL session failed: \(error.localizedDescription)"
     case .unknownError:
       return "Unknown error"
+    case .cancelled:
+      return "Cancelled"
     }
   }
   

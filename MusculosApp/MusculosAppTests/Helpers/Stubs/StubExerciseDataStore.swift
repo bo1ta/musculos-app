@@ -59,5 +59,4 @@ final class StubExerciseDataStore: ExerciseDataStoreProtocol, @unchecked Sendabl
   func getCount() async -> Int {
     return expectedExercises.count
   }
-
 }

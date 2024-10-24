@@ -9,14 +9,14 @@ import Foundation
 import Utility
 import Queue
 
-final class BackgroundWorker: @unchecked Sendable {
+final class BackgroundWorker: Sendable {
   private let backgroundQueue = AsyncQueue()
 
-  @discardableResult func queueOperation<Success>(
+  @discardableResult func queueOperation<Success: Sendable>(
     priority: TaskPriority? = nil,
     operationType: OperationType = .remote,
     @_inheritActorContext operation: @escaping @Sendable () async throws -> Success
-  ) -> Task<Success, Error> where Success : Sendable {
+  ) -> Task<Success, Error> {
     return backgroundQueue.addOperation(priority: priority) {
       try await self.withRetry(attempts: operationType.maxRetryAttempts, shouldRetry: operationType.shouldRetry, operation: operation)
     }
@@ -26,7 +26,7 @@ final class BackgroundWorker: @unchecked Sendable {
     _ = await backgroundQueue.addOperation {}.result
   }
 
-  private func withRetry<Success>(
+  private func withRetry<Success: Sendable>(
     attempts: Int,
     baseDelay: TimeInterval = 0.5,
     exponentialBackoff: Bool = true,
@@ -42,6 +42,10 @@ final class BackgroundWorker: @unchecked Sendable {
 
     repeat {
       do {
+        guard !Task.isCancelled else {
+          throw MusculosError.cancelled
+        }
+
         return try await operation()
       } catch let error {
         remainingAttempts -= 1
