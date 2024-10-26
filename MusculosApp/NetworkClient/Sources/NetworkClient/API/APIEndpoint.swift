@@ -21,7 +21,7 @@ public enum Endpoint {
     case .exercises(let route):
       return "/exercises/\(route.path)"
     case .exerciseSessions(let route):
-      return "/exercise-sessions/\(route.path)"
+      return "/exercise-session/\(route.path)"
     case .goals(let route):
       return "/goals/\(route.path)"
     case .templates(let route):
