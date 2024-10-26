@@ -28,7 +28,7 @@ final class ExploreExerciseViewModel {
   @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepository
 
   @ObservationIgnored
-  @Injected(\StorageContainer.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
 
   @ObservationIgnored
   @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
@@ -162,9 +162,12 @@ extension ExploreExerciseViewModel {
     }
   }
 
-  @MainActor
   func refreshGoals() async {
-    goals = await goalDataStore.getAll()
+    do {
+      goals = try await goalRepository.getGoals()
+    } catch {
+      MusculosLogger.logError(error, message: "Could not get goals", category: .dataRepository)
+    }
   }
 }
 

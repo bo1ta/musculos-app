@@ -13,7 +13,8 @@ import Components
 struct OnboardingWizardView: View {
   @Environment(\.userStore) private var userStore: UserStore
   @State private var viewModel = OnboardingWizardViewModel()
-  
+  @State private var toast: Toast? = nil
+
   var body: some View {
     VStack {
       backButton
@@ -22,20 +23,25 @@ struct OnboardingWizardView: View {
 
       Spacer()
     }
-    .onReceive(viewModel.event) { event in
+    .onReceive(viewModel.eventPublisher) { event in
       handleEvent(event)
     }
     .modifier(KeyboardDismissableViewModifier())
-    .onDisappear(perform: viewModel.cleanUp)
     .padding(.horizontal, 10)
+    .toastView(toast: $toast)
+    .task {
+      await viewModel.initialLoad()
+    }
   }
 
   private func handleEvent(_ event: OnboardingWizardViewModel.Event) {
     switch event {
-    case .didFinishOnboarding:
-      userStore.updateIsOnboarded(true)
-    case .didFinishWithError(let error):
-      MusculosLogger.logError(error, message: "Did finish onboarding with error", category: .ui)
+    case .didFinishOnboarding(let onboardingData):
+      userStore.handlePostOnboarding(onboardingData)
+    case .didFinishWithError(_):
+      toast = Toast(style: .error, message: "Could not save data...")
+    case .didFailLoadingOnboardingData:
+      toast = Toast(style: .error, message: "Could not load data...")
     }
   }
 }
@@ -61,6 +67,7 @@ extension OnboardingWizardView {
         .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       case .goal:
         SelectGoalView(
+          onboardingGoals: viewModel.onboardingGoals,
           selectedGoal: $viewModel.selectedGoal,
           onContinue: viewModel.handleNextStep
         )

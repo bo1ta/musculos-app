@@ -11,7 +11,8 @@ import Utility
 import Components
 
 struct SelectGoalView: View {
-  @Binding var selectedGoal: OnboardingData.Goal?
+  var onboardingGoals: [OnboardingGoal]
+  @Binding var selectedGoal: OnboardingGoal?
 
   let onContinue: () -> Void
 
@@ -23,7 +24,7 @@ struct SelectGoalView: View {
 
       Spacer()
 
-      ForEach(OnboardingData.Goal.allCases, id: \.self) { goal in
+      ForEach(onboardingGoals, id: \.self) { goal in
         makeDetailCardButton(for: goal)
       }
       .padding(.top, 8)
@@ -38,7 +39,7 @@ struct SelectGoalView: View {
     .padding(20)
   }
 
-  private func makeDetailCardButton(for goal: OnboardingData.Goal) -> some View {
+  private func makeDetailCardButton(for goal: OnboardingGoal) -> some View {
     Button(action: {
       HapticFeedbackProvider.haptic(.lightImpact)
       selectedGoal = goal
@@ -55,7 +56,7 @@ struct SelectGoalView: View {
   }
 
   @ViewBuilder
-  private func makeImageForGoal(_ goal: OnboardingData.Goal) -> some View {
+  private func makeImageForGoal(_ goal: OnboardingGoal) -> some View {
     Group {
       if isGoalSelected(goal) {
         Image("orange-checkmark-icon")
@@ -68,11 +69,9 @@ struct SelectGoalView: View {
           )
           .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isGoalSelected(goal))
       } else {
-        if let image = goal.image {
-          image
+        Image(goal.iconName)
             .resizable()
             .transition(.opacity)
-        }
       }
     }
     .aspectRatio(contentMode: .fit)
@@ -81,11 +80,8 @@ struct SelectGoalView: View {
     .foregroundStyle(AppColor.navyBlue)
   }
 
-  private func isGoalSelected(_ goal: OnboardingData.Goal) -> Bool {
+  private func isGoalSelected(_ goal: OnboardingGoal) -> Bool {
     return selectedGoal == goal
   }
 }
 
-#Preview {
-  SelectGoalView(selectedGoal: .constant(nil), onContinue: {})
-}

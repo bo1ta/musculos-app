@@ -45,7 +45,7 @@ public struct Goal: Sendable, Codable {
     self.user = user
   }
 
-  public init(onboardingGoal: OnboardingData.Goal, user: UserProfile) {
+  public init(onboardingGoal: OnboardingConstants.Goal, user: UserProfile) {
     self.id = UUID()
     self.name = onboardingGoal.title
     self.category = Category.initFromLabel(onboardingGoal.title) ?? .general
@@ -143,8 +143,11 @@ public extension Goal {
       }
     }
 
-    public static func initFromLabel(_ label: String) -> Self? {
-      return Self.allCases.first { $0.label == label }
+    public static func initFromLabel(_ label: String) -> Self {
+      if let first =  Self.allCases.first { $0.label == label } {
+        return first
+      }
+      return .general
     }
   }
 

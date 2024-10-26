@@ -24,7 +24,7 @@ final class AddGoalSheetViewModel {
   @Injected(\DataRepositoryContainer.userRepository) private var userRepository: UserRepository
 
   @ObservationIgnored
-  @Injected(\StorageContainer.goalDataStore) private var dataStore: GoalDataStoreProtocol
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
 
   // MARK: - Observed properties
   
@@ -70,7 +70,7 @@ final class AddGoalSheetViewModel {
       )
       
       do {
-        try await dataStore.add(goal)
+        try await goalRepository.addGoal(goal)
         didSavePublisher.send(())
       } catch {
         MusculosLogger.logError(error, message: "Could not save goal", category: .coreData)

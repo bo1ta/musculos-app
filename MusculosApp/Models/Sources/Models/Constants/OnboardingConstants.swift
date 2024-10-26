@@ -15,7 +15,7 @@ public protocol OnboardingOption {
   var image: Image? { get }
 }
 
-public struct OnboardingData {
+public struct OnboardingConstants {
   
   // MARK: - Level
 
@@ -118,8 +118,3 @@ public struct OnboardingData {
   }
 }
 
-public struct OnboardingGoal: DecodableModel, Sendable {
-  var title: String
-  var description: String
-  var image: String
-}

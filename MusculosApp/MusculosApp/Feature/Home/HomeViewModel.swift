@@ -19,7 +19,7 @@ final class HomeViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
   @ObservationIgnored
-  @Injected(\StorageContainer.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
+    @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
 
   private(set) var currentUser: UserProfile?
   private(set) var isLoading = false
@@ -35,7 +35,11 @@ final class HomeViewModel {
 
     await withTaskGroup(of: Void.self) { [weak self] group in
       group.addTask {
-        self?.goals = await self?.goalDataStore.getAll() ?? []
+        do {
+          self?.goals = try await self?.goalRepository.getGoals() ?? []
+        } catch {
+          MusculosLogger.logError(error, message: "Error loading goals for home view", category: .dataRepository)
+        }
       }
       group.addTask {
         do {

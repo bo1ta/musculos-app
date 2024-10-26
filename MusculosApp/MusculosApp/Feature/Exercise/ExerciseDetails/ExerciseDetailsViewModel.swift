@@ -19,7 +19,7 @@ import DataRepository
 final class ExerciseDetailsViewModel {
 
   @ObservationIgnored
-  @Injected(\StorageContainer.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository

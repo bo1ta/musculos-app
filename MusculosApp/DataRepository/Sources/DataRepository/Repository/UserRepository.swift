@@ -15,7 +15,7 @@ import Factory
 public actor UserRepository: BaseRepository {
   @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
   @Injected(\StorageContainer.userDataStore) private var dataStore: UserDataStoreProtocol
-  @Injected(\StorageContainer.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
   @Injected(\DataRepositoryContainer.backgroundWorker) private var backgroundWorker: BackgroundWorker
 
   public func register(email: String, password: String, username: String) async throws -> UserSession {
@@ -42,7 +42,7 @@ public actor UserRepository: BaseRepository {
     return try? await backgroundTask.value
   }
 
-  public func updateProfile(weight: Int? = nil, height: Int? = nil, primaryGoal: Goal.Category? = nil, level: String? = nil, isOnboarded: Bool = false) async throws {
+  public func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws {
     guard
       let currentUserID = self.currentUserID,
       let currentProfile = await dataStore.loadProfile(userId: currentUserID)
@@ -50,33 +50,32 @@ public actor UserRepository: BaseRepository {
       throw MusculosError.notFound
     }
 
-    let goal = try await insertUserPrimaryGoalIfNeeded(profile: currentProfile, goalCategory: primaryGoal)
-    try await dataStore.updateProfile(userId: currentUserID, weight: weight, height: height, primaryGoalID: goal?.id, level: level, isOnboarded: isOnboarded)
-
-    backgroundWorker.queueOperation(priority: .low) { [weak self] in
-      try await self?.service.updateUser(weight: weight, height: height, primaryGoalID: goal?.id, level: level, isOnboarded: isOnboarded)
+    var goal: Goal?
+    if let onboardingGoal = onboardingData.goal {
+      goal = try await goalRepository.addFromOnboardingGoal(onboardingGoal, for: currentProfile)
     }
+
+    try await dataStore.updateProfile(
+      userId: currentUserID,
+      weight: onboardingData.weight,
+      height: onboardingData.height,
+      primaryGoalID: goal?.id,
+      level: onboardingData.level,
+      isOnboarded: true
+    )
+
+    try await service.updateUser(
+      weight: onboardingData.weight,
+      height: onboardingData.height,
+      primaryGoalID: goal?.id,
+      level: onboardingData.level,
+      isOnboarded: true
+    )
   }
 
   @discardableResult private func syncCurrentUser() async throws -> UserProfile {
     let profile = try await service.currentUser()
     try await dataStore.handleObjectSync(remoteObject: profile, localObjectType: UserProfileEntity.self)
     return profile
-  }
-
-  private func insertUserPrimaryGoalIfNeeded(profile: UserProfile, goalCategory: Goal.Category?) async throws -> Goal? {
-    guard let goalCategory else { return nil }
-
-    let goal = Goal(
-      name: goalCategory.label,
-      category: goalCategory,
-      frequency: .weekly,
-      targetValue: 10,
-      endDate: DateHelper.nowPlusDays(7),
-      dateAdded: Date(),
-      user: profile
-    )
-    try await goalDataStore.add(goal)
-    return goal
   }
 }

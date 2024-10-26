@@ -104,20 +104,18 @@ final class UserStore {
     taskManager.addTask(task)
   }
 
-  func updateIsOnboarded(_ isOnboarded: Bool) {
+  func handlePostOnboarding(_ onboardingData: OnboardingData) {
     let task = Task { [weak self] in
       do {
-        try await self?.userRepository.updateProfile(isOnboarded: isOnboarded)
+        try await self?.userRepository.updateProfileUsingOnboardingData(onboardingData)
         self?.sendEvent(.didFinishOnboarding)
       } catch {
-        MusculosLogger.logError(error, message: "Could not update isOnboarded field.", category: .coreData)
+        MusculosLogger.logError(error, message: "Could not update profile with onboarding data", category: .coreData)
       }
     }
     taskManager.addTask(task)
   }
 
-  /// Listens to a stream that first returns the local user, and then the api user
-  ///
   private func loadCurrentUser() async throws {
     currentUserProfile = await userRepository.getCurrentUser()
   }
