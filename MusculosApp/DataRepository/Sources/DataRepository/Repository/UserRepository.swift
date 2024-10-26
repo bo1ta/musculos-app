@@ -59,7 +59,7 @@ public actor UserRepository: BaseRepository {
       userId: currentUserID,
       weight: onboardingData.weight,
       height: onboardingData.height,
-      primaryGoalID: goal?.id,
+      primaryGoalID: goal?.goalID,
       level: onboardingData.level,
       isOnboarded: true
     )
@@ -67,7 +67,7 @@ public actor UserRepository: BaseRepository {
     try await service.updateUser(
       weight: onboardingData.weight,
       height: onboardingData.height,
-      primaryGoalID: goal?.id,
+      primaryGoalID: goal?.goalID,
       level: onboardingData.level,
       isOnboarded: true
     )

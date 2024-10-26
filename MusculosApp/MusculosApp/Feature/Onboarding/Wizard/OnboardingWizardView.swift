@@ -26,12 +26,12 @@ struct OnboardingWizardView: View {
     .onReceive(viewModel.eventPublisher) { event in
       handleEvent(event)
     }
-    .modifier(KeyboardDismissableViewModifier())
     .padding(.horizontal, 10)
-    .toastView(toast: $toast)
     .task {
       await viewModel.initialLoad()
     }
+    .toastView(toast: $toast)
+    .withKeyboardDismissingOnTap()
   }
 
   private func handleEvent(_ event: OnboardingWizardViewModel.Event) {
@@ -50,7 +50,7 @@ struct OnboardingWizardView: View {
 
 extension OnboardingWizardView {
   private var currentWizardStep: some View {
-    Group {
+    VStack {
       switch viewModel.wizardStep {
       case .heightAndWeight:
         SelectSizeView(
@@ -78,10 +78,7 @@ extension OnboardingWizardView {
       }
     }
     .animation(.smooth(duration: 0.2), value: viewModel.wizardStep)
-    .dismissingGesture(
-      direction: .left,
-      action: viewModel.handleBack
-    )
+    .dismissingGesture(direction: .left, action: viewModel.handleBack)
   }
 
   private var backButton: some View {

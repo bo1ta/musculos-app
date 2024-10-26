@@ -58,12 +58,20 @@ public struct UserService: APIService, UserServiceProtocol, @unchecked Sendable 
 
     var request = APIRequest(method: .post, endpoint: .users(.updateProfile))
     request.body = [
-      "isOnboarded": isOnboarded as Any,
-      "level": level as Any,
-      "primaryGoalID": primaryGoalID as Any,
-      "height": height as Any,
-      "weight": weight as Any
+      "isOnboarded": isOnboarded
     ]
+    if let weight {
+      request.body?["weight"] = weight
+    }
+    if let height {
+      request.body?["height"] = height
+    }
+    if let primaryGoalID {
+      request.body?["primaryGoalID"] = primaryGoalID.uuidString
+    }
+    if let level {
+      request.body?["level"] = level
+    }
 
     let data = try await client.dispatch(request)
     return try await UserProfile.createFrom(data)

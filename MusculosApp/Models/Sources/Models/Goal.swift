@@ -10,7 +10,7 @@ import SwiftUI
 import Utility
 
 public struct Goal: Sendable, Codable {
-  public let id: UUID
+  public let goalID: UUID
   public let name: String
   public let category: Category
   public let frequency: Frequency
@@ -33,7 +33,7 @@ public struct Goal: Sendable, Codable {
     dateAdded: Date,
     user: UserProfile
   ) {
-    self.id = id
+    self.goalID = id
     self.name = name
     self.category = category
     self.frequency = frequency
@@ -46,7 +46,7 @@ public struct Goal: Sendable, Codable {
   }
 
   public init(onboardingGoal: OnboardingConstants.Goal, user: UserProfile) {
-    self.id = UUID()
+    self.goalID = UUID()
     self.name = onboardingGoal.title
     self.category = Category.initFromLabel(onboardingGoal.title) ?? .general
     self.frequency = .weekly

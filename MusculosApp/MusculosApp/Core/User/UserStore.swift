@@ -37,17 +37,17 @@ final class UserStore {
     case didFinishOnboarding
   }
 
-  // MARK: - Private
-
   private let eventSubject = PassthroughSubject<Event, Never>()
-
-  private(set) var currentUserProfile: UserProfile?
-  private(set) var currentUserState: UserSessionState = .unauthenticated
-  private(set) var isLoading = false
 
   var eventPublisher: AnyPublisher<Event, Never> {
     eventSubject.eraseToAnyPublisher()
   }
+
+  // MARK: - Observed properties
+
+  private(set) var currentUserProfile: UserProfile?
+  private(set) var currentUserState: UserSessionState = .unauthenticated
+  private(set) var isLoading = false
 
   var displayName: String {
     return currentUserProfile?.username ?? ""

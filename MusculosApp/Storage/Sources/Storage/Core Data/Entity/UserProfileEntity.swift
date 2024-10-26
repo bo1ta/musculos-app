@@ -156,7 +156,7 @@ extension UserProfileEntity: EntitySyncable {
       for goal in goals {
         let goalEntity = storage.findOrInsert(
           of: GoalEntity.self,
-          using: PredicateProvider.goalByID(goal.id)
+          using: PredicateProvider.goalByID(goal.goalID)
         )
       }
     }

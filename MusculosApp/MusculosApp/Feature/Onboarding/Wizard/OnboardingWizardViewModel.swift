@@ -88,6 +88,7 @@ final class OnboardingWizardViewModel {
   }
 
   private func prepareHaptics() {
+    HapticFeedbackProvider.prepareHaptic(.lightImpact)
     HapticFeedbackProvider.prepareHaptic(.heavyImpact)
     HapticFeedbackProvider.prepareHaptic(.notifySuccess)
   }

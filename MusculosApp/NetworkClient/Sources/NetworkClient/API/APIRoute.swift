@@ -19,7 +19,7 @@ public struct APIRoute {
       case .login: return "login"
       case .register: return "register"
       case .currentProfile: return "me"
-      case .updateProfile: return "update-profile"
+      case .updateProfile: return "me/update-profile"
       }
     }
   }

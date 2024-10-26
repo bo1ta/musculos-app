@@ -40,7 +40,7 @@ extension UserSessionManagerProtocol {
   }
 }
 
-public final class UserSessionManager: @unchecked Sendable, UserSessionManagerProtocol {
+public final class UserSessionManager: UserSessionManagerProtocol, @unchecked Sendable {
   private let queue = DispatchQueue(label: "com.UserSessionManager.queue")
   private var cachedSessionState: UserSessionState?
 
