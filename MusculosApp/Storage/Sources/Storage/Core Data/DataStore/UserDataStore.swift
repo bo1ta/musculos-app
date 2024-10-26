@@ -22,19 +22,14 @@ public struct UserDataStore: UserDataStoreProtocol {
   public init() { }
   
   public func createUser(profile: UserProfile) async throws {
-    try await storageManager.performWrite { writerDerivedStorage in
-      let userProfile = writerDerivedStorage.insertNewObject(ofType: UserProfileEntity.self)
-      userProfile.userId = profile.userId
-      userProfile.username = profile.username
-      userProfile.email = profile.email
-    }
+    try await self.handleObjectSync(remoteObject: profile, localObjectType: UserProfileEntity.self)
   }
   
   public func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalID: UUID?, level: String?, isOnboarded: Bool = false) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       guard let userProfile = writerDerivedStorage.firstObject(
         of: UserProfileEntity.self,
-        matching: PredicateFactory.userProfileById(userId)
+        matching: PredicateProvider.userProfileById(userId)
       ) else {
         throw MusculosError.notFound
       }
@@ -62,7 +57,7 @@ public struct UserDataStore: UserDataStoreProtocol {
       return viewStorage
         .firstObject(
           of: UserProfileEntity.self,
-          matching: PredicateFactory.userProfileById(userId)
+          matching: PredicateProvider.userProfileById(userId)
         )?.toReadOnly()
     }
   }
@@ -72,7 +67,7 @@ public struct UserDataStore: UserDataStoreProtocol {
       return viewStorage
         .firstObject(
           of: UserProfileEntity.self,
-          matching: PredicateFactory.userProfileByEmail(email)
+          matching: PredicateProvider.userProfileByEmail(email)
         )?.toReadOnly()
     }
   }

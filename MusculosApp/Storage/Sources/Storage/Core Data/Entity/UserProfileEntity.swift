@@ -26,6 +26,7 @@ public class UserProfileEntity: NSManagedObject {
   @NSManaged public var username: String
   @NSManaged public var weight: NSNumber?
   @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
+  @NSManaged public var goals: Set<GoalEntity>
   @NSManaged public var isOnboarded: Bool
   @NSManaged public var xp: NSNumber
 
@@ -100,7 +101,7 @@ extension UserProfileEntity {
       #keyPath(UserProfileEntity.userId),
       userID as NSUUID
     )
-    return storage.firstObject(of: UserProfileEntity.self, matching: PredicateFactory.userProfileById(userID))
+    return storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(userID))
   }
 }
 
@@ -150,5 +151,14 @@ extension UserProfileEntity: EntitySyncable {
     }
 
     self.synchronized = SynchronizationState.synchronized.asNSNumber()
+
+    if let goals = model.goals {
+      for goal in goals {
+        let goalEntity = storage.findOrInsert(
+          of: GoalEntity.self,
+          using: PredicateProvider.goalByID(goal.id)
+        )
+      }
+    }
   }
 }

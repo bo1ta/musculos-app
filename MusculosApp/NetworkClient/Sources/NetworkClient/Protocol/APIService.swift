@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol MusculosService {
+protocol APIService {
   var client: MusculosClientProtocol { get set }
 }

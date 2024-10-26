@@ -28,6 +28,10 @@ extension NetworkContainer {
   public var exerciseSessionService: Factory<ExerciseSessionServiceProtocol> {
     self { ExerciseSessionService() }
   }
+
+  public var goalService: Factory<GoalServiceProtocol> {
+    self { GoalService() }
+  }
 }
 
 public class SomeService {

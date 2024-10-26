@@ -19,7 +19,7 @@ final class UserServiceTests: MusculosTestBase {
   @Test func register() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .post
-    stubClient.expectedEndpoint = .register
+    stubClient.expectedEndpoint = .users(.register)
     stubClient.expectedBody = [
       "email": "test@test.com",
       "password": "test",
@@ -40,7 +40,7 @@ final class UserServiceTests: MusculosTestBase {
   @Test func login() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .post
-    stubClient.expectedEndpoint = .login
+    stubClient.expectedEndpoint = .users(.login)
     stubClient.expectedBody = [
       "email": "test@test.com",
       "password": "test"
@@ -60,7 +60,7 @@ final class UserServiceTests: MusculosTestBase {
   @Test func currentUser() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
-    stubClient.expectedEndpoint = .currentProfile
+    stubClient.expectedEndpoint = .users(.currentProfile)
     stubClient.expectedAuthToken = "super-secret-token"
     stubClient.expectedResponseData = try parseDataFromFile(name: "userProfile")
 
@@ -86,7 +86,7 @@ final class UserServiceTests: MusculosTestBase {
 
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .post
-    stubClient.expectedEndpoint = .updateProfile
+    stubClient.expectedEndpoint = .users(.updateProfile)
     stubClient.expectedAuthToken = "super-secret-token"
     stubClient.expectedResponseData = try parseDataFromFile(name: "userProfile")
     stubClient.expectedBody = [

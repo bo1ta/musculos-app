@@ -65,3 +65,44 @@ extension GoalEntity: ReadOnlyConvertible {
     )
   }
 }
+
+// MARK: - Entity Syncable
+
+extension GoalEntity: EntitySyncable {
+  public func populateEntityFrom(_ model: Goal, using storage: StorageType) {
+    self.category = model.category.rawValue
+    self.dateAdded = model.dateAdded
+    self.endDate = model.endDate
+    self.frequency = model.frequency.rawValue
+    self.isCompleted = model.isCompleted
+    self.name = model.name
+    self.targetValue = NSNumber(integerLiteral: model.targetValue)
+
+    for progress in model.progressHistory {
+      let progressEntity = storage.insertNewObject(ofType: ProgressEntryEntity.self)
+      progressEntity.populateEntityFrom(progress, using: storage)
+      addToProgressHistory(progressEntity)
+    }
+  }
+
+  public func updateEntityFrom(_ model: Goal, using storage: StorageType) {
+    if model.targetValue > self.targetValue?.intValue ?? 0 {
+      self.targetValue = NSNumber(integerLiteral: model.targetValue)
+    }
+
+    if self.endDate == nil {
+      self.endDate = model.endDate
+    }
+
+    if model.progressHistory.count > self.progressHistory.count {
+      let mappedProgress = self.progressHistory.map { $0.toReadOnly()?.progressID }
+      let history = model.progressHistory.filter { entry in
+        !mappedProgress.contains(entry.progressID)
+      }
+      for entry in history {
+        let progressEntity = storage.insertNewObject(ofType: ProgressEntryEntity.self)
+        addToProgressHistory(progressEntity)
+      }
+    }
+  }
+}

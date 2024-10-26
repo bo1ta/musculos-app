@@ -16,11 +16,11 @@ public protocol UserServiceProtocol: Sendable {
   func updateUser(weight: Int?, height: Int?, primaryGoalID: UUID?, level: String?, isOnboarded: Bool) async throws -> UserProfile
 }
 
-public struct UserService: UserServiceProtocol, MusculosService, @unchecked Sendable {
+public struct UserService: APIService, UserServiceProtocol, @unchecked Sendable {
   @Injected(\NetworkContainer.client) var client: MusculosClientProtocol
 
   public func register(email: String, password: String, username: String) async throws -> UserSession {
-    var request = APIRequest(method: .post, endpoint: .register)
+    var request = APIRequest(method: .post, endpoint: .users(.register))
     request.body = [
       "email": email,
       "password": password,
@@ -32,7 +32,7 @@ public struct UserService: UserServiceProtocol, MusculosService, @unchecked Send
   }
 
   public func login(email: String, password: String) async throws -> UserSession {
-    var request = APIRequest(method: .post, endpoint: .login)
+    var request = APIRequest(method: .post, endpoint: .users(.login))
     request.body = [
       "email": email,
       "password": password
@@ -43,7 +43,7 @@ public struct UserService: UserServiceProtocol, MusculosService, @unchecked Send
   }
 
   public func currentUser() async throws -> UserProfile {
-    let request = APIRequest(method: .get, endpoint: .currentProfile)
+    let request = APIRequest(method: .get, endpoint: .users(.currentProfile))
     let data = try await client.dispatch(request)
     return try await UserProfile.createFrom(data)
   }
@@ -56,7 +56,7 @@ public struct UserService: UserServiceProtocol, MusculosService, @unchecked Send
     isOnboarded: Bool = false
   ) async throws -> UserProfile {
 
-    var request = APIRequest(method: .post, endpoint: .updateProfile)
+    var request = APIRequest(method: .post, endpoint: .users(.updateProfile))
     request.body = [
       "isOnboarded": isOnboarded as Any,
       "level": level as Any,

@@ -169,3 +169,5 @@ extension Goal: Hashable {
     hasher.combine(dateAdded)
   }
 }
+
+extension Goal: DecodableModel {}

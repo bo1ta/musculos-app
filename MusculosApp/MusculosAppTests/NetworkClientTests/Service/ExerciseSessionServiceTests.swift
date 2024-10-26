@@ -21,7 +21,7 @@ final class ExerciseSessionServiceTests: MusculosTestBase {
   @Test func getAll() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
-    stubClient.expectedEndpoint = .exerciseSession
+    stubClient.expectedEndpoint = .exerciseSessions(.index)
     stubClient.expectedResponseData = try parseDataFromFile(name: "exerciseSessions")
 
     NetworkContainer.shared.client.register { stubClient }
@@ -39,7 +39,7 @@ final class ExerciseSessionServiceTests: MusculosTestBase {
 
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .post
-    stubClient.expectedEndpoint = .exerciseSession
+    stubClient.expectedEndpoint = .exerciseSessions(.index)
     stubClient.expectedBody = [
       "dateAdded": exerciseSession.dateAdded.ISO8601Format(),
       "duration": exerciseSession.duration,

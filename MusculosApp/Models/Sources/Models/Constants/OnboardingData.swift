@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Utility
 
 public protocol OnboardingOption {
   var title: String { get }
@@ -115,4 +116,10 @@ public struct OnboardingData {
       }
     }
   }
+}
+
+public struct OnboardingGoal: DecodableModel, Sendable {
+  var title: String
+  var description: String
+  var image: String
 }

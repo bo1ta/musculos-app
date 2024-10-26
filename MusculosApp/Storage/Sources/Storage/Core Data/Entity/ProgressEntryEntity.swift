@@ -19,6 +19,7 @@ public class ProgressEntryEntity: NSManagedObject {
   @NSManaged public var value: NSNumber
   @NSManaged public var dateAdded: Date
   @NSManaged public var goal: GoalEntity?
+  @NSManaged public var progressID: UUID
 }
 
 extension ProgressEntryEntity: ReadOnlyConvertible {
@@ -27,9 +28,23 @@ extension ProgressEntryEntity: ReadOnlyConvertible {
       return nil
     }
     return ProgressEntry(
+      progressID: self.progressID,
       dateAdded: dateAdded,
       value: value.doubleValue,
       goal: goal.toReadOnly()
     )
+  }
+}
+
+extension ProgressEntryEntity: EntitySyncable {
+  public func populateEntityFrom(_ model: ProgressEntry, using storage: StorageType) {
+    self.value = NSNumber(floatLiteral: model.value)
+    self.dateAdded = model.dateAdded
+    self.progressID = model.progressID
+  }
+
+  public func updateEntityFrom(_ model: ProgressEntry, using storage: StorageType) {
+    self.value = NSNumber(floatLiteral: model.value)
+    self.dateAdded = model.dateAdded
   }
 }

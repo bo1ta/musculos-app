@@ -114,14 +114,15 @@ final class ExerciseDetailsViewModel {
     saveExerciseSession()
   }
 
+  // TODO: Use progress entry to update the goal
   private func maybeUpdateGoals() async throws {
-    let goals = await goalDataStore.getAll()
-
-    for goal in goals {
-      if let _ = ExerciseHelper.goalToExerciseCategories[goal.category] {
-        try await goalDataStore.incrementCurrentValue(goal)
-      }
-    }
+//    let goals = await goalDataStore.getAll()
+//
+//    for goal in goals {
+//      if let _ = ExerciseConstants.goalToExerciseCategories[goal.category] {
+//        try await goalDataStore.incrementCurrentValue(goal)
+//      }
+//    }
   }
 
   // MARK: - Clean up

@@ -34,7 +34,7 @@ public struct WorkoutDataStore: BaseDataStore, WorkoutDataStoreProtocol {
       for workoutExercise in workout.workoutExercises {
         guard let exerciseEntity = writerDerivedStorage.firstObject(
           of: ExerciseEntity.self,
-          matching: PredicateFactory.exerciseById(workoutExercise.exercise.id)
+          matching: PredicateProvider.exerciseById(workoutExercise.exercise.id)
         ) else { return }
         
         let workoutExerciseEntity = writerDerivedStorage.insertNewObject(ofType: WorkoutExerciseEntity.self)

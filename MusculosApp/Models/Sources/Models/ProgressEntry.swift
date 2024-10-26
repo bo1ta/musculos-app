@@ -8,11 +8,13 @@
 import Foundation
 
 public struct ProgressEntry: Codable, Sendable {
+  public let progressID: UUID
   public let dateAdded: Date
   public let value: Double
   public let goal: Goal
 
-  public init(dateAdded: Date, value: Double, goal: Goal) {
+  public init(progressID: UUID = UUID(), dateAdded: Date, value: Double, goal: Goal) {
+    self.progressID = progressID
     self.dateAdded = dateAdded
     self.value = value
     self.goal = goal
@@ -21,6 +23,7 @@ public struct ProgressEntry: Codable, Sendable {
 
 extension ProgressEntry: Hashable {
   public func hash(into hasher: inout Hasher) {
+    hasher.combine(progressID)
     hasher.combine(dateAdded)
     hasher.combine(value)
   }

@@ -1,13 +1,14 @@
 //
-//  PredicateFactory.swift
+//  PredicateProvider.swift
 //
 //
 //  Created by Solomon Alexandru on 22.07.2024.
 //
 
 import CoreData
+import Models
 
-public struct PredicateFactory {
+public struct PredicateProvider {
   public static func favoriteExercise() -> NSPredicate {
     return NSPredicate(
       format: "%K == true",
@@ -31,6 +32,23 @@ public struct PredicateFactory {
     )
   }
 
+  public static func exerciseByGoals(_ goals: [Goal]) -> NSPredicate? {
+    var predicate: NSPredicate?
+
+    for goal in goals {
+      if let categories = ExerciseConstants.goalToExerciseCategories[goal.category] {
+        let categoryPredicate = NSPredicate(
+          format: "%K IN %@",
+          #keyPath(ExerciseEntity.category),
+          categories
+        )
+        predicate = predicate == nil ? categoryPredicate : NSCompoundPredicate(orPredicateWithSubpredicates: [predicate!, categoryPredicate])
+      }
+    }
+
+    return predicate
+  }
+
   public static func musclesByIds(_ muscleIds: [Int]) -> NSPredicate {
     return NSPredicate(
       format: "%K IN %@",
@@ -51,6 +69,14 @@ public struct PredicateFactory {
     return NSPredicate(
       format: "%K == %@",
       #keyPath(UserProfileEntity.userId),
+      id as NSUUID
+    )
+  }
+
+  public static func goalByID(_ id: UUID) -> NSPredicate {
+    return NSPredicate(
+      format: "%K == %@",
+      #keyPath(GoalEntity.goalID),
       id as NSUUID
     )
   }

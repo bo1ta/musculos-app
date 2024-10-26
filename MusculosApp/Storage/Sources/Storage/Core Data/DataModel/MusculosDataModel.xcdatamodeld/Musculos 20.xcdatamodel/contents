@@ -56,6 +56,7 @@
     </entity>
     <entity name="ProgressEntryEntity" representedClassName="ProgressEntryEntity" syncable="YES">
         <attribute name="dateAdded" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="progressID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="value" attributeType="Double" usesScalarValueType="YES"/>
         <relationship name="goal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GoalEntity" inverseName="progressHistory" inverseEntity="GoalEntity"/>
     </entity>

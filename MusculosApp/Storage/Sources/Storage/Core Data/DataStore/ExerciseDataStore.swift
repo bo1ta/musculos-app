@@ -72,7 +72,7 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol {
     return await storageManager.performRead { viewStorage in
       return viewStorage.firstObject(
         of: ExerciseEntity.self,
-        matching: PredicateFactory.exerciseById(exerciseID)
+        matching: PredicateProvider.exerciseById(exerciseID)
       )?.toReadOnly()
     }
   }
@@ -82,7 +82,7 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol {
       return viewStorage
         .firstObject(
           of: ExerciseEntity.self,
-          matching: PredicateFactory.exerciseById(exercise.id)
+          matching: PredicateProvider.exerciseById(exercise.id)
         )?.isFavorite ?? false
     }
   }
@@ -97,11 +97,12 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol {
   
   public func getAllFavorites() async -> [Exercise] {
     return await storageManager.performRead { viewStorage in
-      return viewStorage.allObjects(
-        ofType: ExerciseEntity.self,
-        matching: PredicateFactory.favoriteExercise(),
-        sortedBy: nil)
-      .map { $0.toReadOnly() }
+      return viewStorage
+        .allObjects(
+          ofType: ExerciseEntity.self,
+          matching: PredicateProvider.favoriteExercise(),
+          sortedBy: nil)
+        .map { $0.toReadOnly() }
     }
   }
   
@@ -110,7 +111,7 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol {
       return viewStorage
         .allObjects(
           ofType: ExerciseEntity.self,
-          matching: PredicateFactory.exerciseByName(query),
+          matching: PredicateProvider.exerciseByName(query),
           sortedBy: nil
         )
         .map { $0.toReadOnly() }
@@ -121,26 +122,27 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol {
     return await storageManager.performRead { viewStorage in
       let muscleIds = muscles.map { $0.id }
       
-      return viewStorage.allObjects(
-        ofType: PrimaryMuscleEntity.self,
-        matching: PredicateFactory.musclesByIds(muscleIds),
-        sortedBy: nil
-      )
-      .flatMap { $0.exercises }
-      .map { $0.toReadOnly() }
+      return viewStorage
+        .allObjects(
+          ofType: PrimaryMuscleEntity.self,
+          matching: PredicateProvider.musclesByIds(muscleIds),
+          sortedBy: nil
+        )
+        .flatMap { $0.exercises }
+        .map { $0.toReadOnly() }
     }
   }
   
   public func getAllByGoals(_ goals: [Goal], fetchLimit: Int) async -> [Exercise] {
     return await storageManager.performRead { viewStorage in
-      let predicate = Self.mapGoalsToCategoryPredicate(goals)
-      return viewStorage.allObjects(
-        ofType: ExerciseEntity.self,
-        fetchLimit: fetchLimit,
-        matching: predicate,
-        sortedBy: nil
-      )
-      .map { $0.toReadOnly() }
+      return viewStorage
+        .allObjects(
+          ofType: ExerciseEntity.self,
+          fetchLimit: fetchLimit,
+          matching: PredicateProvider.exerciseByGoals(goals),
+          sortedBy: nil
+        )
+        .map { $0.toReadOnly() }
     }
   }
   
@@ -148,13 +150,14 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol {
     return await storageManager.performRead { viewStorage in
       let muscleIds = muscles.map { $0.id }
       
-      return viewStorage.allObjects(
-        ofType: PrimaryMuscleEntity.self,
-        matching: NSPredicate(format: "NOT (muscleId IN %@)", muscleIds),
-        sortedBy: nil
-      )
-      .flatMap { $0.exercises }
-      .map { $0.toReadOnly() }
+      return viewStorage
+        .allObjects(
+          ofType: PrimaryMuscleEntity.self,
+          matching: NSPredicate(format: "NOT (muscleId IN %@)", muscleIds),
+          sortedBy: nil
+        )
+        .flatMap { $0.exercises }
+        .map { $0.toReadOnly() }
     }
   }
 
@@ -172,7 +175,7 @@ public extension ExerciseDataStore {
     try await storageManager.performWrite { writerDerivedStorage in
       guard let exercise = writerDerivedStorage.firstObject(
         of: ExerciseEntity.self,
-        matching: PredicateFactory.exerciseById(exercise.id)
+        matching: PredicateProvider.exerciseById(exercise.id)
       ) else {
         throw MusculosError.notFound
       }
@@ -181,50 +184,6 @@ public extension ExerciseDataStore {
   }
   
   public func add(_ exercise: Exercise) async throws {
-    try await storageManager.performWrite { writerStorage in
-      let exerciseEntity = writerStorage.insertNewObject(ofType: ExerciseEntity.self)
-      
-      exerciseEntity.exerciseId = exercise.id
-      exerciseEntity.name = exercise.name
-      exerciseEntity.equipment = exercise.equipment
-      exerciseEntity.category = exercise.category
-      exerciseEntity.force = exercise.force
-      exerciseEntity.imageUrls = exercise.imageUrls
-      exerciseEntity.instructions = exercise.instructions
-      exerciseEntity.level = exercise.level
-
-      exerciseEntity.primaryMuscles = PrimaryMuscleEntity.createFor(exerciseEntity: exerciseEntity, from: exercise.primaryMuscles, using: writerStorage)
-      exerciseEntity.secondaryMuscles = SecondaryMuscleEntity.createFor(exerciseEntity: exerciseEntity, from: exercise.secondaryMuscles, using: writerStorage)
-    }
+    try await self.handleObjectSync(remoteObject: exercise, localObjectType: ExerciseEntity.self)
   }
-}
-
-// MARK: - Static properties
-
-extension ExerciseDataStore {
-  private static func mapGoalsToCategoryPredicate(_ goals: [Goal]) -> NSPredicate? {
-    var predicate: NSPredicate?
-
-    for goal in goals {
-      if let categories = Self.goalToExerciseCategories[goal.category] {
-        let categoryPredicate = NSPredicate(format: "category IN %@", categories)
-        predicate = predicate == nil ? categoryPredicate : NSCompoundPredicate(orPredicateWithSubpredicates: [predicate!, categoryPredicate])
-      }
-    }
-
-    return predicate
-  }
-  
-  static let goalToExerciseCategories: [Goal.Category: [String]] = [
-    .growMuscle: [
-      ExerciseConstants.CategoryType.strength.rawValue,
-      ExerciseConstants.CategoryType.powerlifting.rawValue,
-      ExerciseConstants.CategoryType.strongman.rawValue,
-      ExerciseConstants.CategoryType.olympicWeightlifting.rawValue
-    ],
-    .loseWeight: [
-      ExerciseConstants.CategoryType.cardio.rawValue,
-      ExerciseConstants.CategoryType.stretching.rawValue
-    ]
-  ]
 }

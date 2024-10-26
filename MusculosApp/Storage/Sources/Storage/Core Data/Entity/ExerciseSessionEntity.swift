@@ -43,7 +43,7 @@ extension ExerciseSessionEntity: EntitySyncable {
   public func populateEntityFrom(_ model: ExerciseSession, using storage: StorageType) {
     guard let user = storage.firstObject(
       of: UserProfileEntity.self,
-      matching: PredicateFactory.userProfileById(model.user.userId)
+      matching: PredicateProvider.userProfileById(model.user.userId)
     )
     else { return }
 
