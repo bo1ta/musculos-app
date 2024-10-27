@@ -14,7 +14,7 @@ public protocol GoalServiceProtocol: Sendable {
   func getUserGoals() async throws -> [Goal]
   func addGoal(_ goal: Goal) async throws
   func getGoalByID(_ goalID: UUID) async throws -> Goal
-  func addProgressEntry(_ entry: ProgressEntry, for goalID: UUID) async throws
+  func addProgressEntry(_ entry: ProgressEntry) async throws
 }
 
 public struct GoalService: APIService, GoalServiceProtocol, @unchecked Sendable {
@@ -43,10 +43,10 @@ public struct GoalService: APIService, GoalServiceProtocol, @unchecked Sendable 
     return try Goal.createFrom(data)
   }
   
-  public func addProgressEntry(_ entry: ProgressEntry, for goalID: UUID) async throws {
+  public func addProgressEntry(_ entry: ProgressEntry) async throws {
     var request = APIRequest(method: .post, endpoint: .goals(.updateProgress))
     request.body = [
-      "goalID": goalID,
+      "goalID": entry.goal.id,
       "dateAdded": entry.dateAdded,
       "value": entry.value
     ]

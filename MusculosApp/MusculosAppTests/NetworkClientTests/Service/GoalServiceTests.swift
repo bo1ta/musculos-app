@@ -103,4 +103,19 @@ final class GoalServiceTests: MusculosTestBase {
     let serviceGoal = try await service.getGoalByID(expectedGoaID)
     #expect(serviceGoal.id.uuidString == expectedGoaID.uuidString)
   }
+
+  @Test func addProgressEntry() async throws {
+    let goal = GoalFactory.createGoal()
+    var stubClient = StubMusculosClient()
+    stubClient.expectedMethod = .post
+    stubClient.expectedEndpoint = .goals(.updateProgress)
+
+    NetworkContainer.shared.client.register { stubClient }
+    defer {
+      NetworkContainer.shared.client.reset()
+    }
+
+    let service = GoalService()
+    try await service.addProgressEntry(ProgressEntry(dateAdded: Date(), value: 20, goal: goal))
+  }
 }
