@@ -62,11 +62,11 @@ public struct GoalDataStore: GoalDataStoreProtocol {
         throw StorageError.invalidUser
       }
 
-      let entity = writerDerivedStorage.findOrInsert(of: GoalEntity.self, using: PredicateProvider.goalByID(goal.goalID))
+      let entity = writerDerivedStorage.findOrInsert(of: GoalEntity.self, using: PredicateProvider.goalByID(goal.id))
       entity.user = currentUser
-      entity.goalID = goal.goalID
+      entity.goalID = goal.id
       entity.name = goal.name
-      entity.category = goal.category.rawValue
+      entity.category = goal.category
       entity.dateAdded = goal.dateAdded
       entity.endDate = goal.endDate
       entity.targetValue = NSNumber(integerLiteral: goal.targetValue)

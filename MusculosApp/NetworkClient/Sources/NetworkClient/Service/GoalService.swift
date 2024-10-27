@@ -35,7 +35,7 @@ public struct GoalService: APIService, GoalServiceProtocol, @unchecked Sendable 
   public func addGoal(_ goal: Goal) async throws {
     var request = APIRequest(method: .post, endpoint: .goals(.index))
     request.body = [
-      "goalID": goal.goalID.uuidString,
+      "goalID": goal.id.uuidString,
       "name": goal.name,
       "userID": goal.user.userId.uuidString,
       "frequency": goal.frequency.rawValue,
@@ -60,5 +60,11 @@ public struct GoalService: APIService, GoalServiceProtocol, @unchecked Sendable 
       "value": entry.value
     ]
     try await client.dispatch(request)
+  }
+}
+
+extension GoalService {
+  private struct GoalResponse: Decodable {
+    
   }
 }

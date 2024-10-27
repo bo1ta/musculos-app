@@ -42,11 +42,6 @@ extension GoalEntity: ReadOnlyConvertible {
   typealias GoalFrequency = Goal.Frequency
 
   public func toReadOnly() -> Goal {
-    var goalCategory: GoalCategory = .general
-    if let category, let categoryType = GoalCategory(rawValue: category)  {
-      goalCategory = categoryType
-    }
-
     var goalFrequency: GoalFrequency = .daily
     if let frequency, let frequencyType = GoalFrequency(rawValue: frequency) {
       goalFrequency = frequencyType
@@ -54,9 +49,9 @@ extension GoalEntity: ReadOnlyConvertible {
 
     return Goal(
       name: name,
-      category: goalCategory,
+      category: self.category,
       frequency: goalFrequency,
-      progressHistory: [],
+      progressEntries: [],
       targetValue: targetValue?.intValue ?? 0,
       endDate: endDate,
       isCompleted: isCompleted,
@@ -70,7 +65,7 @@ extension GoalEntity: ReadOnlyConvertible {
 
 extension GoalEntity: EntitySyncable {
   public func populateEntityFrom(_ model: Goal, using storage: StorageType) {
-    self.category = model.category.rawValue
+    self.category = model.category
     self.dateAdded = model.dateAdded
     self.endDate = model.endDate
     self.frequency = model.frequency.rawValue
@@ -78,7 +73,10 @@ extension GoalEntity: EntitySyncable {
     self.name = model.name
     self.targetValue = NSNumber(integerLiteral: model.targetValue)
 
-    for progress in model.progressHistory {
+    guard let progressEntries = model.progressEntries else { return }
+
+
+    for progress in progressEntries {
       let progressEntity = storage.insertNewObject(ofType: ProgressEntryEntity.self)
       progressEntity.populateEntityFrom(progress, using: storage)
       addToProgressHistory(progressEntity)
@@ -94,9 +92,11 @@ extension GoalEntity: EntitySyncable {
       self.endDate = model.endDate
     }
 
-    if model.progressHistory.count > self.progressHistory.count {
+    guard let progressEntries = model.progressEntries else { return }
+
+    if progressEntries.count > self.progressHistory.count {
       let mappedProgress = self.progressHistory.map { $0.toReadOnly()?.progressID }
-      let history = model.progressHistory.filter { entry in
+      let history = progressEntries.filter { entry in
         !mappedProgress.contains(entry.progressID)
       }
       for entry in history {

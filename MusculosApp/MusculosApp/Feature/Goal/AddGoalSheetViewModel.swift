@@ -61,7 +61,7 @@ final class AddGoalSheetViewModel {
 
       let goal = Goal(
         name: name,
-        category: Goal.Category.initFromLabel(self.category) ?? .general,
+        category: self.category,
         frequency: Goal.Frequency(rawValue: self.frequency) ?? .daily,
         targetValue: Int(self.targetValue) ?? 5,
         endDate: endDate,

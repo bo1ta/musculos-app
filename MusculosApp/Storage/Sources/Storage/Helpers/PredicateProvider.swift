@@ -36,7 +36,7 @@ public struct PredicateProvider {
     var predicate: NSPredicate?
 
     for goal in goals {
-      if let categories = ExerciseConstants.goalToExerciseCategories[goal.category] {
+      if let categories = ExerciseConstants.goalToExerciseCategories[goal.category ?? ""] {
         let categoryPredicate = NSPredicate(
           format: "%K IN %@",
           #keyPath(ExerciseEntity.category),

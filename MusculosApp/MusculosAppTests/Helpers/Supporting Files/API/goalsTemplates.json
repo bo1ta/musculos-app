@@ -1,0 +1,20 @@
+[
+    {
+        "description": "Burn fat & get lean",
+        "id": "D48E26A3-2CE7-45D9-9391-C3BE08A2C6D7",
+        "title": "Lose Weight",
+        "iconName": "rope-icon"
+    },
+    {
+        "description": "Tone up & feel healthy",
+        "id": "038E957D-4E82-48C6-8E47-5B21670E688C",
+        "title": "Get Fitter",
+        "iconName": "barbell-icon"
+    },
+    {
+        "description": "Build mass & strength",
+        "id": "07D675C6-0FA8-42CF-A01F-1C03FDA3907D",
+        "title": "Gain Muscles",
+        "iconName": "muscle-icon"
+    }
+]

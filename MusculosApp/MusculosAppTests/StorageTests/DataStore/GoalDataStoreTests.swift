@@ -28,7 +28,7 @@ public class GoalDataStoreTests: MusculosTestBase {
 
     let goal = Goal(
       name: "First goal",
-      category: .general,
+      category: Goal.Category.growMuscle.rawValue,
       frequency: .daily,
       targetValue: 0,
       endDate: nil,

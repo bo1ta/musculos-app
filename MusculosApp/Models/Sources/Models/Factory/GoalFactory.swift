@@ -11,7 +11,7 @@ import Utility
 public struct GoalFactory {
   public struct Default {
     public static let name = "Lose weight"
-    public static let category: Goal.Category = .loseWeight
+    public static let category = "Extra weight loss"
     public static let frequency: Goal.Frequency = .weekly
     public static let targetValue = 20
     public static let endDate: Date = Date().dayAfter
@@ -21,7 +21,7 @@ public struct GoalFactory {
 
   public static func createGoal(
     name: String = Default.name,
-    category: Goal.Category = Default.category,
+    category: String = Default.category,
     frequency: Goal.Frequency = Default.frequency,
     targetValue: Int = Default.targetValue,
     endDate: Date = Default.endDate,

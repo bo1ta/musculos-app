@@ -10,11 +10,11 @@ import SwiftUI
 import Utility
 
 public struct Goal: Sendable, Codable {
-  public let goalID: UUID
+  public let id: UUID
   public let name: String
-  public let category: Category
+  public let category: String?
   public let frequency: Frequency
-  public var progressHistory: [ProgressEntry]
+  public var progressEntries: [ProgressEntry]?
   public let targetValue: Int
   public let endDate: Date?
   public let isCompleted: Bool
@@ -24,20 +24,20 @@ public struct Goal: Sendable, Codable {
   public init(
     id: UUID = UUID(),
     name: String,
-    category: Category,
+    category: String?,
     frequency: Frequency,
-    progressHistory: [ProgressEntry] = [],
+    progressEntries: [ProgressEntry]? = nil,
     targetValue: Int,
     endDate: Date?,
     isCompleted: Bool = false,
     dateAdded: Date,
     user: UserProfile
   ) {
-    self.goalID = id
+    self.id = id
     self.name = name
     self.category = category
     self.frequency = frequency
-    self.progressHistory = progressHistory
+    self.progressEntries = progressEntries
     self.targetValue = targetValue
     self.endDate = endDate
     self.isCompleted = isCompleted
@@ -46,11 +46,11 @@ public struct Goal: Sendable, Codable {
   }
 
   public init(onboardingGoal: OnboardingConstants.Goal, user: UserProfile) {
-    self.goalID = UUID()
+    self.id = UUID()
     self.name = onboardingGoal.title
-    self.category = Category.initFromLabel(onboardingGoal.title) ?? .general
+    self.category = onboardingGoal.title
     self.frequency = .weekly
-    self.progressHistory = []
+    self.progressEntries = []
     self.targetValue = 5
     self.endDate = DateHelper.getDateFromNextWeek()
     self.isCompleted = false
@@ -60,7 +60,7 @@ public struct Goal: Sendable, Codable {
 
   public mutating func updateProgress(newValue: Double) {
     let entry = ProgressEntry(dateAdded: Date(), value: newValue, goal: self)
-    progressHistory.append(entry)
+    progressEntries?.append(entry)
   }
 
   public var isExpired: Bool {
@@ -97,13 +97,15 @@ public struct Goal: Sendable, Codable {
   }
 
   public var latestProgress: ProgressEntry? {
-    return progressHistory.sorted(by: { $0.dateAdded < $1.dateAdded }).last
+    return progressEntries?.sorted(by: { $0.dateAdded < $1.dateAdded }).last
   }
 
   public var currentStreak: Int {
+    guard let progressEntries else { return 0 }
+
     var streak = 0
 
-    let sortedHistory = progressHistory.sorted(by: { $0.dateAdded < $1.dateAdded })
+    let sortedHistory = progressEntries.sorted(by: { $0.dateAdded < $1.dateAdded })
     for (i, entry) in sortedHistory.enumerated() {
       guard i > 0 else {
         continue
