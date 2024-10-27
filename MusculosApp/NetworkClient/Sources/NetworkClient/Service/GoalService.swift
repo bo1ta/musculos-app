@@ -34,15 +34,6 @@ public struct GoalService: APIService, GoalServiceProtocol, @unchecked Sendable 
 
   public func addGoal(_ goal: Goal) async throws {
     var request = APIRequest(method: .post, endpoint: .goals(.index))
-    request.body = [
-      "goalID": goal.id.uuidString,
-      "name": goal.name,
-      "userID": goal.user.userId.uuidString,
-      "frequency": goal.frequency.rawValue,
-      "dateAdded": goal.dateAdded.ISO8601Format(),
-      "endDate": goal.endDate?.ISO8601Format(),
-      "isCompleted": goal.isCompleted
-    ]
     try await client.dispatch(request)
   }
   

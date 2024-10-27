@@ -11,12 +11,13 @@ import Foundation
 
 struct StubUserSessionManager: UserSessionManagerProtocol, @unchecked Sendable {
   var expectedTokenValue: String?
+  var expectedUser: UserSession.User?
 
   func currentState() -> UserSessionState {
     UserSessionState.authenticated(
       UserSession(
         token: UserSession.Token(value: expectedTokenValue ?? "token"),
-        user: UserSession.User(id: UUID())
+        user: expectedUser ?? UserSession.User(id: UUID())
       )
     )
   }

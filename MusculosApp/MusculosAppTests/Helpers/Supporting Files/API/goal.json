@@ -1,0 +1,15 @@
+{
+    "isCompleted": false,
+    "dateAdded": "2024-10-27T00:00:00Z",
+    "endDate": null,
+    "frequency": "daily",
+    "id": "038E927E-4E82-48C6-8E47-5B21670E688C",
+    "category": "Lose weight",
+    "user": {
+      "id": "CE285C1D-1DEA-4210-A4E7-62CB2E39083B",
+      "username": "johnsny_blaze",
+      "email": "johssnny@test.com"
+    },
+    "name": "Second goal",
+    "targetValue": 5
+}

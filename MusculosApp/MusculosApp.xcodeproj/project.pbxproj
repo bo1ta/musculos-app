@@ -55,6 +55,7 @@
 		BC655B032CB055B300C19E07 /* ExerciseCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC655B022CB055B300C19E07 /* ExerciseCardStack.swift */; };
 		BC655B052CB1615200C19E07 /* ProgressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC655B042CB1615200C19E07 /* ProgressButton.swift */; };
 		BC684CCB2CCE797F00349FB2 /* goals.json in Resources */ = {isa = PBXBuildFile; fileRef = BC684CCA2CCE797F00349FB2 /* goals.json */; };
+		BC684CCD2CCE944300349FB2 /* goal.json in Resources */ = {isa = PBXBuildFile; fileRef = BC684CCC2CCE944300349FB2 /* goal.json */; };
 		BC6F365A2BB4E14D000F6CFA /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */; };
 		BC6F365D2BB4E2A3000F6CFA /* CardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F365C2BB4E2A3000F6CFA /* CardItem.swift */; };
 		BC74C1B62C0107CA0021B932 /* WorkoutIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC74C1B52C0107CA0021B932 /* WorkoutIntroView.swift */; };
@@ -203,6 +204,7 @@
 		BC655B022CB055B300C19E07 /* ExerciseCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCardStack.swift; sourceTree = "<group>"; };
 		BC655B042CB1615200C19E07 /* ProgressButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressButton.swift; sourceTree = "<group>"; };
 		BC684CCA2CCE797F00349FB2 /* goals.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = goals.json; sourceTree = "<group>"; };
+		BC684CCC2CCE944300349FB2 /* goal.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = goal.json; sourceTree = "<group>"; };
 		BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
 		BC6F365C2BB4E2A3000F6CFA /* CardItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardItem.swift; sourceTree = "<group>"; };
 		BC74C1B52C0107CA0021B932 /* WorkoutIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutIntroView.swift; sourceTree = "<group>"; };
@@ -557,6 +559,7 @@
 			isa = PBXGroup;
 			children = (
 				BC684CCA2CCE797F00349FB2 /* goals.json */,
+				BC684CCC2CCE944300349FB2 /* goal.json */,
 				BCF1C9F52CCE75A4003DDD00 /* goalsTemplates.json */,
 				BCD011952CC060470012CEA0 /* exerciseSessions.json */,
 				BCD011912CC05A600012CEA0 /* userProfile.json */,
@@ -1045,6 +1048,7 @@
 			files = (
 				BCD011982CC060F70012CEA0 /* exerciseSession.json in Resources */,
 				BCD011962CC060470012CEA0 /* exerciseSessions.json in Resources */,
+				BC684CCD2CCE944300349FB2 /* goal.json in Resources */,
 				BC5BACD52ABA28A7003C880E /* exercises.json in Resources */,
 				BCFA25BC2BB37B2900F07A67 /* authenticationResult.json in Resources */,
 				BC684CCB2CCE797F00349FB2 /* goals.json in Resources */,

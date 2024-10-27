@@ -54,4 +54,53 @@ final class GoalServiceTests: MusculosTestBase {
     let goals = try await service.getUserGoals()
     #expect(goals.count == 2)
   }
+
+  @Test func addGoal() async throws {
+    let userProfile = UserProfileFactory.createProfile()
+    let goal = GoalFactory.createGoal(user: userProfile)
+
+    var stubSession = StubUserSessionManager(expectedTokenValue: "super-secret-token")
+    stubSession.expectedUser = .init(id: userProfile.userId)
+    StorageContainer.shared.userManager.register { stubSession }
+    defer {
+      StorageContainer.shared.userManager.reset()
+    }
+
+    var stubClient = StubMusculosClient()
+    stubClient.expectedMethod = .post
+    stubClient.expectedEndpoint = .goals(.index)
+    stubClient.expectedAuthToken = stubSession.expectedTokenValue
+
+    NetworkContainer.shared.client.register { stubClient }
+    defer {
+      NetworkContainer.shared.client.reset()
+    }
+
+    let service = GoalService()
+    try await service.addGoal(goal)
+  }
+
+  @Test func getGoalByID() async throws {
+    let expectedGoaID = try #require(UUID(uuidString: "038E927E-4E82-48C6-8E47-5B21670E688C"))
+    let stubSession = StubUserSessionManager(expectedTokenValue: "super-secret-token")
+    StorageContainer.shared.userManager.register { stubSession }
+    defer {
+      StorageContainer.shared.userManager.reset()
+    }
+
+    var stubClient = StubMusculosClient()
+    stubClient.expectedMethod = .get
+    stubClient.expectedEndpoint = .goals(.goalDetails(expectedGoaID))
+    stubClient.expectedAuthToken = stubSession.expectedTokenValue
+    stubClient.expectedResponseData = try self.parseDataFromFile(name: "goal")
+
+    NetworkContainer.shared.client.register { stubClient }
+    defer {
+      NetworkContainer.shared.client.reset()
+    }
+
+    let service = GoalService()
+    let serviceGoal = try await service.getGoalByID(expectedGoaID)
+    #expect(serviceGoal.id.uuidString == expectedGoaID.uuidString)
+  }
 }

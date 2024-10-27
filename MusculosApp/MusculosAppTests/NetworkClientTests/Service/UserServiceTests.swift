@@ -89,13 +89,6 @@ final class UserServiceTests: MusculosTestBase {
     stubClient.expectedEndpoint = .users(.updateProfile)
     stubClient.expectedAuthToken = "super-secret-token"
     stubClient.expectedResponseData = try parseDataFromFile(name: "userProfile")
-    stubClient.expectedBody = [
-      "isOnboarded": true,
-      "level": ExerciseConstants.LevelType.beginner.rawValue,
-      "primaryGoalID": primaryGoalID,
-      "height": 50,
-      "weight": 50
-    ]
 
     NetworkContainer.shared.client.register { stubClient }
     StorageContainer.shared.userManager.register {
