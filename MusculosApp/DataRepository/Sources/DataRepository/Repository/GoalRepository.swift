@@ -60,7 +60,14 @@ public actor GoalRepository: BaseRepository {
 
   public func addFromOnboardingGoal(_ onboardingGoal: OnboardingGoal, for user: UserProfile) async throws -> Goal {
     let goal = Goal(
-      name: onboardingGoal.title, category: onboardingGoal.description, frequency: .daily, targetValue: 15, endDate: nil, dateAdded: Date(), user: user)
+      name: onboardingGoal.title,
+      category: onboardingGoal.description,
+      frequency: .daily,
+      targetValue: 15,
+      endDate: nil,
+      dateAdded: Date(),
+      user: user
+    )
 
     try await dataStore.add(goal)
     try await service.addGoal(goal)

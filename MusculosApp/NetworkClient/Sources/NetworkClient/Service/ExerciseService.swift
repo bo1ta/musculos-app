@@ -29,7 +29,13 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
   }
   
   public func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
-    return []
+    var request = APIRequest(method: .get, endpoint: .exercises(.filtered))
+    request.queryParams = [
+      URLQueryItem(name: "muscleGroup", value: query)
+    ]
+
+    let data = try await client.dispatch(request)
+    return try await Exercise.createArrayFrom(data)
   }
 
   public func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise {

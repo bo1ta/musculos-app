@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Models
 
 public struct APIRoute {
   public enum UsersRoute {
@@ -29,6 +30,7 @@ public struct APIRoute {
     case exerciseDetails(UUID)
     case favoriteExercises
     case exercisesByGoals
+    case filtered
 
     public var path: String {
       switch self {
@@ -36,6 +38,7 @@ public struct APIRoute {
       case .exerciseDetails(let id): return "\(id)"
       case .favoriteExercises: return "favorites"
       case .exercisesByGoals: return "getByGoals"
+      case .filtered: return "filtered"
       }
     }
   }

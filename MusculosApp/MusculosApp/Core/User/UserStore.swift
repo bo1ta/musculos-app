@@ -110,7 +110,7 @@ final class UserStore {
         try await self?.userRepository.updateProfileUsingOnboardingData(onboardingData)
         self?.sendEvent(.didFinishOnboarding)
       } catch {
-        MusculosLogger.logError(error, message: "Could not update profile with onboarding data", category: .coreData)
+        MusculosLogger.logError(error, message: "Could not update profile with onboarding data", category: .dataRepository)
       }
     }
     taskManager.addTask(task)

@@ -9,7 +9,11 @@ import Foundation
 
 public struct MuscleConstant {
   public enum MuscleName: String, CaseIterable, Sendable {
-    case back, cardio, chest, lowerArms, lowerLegs, neck, shoulders, upperArms, upperLegs, waist
+    case back, cardio, chest, neck, shoulders, waist
+    case lowerArms = "lower arms"
+    case lowerLegs = "lower legs"
+    case upperArms = "upper arms"
+    case upperLegs = "upper legs"
   }
 
   public struct MuscleImageInfo: Hashable, Sendable {
@@ -27,7 +31,15 @@ public struct MuscleConstant {
       return lhs.uuid == rhs.uuid
     }
   }
-  
+
+  public static func parseMuscleString(_ muscle: String) -> String {
+    if let muscleName = MuscleConstant.MuscleName(rawValue: muscle) {
+      return muscleName.rawValue
+    } else {
+      return MuscleConstant.MuscleName.cardio.rawValue
+    }
+  }
+
   public struct MuscleInfo: Hashable, Sendable {
     public let id: Int
     public let name: String

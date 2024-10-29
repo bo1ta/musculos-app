@@ -48,7 +48,6 @@ final class ExploreExerciseViewModel {
   var progress: Float = 0.0
   var goals: [Goal] = []
   var errorMessage = ""
-  var searchQuery = ""
   var showFilterView = false
   var contentState: LoadingViewState<[Exercise]> = .empty
   var recommendedByGoals: [Exercise]?
@@ -60,6 +59,12 @@ final class ExploreExerciseViewModel {
     }
   }
 
+  var searchQuery = "" {
+    didSet {
+      searchQuerySubject.send(searchQuery)
+    }
+  }
+
   var displayGoal: Goal? {
     return goals.first
   }
@@ -67,6 +72,7 @@ final class ExploreExerciseViewModel {
   // MARK: - Init
 
   private let coreModelNotificationHandler: CoreModelNotificationHandler
+  private let searchQuerySubject = CurrentValueSubject<String, Never>("")
 
   init() {
     self.coreModelNotificationHandler = CoreModelNotificationHandler(
@@ -76,6 +82,14 @@ final class ExploreExerciseViewModel {
       .debounce(for: .milliseconds(700), scheduler: RunLoop.main)
       .sink { [weak self] updateObjectEvent in
         self?.handleUpdate(updateObjectEvent)
+      }
+      .store(in: &cancellables)
+
+    self.searchQuerySubject
+      .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+      .sink { [weak self] query in
+        guard query.count > 3 else { return }
+        self?.searchByMuscleQuery(query)
       }
       .store(in: &cancellables)
   }
@@ -143,7 +157,6 @@ extension ExploreExerciseViewModel {
     taskManager.addTask(task)
   }
 
-
   func loadFavoriteExercises() async {
     do {
       let exercises = try await exerciseRepository.getFavoriteExercises()
@@ -174,7 +187,7 @@ extension ExploreExerciseViewModel {
 // MARK: - Section Handling
 
 extension ExploreExerciseViewModel {
-  private func didChangeSection(to section: ExploreCategorySection) {
+  func didChangeSection(to section: ExploreCategorySection) {
     taskManager.cancelTask(forFunction: #function)
 
     taskManager.addTask(Task { [weak self] in
