@@ -59,12 +59,6 @@ final class ExploreExerciseViewModel {
     }
   }
 
-  var searchQuery = "" {
-    didSet {
-      searchQuerySubject.send(searchQuery)
-    }
-  }
-
   var displayGoal: Goal? {
     return goals.first
   }
@@ -72,7 +66,6 @@ final class ExploreExerciseViewModel {
   // MARK: - Init
 
   private let coreModelNotificationHandler: CoreModelNotificationHandler
-  private let searchQuerySubject = CurrentValueSubject<String, Never>("")
 
   init() {
     self.coreModelNotificationHandler = CoreModelNotificationHandler(
@@ -82,14 +75,6 @@ final class ExploreExerciseViewModel {
       .debounce(for: .milliseconds(700), scheduler: RunLoop.main)
       .sink { [weak self] updateObjectEvent in
         self?.handleUpdate(updateObjectEvent)
-      }
-      .store(in: &cancellables)
-
-    self.searchQuerySubject
-      .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
-      .sink { [weak self] query in
-        guard query.count > 3 else { return }
-        self?.searchByMuscleQuery(query)
       }
       .store(in: &cancellables)
   }
@@ -252,22 +237,5 @@ extension ExploreExerciseViewModel {
   private func handleDidFavoriteExercise() async {
     guard currentSection == .myFavorites else { return }
     await loadFavoriteExercises()
-  }
-}
-
-// MARK: - Helpers
-
-enum ExploreCategorySection: String, CaseIterable {
-  case discover, workout, myFavorites
-
-  var title: String {
-    switch self {
-    case .discover:
-      "Discover"
-    case .workout:
-      "Workout"
-    case .myFavorites:
-      "Favorites"
-    }
   }
 }

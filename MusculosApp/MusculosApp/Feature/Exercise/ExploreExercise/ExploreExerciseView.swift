@@ -83,3 +83,19 @@ struct ExploreExerciseView: View {
   ExploreExerciseView()
 }
 
+// MARK: - Section Type
+
+enum ExploreCategorySection: String, CaseIterable {
+  case discover, workout, myFavorites
+
+  var title: String {
+    switch self {
+    case .discover:
+      "Discover"
+    case .workout:
+      "Workout"
+    case .myFavorites:
+      "Favorites"
+    }
+  }
+}
