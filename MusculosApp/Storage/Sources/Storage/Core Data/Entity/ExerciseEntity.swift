@@ -134,7 +134,7 @@ extension ExerciseEntity: EntitySyncable {
   }
 
   static func findOrCreate(from model: Exercise, using storage: StorageType) -> ExerciseEntity {
-    if let exerciseEntity = storage.firstObject(of: ExerciseEntity.self, matching: PredicateFactory.exerciseById(model.id)) {
+    if let exerciseEntity = storage.firstObject(of: ExerciseEntity.self, matching: PredicateProvider.exerciseById(model.id)) {
       return exerciseEntity
     }
 

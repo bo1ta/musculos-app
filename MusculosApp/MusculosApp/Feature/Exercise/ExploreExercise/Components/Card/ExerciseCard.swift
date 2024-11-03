@@ -66,7 +66,6 @@ struct ExerciseCard: View {
 }
 
 
-#Preview {
+#Preview(traits: .sizeThatFitsLayout) {
   ExerciseCard(exercise: ExerciseFactory.createExercise())
-    .previewLayout(.sizeThatFits)
 }

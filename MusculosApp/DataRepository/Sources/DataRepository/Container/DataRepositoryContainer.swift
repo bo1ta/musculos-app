@@ -33,6 +33,10 @@ extension DataRepositoryContainer {
     self { ExerciseSessionRepository() }
   }
 
+  public var goalRepository: Factory<GoalRepository> {
+    self { GoalRepository() }
+  }
+
   internal var backgroundWorker: Factory<BackgroundWorker> {
     self { BackgroundWorker() }
       .singleton

@@ -57,7 +57,6 @@ struct DetailCardView: View {
   }
 }
 
-#Preview {
+#Preview(traits: .sizeThatFitsLayout) {
   DetailCardView(title: "Given instruction for a selected exercise", index: 1)
-    .previewLayout(.sizeThatFits)
 }

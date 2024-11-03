@@ -8,38 +8,36 @@
 import Foundation
 
 public enum Endpoint {
-  case login, register, exercises, exercisesByMuscle, favoriteExercise, currentProfile, updateProfile, exercisesByGoals, exerciseSession
-  case exerciseDetails(_ exerciseID: UUID)
+  case users(APIRoute.UsersRoute)
+  case exercises(APIRoute.ExercisesRoute)
+  case exerciseSessions(APIRoute.ExerciseSessionsRoute)
+  case goals(APIRoute.GoalsRoute)
+  case templates(APIRoute.TemplatesRoute)
 
   public var path: String {
     switch self {
-    case .login:
-      return "/users/login"
-    case .register:
-      return "/users/register"
-    case .exercises:
-      return "/exercises"
-    case let .exerciseDetails(exerciseID):
-      return "/exercises/\(exerciseID)"
-    case .favoriteExercise:
-      return "/exercises/favorites"
-    case .exercisesByGoals:
-      return "/exercises/getByGoals"
-    case .updateProfile:
-      return "/users/me/update-profile"
-    case .currentProfile:
-      return "/users/me"
-    case .exercisesByMuscle:
-      return "/db0/searchMuscle"
-    case .exerciseSession:
-      return "/exercise-session"
+    case .users(let route):
+      return "/users/\(route.path)"
+    case .exercises(let route):
+      return "/exercises/\(route.path)"
+    case .exerciseSessions(let route):
+      return "/exercise-session/\(route.path)"
+    case .goals(let route):
+      return "/goals/\(route.path)"
+    case .templates(let route):
+      return "/templates/\(route.path)"
     }
   }
 
   public var isAuthorizationRequired: Bool {
     switch self {
-    case .login, .register:
-      return false
+    case .users(let endpoint):
+      switch endpoint {
+      case .login, .register:
+        return false
+      default:
+        return true
+      }
     default:
       return true
     }

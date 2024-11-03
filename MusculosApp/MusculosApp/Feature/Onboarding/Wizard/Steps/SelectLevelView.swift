@@ -12,7 +12,7 @@ import Components
 import Utility
 
 struct SelectLevelView: View {
-  @Binding var selectedLevel: OnboardingData.Level?
+  @Binding var selectedLevel: OnboardingConstants.Level?
   let onContinue: () -> Void
 
   var body: some View {
@@ -22,7 +22,7 @@ struct SelectLevelView: View {
 
       Spacer()
 
-      ForEach(OnboardingData.Level.allCases, id: \.self) { level in
+      ForEach(OnboardingConstants.Level.allCases, id: \.self) { level in
         makeButtonCard(for: level)
       }
       .padding(.top, 7)
@@ -38,7 +38,7 @@ struct SelectLevelView: View {
     .padding(20)
   }
 
-  private func makeButtonCard(for level: OnboardingData.Level) -> some View {
+  private func makeButtonCard(for level: OnboardingConstants.Level) -> some View {
     Button(action: {
       HapticFeedbackProvider.haptic(.lightImpact)
       selectedLevel = level
@@ -54,7 +54,7 @@ struct SelectLevelView: View {
     })
   }
 
-  private func makeStarsImage(for level: OnboardingData.Level) -> some View {
+  private func makeStarsImage(for level: OnboardingConstants.Level) -> some View {
     HStack(spacing: 5) {
       ForEach(0..<level.numberOfStars, id: \.self) { _ in
         Image(isLevelSelected(level) ? "star-icon" : "star-icon-empty")
@@ -72,7 +72,7 @@ struct SelectLevelView: View {
     }
   }
 
-  private func isLevelSelected(_ level: OnboardingData.Level) -> Bool {
+  private func isLevelSelected(_ level: OnboardingConstants.Level) -> Bool {
     return selectedLevel == level
   }
 }

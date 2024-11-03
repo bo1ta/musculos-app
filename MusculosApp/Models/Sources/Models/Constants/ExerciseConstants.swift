@@ -97,4 +97,17 @@ public struct ExerciseConstants {
   public static let levelOptions = LevelType.allCases.map { $0.rawValue }
   public static let equipmentOptions = EquipmentType.allCases.map { $0.rawValue }
   public static let categoryOptions = CategoryType.allCases.map { $0.rawValue }
+
+  public static let goalToExerciseCategories: [String: [String]] = [
+    Goal.Category.growMuscle.rawValue: [
+      ExerciseConstants.CategoryType.strength.rawValue,
+      ExerciseConstants.CategoryType.powerlifting.rawValue,
+      ExerciseConstants.CategoryType.strongman.rawValue,
+      ExerciseConstants.CategoryType.olympicWeightlifting.rawValue
+    ],
+    Goal.Category.loseWeight.rawValue: [
+      ExerciseConstants.CategoryType.cardio.rawValue,
+      ExerciseConstants.CategoryType.stretching.rawValue
+    ]
+  ]
 }

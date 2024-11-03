@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Utility
 
 public protocol OnboardingOption {
   var title: String { get }
@@ -14,7 +15,7 @@ public protocol OnboardingOption {
   var image: Image? { get }
 }
 
-public struct OnboardingData {
+public struct OnboardingConstants {
   
   // MARK: - Level
 
@@ -116,3 +117,4 @@ public struct OnboardingData {
     }
   }
 }
+

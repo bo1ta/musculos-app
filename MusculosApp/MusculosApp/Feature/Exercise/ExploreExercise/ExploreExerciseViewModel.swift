@@ -28,7 +28,7 @@ final class ExploreExerciseViewModel {
   @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepository
 
   @ObservationIgnored
-  @Injected(\StorageContainer.goalDataStore) private var goalDataStore: GoalDataStoreProtocol
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
 
   @ObservationIgnored
   @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
@@ -48,7 +48,6 @@ final class ExploreExerciseViewModel {
   var progress: Float = 0.0
   var goals: [Goal] = []
   var errorMessage = ""
-  var searchQuery = ""
   var showFilterView = false
   var contentState: LoadingViewState<[Exercise]> = .empty
   var recommendedByGoals: [Exercise]?
@@ -143,7 +142,6 @@ extension ExploreExerciseViewModel {
     taskManager.addTask(task)
   }
 
-
   func loadFavoriteExercises() async {
     do {
       let exercises = try await exerciseRepository.getFavoriteExercises()
@@ -162,16 +160,19 @@ extension ExploreExerciseViewModel {
     }
   }
 
-  @MainActor
   func refreshGoals() async {
-    goals = await goalDataStore.getAll()
+    do {
+      goals = try await goalRepository.getGoals()
+    } catch {
+      MusculosLogger.logError(error, message: "Could not get goals", category: .dataRepository)
+    }
   }
 }
 
 // MARK: - Section Handling
 
 extension ExploreExerciseViewModel {
-  private func didChangeSection(to section: ExploreCategorySection) {
+  func didChangeSection(to section: ExploreCategorySection) {
     taskManager.cancelTask(forFunction: #function)
 
     taskManager.addTask(Task { [weak self] in
@@ -236,22 +237,5 @@ extension ExploreExerciseViewModel {
   private func handleDidFavoriteExercise() async {
     guard currentSection == .myFavorites else { return }
     await loadFavoriteExercises()
-  }
-}
-
-// MARK: - Helpers
-
-enum ExploreCategorySection: String, CaseIterable {
-  case discover, workout, myFavorites
-
-  var title: String {
-    switch self {
-    case .discover:
-      "Discover"
-    case .workout:
-      "Workout"
-    case .myFavorites:
-      "Favorites"
-    }
   }
 }

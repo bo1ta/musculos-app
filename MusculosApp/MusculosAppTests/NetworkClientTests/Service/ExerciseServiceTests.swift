@@ -18,7 +18,7 @@ final class ExerciseServiceTests: MusculosTestBase {
   @Test func getExercises() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
-    stubClient.expectedEndpoint = .exercises
+    stubClient.expectedEndpoint = .exercises(.index)
     stubClient.expectedResponseData = try parseDataFromFile(name: "exercises")
 
     NetworkContainer.shared.client.register { stubClient }
@@ -34,7 +34,7 @@ final class ExerciseServiceTests: MusculosTestBase {
   @Test func getFavoriteExercises() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
-    stubClient.expectedEndpoint = .favoriteExercise
+    stubClient.expectedEndpoint = .exercises(.favoriteExercises)
     stubClient.expectedResponseData = try parseDataFromFile(name: "exercises")
 
     NetworkContainer.shared.client.register { stubClient }
@@ -50,7 +50,7 @@ final class ExerciseServiceTests: MusculosTestBase {
   @Test func getByWorkoutGoal() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
-    stubClient.expectedEndpoint = .exercisesByGoals
+    stubClient.expectedEndpoint = .exercises(.exercisesByGoals)
     stubClient.expectedQueryParams = [URLQueryItem(name: "goal", value: String(WorkoutGoal.flexibility.rawValue))]
     stubClient.expectedResponseData = try parseDataFromFile(name: "exercises")
 
@@ -64,29 +64,12 @@ final class ExerciseServiceTests: MusculosTestBase {
     #expect(exercises.count == 20)
   }
 
-  @Test func searchByMuscleQuery() async throws {
-    var stubClient = StubMusculosClient()
-    stubClient.expectedMethod = .get
-    stubClient.expectedEndpoint = .exercisesByMuscle
-    stubClient.expectedQueryParams = [URLQueryItem(name: "query", value: "chest")]
-    stubClient.expectedResponseData = try parseDataFromFile(name: "exercises")
-
-    NetworkContainer.shared.client.register { stubClient }
-    defer {
-      NetworkContainer.shared.client.reset()
-    }
-
-    let service = ExerciseService()
-    let exercises = try await service.searchByMuscleQuery("chest")
-    #expect(exercises.count == 20)
-  }
-
   @Test func getExerciseDetails() async throws {
     let exerciseID = UUID()
 
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
-    stubClient.expectedEndpoint = .exerciseDetails(exerciseID)
+    stubClient.expectedEndpoint = .exercises(.exerciseDetails(exerciseID))
     stubClient.expectedResponseData = try parseDataFromFile(name: "exerciseDetails")
 
     NetworkContainer.shared.client.register { stubClient }

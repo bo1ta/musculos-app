@@ -13,7 +13,8 @@ import Components
 struct OnboardingWizardView: View {
   @Environment(\.userStore) private var userStore: UserStore
   @State private var viewModel = OnboardingWizardViewModel()
-  
+  @State private var toast: Toast? = nil
+
   var body: some View {
     VStack {
       backButton
@@ -22,20 +23,25 @@ struct OnboardingWizardView: View {
 
       Spacer()
     }
-    .onReceive(viewModel.event) { event in
+    .onReceive(viewModel.eventPublisher) { event in
       handleEvent(event)
     }
-    .modifier(KeyboardDismissableViewModifier())
-    .onDisappear(perform: viewModel.cleanUp)
     .padding(.horizontal, 10)
+    .task {
+      await viewModel.initialLoad()
+    }
+    .toastView(toast: $toast)
+    .withKeyboardDismissingOnTap()
   }
 
   private func handleEvent(_ event: OnboardingWizardViewModel.Event) {
     switch event {
-    case .didFinishOnboarding:
-      userStore.updateIsOnboarded(true)
-    case .didFinishWithError(let error):
-      MusculosLogger.logError(error, message: "Did finish onboarding with error", category: .ui)
+    case .didFinishOnboarding(let onboardingData):
+      userStore.handlePostOnboarding(onboardingData)
+    case .didFinishWithError(_):
+      toast = Toast(style: .error, message: "Could not save data...")
+    case .didFailLoadingOnboardingData:
+      toast = Toast(style: .error, message: "Could not load data...")
     }
   }
 }
@@ -44,7 +50,7 @@ struct OnboardingWizardView: View {
 
 extension OnboardingWizardView {
   private var currentWizardStep: some View {
-    Group {
+    VStack {
       switch viewModel.wizardStep {
       case .heightAndWeight:
         SelectSizeView(
@@ -61,6 +67,7 @@ extension OnboardingWizardView {
         .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
       case .goal:
         SelectGoalView(
+          onboardingGoals: viewModel.onboardingGoals,
           selectedGoal: $viewModel.selectedGoal,
           onContinue: viewModel.handleNextStep
         )
@@ -71,10 +78,7 @@ extension OnboardingWizardView {
       }
     }
     .animation(.smooth(duration: 0.2), value: viewModel.wizardStep)
-    .dismissingGesture(
-      direction: .left,
-      action: viewModel.handleBack
-    )
+    .dismissingGesture(direction: .left, action: viewModel.handleBack)
   }
 
   private var backButton: some View {

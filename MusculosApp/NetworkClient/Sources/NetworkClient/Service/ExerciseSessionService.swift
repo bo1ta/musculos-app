@@ -15,17 +15,17 @@ public protocol ExerciseSessionServiceProtocol: Sendable {
   func add(_ exerciseSession: ExerciseSession) async throws
 }
 
-public struct ExerciseSessionService: ExerciseSessionServiceProtocol, MusculosService, @unchecked Sendable {
+public struct ExerciseSessionService: ExerciseSessionServiceProtocol, APIService, @unchecked Sendable {
   @Injected(\NetworkContainer.client) var client: MusculosClientProtocol
 
   public func getAll() async throws -> [ExerciseSession] {
-    let request = APIRequest(method: .get, endpoint: .exerciseSession)
+    let request = APIRequest(method: .get, endpoint: .exerciseSessions(.index))
     let data = try await client.dispatch(request)
     return try ExerciseSession.createArrayFrom(data)
   }
 
   public func add(_ exerciseSession: ExerciseSession) async throws {
-    var request = APIRequest(method: .post, endpoint: .exerciseSession)
+    var request = APIRequest(method: .post, endpoint: .exerciseSessions(.index))
     request.body = [
       "dateAdded": exerciseSession.dateAdded.ISO8601Format() as Any,
       "duration": exerciseSession.duration as Any,

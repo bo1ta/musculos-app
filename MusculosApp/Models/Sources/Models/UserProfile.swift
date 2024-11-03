@@ -22,6 +22,7 @@ public struct UserProfile: Codable, Sendable {
   public let primaryGoalID: UUID?
   public var isOnboarded: Bool?
   public var xp: Int? = 0
+  public var goals: [Goal]?
 
   public init(
     userId: UUID,
@@ -36,7 +37,8 @@ public struct UserProfile: Codable, Sendable {
     availableEquipment: [String]? = nil,
     primaryGoalID: UUID? = nil,
     isOnboarded: Bool? = false,
-    xp: Int? = 0
+    xp: Int? = 0,
+    goals: [Goal]? = nil
   ) {
     self.userId = userId
     self.email = email
@@ -51,6 +53,7 @@ public struct UserProfile: Codable, Sendable {
     self.primaryGoalID = primaryGoalID
     self.isOnboarded = isOnboarded
     self.xp = xp
+    self.goals = goals
   }
 
   enum CodingKeys: String, CodingKey {
@@ -67,6 +70,7 @@ public struct UserProfile: Codable, Sendable {
     case primaryGoalID
     case isOnboarded
     case xp
+    case goals
   }
 
   public var avatarUrl: URL? {

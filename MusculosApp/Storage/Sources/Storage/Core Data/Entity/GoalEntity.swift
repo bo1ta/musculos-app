@@ -42,11 +42,6 @@ extension GoalEntity: ReadOnlyConvertible {
   typealias GoalFrequency = Goal.Frequency
 
   public func toReadOnly() -> Goal {
-    var goalCategory: GoalCategory = .general
-    if let category, let categoryType = GoalCategory(rawValue: category)  {
-      goalCategory = categoryType
-    }
-
     var goalFrequency: GoalFrequency = .daily
     if let frequency, let frequencyType = GoalFrequency(rawValue: frequency) {
       goalFrequency = frequencyType
@@ -54,14 +49,60 @@ extension GoalEntity: ReadOnlyConvertible {
 
     return Goal(
       name: name,
-      category: goalCategory,
+      category: self.category,
       frequency: goalFrequency,
-      progressHistory: [],
+      progressEntries: [],
       targetValue: targetValue?.intValue ?? 0,
       endDate: endDate,
       isCompleted: isCompleted,
       dateAdded: dateAdded,
       user: user.toReadOnly()
     )
+  }
+}
+
+// MARK: - Entity Syncable
+
+extension GoalEntity: EntitySyncable {
+  public func populateEntityFrom(_ model: Goal, using storage: StorageType) {
+    self.category = model.category
+    self.dateAdded = model.dateAdded
+    self.endDate = model.endDate
+    self.frequency = model.frequency.rawValue
+    self.isCompleted = model.isCompleted
+    self.name = model.name
+    self.targetValue = NSNumber(integerLiteral: model.targetValue)
+
+    guard let progressEntries = model.progressEntries else { return }
+
+
+    for progress in progressEntries {
+      let progressEntity = storage.insertNewObject(ofType: ProgressEntryEntity.self)
+      progressEntity.populateEntityFrom(progress, using: storage)
+      addToProgressHistory(progressEntity)
+    }
+  }
+
+  public func updateEntityFrom(_ model: Goal, using storage: StorageType) {
+    if model.targetValue > self.targetValue?.intValue ?? 0 {
+      self.targetValue = NSNumber(integerLiteral: model.targetValue)
+    }
+
+    if self.endDate == nil {
+      self.endDate = model.endDate
+    }
+
+    guard let progressEntries = model.progressEntries else { return }
+
+    if progressEntries.count > self.progressHistory.count {
+      let mappedProgress = self.progressHistory.map { $0.toReadOnly()?.progressID }
+      let history = progressEntries.filter { entry in
+        !mappedProgress.contains(entry.progressID)
+      }
+      for entry in history {
+        let progressEntity = storage.insertNewObject(ofType: ProgressEntryEntity.self)
+        addToProgressHistory(progressEntity)
+      }
+    }
   }
 }

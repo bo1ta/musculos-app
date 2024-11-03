@@ -11,97 +11,90 @@ import Factory
 import Combine
 import Models
 import Utility
-import Storage
-import NetworkClient
 import DataRepository
 
 @Observable
 @MainActor
 final class OnboardingWizardViewModel {
-
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userRepository) private var userRepository: UserRepository
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
 
   // MARK: - Event
 
   enum Event {
-    case didFinishOnboarding
+    case didFinishOnboarding(OnboardingData)
     case didFinishWithError(Error)
+    case didFailLoadingOnboardingData
   }
 
-  // MARK: Observed properties
-  
-  var wizardStep: OnboardingWizardStep = .heightAndWeight
+  private let eventSubject = PassthroughSubject<Event, Never>()
+
+  var eventPublisher: AnyPublisher<Event, Never> {
+    eventSubject.eraseToAnyPublisher()
+  }
+
+  // MARK: - Observed properties
+
+  private(set) var wizardStep: OnboardingWizardStep = .heightAndWeight
   var selectedWeight: String = ""
   var selectedHeight: String = ""
-  var selectedGoal: OnboardingData.Goal? = nil
-  var selectedLevel: OnboardingData.Level? = nil
+  var selectedGoal: OnboardingGoal? = nil
+  var selectedLevel: OnboardingConstants.Level? = nil
+  var onboardingGoals: [OnboardingGoal] = []
 
-  var event: AnyPublisher<Event, Never> {
-    _event.eraseToAnyPublisher()
-  }
+  func initialLoad() async {
+    prepareHaptics()
 
-  var canHandleNextStep: Bool {
-    return OnboardingWizardStep(rawValue: wizardStep.rawValue + 1) != nil
-  }
-  
-  func handleNextStep() {
-    if let nextStep = OnboardingWizardStep(rawValue: wizardStep.rawValue + 1) {
-      wizardStep = nextStep
-      HapticFeedbackProvider.haptic(.heavyImpact)
-    } else {
-      updateData()
+    do {
+      onboardingGoals = try await goalRepository.getOnboardingGoals()
+    } catch {
+      sendEvent(.didFailLoadingOnboardingData)
     }
   }
-  
+
+  func handleNextStep() {
+    if let nextStep {
+      wizardStep = nextStep
+      sendHaptic(.heavyImpact)
+    } else {
+      let onboardingData = OnboardingData(
+        weight: Int(selectedWeight),
+        height: Int(selectedHeight),
+        level: selectedLevel?.title,
+        goal: selectedGoal
+      )
+      sendEvent(.didFinishOnboarding(onboardingData))
+      sendHaptic(.notifySuccess)
+    }
+  }
+
   func handleBack() {
-    guard wizardStep.rawValue > 0, let previousStep = OnboardingWizardStep(rawValue: wizardStep.rawValue - 1) else { return }
-    
+    guard let previousStep else { return }
     wizardStep = previousStep
   }
-  
-  func cleanUp() {
-    updateTask?.cancel()
-    updateTask = nil
-  }
-  
+
   // MARK: - Private
 
-  @ObservationIgnored
-  private(set) var updateTask: Task<Void, Never>?
+  private var previousStep: OnboardingWizardStep? {
+    return OnboardingWizardStep(rawValue: wizardStep.rawValue - 1)
+  }
 
-  private let _event = PassthroughSubject<Event, Never>()
-
-  private func updateData() {
-    updateTask = Task { [weak self] in
-      guard let self else { return }
-
-      do {
-//        _ = try await userRepository.updateProfile(
-//            weight: Int(selectedWeight),
-//            height: Int(selectedHeight),
-//            primaryGoal: selectedGoal?.title ?? "",
-//            level: selectedLevel?.title,
-//            isOnboarded: true
-//          )
-
-//        if let selectedGoal, let currentUser = await dataController.getCurrentUserProfile() {
-//          let goal = Goal(onboardingGoal: selectedGoal, user: currentUser)
-//          try await dataController.addGoal(goal)
-//        }
-
-        HapticFeedbackProvider.haptic(.notifySuccess)
-        sendEvent(.didFinishOnboarding)
-      } catch {
-        HapticFeedbackProvider.haptic(.notifyError)
-        sendEvent(.didFinishWithError(error))
-        MusculosLogger.logError(error, message: "Could not save onboarding data", category: .coreData)
-      }
-    }
+  private var nextStep: OnboardingWizardStep? {
+    return OnboardingWizardStep(rawValue: wizardStep.rawValue + 1)
   }
 
   private func sendEvent(_ event: Event) {
-    _event.send(event)
+    eventSubject.send(event)
+  }
+
+  private func prepareHaptics() {
+    HapticFeedbackProvider.prepareHaptic(.lightImpact)
+    HapticFeedbackProvider.prepareHaptic(.heavyImpact)
+    HapticFeedbackProvider.prepareHaptic(.notifySuccess)
+  }
+
+  private func sendHaptic(_ hapticStyle: HapticFeedbackProvider.HapticFeedbackStyle) {
+    HapticFeedbackProvider.haptic(hapticStyle)
   }
 }
 

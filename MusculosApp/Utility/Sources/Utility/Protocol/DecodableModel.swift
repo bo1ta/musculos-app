@@ -10,16 +10,10 @@ import Foundation
 /// Utility that decodes Data into a Codable object
 /// Supports single objects or arrays
 ///
-public protocol DecodableModel: Codable {
-  static func createFrom(_ data: Data) throws -> Self
-  static func createArrayFrom(_ data: Data) throws -> [Self]
-}
+public protocol DecodableModel: Codable {}
 
 public extension DecodableModel where Self: Codable {
   public static func createFrom(_ data: Data) throws -> Self {
-    let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = .iso8601
-
     do {
       return try decoder.decode(Self.self, from: data)
     } catch {
@@ -34,9 +28,6 @@ public extension DecodableModel where Self: Codable {
   }
 
   public static func createArrayFrom(_ data: Data) throws -> [Self] {
-    let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = .iso8601
-
     do {
       return try decoder.decode([Self].self, from: data)
     } catch {
@@ -49,4 +40,29 @@ public extension DecodableModel where Self: Codable {
       throw error
     }
   }
+
+  public func toDictionary() -> [String: Any]? {
+    guard let data = try? Self.encoder.encode(self) else {
+      return nil
+    }
+
+    guard let dictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+      return nil
+    }
+
+    return dictionary
+  }
+
+  private static var decoder: JSONDecoder {
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .iso8601
+    return decoder
+  }
+
+  private static var encoder: JSONEncoder {
+    let encoder = JSONEncoder()
+    encoder.dateEncodingStrategy = .iso8601
+    return encoder
+  }
+
 }
