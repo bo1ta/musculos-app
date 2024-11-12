@@ -21,6 +21,7 @@ public class ExerciseSessionEntity: NSManagedObject {
   @NSManaged public var sessionId: UUID
   @NSManaged public var user: UserProfileEntity
   @NSManaged public var exercise: ExerciseEntity
+  @NSManaged public var weight: NSNumber
 }
 
 extension ExerciseSessionEntity: Identifiable {}
@@ -51,6 +52,7 @@ extension ExerciseSessionEntity: EntitySyncable {
     self.duration = NSNumber(floatLiteral: model.duration)
     self.sessionId = model.sessionId
     self.exercise = ExerciseEntity.findOrCreate(from: model.exercise, using: storage)
+    self.weight = NSNumber(floatLiteral: model.weight ?? 0)
   }
 
   public func updateEntityFrom(_ model: ExerciseSession, using storage: StorageType) {

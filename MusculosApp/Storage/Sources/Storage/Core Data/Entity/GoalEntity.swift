@@ -65,6 +65,7 @@ extension GoalEntity: ReadOnlyConvertible {
 
 extension GoalEntity: EntitySyncable {
   public func populateEntityFrom(_ model: Goal, using storage: StorageType) {
+    self.goalID = model.id
     self.category = model.category
     self.dateAdded = model.dateAdded
     self.endDate = model.endDate
@@ -72,6 +73,10 @@ extension GoalEntity: EntitySyncable {
     self.isCompleted = model.isCompleted
     self.name = model.name
     self.targetValue = NSNumber(integerLiteral: model.targetValue)
+
+    if let user = storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(model.user.userId)){
+      self.user = user
+    }
 
     guard let progressEntries = model.progressEntries else { return }
 

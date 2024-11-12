@@ -77,8 +77,7 @@ struct AddWorkoutSheet: View {
       .buttonStyle(PrimaryButtonStyle())
       .padding(.horizontal, 10)
     }
-    .dialog(
-      style: .select,
+    .sliderDialog(
       title: "How many reps?",
       buttonTitle: "Save",
       isPresented: $viewModel.showRepsDialog,

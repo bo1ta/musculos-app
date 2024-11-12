@@ -56,7 +56,7 @@ public actor ExerciseSessionRepository: BaseRepository {
     return await dataStore.getCompletedToday(userId: userID)
   }
 
-  public func addSession(_ exercise: Exercise, dateAdded: Date, duration: Double) async throws {
+  public func addSession(_ exercise: Exercise, dateAdded: Date, duration: Double, weight: Double) async throws {
     guard
       let currentUserID = self.currentUserID,
       let currentProfile = await userDataStore.loadProfile(userId: currentUserID)
@@ -69,7 +69,8 @@ public actor ExerciseSessionRepository: BaseRepository {
       sessionId: UUID(),
       user: currentProfile,
       exercise: exercise,
-      duration: duration
+      duration: duration,
+      weight: weight
     )
 
     try await dataStore.addSession(exerciseSession)

@@ -34,6 +34,8 @@ final class ExerciseDetailsViewModel {
   private(set) var elapsedTime: Int = 0
 
   var isFavorite = false
+  var showInputDialog: Bool = false
+  var inputWeight: Double? = nil
 
   // MARK: - Tasks
   
@@ -62,6 +64,12 @@ final class ExerciseDetailsViewModel {
     }
   }
 
+  func handleDialogInput(_ input: String) {
+    guard let inputWeight = Double(input) else { return }
+    self.inputWeight = inputWeight
+    startTimer()
+  }
+
   func updateFavorite(_ isFavorite: Bool) {
     markFavoriteTask?.cancel()
 
@@ -83,10 +91,10 @@ final class ExerciseDetailsViewModel {
   }
 
   func saveExerciseSession() {
-    saveExerciseSessionTask = Task.detached(priority: .background) { [weak self] in
+    saveExerciseSessionTask = Task { [weak self] in
       guard let self else { return }
       do {
-        try await exerciseSessionRepository.addSession(exercise, dateAdded: Date(), duration: Double(self.elapsedTime))
+        try await exerciseSessionRepository.addSession(exercise, dateAdded: Date(), duration: Double(self.elapsedTime), weight: inputWeight ?? 0)
         try await maybeUpdateGoals()
       } catch {
         MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)

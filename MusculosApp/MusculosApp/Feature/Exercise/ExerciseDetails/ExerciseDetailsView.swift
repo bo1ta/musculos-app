@@ -12,11 +12,11 @@ import Components
 import Utility
 
 struct ExerciseDetailsView: View {
-  @Environment(\.navigationRouter) private var navigationRouter
   @Namespace private var animationNamespace
-  @State private var viewModel: ExerciseDetailsViewModel
-
   private let timerActionAnimationID = "timerActionAnimationID"
+
+  @Environment(\.navigationRouter) private var navigationRouter
+  @State private var viewModel: ExerciseDetailsViewModel
 
   var exercise: Exercise
   var onComplete: (() -> Void)? = nil
@@ -34,19 +34,12 @@ struct ExerciseDetailsView: View {
         .overlay {
           VStack {
             HStack(alignment: .top) {
-              Button(action: navigationRouter.pop, label: {
-                Image(systemName: "chevron.left")
-                  .resizable()
-                  .aspectRatio(contentMode: .fit)
-                  .frame(height: 20)
-                  .foregroundStyle(.white)
-                  .bold()
-                Spacer()
-              })
+              BackButton(onPress: navigationRouter.pop)
+              Spacer()
             }
+            .padding()
             Spacer()
           }
-          .padding()
         }
 
       ScrollView {
@@ -77,7 +70,7 @@ struct ExerciseDetailsView: View {
             .transition(.asymmetric(insertion: .push(from: .bottom), removal: .opacity))
             .matchedGeometryEffect(id: timerActionAnimationID, in: animationNamespace)
         } else {
-          ActionButton(title: "Start workout", systemImageName: "arrow.up.right", onClick: viewModel.startTimer)
+          ActionButton(title: "Start workout", systemImageName: "arrow.up.right", onClick: { viewModel.showInputDialog.toggle() })
             .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .top)))
             .matchedGeometryEffect(id: timerActionAnimationID, in: animationNamespace)
         }
@@ -92,6 +85,16 @@ struct ExerciseDetailsView: View {
     .dismissingGesture(direction: .left, action: navigationRouter.pop)
     .navigationBarBackButtonHidden()
     .animatedScreenBorder(isActive: viewModel.isTimerActive)
+    .inputDialog(
+      isPresented: $viewModel.showInputDialog,
+      title: "What weight?",
+      fieldHint: "?kg",
+      fieldKeyboardType: .decimalPad,
+      buttonTitle: "Save",
+      onSubmit: { inputValue in
+        viewModel.handleDialogInput(inputValue)
+      }
+    )
   }
 }
 
