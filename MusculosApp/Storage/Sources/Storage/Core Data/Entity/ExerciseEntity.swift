@@ -114,8 +114,8 @@ extension ExerciseEntity: ReadOnlyConvertible {
 
 extension ExerciseEntity: EntitySyncable {
   public func populateEntityFrom(_ model: Exercise, using storage: StorageType) {
-    self.category = model.category
     self.exerciseId = model.id
+    self.category = model.category
     self.category = model.category
     self.equipment = model.equipment
     self.level = model.level

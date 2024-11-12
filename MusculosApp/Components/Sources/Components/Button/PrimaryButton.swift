@@ -20,6 +20,7 @@ public struct PrimaryButton: View {
   public var body: some View {
     Button(action: action, label: {
       Text(title)
+        .foregroundStyle(.white)
         .font(AppFont.poppins(.semibold, size: 18))
         .frame(maxWidth: .infinity)
         .shadow(color: .black.opacity(0.7), radius: 1)

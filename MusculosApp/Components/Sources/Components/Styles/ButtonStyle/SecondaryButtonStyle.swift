@@ -15,19 +15,16 @@ public struct SecondaryButtonStyle: ButtonStyle {
     configuration.label
       .padding(10)
       .fixedSize(horizontal: false, vertical: true)
-      .background(
-        LinearGradient(
-          colors: [
-            Color.white,
-            Color.white.opacity(0.98)
-          ],
-          startPoint: .top,
-          endPoint: .bottom
-        )
-      )
-      .foregroundColor(.white)
-      .clipShape(RoundedRectangle(cornerRadius: 30))
-      .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
-      .shadow(color: .black.opacity(0.8), radius: 1)
+      .background(.white)
+      .clipShape(RoundedRectangle(cornerRadius: 20))
+      .scaleEffect(configuration.isPressed ? 0.90 : 1.0)
+      .shadow(radius: 1.0)
   }
+}
+
+#Preview {
+  Button(action: {}, label: {
+    Text("Click me")
+  })
+  .buttonStyle(SecondaryButtonStyle())
 }

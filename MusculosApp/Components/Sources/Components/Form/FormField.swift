@@ -39,7 +39,7 @@ public struct FormField: View {
     VStack(alignment: .leading) {
       if let label {
         Text(label)
-          .font(AppFont.poppins(.regular, size: 17))
+          .font(AppFont.poppins(.regular, size: 16))
           .foregroundStyle(labelColor)
       }
 
@@ -52,7 +52,7 @@ public struct FormField: View {
           ))
         .shadow(color: .gray.opacity(0.3), radius: 3)
         .frame(maxWidth: .infinity)
-        .frame(height: 50)
+        .frame(height: 40)
         .overlay {
           HStack {
             if let imageIcon {

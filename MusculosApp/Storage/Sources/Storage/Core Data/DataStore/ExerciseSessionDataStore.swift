@@ -115,19 +115,8 @@ public struct ExerciseSessionDataStore: ExerciseSessionDataStoreProtocol {
 
   public func addSession(_ exerciseSession: ExerciseSession) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
-      guard
-        let exerciseEntity = writerDerivedStorage.firstObject(of: ExerciseEntity.self, matching: PredicateProvider.exerciseById(exerciseSession.exercise.id)),
-        let userProfile = UserProfileEntity.userFromID(exerciseSession.user.userId, on: writerDerivedStorage)
-      else {
-        throw MusculosError.notFound
-      }
-
       let entity = writerDerivedStorage.insertNewObject(ofType: ExerciseSessionEntity.self)
-      entity.sessionId = exerciseSession.sessionId
-      entity.dateAdded = exerciseSession.dateAdded
-      entity.exercise = exerciseEntity
-      entity.user = userProfile
-      entity.duration = NSNumber(floatLiteral: exerciseSession.duration)
+      entity.populateEntityFrom(exerciseSession, using: writerDerivedStorage)
     }
   }
 }
