@@ -70,6 +70,10 @@ final class ExerciseDetailsViewModel {
     startTimer()
   }
 
+  func showDialog() {
+    showInputDialog = true
+  }
+
   func updateFavorite(_ isFavorite: Bool) {
     markFavoriteTask?.cancel()
 
