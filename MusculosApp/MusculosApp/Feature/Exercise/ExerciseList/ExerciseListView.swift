@@ -11,20 +11,19 @@ import Components
 import NetworkClient
 import Factory
 import Utility
+import DataRepository
 
 struct ExerciseListView: View {
+  @Environment(\.navigationRouter) private var navigationRouter
+  @State private var state: LoadingViewState<[Exercise]> = .empty
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var repository: ExerciseRepository
+
   enum FilterType {
     case filteredByWorkoutGoal(WorkoutGoal)
     case filteredByMuscle(MuscleType)
   }
 
   let filterType: FilterType
-
-  @Environment(\.navigationRouter) private var navigationRouter
-
-  @State private var state: LoadingViewState<[Exercise]> = .empty
-
-  @Injected(\NetworkContainer.exerciseService) private var exerciseService: ExerciseServiceProtocol
 
   init(filterType: FilterType) {
     self.filterType = filterType
@@ -68,23 +67,11 @@ struct ExerciseListView: View {
 
     switch filterType {
     case .filteredByWorkoutGoal(let workoutGoal):
-      let exercises = try await exerciseService.getByWorkoutGoal(workoutGoal)
+      let exercises = try await repository.getExercisesByWorkoutGoal(workoutGoal)
       state = .loaded(exercises)
     case .filteredByMuscle(let muscleType):
-      let exercises = try await exerciseService.searchByMuscleQuery(muscleType.rawValue)
+      let exercises = try await repository.searchByMuscleQuery(muscleType.rawValue)
       state = .loaded(exercises)
-    }
-  }
-
-  @MainActor
-  func fetchExercises(for workoutGoal: WorkoutGoal) async {
-    state = .loading
-    do {
-      let exercises = try await exerciseService.getByWorkoutGoal(workoutGoal)
-      state = .loaded(exercises)
-    } catch {
-      state = .error(error.localizedDescription)
-      MusculosLogger.logError(error, message: "Could not fetch exercises for exercise list", category: .networking)
     }
   }
 }
