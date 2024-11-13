@@ -18,7 +18,11 @@ final class BackgroundWorker: Sendable {
     @_inheritActorContext operation: @escaping @Sendable () async throws -> Success
   ) -> Task<Success, Error> {
     return backgroundQueue.addOperation(priority: priority) {
-      try await self.withRetry(attempts: operationType.maxRetryAttempts, shouldRetry: operationType.shouldRetry, operation: operation)
+      try await self.withRetry(
+        attempts: operationType.maxRetryAttempts,
+        shouldRetry: operationType.shouldRetry,
+        operation: operation
+      )
     }
   }
 

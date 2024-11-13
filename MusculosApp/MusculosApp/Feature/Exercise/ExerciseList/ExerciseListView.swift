@@ -34,7 +34,7 @@ struct ExerciseListView: View {
       ScrollView {
         switch state {
         case .loading:
-          LoadingDotsView(dotsColor: .green)
+          loadingSkeleton
         case .loaded(let exercises):
           ForEach(exercises, id: \.hashValue) { exercise in
             Button(action: {
@@ -57,6 +57,15 @@ struct ExerciseListView: View {
         try await initialLoad()
       } catch {
         state = .error("Could not load data")
+      }
+    }
+  }
+
+  private var loadingSkeleton: some View {
+    VStack {
+      ForEach(0..<10) { _ in
+        ExerciseCard(exercise: ExerciseFactory.createExercise())
+          .redacted(reason: .placeholder)
       }
     }
   }
