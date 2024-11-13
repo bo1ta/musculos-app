@@ -78,7 +78,9 @@ struct MusculosApp: App {
     case .exerciseDetails(let exercise):
       ExerciseDetailsView(exercise: exercise)
     case .exerciseListByGoal(let workoutGoal):
-      ExerciseListView(workoutGoal: workoutGoal)
+      ExerciseListView(filterType: .filteredByWorkoutGoal(workoutGoal))
+    case .exerciseListByMuscle(let muscle):
+      ExerciseListView(filterType: .filteredByMuscle(muscle))
     case .search:
       EmptyView()
     case .notifications:

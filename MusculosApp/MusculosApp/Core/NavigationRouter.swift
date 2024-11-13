@@ -62,6 +62,7 @@ extension NavigationRouter {
     case notifications
     case filteredByGoal(Goal)
     case exerciseListByGoal(WorkoutGoal)
+    case exerciseListByMuscle(MuscleType)
   }
 
   public enum Sheet: Hashable {

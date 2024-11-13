@@ -33,7 +33,9 @@ struct HomeView: View {
         FeaturedWorkoutsSection(onSeeMore: {}, onWorkoutGoalSelected: { workoutGoal in
           navigationRouter.push(.exerciseListByGoal(workoutGoal))
         })
-        MusclesSection(onSeeMore: {}, onSelectedMuscle: { _ in })
+        MusclesSection(onSeeMore: {}, onSelectedMuscle: { muscle in
+          navigationRouter.push(.exerciseListByMuscle(muscle))
+        })
         RecommendationSection(
           exercises: viewModel.recommendedExercises,
           onSelectExercise: { exercise in
