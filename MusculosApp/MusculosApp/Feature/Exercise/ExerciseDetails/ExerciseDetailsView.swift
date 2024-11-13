@@ -70,7 +70,7 @@ struct ExerciseDetailsView: View {
             .transition(.asymmetric(insertion: .push(from: .bottom), removal: .opacity))
             .matchedGeometryEffect(id: timerActionAnimationID, in: animationNamespace)
         } else {
-          ActionButton(title: "Start workout", systemImageName: "arrow.up.right", onClick: { viewModel.showInputDialog.toggle() })
+          ActionButton(title: "Start workout", systemImageName: "arrow.up.right", onClick: viewModel.showDialog)
             .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .top)))
             .matchedGeometryEffect(id: timerActionAnimationID, in: animationNamespace)
         }
@@ -90,7 +90,7 @@ struct ExerciseDetailsView: View {
       title: "What weight?",
       fieldHint: "?kg",
       fieldKeyboardType: .decimalPad,
-      buttonTitle: "Save",
+      buttonTitle: "Start",
       onSubmit: { inputValue in
         viewModel.handleDialogInput(inputValue)
       }
