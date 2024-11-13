@@ -53,7 +53,6 @@ struct RecommendationSection: View {
               .buttonStyle(.plain)
             }
           }
-          .padding(.vertical, 10)
         }
         .shadow(radius: 1.2)
         .ignoresSafeArea()
