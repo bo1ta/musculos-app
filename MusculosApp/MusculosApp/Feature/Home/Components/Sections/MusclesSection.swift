@@ -10,7 +10,6 @@ import Models
 import Components
 
 struct MusclesSection: View {
-  let onSeeMore: () -> Void
   let onSelectedMuscle: (MuscleType) -> Void
 
   private let cardColors: [Color] = [.red, .blue, .green, .yellow, .purple, .orange, .pink, .teal, .indigo, .cyan]
@@ -20,30 +19,22 @@ struct MusclesSection: View {
   }
 
   var body: some View {
-    ContentSectionWithHeaderAndButton(
+    ContentSectionWithHeader(
       headerTitle: "Browse by muscle group",
-      buttonTitle: "See more",
-      onAction: onSeeMore,
+      scrollDirection: .horizontal,
       content: {
-        ScrollView(.horizontal) {
-          LazyHStack {
-            ForEach(MuscleType.allCases, id: \.rawValue) { muscleType in
-              Button(action: {
-                onSelectedMuscle(muscleType)
-              }, label: {
-                TitleCard(title: muscleType.rawValue, titleColor: .white, cardColor: getRandomColor())
-              })
-              .buttonStyle(.plain)
-            }
-            .padding(.vertical, 5)
-            .padding(.horizontal, 5)
+        LazyHStack {
+          ForEach(MuscleType.allCases, id: \.rawValue) { muscleType in
+            Button(action: {
+              onSelectedMuscle(muscleType)
+            }, label: {
+              TitleCard(title: muscleType.rawValue, titleColor: .white, cardColor: getRandomColor())
+            })
+            .buttonStyle(.plain)
           }
+          .padding(.vertical, 5)
+          .padding(.horizontal, 5)
         }
-        .scrollIndicators(.hidden)
       })
   }
-}
-
-#Preview {
-  MusclesSection(onSeeMore: {}, onSelectedMuscle: { _ in })
 }

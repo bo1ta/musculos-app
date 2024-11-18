@@ -13,41 +13,27 @@ import Factory
 import DataRepository
 import Storage
 
+@MainActor
 @Observable
 final class HomeViewModel {
-
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
   @ObservationIgnored
-    @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
 
-  private(set) var currentUser: UserProfile?
   private(set) var isLoading = false
-  private(set) var recommendedExercises: [Exercise] = []
   private(set) var challenges: [Challenge] = []
   private(set) var goals: [Goal] = []
   private(set) var errorMessage: String?
 
-  @MainActor
   func fetchData() async {
     isLoading = true
     defer { isLoading = false }
 
-    await withTaskGroup(of: Void.self) { [weak self] group in
-      group.addTask {
-        do {
-          self?.goals = try await self?.goalRepository.getGoals() ?? []
-        } catch {
-          MusculosLogger.logError(error, message: "Error loading goals for home view", category: .dataRepository)
-        }
-      }
-      group.addTask {
-        do {
-          self?.recommendedExercises = try await self?.exerciseRepository.getExercises() ?? []
-        } catch {
-          MusculosLogger.logError(error, message: "Error fetching exercises", category: .dataRepository)
-        }
-      }
+    do {
+      goals = try await goalRepository.getGoals()
+    } catch {
+      MusculosLogger.logError(error, message: "Error loading goals for home view", category: .dataRepository)
     }
   }
 }

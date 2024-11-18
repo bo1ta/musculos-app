@@ -20,9 +20,6 @@ struct HomeView: View {
       VStack(spacing: 15) {
         GreetingHeader(
           profile: userStore.currentUserProfile,
-          onSearchTap: {
-            navigationRouter.push(.search)
-          },
           onNotificationsTap: {
             navigationRouter.push(.notifications)
           }
@@ -30,23 +27,8 @@ struct HomeView: View {
 
         AchievementCard()
           .defaultShimmering(active: viewModel.isLoading)
-        FeaturedWorkoutsSection(onSeeMore: {}, onWorkoutGoalSelected: { workoutGoal in
-          navigationRouter.push(.exerciseListByGoal(workoutGoal))
-        })
-        MusclesSection(onSeeMore: {}, onSelectedMuscle: { muscle in
-          navigationRouter.push(.exerciseListByMuscle(muscle))
-        })
-        RecommendationSection(
-          exercises: viewModel.recommendedExercises,
-          onSelectExercise: { exercise in
-            navigationRouter.push(.exerciseDetails(exercise))
-          },
-          onSeeMore: {
-            navigationRouter.push(.search)
-          }
-        )
-        .fixedSize(horizontal: false, vertical: true)
         ChallengesSection(onSeeMore: {})
+
         WhiteBackgroundCard()
         Spacer()
       }

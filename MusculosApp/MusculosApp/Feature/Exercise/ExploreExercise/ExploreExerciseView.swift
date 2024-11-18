@@ -13,89 +13,67 @@ import Utility
 
 struct ExploreExerciseView: View {
   @Environment(\.navigationRouter) private var navigationRouter
-  
   @State private var viewModel = ExploreExerciseViewModel()
-  @StateObject private var debouncedQueryObserver = DebouncedQueryObserver()
 
   var body: some View {
     ScrollView {
       VStack(spacing: 20) {
-        AchievementCard()
-
-        HStack {
-          FormField(text: $debouncedQueryObserver.searchQuery, textHint: "Search by muscle", imageIcon: Image("search-icon"))
-          Button(action: {
+        ExploreSearchSection(
+          onFiltersTap: {
             viewModel.showFilterView.toggle()
-          }, label: {
-            Image(systemName: "line.3.horizontal.decrease")
-              .resizable()
-              .renderingMode(.template)
-              .aspectRatio(contentMode: .fit)
-              .frame(height: 15)
-              .foregroundStyle(.black.opacity(0.9))
-          })
-            .buttonStyle(.plain)
-            .padding(.horizontal, 5)
-        }
-
-        ExerciseSectionsContentView(
-          categorySection: $viewModel.currentSection,
-          contentState: $viewModel.contentState,
-          recommendedExercisesByGoals: $viewModel.recommendedByGoals,
-          recommendedExercisesByPastSessions: $viewModel.recommendedByPastSessions,
-          onExerciseTap: { exercise in
-            navigationRouter.push(.exerciseDetails(exercise))
+          },
+          onSearchQuery: { searchQuery in
+            viewModel.searchByMuscleQuery(searchQuery)
           }
         )
-        .transition(.slide)
+
+        FeaturedWorkoutsSection(onWorkoutGoalSelected: { workoutGoal in
+          navigationRouter.push(.exerciseListByGoal(workoutGoal))
+        })
+
+        MusclesSection(onSelectedMuscle: { muscle in
+          navigationRouter.push(.exerciseListByMuscle(muscle))
+        })
+        ExerciseSectionView(title: "Featured exercises", exercises: viewModel.featuredExercises, onExerciseTap: { exercise in
+          navigationRouter.push(.exerciseDetails(exercise))
+        })
+
+        if !viewModel.favoriteExercises.isEmpty {
+          ExerciseSectionView(title: "My favorites", exercises: viewModel.favoriteExercises, onExerciseTap: { exercise in
+            navigationRouter.push(.exerciseDetails(exercise))
+          })
+        }
+
+        if !viewModel.recommendedExercisesByGoals.isEmpty {
+          RecommendationSection(
+            exercises: viewModel.recommendedExercisesByGoals,
+            onSelectExercise: { exercise in
+              navigationRouter.push(.exerciseDetails(exercise))
+            },
+            onSeeMore: {
+              navigationRouter.push(.search)
+            }
+          )
+          .fixedSize(horizontal: false, vertical: true)
+        }
 
         WhiteBackgroundCard()
       }
       .padding()
-      .animation(.snappy(), value: viewModel.currentSection)
       .scrollIndicators(.hidden)
     }
     .popover(isPresented: $viewModel.showFilterView) {
       ExerciseFilterView(onFiltered: { filteredExercises in
-        viewModel.contentState = .loaded(filteredExercises)
+        viewModel.setFeaturedExercises(filteredExercises)
       })
     }
     .task {
       await viewModel.initialLoad()
     }
-    .onChange(of: debouncedQueryObserver.debouncedQuery) { oldQuery, newQuery in
-      if newQuery.isEmpty && !oldQuery.isEmpty {
-        viewModel.didChangeSection(to: .discover)
-      } else {
-        if newQuery.count > 3 {
-          viewModel.searchByMuscleQuery(newQuery)
-        }
-      }
-    }
-    .background(
-      Color.white.opacity(0.98)
-    )
     .onDisappear(perform: viewModel.cleanUp)
   }
 }
 
 #Preview {
   ExploreExerciseView()
-}
-
-// MARK: - Section Type
-
-enum ExploreCategorySection: String, CaseIterable {
-  case discover, workout, myFavorites
-
-  var title: String {
-    switch self {
-    case .discover:
-      "Discover"
-    case .workout:
-      "Workout"
-    case .myFavorites:
-      "Favorites"
-    }
-  }
 }

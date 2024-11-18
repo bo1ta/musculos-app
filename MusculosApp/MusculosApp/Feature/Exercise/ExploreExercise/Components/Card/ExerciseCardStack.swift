@@ -24,7 +24,7 @@ public struct ExerciseCardsStack: View {
           Button(action: {
             onTapExercise(exercise)
           }, label: {
-            ExerciseCard(exercise: exercise)
+            ExerciseSecondaryCard(exercise: exercise)
           })
         }
       }

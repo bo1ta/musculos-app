@@ -13,7 +13,6 @@ import Components
 
 struct GreetingHeader: View {
   let profile: UserProfile?
-  let onSearchTap: () -> Void
   let onNotificationsTap: () -> Void
 
   var body: some View {
@@ -32,22 +31,13 @@ struct GreetingHeader: View {
 
       Spacer()
 
-      Group {
-        Button(action: onSearchTap, label: {
-          Image("search-icon")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(height: 25)
-            .foregroundStyle(.black.opacity(0.9))
-        })
-        Button(action: onNotificationsTap, label: {
-          Image("notification-icon")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(height: 25)
-            .foregroundStyle(.black.opacity(0.9))
-        })
-      }
+      Button(action: onNotificationsTap, label: {
+        Image("notification-icon")
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .frame(height: 25)
+          .foregroundStyle(.black.opacity(0.9))
+      })
       .padding(10)
     }
   }

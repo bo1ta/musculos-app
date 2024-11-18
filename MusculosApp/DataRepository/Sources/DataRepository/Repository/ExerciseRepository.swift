@@ -54,6 +54,13 @@ public actor ExerciseRepository: BaseRepository {
     }
   }
 
+  public func getExercisesCompletedSinceLastWeek() async throws -> [Exercise] {
+    guard let currentUserID else {
+      throw MusculosError.notFound
+    }
+    return await exerciseSessionDataStore.getCompletedSinceLastWeek(userId: currentUserID).map(\.exercise)
+  }
+
   public func getFavoriteExercises() async throws -> [Exercise] {
     guard await !shouldFetchExercisesFromLocalStorage() else {
       return await exerciseDataStore.getAllFavorites()

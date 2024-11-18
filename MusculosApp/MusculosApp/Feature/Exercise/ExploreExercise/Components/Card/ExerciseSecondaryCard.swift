@@ -1,5 +1,5 @@
 //
-//  ExerciseCard.swift
+//  ExerciseSecondaryCard.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 08.07.2023.
@@ -12,7 +12,7 @@ import Components
 import NetworkClient
 import Utility
 
-struct ExerciseCard: View {
+struct ExerciseSecondaryCard: View {
   let exercise: Exercise
 
   init(exercise: Exercise) {
@@ -45,7 +45,7 @@ struct ExerciseCard: View {
   // MARK: - Views
   @ViewBuilder
   private var backgroundView: some View {
-    if let imageUrl = exercise.getImagesURLs().first {
+    if let imageUrl = exercise.displayImageURL {
       AsyncCachedImage(url: imageUrl, content: { imagePhase in
         switch imagePhase {
         case .success(let image):
@@ -67,5 +67,6 @@ struct ExerciseCard: View {
 
 
 #Preview(traits: .sizeThatFitsLayout) {
-  ExerciseCard(exercise: ExerciseFactory.createExercise())
+  ExerciseSecondaryCard(exercise: ExerciseFactory.createExercise())
 }
+

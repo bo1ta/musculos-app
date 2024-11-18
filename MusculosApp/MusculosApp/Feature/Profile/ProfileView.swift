@@ -32,7 +32,7 @@ struct ProfileView: View {
   var body: some View {
     ScrollView {
       VStack(spacing: 10) {
-        GreetingHeader(profile: userStore.currentUserProfile, onSearchTap: {}, onNotificationsTap: {})
+        GreetingHeader(profile: userStore.currentUserProfile, onNotificationsTap: {})
         ContentSectionWithHeaderAndButton(headerTitle: "Overview", buttonTitle: "See more", onAction: {}, content: {
           ScoreCard(
             title: "Fitness Score",

@@ -40,7 +40,7 @@ struct ExerciseListView: View {
             Button(action: {
               navigationRouter.push(.exerciseDetails(exercise))
             }, label: {
-              ExerciseCard(exercise: exercise)
+              ExerciseSecondaryCard(exercise: exercise)
             })
             .buttonStyle(.plain)
           }
@@ -64,9 +64,10 @@ struct ExerciseListView: View {
   private var loadingSkeleton: some View {
     VStack {
       ForEach(0..<10) { _ in
-        ExerciseCard(exercise: ExerciseFactory.createExercise())
+        ExerciseSecondaryCard(exercise: ExerciseFactory.createExercise())
           .redacted(reason: .placeholder)
       }
+      .defaultShimmering()
     }
   }
 

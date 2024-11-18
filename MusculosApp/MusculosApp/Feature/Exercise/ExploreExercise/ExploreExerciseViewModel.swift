@@ -49,15 +49,12 @@ final class ExploreExerciseViewModel {
   var goals: [Goal] = []
   var errorMessage = ""
   var showFilterView = false
-  var contentState: LoadingViewState<[Exercise]> = .empty
-  var recommendedByGoals: [Exercise]?
-  var recommendedByPastSessions: [Exercise]?
 
-  var currentSection: ExploreCategorySection = .discover {
-    didSet {
-      didChangeSection(to: currentSection)
-    }
-  }
+  private(set) var isLoading = false
+  private(set) var featuredExercises: [Exercise] = []
+  private(set) var favoriteExercises: [Exercise] = []
+  private(set) var recommendedExercisesByPastSessions: [Exercise] = []
+  private(set) var recommendedExercisesByGoals: [Exercise] = []
 
   var displayGoal: Goal? {
     return goals.first
@@ -79,6 +76,10 @@ final class ExploreExerciseViewModel {
       .store(in: &cancellables)
   }
 
+  func setFeaturedExercises(_ exercises: [Exercise]) {
+    featuredExercises = exercises
+  }
+
   func cleanUp() {
     taskManager.cancelAllTasks()
     cancellables.removeAll()
@@ -89,29 +90,30 @@ final class ExploreExerciseViewModel {
 
 extension ExploreExerciseViewModel {
   func initialLoad() async {
-    guard contentState == .empty else { return }
-    contentState = .loading
+    isLoading = true
+    defer { isLoading = false }
 
+    async let exercisesTask: Void = loadExercises()
+    async let favoriteExercisesTask: Void = loadFavoriteExercises()
+    async let recommendedExercisesByGoalsTask: Void = loadRecommendationsByGoals()
+    async let recommendedExercisesByPastSessionsTask: Void = loadRecommendationsByPastSessions()
     async let completedTodayExercisesTask: Void = refreshExercisesCompletedToday()
-    async let goalsTask: Void = refreshGoals()
+    async let goalsTask: Void = loadGoals()
 
-    await loadExercisesForSection(currentSection)
-
-    let (_, _) = await (completedTodayExercisesTask, goalsTask)
-
-    await updateRecommendations()
+    let (_, _, _, _, _, _) = await (exercisesTask, favoriteExercisesTask, recommendedExercisesByGoalsTask, recommendedExercisesByPastSessionsTask, completedTodayExercisesTask, goalsTask)
   }
 
-  func updateRecommendations() async {
-    async let recommendedByGoalsTask: Void = loadRecommendationsByGoals()
-    async let recommendedByPastSessionsTask: Void = loadRecommendationsByPastSessions()
-
-    _ = await (recommendedByGoalsTask, recommendedByPastSessionsTask)
+  private func loadExercises() async {
+    do {
+      featuredExercises = try await exerciseRepository.getExercises()
+    } catch {
+      MusculosLogger.logError(error, message: "Could not load exercises", category: .dataRepository)
+    }
   }
 
   private func loadRecommendationsByGoals() async {
     do {
-      recommendedByGoals = try await exerciseRepository.getRecommendedExercisesByGoals()
+      recommendedExercisesByGoals = try await exerciseRepository.getRecommendedExercisesByGoals()
     } catch {
       MusculosLogger.logError(error, message: "Could not load recommendations by goals", category: .coreData)
     }
@@ -119,7 +121,7 @@ extension ExploreExerciseViewModel {
 
   private func loadRecommendationsByPastSessions() async {
     do {
-      recommendedByPastSessions = try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
+      recommendedExercisesByPastSessions = try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
     } catch {
       MusculosLogger.logError(error, message: "Could not load recommendations by past sessions", category: .coreData)
     }
@@ -129,25 +131,19 @@ extension ExploreExerciseViewModel {
     taskManager.cancelTask(forFunction: #function)
 
     let task = Task {
-      contentState = .loading
-
       do {
-        let exercises = try await exerciseRepository.searchByMuscleQuery(query)
-        contentState = .loaded(exercises)
+        featuredExercises = try await exerciseRepository.searchByMuscleQuery(query)
       } catch {
-        contentState = .error(MessageConstant.genericErrorMessage.rawValue)
         MusculosLogger.logError(error, message: "Could not search by muscle query", category: .networking, properties: ["query": query])
       }
     }
     taskManager.addTask(task)
   }
 
-  func loadFavoriteExercises() async {
+  private func loadFavoriteExercises() async {
     do {
-      let exercises = try await exerciseRepository.getFavoriteExercises()
-      contentState = .loaded(exercises)
+      favoriteExercises = try await exerciseRepository.getFavoriteExercises()
     } catch {
-      contentState = .error(MessageConstant.genericErrorMessage.rawValue)
       MusculosLogger.logError(error, message: "Data controller failed to get exercises", category: .coreData)
     }
   }
@@ -160,44 +156,11 @@ extension ExploreExerciseViewModel {
     }
   }
 
-  func refreshGoals() async {
+  private func loadGoals() async {
     do {
       goals = try await goalRepository.getGoals()
     } catch {
       MusculosLogger.logError(error, message: "Could not get goals", category: .dataRepository)
-    }
-  }
-}
-
-// MARK: - Section Handling
-
-extension ExploreExerciseViewModel {
-  func didChangeSection(to section: ExploreCategorySection) {
-    taskManager.cancelTask(forFunction: #function)
-
-    taskManager.addTask(Task { [weak self] in
-      await self?.loadExercisesForSection(section)
-    })
-  }
-
-  private func loadExercises() async {
-    do {
-      let exercises = try await exerciseRepository.getExercises()
-      contentState = .loaded(exercises)
-    } catch {
-      MusculosLogger.logError(error, message: "Could not load exercises", category: .dataRepository)
-    }
-  }
-
-  private func loadExercisesForSection(_ section: ExploreCategorySection) async {
-    switch section {
-    case .discover:
-      await loadExercises()
-    case .workout:
-      await loadRecommendationsByPastSessions()
-      self.contentState = .loaded(recommendedByPastSessions ?? [])
-    case .myFavorites:
-      await loadFavoriteExercises()
     }
   }
 }
@@ -209,33 +172,15 @@ extension ExploreExerciseViewModel {
     let task = Task {
       switch event {
       case .didUpdateGoal:
-        await refreshGoals()
+        await loadGoals()
       case .didUpdateExercise:
-        switch currentSection {
-        case .myFavorites:
-          await loadFavoriteExercises()
-        case .workout, .discover:
-          break
-        }
+        await loadFavoriteExercises()
       case .didUpdateExerciseSession:
-        await updateRecommendations()
+        await loadRecommendationsByPastSessions()
+        await refreshExercisesCompletedToday()
       }
     }
 
     taskManager.addTask(task)
-  }
-
-  private func handleDidAddGoalEvent() async {
-    await refreshGoals()
-  }
-
-  private func handleDidAddExerciseSession() async {
-    await refreshExercisesCompletedToday()
-    await refreshGoals()
-  }
-
-  private func handleDidFavoriteExercise() async {
-    guard currentSection == .myFavorites else { return }
-    await loadFavoriteExercises()
   }
 }
