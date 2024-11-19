@@ -31,10 +31,11 @@ public struct UIConstant {
   public static let largeIconSize: Double = 25.0
 
   public enum Size {
-    case small, medium, large
+    case extraSmall, small, medium, large
 
     public var cardHeight: Double {
       switch self {
+      case .extraSmall: return 45.0
       case .small: return 75.0
       case .medium: return 150.0
       case .large: return 200.0
@@ -43,6 +44,7 @@ public struct UIConstant {
 
     public var iconHeight: Double {
       switch self {
+      case .extraSmall: return 10.0
       case .small: return 16.0
       case .medium: return 23.0
       case .large: return 25.0
@@ -51,6 +53,7 @@ public struct UIConstant {
 
     public var cornerRadius: Double {
       switch self {
+      case .extraSmall: return 5.0
       case .small: return 10.0
       case .medium: return 15.0
       case .large: return 20.0

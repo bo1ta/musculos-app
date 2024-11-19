@@ -8,6 +8,7 @@
 import SwiftUI
 import Models
 import Components
+import Utility
 
 struct HomeView: View {
   @Environment(\.userStore) private var userStore
@@ -15,9 +16,11 @@ struct HomeView: View {
 
   @State private var viewModel = HomeViewModel()
 
+  let exercise = ExerciseFactory.createExercise()
+
   var body: some View {
     ScrollView {
-      VStack(spacing: 15) {
+      VStack(alignment: .leading, spacing: 15) {
         GreetingHeader(
           profile: userStore.currentUserProfile,
           onNotificationsTap: {
@@ -27,7 +30,18 @@ struct HomeView: View {
 
         AchievementCard()
           .defaultShimmering(active: viewModel.isLoading)
-        ChallengesSection(onSeeMore: {})
+
+
+        GoalsSection(goals: viewModel.goals, onAddGoal: {
+          
+        })
+
+        Group {
+          Text("Quick workout")
+            .font(AppFont.spartan(.semiBold, size: 23))
+          QuickActionCard(title: exercise.name, subtitle: exercise.category, onTap: {})
+        }
+        ChallengesSection()
 
         WhiteBackgroundCard()
         Spacer()

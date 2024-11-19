@@ -36,6 +36,8 @@
 		BC4078D42C02373E000DE280 /* WorkoutIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D32C02373E000DE280 /* WorkoutIcon.swift */; };
 		BC4078D62C02402E000DE280 /* WorkoutFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D52C02402E000DE280 /* WorkoutFlowView.swift */; };
 		BC4368242CEBC5A8006E712F /* ExploreSearchSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4368232CEBC5A1006E712F /* ExploreSearchSection.swift */; };
+		BC4368262CEC08DE006E712F /* GoalsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4368252CEC08DE006E712F /* GoalsSection.swift */; };
+		BC4368292CEC0B19006E712F /* GoalCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4368282CEC0B19006E712F /* GoalCard.swift */; };
 		BC43D33B2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC43D33A2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift */; };
 		BC44CDB32CA77C9A007421C4 /* ExerciseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44CDB22CA77C9A007421C4 /* ExerciseListView.swift */; };
 		BC4E5D532CAB601F0046ABEE /* ExerciseSummarySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E5D522CAB601F0046ABEE /* ExerciseSummarySection.swift */; };
@@ -191,6 +193,8 @@
 		BC4078D32C02373E000DE280 /* WorkoutIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutIcon.swift; sourceTree = "<group>"; };
 		BC4078D52C02402E000DE280 /* WorkoutFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFlowView.swift; sourceTree = "<group>"; };
 		BC4368232CEBC5A1006E712F /* ExploreSearchSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreSearchSection.swift; sourceTree = "<group>"; };
+		BC4368252CEC08DE006E712F /* GoalsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsSection.swift; sourceTree = "<group>"; };
+		BC4368282CEC0B19006E712F /* GoalCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCard.swift; sourceTree = "<group>"; };
 		BC43D33A2B6EAD8D008C1062 /* ExerciseFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFilterViewModel.swift; sourceTree = "<group>"; };
 		BC44CDB22CA77C9A007421C4 /* ExerciseListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListView.swift; sourceTree = "<group>"; };
 		BC4E5D522CAB601F0046ABEE /* ExerciseSummarySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSummarySection.swift; sourceTree = "<group>"; };
@@ -344,6 +348,7 @@
 		BC0DA89D2CA5EA970011EC63 /* Sections */ = {
 			isa = PBXGroup;
 			children = (
+				BC4368272CEC0B0B006E712F /* GoalsSection */,
 				BC0DA87A2CA392D00011EC63 /* ChallengesSection.swift */,
 				BC0DA8742CA1FC310011EC63 /* FeaturedWorkoutsSection.swift */,
 				BC0DA89E2CA5EA9E0011EC63 /* RecommendationSection */,
@@ -502,6 +507,15 @@
 				BC1160D12A2CFB830028D8FC /* AppTabView.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		BC4368272CEC0B0B006E712F /* GoalsSection */ = {
+			isa = PBXGroup;
+			children = (
+				BC4368252CEC08DE006E712F /* GoalsSection.swift */,
+				BC4368282CEC0B19006E712F /* GoalCard.swift */,
+			);
+			path = GoalsSection;
 			sourceTree = "<group>";
 		};
 		BC43D3392B6EAD77008C1062 /* ExerciseFilter */ = {
@@ -1076,6 +1090,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC4368292CEC0B19006E712F /* GoalCard.swift in Sources */,
 				BCD59AA82BB628220039F662 /* MultiOptionsSelectView.swift in Sources */,
 				BC81E5CF2BD2F9350005891D /* AddExerciseView.swift in Sources */,
 				BC0DA87B2CA392D00011EC63 /* ChallengesSection.swift in Sources */,
@@ -1132,6 +1147,7 @@
 				BCC46FF42C0E2E97006D76E2 /* PermissionsView.swift in Sources */,
 				BC828CE32C028E9200AB9D1D /* ExerciseDetailsViewModel.swift in Sources */,
 				BCA24C082B6AFF8200124EC3 /* OnboardingWizardView.swift in Sources */,
+				BC4368262CEC08DE006E712F /* GoalsSection.swift in Sources */,
 				BC4E5D572CAC61050046ABEE /* StarsRatingCard.swift in Sources */,
 				BCEED79F2BFC0B96002A3656 /* WorkoutCard.swift in Sources */,
 				BCA24C002B6AE68500124EC3 /* SignUpView.swift in Sources */,

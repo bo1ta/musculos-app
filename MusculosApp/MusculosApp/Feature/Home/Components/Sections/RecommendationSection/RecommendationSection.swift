@@ -48,7 +48,6 @@ struct RecommendationSection: View {
                   content: {
                     SectionItemImage(imageURL: exercise.displayImageURL)
                   })
-                .padding(.vertical)
               })
               .buttonStyle(.plain)
             }

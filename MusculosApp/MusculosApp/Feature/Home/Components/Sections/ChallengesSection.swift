@@ -11,27 +11,16 @@ import Components
 import Models
 
 struct ChallengesSection: View {
-  let onSeeMore: () -> Void
-
-  init(onSeeMore: @escaping () -> Void) {
-    self.onSeeMore = onSeeMore
-  }
-
   var body: some View {
-    ContentSectionWithHeaderAndButton(
+    ContentSectionWithHeader(
       headerTitle: "Today's Challenge",
-      buttonTitle: "See more",
-      onAction: onSeeMore,
       content: {
-        ScrollView(.horizontal) {
-          HStack {
-            ForEach(ChallengeType.allCases, id: \.rawValue) { challengeType in
-              ChallengeCard(label: challengeType.title, level: "expert", icon: Image(challengeType.imageName), cardColor: challengeType.color)
-            }
-            .padding([.vertical, .horizontal], 5)
+        HStack {
+          ForEach(ChallengeType.allCases, id: \.rawValue) { challengeType in
+            ChallengeCard(label: challengeType.title, level: "expert", icon: Image(challengeType.imageName), cardColor: challengeType.color)
           }
+          .padding([.horizontal], 5)
         }
-        .scrollIndicators(.hidden)
       })
   }
 }
@@ -87,5 +76,5 @@ extension ChallengesSection {
 }
 
 #Preview {
-  ChallengesSection(onSeeMore: {})
+  ChallengesSection()
 }

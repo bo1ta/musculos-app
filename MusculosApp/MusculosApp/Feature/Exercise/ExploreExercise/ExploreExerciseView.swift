@@ -34,15 +34,6 @@ struct ExploreExerciseView: View {
         MusclesSection(onSelectedMuscle: { muscle in
           navigationRouter.push(.exerciseListByMuscle(muscle))
         })
-        ExerciseSectionView(title: "Featured exercises", exercises: viewModel.featuredExercises, onExerciseTap: { exercise in
-          navigationRouter.push(.exerciseDetails(exercise))
-        })
-
-        if !viewModel.favoriteExercises.isEmpty {
-          ExerciseSectionView(title: "My favorites", exercises: viewModel.favoriteExercises, onExerciseTap: { exercise in
-            navigationRouter.push(.exerciseDetails(exercise))
-          })
-        }
 
         if !viewModel.recommendedExercisesByGoals.isEmpty {
           RecommendationSection(
@@ -56,6 +47,16 @@ struct ExploreExerciseView: View {
           )
           .fixedSize(horizontal: false, vertical: true)
         }
+
+        if !viewModel.favoriteExercises.isEmpty {
+          ExerciseSectionView(title: "My favorites", exercises: viewModel.favoriteExercises, onExerciseTap: { exercise in
+            navigationRouter.push(.exerciseDetails(exercise))
+          })
+        }
+
+        ExerciseSectionView(title: "Featured exercises", exercises: viewModel.featuredExercises, onExerciseTap: { exercise in
+          navigationRouter.push(.exerciseDetails(exercise))
+        })
 
         WhiteBackgroundCard()
       }
