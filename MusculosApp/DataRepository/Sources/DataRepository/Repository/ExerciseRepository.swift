@@ -36,7 +36,7 @@ public actor ExerciseRepository: BaseRepository {
     let exercises = try await service.getExercises()
 
     backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
-      try await self?.exerciseDataStore.importToStorage(remoteObjects: exercises, localObjectType: ExerciseEntity.self)
+      try await self?.exerciseDataStore.importExercises(exercises)
     }
 
     return exercises
@@ -68,7 +68,7 @@ public actor ExerciseRepository: BaseRepository {
 
     let exercises = try await service.getFavoriteExercises()
     backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
-      try await self?.exerciseDataStore.importToStorage(remoteObjects: exercises, localObjectType: ExerciseEntity.self)
+      try await self?.exerciseDataStore.importExercises(exercises)
     }
     return exercises
   }
@@ -84,7 +84,7 @@ public actor ExerciseRepository: BaseRepository {
   public func getExercisesByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise] {
     let exercises = try await service.getByWorkoutGoal(workoutGoal)
     backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
-      try await self?.exerciseDataStore.importToStorage(remoteObjects: exercises, localObjectType: ExerciseEntity.self)
+      try await self?.exerciseDataStore.importExercises(exercises)
     }
     return exercises
   }
@@ -116,21 +116,34 @@ public actor ExerciseRepository: BaseRepository {
     return await exerciseDataStore.getAllByGoals(goals, fetchLimit: 20)
   }
 
-  public func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
+  public func searchByQuery(_ query: String) async throws -> [Exercise] {
     guard let muscleType = MuscleType(rawValue: query) else {
-      return try await service.searchByMuscleQuery(query)
+      return try await service.searchByQuery(query)
     }
 
     let exercises = await exerciseDataStore.getByMuscle(muscleType)
     if exercises.count >= 10 {
       return exercises
     } else {
-      let remoteExercises = try await service.searchByMuscleQuery(query)
+      let remoteExercises = try await service.searchByQuery(query)
       backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
-        try await self?.exerciseDataStore.importToStorage(remoteObjects: remoteExercises, localObjectType: ExerciseEntity.self)
+        try await self?.exerciseDataStore.importExercises(remoteExercises)
       }
       return remoteExercises
     }
+  }
+
+  public func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise] {
+    let localExercises = await exerciseDataStore.getByMuscleGroup(muscleGroup)
+    guard localExercises.count < 50 else {
+      return localExercises
+    }
+
+    let remoteExercises = try await service.getByMuscleGroup(muscleGroup)
+    backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
+      try await self?.exerciseDataStore.importExercises(remoteExercises)
+    }
+    return remoteExercises
   }
 
   private func shouldFetchExercisesFromLocalStorage() async -> Bool {

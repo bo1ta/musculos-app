@@ -43,7 +43,7 @@ extension BaseDataStore {
   /// Existing objects are skipped
   ///
   public func importToStorage<SyncableEntity: EntitySyncable & Object>(
-    remoteObjects: [SyncableEntity.ModelType],
+    models: [SyncableEntity.ModelType],
     localObjectType: SyncableEntity.Type
   ) async throws {
     return try await storageManager.performWrite { storage in
@@ -52,7 +52,7 @@ extension BaseDataStore {
         property: SyncableEntity.ModelType.identifierKey
       ) ?? Set<UUID>()
 
-      remoteObjects
+      models
         .filter { !existingIdentifiers.contains($0.identifierValue) }
         .forEach { object in
           let entity = storage.insertNewObject(ofType: SyncableEntity.self)

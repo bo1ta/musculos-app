@@ -11,7 +11,9 @@ import Factory
 
 public protocol ExerciseServiceProtocol: Sendable {
   func getExercises() async throws -> [Exercise]
-  func searchByMuscleQuery(_ query: String) async throws -> [Exercise]
+  func searchByQuery(_ query: String) async throws -> [Exercise]
+  func getByMuscle(_ muscle: MuscleType) async throws -> [Exercise]
+  func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise]
   func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise
   func getFavoriteExercises() async throws -> [Exercise]
   func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws
@@ -28,10 +30,30 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
     return try Exercise.createArrayFrom(data)
   }
   
-  public func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
+  public func searchByQuery(_ query: String) async throws -> [Exercise] {
     var request = APIRequest(method: .get, endpoint: .exercises(.filtered))
     request.queryParams = [
-      URLQueryItem(name: "muscleGroup", value: query)
+      URLQueryItem(name: "name", value: query)
+    ]
+
+    let data = try await client.dispatch(request)
+    return try await Exercise.createArrayFrom(data)
+  }
+
+  public func getByMuscle(_ muscle: MuscleType) async throws -> [Exercise] {
+    var request = APIRequest(method: .get, endpoint: .exercises(.filtered))
+    request.queryParams = [
+      URLQueryItem(name: "muscle", value: muscle.rawValue)
+    ]
+
+    let data = try await client.dispatch(request)
+    return try await Exercise.createArrayFrom(data)
+  }
+
+  public func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise] {
+    var request = APIRequest(method: .get, endpoint: .exercises(.filtered))
+    request.queryParams = [
+      URLQueryItem(name: "muscleGroup", value: muscleGroup.name)
     ]
 
     let data = try await client.dispatch(request)

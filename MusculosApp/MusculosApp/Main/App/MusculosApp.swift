@@ -36,10 +36,10 @@ struct MusculosApp: App {
           case .loggedIn:
             AppTabView()
           case .loggedOut:
-            SplashView()
+            SplashScreen()
               .transition(.asymmetric(insertion: .opacity, removal: .identity))
           case .onboarding:
-            OnboardingWizardView()
+            OnboardingScreen()
               .transition(.asymmetric(insertion: .push(from: .bottom), removal: .scale))
           case .loading:
             LoadingOverlayView(progress: $progress)
@@ -57,6 +57,8 @@ struct MusculosApp: App {
             switch currentSheet {
             case .addActionSheet:
               AddActionSheetContainer()
+            case .addGoalSheet:
+              AddGoalSheet()
             case .workoutFlow(let workout):
               WorkoutFlowView(workout: workout, onComplete: {})
             }
@@ -76,11 +78,11 @@ struct MusculosApp: App {
   private func getViewForDestination(_ destination: NavigationRouter.Destination) -> some View {
     switch destination {
     case .exerciseDetails(let exercise):
-      ExerciseDetailsView(exercise: exercise)
+      ExerciseDetailsScreen(exercise: exercise)
     case .exerciseListByGoal(let workoutGoal):
       ExerciseListView(filterType: .filteredByWorkoutGoal(workoutGoal))
-    case .exerciseListByMuscle(let muscle):
-      ExerciseListView(filterType: .filteredByMuscle(muscle))
+    case .exerciseListByMuscleGroup(let muscleGroup):
+      ExerciseListView(filterType: .filteredByMuscleGroup(muscleGroup))
     case .search:
       EmptyView()
     case .notifications:

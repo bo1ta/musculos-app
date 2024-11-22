@@ -47,7 +47,7 @@ public struct UIConstant {
       case .extraSmall: return 10.0
       case .small: return 16.0
       case .medium: return 23.0
-      case .large: return 25.0
+      case .large: return 30.0
       }
     }
 

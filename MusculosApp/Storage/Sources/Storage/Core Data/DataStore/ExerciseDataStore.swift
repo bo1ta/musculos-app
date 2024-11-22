@@ -39,7 +39,11 @@ public protocol ExerciseDataStoreProtocol: BaseDataStore, Sendable {
   /// Get all exercises given a list of muscle types
   ///
   func getByMuscles(_ muscles: [MuscleType]) async -> [Exercise]
-  
+
+  /// Get all exercises matching the muscle group
+  ///
+  func getByMuscleGroup(_ muscleGroup: MuscleGroup) async -> [Exercise]
+
   /// Get all favorite exercises
   ///
   func getAllFavorites() async -> [Exercise]
@@ -66,11 +70,17 @@ public protocol ExerciseDataStoreProtocol: BaseDataStore, Sendable {
   /// Adds exercise to the data store
   ///
   func add(_ exercise: Exercise) async throws
+
+  /// Imports exercises to data store
+  ///
+  func importExercises(_ exercises: [Exercise]) async throws
 }
 
 // MARK: - Read methods implementation
 
 public struct ExerciseDataStore: ExerciseDataStoreProtocol {
+  public typealias Syncable = ExerciseEntity
+
   public init() { }
 
   public func getByID(_ exerciseID: UUID) async -> Exercise? {
@@ -150,7 +160,11 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol {
         .map { $0.toReadOnly() }
     }
   }
-  
+
+  public func getByMuscleGroup(_ muscleGroup: MuscleGroup) async -> [Exercise] {
+    return await getByMuscles(muscleGroup.muscles)
+  }
+
   public func getAllByGoals(_ goals: [Goal], fetchLimit: Int) async -> [Exercise] {
     return await storageManager.performRead { viewStorage in
       return viewStorage
@@ -203,5 +217,9 @@ public extension ExerciseDataStore {
   
   public func add(_ exercise: Exercise) async throws {
     try await self.handleObjectSync(remoteObject: exercise, localObjectType: ExerciseEntity.self)
+  }
+
+  public func importExercises(_ exercises: [Exercise]) async throws {
+    return try await self.importToStorage(models: exercises, localObjectType: ExerciseEntity.self)
   }
 }

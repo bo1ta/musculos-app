@@ -53,7 +53,7 @@ public actor GoalRepository: BaseRepository {
 
     let remoteGoals = try await service.getUserGoals()
     backgroundWorker.queueOperation(priority: .high, operationType: .local) { [weak self] in
-      try await self?.dataStore.importToStorage(remoteObjects: remoteGoals, localObjectType: GoalEntity.self)
+      try await self?.dataStore.importToStorage(models: remoteGoals, localObjectType: GoalEntity.self)
     }
     return remoteGoals
   }

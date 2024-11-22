@@ -20,7 +20,7 @@ public struct SecondaryButton: View {
   public var body: some View {
     Button(action: action, label: {
       Text(title)
-        .font(AppFont.poppins(.semibold, size: 18))
+        .font(AppFont.poppins(.regular, size: 18))
         .frame(maxWidth: .infinity)
         .shadow(color: .black.opacity(0.7), radius: 1)
     })

@@ -20,6 +20,8 @@ public protocol ExerciseSessionDataStoreProtocol: Sendable, BaseDataStore {
 }
 
 public struct ExerciseSessionDataStore: ExerciseSessionDataStoreProtocol {
+  public typealias Syncable = ExerciseSessionEntity
+
   public init() { }
 
   public func getAll(for userId: UUID) async -> [ExerciseSession] {

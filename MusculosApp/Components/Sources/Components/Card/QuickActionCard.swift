@@ -36,7 +36,7 @@ public struct QuickActionCard: View {
               .resizable()
               .renderingMode(.template)
               .aspectRatio(contentMode: .fit)
-              .frame(width: 35, height: 35)
+              .frame(width: UIConstant.Size.large.iconHeight, height: UIConstant.Size.large.iconHeight)
               .foregroundStyle(.white)
               .padding(.leading)
 
