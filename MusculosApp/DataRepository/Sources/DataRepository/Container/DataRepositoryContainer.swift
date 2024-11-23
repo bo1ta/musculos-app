@@ -37,6 +37,10 @@ extension DataRepositoryContainer {
     self { GoalRepository() }
   }
 
+  public var ratingRepository: Factory<RatingRepository> {
+    self { RatingRepository() }
+  }
+
   internal var backgroundWorker: Factory<BackgroundWorker> {
     self { BackgroundWorker() }
       .singleton

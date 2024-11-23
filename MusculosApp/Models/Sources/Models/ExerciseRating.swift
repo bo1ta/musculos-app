@@ -8,7 +8,7 @@
 import Foundation
 import Utility
 
-public struct ExerciseRating: Codable {
+public struct ExerciseRating: Codable, Sendable {
   public var ratingID: UUID
   public var exerciseID: UUID
   public var userID: UUID
@@ -16,7 +16,7 @@ public struct ExerciseRating: Codable {
   public var rating: Double
   public var comment: String?
 
-  public init(ratingID: UUID, exerciseID: UUID, userID: UUID, isPublic: Bool, rating: Double, comment: String? = nil) {
+  public init(ratingID: UUID = UUID(), exerciseID: UUID, userID: UUID, isPublic: Bool = true, rating: Double, comment: String? = nil) {
     self.ratingID = ratingID
     self.exerciseID = exerciseID
     self.userID = userID

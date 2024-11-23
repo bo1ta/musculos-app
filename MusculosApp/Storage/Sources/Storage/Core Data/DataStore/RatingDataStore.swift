@@ -11,23 +11,14 @@ import Models
 import Utility
 
 public protocol RatingDataStoreProtocol: BaseDataStore, Sendable {
-  func addExerciseRating(_ exerciseRating: ExerciseRating) async throws
   func getRatingsForExercise(_ exerciseID: UUID) async -> [ExerciseRating]
   func getRatingsForUser(_ userID: UUID) async -> [ExerciseRating]
+  func addExerciseRating(_ exerciseRating: ExerciseRating) async throws
+  func importExerciseRatings(_ exerciseRatings: [ExerciseRating]) async throws
 }
 
 public struct RatingDataStore: RatingDataStoreProtocol {
   public init() { }
-
-  public func addExerciseRating(_ exerciseRating: ExerciseRating) async throws {
-    return try await storageManager.performWrite { storage in
-      let entity = storage.findOrInsert(
-        of: ExerciseRatingEntity.self,
-        using: PredicateProvider.exerciseRatingByID(exerciseRating.ratingID)
-      )
-      entity.populateEntityFrom(exerciseRating, using: storage)
-    }
-  }
 
   public func getRatingsForUser(_ userID: UUID) async -> [ExerciseRating] {
     return await storageManager.performRead { storage in
@@ -45,5 +36,19 @@ public struct RatingDataStore: RatingDataStoreProtocol {
       }
       return exercise.exerciseRatings.map { $0.toReadOnly() }
     }
+  }
+
+  public func addExerciseRating(_ exerciseRating: ExerciseRating) async throws {
+    return try await storageManager.performWrite { storage in
+      let entity = storage.findOrInsert(
+        of: ExerciseRatingEntity.self,
+        using: PredicateProvider.exerciseRatingByID(exerciseRating.ratingID)
+      )
+      entity.populateEntityFrom(exerciseRating, using: storage)
+    }
+  }
+
+  public func importExerciseRatings(_ exerciseRatings: [ExerciseRating]) async throws {
+    return try await self.importToStorage(models: exerciseRatings, localObjectType: ExerciseRatingEntity.self)
   }
 }

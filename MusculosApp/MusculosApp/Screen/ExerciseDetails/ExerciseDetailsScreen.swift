@@ -46,7 +46,7 @@ struct ExerciseDetailsScreen: View {
           .padding(.horizontal)
         HStack(spacing: 15) {
           EquipmentCard(equipmentType: exercise.equipmentType)
-          StarsRatingCard(stars: 4.0)
+          StarsRatingCard(stars: 4.0, onClick: { viewModel.showRatingDialog.toggle() })
         }
         .padding(.horizontal)
 
@@ -69,7 +69,7 @@ struct ExerciseDetailsScreen: View {
             .transition(.asymmetric(insertion: .push(from: .bottom), removal: .opacity))
             .matchedGeometryEffect(id: timerActionAnimationID, in: animationNamespace)
         } else {
-          ActionButton(title: "Start workout", systemImageName: "arrow.up.right", onClick: viewModel.showDialog)
+          ActionButton(title: "Start workout", systemImageName: "arrow.up.right", onClick: { viewModel.showInputDialog.toggle() })
             .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .top)))
             .matchedGeometryEffect(id: timerActionAnimationID, in: animationNamespace)
         }
@@ -93,6 +93,12 @@ struct ExerciseDetailsScreen: View {
       onSubmit: { inputValue in
         viewModel.handleDialogInput(inputValue)
       }
+    )
+    .ratingDialog(
+      isPresented: $viewModel.showRatingDialog,
+      title: "Rate exercise",
+      rating: $viewModel.userRating,
+      onSave: viewModel.saveRating(_:)
     )
   }
 }

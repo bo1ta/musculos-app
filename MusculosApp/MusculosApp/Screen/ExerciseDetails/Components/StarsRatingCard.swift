@@ -10,6 +10,8 @@ import Utility
 
 struct StarsRatingCard: View {
   let stars: Double
+  let onClick: () -> Void
+
   var body: some View {
     RoundedRectangle(cornerRadius: 18)
       .foregroundStyle(.white)
@@ -24,26 +26,29 @@ struct StarsRatingCard: View {
               .font(AppFont.poppins(.regular, size: 14))
               .foregroundStyle(.gray)
 
-            HStack {
-              ForEach(1...5, id: \.self) { index in
-                if index <= Int(stars) {
-                  Image("star-icon")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 25)
-                } else {
-                  Image("star-icon-empty")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 25)
-                }
-              }
+            Button(action: onClick, label: {
 
-              Text(String(stars))
-                .foregroundStyle(.yellow)
-                .font(AppFont.poppins(.bold, size: 13))
-                .fixedSize(horizontal: true, vertical: false)
-            }
+              HStack {
+                ForEach(1...5, id: \.self) { index in
+                  if index <= Int(stars) {
+                    Image("star-icon")
+                      .resizable()
+                      .aspectRatio(contentMode: .fit)
+                      .frame(height: 25)
+                  } else {
+                    Image("star-icon-empty")
+                      .resizable()
+                      .aspectRatio(contentMode: .fit)
+                      .frame(height: 25)
+                  }
+                }
+
+                Text(String(stars))
+                  .foregroundStyle(.yellow)
+                  .font(AppFont.poppins(.bold, size: 13))
+                  .fixedSize(horizontal: true, vertical: false)
+              }
+            })
           }
 
           Spacer()
@@ -51,8 +56,4 @@ struct StarsRatingCard: View {
         .padding(.horizontal)
       }
   }
-}
-
-#Preview {
-  StarsRatingCard(stars: 4)
 }

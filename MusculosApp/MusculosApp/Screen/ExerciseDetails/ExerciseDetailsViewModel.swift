@@ -13,6 +13,7 @@ import Models
 import Storage
 import Utility
 import DataRepository
+import Components
 
 @Observable
 @MainActor
@@ -25,6 +26,9 @@ final class ExerciseDetailsViewModel {
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
 
   @ObservationIgnored
+  @Injected(\DataRepositoryContainer.ratingRepository) private var ratingRepository: RatingRepository
+
+  @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepository
 
   // MARK: - Observed properties
@@ -34,17 +38,29 @@ final class ExerciseDetailsViewModel {
   private(set) var elapsedTime: Int = 0
 
   var isFavorite = false
-  var showInputDialog: Bool = false
+  var showInputDialog = false
+  var showRatingDialog = false
   var inputWeight: Double? = nil
+  var userRating = 0
+  var exerciseRatings: [ExerciseRating] = []
+
+  var toastPublisher: AnyPublisher<Toast, Never> {
+    toastSubject
+      .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+      .eraseToAnyPublisher()
+  }
+
+  private let toastSubject = PassthroughSubject<Toast, Never>()
 
   // MARK: - Tasks
-  
+
   private(set) var markFavoriteTask: Task<Void, Never>?
   private(set) var saveExerciseSessionTask: Task<Void, Never>?
+  private(set) var saveRatingTask: Task<Void, Never>?
   private(set) var timerTask: Task<Void, Never>?
 
   // MARK: - Init and Setup
-  
+
   var exercise: Exercise
 
   init(exercise: Exercise) {
@@ -54,13 +70,53 @@ final class ExerciseDetailsViewModel {
   // MARK: - Public methods
 
   func initialLoad() async {
+    async let exerciseDetailsTask: Void = loadExerciseDetails()
+    async let userRatingTask: Void = loadUserRating()
+    async let exerciseRatingsTask: Void = loadExerciseRatings()
+
+    let (_, _, _) = await (exerciseDetailsTask, userRatingTask, exerciseRatingsTask)
+  }
+
+  private func loadExerciseDetails() async {
     do {
       exercise = try await exerciseRepository.getExerciseDetails(for: exercise.id)
-      if let isFavorite = exercise.isFavorite {
-        self.isFavorite = isFavorite
-      }
     } catch {
-      MusculosLogger.logError(error, message: "Could not load details for exercise", category: .networking, properties: ["exercise_id": exercise.id])
+      showErrorToast()
+      MusculosLogger.logError(error, message: "Cannot load exercise details", category: .dataRepository)
+    }
+  }
+
+  private func loadUserRating() async {
+    do {
+      userRating = Int(try await ratingRepository.getUserRatingForExercise(exercise.id))
+    } catch {
+      showErrorToast()
+      MusculosLogger.logError(error, message: "Could not load user rating", category: .dataRepository)
+    }
+  }
+
+  private func loadExerciseRatings() async {
+    do {
+      exerciseRatings = try await ratingRepository.getRatingsForExercise(exercise.id)
+    } catch {
+      showErrorToast()
+      MusculosLogger.logError(error, message: "Could not load exercise ratings", category: .dataRepository)
+    }
+  }
+
+  private func showErrorToast() {
+    toastSubject.send(Toast(style: .error, message: "Oops! Something went wrong..."))
+  }
+
+  func saveRating(_ rating: Int) {
+    saveRatingTask = Task { [weak self] in
+      guard let self else { return }
+
+      do {
+        try await ratingRepository.addRating(rating: Double(rating), for: exercise.id)
+      } catch {
+        MusculosLogger.logError(error, message: "Could not save rating", category: .dataRepository)
+      }
     }
   }
 
@@ -68,10 +124,6 @@ final class ExerciseDetailsViewModel {
     guard let inputWeight = Double(input) else { return }
     self.inputWeight = inputWeight
     startTimer()
-  }
-
-  func showDialog() {
-    showInputDialog = true
   }
 
   func updateFavorite(_ isFavorite: Bool) {
@@ -109,7 +161,7 @@ final class ExerciseDetailsViewModel {
   func startTimer() {
     isTimerActive = true
     elapsedTime = 0
-    
+
     timerTask = Task { [weak self, isTimerActive] in
       repeat {
         try? await Task.sleep(for: .seconds(1))
@@ -117,36 +169,31 @@ final class ExerciseDetailsViewModel {
       } while (!Task.isCancelled && isTimerActive)
     }
   }
-  
+
   func stopTimer() {
     isTimerActive = false
     timerTask?.cancel()
-    timerTask = nil
 
     saveExerciseSession()
   }
 
   // TODO: Use progress entry to update the goal
   private func maybeUpdateGoals() async throws {
-//    let goals = await goalDataStore.getAll()
-//
-//    for goal in goals {
-//      if let _ = ExerciseConstants.goalToExerciseCategories[goal.category] {
-//        try await goalDataStore.incrementCurrentValue(goal)
-//      }
-//    }
+    //    let goals = await goalDataStore.getAll()
+    //
+    //    for goal in goals {
+    //      if let _ = ExerciseConstants.goalToExerciseCategories[goal.category] {
+    //        try await goalDataStore.incrementCurrentValue(goal)
+    //      }
+    //    }
   }
 
   // MARK: - Clean up
-  
+
   func cleanUp() {
     markFavoriteTask?.cancel()
-    markFavoriteTask = nil
-    
     saveExerciseSessionTask?.cancel()
-    saveExerciseSessionTask = nil
-    
+    saveRatingTask?.cancel()
     timerTask?.cancel()
-    timerTask = nil
   }
 }
