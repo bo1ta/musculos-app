@@ -42,6 +42,10 @@ extension StorageContainer {
     self { WorkoutDataStore() }
   }
 
+  public var ratingDataStore: Factory<RatingDataStoreProtocol> {
+    self { RatingDataStore() }
+  }
+
   public var storageManager: Factory<StorageManagerType> {
     self { StorageManager() }
       .onTest { InMemoryStorageManager() }

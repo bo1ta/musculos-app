@@ -12,12 +12,21 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="exerciseSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseSessionEntity" inverseName="exercise" inverseEntity="ExerciseSessionEntity"/>
         <relationship name="primaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PrimaryMuscleEntity" inverseName="exercises" inverseEntity="PrimaryMuscleEntity"/>
+        <relationship name="ratings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseRatingEntity" inverseName="exercise" inverseEntity="ExerciseRatingEntity"/>
         <relationship name="secondaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SecondaryMuscleEntity" inverseName="exercises" inverseEntity="SecondaryMuscleEntity"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="exerciseId"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
+    </entity>
+    <entity name="ExerciseRatingEntity" representedClassName="ExerciseRatingEntity" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String"/>
+        <attribute name="isPublic" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="rating" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="ratingID" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="exercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ExerciseEntity" inverseName="ratings" inverseEntity="ExerciseEntity"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfileEntity" inverseName="ratings" inverseEntity="UserProfileEntity"/>
     </entity>
     <entity name="ExerciseSessionEntity" representedClassName="ExerciseSessionEntity" syncable="YES">
         <attribute name="dateAdded" attributeType="Date" usesScalarValueType="NO"/>
@@ -84,6 +93,7 @@
         <attribute name="xp" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="exerciseSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseSessionEntity" inverseName="user" inverseEntity="ExerciseSessionEntity"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GoalEntity" inverseName="user" inverseEntity="GoalEntity"/>
+        <relationship name="ratings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseRatingEntity" inverseName="user" inverseEntity="ExerciseRatingEntity"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="userId"/>

@@ -11,20 +11,18 @@ import Storage
 import Models
 import Components
 import Utility
+import Factory
+import NetworkClient
+import Network
 
 struct MusculosApp: App {
-
-  private enum AppState {
-    case loggedIn
-    case loggedOut
-    case onboarding
-    case loading
-  }
+  @Injected(\NetworkContainer.networkMonitor) private var networkMonitor: NetworkMonitorProtocol
 
   @State private var appState: AppState = .loading
   @State private var progress: Double = 0.0
   @State private var userStore = UserStore()
   @State private var healthKitViewModel = HealthKitViewModel()
+  @State private var toast: Toast? = nil
 
   @Bindable private var navigationRouter = NavigationRouter()
 
@@ -46,26 +44,14 @@ struct MusculosApp: App {
           }
         }
         .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: appState)
-        .onReceive(userStore.eventPublisher) { event in
-          handleUserEvent(event)
-        }
-        .navigationDestination(for: NavigationRouter.Destination.self) { destination in
-          getViewForDestination(destination)
-        }
-        .sheet(isPresented: navigationRouter.isPresentingBinding()) {
-          if let currentSheet = navigationRouter.currentSheet {
-            switch currentSheet {
-            case .addActionSheet:
-              AddActionSheetContainer()
-            case .addGoalSheet:
-              AddGoalSheet()
-            case .workoutFlow(let workout):
-              WorkoutFlowView(workout: workout, onComplete: {})
-            }
-          }
-        }
+        .onReceive(userStore.eventPublisher, perform: handleUserEvent(_:))
+        .onReceive(networkMonitor.connectionStatusPublisher, perform: handleConnectionStatusUpdate(_:))
+        .navigationDestination(for: NavigationRouter.Destination.self, destination: getViewForDestination(_:))
+        .sheet(isPresented: navigationRouter.isPresentingBinding(), content: getSheetView)
+        .toastView(toast: $toast)
       }
       .task {
+        networkMonitor.startMonitoring()
         await loadInitialState()
       }
       .environment(\.userStore, userStore)
@@ -74,6 +60,26 @@ struct MusculosApp: App {
     }
   }
 
+  @MainActor
+  private func handleConnectionStatusUpdate(_ connectionStatus: NWPath.Status) {
+    switch connectionStatus {
+    case .satisfied:
+      guard var toast, toast.style == .warning else {
+        return
+      }
+      toast = Toast(style: .success, message: "Connected")
+      break
+    case .unsatisfied:
+      toast = Toast(style: .warning, message: "Lost internet connection. Trying to reconnect...")
+      break
+    case .requiresConnection:
+      break
+    @unknown default:
+      break
+    }
+  }
+
+  @MainActor
   @ViewBuilder
   private func getViewForDestination(_ destination: NavigationRouter.Destination) -> some View {
     switch destination {
@@ -89,6 +95,21 @@ struct MusculosApp: App {
       EmptyView()
     case .filteredByGoal(let goal):
       EmptyView()
+    }
+  }
+
+  @MainActor
+  @ViewBuilder
+  private func getSheetView() -> some View {
+    if let currentSheet = navigationRouter.currentSheet {
+      switch currentSheet {
+      case .addActionSheet:
+        AddActionSheetContainer()
+      case .addGoalSheet:
+        AddGoalSheet()
+      case .workoutFlow(let workout):
+        WorkoutFlowView(workout: workout, onComplete: {})
+      }
     }
   }
 
@@ -110,6 +131,7 @@ struct MusculosApp: App {
     }
   }
 
+  @MainActor
   private func handleUserEvent(_ event: UserStore.Event) {
     switch event {
     case .didLogin:
@@ -119,5 +141,14 @@ struct MusculosApp: App {
     case .didFinishOnboarding:
       appState = .loggedIn
     }
+  }
+}
+
+extension MusculosApp {
+  private enum AppState {
+    case loggedIn
+    case loggedOut
+    case onboarding
+    case loading
   }
 }

@@ -11,7 +11,6 @@ import Utility
 import Storage
 import NetworkClient
 import Factory
-import Queue
 
 public actor ExerciseSessionRepository: BaseRepository {
   @Injected(\StorageContainer.userDataStore) private var userDataStore: UserDataStoreProtocol

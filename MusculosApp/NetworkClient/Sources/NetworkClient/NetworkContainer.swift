@@ -32,11 +32,14 @@ extension NetworkContainer {
   public var goalService: Factory<GoalServiceProtocol> {
     self { GoalService() }
   }
-}
 
-public class SomeService {
-    init() { print("SomeService initialized") }
-    deinit { print("SomeService deinitialized") }
-}
+  public var ratingService: Factory<RatingServiceProtocol> {
+    self { RatingService() }
+  }
 
+  public var networkMonitor: Factory<NetworkMonitorProtocol> {
+    self { NetworkMonitor() }
+      .singleton
+  }
+}
 

@@ -9,10 +9,10 @@ import Foundation
 import SwiftUI
 
 public struct Toast: Equatable, Sendable {
-  var style: ToastStyle
-  var message: String
-  var duration: Double
-  var width: Double
+  public var style: ToastStyle
+  public var message: String
+  public var duration: Double
+  public var width: Double
 
   public init(style: ToastStyle, message: String, duration: Double = 1.5, width: Double = .infinity) {
     self.style = style

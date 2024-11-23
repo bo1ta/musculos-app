@@ -11,12 +11,12 @@ import Utility
 import SwiftUI
 
 public struct Exercise: Codable, Sendable {
-  public var category: String = ""
-  public var equipment: String? = ""
+  public var category: String
+  public var equipment: String?
   public var force: String?
   public var id: UUID = UUID()
-  public var level: String = ""
-  public var name: String = ""
+  public var level: String
+  public var name: String
   public var primaryMuscles: [String] = []
   public var secondaryMuscles: [String] = []
   public var instructions: [String] = []

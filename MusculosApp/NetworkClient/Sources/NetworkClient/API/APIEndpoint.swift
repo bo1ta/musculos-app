@@ -13,6 +13,7 @@ public enum Endpoint {
   case exerciseSessions(APIRoute.ExerciseSessionsRoute)
   case goals(APIRoute.GoalsRoute)
   case templates(APIRoute.TemplatesRoute)
+  case ratings(APIRoute.RatingsRoute)
 
   public var path: String {
     switch self {
@@ -26,6 +27,8 @@ public enum Endpoint {
       return "/goals/\(route.path)"
     case .templates(let route):
       return "/templates/\(route.path)"
+    case .ratings(let route):
+      return "/ratings/\(route.path)"
     }
   }
 

@@ -25,13 +25,16 @@ struct GoalCard: View {
       .shadow(radius: 2)
       .overlay {
         HStack(alignment: .center) {
-          Image("health-weightloss")
-            .resizable()
-            .renderingMode(.template)
-            .aspectRatio(contentMode: .fit)
-            .foregroundStyle(.white)
-            .frame(width: UIConstant.Size.large.iconHeight, height: UIConstant.Size.large.iconHeight)
-            .padding(.leading, 3)
+          if let goalCategory = goal.categoryType {
+            Image(goalCategory.imageName)
+              .resizable()
+              .renderingMode(.template)
+              .aspectRatio(contentMode: .fit)
+              .foregroundStyle(.white)
+              .frame(width: UIConstant.Size.large.iconHeight, height: UIConstant.Size.large.iconHeight)
+              .padding(.leading, 3)
+          }
+
 
           VStack(alignment: .leading, spacing: 0) {
             Text(goal.name)

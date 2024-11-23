@@ -16,14 +16,17 @@ struct WorkoutIcon: View {
         Image(categoryType.imageName)
           .resizable()
           .renderingMode(.template)
-          .frame(width: 15, height: 15)
-          .foregroundStyle(.white)
+          .frame(width: 24, height: 24)
+          .foregroundStyle(.black)
+          .shadow(radius: 0.8)
       } else {
         Image(ExerciseConstants.CategoryType.plyometrics.imageName)
           .resizable()
           .renderingMode(.template)
           .frame(width: 15, height: 15)
-          .foregroundStyle(.white)
+          .foregroundStyle(.black)
+          .shadow(radius: 0.8)
+
       }
     }
 }
