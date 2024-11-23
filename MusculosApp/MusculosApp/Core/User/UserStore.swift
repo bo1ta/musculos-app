@@ -48,6 +48,7 @@ final class UserStore {
   private(set) var currentUserProfile: UserProfile?
   private(set) var currentUserState: UserSessionState = .unauthenticated
   private(set) var isLoading = false
+  private var cancellables = Set<AnyCancellable>()
 
   var displayName: String {
     return currentUserProfile?.username ?? ""
@@ -59,6 +60,15 @@ final class UserStore {
 
   var isLoggedIn: Bool {
     return userManager.isAuthenticated && currentUserProfile != nil
+  }
+
+  init() {
+    NotificationCenter.default.publisher(for: .authTokenDidFail)
+      .debounce(for: .seconds(1), scheduler: RunLoop.main)
+      .sink { [weak self] _ in
+        self?.logOut()
+      }
+      .store(in: &cancellables)
   }
 
   func initialLoad() async {
@@ -118,6 +128,11 @@ final class UserStore {
 
   private func loadCurrentUser() async throws {
     currentUserProfile = await userRepository.getCurrentUser()
+  }
+
+  private func logOut() {
+    userManager.clearSession()
+    eventSubject.send(.didLogOut)
   }
 
   private func sendEvent(_ event: Event) {
