@@ -11,6 +11,15 @@
       }
     },
     {
+      "identity" : "horizoncalendar",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/HorizonCalendar",
+      "state" : {
+        "branch" : "master",
+        "revision" : "697c6f22f7e2f6da69fd0ca5dca0d08c973ea3a8"
+      }
+    },
+    {
       "identity" : "queue",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mattmassicotte/Queue",

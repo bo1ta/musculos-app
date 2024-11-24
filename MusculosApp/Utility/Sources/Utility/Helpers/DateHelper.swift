@@ -61,3 +61,13 @@ public struct DateHelper {
     return formatter.string(from: TimeInterval(seconds)) ?? ""
   }
 }
+
+public extension Date {
+  public func monthName() -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "MMMM"
+    return formatter.string(from: self)
+  }
+
+
+}

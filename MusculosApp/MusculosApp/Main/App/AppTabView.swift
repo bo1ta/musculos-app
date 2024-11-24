@@ -22,11 +22,17 @@ struct AppTabView: View {
         }
         .tag(1)
 
+      HistoryScreen()
+        .tabItem {
+          Label("History", systemImage: "calendar.badge.clock")
+        }
+        .tag(2)
+
       ProfileScreen()
         .tabItem {
           Label("Overview", systemImage: "person")
         }
-        .tag(2)
+        .tag(3)
     }
   }
 }

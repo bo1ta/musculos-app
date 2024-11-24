@@ -23,22 +23,10 @@ let package = Package(
     .target(
       name: "DataRepository",
       dependencies: [
-        .product(
-          name: "Utility",
-          package: "Utility"
-        ),
-        .product(
-          name: "Models",
-          package: "Models"
-        ),
-        .product(
-          name: "Storage",
-          package: "Storage"
-        ),
-        .product(
-          name: "NetworkClient",
-          package: "NetworkClient"
-        ),
+        .product(name: "Utility", package: "Utility"),
+        .product(name: "Models", package: "Models"),
+        .product(name: "Storage", package: "Storage"),
+        .product(name: "NetworkClient", package: "NetworkClient"),
         "Factory",
         "Queue"
       ]
