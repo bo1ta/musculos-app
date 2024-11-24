@@ -29,29 +29,23 @@ public actor ExerciseRepository: BaseRepository {
   }
 
   public func getExercises() async throws -> [Exercise] {
-    guard await !shouldFetchExercisesFromLocalStorage() else {
+    guard self.isConnectedToInternet else {
       return await exerciseDataStore.getAll(fetchLimit: 20)
     }
 
     let exercises = try await service.getExercises()
-
     backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
       try await self?.exerciseDataStore.importExercises(exercises)
     }
-
     return exercises
   }
 
   public func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise {
-    if let exercise = await exerciseDataStore.getByID(exerciseID) {
-      return exercise
-    } else {
-      let exercise = try await service.getExerciseDetails(for: exerciseID)
-      backgroundWorker.queueOperation(priority: .medium, operationType: .local) { [weak self] in
-        try await self?.exerciseDataStore.add(exercise)
-      }
-      return exercise
+    let exercise = try await service.getExerciseDetails(for: exerciseID)
+    backgroundWorker.queueOperation(priority: .medium, operationType: .local) { [weak self] in
+      try await self?.exerciseDataStore.add(exercise)
     }
+    return exercise
   }
 
   public func getExercisesCompletedSinceLastWeek() async throws -> [Exercise] {
@@ -100,17 +94,18 @@ public actor ExerciseRepository: BaseRepository {
 
     let exerciseSessions = await exerciseSessionDataStore.getAll(for: currentUserID)
     guard !exerciseSessions.isEmpty else {
-      throw MusculosError.notFound
+      return []
     }
 
     let muscles = Array(Set(exerciseSessions.flatMap { $0.exercise.muscleTypes }))
-    return await exerciseDataStore.getAllExcludingMuscles(muscles)
+    let exercises = await exerciseDataStore.getAllExcludingMuscles(muscles)
+    return exercises
   }
 
   public func getRecommendedExercisesByGoals() async throws -> [Exercise] {
     let goals = await goalDataStore.getAll()
     guard !goals.isEmpty else {
-      throw MusculosError.notFound
+      return []
     }
 
     return await exerciseDataStore.getAllByGoals(goals, fetchLimit: 20)

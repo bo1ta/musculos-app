@@ -45,9 +45,16 @@ final class ExerciseDetailsViewModel {
   var exerciseRatings: [ExerciseRating] = []
 
   var toastPublisher: AnyPublisher<Toast, Never> {
-    toastSubject
+    return toastSubject
       .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
       .eraseToAnyPublisher()
+  }
+
+  var ratingAverage: Double {
+    guard !exerciseRatings.isEmpty else {
+      return 0.0
+    }
+    return exerciseRatings.reduce(0) { $0 + $1.rating } / Double(exerciseRatings.count)
   }
 
   private let toastSubject = PassthroughSubject<Toast, Never>()
@@ -114,6 +121,7 @@ final class ExerciseDetailsViewModel {
 
       do {
         try await ratingRepository.addRating(rating: Double(rating), for: exercise.id)
+        showRatingDialog = false
       } catch {
         MusculosLogger.logError(error, message: "Could not save rating", category: .dataRepository)
       }

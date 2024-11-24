@@ -46,7 +46,7 @@ struct ExerciseDetailsScreen: View {
           .padding(.horizontal)
         HStack(spacing: 15) {
           EquipmentCard(equipmentType: exercise.equipmentType)
-          StarsRatingCard(stars: 4.0, onClick: { viewModel.showRatingDialog.toggle() })
+          StarsRatingCard(stars: viewModel.ratingAverage, onClick: { viewModel.showRatingDialog.toggle() })
         }
         .padding(.horizontal)
 

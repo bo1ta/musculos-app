@@ -137,6 +137,7 @@ struct MusculosApp: App {
     case .didLogin:
       appState = userStore.isOnboarded ? .loggedIn : .onboarding
     case .didLogOut:
+      navigationRouter.popToRoot()
       appState = .loggedOut
     case .didFinishOnboarding:
       appState = .loggedIn

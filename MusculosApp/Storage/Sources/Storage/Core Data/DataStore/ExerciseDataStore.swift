@@ -79,8 +79,6 @@ public protocol ExerciseDataStoreProtocol: BaseDataStore, Sendable {
 // MARK: - Read methods implementation
 
 public struct ExerciseDataStore: ExerciseDataStoreProtocol {
-  public typealias Syncable = ExerciseEntity
-
   public init() { }
 
   public func getByID(_ exerciseID: UUID) async -> Exercise? {
@@ -157,12 +155,15 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol {
           sortedBy: nil
         )
         .flatMap(\.exercises)
-        .map { $0.toReadOnly() }
+        .map {
+          return $0.toReadOnly()
+        }
     }
   }
 
   public func getByMuscleGroup(_ muscleGroup: MuscleGroup) async -> [Exercise] {
-    return await getByMuscles(muscleGroup.muscles)
+    let exercises = await getByMuscles(muscleGroup.muscles)
+    return exercises
   }
 
   public func getAllByGoals(_ goals: [Goal], fetchLimit: Int) async -> [Exercise] {

@@ -46,7 +46,11 @@ public actor GoalRepository: BaseRepository {
   }
 
   public func getGoals() async throws -> [Goal] {
-    let goals = await dataStore.getAll()
+    guard let currentUserID = self.currentUserID else {
+      throw MusculosError.notFound
+    }
+
+    let goals = await dataStore.getAllForUser(currentUserID)
     if goals.count > 0 {
       return goals
     }

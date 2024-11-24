@@ -110,7 +110,6 @@
 		BCBFBC402C70088D0022FE88 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCBFBC372C70088D0022FE88 /* Poppins-Bold.ttf */; };
 		BCC46FF42C0E2E97006D76E2 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC46FF32C0E2E97006D76E2 /* PermissionsView.swift */; };
 		BCC46FF92C0E3A7F006D76E2 /* StorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC46FF82C0E3A7F006D76E2 /* StorageHelper.swift */; };
-		BCCA2C9A2C3C615600D4DEAD /* Container+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA2C992C3C615600D4DEAD /* Container+Extension.swift */; };
 		BCD011842CBD7B470012CEA0 /* ExerciseSessionDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD011832CBD7B3F0012CEA0 /* ExerciseSessionDataStoreTests.swift */; };
 		BCD011882CBDBE6A0012CEA0 /* ExerciseServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD011872CBDBE660012CEA0 /* ExerciseServiceTests.swift */; };
 		BCD0118A2CC041480012CEA0 /* StubMusculosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD011892CC041450012CEA0 /* StubMusculosClient.swift */; };
@@ -261,7 +260,6 @@
 		BCC33E682BAE005E00488123 /* MusculosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MusculosApp.entitlements; sourceTree = "<group>"; };
 		BCC46FF32C0E2E97006D76E2 /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
 		BCC46FF82C0E3A7F006D76E2 /* StorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageHelper.swift; sourceTree = "<group>"; };
-		BCCA2C992C3C615600D4DEAD /* Container+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+Extension.swift"; sourceTree = "<group>"; };
 		BCD011832CBD7B3F0012CEA0 /* ExerciseSessionDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSessionDataStoreTests.swift; sourceTree = "<group>"; };
 		BCD011872CBDBE660012CEA0 /* ExerciseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseServiceTests.swift; sourceTree = "<group>"; };
 		BCD011892CC041450012CEA0 /* StubMusculosClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubMusculosClient.swift; sourceTree = "<group>"; };
@@ -754,7 +752,6 @@
 		BCAE95A62C447E9600AD91BE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				BCCA2C992C3C615600D4DEAD /* Container+Extension.swift */,
 				BC545E392C3C6A8F00713B86 /* EnvironmentValues+Extension.swift */,
 			);
 			path = Extension;
@@ -1063,7 +1060,6 @@
 				BC0DA8792CA209D70011EC63 /* RecommendationSection.swift in Sources */,
 				BCD59AA22BB627E60039F662 /* ExerciseSecondaryCard.swift in Sources */,
 				BC43D33B2B6EAD8D008C1062 /* ExerciseFilterSheetViewModel.swift in Sources */,
-				BCCA2C9A2C3C615600D4DEAD /* Container+Extension.swift in Sources */,
 				BC655B052CB1615200C19E07 /* ProgressButton.swift in Sources */,
 				BC0DA8A02CA5EACF0011EC63 /* RecommendationSection+SectionItemImage.swift in Sources */,
 				BCF71EC52CF14CCD004BB1F7 /* ExerciseListRow.swift in Sources */,

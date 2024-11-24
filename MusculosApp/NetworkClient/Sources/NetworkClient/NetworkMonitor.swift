@@ -18,7 +18,6 @@ public protocol NetworkMonitorProtocol {
 
 public class NetworkMonitor: NetworkMonitorProtocol, @unchecked Sendable {
   private let monitor = NWPathMonitor()
-  private let queue = DispatchQueue(label: "NetworkMonitor")
   private let connectionStatusSubject = CurrentValueSubject<NWPath.Status, Never>(.requiresConnection)
 
   public var connectionStatusPublisher: AnyPublisher<NWPath.Status, Never> {
@@ -37,11 +36,9 @@ public class NetworkMonitor: NetworkMonitorProtocol, @unchecked Sendable {
 
   public func startMonitoring() {
     monitor.pathUpdateHandler = { [weak self] path in
-      DispatchQueue.main.async {
-        self?.connectionStatusSubject.send(path.status)
-      }
+      self?.connectionStatusSubject.send(path.status)
     }
-    monitor.start(queue: queue)
+    monitor.start(queue: DispatchQueue.main)
   }
 
   public func stopMonitoring() {

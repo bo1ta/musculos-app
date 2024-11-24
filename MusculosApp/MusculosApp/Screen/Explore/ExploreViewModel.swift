@@ -33,14 +33,9 @@ final class ExploreViewModel {
   @ObservationIgnored
   @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
 
-  @ObservationIgnored
-  @Injected(\.taskManager) private var taskManager: TaskManagerProtocol
-
   private var cancellables = Set<AnyCancellable>()
-
-  private var currentUser: UserSession? {
-    userManager.currentUserSession
-  }
+  private(set) var searchQueryTask: Task<Void, Never>?
+  private(set) var notificationUpdateTask: Task<Void, Never>?
 
   // MARK: - Observed properties
 
@@ -81,8 +76,9 @@ final class ExploreViewModel {
   }
 
   func cleanUp() {
-    taskManager.cancelAllTasks()
     cancellables.removeAll()
+    searchQueryTask?.cancel()
+    notificationUpdateTask?.cancel()
   }
 }
 
@@ -128,16 +124,15 @@ extension ExploreViewModel {
   }
 
   func searchByMuscleQuery(_ query: String) {
-    taskManager.cancelTask(forFunction: #function)
+    searchQueryTask?.cancel()
 
-    let task = Task {
+    searchQueryTask = Task {
       do {
         featuredExercises = try await exerciseRepository.searchByQuery(query)
       } catch {
         MusculosLogger.logError(error, message: "Could not search by muscle query", category: .networking, properties: ["query": query])
       }
     }
-    taskManager.addTask(task)
   }
 
   private func loadFavoriteExercises() async {
@@ -169,7 +164,9 @@ extension ExploreViewModel {
 
 extension ExploreViewModel {
   func handleUpdate(_ event: CoreModelNotificationHandler.Event) {
-    let task = Task {
+    notificationUpdateTask?.cancel()
+
+    notificationUpdateTask = Task {
       switch event {
       case .didUpdateGoal:
         await loadGoals()
@@ -180,7 +177,5 @@ extension ExploreViewModel {
         await refreshExercisesCompletedToday()
       }
     }
-
-    taskManager.addTask(task)
   }
 }

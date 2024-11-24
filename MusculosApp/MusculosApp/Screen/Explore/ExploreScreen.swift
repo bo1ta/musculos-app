@@ -48,6 +48,12 @@ struct ExploreScreen: View {
           .fixedSize(horizontal: false, vertical: true)
         }
 
+        if !viewModel.recommendedExercisesByPastSessions.isEmpty {
+          ExerciseSectionView(title: "Recommendations from past sessions", exercises: viewModel.recommendedExercisesByGoals, onExerciseTap: { exercise in
+            navigationRouter.push(.exerciseDetails(exercise))
+          })
+        }
+
         if !viewModel.favoriteExercises.isEmpty {
           ExerciseSectionView(title: "My favorites", exercises: viewModel.favoriteExercises, onExerciseTap: { exercise in
             navigationRouter.push(.exerciseDetails(exercise))
