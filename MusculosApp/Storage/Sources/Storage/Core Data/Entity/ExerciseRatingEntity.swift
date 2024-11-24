@@ -51,7 +51,7 @@ extension ExerciseRatingEntity: EntitySyncable {
     self.user = userProfileEntity
     self.ratingID = model.ratingID
     self.rating = NSNumber(floatLiteral: model.rating)
-    self.isPublic = model.isPublic
+    self.isPublic = model.isPublic ?? true
     self.comment = model.comment
   }
 

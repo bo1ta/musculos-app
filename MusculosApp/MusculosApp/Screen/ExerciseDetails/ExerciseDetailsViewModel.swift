@@ -20,6 +20,9 @@ import Components
 final class ExerciseDetailsViewModel {
 
   @ObservationIgnored
+  @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
+
+  @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
 
   @ObservationIgnored
@@ -78,10 +81,9 @@ final class ExerciseDetailsViewModel {
 
   func initialLoad() async {
     async let exerciseDetailsTask: Void = loadExerciseDetails()
-    async let userRatingTask: Void = loadUserRating()
     async let exerciseRatingsTask: Void = loadExerciseRatings()
 
-    let (_, _, _) = await (exerciseDetailsTask, userRatingTask, exerciseRatingsTask)
+    let (_, _) = await (exerciseDetailsTask, exerciseRatingsTask)
   }
 
   private func loadExerciseDetails() async {
@@ -93,18 +95,13 @@ final class ExerciseDetailsViewModel {
     }
   }
 
-  private func loadUserRating() async {
-    do {
-      userRating = Int(try await ratingRepository.getUserRatingForExercise(exercise.id))
-    } catch {
-      showErrorToast()
-      MusculosLogger.logError(error, message: "Could not load user rating", category: .dataRepository)
-    }
-  }
-
   private func loadExerciseRatings() async {
     do {
       exerciseRatings = try await ratingRepository.getRatingsForExercise(exercise.id)
+
+      if let currentUserID = userManager.currentUserID, let userRating = exerciseRatings.first(where: { $0.userID == currentUserID })?.rating {
+        self.userRating = Int(userRating)
+      }
     } catch {
       showErrorToast()
       MusculosLogger.logError(error, message: "Could not load exercise ratings", category: .dataRepository)

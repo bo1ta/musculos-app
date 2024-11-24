@@ -12,7 +12,7 @@ public struct ExerciseRating: Codable, Sendable {
   public var ratingID: UUID
   public var exerciseID: UUID
   public var userID: UUID
-  public var isPublic: Bool
+  public var isPublic: Bool?
   public var rating: Double
   public var comment: String?
 

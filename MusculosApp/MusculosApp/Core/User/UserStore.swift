@@ -66,7 +66,7 @@ final class UserStore {
 
   init() {
     NotificationCenter.default.publisher(for: .authTokenDidFail)
-      .debounce(for: .seconds(1), scheduler: RunLoop.main)
+      .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
       .sink { [weak self] _ in
         self?.logOut()
       }
@@ -74,13 +74,13 @@ final class UserStore {
   }
 
   func initialLoad() async {
-    currentUserState = userManager.currentState()
+    currentUserState = userManager.getCurrentState()
 
     switch currentUserState {
     case .authenticated(let userSession):
       handlePostLogin(session: userSession)
     case .unauthenticated:
-      MusculosLogger.logInfo(message: "Could not find user. Using logged-out state ", category: .coreData)
+      MusculosLogger.logInfo(message: "Could not find user. Using logged-out state", category: .coreData)
     }
   }
 

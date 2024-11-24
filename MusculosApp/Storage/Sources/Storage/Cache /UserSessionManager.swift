@@ -15,21 +15,21 @@ public enum UserSessionState: Sendable {
 }
 
 public protocol UserSessionManagerProtocol: Sendable {
-  func currentState() -> UserSessionState
+  func getCurrentState() -> UserSessionState
   func updateSession(_ session: UserSession)
   func clearSession()
 }
 
 extension UserSessionManagerProtocol {
   public var isAuthenticated: Bool {
-    if case .authenticated = currentState() {
+    if case .authenticated = getCurrentState() {
       return true
     }
     return false
   }
 
   public var currentUserSession: UserSession? {
-    if case .authenticated(let session) = currentState() {
+    if case .authenticated(let session) = getCurrentState() {
       return session
     }
     return nil
@@ -44,7 +44,7 @@ public final class UserSessionManager: UserSessionManagerProtocol, @unchecked Se
   private let queue = DispatchQueue(label: "com.UserSessionManager.queue")
   private var cachedSessionState: UserSessionState?
 
-  public func currentState() -> UserSessionState {
+  public func getCurrentState() -> UserSessionState {
     return queue.sync {
       if let cachedSessionState {
         return cachedSessionState
