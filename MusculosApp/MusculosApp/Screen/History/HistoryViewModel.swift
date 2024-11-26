@@ -27,8 +27,7 @@ final class HistoryViewModel {
   }
 
   private(set) var filteredSessions: [ExerciseSession] = []
-  
-  var calendarMarkers: [CalendarMarker] = []
+  private(set) var calendarMarkers: [CalendarMarker] = []
 
   var selectedDate: Date? {
     didSet {
@@ -45,12 +44,16 @@ final class HistoryViewModel {
     }
   }
 
-  func updateFilteredSessions() {
+  private func updateFilteredSessions() {
     if let date = selectedDate {
-      filteredSessions = exerciseSessions.filter({ Calendar.current.isDate($0.dateAdded, equalTo: date, toGranularity: .day) })
+      filteredSessions = filterSessionByDay(date: date)
     } else {
       filteredSessions = exerciseSessions
     }
+  }
+
+  private func filterSessionByDay(date: Date) -> [ExerciseSession] {
+   return exerciseSessions.filter({ Calendar.current.isDate($0.dateAdded, equalTo: date, toGranularity: .day) })
   }
 }
 

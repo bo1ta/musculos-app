@@ -24,14 +24,13 @@ final class HomeViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
 
+  private var cancellables = Set<AnyCancellable>()
   private(set) var isLoading = false
   private(set) var challenges: [Challenge] = []
   private(set) var goals: [Goal] = []
   private(set) var quickExercise: Exercise?
   private(set) var errorMessage: String?
   private(set) var notificationTask: Task<Void, Never>?
-
-  private var cancellables = Set<AnyCancellable>()
 
   private let coreNotificationHandler: CoreModelNotificationHandler
 
