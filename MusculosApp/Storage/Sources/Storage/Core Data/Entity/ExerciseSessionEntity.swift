@@ -48,6 +48,7 @@ extension ExerciseSessionEntity: EntitySyncable {
     )
     else { return }
 
+    self.user = user
     self.dateAdded = model.dateAdded
     self.duration = NSNumber(floatLiteral: model.duration)
     self.sessionId = model.sessionId

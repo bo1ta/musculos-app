@@ -65,4 +65,21 @@ public extension View {
       .presentationBackground(.clear)
     }
   }
+
+  func ratingDialog(
+    isPresented: Binding<Bool>,
+    title: String,
+    rating: Binding<Int>,
+    onSave: @escaping (Int) -> Void
+  ) -> some View {
+    fullScreenCover(isPresented: isPresented) {
+      DialogRateView(
+        isPresented: isPresented,
+        rating: rating,
+        title: title,
+        onSave: onSave
+      )
+      .presentationBackground(.clear)
+    }
+  }
 }

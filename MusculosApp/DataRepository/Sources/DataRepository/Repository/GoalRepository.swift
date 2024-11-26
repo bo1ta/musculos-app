@@ -46,14 +46,18 @@ public actor GoalRepository: BaseRepository {
   }
 
   public func getGoals() async throws -> [Goal] {
-    let goals = await dataStore.getAll()
+    guard let currentUserID = self.currentUserID else {
+      throw MusculosError.notFound
+    }
+
+    let goals = await dataStore.getAllForUser(currentUserID)
     if goals.count > 0 {
       return goals
     }
 
     let remoteGoals = try await service.getUserGoals()
     backgroundWorker.queueOperation(priority: .high, operationType: .local) { [weak self] in
-      try await self?.dataStore.importToStorage(remoteObjects: remoteGoals, localObjectType: GoalEntity.self)
+      try await self?.dataStore.importToStorage(models: remoteGoals, localObjectType: GoalEntity.self)
     }
     return remoteGoals
   }

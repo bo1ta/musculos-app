@@ -11,7 +11,7 @@ public enum MuscleType: String, CaseIterable, Identifiable, Sendable {
   case abdominals, hamstrings, adductors, quadriceps, biceps, shoulders, chest, calves, glutes, lats, triceps, traps, forearms, neck, abductors
   case middleBack = "middle back"
   case lowerBack = "lower back"
-  
+
   public var id: Int {
     switch self {
     case .abdominals: 0
@@ -32,5 +32,15 @@ public enum MuscleType: String, CaseIterable, Identifiable, Sendable {
     case .middleBack: 15
     case .lowerBack: 16
     }
+  }
+}
+
+public struct MuscleGroup: Hashable, Sendable {
+  public let name: String
+  public let muscles: [MuscleType]
+
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(name)
+    hasher.combine(muscles.map(\.id))
   }
 }

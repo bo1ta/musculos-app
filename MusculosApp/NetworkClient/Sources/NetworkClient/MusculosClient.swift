@@ -27,6 +27,10 @@ public struct MusculosClient: MusculosClientProtocol {
     
     let (data, response) = try await self.urlSession.data(for: urlRequest)
     if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+      if MusculosError.httpError(httpResponse.statusCode) == .unauthorized {
+        NotificationCenter.default.post(name: .authTokenDidFail, object: nil)
+      }
+
       throw MusculosError.httpError(httpResponse.statusCode)
     }
     return data

@@ -8,14 +8,15 @@
 
 import Foundation
 import Utility
+import SwiftUI
 
 public struct Exercise: Codable, Sendable {
-  public var category: String = ""
-  public var equipment: String? = ""
+  public var category: String
+  public var equipment: String?
   public var force: String?
   public var id: UUID = UUID()
-  public var level: String = ""
-  public var name: String = ""
+  public var level: String
+  public var name: String
   public var primaryMuscles: [String] = []
   public var secondaryMuscles: [String] = []
   public var instructions: [String] = []
@@ -55,14 +56,14 @@ public struct Exercise: Codable, Sendable {
   public var muscleTypes: [MuscleType] {
     var allMuscles = primaryMuscles
     allMuscles.append(contentsOf: secondaryMuscles)
-    
+
     return allMuscles.compactMap { MuscleType(rawValue: $0) }
   }
-  
+
   public var primaryMusclesTypes: [MuscleType] {
     return primaryMuscles.compactMap { MuscleType(rawValue: $0) }
   }
-  
+
   public var secondaryMusclesTypes: [MuscleType] {
     return secondaryMuscles.compactMap { MuscleType(rawValue: $0) }
   }
@@ -91,7 +92,7 @@ public struct Exercise: Codable, Sendable {
       return name
     }
   }
-  
+
   public func getImagesURLs() -> [URL] {
     return imageUrls.compactMap { imageUrlString in
       URL(string: imageUrlString)
@@ -111,13 +112,26 @@ public struct Exercise: Codable, Sendable {
     }
     return ExerciseConstants.EquipmentType(rawValue: equipment) ?? .other
   }
+
+  public var levelColor: Color {
+    switch level {
+    case Level.beginner.rawValue:
+        .blue
+    case Level.intermediate.rawValue:
+        .orange
+    case Level.expert.rawValue:
+        .red
+    default:
+        .white
+    }
+  }
 }
 
 public extension Exercise {
   enum ForceType: String, Codable {
     case pull, push, stay = "static"
   }
-  
+
   enum Level: String, Codable {
     case intermediate, beginner, expert
   }

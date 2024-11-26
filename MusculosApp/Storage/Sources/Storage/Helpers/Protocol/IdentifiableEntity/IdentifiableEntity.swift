@@ -8,6 +8,7 @@
 import Foundation
 
 public protocol IdentifiableEntity {
+
   /// Identifier key used for Core Data predicate
   ///
   static var identifierKey: String { get }

@@ -79,6 +79,13 @@ public struct Goal: Sendable, Codable {
     return components.day
   }
 
+  public var categoryType: Category? {
+    guard let category, let categoryType = Category(rawValue: category) else {
+      return nil
+    }
+    return categoryType
+  }
+
   public var progressPercentage: Double {
     guard targetValue != 0 else {
       return 0
@@ -123,7 +130,7 @@ public struct Goal: Sendable, Codable {
 
 public extension Goal {
   public enum Category: String, CaseIterable, Sendable, Codable {
-    case loseWeight, gainWeight, growMuscle, drinkWater, general
+    case loseWeight, gainWeight, growMuscle, drinkWater, general, buildMass = "Build mass & strength"
 
     public var label: String {
       switch self {
@@ -132,6 +139,7 @@ public extension Goal {
       case .growMuscle: "Grow muscles"
       case .drinkWater: "Drink water"
       case .general: "General"
+      case .buildMass: "Build mass & strength"
       }
     }
 
@@ -139,7 +147,7 @@ public extension Goal {
       switch self {
       case .loseWeight: "treadmill-character"
       case .gainWeight: ""
-      case .growMuscle: "muscle-icon"
+      case .growMuscle, .buildMass: "strongman-icon"
       case .drinkWater: ""
       case .general: "dumbbell-icon"
       }

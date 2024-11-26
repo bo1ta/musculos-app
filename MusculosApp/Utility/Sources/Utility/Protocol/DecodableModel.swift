@@ -15,7 +15,7 @@ public protocol DecodableModel: Codable {}
 public extension DecodableModel where Self: Codable {
   public static func createFrom(_ data: Data) throws -> Self {
     do {
-      return try decoder.decode(Self.self, from: data)
+      return try JSONHelper.decoder.decode(Self.self, from: data)
     } catch {
       MusculosLogger.logError(
         error,
@@ -29,7 +29,7 @@ public extension DecodableModel where Self: Codable {
 
   public static func createArrayFrom(_ data: Data) throws -> [Self] {
     do {
-      return try decoder.decode([Self].self, from: data)
+      return try JSONHelper.decoder.decode([Self].self, from: data)
     } catch {
       MusculosLogger.logError(
         error,
@@ -42,7 +42,7 @@ public extension DecodableModel where Self: Codable {
   }
 
   public func toDictionary() -> [String: Any]? {
-    guard let data = try? Self.encoder.encode(self) else {
+    guard let data = try? JSONHelper.encoder.encode(self) else {
       return nil
     }
 
@@ -52,17 +52,19 @@ public extension DecodableModel where Self: Codable {
 
     return dictionary
   }
+}
 
-  private static var decoder: JSONDecoder {
+private class JSONHelper {
+  static let decoder: JSONDecoder = {
     let decoder = JSONDecoder()
     decoder.dateDecodingStrategy = .iso8601
     return decoder
-  }
+  }()
 
-  private static var encoder: JSONEncoder {
+  static let encoder: JSONEncoder = {
     let encoder = JSONEncoder()
     encoder.dateEncodingStrategy = .iso8601
     return encoder
-  }
-
+  }()
 }
+

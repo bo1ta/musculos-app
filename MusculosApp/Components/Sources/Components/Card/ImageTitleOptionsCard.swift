@@ -48,3 +48,9 @@ public struct ContentTitleOptionsCard<Content: View>: View {
       }
   }
 }
+
+#Preview {
+  ContentTitleOptionsCard(title: "My custom title", options: ["option 1", "option 2", "option 3"], content: {
+    Image(systemName: "chevron.left")
+  })
+}

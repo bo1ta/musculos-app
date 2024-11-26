@@ -76,3 +76,9 @@ public enum MusculosError: LocalizedError, CustomStringConvertible {
     }
   }
 }
+
+extension MusculosError: Equatable {
+  public static func == (lhs: MusculosError, rhs: MusculosError) -> Bool {
+    return lhs.description == rhs.description
+  }
+}

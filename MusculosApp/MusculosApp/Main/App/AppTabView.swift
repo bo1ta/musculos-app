@@ -10,23 +10,29 @@ import SwiftUI
 struct AppTabView: View {
   var body: some View {
     TabView {
-      HomeView()
+      HomeScreen()
         .tabItem {
           Label("Home", systemImage: "house")
         }
         .tag(0)
 
-      ExploreExerciseView()
+      ExploreScreen()
         .tabItem {
           Label("Explore", systemImage: "newspaper")
         }
         .tag(1)
 
-      ProfileView()
+      HistoryScreen()
+        .tabItem {
+          Label("History", systemImage: "calendar.badge.clock")
+        }
+        .tag(2)
+
+      ProfileScreen()
         .tabItem {
           Label("Overview", systemImage: "person")
         }
-        .tag(2)
+        .tag(3)
     }
   }
 }

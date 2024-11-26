@@ -68,7 +68,7 @@ public struct ChallengeCard: View {
               .lineLimit(2)
               .font(AppFont.poppins(.regular, size: 17))
               .fixedSize(horizontal: false, vertical: true)
-              .foregroundStyle(.black)
+              .foregroundStyle(.white)
 
 
             if let subLabel {

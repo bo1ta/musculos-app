@@ -11,7 +11,6 @@ import Utility
 import Storage
 import NetworkClient
 import Factory
-import Queue
 
 public actor ExerciseSessionRepository: BaseRepository {
   @Injected(\StorageContainer.userDataStore) private var userDataStore: UserDataStoreProtocol
@@ -30,7 +29,7 @@ public actor ExerciseSessionRepository: BaseRepository {
 
     let exerciseSessions = try await service.getAll()
     backgroundWorker.queueOperation(priority: .medium, operationType: .local) { [weak self] in
-      try await self?.dataStore.importToStorage(remoteObjects: exerciseSessions, localObjectType: ExerciseSessionEntity.self)
+      try await self?.dataStore.importToStorage(models: exerciseSessions, localObjectType: ExerciseSessionEntity.self)
     }
     return exerciseSessions
   }

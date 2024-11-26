@@ -29,8 +29,8 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   private func setupNotificationPublisher() {
     NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: writerDerivedStorage as? NSManagedObjectContext)
       .debounce(for: .seconds(coalesceSaveInterval), scheduler: DispatchQueue.global())
-      .sink { [saveChanges] _ in
-        saveChanges { }
+      .sink { [weak self] _ in
+        self?.saveChanges(completion: {})
       }
       .store(in: &cancellables)
   }

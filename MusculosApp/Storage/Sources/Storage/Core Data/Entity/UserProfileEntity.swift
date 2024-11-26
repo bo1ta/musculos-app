@@ -25,17 +25,29 @@ public class UserProfileEntity: NSManagedObject {
   @NSManaged public var updatedAt: Date?
   @NSManaged public var username: String
   @NSManaged public var weight: NSNumber?
-  @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
-  @NSManaged public var goals: Set<GoalEntity>
   @NSManaged public var isOnboarded: Bool
   @NSManaged public var xp: NSNumber
+  @NSManaged public var goals: Set<GoalEntity>
+  @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
+  @NSManaged public var exerciseRatings: Set<ExerciseRatingEntity>
 
   @nonobjc public class func fetchRequest() -> NSFetchRequest<UserProfileEntity> {
     return NSFetchRequest<UserProfileEntity>(entityName: "UserProfileEntity")
   }
+
+  public var synchronizationState: SynchronizationState {
+    get {
+      SynchronizationState(rawValue: synchronized.intValue) ?? .notSynchronized
+    }
+
+    set {
+      synchronized = NSNumber(integerLiteral: newValue.rawValue)
+    }
+  }
 }
 
-// MARK: Generated accessors for exerciseSessions
+// MARK: - Generated accessors for relationships
+
 extension UserProfileEntity {
 
   @objc(addExerciseSessionsObject:)
@@ -61,9 +73,22 @@ extension UserProfileEntity {
 
   @objc(removeGoals:)
   @NSManaged public func removeFromGoals(_ values: NSSet)
+
+  @objc(addExerciseRatingsObject:)
+  @NSManaged public func addToExerciseRatings(_ value: ExerciseRatingEntity)
+
+  @objc(removeExerciseRatingsObject:)
+  @NSManaged public func removeFromExerciseRatings(_ value: ExerciseRatingEntity)
+
+  @objc(addExerciseRatings:)
+  @NSManaged public func addToExerciseRatings(_ values: NSSet)
+
+  @objc(removeExerciseRatings:)
+  @NSManaged public func removeFromExerciseRatings(_ values: NSSet)
+
 }
 
-// MARK: - ReadOnlyConvertible impl
+// MARK: - ReadOnlyConvertible
 
 extension UserProfileEntity: ReadOnlyConvertible {
   public func toReadOnly() -> UserProfile {
@@ -79,16 +104,6 @@ extension UserProfileEntity: ReadOnlyConvertible {
       isOnboarded: isOnboarded,
       xp: xp.intValue
     )
-  }
-
-  public var synchronizationState: SynchronizationState {
-    get {
-      SynchronizationState(rawValue: synchronized.intValue) ?? .notSynchronized
-    }
-
-    set {
-      synchronized = NSNumber(integerLiteral: newValue.rawValue)
-    }
   }
 }
 
@@ -132,7 +147,7 @@ extension UserProfileEntity: EntitySyncable {
 
     self.synchronized = SynchronizationState.synchronized.asNSNumber()
   }
-  
+
   public func updateEntityFrom(_ model: UserProfile, using storage: any StorageType) {
     self.avatarUrl = model.avatar
     self.isOnboarded = model.isOnboarded ?? false

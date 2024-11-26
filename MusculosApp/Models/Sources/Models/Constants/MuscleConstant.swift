@@ -16,6 +16,15 @@ public struct MuscleConstant {
     case upperLegs = "upper legs"
   }
 
+  public static let muscleGroups: [MuscleGroup] = [
+    MuscleGroup(name: "back", muscles: [.middleBack, .lowerBack, .lats, .traps]),
+    MuscleGroup(name: "legs", muscles: [.hamstrings, .adductors, .quadriceps, .calves, .abductors, .glutes]),
+    MuscleGroup(name: "arms", muscles: [.biceps, .triceps, .forearms]),
+    MuscleGroup(name: "shoulders", muscles: [.shoulders, .neck]),
+    MuscleGroup(name: "chest", muscles: [.chest]),
+    MuscleGroup(name: "core", muscles: [.abdominals])
+  ]
+
   public struct MuscleImageInfo: Hashable, Sendable {
     public let uuid = UUID()
 

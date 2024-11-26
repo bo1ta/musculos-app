@@ -24,34 +24,35 @@ public actor ExerciseRepository: BaseRepository {
   public func addExercise(_ exercise: Exercise) async throws {
     try await exerciseDataStore.add(exercise)
 
-//    backgroundWorker.queueOperation(priority: .low) {
-//    }
+    //    backgroundWorker.queueOperation(priority: .low) {
+    //    }
   }
 
   public func getExercises() async throws -> [Exercise] {
-    guard await !shouldFetchExercisesFromLocalStorage() else {
+    guard self.isConnectedToInternet else {
       return await exerciseDataStore.getAll(fetchLimit: 20)
     }
 
     let exercises = try await service.getExercises()
-
     backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
-      try await self?.exerciseDataStore.importToStorage(remoteObjects: exercises, localObjectType: ExerciseEntity.self)
+      try await self?.exerciseDataStore.importExercises(exercises)
     }
-
     return exercises
   }
 
   public func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise {
-    if let exercise = await exerciseDataStore.getByID(exerciseID) {
-      return exercise
-    } else {
-      let exercise = try await service.getExerciseDetails(for: exerciseID)
-      backgroundWorker.queueOperation(priority: .medium, operationType: .local) { [weak self] in
-        try await self?.exerciseDataStore.add(exercise)
-      }
-      return exercise
+    let exercise = try await service.getExerciseDetails(for: exerciseID)
+    backgroundWorker.queueOperation(priority: .medium, operationType: .local) { [weak self] in
+      try await self?.exerciseDataStore.add(exercise)
     }
+    return exercise
+  }
+
+  public func getExercisesCompletedSinceLastWeek() async throws -> [Exercise] {
+    guard let currentUserID else {
+      throw MusculosError.notFound
+    }
+    return await exerciseSessionDataStore.getCompletedSinceLastWeek(userId: currentUserID).map(\.exercise)
   }
 
   public func getFavoriteExercises() async throws -> [Exercise] {
@@ -61,7 +62,7 @@ public actor ExerciseRepository: BaseRepository {
 
     let exercises = try await service.getFavoriteExercises()
     backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
-      try await self?.exerciseDataStore.importToStorage(remoteObjects: exercises, localObjectType: ExerciseEntity.self)
+      try await self?.exerciseDataStore.importExercises(exercises)
     }
     return exercises
   }
@@ -77,7 +78,7 @@ public actor ExerciseRepository: BaseRepository {
   public func getExercisesByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise] {
     let exercises = try await service.getByWorkoutGoal(workoutGoal)
     backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
-      try await self?.exerciseDataStore.importToStorage(remoteObjects: exercises, localObjectType: ExerciseEntity.self)
+      try await self?.exerciseDataStore.importExercises(exercises)
     }
     return exercises
   }
@@ -93,28 +94,51 @@ public actor ExerciseRepository: BaseRepository {
 
     let exerciseSessions = await exerciseSessionDataStore.getAll(for: currentUserID)
     guard !exerciseSessions.isEmpty else {
-      throw MusculosError.notFound
+      return []
     }
 
     let muscles = Array(Set(exerciseSessions.flatMap { $0.exercise.muscleTypes }))
-    return await exerciseDataStore.getAllExcludingMuscles(muscles)
+    let exercises = await exerciseDataStore.getAllExcludingMuscles(muscles)
+    return exercises
   }
 
   public func getRecommendedExercisesByGoals() async throws -> [Exercise] {
     let goals = await goalDataStore.getAll()
     guard !goals.isEmpty else {
-      throw MusculosError.notFound
+      return []
     }
 
     return await exerciseDataStore.getAllByGoals(goals, fetchLimit: 20)
   }
 
-  public func searchByMuscleQuery(_ query: String) async throws -> [Exercise] {
-    let exercises = try await service.searchByMuscleQuery(query)
-    backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
-      try await self?.exerciseDataStore.importToStorage(remoteObjects: exercises, localObjectType: ExerciseEntity.self)
+  public func searchByQuery(_ query: String) async throws -> [Exercise] {
+    guard let muscleType = MuscleType(rawValue: query) else {
+      return try await service.searchByQuery(query)
     }
-    return exercises
+
+    let exercises = await exerciseDataStore.getByMuscle(muscleType)
+    if exercises.count >= 10 {
+      return exercises
+    } else {
+      let remoteExercises = try await service.searchByQuery(query)
+      backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
+        try await self?.exerciseDataStore.importExercises(remoteExercises)
+      }
+      return remoteExercises
+    }
+  }
+
+  public func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise] {
+    let localExercises = await exerciseDataStore.getByMuscleGroup(muscleGroup)
+    guard localExercises.count < 50 else {
+      return localExercises
+    }
+
+    let remoteExercises = try await service.getByMuscleGroup(muscleGroup)
+    backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
+      try await self?.exerciseDataStore.importExercises(remoteExercises)
+    }
+    return remoteExercises
   }
 
   private func shouldFetchExercisesFromLocalStorage() async -> Bool {

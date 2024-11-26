@@ -42,7 +42,12 @@ public struct PredicateProvider {
           #keyPath(ExerciseEntity.category),
           categories
         )
-        predicate = predicate == nil ? categoryPredicate : NSCompoundPredicate(orPredicateWithSubpredicates: [predicate!, categoryPredicate])
+
+        predicate = if predicate == nil {
+          categoryPredicate
+        } else {
+          NSCompoundPredicate(orPredicateWithSubpredicates: [predicate!, categoryPredicate])
+        }
       }
     }
 
@@ -77,6 +82,14 @@ public struct PredicateProvider {
     return NSPredicate(
       format: "%K == %@",
       #keyPath(GoalEntity.goalID),
+      id as NSUUID
+    )
+  }
+
+  public static func exerciseRatingByID(_ id: UUID) -> NSPredicate {
+    return NSPredicate(
+      format: "%K == %@",
+      #keyPath(ExerciseRatingEntity.ratingID),
       id as NSUUID
     )
   }

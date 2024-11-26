@@ -14,7 +14,7 @@ public struct APIRoute {
     case register
     case currentProfile
     case updateProfile
-
+    
     public var path: String {
       switch self {
       case .login: return "login"
@@ -24,14 +24,14 @@ public struct APIRoute {
       }
     }
   }
-
+  
   public enum ExercisesRoute {
     case index
     case exerciseDetails(UUID)
     case favoriteExercises
     case exercisesByGoals
     case filtered
-
+    
     public var path: String {
       switch self {
       case .index: return ""
@@ -42,22 +42,22 @@ public struct APIRoute {
       }
     }
   }
-
+  
   public enum ExerciseSessionsRoute {
     case index
-
+    
     public var path: String {
       switch self {
       case .index: return ""
       }
     }
   }
-
+  
   public enum GoalsRoute {
     case index
     case goalDetails(UUID)
     case updateProgress
-
+    
     public var path: String {
       switch self {
       case .index: return ""
@@ -66,13 +66,25 @@ public struct APIRoute {
       }
     }
   }
-
+  
   public enum TemplatesRoute {
     case goals
-
+    
     public var path: String {
       switch self {
       case .goals: return "goals"
+      }
+    }
+  }
+  
+  public enum RatingsRoute {
+    case index
+    case exerciseID(UUID)
+
+    public var path: String {
+      switch self {
+      case .index: ""
+      case .exerciseID(let exerciseID): exerciseID.uuidString
       }
     }
   }

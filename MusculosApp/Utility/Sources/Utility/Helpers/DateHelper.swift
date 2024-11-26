@@ -54,6 +54,10 @@ public struct DateHelper {
     return Calendar.current.date(byAdding: .day, value: days, to: Date())!
   }
 
+  public static func nowPlusYears(_ years: Int) -> Date {
+    return Calendar.current.date(byAdding: .year, value: years, to: Date())!
+  }
+
   public static func formatTimeFromSeconds(_ seconds: Double) -> String {
     let formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.minute, .second]

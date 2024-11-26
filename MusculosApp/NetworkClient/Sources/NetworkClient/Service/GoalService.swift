@@ -64,9 +64,3 @@ public struct GoalService: APIService, GoalServiceProtocol, @unchecked Sendable 
     try await client.dispatch(request)
   }
 }
-
-extension GoalService {
-  private struct GoalResponse: Decodable {
-    
-  }
-}

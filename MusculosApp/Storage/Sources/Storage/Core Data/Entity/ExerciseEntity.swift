@@ -15,7 +15,7 @@ import Utility
 public final class ExerciseEntity: NSManagedObject {
   @NSManaged public var category: String?
   @NSManaged public var equipment: String?
-  @NSManaged public var exerciseId: UUID?
+  @NSManaged public var exerciseId: UUID
   @NSManaged public var force: String?
   @NSManaged public var imageUrls: [String]?
   @NSManaged public var instructions: [String]?
@@ -25,7 +25,8 @@ public final class ExerciseEntity: NSManagedObject {
   @NSManaged public var primaryMuscles: Set<PrimaryMuscleEntity>
   @NSManaged public var secondaryMuscles: Set<SecondaryMuscleEntity>
   @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
-  
+  @NSManaged public var exerciseRatings: Set<ExerciseRatingEntity>
+
   @nonobjc public class func fetchRequest() -> NSFetchRequest<ExerciseEntity> {
     return NSFetchRequest<ExerciseEntity>(entityName: "ExerciseEntity")
   }
@@ -87,6 +88,22 @@ extension ExerciseEntity {
   @NSManaged public func removeFromExerciseSessions(_ values: NSSet)
 }
 
+// MARK: Generated accessors for exerciseRatings
+extension ExerciseEntity {
+
+  @objc(addExerciseRatingsObject:)
+  @NSManaged public func addToExerciseRatings(_ value: ExerciseRatingEntity)
+
+  @objc(removeFromExerciseRatings:)
+  @NSManaged public func removeFromExerciseRatings(_ value: ExerciseSessionEntity)
+
+  @objc(addExerciseRatings:)
+  @NSManaged public func addToExerciseRatings(_ values: NSSet)
+
+  @objc(removeExerciseRatings:)
+  @NSManaged public func removeFromExerciseRatings(_ values: NSSet)
+}
+
 extension ExerciseEntity : Identifiable { }
 
 // MARK: - ReadOnlyConvertible
@@ -99,7 +116,7 @@ extension ExerciseEntity: ReadOnlyConvertible {
     return Exercise(
       category: self.category ?? "",
       equipment: self.equipment,
-      id: self.exerciseId!,
+      id: self.exerciseId,
       level: self.level!,
       name: self.name!,
       primaryMuscles: primaryMuscles,

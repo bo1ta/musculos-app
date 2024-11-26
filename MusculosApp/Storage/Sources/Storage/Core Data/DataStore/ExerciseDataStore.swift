@@ -31,10 +31,19 @@ public protocol ExerciseDataStoreProtocol: BaseDataStore, Sendable {
   ///
   func getByID(_ exerciseID: UUID) async -> Exercise?
 
+  /// Get by muscle type
+  /// First it will check for `primaryMuscle` and if no value was found, looks into `secondaryMuscles`
+  ///
+  func getByMuscle(_ muscle: MuscleType) async -> [Exercise]
+
   /// Get all exercises given a list of muscle types
   ///
   func getByMuscles(_ muscles: [MuscleType]) async -> [Exercise]
-  
+
+  /// Get all exercises matching the muscle group
+  ///
+  func getByMuscleGroup(_ muscleGroup: MuscleGroup) async -> [Exercise]
+
   /// Get all favorite exercises
   ///
   func getAllFavorites() async -> [Exercise]
@@ -61,6 +70,10 @@ public protocol ExerciseDataStoreProtocol: BaseDataStore, Sendable {
   /// Adds exercise to the data store
   ///
   func add(_ exercise: Exercise) async throws
+
+  /// Imports exercises to data store
+  ///
+  func importExercises(_ exercises: [Exercise]) async throws
 }
 
 // MARK: - Read methods implementation
@@ -117,7 +130,20 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol {
         .map { $0.toReadOnly() }
     }
   }
-  
+
+  public func getByMuscle(_ muscle: MuscleType) async -> [Exercise] {
+    return await storageManager.performRead { viewStorage in
+      return viewStorage
+        .allObjects(
+          ofType: PrimaryMuscleEntity.self,
+          matching: PredicateProvider.musclesByIds([muscle.id]),
+          sortedBy: nil
+        )
+        .flatMap(\.exercises)
+        .map { $0.toReadOnly() }
+    }
+  }
+
   public func getByMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
     return await storageManager.performRead { viewStorage in
       let muscleIds = muscles.map { $0.id }
@@ -128,11 +154,18 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol {
           matching: PredicateProvider.musclesByIds(muscleIds),
           sortedBy: nil
         )
-        .flatMap { $0.exercises }
-        .map { $0.toReadOnly() }
+        .flatMap(\.exercises)
+        .map {
+          return $0.toReadOnly()
+        }
     }
   }
-  
+
+  public func getByMuscleGroup(_ muscleGroup: MuscleGroup) async -> [Exercise] {
+    let exercises = await getByMuscles(muscleGroup.muscles)
+    return exercises
+  }
+
   public func getAllByGoals(_ goals: [Goal], fetchLimit: Int) async -> [Exercise] {
     return await storageManager.performRead { viewStorage in
       return viewStorage
@@ -156,7 +189,7 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol {
           matching: NSPredicate(format: "NOT (muscleId IN %@)", muscleIds),
           sortedBy: nil
         )
-        .flatMap { $0.exercises }
+        .flatMap(\.exercises)
         .map { $0.toReadOnly() }
     }
   }
@@ -185,5 +218,9 @@ public extension ExerciseDataStore {
   
   public func add(_ exercise: Exercise) async throws {
     try await self.handleObjectSync(remoteObject: exercise, localObjectType: ExerciseEntity.self)
+  }
+
+  public func importExercises(_ exercises: [Exercise]) async throws {
+    return try await self.importToStorage(models: exercises, localObjectType: ExerciseEntity.self)
   }
 }
