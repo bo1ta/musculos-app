@@ -59,4 +59,14 @@ final class StubExerciseDataStore: ExerciseDataStoreProtocol, @unchecked Sendabl
   func getCount() async -> Int {
     return expectedExercises.count
   }
+
+  func getByMuscle(_ muscle: MuscleType) async -> [Exercise] {
+    return expectedExercises
+  }
+
+  func getByMuscleGroup(_ muscleGroup: MuscleGroup) async -> [Exercise] {
+    return expectedExercises
+  }
+
+  func importExercises(_ exercises: [Exercise]) async throws {}
 }
