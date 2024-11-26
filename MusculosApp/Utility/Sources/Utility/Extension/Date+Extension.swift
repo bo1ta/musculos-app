@@ -31,8 +31,24 @@ public extension Date {
   public var month: Int {
     return Calendar.current.component(.month,  from: self)
   }
-  
+
+  public var day: Int {
+    Calendar.current.component(.day, from: self)
+  }
+
   public var isLastDayOfMonth: Bool {
     return dayAfter.month != month
+  }
+
+  public func monthName() -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "MMMM"
+    return formatter.string(from: self)
+  }
+
+  public func dayName() -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "EEEE"
+    return formatter.string(from: self)
   }
 }

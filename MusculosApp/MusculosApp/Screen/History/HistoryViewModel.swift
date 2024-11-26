@@ -20,27 +20,36 @@ final class HistoryViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepository
 
-  private(set) var exerciseSessions: [ExerciseSession] = []
-  private(set) var filteredSessions: [ExerciseSession] = []
-  private(set) var calendarMarkers: [CalendarMarker] = []
-
-  var selectedDate: Date? {
+  private var exerciseSessions: [ExerciseSession] = [] {
     didSet {
-      guard let selectedDate else { return }
-      filterSessions(by: selectedDate)
+      calendarMarkers = exerciseSessions.map { .init(date: $0.dateAdded, color: .red) }
     }
   }
 
-  func filterSessions(by date: Date) {
-    filteredSessions = exerciseSessions.filter({ Calendar.current.isDate($0.dateAdded, equalTo: date, toGranularity: .day) })
+  private(set) var filteredSessions: [ExerciseSession] = []
+  
+  var calendarMarkers: [CalendarMarker] = []
+
+  var selectedDate: Date? {
+    didSet {
+      updateFilteredSessions()
+    }
   }
 
   func initialLoad() async {
     do {
       exerciseSessions = try await exerciseSessionRepository.getExerciseSessions()
-      calendarMarkers = exerciseSessions.map { .init(date: $0.dateAdded, color: .red) }
+      updateFilteredSessions()
     } catch {
       MusculosLogger.logError(error, message: "Cannot fetch sessions for History screen", category: .dataRepository)
+    }
+  }
+
+  func updateFilteredSessions() {
+    if let date = selectedDate {
+      filteredSessions = exerciseSessions.filter({ Calendar.current.isDate($0.dateAdded, equalTo: date, toGranularity: .day) })
+    } else {
+      filteredSessions = exerciseSessions
     }
   }
 }

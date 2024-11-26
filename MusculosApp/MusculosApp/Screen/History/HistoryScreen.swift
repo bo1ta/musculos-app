@@ -11,24 +11,31 @@ import Utility
 import Models
 
 struct HistoryScreen: View {
-  @State private var selectedDate: Date?
-  @State private var calendarMarkers: [CalendarMarker] = []
   @State private var viewModel = HistoryViewModel()
 
+  private let cardGradient = LinearGradient(colors: [.blue, .blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+
   var body: some View {
-    VStack {
-      CalendarView(selectedDate: $selectedDate, calendarMarkers: $calendarMarkers)
+    ScrollView {
+      CalendarView(
+        selectedDate: $viewModel.selectedDate,
+        calendarMarkers: viewModel.calendarMarkers
+      )
 
       if !viewModel.filteredSessions.isEmpty {
         ForEach(viewModel.filteredSessions, id: \.sessionId) { exerciseSession in
-          Text(exerciseSession.exercise.name)
+          SmallCardWithContent(
+            title: exerciseSession.exercise.name,
+            description: exerciseSession.dateAdded.ISO8601Format(),
+            gradient: cardGradient,
+            rightContent: {}
+          )
         }
       }
 
       Spacer()
-
     }
-    .ignoresSafeArea()
+    .padding(.horizontal, 16)
     .task {
       await viewModel.initialLoad()
     }

@@ -35,13 +35,7 @@ struct HomeScreen: View {
         })
 
         if let exercise = viewModel.quickExercise {
-          Group {
-            Text("Quick workout")
-              .font(AppFont.spartan(.semiBold, size: 23))
-            QuickActionCard(title: exercise.name, subtitle: exercise.category, onTap: {
-              navigationRouter.push(.exerciseDetails(exercise))
-            })
-          }
+          QuickWorkoutSection(exercises: [exercise])
         }
 
         ChallengesSection()
