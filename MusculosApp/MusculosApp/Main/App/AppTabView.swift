@@ -16,23 +16,30 @@ struct AppTabView: View {
         }
         .tag(0)
 
+      RunTrackerScreen()
+        .tabItem {
+          Label("Run Tracker", systemImage: "figure.run")
+        }
+        .tag(1)
+
+
       ExploreScreen()
         .tabItem {
           Label("Explore", systemImage: "newspaper")
         }
-        .tag(1)
+        .tag(2)
 
       HistoryScreen()
         .tabItem {
           Label("History", systemImage: "calendar.badge.clock")
         }
-        .tag(2)
+        .tag(3)
 
       ProfileScreen()
         .tabItem {
-          Label("Overview", systemImage: "person")
+          Label("Profile", systemImage: "person")
         }
-        .tag(3)
+        .tag(4)
     }
   }
 }
