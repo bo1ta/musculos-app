@@ -31,6 +31,7 @@
 		BC1674B12BE26EBB0012048D /* AddDetailOptionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1674B02BE26EBB0012048D /* AddDetailOptionCardView.swift */; };
 		BC1674B62BE2E73F0012048D /* AddGoalSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1674B52BE2E73F0012048D /* AddGoalSheet.swift */; };
 		BC1674D42BE2F8F70012048D /* AddGoalSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1674D32BE2F8F70012048D /* AddGoalSheetViewModel.swift */; };
+		BC1F03C22D04B72500DC7AF7 /* UserStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F038C2D04A63500DC7AF7 /* UserStoreTests.swift */; };
 		BC261AB82B6DA0EF0018E21F /* ExerciseFilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC261AB72B6DA0EF0018E21F /* ExerciseFilterSheet.swift */; };
 		BC29B40D2CE4F624005C641F /* MusclesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29B40C2CE4F624005C641F /* MusclesSection.swift */; };
 		BC4078D42C02373E000DE280 /* WorkoutIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D32C02373E000DE280 /* WorkoutIcon.swift */; };
@@ -158,6 +159,7 @@
 		BC1674B02BE26EBB0012048D /* AddDetailOptionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDetailOptionCardView.swift; sourceTree = "<group>"; };
 		BC1674B52BE2E73F0012048D /* AddGoalSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalSheet.swift; sourceTree = "<group>"; };
 		BC1674D32BE2F8F70012048D /* AddGoalSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalSheetViewModel.swift; sourceTree = "<group>"; };
+		BC1F038C2D04A63500DC7AF7 /* UserStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStoreTests.swift; sourceTree = "<group>"; };
 		BC261AB72B6DA0EF0018E21F /* ExerciseFilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFilterSheet.swift; sourceTree = "<group>"; };
 		BC29B40C2CE4F624005C641F /* MusclesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusclesSection.swift; sourceTree = "<group>"; };
 		BC4078D32C02373E000DE280 /* WorkoutIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutIcon.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 		BC1160E52A2CFB840028D8FC /* MusculosAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				BC1F038C2D04A63500DC7AF7 /* UserStoreTests.swift */,
 			);
 			path = MusculosAppTests;
 			sourceTree = "<group>";
@@ -806,6 +809,7 @@
 					};
 					BC1160E12A2CFB840028D8FC = {
 						CreatedOnToolsVersion = 14.3;
+						LastSwiftMigration = 1610;
 						TestTargetID = BC1160CB2A2CFB830028D8FC;
 					};
 				};
@@ -971,6 +975,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC1F03C22D04B72500DC7AF7 /* UserStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1183,6 +1188,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8JV792LAQ5;
@@ -1192,6 +1198,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hawk.MusculosAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MusculosApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MusculosApp";
@@ -1202,6 +1210,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8JV792LAQ5;
@@ -1211,6 +1220,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hawk.MusculosAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MusculosApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MusculosApp";
