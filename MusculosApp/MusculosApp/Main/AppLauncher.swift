@@ -8,18 +8,18 @@
 import Foundation
 import SwiftUI
 
-/// Returns a mock app when launched by unit tests
-///
 @main
 struct AppLauncher {
   static func main() throws {
-    let isRunningUnitTests = NSClassFromString("XCTestCase") != nil
-    
     if isRunningUnitTests {
       TestApp.main()
     } else {
       MusculosApp.main()
     }
+  }
+
+  private static var isRunningUnitTests: Bool {
+    return NSClassFromString("XCTestCase") != nil
   }
 }
 

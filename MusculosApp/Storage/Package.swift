@@ -18,24 +18,11 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "MusculosApp",
-      dependencies: [
-        .product(
-          name: "Utility",
-          package: "Utility"
-        ),
-        .product(
-          name: "Models",
-          package: "Models"
-        ),
-        "Factory"
-      ]
-    ),
-    .target(
       name: "Storage",
       dependencies: [
         .product(name: "Utility", package: "Utility"),
-        .product(name: "Models", package: "Models")
+        .product(name: "Models", package: "Models"),
+        "Factory"
       ]
     ),
     .testTarget(
