@@ -827,9 +827,7 @@
 				BC6249732BEC20AC00393915 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				BC828CDC2C02802500AB9D1D /* XCRemoteSwiftPackageReference "Factory" */,
 				BCF648792C3C36CC00D1C46F /* XCLocalSwiftPackageReference "Models" */,
-				BC545E462C3C730E00713B86 /* XCLocalSwiftPackageReference "Storage" */,
 				BC569FD92C45965900F9C918 /* XCLocalSwiftPackageReference "Components" */,
-				BCFC24C12C98FB9A00F28D7A /* XCLocalSwiftPackageReference "NetworkClient" */,
 				BC08E99A2CA628B60082EDF8 /* XCLocalSwiftPackageReference "Utility" */,
 				BCD0119A2CC174150012CEA0 /* XCLocalSwiftPackageReference "DataRepository" */,
 			);
@@ -1264,10 +1262,6 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Utility;
 		};
-		BC545E462C3C730E00713B86 /* XCLocalSwiftPackageReference "Storage" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Storage;
-		};
 		BC569FD92C45965900F9C918 /* XCLocalSwiftPackageReference "Components" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Components;
@@ -1279,10 +1273,6 @@
 		BCF648792C3C36CC00D1C46F /* XCLocalSwiftPackageReference "Models" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Models;
-		};
-		BCFC24C12C98FB9A00F28D7A /* XCLocalSwiftPackageReference "NetworkClient" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = NetworkClient;
 		};
 /* End XCLocalSwiftPackageReference section */
 

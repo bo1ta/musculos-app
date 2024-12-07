@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "DA44AEB8-7289-439A-AE74-7F608EFA7C23",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "StorageTests",
+        "name" : "StorageTests"
+      }
+    }
+  ],
+  "version" : 1
+}

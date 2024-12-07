@@ -1,27 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1600"
+   LastUpgradeVersion = "1610"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES"
       buildArchitectures = "Automatic">
-      <BuildActionEntries>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Storage"
-               BuildableName = "Storage"
-               BlueprintName = "Storage"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -30,7 +14,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:Tests/StorageTests.xctestplan"
+            reference = "container:Tests/NetworkClientTests.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
@@ -39,9 +23,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StorageTests"
-               BuildableName = "StorageTests"
-               BlueprintName = "StorageTests"
+               BlueprintIdentifier = "NetworkClientTests"
+               BuildableName = "NetworkClientTests"
+               BlueprintName = "NetworkClientTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
@@ -64,15 +48,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Storage"
-            BuildableName = "Storage"
-            BlueprintName = "Storage"
-            ReferencedContainer = "container:">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

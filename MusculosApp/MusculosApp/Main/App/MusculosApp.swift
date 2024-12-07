@@ -93,7 +93,7 @@ struct MusculosApp: App {
       EmptyView()
     case .notifications:
       EmptyView()
-    case .filteredByGoal(let goal):
+    case .filteredByGoal:
       EmptyView()
     }
   }
