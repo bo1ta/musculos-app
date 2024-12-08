@@ -17,10 +17,22 @@ extension NetworkContainer {
   public var client: Factory<MusculosClientProtocol> {
     self {
       MusculosClient(
-        requestMiddlewares: [AuthRequestMiddleware(), RetryMiddleware()],
-        responseMiddlewares: [AuthResponseMiddleware()]
+        requestMiddlewares: [
+          ConnectivityMiddleware(),
+          AuthRequestMiddleware(),
+          RetryMiddleware()
+        ],
+        responseMiddlewares: [
+          AuthResponseMiddleware()
+        ]
       )
     }
+    .cached
+  }
+
+  internal var offlineRequestManager: Factory<OfflineRequestManager> {
+    self { OfflineRequestManager() }
+      .singleton
   }
 
   public var userService: Factory<UserServiceProtocol> {
