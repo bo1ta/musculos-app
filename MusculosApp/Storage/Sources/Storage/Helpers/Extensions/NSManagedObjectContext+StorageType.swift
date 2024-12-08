@@ -201,7 +201,7 @@ extension NSManagedObjectContext: StorageType {
   }
   
   public func perform<ResultType>(_ block: @escaping () -> ResultType) async -> ResultType {
-    return try await withCheckedContinuation { continuation in
+    return await withCheckedContinuation { continuation in
       
       self.perform {
         let result = block()

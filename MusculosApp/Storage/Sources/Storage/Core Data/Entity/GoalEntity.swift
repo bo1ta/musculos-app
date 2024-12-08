@@ -78,8 +78,9 @@ extension GoalEntity: EntitySyncable {
       self.user = user
     }
 
-    guard let progressEntries = model.progressEntries else { return }
-
+    guard let progressEntries = model.progressEntries else {
+      return
+    }
 
     for progress in progressEntries {
       let progressEntity = storage.insertNewObject(ofType: ProgressEntryEntity.self)
@@ -101,11 +102,18 @@ extension GoalEntity: EntitySyncable {
 
     if progressEntries.count > self.progressHistory.count {
       let mappedProgress = self.progressHistory.map { $0.toReadOnly()?.progressID }
+
       let history = progressEntries.filter { entry in
         !mappedProgress.contains(entry.progressID)
       }
+
       for entry in history {
-        let progressEntity = storage.insertNewObject(ofType: ProgressEntryEntity.self)
+        let progressEntity = storage.findOrInsert(
+          of: ProgressEntryEntity.self,
+          using: PredicateProvider.userProfileById(entry.progressID)
+        )
+        progressEntity.populateEntityFrom(entry, using: storage)
+
         addToProgressHistory(progressEntity)
       }
     }

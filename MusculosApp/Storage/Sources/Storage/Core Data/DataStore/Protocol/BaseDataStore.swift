@@ -31,10 +31,10 @@ extension BaseDataStore {
   ) async throws {
     return try await storageManager.performWrite { storage in
       if let existingEntity = storage.firstObject(of: SyncableEntity.self, matching: remoteObject.matchingPredicate()) {
-        try existingEntity.updateEntityFrom(remoteObject, using: storage)
+        existingEntity.updateEntityFrom(remoteObject, using: storage)
       } else {
         let newEntity = storage.insertNewObject(ofType: SyncableEntity.self)
-        try newEntity.populateEntityFrom(remoteObject, using: storage)
+        newEntity.populateEntityFrom(remoteObject, using: storage)
       }
     }
   }
@@ -50,7 +50,7 @@ extension BaseDataStore {
       let existingIdentifiers = storage.fetchUniquePropertyValues(
         of: SyncableEntity.self,
         property: SyncableEntity.ModelType.identifierKey
-      ) ?? Set<UUID>()
+      )
 
       models
         .filter { !existingIdentifiers.contains($0.identifierValue) }

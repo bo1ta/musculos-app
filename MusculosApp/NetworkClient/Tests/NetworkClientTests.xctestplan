@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "FD01BBBF-B610-4DB0-BD54-CAF49DF4C973",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "NetworkClientTests",
+        "name" : "NetworkClientTests"
+      }
+    }
+  ],
+  "version" : 1
+}

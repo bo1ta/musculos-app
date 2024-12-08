@@ -111,11 +111,6 @@ extension UserProfileEntity: ReadOnlyConvertible {
 
 extension UserProfileEntity {
   static func userFromID(_ userID: UUID, on storage: StorageType) -> UserProfileEntity? {
-    let predicate =  NSPredicate(
-      format: "%K == %@",
-      #keyPath(UserProfileEntity.userId),
-      userID as NSUUID
-    )
     return storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(userID))
   }
 }
@@ -168,12 +163,18 @@ extension UserProfileEntity: EntitySyncable {
     self.synchronized = SynchronizationState.synchronized.asNSNumber()
 
     if let goals = model.goals {
+      var goalsSet = Set<GoalEntity>()
+
       for goal in goals {
         let goalEntity = storage.findOrInsert(
           of: GoalEntity.self,
           using: PredicateProvider.goalByID(goal.id)
         )
+        goalEntity.updateEntityFrom(goal, using: storage)
+        goalsSet.insert(goalEntity)
       }
+
+      self.goals = goalsSet
     }
   }
 }

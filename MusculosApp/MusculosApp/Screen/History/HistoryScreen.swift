@@ -17,10 +17,12 @@ struct HistoryScreen: View {
 
   var body: some View {
     ScrollView {
-      CalendarView(
-        selectedDate: $viewModel.selectedDate,
-        calendarMarkers: viewModel.calendarMarkers
-      )
+      VStack {
+        CalendarView(
+          selectedDate: $viewModel.selectedDate,
+          calendarMarkers: viewModel.calendarMarkers
+        )
+      }
 
       if !viewModel.filteredSessions.isEmpty {
         ForEach(viewModel.filteredSessions, id: \.sessionId) { exerciseSession in

@@ -33,6 +33,9 @@ extension RecommendationSection {
             .clipShape(RoundedRectangle(cornerRadius: 20))
         case .failure(let error):
           EmptyView()
+            .onAppear {
+              MusculosLogger.logError(error, message: "Error rendering section item iage", category: .ui)
+            }
         @unknown default:
           EmptyView()
         }

@@ -156,7 +156,7 @@ extension ExerciseEntity: EntitySyncable {
     }
 
     let exerciseEntity = storage.insertNewObject(ofType: ExerciseEntity.self)
-    try exerciseEntity.populateEntityFrom(model, using: storage)
+    exerciseEntity.populateEntityFrom(model, using: storage)
     return exerciseEntity
   }
 }
