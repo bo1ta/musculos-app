@@ -13,7 +13,6 @@ struct AuthRequestMiddleware: RequestMiddleware {
     guard request.endpoint.isAuthorizationRequired, let authToken else {
       return try await proceed(request)
     }
-    print("od")
 
     var newRequest = request
     newRequest.authToken = authToken
