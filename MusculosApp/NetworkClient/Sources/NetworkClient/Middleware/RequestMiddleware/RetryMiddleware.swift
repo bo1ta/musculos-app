@@ -9,6 +9,8 @@ import Foundation
 import Utility
 
 struct RetryMiddleware: RequestMiddleware {
+  var priority: MiddlewarePriority { .retryMiddleware }
+
   let maxRetryCount: Int
   let retryDelay: TimeInterval
 
@@ -19,7 +21,7 @@ struct RetryMiddleware: RequestMiddleware {
 
   func intercept(request: APIRequest, proceed: @Sendable @escaping (APIRequest) async throws -> (Data, URLResponse)) async throws -> (Data, URLResponse) {
     try await retrying(maxRetryCount: maxRetryCount, retryDelay: retryDelay, shouldRetry: shouldRetry) {
-      try await proceed(request)
+      return try await proceed(request)
     }
   }
 
@@ -39,7 +41,7 @@ struct RetryMiddleware: RequestMiddleware {
   private func retrying<Success>(
     maxRetryCount: Int = 3,
     retryDelay: TimeInterval = 1,
-    shouldRetry: @Sendable @escaping (Error) -> Bool = { _ in true },
+    shouldRetry: @Sendable @escaping (Error) -> Bool,
     operation: @Sendable @escaping () async throws -> Success
   ) async throws -> Success {
     var currentDelay = retryDelay

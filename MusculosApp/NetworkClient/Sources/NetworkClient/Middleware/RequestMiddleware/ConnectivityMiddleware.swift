@@ -10,6 +10,8 @@ import Foundation
 import Utility
 
 struct ConnectivityMiddleware: RequestMiddleware, @unchecked Sendable {
+  var priority: MiddlewarePriority{ .connectivityMiddleware }
+
   @Injected(\NetworkContainer.offlineRequestManager) private var offlineManager: OfflineRequestManager
 
   func intercept(request: APIRequest, proceed: @escaping (APIRequest) async throws -> (Data, URLResponse)) async throws -> (Data, URLResponse) {

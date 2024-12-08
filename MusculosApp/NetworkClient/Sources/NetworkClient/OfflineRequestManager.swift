@@ -29,6 +29,9 @@ actor OfflineRequestManager {
   }
 
   func addToPendingRequests(_ request: APIRequest) {
+    guard request.method == .post else {
+      return
+    }
     pendingRequests.append(request)
   }
 
@@ -36,8 +39,8 @@ actor OfflineRequestManager {
     return (error as? URLError)?.code == .notConnectedToInternet
   }
 
-  func cancelPendingRequests() async {
-    await queue.addBarrierOperation(operation: {})
+  func cancelPendingRequests() async {1
+    await queue.addBarrierOperation(operation: {}).value
     pendingRequests.removeAll()
   }
 

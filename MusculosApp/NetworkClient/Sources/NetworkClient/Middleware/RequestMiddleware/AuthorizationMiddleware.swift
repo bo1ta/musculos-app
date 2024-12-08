@@ -9,6 +9,8 @@ import Foundation
 import Storage
 
 struct AuthorizationMiddleware: RequestMiddleware {
+  var priority: MiddlewarePriority { .authorizationMiddleware }
+
   func intercept(request: APIRequest, proceed: @escaping (APIRequest) async throws -> (Data, URLResponse)) async throws -> (Data, URLResponse) {
     guard request.endpoint.isAuthorizationRequired, let authToken else {
       return try await proceed(request)

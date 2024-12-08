@@ -17,10 +17,14 @@ struct MiddlewarePipeline {
     self.responseMiddlewares = responseMiddlewares
   }
 
+  private var sortedRequestMiddlewares: [RequestMiddleware] {
+    requestMiddlewares.sorted { $0.priority.rawValue < $1.priority.rawValue }
+  }
+
   func execute(request: APIRequest, using session: URLSession) async throws -> (Data, URLResponse) {
     var modifiedRequest = request
 
-    let requestHandler: @Sendable (APIRequest) async throws -> (Data, URLResponse) = { modifiedRequest in
+    let finalRequestHandler: @Sendable (APIRequest) async throws -> (Data, URLResponse) = { modifiedRequest in
       guard let urlRequest = modifiedRequest.asURLRequest() else {
         throw MusculosError.badRequest
       }
@@ -28,7 +32,7 @@ struct MiddlewarePipeline {
       return try await session.data(for: urlRequest)
     }
 
-    let response = try await executeRequestMiddlewares(request: request, handler: requestHandler)
+    let response = try await executeRequestMiddlewares(request: request, handler: finalRequestHandler)
     return try await executeResponseMiddlewares(response: response, for: request)
   }
 
@@ -38,7 +42,7 @@ struct MiddlewarePipeline {
   ) async throws -> (Data, URLResponse) {
     var nextHandler = handler
 
-    for middleware in requestMiddlewares {
+    for middleware in sortedRequestMiddlewares {
       let currentHandler = nextHandler
 
       nextHandler = { modifiedRequest in
