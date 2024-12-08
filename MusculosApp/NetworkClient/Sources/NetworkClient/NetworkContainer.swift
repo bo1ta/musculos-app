@@ -19,11 +19,11 @@ extension NetworkContainer {
       MusculosClient(
         requestMiddlewares: [
           ConnectivityMiddleware(),
-          AuthRequestMiddleware(),
+          AuthorizationMiddleware(),
           RetryMiddleware()
         ],
         responseMiddlewares: [
-          AuthResponseMiddleware()
+          AuthCheckerMiddleware()
         ]
       )
     }

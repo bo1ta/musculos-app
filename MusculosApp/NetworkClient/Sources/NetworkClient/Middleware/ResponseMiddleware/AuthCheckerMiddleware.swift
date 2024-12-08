@@ -8,11 +8,11 @@
 import Foundation
 import Utility
 
-struct AuthResponseMiddleware: ResponseMiddleware {
+struct AuthCheckerMiddleware: ResponseMiddleware {
   func intercept(response: (Data, URLResponse), for request: APIRequest) async throws -> (Data, URLResponse) {
     let (data, urlResponse) = response
 
-    if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+    if let httpResponse = urlResponse as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
       if isInvalidTokenResponse(httpResponse: httpResponse) {
         sendInvalidTokenNotification()
       }

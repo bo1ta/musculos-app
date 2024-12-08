@@ -15,10 +15,15 @@ public protocol MusculosClientProtocol: Sendable {
 
 public struct MusculosClient: MusculosClientProtocol {
   private let pipeline: MiddlewarePipeline
-  private let urlSession: URLSession
 
-  init(urlSession: URLSession = .shared, requestMiddlewares: [RequestMiddleware] = [], responseMiddlewares: [ResponseMiddleware] = []) {
-    self.urlSession = urlSession
+  private let urlSession = {
+    let urlSession = URLSession(configuration: .default)
+    urlSession.configuration.urlCache = URLCache(memoryCapacity: 25 * 1024 * 1024, diskCapacity: 50 * 1024 * 1024)
+    urlSession.configuration.requestCachePolicy = .useProtocolCachePolicy
+    return urlSession
+  }()
+
+  init(requestMiddlewares: [RequestMiddleware] = [], responseMiddlewares: [ResponseMiddleware] = []) {
     self.pipeline = MiddlewarePipeline(requestMiddlewares: requestMiddlewares, responseMiddlewares: responseMiddlewares)
   }
   
