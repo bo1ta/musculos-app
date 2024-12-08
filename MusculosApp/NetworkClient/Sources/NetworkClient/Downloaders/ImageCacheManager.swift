@@ -62,7 +62,7 @@ struct ImageDownloader {
   
   func downloadImage(from url: URL) async -> Image? {
     do {
-      let (data, _) = try await client.urlSession.data(from: url)
+      let (data, _) = try await URLSession.shared.data(from: url)
       
       if let uiImage = UIImage(data: data) {
         return Image(uiImage: uiImage)

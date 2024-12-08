@@ -6,6 +6,7 @@
 //
 
 import Factory
+import Utility
 
 public final class NetworkContainer: SharedContainer {
   nonisolated(unsafe) public static let shared = NetworkContainer()
@@ -14,7 +15,12 @@ public final class NetworkContainer: SharedContainer {
 
 extension NetworkContainer {
   public var client: Factory<MusculosClientProtocol> {
-    self { MusculosClient() }
+    self {
+      MusculosClient(
+        requestMiddlewares: [AuthRequestMiddleware(), RetryMiddleware()],
+        responseMiddlewares: [AuthResponseMiddleware()]
+      )
+    }
   }
 
   public var userService: Factory<UserServiceProtocol> {
