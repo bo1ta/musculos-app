@@ -34,10 +34,9 @@ struct UserAvatar: View {
       @unknown default:
         EmptyView()
           .onAppear {
-            MusculosLogger.logError(
+            Logger.logError(
               MusculosError.unknownError,
-              message: "Unknown error while fetching avatar",
-              category: .networking
+              message: "Unknown error while fetching avatar"
             )
           }
       }

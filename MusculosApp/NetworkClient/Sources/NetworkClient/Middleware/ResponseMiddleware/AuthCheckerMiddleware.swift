@@ -9,6 +9,8 @@ import Foundation
 import Utility
 
 struct AuthCheckerMiddleware: ResponseMiddleware {
+  var priority: ResponseMiddlewarePriority { .authChecker }
+
   func intercept(response: (Data, URLResponse), for request: APIRequest) async throws -> (Data, URLResponse) {
     let (data, urlResponse) = response
 

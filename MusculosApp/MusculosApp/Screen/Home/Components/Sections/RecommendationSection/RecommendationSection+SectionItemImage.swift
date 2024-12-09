@@ -34,7 +34,7 @@ extension RecommendationSection {
         case .failure(let error):
           EmptyView()
             .onAppear {
-              MusculosLogger.logError(error, message: "Error rendering section item iage", category: .ui)
+              Logger.logError(error, message: "Error rendering section item image")
             }
         @unknown default:
           EmptyView()

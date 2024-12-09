@@ -23,7 +23,8 @@ extension NetworkContainer {
           RetryMiddleware()
         ],
         responseMiddlewares: [
-          AuthCheckerMiddleware()
+          AuthCheckerMiddleware(),
+          LoggingMiddleware()
         ]
       )
     }

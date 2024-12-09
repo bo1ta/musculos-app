@@ -17,6 +17,10 @@ struct MiddlewarePipeline {
     self.responseMiddlewares = responseMiddlewares
   }
 
+  private var sortedResponseMiddlewares: [ResponseMiddleware] {
+    responseMiddlewares.sorted { $0.priority.rawValue < $1.priority.rawValue }
+  }
+
   private var sortedRequestMiddlewares: [RequestMiddleware] {
     requestMiddlewares.sorted { $0.priority.rawValue < $1.priority.rawValue }
   }
@@ -59,7 +63,7 @@ struct MiddlewarePipeline {
   ) async throws -> (Data, URLResponse) {
     var modifiedResponse = response
 
-    for middleware in responseMiddlewares {
+    for middleware in sortedResponseMiddlewares {
       modifiedResponse = try await middleware.intercept(response: modifiedResponse, for: request)
     }
 

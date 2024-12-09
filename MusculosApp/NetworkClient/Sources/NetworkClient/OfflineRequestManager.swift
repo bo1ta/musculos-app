@@ -60,7 +60,7 @@ actor OfflineRequestManager {
     for request in requestsToRetry {
       do {
         let data = try await dispatch(request)
-        MusculosLogger.logInfo(message: "Retry succeeded after recovering network connectivity", category: .networking)
+        Logger.logInfo(message: "Retry succeeded after recovering network connectivity")
       } catch {
         if isConnectionError(error) {
           addToPendingRequests(request)

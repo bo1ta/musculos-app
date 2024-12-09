@@ -73,7 +73,7 @@ final class AddGoalSheetViewModel {
         try await goalRepository.addGoal(goal)
         didSavePublisher.send(())
       } catch {
-        MusculosLogger.logError(error, message: "Could not save goal", category: .coreData)
+        Logger.logError(error, message: "Could not save goal")
       }
     }
   }
