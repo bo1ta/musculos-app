@@ -204,7 +204,7 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol {
 // MARK: - Write methods implementation
 
 public extension ExerciseDataStore {
-  public func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws {
+  func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       guard let exercise = writerDerivedStorage.firstObject(
         of: ExerciseEntity.self,
@@ -216,11 +216,11 @@ public extension ExerciseDataStore {
     }
   }
   
-  public func add(_ exercise: Exercise) async throws {
+  func add(_ exercise: Exercise) async throws {
     try await self.handleObjectSync(remoteObject: exercise, localObjectType: ExerciseEntity.self)
   }
 
-  public func importExercises(_ exercises: [Exercise]) async throws {
+  func importExercises(_ exercises: [Exercise]) async throws {
     return try await self.importToStorage(models: exercises, localObjectType: ExerciseEntity.self)
   }
 }

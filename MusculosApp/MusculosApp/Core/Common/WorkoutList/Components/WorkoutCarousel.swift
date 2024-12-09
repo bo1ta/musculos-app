@@ -40,12 +40,12 @@ struct WorkoutCarousel: View {
                   .frame(width: 100, height: 100)
                   .shadow(radius: 1.3)
                   .onAppear {
-                    MusculosLogger.logError(error, message: "Error on CarouselExercise", category: .ui)
+                    Logger.logError(error, message: "Error on CarouselExercise")
                   }
               @unknown default:
                 Color.clear
                   .onAppear {
-                    MusculosLogger.logError(MusculosError.unknownError, message: "Errored on CarouselView", category: .ui)
+                    Logger.logError(MusculosError.unknownError, message: "Errored on CarouselView")
                   }
               }
             }

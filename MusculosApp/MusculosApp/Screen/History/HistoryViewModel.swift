@@ -40,7 +40,7 @@ final class HistoryViewModel {
       exerciseSessions = try await exerciseSessionRepository.getExerciseSessions()
       updateFilteredSessions()
     } catch {
-      MusculosLogger.logError(error, message: "Cannot fetch sessions for History screen", category: .dataRepository)
+      Logger.logError(error, message: "Cannot fetch sessions for History screen")
     }
   }
 

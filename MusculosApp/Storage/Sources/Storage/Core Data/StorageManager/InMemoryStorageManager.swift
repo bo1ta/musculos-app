@@ -35,7 +35,7 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
         container.persistentStoreDescriptions = [description]
         container.loadPersistentStores { _, error in
           if let error = error {
-            MusculosLogger.logError(error, message: "Failed to load persistent store", category: .coreData)
+            Logger.logError(error, message: "Failed to load persistent store")
           }
         }
         _persistentContainer = container

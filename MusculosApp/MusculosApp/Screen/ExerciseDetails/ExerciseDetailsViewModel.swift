@@ -91,7 +91,7 @@ final class ExerciseDetailsViewModel {
       exercise = try await exerciseRepository.getExerciseDetails(for: exercise.id)
     } catch {
       showErrorToast()
-      MusculosLogger.logError(error, message: "Cannot load exercise details", category: .dataRepository)
+      Logger.logError(error, message: "Cannot load exercise details")
     }
   }
 
@@ -104,7 +104,7 @@ final class ExerciseDetailsViewModel {
       }
     } catch {
       showErrorToast()
-      MusculosLogger.logError(error, message: "Could not load exercise ratings", category: .dataRepository)
+      Logger.logError(error, message: "Could not load exercise ratings")
     }
   }
 
@@ -120,7 +120,7 @@ final class ExerciseDetailsViewModel {
         try await ratingRepository.addRating(rating: Double(rating), for: exercise.id)
         showRatingDialog = false
       } catch {
-        MusculosLogger.logError(error, message: "Could not save rating", category: .dataRepository)
+        Logger.logError(error, message: "Could not save rating")
       }
     }
   }
@@ -146,7 +146,7 @@ final class ExerciseDetailsViewModel {
 
       } catch {
         self.isFavorite = !isFavorite
-        MusculosLogger.logError(error, message: "Could not update exercise.isFavorite", category: .coreData)
+        Logger.logError(error, message: "Could not update exercise.isFavorite")
       }
     }
   }
@@ -158,7 +158,7 @@ final class ExerciseDetailsViewModel {
         try await exerciseSessionRepository.addSession(exercise, dateAdded: Date(), duration: Double(self.elapsedTime), weight: inputWeight ?? 0)
         try await maybeUpdateGoals()
       } catch {
-        MusculosLogger.logError(error, message: "Could not save exercise session", category: .coreData)
+        Logger.logError(error, message: "Could not save exercise session")
       }
     }
   }

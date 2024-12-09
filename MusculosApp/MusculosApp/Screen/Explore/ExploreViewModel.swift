@@ -103,7 +103,7 @@ extension ExploreViewModel {
     do {
       featuredExercises = try await exerciseRepository.getExercises()
     } catch {
-      MusculosLogger.logError(error, message: "Could not load exercises", category: .dataRepository)
+      Logger.logError(error, message: "Could not load exercises")
     }
   }
 
@@ -111,7 +111,7 @@ extension ExploreViewModel {
     do {
       recommendedExercisesByGoals = try await exerciseRepository.getRecommendedExercisesByGoals()
     } catch {
-      MusculosLogger.logError(error, message: "Could not load recommendations by goals", category: .coreData)
+      Logger.logError(error, message: "Could not load recommendations by goals")
     }
   }
 
@@ -119,7 +119,7 @@ extension ExploreViewModel {
     do {
       recommendedExercisesByPastSessions = try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
     } catch {
-      MusculosLogger.logError(error, message: "Could not load recommendations by past sessions", category: .coreData)
+      Logger.logError(error, message: "Could not load recommendations by past sessions")
     }
   }
 
@@ -130,7 +130,7 @@ extension ExploreViewModel {
       do {
         featuredExercises = try await exerciseRepository.searchByQuery(query)
       } catch {
-        MusculosLogger.logError(error, message: "Could not search by muscle query", category: .networking, properties: ["query": query])
+        Logger.logError(error, message: "Could not search by muscle query", properties: ["query": query])
       }
     }
   }
@@ -139,7 +139,7 @@ extension ExploreViewModel {
     do {
       favoriteExercises = try await exerciseRepository.getFavoriteExercises()
     } catch {
-      MusculosLogger.logError(error, message: "Data controller failed to get exercises", category: .coreData)
+      Logger.logError(error, message: "Data controller failed to get exercises")
     }
   }
 
@@ -147,7 +147,7 @@ extension ExploreViewModel {
     do {
       exercisesCompletedToday = try await exerciseSessionRepository.getCompletedToday()
     } catch {
-      MusculosLogger.logError(error, message: "Data controller failed to get exercises completed today", category: .coreData)
+      Logger.logError(error, message: "Data controller failed to get exercises completed today")
     }
   }
 
@@ -155,7 +155,7 @@ extension ExploreViewModel {
     do {
       goals = try await goalRepository.getGoals()
     } catch {
-      MusculosLogger.logError(error, message: "Could not get goals", category: .dataRepository)
+      Logger.logError(error, message: "Could not get goals")
     }
   }
 }

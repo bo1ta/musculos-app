@@ -74,7 +74,7 @@ final class HomeViewModel {
     do {
       goals = try await goalRepository.getGoals()
     } catch {
-      MusculosLogger.logError(error, message: "Error loading goals for home view", category: .dataRepository)
+      Logger.logError(error, message: "Error loading goals for home view")
     }
   }
 
@@ -82,7 +82,7 @@ final class HomeViewModel {
     do {
       quickExercise = try await exerciseRepository.getExercisesByWorkoutGoal(.improveEndurance).first
     } catch {
-      MusculosLogger.logError(error, message: "Error loading exercises for home view", category: .dataRepository)
+      Logger.logError(error, message: "Error loading exercises for home view")
     }
   }
 }

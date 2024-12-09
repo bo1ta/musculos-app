@@ -78,7 +78,7 @@ class AuthenticationViewModel {
         sendEvent(.onLoginSuccess(session))
       } catch {
         sendEvent(.onLoginFailure(error))
-        MusculosLogger.logError(error, message: "Sign in failed", category: .networking)
+        Logger.logError(error, message: "Sign in failed")
       }
     }
   }
@@ -101,7 +101,7 @@ class AuthenticationViewModel {
         sendEvent(.onRegisterSuccess(session))
       } catch {
         sendEvent(.onRegisterFailure(error))
-        MusculosLogger.logError(error, message: "Sign Up failed", category: .networking)
+        Logger.logError(error, message: "Sign Up failed")
       }
     }
   }

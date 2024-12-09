@@ -86,10 +86,10 @@ struct AuthenticationScreen: View {
       userStore.handlePostLogin(session: userSession)
     case .onLoginFailure(let error):
       toast = .init(style: .error, message: "Could not register. Please try again later")
-      MusculosLogger.logError(error, message: "Login failed", category: .networking)
+      Logger.logError(error, message: "Login failed")
     case .onRegisterFailure(let error):
       toast = .init(style: .error, message: "Could not register. Please try again later")
-      MusculosLogger.logError(error, message: "Register failed", category: .networking)
+      Logger.logError(error, message: "Register failed")
     }
   }
 }

@@ -28,7 +28,7 @@ public actor RatingRepository: BaseRepository {
     }
 
     let ratings = try await service.getExerciseRatingsForCurrentUser()
-    backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
+    backgroundWorker.queueOperation { [weak self] in
       try await self?.dataStore.importExerciseRatings(ratings)
     }
     return ratings
@@ -45,7 +45,7 @@ public actor RatingRepository: BaseRepository {
     }
 
     let ratings = try await service.getRatingsByExerciseID(exerciseID)
-    backgroundWorker.queueOperation(priority: .low, operationType: .local) { [weak self] in
+    backgroundWorker.queueOperation { [weak self] in
       try await self?.dataStore.importExerciseRatings(ratings)
     }
     return ratings
@@ -59,7 +59,7 @@ public actor RatingRepository: BaseRepository {
     let exerciseRating = ExerciseRating(exerciseID: exerciseID, userID: currentUserID, isPublic: true, rating: rating)
 
     try await dataStore.addExerciseRating(exerciseRating)
-    backgroundWorker.queueOperation(priority: .low, operationType: .remote) { [weak self] in
+    backgroundWorker.queueOperation { [weak self] in
       try await self?.service.addExerciseRating(exerciseRating)
     }
   }

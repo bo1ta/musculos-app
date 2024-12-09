@@ -26,7 +26,7 @@ public actor GoalRepository: BaseRepository {
   public func addGoal(_ goal: Goal) async throws {
     try await dataStore.add(goal)
 
-    backgroundWorker.queueOperation(priority: .low, operationType: .remote) { [weak self] in
+    backgroundWorker.queueOperation { [weak self] in
       try await self?.service.addGoal(goal)
     }
   }
@@ -34,7 +34,7 @@ public actor GoalRepository: BaseRepository {
   public func getGoalDetails(_ goalID: UUID) async throws -> Goal? {
     let goal = await dataStore.getByID(goalID)
 
-    let backgroundTask = backgroundWorker.queueOperation(priority: .low, operationType: .remote) { [weak self] in
+    let backgroundTask = backgroundWorker.queueOperation { [weak self] in
       return try await self?.service.getGoalByID(goalID)
     }
 
@@ -56,7 +56,7 @@ public actor GoalRepository: BaseRepository {
     }
 
     let remoteGoals = try await service.getUserGoals()
-    backgroundWorker.queueOperation(priority: .high, operationType: .local) { [weak self] in
+    backgroundWorker.queueOperation { [weak self] in
       try await self?.dataStore.importToStorage(models: remoteGoals, localObjectType: GoalEntity.self)
     }
     return remoteGoals

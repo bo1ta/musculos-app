@@ -8,10 +8,9 @@
 import Foundation
 import Factory
 import Models
-@testable import MusculosApp
 
 class StorageHelper {
-  static let shared = StorageHelper()
+  nonisolated(unsafe) static let shared = StorageHelper()
   
   private var isStoragePopulated = false
 

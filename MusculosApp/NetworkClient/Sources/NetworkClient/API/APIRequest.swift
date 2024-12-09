@@ -6,23 +6,20 @@
 //
 
 import Foundation
-import Factory
 import Utility
 import Models
-import Storage
 
-public struct APIRequest {
-  @Injected(\StorageContainer.userManager) var userManager
-
+public struct APIRequest: @unchecked Sendable {
   public var method: HTTPMethod
   public var endpoint: Endpoint
   public var queryParams: [URLQueryItem]?
   public var body: [String: Any]?
   public var opk: String?
+  public var authToken: String?
 
   var contentType: String { "application/json" }
 
-  public func asURLRequest() async -> URLRequest? {
+  public func asURLRequest() -> URLRequest? {
     guard var baseURL = APIEndpoint.baseWithEndpoint(endpoint: endpoint) else { return nil }
 
     if let opk {
@@ -47,20 +44,12 @@ public struct APIRequest {
     var newHeaders: [String: String] = [:]
     newHeaders[HTTPHeaderConstant.contentType] = self.contentType
 
-    if endpoint.isAuthorizationRequired {
-      if let authToken {
+    if endpoint.isAuthorizationRequired, let authToken {
         newHeaders[HTTPHeaderConstant.authorization] = "Bearer \(authToken)"
-      } else {
-        return nil
-      }
     }
     
     request.allHTTPHeaderFields = newHeaders
     return request
-  }
-
-  public var authToken: String? {
-    return userManager.currentUserSession?.token.value
   }
 
   private func requestBody(from body: [String: Any]) -> Data? {

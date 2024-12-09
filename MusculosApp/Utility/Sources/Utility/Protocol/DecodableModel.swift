@@ -17,10 +17,9 @@ public extension DecodableModel where Self: Codable {
     do {
       return try JSONHelper.decoder.decode(Self.self, from: data)
     } catch {
-      MusculosLogger.logError(
+      Logger.logError(
         error,
         message: "Could not decode object",
-        category: .networking,
         properties: ["object": String(describing: Self.self)]
       )
       throw error
@@ -31,10 +30,9 @@ public extension DecodableModel where Self: Codable {
     do {
       return try JSONHelper.decoder.decode([Self].self, from: data)
     } catch {
-      MusculosLogger.logError(
+      Logger.logError(
         error,
         message: "Could not decode object",
-        category: .networking,
         properties: ["object": String(describing: Self.self)]
       )
       throw error

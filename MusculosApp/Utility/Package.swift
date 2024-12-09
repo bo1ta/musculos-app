@@ -12,8 +12,8 @@ let package = Package(
             targets: ["Utility"]),
     ],
     dependencies: [
-      .package(url: "https://github.com/hmlongco/Factory", exact: "2.3.2"),
-      .package(url: "https://github.com/markiv/SwiftUI-Shimmer", exact: "1.4.2")
+      .package(url: "https://github.com/markiv/SwiftUI-Shimmer", exact: "1.4.2"),
+      .package(url: "https://github.com/SwiftyBeaver/SwiftyBeaver.git", .upToNextMajor(from: "2.0.0")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -21,8 +21,8 @@ let package = Package(
         .target(
           name: "Utility",
           dependencies: [
-            .product(name: "Factory", package: "Factory"),
-            .product(name: "Shimmer", package: "SwiftUI-Shimmer")
+            "SwiftyBeaver",
+            .product(name: "Shimmer", package: "SwiftUI-Shimmer"),
           ]
         ),
     ]

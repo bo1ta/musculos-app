@@ -86,7 +86,7 @@ public struct GoalDataStore: GoalDataStoreProtocol {
 
       guard !goal.progressHistory.contains(where: { $0.progressID == progressEntry.progressID }) else { return }
       let entity = storage.insertNewObject(ofType: ProgressEntryEntity.self)
-      
+      entity.populateEntityFrom(progressEntry, using: storage)
     }
   }
 }
