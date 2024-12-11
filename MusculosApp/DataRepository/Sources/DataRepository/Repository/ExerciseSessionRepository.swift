@@ -28,7 +28,7 @@ public actor ExerciseSessionRepository: BaseRepository {
     }
 
     let exerciseSessions = try await service.getAll()
-    backgroundWorker.queueOperation(priority: .medium, operationType: .local) { [weak self] in
+    backgroundWorker.queueOperation { [weak self] in
       try await self?.dataStore.importToStorage(models: exerciseSessions, localObjectType: ExerciseSessionEntity.self)
     }
     return exerciseSessions

@@ -22,7 +22,7 @@ public struct PhotoWriter {
       try data.write(to: destionationUrl)
       return destionationUrl
     } catch {
-      MusculosLogger.logError(error, message: "Could not write image to disk", category: .ui)
+      Logger.logError(error, message: "Could not write image to disk")
       return nil
     }
   }

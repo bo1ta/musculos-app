@@ -72,7 +72,7 @@ final class AddExerciseSheetViewModel {
         try await exerciseRepository.addExercise(exercise)
         didSavePublisher.send(())
       } catch {
-        MusculosLogger.logError(error, message: "Could not save exercise", category: .coreData)
+        Logger.logError(error, message: "Could not save exercise")
       }
     }
   }

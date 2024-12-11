@@ -175,7 +175,7 @@ extension AddWorkoutSheetViewModel {
           state = .loaded(results)
         }
       } catch {
-        MusculosLogger.logError(error, message: "Error searching query", category: .dataRepository)
+        Logger.logError(error, message: "Error searching query")
       }
     }
   }
@@ -200,7 +200,7 @@ extension AddWorkoutSheetViewModel {
         try await workoutDataStore.create(workout, userId: currentUserID)
         didSaveSubject.send(())
       } catch {
-        MusculosLogger.logError(error, message: "Could not add workout", category: .coreData)
+        Logger.logError(error, message: "Could not add workout")
       }
     }
   }

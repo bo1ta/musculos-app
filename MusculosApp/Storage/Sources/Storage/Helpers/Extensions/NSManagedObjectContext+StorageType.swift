@@ -53,7 +53,7 @@ extension NSManagedObjectContext: StorageType {
     do {
       result = try count(for: request)
     } catch {
-      MusculosLogger.logError(error, message: "Unable to count objects", category: .coreData)
+      Logger.logError(error, message: "Unable to count objects")
     }
     
     return result
@@ -61,7 +61,7 @@ extension NSManagedObjectContext: StorageType {
   
   public func deleteObject<T: Object>(_ object: T) {
     guard let object = object as? NSManagedObject else {
-      MusculosLogger.logError(MusculosError.decodingError, message: "Cannot delete object! Invalid kind", category: .coreData)
+      Logger.logError(MusculosError.decodingError, message: "Cannot delete object! Invalid kind")
       return
     }
     
@@ -96,10 +96,9 @@ extension NSManagedObjectContext: StorageType {
   
   public func loadObject<T: Object>(ofType type: T.Type, with objectID: T.ObjectID) -> T? {
     guard let objectID = objectID as? NSManagedObjectID else {
-      MusculosLogger.logError(
+      Logger.logError(
         MusculosError.notFound,
         message: "Cannot find objectID in context",
-        category: .coreData,
         properties: ["object_name": T.entityName]
       )
       return nil
@@ -108,10 +107,9 @@ extension NSManagedObjectContext: StorageType {
     do {
       return try existingObject(with: objectID) as? T
     } catch {
-      MusculosLogger.logError(
+      Logger.logError(
         error,
         message: "Error loading object",
-        category: .coreData,
         properties: ["object_name": T.entityName]
       )
     }
@@ -133,10 +131,9 @@ extension NSManagedObjectContext: StorageType {
       try save()
     } catch {
       rollback()
-      MusculosLogger.logError(
+      Logger.logError(
         error,
-        message: "Failed to save context",
-        category: .coreData
+        message: "Failed to save context"
       )
     }
   }
@@ -154,10 +151,9 @@ extension NSManagedObjectContext: StorageType {
         return dict[propertyToFetch] as? UUID
       })
     } catch {
-      MusculosLogger.logError(
+      Logger.logError(
         error,
         message: "Cannot fetch by property",
-        category: .coreData,
         properties: [
           "property_name": propertyToFetch,
           "entity_name": type.entityName
@@ -174,7 +170,7 @@ extension NSManagedObjectContext: StorageType {
     do {
       objects = try self.fetch(request) as? [T]
     } catch {
-      MusculosLogger.logError(error, message: "Could not load objects", category: .coreData)
+      Logger.logError(error, message: "Could not load objects")
     }
     return objects ?? []
   }
@@ -201,7 +197,7 @@ extension NSManagedObjectContext: StorageType {
   }
   
   public func perform<ResultType>(_ block: @escaping () -> ResultType) async -> ResultType {
-    return try await withCheckedContinuation { continuation in
+    return await withCheckedContinuation { continuation in
       
       self.perform {
         let result = block()

@@ -80,7 +80,7 @@ final class UserStore {
     case .authenticated(let userSession):
       handlePostLogin(session: userSession)
     case .unauthenticated:
-      MusculosLogger.logInfo(message: "Could not find user. Using logged-out state", category: .coreData)
+      Logger.logInfo(message: "Could not find user. Using logged-out state")
     }
   }
 
@@ -91,7 +91,7 @@ final class UserStore {
       do {
         try await self?.loadCurrentUser()
       } catch {
-        MusculosLogger.logError(error, message: "Could not refresh user", category: .coreData)
+        Logger.logError(error, message: "Could not refresh user")
       }
     }
   }
@@ -113,7 +113,7 @@ final class UserStore {
         try await loadCurrentUser()
         sendEvent(.didLogin)
       } catch {
-        MusculosLogger.logError(error, message: "Error loading current user", category: .coreData)
+        Logger.logError(error, message: "Error loading current user")
       }
     }
   }
@@ -124,7 +124,7 @@ final class UserStore {
         try await self?.userRepository.updateProfileUsingOnboardingData(onboardingData)
         self?.sendEvent(.didFinishOnboarding)
       } catch {
-        MusculosLogger.logError(error, message: "Could not update profile with onboarding data", category: .dataRepository)
+        Logger.logError(error, message: "Could not update profile with onboarding data")
       }
     }
   }

@@ -93,4 +93,12 @@ public struct PredicateProvider {
       id as NSUUID
     )
   }
+
+  public static func progressEntryByID(_ id: UUID) -> NSPredicate {
+    return NSPredicate(
+      format: "%K == %@",
+      #keyPath(ProgressEntryEntity.progressID),
+      id as NSUUID
+      )
+  }
 }

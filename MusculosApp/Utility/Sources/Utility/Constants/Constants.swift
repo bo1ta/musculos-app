@@ -62,9 +62,10 @@ public struct UIConstant {
   }
 }
 
-public struct UserDefaultsKey {
+public enum UserDefaultsKey {
   public static let userSession = "user_session"
   public static let healthKitAnchor = "health_kit_anchor"
+  public static let coreDataModelVersion = "core_data_model_version"
 }
 
 public enum MessageConstant: String {

@@ -42,7 +42,7 @@ extension HealthKitManager {
     do {
       try await healthStore.requestAuthorization(toShare: Self.toSharePermissions, read: Self.toReadPermissions)
     } catch {
-      MusculosLogger.logError(error, message: "Error setting up health kit", category: .healthKit)
+      Logger.logError(error, message: "Error setting up health kit")
     }
   }
   
@@ -53,7 +53,7 @@ extension HealthKitManager {
       let anchor = try NSKeyedUnarchiver.unarchivedObject(ofClass: HKQueryAnchor.self, from: data)
       self.queryAnchor = anchor
     } catch {
-      MusculosLogger.logError(error, message: "Could not unarchive query anchor", category: .healthKit)
+      Logger.logError(error, message: "Could not unarchive query anchor")
     }
   }
 }
@@ -76,7 +76,7 @@ extension HealthKitManager {
     
     let results = try await anchorDescription.result(for: healthStore)
     let sample = results.addedSamples.first?.quantity.doubleValue(for: .count())
-    MusculosLogger.logInfo(message: "Steps count", category: .healthKit, properties: ["step_count": sample as Any])
+    Logger.logInfo(message: "Steps count", properties: ["step_count": sample as Any])
     return sample
   }
   
@@ -96,7 +96,7 @@ extension HealthKitManager {
     updateQueryAnchor(results.newAnchor)
     
     let sample = results.addedSamples.first?.value
-    MusculosLogger.logInfo(message: "Sleep analysis", category: .healthKit, properties: ["bedtime_sleep": sample as Any])
+    Logger.logInfo(message: "Sleep analysis", properties: ["bedtime_sleep": sample as Any])
     return sample
   }
   
@@ -112,7 +112,7 @@ extension HealthKitManager {
     
     if let sample = results.addedSamples.first?.quantity.doubleValue(for: .fluidOunceImperial()) {
       let formattedSample = String(format: "%.1f l", sample)
-      MusculosLogger.logInfo(message: "Water analysis", category: .healthKit, properties: ["dietary_water": formattedSample as Any])
+      Logger.logInfo(message: "Water analysis", properties: ["dietary_water": formattedSample as Any])
       return formattedSample
     }
     

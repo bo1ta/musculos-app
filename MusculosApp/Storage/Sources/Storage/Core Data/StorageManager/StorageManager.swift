@@ -15,17 +15,10 @@ import Factory
 public class StorageManager: StorageManagerType, @unchecked Sendable {
   private var cancellables = Set<AnyCancellable>()
 
-  public var coalesceSaveInterval: Double {
-    return 0.5
-  }
-
   public init() {
     setupNotificationPublisher()
   }
 
-  /// Setup `onChange` notification for `writerDerivedStorage`
-  /// Debounces for 2 seconds then saves changes in a background task
-  ///
   private func setupNotificationPublisher() {
     NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: writerDerivedStorage as? NSManagedObjectContext)
       .debounce(for: .seconds(coalesceSaveInterval), scheduler: DispatchQueue.global())
@@ -33,6 +26,25 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
         self?.saveChanges(completion: {})
       }
       .store(in: &cancellables)
+  }
+
+  public var coalesceSaveInterval: Double {
+    return 0.5
+  }
+
+  // MARK: - Migration
+
+  private let dataModelVersion = "0.001"
+
+  private func shouldRecreateDataStore() -> Bool {
+    guard let version = UserDefaults.standard.string(forKey: UserDefaultsKey.coreDataModelVersion) else {
+      return false
+    }
+    return version != dataModelVersion
+  }
+
+  private func updateDataModelVersion() {
+    UserDefaults.standard.setValue(dataModelVersion, forKey: UserDefaultsKey.coreDataModelVersion)
   }
 
   // MARK: - Core Data Stack
@@ -51,10 +63,19 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
     description?.type = NSSQLiteStoreType
     description?.shouldMigrateStoreAutomatically = true
     description?.shouldInferMappingModelAutomatically = true
-    
+
+    if shouldRecreateDataStore(), let storeURL = description?.url {
+      do {
+        try container.persistentStoreCoordinator.destroyPersistentStore(at: storeURL, type: .sqlite)
+        Logger.logInfo(message: "Deleted persistent store for forced migration")
+      } catch {
+        Logger.logError(error, message: "Failed to delete persistent store")
+      }
+    }
+
     container.loadPersistentStores { _, error in
       if let error = error {
-        MusculosLogger.logError(error, message: "Failed to load persistent store", category: .coreData)
+        Logger.logError(error, message: "Failed to load persistent store")
       }
     }
     
@@ -139,7 +160,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
     viewContext.performAndWait {
       viewContext.reset()
       self.deleteAllStoredObjects()
-      MusculosLogger.logInfo(message: "CoreDataStack DESTROYED ! 💣", category: .coreData)
+      Logger.logInfo(message: "CoreDataStack DESTROYED ! 💣")
     }
   }
   
@@ -149,14 +170,14 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
       .appendingPathComponent("MusculosDataModel.sqlite")
 
     guard FileManager.default.fileExists(atPath: url.path) else {
-      MusculosLogger.logError(MusculosError.notFound, message: "Could not find sqlite db", category: .coreData)
+      Logger.logError(MusculosError.notFound, message: "Could not find sqlite db")
       return
     }
     
     do {
       try self.persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, type: .sqlite)
     } catch {
-      MusculosLogger.logError(error, message: "Could not destroy persistent store", category: .coreData)
+      Logger.logError(error, message: "Could not destroy persistent store")
     }
   }
   
@@ -170,7 +191,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
       do {
         try viewContext.execute(r)
       } catch {
-        MusculosLogger.logError(error, message: "Could not delete stored objects", category: .coreData)
+        Logger.logError(error, message: "Could not delete stored objects")
       }
     }
     viewContext.saveIfNeeded()
