@@ -17,10 +17,33 @@ struct SignUpView: View {
     VStack(alignment: .leading, spacing: 20) {
       Spacer()
 
-      headerStack
+      BackButton(onPress: onBack)
         .padding(.bottom, 40)
 
-      registerForm
+      VStack(alignment: .leading, spacing: 20) {
+        FormField(
+          text: $viewModel.email,
+          label: "Email",
+          labelColor: .white
+        )
+        FormField(
+          text: $viewModel.password,
+          label: "Password",
+          labelColor: .white,
+          isSecureField: true
+        )
+        FormField(
+          text: $viewModel.confirmPassword,
+          label: "Confirm password",
+          labelColor: .white,
+          isSecureField: true
+        )
+        FormField(
+          text: $viewModel.username,
+          label: "Username",
+          labelColor: .white
+        )
+      }
 
       LoadableButton(title: "Sign up", isLoading: $viewModel.isLoading, action: viewModel.signUp)
         .padding(.horizontal, 15)
@@ -35,63 +58,6 @@ struct SignUpView: View {
 
   private func showLogin() {
     viewModel.step = .login
-  }
-}
-
-// MARK: - Subviews
-
-extension SignUpView {
-  private var headerStack: some View {
-    HStack {
-      Button(action: onBack, label: {
-        Image(systemName: "chevron.left")
-          .font(AppFont.header(.bold, size: 25))
-          .foregroundStyle(.white)
-          .shadow(radius: 1.2)
-      })
-      Spacer()
-    }
-  }
-
-  private var backButton: some View {
-    HStack {
-      Button(action: showLogin, label: {
-        Image(systemName: "chevron.left")
-          .font(Font.body(.bold, size: 18))
-          .foregroundStyle(.white)
-      })
-
-      Spacer()
-    }
-    .padding(.horizontal, 20)
-  }
-
-  @ViewBuilder
-  private var registerForm: some View {
-    VStack(alignment: .leading, spacing: 10) {
-      FormField(
-        text: $viewModel.email,
-        label: "Email",
-        labelColor: .white
-      )
-      FormField(
-        text: $viewModel.password,
-        label: "Password",
-        labelColor: .white,
-        isSecureField: true
-      )
-      FormField(
-        text: $viewModel.confirmPassword,
-        label: "Confirm password",
-        labelColor: .white,
-        isSecureField: true
-      )
-      FormField(
-        text: $viewModel.username,
-        label: "Username",
-        labelColor: .white
-      )
-    }
   }
 }
 

@@ -59,8 +59,6 @@ public actor RatingRepository: BaseRepository {
     let exerciseRating = ExerciseRating(exerciseID: exerciseID, userID: currentUserID, isPublic: true, rating: rating)
 
     try await dataStore.addExerciseRating(exerciseRating)
-    backgroundWorker.queueOperation { [weak self] in
-      try await self?.service.addExerciseRating(exerciseRating)
-    }
+    try await service.addExerciseRating(exerciseRating)
   }
 }

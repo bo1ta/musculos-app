@@ -16,7 +16,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
       .padding(10)
       .fixedSize(horizontal: false, vertical: true)
       .background(
-        LinearGradient(colors: [AppColor.brightOrange.opacity(0.9), AppColor.lightBrown], startPoint: .center, endPoint: .bottom)
+        LinearGradient(colors: [AppColor.lightBrown.opacity(0.8), AppColor.lightBrown], startPoint: .center, endPoint: .bottom)
       )
       .foregroundColor(.white)
       .clipShape(RoundedRectangle(cornerRadius: 30))

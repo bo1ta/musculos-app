@@ -26,6 +26,7 @@ public final class ExerciseEntity: NSManagedObject {
   @NSManaged public var secondaryMuscles: Set<SecondaryMuscleEntity>
   @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
   @NSManaged public var exerciseRatings: Set<ExerciseRatingEntity>
+  @NSManaged public var updatedAt: Date?
 
   @nonobjc public class func fetchRequest() -> NSFetchRequest<ExerciseEntity> {
     return NSFetchRequest<ExerciseEntity>(entityName: "ExerciseEntity")
@@ -142,12 +143,14 @@ extension ExerciseEntity: EntitySyncable {
     self.isFavorite = model.isFavorite ?? false
     self.primaryMuscles = PrimaryMuscleEntity.createFor(exerciseEntity: self, from: model.primaryMuscles, using: storage)
     self.secondaryMuscles = SecondaryMuscleEntity.createFor(exerciseEntity: self, from: model.secondaryMuscles, using: storage)
+    self.updatedAt = model.updatedAt
   }
 
   public func updateEntityFrom(_ model: Exercise, using storage: StorageType) {
     guard let isFavorite = model.isFavorite else { return }
 
     self.isFavorite = isFavorite
+    self.updatedAt = model.updatedAt
   }
 
   static func findOrCreate(from model: Exercise, using storage: StorageType) -> ExerciseEntity {

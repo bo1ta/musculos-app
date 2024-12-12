@@ -96,7 +96,7 @@ extension ExploreViewModel {
     async let completedTodayExercisesTask: Void = refreshExercisesCompletedToday()
     async let goalsTask: Void = loadGoals()
 
-    let (_, _, _, _, _, _) = await (exercisesTask, favoriteExercisesTask, recommendedExercisesByGoalsTask, recommendedExercisesByPastSessionsTask, completedTodayExercisesTask, goalsTask)
+    _ = await (exercisesTask, favoriteExercisesTask, recommendedExercisesByGoalsTask, recommendedExercisesByPastSessionsTask, completedTodayExercisesTask, goalsTask)
   }
 
   private func loadExercises() async {

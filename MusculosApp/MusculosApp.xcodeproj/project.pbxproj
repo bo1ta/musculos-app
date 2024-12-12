@@ -34,6 +34,7 @@
 		BC1F03C22D04B72500DC7AF7 /* UserStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F038C2D04A63500DC7AF7 /* UserStoreTests.swift */; };
 		BC261AB82B6DA0EF0018E21F /* ExerciseFilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC261AB72B6DA0EF0018E21F /* ExerciseFilterSheet.swift */; };
 		BC29B40D2CE4F624005C641F /* MusclesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29B40C2CE4F624005C641F /* MusclesSection.swift */; };
+		BC32A54B2D0A486B005896D2 /* SelectWeightSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC32A54A2D0A486B005896D2 /* SelectWeightSheet.swift */; };
 		BC4078D42C02373E000DE280 /* WorkoutIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D32C02373E000DE280 /* WorkoutIcon.swift */; };
 		BC4078D62C02402E000DE280 /* WorkoutFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D52C02402E000DE280 /* WorkoutFlowView.swift */; };
 		BC4368242CEBC5A8006E712F /* ExploreSearchSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4368232CEBC5A1006E712F /* ExploreSearchSection.swift */; };
@@ -162,6 +163,7 @@
 		BC1F038C2D04A63500DC7AF7 /* UserStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStoreTests.swift; sourceTree = "<group>"; };
 		BC261AB72B6DA0EF0018E21F /* ExerciseFilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFilterSheet.swift; sourceTree = "<group>"; };
 		BC29B40C2CE4F624005C641F /* MusclesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusclesSection.swift; sourceTree = "<group>"; };
+		BC32A54A2D0A486B005896D2 /* SelectWeightSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectWeightSheet.swift; sourceTree = "<group>"; };
 		BC4078D32C02373E000DE280 /* WorkoutIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutIcon.swift; sourceTree = "<group>"; };
 		BC4078D52C02402E000DE280 /* WorkoutFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFlowView.swift; sourceTree = "<group>"; };
 		BC4368232CEBC5A1006E712F /* ExploreSearchSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreSearchSection.swift; sourceTree = "<group>"; };
@@ -294,7 +296,6 @@
 				BC0DA87A2CA392D00011EC63 /* ChallengesSection.swift */,
 				BC0DA8742CA1FC310011EC63 /* FeaturedWorkoutsSection.swift */,
 				BC4368252CEC08DE006E712F /* GoalsSection.swift */,
-				BC29B40C2CE4F624005C641F /* MusclesSection.swift */,
 				BC0DA89E2CA5EA9E0011EC63 /* RecommendationSection */,
 			);
 			path = Sections;
@@ -425,7 +426,7 @@
 			isa = PBXGroup;
 			children = (
 				BC1160CF2A2CFB830028D8FC /* MusculosApp.swift */,
-				BC1160D12A2CFB830028D8FC /* AppTabView.swift */,
+				BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -460,7 +461,7 @@
 		BC5834252B1CE34500BD7690 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */,
+				BC1160D12A2CFB830028D8FC /* AppTabView.swift */,
 				BC3E0AC42C3F3EDA0039E860 /* App */,
 			);
 			path = Main;
@@ -719,6 +720,7 @@
 				BCD59AA72BB628220039F662 /* ExploreExerciseContentView.swift */,
 				BCD59AA62BB628220039F662 /* ExerciseSectionView.swift */,
 				BCD59AA52BB628220039F662 /* MultiOptionsSelectView.swift */,
+				BC29B40C2CE4F624005C641F /* MusclesSection.swift */,
 				BC81E5D22BD2FC730005891D /* SingleOptionSelectView.swift */,
 			);
 			path = Section;
@@ -742,6 +744,7 @@
 				BC4E5D542CAC58070046ABEE /* EquipmentCard.swift */,
 				BC4E5D562CAC61050046ABEE /* StarsRatingCard.swift */,
 				BC655B042CB1615200C19E07 /* ProgressButton.swift */,
+				BC32A54A2D0A486B005896D2 /* SelectWeightSheet.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -938,6 +941,7 @@
 				BCD59AB02BB628700039F662 /* AnimatedURLImageView.swift in Sources */,
 				BC4E5D532CAB601F0046ABEE /* ExerciseSummarySection.swift in Sources */,
 				BC1674B12BE26EBB0012048D /* AddDetailOptionCardView.swift in Sources */,
+				BC32A54B2D0A486B005896D2 /* SelectWeightSheet.swift in Sources */,
 				BC606A6E2C221CBD00154781 /* SelectLevelView.swift in Sources */,
 				BC811F742CA03AA600C3CC01 /* HomeViewModel.swift in Sources */,
 				BCC46FF42C0E2E97006D76E2 /* PermissionsView.swift in Sources */,

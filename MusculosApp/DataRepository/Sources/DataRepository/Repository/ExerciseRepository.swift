@@ -23,9 +23,6 @@ public actor ExerciseRepository: BaseRepository {
 
   public func addExercise(_ exercise: Exercise) async throws {
     try await exerciseDataStore.add(exercise)
-
-    //    backgroundWorker.queueOperation(priority: .low) {
-    //    }
   }
 
   public func getExercises() async throws -> [Exercise] {

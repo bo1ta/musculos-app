@@ -10,6 +10,7 @@
         <attribute name="isFavorite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="level" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="exerciseSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseSessionEntity" inverseName="exercise" inverseEntity="ExerciseSessionEntity"/>
         <relationship name="primaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PrimaryMuscleEntity" inverseName="exercises" inverseEntity="PrimaryMuscleEntity"/>
         <relationship name="ratings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseRatingEntity" inverseName="exercise" inverseEntity="ExerciseRatingEntity"/>
@@ -51,6 +52,7 @@
         <attribute name="name" attributeType="String"/>
         <attribute name="targetMuscles" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="targetValue" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="progressHistory" toMany="YES" deletionRule="Nullify" destinationEntity="ProgressEntryEntity" inverseName="goal" inverseEntity="ProgressEntryEntity"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfileEntity" inverseName="goals" inverseEntity="UserProfileEntity"/>
         <uniquenessConstraints>
@@ -58,6 +60,10 @@
                 <constraint value="goalID"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
+    </entity>
+    <entity name="MuscleEntity" representedClassName="MuscleEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="muscleID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
     </entity>
     <entity name="PrimaryMuscleEntity" representedClassName="PrimaryMuscleEntity" syncable="YES">
         <attribute name="muscleId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

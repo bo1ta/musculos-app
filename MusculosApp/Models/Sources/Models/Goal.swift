@@ -20,6 +20,7 @@ public struct Goal: Sendable, Codable {
   public let isCompleted: Bool
   public let dateAdded: Date
   public let user: UserProfile
+  public let updatedAt: Date?
 
   public init(
     id: UUID = UUID(),
@@ -31,7 +32,8 @@ public struct Goal: Sendable, Codable {
     endDate: Date?,
     isCompleted: Bool = false,
     dateAdded: Date,
-    user: UserProfile
+    user: UserProfile,
+    updatedAt: Date? = Date()
   ) {
     self.id = id
     self.name = name
@@ -43,6 +45,7 @@ public struct Goal: Sendable, Codable {
     self.isCompleted = isCompleted
     self.dateAdded = dateAdded
     self.user = user
+    self.updatedAt = updatedAt
   }
 
   public init(onboardingGoal: OnboardingConstants.Goal, user: UserProfile) {
@@ -56,6 +59,7 @@ public struct Goal: Sendable, Codable {
     self.isCompleted = false
     self.dateAdded = Date()
     self.user = user
+    self.updatedAt = Date()
   }
 
   public mutating func updateProgress(newValue: Double) {

@@ -17,6 +17,8 @@ public protocol ExerciseSessionDataStoreProtocol: Sendable, BaseDataStore {
   func getCompletedSinceLastWeek(userId: UUID) async -> [ExerciseSession]
   func getCount() async -> Int
   func addSession(_ exerciseSession: ExerciseSession) async throws
+  func getLastUpdated() -> Date?
+  func setLastUpdated(_ date: Date)
 }
 
 public struct ExerciseSessionDataStore: ExerciseSessionDataStoreProtocol {
@@ -118,5 +120,13 @@ public struct ExerciseSessionDataStore: ExerciseSessionDataStoreProtocol {
       let entity = writerDerivedStorage.insertNewObject(ofType: ExerciseSessionEntity.self)
       entity.populateEntityFrom(exerciseSession, using: writerDerivedStorage)
     }
+  }
+
+  public func getLastUpdated() -> Date? {
+    return UserDefaults.standard.object(forKey: UserDefaultsKey.exerciseSessionsLastUpdated) as? Date
+  }
+
+  public func setLastUpdated(_ date: Date) {
+    return UserDefaults.standard.set(date, forKey: UserDefaultsKey.exerciseSessionsLastUpdated)
   }
 }

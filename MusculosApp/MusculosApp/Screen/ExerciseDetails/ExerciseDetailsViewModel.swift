@@ -43,9 +43,9 @@ final class ExerciseDetailsViewModel {
   var isFavorite = false
   var showInputDialog = false
   var showRatingDialog = false
-  var inputWeight: Double? = nil
   var userRating = 0
   var exerciseRatings: [ExerciseRating] = []
+  var inputWeight: Double = 0
 
   var toastPublisher: AnyPublisher<Toast, Never> {
     return toastSubject
@@ -83,7 +83,7 @@ final class ExerciseDetailsViewModel {
     async let exerciseDetailsTask: Void = loadExerciseDetails()
     async let exerciseRatingsTask: Void = loadExerciseRatings()
 
-    let (_, _) = await (exerciseDetailsTask, exerciseRatingsTask)
+    _ = await (exerciseDetailsTask, exerciseRatingsTask)
   }
 
   private func loadExerciseDetails() async {
@@ -113,22 +113,18 @@ final class ExerciseDetailsViewModel {
   }
 
   func saveRating(_ rating: Int) {
+    showRatingDialog = false
+
     saveRatingTask = Task { [weak self] in
       guard let self else { return }
 
       do {
         try await ratingRepository.addRating(rating: Double(rating), for: exercise.id)
-        showRatingDialog = false
+        await loadExerciseRatings()
       } catch {
         Logger.logError(error, message: "Could not save rating")
       }
     }
-  }
-
-  func handleDialogInput(_ input: String) {
-    guard let inputWeight = Double(input) else { return }
-    self.inputWeight = inputWeight
-    startTimer()
   }
 
   func updateFavorite(_ isFavorite: Bool) {

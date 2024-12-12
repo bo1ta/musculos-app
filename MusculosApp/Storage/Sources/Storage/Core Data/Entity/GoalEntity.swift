@@ -21,6 +21,7 @@ public class GoalEntity: NSManagedObject {
   @NSManaged public var dateAdded: Date
   @NSManaged public var progressHistory: Set<ProgressEntryEntity>
   @NSManaged public var user: UserProfileEntity
+  @NSManaged public var updatedAt: Date?
 
   @nonobjc public class func fetchRequest() -> NSFetchRequest<GoalEntity> {
     return NSFetchRequest<GoalEntity>(entityName: "GoalEntity")
@@ -73,6 +74,7 @@ extension GoalEntity: EntitySyncable {
     self.isCompleted = model.isCompleted
     self.name = model.name
     self.targetValue = NSNumber(integerLiteral: model.targetValue)
+    self.updatedAt = model.updatedAt
 
     if let user = storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(model.user.userId)){
       self.user = user
@@ -117,5 +119,7 @@ extension GoalEntity: EntitySyncable {
         addToProgressHistory(progressEntity)
       }
     }
+
+    self.updatedAt = model.updatedAt
   }
 }

@@ -38,14 +38,21 @@ struct AuthenticationScreen: View {
         wavePosition: .bottom,
         baseWaveColor: AppColor.navyBlue
       )
-      authStep
+
+      Group {
+        switch viewModel.step {
+        case .login:
+          SignInView(viewModel: viewModel, onBack: onBack)
+            .transition(.asymmetric(insertion: .push(from: .leading), removal: .push(from: .trailing)))
+        case .register:
+          SignUpView(viewModel: viewModel, onBack: onBack)
+            .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+        }
+      }
+      .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: viewModel.step)
     }
-    .onDisappear {
-      viewModel.cleanUp()
-    }
-    .onReceive(viewModel.eventPublisher, perform: { event in
-      handleAuthEvent(event)
-    })
+    .onDisappear(perform: viewModel.cleanUp)
+    .onReceive(viewModel.eventPublisher, perform: handleAuthEvent(_:))
     .onChange(of: viewModel.step) { _, step in
       handleStepUpdate(step)
     }
@@ -59,21 +66,6 @@ struct AuthenticationScreen: View {
       }
     )
     .background(Color.AppColor.blue200)
-  }
-
-  @ViewBuilder
-  private var authStep: some View {
-    Group {
-      switch viewModel.step {
-      case .login:
-        SignInView(viewModel: viewModel, onBack: onBack)
-          .transition(.asymmetric(insertion: .push(from: .leading), removal: .push(from: .trailing)))
-      case .register:
-        SignUpView(viewModel: viewModel, onBack: onBack)
-          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
-      }
-    }
-    .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: viewModel.step)
   }
 
   private func handleStepUpdate(_ step: AuthenticationViewModel.Step) {

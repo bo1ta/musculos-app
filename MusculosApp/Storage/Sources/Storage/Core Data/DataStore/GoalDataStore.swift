@@ -15,6 +15,8 @@ public protocol GoalDataStoreProtocol: BaseDataStore, Sendable {
   func getByID(_ goalID: UUID) async -> Goal?
   func add(_ goal: Goal) async throws
   func addProgressEntry(_ progressEntry: ProgressEntry, for goalID: UUID) async throws
+  func getLastUpdated() -> Date?
+  func updateLastUpdated(_ date: Date)
 }
 
 public struct GoalDataStore: GoalDataStoreProtocol {
@@ -88,5 +90,13 @@ public struct GoalDataStore: GoalDataStoreProtocol {
       let entity = storage.insertNewObject(ofType: ProgressEntryEntity.self)
       entity.populateEntityFrom(progressEntry, using: storage)
     }
+  }
+
+  public func getLastUpdated() -> Date? {
+    return UserDefaults.standard.object(forKey: UserDefaultsKey.goalsLastUpdated) as? Date
+  }
+
+  public func updateLastUpdated(_ date: Date) {
+    UserDefaults.standard.set(date, forKey: UserDefaultsKey.goalsLastUpdated)
   }
 }
