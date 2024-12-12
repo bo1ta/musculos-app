@@ -96,7 +96,7 @@ public struct GoalDataStore: GoalDataStoreProtocol {
     return UserDefaults.standard.object(forKey: UserDefaultsKey.goalsLastUpdated) as? Date
   }
 
-  public func updateLastUpdated(_ date: Date) {
+  public func updateLastUpdated(_ date: Date = Date()) {
     UserDefaults.standard.set(date, forKey: UserDefaultsKey.goalsLastUpdated)
   }
 }

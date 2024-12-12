@@ -11,11 +11,14 @@ import Utility
 import Storage
 import NetworkClient
 import Factory
+import Utility
 
 public actor GoalRepository: BaseRepository {
   @Injected(\NetworkContainer.goalService) private var service: GoalServiceProtocol
   @Injected(\StorageContainer.goalDataStore) private var dataStore: GoalDataStoreProtocol
   @Injected(\DataRepositoryContainer.backgroundWorker) private var backgroundWorker: BackgroundWorker
+
+  private let updateThreshold: TimeInterval = .oneHour
 
   public init() {}
 
@@ -50,16 +53,17 @@ public actor GoalRepository: BaseRepository {
       throw MusculosError.notFound
     }
 
-    let goals = await dataStore.getAllForUser(currentUserID)
-    if goals.count > 0 {
-      return goals
+    guard !shouldUseLocalStorage() else {
+      return await dataStore.getAllForUser(currentUserID)
     }
 
-    let remoteGoals = try await service.getUserGoals()
+    let goals = await dataStore.getAllForUser(currentUserID)
     backgroundWorker.queueOperation { [weak self] in
-      try await self?.dataStore.importToStorage(models: remoteGoals, localObjectType: GoalEntity.self)
+      try await self?.dataStore.importToStorage(models: goals, localObjectType: GoalEntity.self)
+      await self?.dataStore.updateLastUpdated(Date())
     }
-    return remoteGoals
+
+    return goals
   }
 
   public func addFromOnboardingGoal(_ onboardingGoal: OnboardingGoal, for user: UserProfile) async throws -> Goal {
@@ -77,5 +81,12 @@ public actor GoalRepository: BaseRepository {
     try await service.addGoal(goal)
 
     return goal
+  }
+
+  private func shouldUseLocalStorage() -> Bool {
+    guard let lastUpdated = dataStore.getLastUpdated() else {
+      return false
+    }
+    return Date().timeIntervalSince(lastUpdated) < updateThreshold
   }
 }

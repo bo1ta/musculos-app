@@ -61,13 +61,11 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="MuscleEntity" representedClassName="MuscleEntity" syncable="YES" codeGenerationType="class">
+    <entity name="MuscleEntity" representedClassName="MuscleEntity" syncable="YES">
         <attribute name="muscleID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
     </entity>
-    <entity name="PrimaryMuscleEntity" representedClassName="PrimaryMuscleEntity" syncable="YES">
-        <attribute name="muscleId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
+    <entity name="PrimaryMuscleEntity" representedClassName="PrimaryMuscleEntity" parentEntity="MuscleEntity" syncable="YES">
         <relationship name="exercises" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseEntity" inverseName="primaryMuscles" inverseEntity="ExerciseEntity"/>
     </entity>
     <entity name="ProgressEntryEntity" representedClassName="ProgressEntryEntity" syncable="YES">
@@ -76,9 +74,7 @@
         <attribute name="value" attributeType="Double" usesScalarValueType="YES"/>
         <relationship name="goal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GoalEntity" inverseName="progressHistory" inverseEntity="GoalEntity"/>
     </entity>
-    <entity name="SecondaryMuscleEntity" representedClassName="SecondaryMuscleEntity" syncable="YES">
-        <attribute name="muscleId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
+    <entity name="SecondaryMuscleEntity" representedClassName="SecondaryMuscleEntity" parentEntity="MuscleEntity" syncable="YES">
         <relationship name="exercises" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseEntity" inverseName="secondaryMuscles" inverseEntity="ExerciseEntity"/>
     </entity>
     <entity name="UserProfileEntity" representedClassName="UserProfileEntity" syncable="YES">

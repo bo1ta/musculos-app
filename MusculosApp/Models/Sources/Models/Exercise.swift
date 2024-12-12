@@ -36,7 +36,7 @@ public struct Exercise: Codable, Sendable {
     instructions: [String],
     imageUrls: [String],
     isFavorite: Bool = false,
-    updatedAt: Date? = Date()
+    updatedAt: Date? = nil
   ) {
     self.category = category
     self.equipment = equipment

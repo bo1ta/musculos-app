@@ -19,6 +19,8 @@ public actor ExerciseRepository: BaseRepository {
   @Injected(\StorageContainer.exerciseSessionDataStore) private var exerciseSessionDataStore: ExerciseSessionDataStoreProtocol
   @Injected(\DataRepositoryContainer.backgroundWorker) private var backgroundWorker: BackgroundWorker
 
+  private let updateThreshold: TimeInterval = .oneHour
+
   public init() {}
 
   public func addExercise(_ exercise: Exercise) async throws {
@@ -38,9 +40,13 @@ public actor ExerciseRepository: BaseRepository {
   }
 
   public func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise {
+    if let localExercise = await exerciseDataStore.getByID(exerciseID), shouldUseLocalExercise(localExercise) {
+      return localExercise
+    }
+
     let exercise = try await service.getExerciseDetails(for: exerciseID)
     backgroundWorker.queueOperation { [weak self] in
-      try await self?.exerciseDataStore.add(exercise)
+      try await self?.exerciseDataStore.handleObjectSync(remoteObject: exercise, localObjectType: ExerciseEntity.self)
     }
     return exercise
   }
@@ -136,6 +142,13 @@ public actor ExerciseRepository: BaseRepository {
       try await self?.exerciseDataStore.importExercises(remoteExercises)
     }
     return remoteExercises
+  }
+
+  private func shouldUseLocalExercise(_ exercise: Exercise) -> Bool {
+    if let updatedAt = exercise.updatedAt, Date().timeIntervalSince(updatedAt) < updateThreshold {
+      return true
+    }
+    return false
   }
 
   private func shouldFetchExercisesFromLocalStorage() async -> Bool {

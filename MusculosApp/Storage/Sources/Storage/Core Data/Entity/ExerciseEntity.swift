@@ -115,15 +115,16 @@ extension ExerciseEntity: ReadOnlyConvertible {
     let secondaryMuscles = Array(secondaryMuscles).compactMap { $0.toReadOnly() }
     
     return Exercise(
-      category: self.category ?? "",
-      equipment: self.equipment,
-      id: self.exerciseId,
-      level: self.level!,
-      name: self.name!,
+      category: category ?? "",
+      equipment: equipment,
+      id: exerciseId,
+      level: level ?? "",
+      name: name ?? "",
       primaryMuscles: primaryMuscles,
       secondaryMuscles: secondaryMuscles,
-      instructions: self.instructions!,
-      imageUrls: self.imageUrls!
+      instructions: instructions ?? [],
+      imageUrls: self.imageUrls ?? [],
+      updatedAt: self.updatedAt
     )
   }
 }
@@ -150,7 +151,7 @@ extension ExerciseEntity: EntitySyncable {
     guard let isFavorite = model.isFavorite else { return }
 
     self.isFavorite = isFavorite
-    self.updatedAt = model.updatedAt
+    self.updatedAt = Date()
   }
 
   static func findOrCreate(from model: Exercise, using storage: StorageType) -> ExerciseEntity {

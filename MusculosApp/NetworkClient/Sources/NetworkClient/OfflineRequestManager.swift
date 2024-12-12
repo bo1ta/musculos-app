@@ -23,7 +23,7 @@ actor OfflineRequestManager {
     cancellable = NetworkContainer.shared.networkMonitor().connectionStatusPublisher
       .sink { [weak self] connectionStatus in
         self?.queue.addOperation { [weak self] in
-          await self?.handlePathUpdate(connectionStatus)
+          await self?.handleConnection(connectionStatus)
         }
       }
   }
@@ -44,7 +44,7 @@ actor OfflineRequestManager {
     pendingRequests.removeAll()
   }
 
-  private func handlePathUpdate(_ connectionStatus: NWPath.Status) async {
+  private func handleConnection(_ connectionStatus: NWPath.Status) async {
     let wasOffline = !isInternetAvailable
     isInternetAvailable = connectionStatus == .satisfied
 

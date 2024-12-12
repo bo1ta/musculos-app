@@ -1,8 +1,8 @@
 //
-//  SecondaryMuscleEntity+CoreDataClass.swift
-//  MusculosApp
+//  SecondaryMuscleEntity+CoreDataProperties.swift
+//  
 //
-//  Created by Solomon Alexandru on 09.05.2024.
+//  Created by Solomon Alexandru on 12.12.2024.
 //
 //
 
@@ -11,14 +11,12 @@ import CoreData
 import Models
 
 @objc(SecondaryMuscleEntity)
-public class SecondaryMuscleEntity: NSManagedObject {
-  @NSManaged var muscleId: NSNumber
-  @NSManaged var name: String
-  @NSManaged var exercises: Set<ExerciseEntity>
+public class SecondaryMuscleEntity: MuscleEntity {
+  @NSManaged public var exercises: Set<ExerciseEntity>
 
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<SecondaryMuscleEntity> {
-    return NSFetchRequest<SecondaryMuscleEntity>(entityName: "SecondaryMuscleEntity")
-  }
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<SecondaryMuscleEntity> {
+        return NSFetchRequest<SecondaryMuscleEntity>(entityName: "SecondaryMuscleEntity")
+    }
 
   static func createFor(exerciseEntity: ExerciseEntity, from muscles: [String], using storage: StorageType) -> Set<SecondaryMuscleEntity> {
     return Set<SecondaryMuscleEntity>(
@@ -28,7 +26,7 @@ public class SecondaryMuscleEntity: NSManagedObject {
 
           let predicate = NSPredicate(
             format: "%K == %d",
-            #keyPath(SecondaryMuscleEntity.muscleId),
+            #keyPath(SecondaryMuscleEntity.muscleID),
             muscleType.id
           )
 
@@ -37,7 +35,7 @@ public class SecondaryMuscleEntity: NSManagedObject {
             return entity
           } else {
             let entity = storage.insertNewObject(ofType: SecondaryMuscleEntity.self)
-            entity.muscleId = NSNumber(integerLiteral: muscleType.id)
+            entity.muscleID = NSNumber(integerLiteral: muscleType.id)
             entity.name = muscleType.rawValue
             entity.exercises.insert(exerciseEntity)
             return entity
@@ -49,17 +47,19 @@ public class SecondaryMuscleEntity: NSManagedObject {
 
 // MARK: Generated accessors for exercises
 extension SecondaryMuscleEntity {
-  @objc(addExercisesObject:)
-  @NSManaged func addToExercises(_ value: ExerciseEntity)
 
-  @objc(removeExercisesObject:)
-  @NSManaged func removeFromExercises(_ value: ExerciseEntity)
+    @objc(addExercisesObject:)
+    @NSManaged public func addToExercises(_ value: ExerciseEntity)
 
-  @objc(addExercises:)
-  @NSManaged func addToExercises(_ values: Set<ExerciseEntity>)
+    @objc(removeExercisesObject:)
+    @NSManaged public func removeFromExercises(_ value: ExerciseEntity)
 
-  @objc(removeExercises:)
-  @NSManaged func removeFromExercises(_ values: Set<ExerciseEntity>)
+    @objc(addExercises:)
+    @NSManaged public func addToExercises(_ values: Set<ExerciseEntity>)
+
+    @objc(removeExercises:)
+    @NSManaged public func removeFromExercises(_ values: Set<ExerciseEntity>)
+
 }
 
 extension SecondaryMuscleEntity : Identifiable { }

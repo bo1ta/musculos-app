@@ -1,8 +1,9 @@
 //
-//  PrimaryMuscleEntity.swift
-//  
+//  PrimaryMuscleEntity+CoreDataProperties.swift
 //
-//  Created by Solomon Alexandru on 14.09.2024.
+//
+//  Created by Solomon Alexandru on 12.12.2024.
+//
 //
 
 import Foundation
@@ -10,9 +11,7 @@ import CoreData
 import Models
 
 @objc(PrimaryMuscleEntity)
-public class PrimaryMuscleEntity: NSManagedObject {
-  @NSManaged public var muscleId: NSNumber
-  @NSManaged public var name: String
+public class PrimaryMuscleEntity: MuscleEntity {
   @NSManaged public var exercises: Set<ExerciseEntity>
 
   @nonobjc public class func fetchRequest() -> NSFetchRequest<PrimaryMuscleEntity> {
@@ -27,7 +26,7 @@ public class PrimaryMuscleEntity: NSManagedObject {
 
           let predicate = NSPredicate(
             format: "%K == %d",
-            #keyPath(PrimaryMuscleEntity.muscleId),
+            #keyPath(PrimaryMuscleEntity.muscleID),
             muscleType.id
           )
 
@@ -36,7 +35,7 @@ public class PrimaryMuscleEntity: NSManagedObject {
             return entity
           } else {
             let entity = storage.insertNewObject(ofType: PrimaryMuscleEntity.self)
-            entity.muscleId = NSNumber(integerLiteral: muscleType.id)
+            entity.muscleID = NSNumber(integerLiteral: muscleType.id)
             entity.name = muscleType.rawValue
             entity.exercises.insert(exerciseEntity)
             return entity
@@ -44,10 +43,12 @@ public class PrimaryMuscleEntity: NSManagedObject {
         }
     )
   }
+
 }
 
 // MARK: Generated accessors for exercises
 extension PrimaryMuscleEntity {
+
   @objc(addExercisesObject:)
   @NSManaged public func addToExercises(_ value: ExerciseEntity)
 
@@ -59,6 +60,7 @@ extension PrimaryMuscleEntity {
 
   @objc(removeExercises:)
   @NSManaged public func removeFromExercises(_ values: Set<ExerciseEntity>)
+
 }
 
 extension PrimaryMuscleEntity : Identifiable { }

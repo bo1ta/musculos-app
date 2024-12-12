@@ -54,11 +54,11 @@ public struct PredicateProvider {
     return predicate
   }
 
-  public static func musclesByIds(_ muscleIds: [Int]) -> NSPredicate {
+  public static func musclesByIds(_ muscleIDs: [Int]) -> NSPredicate {
     return NSPredicate(
       format: "%K IN %@",
-      #keyPath(PrimaryMuscleEntity.muscleId),
-      muscleIds
+      #keyPath(PrimaryMuscleEntity.muscleID),
+      muscleIDs
     )
   }
 
