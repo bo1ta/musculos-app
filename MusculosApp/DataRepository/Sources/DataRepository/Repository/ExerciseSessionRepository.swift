@@ -18,12 +18,14 @@ public actor ExerciseSessionRepository: BaseRepository {
   @Injected(\NetworkContainer.exerciseSessionService) private var service: ExerciseSessionServiceProtocol
   @Injected(\DataRepositoryContainer.backgroundWorker) private var backgroundWorker: BackgroundWorker
 
+  private let updateThreshold: TimeInterval = .oneDay
+
   public func getExerciseSessions() async throws -> [ExerciseSession] {
     guard let currentUserID = self.currentUserID else {
       throw MusculosError.notFound
     }
 
-    guard await !shouldFetchFromLocalStorage() else {
+    guard await !shouldUseLocalStorage() else {
       return await dataStore.getAll(for: currentUserID)
     }
 
@@ -79,7 +81,10 @@ public actor ExerciseSessionRepository: BaseRepository {
     }
   }
 
-  private func shouldFetchFromLocalStorage() async -> Bool {
-    return await dataStore.getCount() > 0
+  private func shouldUseLocalStorage() -> Bool {
+    guard let lastUpdated = dataStore.getLastUpdated() else {
+      return false
+    }
+    return Date().timeIntervalSince(lastUpdated) < updateThreshold
   }
 }

@@ -57,7 +57,7 @@ public actor RatingRepository: BaseRepository {
     }
     
     let exerciseRating = ExerciseRating(exerciseID: exerciseID, userID: currentUserID, isPublic: true, rating: rating)
-
+i c
     try await dataStore.addExerciseRating(exerciseRating)
     try await service.addExerciseRating(exerciseRating)
   }
