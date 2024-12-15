@@ -77,6 +77,18 @@
     <entity name="SecondaryMuscleEntity" representedClassName="SecondaryMuscleEntity" parentEntity="MuscleEntity" syncable="YES">
         <relationship name="exercises" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseEntity" inverseName="secondaryMuscles" inverseEntity="ExerciseEntity"/>
     </entity>
+    <entity name="UserExperienceEntity" representedClassName="UserExperienceEntity" syncable="YES">
+        <attribute name="modelID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="totalExperience" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="userID" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="experienceEntries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserExperienceEntryEntity" inverseName="userExperience" inverseEntity="UserExperienceEntryEntity"/>
+    </entity>
+    <entity name="UserExperienceEntryEntity" representedClassName="UserExperienceEntryEntity" syncable="YES">
+        <attribute name="calculationDetails" optional="YES" attributeType="String"/>
+        <attribute name="modelID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="xpGained" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="userExperience" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserExperienceEntity" inverseName="experienceEntries" inverseEntity="UserExperienceEntity"/>
+    </entity>
     <entity name="UserProfileEntity" representedClassName="UserProfileEntity" syncable="YES">
         <attribute name="availableEquipment" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
         <attribute name="avatarUrl" optional="YES" attributeType="String"/>
