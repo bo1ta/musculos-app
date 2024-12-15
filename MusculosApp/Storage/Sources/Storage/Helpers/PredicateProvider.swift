@@ -54,6 +54,14 @@ public struct PredicateProvider {
     return predicate
   }
 
+  public static func exerciseByCategories(_ categories: [String]) -> NSPredicate? {
+    return NSPredicate(
+      format: "%K IN %@",
+      #keyPath(ExerciseEntity.category),
+      categories
+    )
+  }
+
   public static func musclesByIds(_ muscleIDs: [Int]) -> NSPredicate {
     return NSPredicate(
       format: "%K IN %@",

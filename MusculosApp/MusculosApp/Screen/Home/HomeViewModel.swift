@@ -28,7 +28,7 @@ final class HomeViewModel {
   private(set) var isLoading = false
   private(set) var challenges: [Challenge] = []
   private(set) var goals: [Goal] = []
-  private(set) var quickExercise: Exercise?
+  private(set) var quickExercises: [Exercise]?
   private(set) var errorMessage: String?
   private(set) var notificationTask: Task<Void, Never>?
 
@@ -67,7 +67,7 @@ final class HomeViewModel {
     async let goalsTask: Void = fetchGoals()
     async let exerciseTask: Void = fetchQuickExercise()
 
-    let (_, _) = await (goalsTask, exerciseTask)
+    _ = await (goalsTask, exerciseTask)
   }
 
   private func fetchGoals() async {
@@ -80,7 +80,8 @@ final class HomeViewModel {
 
   private func fetchQuickExercise() async {
     do {
-      quickExercise = try await exerciseRepository.getExercisesByWorkoutGoal(.improveEndurance).first
+      let exercises = try await exerciseRepository.getExercisesByWorkoutGoal(.improveEndurance)
+      quickExercises = Array(exercises.prefix(2))
     } catch {
       Logger.logError(error, message: "Error loading exercises for home view")
     }

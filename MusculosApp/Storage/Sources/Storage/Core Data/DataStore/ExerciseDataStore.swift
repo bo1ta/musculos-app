@@ -61,8 +61,20 @@ public protocol ExerciseDataStoreProtocol: BaseDataStore, Sendable {
   ///
   func getCount() async -> Int
 
+  /// Returns the exercises matching the workout goal
+  ///
+  func getByWorkoutGoal(_ workoutGoal: WorkoutGoal) async -> [Exercise]
+
+  /// Returns the date when the data store was last updated
+  ///
+  func getLastUpdated() -> Date?
+
   // MARK: - Write methods
-  
+
+  /// Update the last updated date
+  ///
+  func updateLastUpdated(_ date: Date)
+
   /// Update favorite state for an exercise
   ///
   func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws
@@ -199,11 +211,30 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol {
       return viewStorage.countObjects(ofType: ExerciseEntity.self)
     }
   }
+
+  public func getByWorkoutGoal(_ workoutGoal: WorkoutGoal) async -> [Exercise] {
+    return await storageManager.performRead { storage in
+      let mappedCategories = workoutGoal.goalCategory.mappedExerciseCategories.map { $0.rawValue }
+      return storage.allObjects(
+        ofType: ExerciseEntity.self, matching: PredicateProvider.exerciseByCategories(mappedCategories),
+        sortedBy: nil
+      )
+      .map { $0.toReadOnly() }
+    }
+  }
+
+  public func getLastUpdated() -> Date? {
+    return UserDefaults.standard.object(forKey: UserDefaultsKey.exercisesLastUpdated) as? Date
+  }
 }
 
 // MARK: - Write methods implementation
 
 public extension ExerciseDataStore {
+  public func updateLastUpdated(_ date: Date = Date()) {
+    UserDefaults.standard.set(date, forKey: UserDefaultsKey.exercisesLastUpdated)
+  }
+
   func setIsFavorite(_ exercise: Exercise, isFavorite: Bool) async throws {
     try await storageManager.performWrite { writerDerivedStorage in
       guard let exercise = writerDerivedStorage.firstObject(

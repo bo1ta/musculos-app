@@ -65,15 +65,7 @@ public struct GoalDataStore: GoalDataStoreProtocol {
       }
 
       let entity = writerDerivedStorage.findOrInsert(of: GoalEntity.self, using: PredicateProvider.goalByID(goal.id))
-      entity.user = currentUser
-      entity.goalID = goal.id
-      entity.name = goal.name
-      entity.category = goal.category
-      entity.dateAdded = goal.dateAdded
-      entity.endDate = goal.endDate
-      entity.targetValue = NSNumber(integerLiteral: goal.targetValue)
-      entity.isCompleted = false
-      entity.frequency = goal.frequency.rawValue
+      entity.populateEntityFrom(goal, using: writerDerivedStorage)
     }
   }
 

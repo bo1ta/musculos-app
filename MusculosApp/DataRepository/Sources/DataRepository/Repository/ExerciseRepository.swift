@@ -79,9 +79,14 @@ public actor ExerciseRepository: BaseRepository {
   }
 
   public func getExercisesByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise] {
+    guard await !shouldFetchExercisesFromLocalStorage() else {
+      return await exerciseDataStore.getByWorkoutGoal(workoutGoal)
+    }
+
     let exercises = try await service.getByWorkoutGoal(workoutGoal)
     backgroundWorker.queueOperation { [weak self] in
       try await self?.exerciseDataStore.importExercises(exercises)
+      await self?.exerciseDataStore.updateLastUpdated(Date())
     }
     return exercises
   }
@@ -152,6 +157,9 @@ public actor ExerciseRepository: BaseRepository {
   }
 
   private func shouldFetchExercisesFromLocalStorage() async -> Bool {
-    return await exerciseDataStore.getCount() >= 20
+    if let lastUpdated = await exerciseDataStore.getLastUpdated() {
+      return Date().timeIntervalSince(lastUpdated) < updateThreshold
+    }
+    return false
   }
 }

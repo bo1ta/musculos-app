@@ -157,6 +157,22 @@ public extension Goal {
       }
     }
 
+    public var mappedExerciseCategories: [ExerciseConstants.CategoryType] {
+      switch self {
+      case .loseWeight, .general:
+        return [.cardio, .stretching, .plyometrics]
+      case .gainWeight, .growMuscle, .buildMass:
+        return [
+          .olympicWeightlifting,
+          .strength,
+          .strongman,
+          .powerlifting
+        ]
+      case .drinkWater:
+        return [.cardio, .stretching]
+      }
+    }
+
     public static func initFromLabel(_ label: String) -> Self {
       if let first =  Self.allCases.first { $0.label == label } {
         return first
