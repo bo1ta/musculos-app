@@ -15,10 +15,10 @@ struct LoggingMiddleware: ResponseMiddleware {
     let requestMethod = request.method.rawValue.uppercased()
     let requestPath = request.endpoint.path
 
-    Logger.logInfo(message: "Did make \(requestMethod) request to \(requestPath)", file: "", function: "", line: 0)
+    Logger.info(message: "Did make \(requestMethod) request to \(requestPath)", file: "", function: "", line: 0)
 
     if let httpUrlResponse = response.1 as? HTTPURLResponse, !(200...300 ~= httpUrlResponse.statusCode) {
-      Logger.logError(
+      Logger.error(
         MusculosError.httpError(httpUrlResponse.statusCode),
         message: "\(requestMethod) request to \(requestPath) failed with status code \(httpUrlResponse.statusCode)",
         file: "",

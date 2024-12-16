@@ -72,7 +72,7 @@ final class AddExerciseSheetViewModel {
         try await exerciseRepository.addExercise(exercise)
         didSavePublisher.send(())
       } catch {
-        Logger.logError(error, message: "Could not save exercise")
+        Logger.error(error, message: "Could not save exercise")
       }
     }
   }

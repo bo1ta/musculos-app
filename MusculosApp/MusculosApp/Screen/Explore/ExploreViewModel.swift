@@ -103,7 +103,7 @@ extension ExploreViewModel {
     do {
       featuredExercises = try await exerciseRepository.getExercises()
     } catch {
-      Logger.logError(error, message: "Could not load exercises")
+      Logger.error(error, message: "Could not load exercises")
     }
   }
 
@@ -111,7 +111,7 @@ extension ExploreViewModel {
     do {
       recommendedExercisesByGoals = try await exerciseRepository.getRecommendedExercisesByGoals()
     } catch {
-      Logger.logError(error, message: "Could not load recommendations by goals")
+      Logger.error(error, message: "Could not load recommendations by goals")
     }
   }
 
@@ -119,7 +119,7 @@ extension ExploreViewModel {
     do {
       recommendedExercisesByPastSessions = try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
     } catch {
-      Logger.logError(error, message: "Could not load recommendations by past sessions")
+      Logger.error(error, message: "Could not load recommendations by past sessions")
     }
   }
 
@@ -130,7 +130,7 @@ extension ExploreViewModel {
       do {
         featuredExercises = try await exerciseRepository.searchByQuery(query)
       } catch {
-        Logger.logError(error, message: "Could not search by muscle query", properties: ["query": query])
+        Logger.error(error, message: "Could not search by muscle query", properties: ["query": query])
       }
     }
   }
@@ -139,7 +139,7 @@ extension ExploreViewModel {
     do {
       favoriteExercises = try await exerciseRepository.getFavoriteExercises()
     } catch {
-      Logger.logError(error, message: "Data controller failed to get exercises")
+      Logger.error(error, message: "Data controller failed to get exercises")
     }
   }
 
@@ -147,7 +147,7 @@ extension ExploreViewModel {
     do {
       exercisesCompletedToday = try await exerciseSessionRepository.getCompletedToday()
     } catch {
-      Logger.logError(error, message: "Data controller failed to get exercises completed today")
+      Logger.error(error, message: "Data controller failed to get exercises completed today")
     }
   }
 
@@ -155,7 +155,7 @@ extension ExploreViewModel {
     do {
       goals = try await goalRepository.getGoals()
     } catch {
-      Logger.logError(error, message: "Could not get goals")
+      Logger.error(error, message: "Could not get goals")
     }
   }
 }

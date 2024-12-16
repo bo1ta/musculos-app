@@ -42,7 +42,7 @@ extension HealthKitManager {
     do {
       try await healthStore.requestAuthorization(toShare: Self.toSharePermissions, read: Self.toReadPermissions)
     } catch {
-      Logger.logError(error, message: "Error setting up health kit")
+      Logger.error(error, message: "Error setting up health kit")
     }
   }
   
@@ -53,7 +53,7 @@ extension HealthKitManager {
       let anchor = try NSKeyedUnarchiver.unarchivedObject(ofClass: HKQueryAnchor.self, from: data)
       self.queryAnchor = anchor
     } catch {
-      Logger.logError(error, message: "Could not unarchive query anchor")
+      Logger.error(error, message: "Could not unarchive query anchor")
     }
   }
 }
@@ -76,7 +76,7 @@ extension HealthKitManager {
     
     let results = try await anchorDescription.result(for: healthStore)
     let sample = results.addedSamples.first?.quantity.doubleValue(for: .count())
-    Logger.logInfo(message: "Steps count", properties: ["step_count": sample as Any])
+    Logger.info(message: "Steps count", properties: ["step_count": sample as Any])
     return sample
   }
   
@@ -96,7 +96,7 @@ extension HealthKitManager {
     updateQueryAnchor(results.newAnchor)
     
     let sample = results.addedSamples.first?.value
-    Logger.logInfo(message: "Sleep analysis", properties: ["bedtime_sleep": sample as Any])
+    Logger.info(message: "Sleep analysis", properties: ["bedtime_sleep": sample as Any])
     return sample
   }
   
@@ -112,7 +112,7 @@ extension HealthKitManager {
     
     if let sample = results.addedSamples.first?.quantity.doubleValue(for: .fluidOunceImperial()) {
       let formattedSample = String(format: "%.1f l", sample)
-      Logger.logInfo(message: "Water analysis", properties: ["dietary_water": formattedSample as Any])
+      Logger.info(message: "Water analysis", properties: ["dietary_water": formattedSample as Any])
       return formattedSample
     }
     

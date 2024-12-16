@@ -78,10 +78,10 @@ struct AuthenticationScreen: View {
       userStore.handlePostLogin(session: userSession)
     case .onLoginFailure(let error):
       toast = .init(style: .error, message: "Could not register. Please try again later")
-      Logger.logError(error, message: "Login failed")
+      Logger.error(error, message: "Login failed")
     case .onRegisterFailure(let error):
       toast = .init(style: .error, message: "Could not register. Please try again later")
-      Logger.logError(error, message: "Register failed")
+      Logger.error(error, message: "Register failed")
     }
   }
 }

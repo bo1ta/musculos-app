@@ -172,7 +172,7 @@ extension AddWorkoutSheetViewModel {
           state = .loaded(results)
         }
       } catch {
-        Logger.logError(error, message: "Error searching query")
+        Logger.error(error, message: "Error searching query")
       }
     }
   }

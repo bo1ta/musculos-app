@@ -35,7 +35,7 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
         container.persistentStoreDescriptions = [description]
         container.loadPersistentStores { _, error in
           if let error = error {
-            Logger.logError(error, message: "Failed to load persistent store")
+            Logger.error(error, message: "Failed to load persistent store")
           }
         }
         _persistentContainer = container

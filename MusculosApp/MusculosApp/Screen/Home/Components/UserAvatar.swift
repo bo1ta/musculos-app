@@ -34,7 +34,7 @@ struct UserAvatar: View {
       @unknown default:
         EmptyView()
           .onAppear {
-            Logger.logError(
+            Logger.error(
               MusculosError.unknownError,
               message: "Unknown error while fetching avatar"
             )

@@ -11,9 +11,9 @@ import SwiftyBeaver
 public let Logger = ConsoleLogger.shared
 
 public protocol Loggable {
-  func logInfo(message: String, properties: [String: Any]?, file: String, function: String, line: Int)
-  func logError(_ error: Error, message: String, properties: [String: Any]?, file: String, function: String, line: Int)
-  func logWarning(message: String, properties: [String: Any]?, file: String, function: String, line: Int)
+  func info(message: String, properties: [String: Any]?, file: String, function: String, line: Int)
+  func error(_ error: Error, message: String, properties: [String: Any]?, file: String, function: String, line: Int)
+  func warning(message: String, properties: [String: Any]?, file: String, function: String, line: Int)
 }
 
 public struct ConsoleLogger: Loggable, @unchecked Sendable {
@@ -26,15 +26,15 @@ public struct ConsoleLogger: Loggable, @unchecked Sendable {
     console.logPrintWay = .logger(subsystem: "NoveltyApp", category: "UI")
   }
 
-  public func logInfo(message: String, properties: [String : Any]? = nil, file: String = #file, function: String = #function, line: Int = #line) {
+  public func info(message: String, properties: [String : Any]? = nil, file: String = #file, function: String = #function, line: Int = #line) {
     console.send(.info, msg: message, thread: Thread.current.threadName, file: file, function: function, line: line, context: properties)
   }
 
-  public func logError(_ error: Error, message: String = "", properties: [String: Any]? = nil, file: String = #file, function: String = #function, line: Int = #line) {
+  public func error(_ error: Error, message: String = "", properties: [String: Any]? = nil, file: String = #file, function: String = #function, line: Int = #line) {
     console.send(.error, msg: "\(message) - Error: \(error.localizedDescription)", thread: Thread.current.threadName, file: file, function: function, line: line, context: properties)
   }
 
-  public func logWarning(message: String, properties: [String: Any]? = nil, file: String = #file, function: String = #function, line: Int = #line) {
+  public func warning(message: String, properties: [String: Any]? = nil, file: String = #file, function: String = #function, line: Int = #line) {
     console.send(.warning, msg: message, thread: Thread.current.threadName, file: file, function: function, line: line, context: properties)
   }
 }

@@ -74,7 +74,7 @@ final class HomeViewModel {
     do {
       goals = try await goalRepository.getGoals()
     } catch {
-      Logger.logError(error, message: "Error loading goals for home view")
+      Logger.error(error, message: "Error loading goals for home view")
     }
   }
 
@@ -83,7 +83,7 @@ final class HomeViewModel {
       let exercises = try await exerciseRepository.getExercisesByWorkoutGoal(.improveEndurance)
       quickExercises = Array(exercises.prefix(2))
     } catch {
-      Logger.logError(error, message: "Error loading exercises for home view")
+      Logger.error(error, message: "Error loading exercises for home view")
     }
   }
 }

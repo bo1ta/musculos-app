@@ -40,7 +40,7 @@ final class HistoryViewModel {
       exerciseSessions = try await exerciseSessionRepository.getExerciseSessions()
       updateFilteredSessions()
     } catch {
-      Logger.logError(error, message: "Cannot fetch sessions for History screen")
+      Logger.error(error, message: "Cannot fetch sessions for History screen")
     }
   }
 

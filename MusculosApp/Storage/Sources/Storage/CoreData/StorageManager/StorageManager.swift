@@ -70,15 +70,15 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
     if shouldRecreateDataStore(), let storeURL = description?.url {
       do {
         try container.persistentStoreCoordinator.destroyPersistentStore(at: storeURL, type: .sqlite)
-        Logger.logInfo(message: "Deleted persistent store for forced migration")
+        Logger.info(message: "Deleted persistent store for forced migration")
       } catch {
-        Logger.logError(error, message: "Failed to delete persistent store")
+        Logger.error(error, message: "Failed to delete persistent store")
       }
     }
 
     container.loadPersistentStores { _, error in
       if let error = error {
-        Logger.logError(error, message: "Failed to load persistent store")
+        Logger.error(error, message: "Failed to load persistent store")
       }
     }
     
@@ -163,7 +163,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
     viewContext.performAndWait {
       viewContext.reset()
       self.deleteAllStoredObjects()
-      Logger.logInfo(message: "CoreDataStack DESTROYED ! 💣")
+      Logger.info(message: "CoreDataStack DESTROYED ! 💣")
     }
   }
   
@@ -173,14 +173,14 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
       .appendingPathComponent("MusculosDataModel.sqlite")
 
     guard FileManager.default.fileExists(atPath: url.path) else {
-      Logger.logError(MusculosError.notFound, message: "Could not find sqlite db")
+      Logger.error(MusculosError.notFound, message: "Could not find sqlite db")
       return
     }
     
     do {
       try self.persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, type: .sqlite)
     } catch {
-      Logger.logError(error, message: "Could not destroy persistent store")
+      Logger.error(error, message: "Could not destroy persistent store")
     }
   }
   
@@ -194,7 +194,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
       do {
         try viewContext.execute(r)
       } catch {
-        Logger.logError(error, message: "Could not delete stored objects")
+        Logger.error(error, message: "Could not delete stored objects")
       }
     }
     viewContext.saveIfNeeded()

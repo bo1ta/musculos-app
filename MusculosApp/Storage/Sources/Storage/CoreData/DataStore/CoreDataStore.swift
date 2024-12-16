@@ -122,6 +122,19 @@ extension CoreDataStore {
       }
     }
   }
+
+  public func userExperience(for userID: UUID) async -> UserExperience? {
+    return await storageManager.performRead { storage in
+      guard
+        let userProfile = storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(userID)),
+        let experience = userProfile.userExperience
+      else {
+        return nil
+      }
+
+      return experience.toReadOnly()
+    }
+  }
 }
 
 // MARK: - Goal
