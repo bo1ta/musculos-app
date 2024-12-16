@@ -50,7 +50,7 @@ public actor ExerciseSessionRepository: BaseRepository {
     return await coreDataStore.exerciseSessionCompletedToday(for: userID)
   }
 
-  public func addSession(_ exercise: Exercise, dateAdded: Date, duration: Double, weight: Double) async throws {
+  public func addSession(_ exercise: Exercise, dateAdded: Date, duration: Double, weight: Double) async throws -> UserExperienceEntry {
     guard
       let currentUserID = self.currentUserID,
       let currentProfile = await coreDataStore.userProfile(for: currentUserID)
@@ -67,10 +67,13 @@ public actor ExerciseSessionRepository: BaseRepository {
       weight: weight
     )
 
-    try await coreDataStore.importModel(exerciseSession, of: ExerciseSessionEntity.self)
+    let userExperienceEntry = try await service.add(exerciseSession)
 
     backgroundWorker.queueOperation(priority: .high) { [weak self] in
-      try await self?.service.add(exerciseSession)
+      try await self?.coreDataStore.importModel(exerciseSession, of: ExerciseSessionEntity.self)
+      try await self?.coreDataStore.importModel(userExperienceEntry, of: UserExperienceEntryEntity.self)
     }
+
+    return userExperienceEntry
   }
 }

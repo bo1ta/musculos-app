@@ -26,9 +26,6 @@ final class AddWorkoutSheetViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
 
-  @ObservationIgnored
-  @Injected(\StorageContainer.workoutDataStore) private var workoutDataStore: WorkoutDataStoreProtocol
-
 
   // MARK: - Observed properties
   
@@ -182,26 +179,26 @@ extension AddWorkoutSheetViewModel {
   
   
   func submitWorkout() {
-    guard !selectedExercises.isEmpty, !workoutName.isEmpty, !muscleSearchQuery.isEmpty else { return }
-
-    guard let currentUserID = userManager.currentUserID else { return }
-
-    submitWorkoutTask = Task { [weak self] in
-      guard let self else { return }
-
-      let workout = Workout(
-        name: self.workoutName,
-        targetMuscles: [self.muscleSearchQuery],
-        workoutType: self.workoutType,
-        workoutExercises: self.selectedExercises
-      )
-      
-      do {
-        try await workoutDataStore.create(workout, userId: currentUserID)
-        didSaveSubject.send(())
-      } catch {
-        Logger.logError(error, message: "Could not add workout")
-      }
-    }
+//    guard !selectedExercises.isEmpty, !workoutName.isEmpty, !muscleSearchQuery.isEmpty else { return }
+//
+//    guard let currentUserID = userManager.currentUserID else { return }
+//
+//    submitWorkoutTask = Task { [weak self] in
+//      guard let self else { return }
+//
+//      let workout = Workout(
+//        name: self.workoutName,
+//        targetMuscles: [self.muscleSearchQuery],
+//        workoutType: self.workoutType,
+//        workoutExercises: self.selectedExercises
+//      )
+//      
+//      do {
+//        try await workoutDataStore.create(workout, userId: currentUserID)
+//        didSaveSubject.send(())
+//      } catch {
+//        Logger.logError(error, message: "Could not add workout")
+//      }
+//    }
   }
 }

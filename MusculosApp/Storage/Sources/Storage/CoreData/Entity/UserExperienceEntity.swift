@@ -46,3 +46,16 @@ extension UserExperienceEntity: ReadOnlyConvertible {
     )
   }
 }
+
+extension UserExperienceEntity: EntitySyncable {
+  public func populateEntityFrom(_ model: UserExperience, using storage: any StorageType) {
+    modelID = model.id
+    totalExperience = model.totalExperience
+    userID = model.userID
+    experienceEntries = Set<UserExperienceEntryEntity>()
+  }
+
+  public func updateEntityFrom(_ model: UserExperience, using storage: any StorageType) {
+    totalExperience = model.totalExperience
+  }
+}

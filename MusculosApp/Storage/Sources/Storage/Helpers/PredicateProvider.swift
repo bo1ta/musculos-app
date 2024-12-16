@@ -32,6 +32,14 @@ public struct PredicateProvider {
     )
   }
 
+  public static func userExperienceByID(_ id: UUID) -> NSPredicate {
+    return NSPredicate(
+      format: "%K == %@",
+      #keyPath(UserExperienceEntity.modelID),
+      id.uuidString
+    )
+  }
+
   public static func exerciseByGoals(_ goals: [Goal]) -> NSPredicate? {
     var predicate: NSPredicate?
 
