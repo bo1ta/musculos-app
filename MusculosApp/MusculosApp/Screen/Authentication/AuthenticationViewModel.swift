@@ -78,7 +78,7 @@ class AuthenticationViewModel {
         sendEvent(.onLoginSuccess(session))
       } catch {
         sendEvent(.onLoginFailure(error))
-        Logger.logError(error, message: "Sign in failed")
+        Logger.error(error, message: "Sign in failed")
       }
     }
   }
@@ -101,7 +101,7 @@ class AuthenticationViewModel {
         sendEvent(.onRegisterSuccess(session))
       } catch {
         sendEvent(.onRegisterFailure(error))
-        Logger.logError(error, message: "Sign Up failed")
+        Logger.error(error, message: "Sign Up failed")
       }
     }
   }

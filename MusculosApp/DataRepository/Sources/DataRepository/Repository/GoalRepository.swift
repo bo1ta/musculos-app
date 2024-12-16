@@ -11,11 +11,12 @@ import Utility
 import Storage
 import NetworkClient
 import Factory
+import Utility
 
 public actor GoalRepository: BaseRepository {
   @Injected(\NetworkContainer.goalService) private var service: GoalServiceProtocol
-  @Injected(\StorageContainer.goalDataStore) private var dataStore: GoalDataStoreProtocol
-  @Injected(\DataRepositoryContainer.backgroundWorker) private var backgroundWorker: BackgroundWorker
+
+  private let updateThreshold: TimeInterval = .oneHour
 
   public init() {}
 
@@ -24,7 +25,7 @@ public actor GoalRepository: BaseRepository {
   }
 
   public func addGoal(_ goal: Goal) async throws {
-    try await dataStore.add(goal)
+    try await coreDataStore.importModel(goal, of: GoalEntity.self)
 
     backgroundWorker.queueOperation { [weak self] in
       try await self?.service.addGoal(goal)
@@ -32,7 +33,7 @@ public actor GoalRepository: BaseRepository {
   }
 
   public func getGoalDetails(_ goalID: UUID) async throws -> Goal? {
-    let goal = await dataStore.getByID(goalID)
+    let goal = await coreDataStore.goal(by: goalID)
 
     let backgroundTask = backgroundWorker.queueOperation { [weak self] in
       return try await self?.service.getGoalByID(goalID)
@@ -50,16 +51,13 @@ public actor GoalRepository: BaseRepository {
       throw MusculosError.notFound
     }
 
-    let goals = await dataStore.getAllForUser(currentUserID)
-    if goals.count > 0 {
-      return goals
+    guard !shouldUseLocalStorageForEntity(GoalEntity.self) else {
+      return await coreDataStore.userProfile(for: currentUserID)?.goals ?? []
     }
 
-    let remoteGoals = try await service.getUserGoals()
-    backgroundWorker.queueOperation { [weak self] in
-      try await self?.dataStore.importToStorage(models: remoteGoals, localObjectType: GoalEntity.self)
-    }
-    return remoteGoals
+    let goals = try await service.getUserGoals()
+    syncStorage(goals, of: GoalEntity.self)
+    return goals
   }
 
   public func addFromOnboardingGoal(_ onboardingGoal: OnboardingGoal, for user: UserProfile) async throws -> Goal {
@@ -73,8 +71,9 @@ public actor GoalRepository: BaseRepository {
       user: user
     )
 
-    try await dataStore.add(goal)
-    try await service.addGoal(goal)
+    async let localTask = coreDataStore.importModel(goal, of: GoalEntity.self)
+    async let remoteTask = service.addGoal(goal)
+    _ = try await (localTask, remoteTask)
 
     return goal
   }

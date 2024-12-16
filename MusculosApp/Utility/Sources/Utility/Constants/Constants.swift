@@ -66,6 +66,14 @@ public enum UserDefaultsKey {
   public static let userSession = "user_session"
   public static let healthKitAnchor = "health_kit_anchor"
   public static let coreDataModelVersion = "core_data_model_version"
+
+  public static let goalsLastUpdated = "goals_last_updated"
+  public static let exercisesLastUpdated = "exercises_last_updated"
+  public static let exerciseSessionsLastUpdated = "exercise_sessions_last_updated"
+
+  public static func syncDate(for entityName: String) -> String {
+    return "\(entityName)_sync_lastUpdatedAt"
+  }
 }
 
 public enum MessageConstant: String {

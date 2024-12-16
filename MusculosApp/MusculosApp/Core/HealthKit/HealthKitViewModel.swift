@@ -71,7 +71,7 @@ extension HealthKitViewModel {
     case .notDetermined, .sharingDenied:
       isAuthorized = false
     @unknown default:
-      Logger.logError(MusculosError.badRequest, message: "Cannot update authorization status")
+      Logger.error(MusculosError.badRequest, message: "Cannot update authorization status")
     }
   }
   

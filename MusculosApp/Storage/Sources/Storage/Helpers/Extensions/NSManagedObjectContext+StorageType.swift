@@ -53,7 +53,7 @@ extension NSManagedObjectContext: StorageType {
     do {
       result = try count(for: request)
     } catch {
-      Logger.logError(error, message: "Unable to count objects")
+      Logger.error(error, message: "Unable to count objects")
     }
     
     return result
@@ -61,7 +61,7 @@ extension NSManagedObjectContext: StorageType {
   
   public func deleteObject<T: Object>(_ object: T) {
     guard let object = object as? NSManagedObject else {
-      Logger.logError(MusculosError.decodingError, message: "Cannot delete object! Invalid kind")
+      Logger.error(MusculosError.decodingError, message: "Cannot delete object! Invalid kind")
       return
     }
     
@@ -96,7 +96,7 @@ extension NSManagedObjectContext: StorageType {
   
   public func loadObject<T: Object>(ofType type: T.Type, with objectID: T.ObjectID) -> T? {
     guard let objectID = objectID as? NSManagedObjectID else {
-      Logger.logError(
+      Logger.error(
         MusculosError.notFound,
         message: "Cannot find objectID in context",
         properties: ["object_name": T.entityName]
@@ -107,7 +107,7 @@ extension NSManagedObjectContext: StorageType {
     do {
       return try existingObject(with: objectID) as? T
     } catch {
-      Logger.logError(
+      Logger.error(
         error,
         message: "Error loading object",
         properties: ["object_name": T.entityName]
@@ -131,7 +131,7 @@ extension NSManagedObjectContext: StorageType {
       try save()
     } catch {
       rollback()
-      Logger.logError(
+      Logger.error(
         error,
         message: "Failed to save context"
       )
@@ -151,7 +151,7 @@ extension NSManagedObjectContext: StorageType {
         return dict[propertyToFetch] as? UUID
       })
     } catch {
-      Logger.logError(
+      Logger.error(
         error,
         message: "Cannot fetch by property",
         properties: [
@@ -170,7 +170,7 @@ extension NSManagedObjectContext: StorageType {
     do {
       objects = try self.fetch(request) as? [T]
     } catch {
-      Logger.logError(error, message: "Could not load objects")
+      Logger.error(error, message: "Could not load objects")
     }
     return objects ?? []
   }

@@ -38,14 +38,21 @@ struct AuthenticationScreen: View {
         wavePosition: .bottom,
         baseWaveColor: AppColor.navyBlue
       )
-      authStep
+
+      Group {
+        switch viewModel.step {
+        case .login:
+          SignInView(viewModel: viewModel, onBack: onBack)
+            .transition(.asymmetric(insertion: .push(from: .leading), removal: .push(from: .trailing)))
+        case .register:
+          SignUpView(viewModel: viewModel, onBack: onBack)
+            .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+        }
+      }
+      .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: viewModel.step)
     }
-    .onDisappear {
-      viewModel.cleanUp()
-    }
-    .onReceive(viewModel.eventPublisher, perform: { event in
-      handleAuthEvent(event)
-    })
+    .onDisappear(perform: viewModel.cleanUp)
+    .onReceive(viewModel.eventPublisher, perform: handleAuthEvent(_:))
     .onChange(of: viewModel.step) { _, step in
       handleStepUpdate(step)
     }
@@ -61,21 +68,6 @@ struct AuthenticationScreen: View {
     .background(Color.AppColor.blue200)
   }
 
-  @ViewBuilder
-  private var authStep: some View {
-    Group {
-      switch viewModel.step {
-      case .login:
-        SignInView(viewModel: viewModel, onBack: onBack)
-          .transition(.asymmetric(insertion: .push(from: .leading), removal: .push(from: .trailing)))
-      case .register:
-        SignUpView(viewModel: viewModel, onBack: onBack)
-          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
-      }
-    }
-    .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: viewModel.step)
-  }
-
   private func handleStepUpdate(_ step: AuthenticationViewModel.Step) {
     waveSize = step == .login ? originalSignInWaveSize : originalSignUpWaveSize
   }
@@ -86,10 +78,10 @@ struct AuthenticationScreen: View {
       userStore.handlePostLogin(session: userSession)
     case .onLoginFailure(let error):
       toast = .init(style: .error, message: "Could not register. Please try again later")
-      Logger.logError(error, message: "Login failed")
+      Logger.error(error, message: "Login failed")
     case .onRegisterFailure(let error):
       toast = .init(style: .error, message: "Could not register. Please try again later")
-      Logger.logError(error, message: "Register failed")
+      Logger.error(error, message: "Register failed")
     }
   }
 }

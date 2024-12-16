@@ -13,10 +13,8 @@ import NetworkClient
 import Factory
 
 public actor UserRepository: BaseRepository {
-  @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
-  @Injected(\StorageContainer.userDataStore) private var dataStore: UserDataStoreProtocol
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
-  @Injected(\DataRepositoryContainer.backgroundWorker) private var backgroundWorker: BackgroundWorker
+  @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
 
   public func register(email: String, password: String, username: String) async throws -> UserSession {
     return try await service.register(email: email, password: password, username: username)
@@ -35,7 +33,7 @@ public actor UserRepository: BaseRepository {
       try await self?.syncCurrentUser()
     }
 
-    if let profile = await dataStore.loadProfile(userId: currentUserID) {
+    if let profile = await coreDataStore.userProfile(for: currentUserID) {
       return profile
     }
 
@@ -45,7 +43,7 @@ public actor UserRepository: BaseRepository {
   public func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws {
     guard
       let currentUserID = self.currentUserID,
-      let currentProfile = await dataStore.loadProfile(userId: currentUserID)
+      let currentProfile = await coreDataStore.userProfile(for: currentUserID)
     else {
       throw MusculosError.notFound
     }
@@ -55,7 +53,7 @@ public actor UserRepository: BaseRepository {
       goal = try await goalRepository.addFromOnboardingGoal(onboardingGoal, for: currentProfile)
     }
 
-    try await dataStore.updateProfile(
+    try await coreDataStore.updateProfile(
       userId: currentUserID,
       weight: onboardingData.weight,
       height: onboardingData.height,
@@ -75,7 +73,7 @@ public actor UserRepository: BaseRepository {
 
   @discardableResult private func syncCurrentUser() async throws -> UserProfile {
     let profile = try await service.currentUser()
-    try await dataStore.handleObjectSync(remoteObject: profile, localObjectType: UserProfileEntity.self)
+    try await coreDataStore.importModel(profile, of: UserProfileEntity.self)
     return profile
   }
 }

@@ -48,4 +48,15 @@ public enum WorkoutGoal: Int, CaseIterable, Sendable {
     case .flexibility: return .orange
     }
   }
+
+  public var goalCategory: Goal.Category {
+    switch self {
+    case .general, .flexibility, .improveEndurance:
+      return .general
+    case .growMuscles, .increaseStrength:
+      return .growMuscle
+    case .loseWeight:
+      return .loseWeight
+    }
+  }
 }

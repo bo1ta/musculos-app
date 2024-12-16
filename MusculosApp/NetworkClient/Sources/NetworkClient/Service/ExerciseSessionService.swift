@@ -12,7 +12,7 @@ import Utility
 
 public protocol ExerciseSessionServiceProtocol: Sendable {
   func getAll() async throws -> [ExerciseSession]
-  func add(_ exerciseSession: ExerciseSession) async throws
+  func add(_ exerciseSession: ExerciseSession) async throws -> UserExperienceEntry
 }
 
 public struct ExerciseSessionService: ExerciseSessionServiceProtocol, APIService, @unchecked Sendable {
@@ -24,7 +24,7 @@ public struct ExerciseSessionService: ExerciseSessionServiceProtocol, APIService
     return try ExerciseSession.createArrayFrom(data)
   }
 
-  public func add(_ exerciseSession: ExerciseSession) async throws {
+  public func add(_ exerciseSession: ExerciseSession) async throws -> UserExperienceEntry {
     var request = APIRequest(method: .post, endpoint: .exerciseSessions(.index))
     request.body = [
       "dateAdded": exerciseSession.dateAdded.ISO8601Format() as Any,
@@ -33,6 +33,7 @@ public struct ExerciseSessionService: ExerciseSessionServiceProtocol, APIService
       "sessionID": exerciseSession.sessionId.uuidString as Any
     ]
 
-    try await client.dispatch(request)
+    let data = try await client.dispatch(request)
+    return try UserExperienceEntry.createFrom(data)
   }
 }

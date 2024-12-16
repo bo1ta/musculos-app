@@ -17,7 +17,7 @@ public extension DecodableModel where Self: Codable {
     do {
       return try JSONHelper.decoder.decode(Self.self, from: data)
     } catch {
-      Logger.logError(
+      Logger.error(
         error,
         message: "Could not decode object",
         properties: ["object": String(describing: Self.self)]
@@ -30,7 +30,7 @@ public extension DecodableModel where Self: Codable {
     do {
       return try JSONHelper.decoder.decode([Self].self, from: data)
     } catch {
-      Logger.logError(
+      Logger.error(
         error,
         message: "Could not decode object",
         properties: ["object": String(describing: Self.self)]

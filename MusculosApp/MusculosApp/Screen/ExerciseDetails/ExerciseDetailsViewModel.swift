@@ -43,9 +43,9 @@ final class ExerciseDetailsViewModel {
   var isFavorite = false
   var showInputDialog = false
   var showRatingDialog = false
-  var inputWeight: Double? = nil
   var userRating = 0
   var exerciseRatings: [ExerciseRating] = []
+  var inputWeight: Double = 0
 
   var toastPublisher: AnyPublisher<Toast, Never> {
     return toastSubject
@@ -83,7 +83,7 @@ final class ExerciseDetailsViewModel {
     async let exerciseDetailsTask: Void = loadExerciseDetails()
     async let exerciseRatingsTask: Void = loadExerciseRatings()
 
-    let (_, _) = await (exerciseDetailsTask, exerciseRatingsTask)
+    _ = await (exerciseDetailsTask, exerciseRatingsTask)
   }
 
   private func loadExerciseDetails() async {
@@ -91,7 +91,7 @@ final class ExerciseDetailsViewModel {
       exercise = try await exerciseRepository.getExerciseDetails(for: exercise.id)
     } catch {
       showErrorToast()
-      Logger.logError(error, message: "Cannot load exercise details")
+      Logger.error(error, message: "Cannot load exercise details")
     }
   }
 
@@ -104,7 +104,7 @@ final class ExerciseDetailsViewModel {
       }
     } catch {
       showErrorToast()
-      Logger.logError(error, message: "Could not load exercise ratings")
+      Logger.error(error, message: "Could not load exercise ratings")
     }
   }
 
@@ -113,22 +113,18 @@ final class ExerciseDetailsViewModel {
   }
 
   func saveRating(_ rating: Int) {
+    showRatingDialog = false
+
     saveRatingTask = Task { [weak self] in
       guard let self else { return }
 
       do {
         try await ratingRepository.addRating(rating: Double(rating), for: exercise.id)
-        showRatingDialog = false
+        await loadExerciseRatings()
       } catch {
-        Logger.logError(error, message: "Could not save rating")
+        Logger.error(error, message: "Could not save rating")
       }
     }
-  }
-
-  func handleDialogInput(_ input: String) {
-    guard let inputWeight = Double(input) else { return }
-    self.inputWeight = inputWeight
-    startTimer()
   }
 
   func updateFavorite(_ isFavorite: Bool) {
@@ -146,7 +142,7 @@ final class ExerciseDetailsViewModel {
 
       } catch {
         self.isFavorite = !isFavorite
-        Logger.logError(error, message: "Could not update exercise.isFavorite")
+        Logger.error(error, message: "Could not update exercise.isFavorite")
       }
     }
   }
@@ -158,7 +154,7 @@ final class ExerciseDetailsViewModel {
         try await exerciseSessionRepository.addSession(exercise, dateAdded: Date(), duration: Double(self.elapsedTime), weight: inputWeight ?? 0)
         try await maybeUpdateGoals()
       } catch {
-        Logger.logError(error, message: "Could not save exercise session")
+        Logger.error(error, message: "Could not save exercise session")
       }
     }
   }

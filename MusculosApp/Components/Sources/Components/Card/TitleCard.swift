@@ -27,7 +27,7 @@ public struct TitleCard: View {
       .overlay {
         VStack(alignment: .center) {
           Text(title)
-            .font(AppFont.poppins(.regular, size: 15))
+            .font(AppFont.poppins(.semibold, size: 15))
             .lineLimit(nil)
             .minimumScaleFactor(0.85)
             .foregroundStyle(titleColor)

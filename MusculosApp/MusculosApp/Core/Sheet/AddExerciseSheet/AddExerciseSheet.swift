@@ -28,7 +28,7 @@ struct AddExerciseSheet: View {
         dismiss()
       })
       
-      CustomTextField(
+      FormField(
         text: $viewModel.exerciseName,
         label: "Name"
       )

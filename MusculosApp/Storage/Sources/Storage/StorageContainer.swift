@@ -15,35 +15,10 @@ public final class StorageContainer: SharedContainer {
   public var manager = ContainerManager()
 }
 
-extension StorageContainer: AutoRegistering {
-  public func autoRegister() {
-    manager.defaultScope = .shared
-  }
-}
-
 extension StorageContainer {
-  public var exerciseDataStore: Factory<ExerciseDataStoreProtocol> {
-    self { ExerciseDataStore() }
-  }
-
-  public var userDataStore: Factory<UserDataStoreProtocol> {
-    self { UserDataStore() }
-  }
-
-  public var exerciseSessionDataStore: Factory<ExerciseSessionDataStoreProtocol> {
-    self { ExerciseSessionDataStore() }
-  }
-
-  public var goalDataStore: Factory<GoalDataStoreProtocol> {
-    self { GoalDataStore() }
-  }
-
-  public var workoutDataStore: Factory<WorkoutDataStoreProtocol> {
-    self { WorkoutDataStore() }
-  }
-
-  public var ratingDataStore: Factory<RatingDataStoreProtocol> {
-    self { RatingDataStore() }
+  public var coreDataStore: Factory<CoreDataStore> {
+    self { CoreDataStore() }
+      .shared
   }
 
   public var storageManager: Factory<StorageManagerType> {

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23507" systemVersion="24B83" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ExerciseEntity" representedClassName="ExerciseEntity" syncable="YES">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="equipment" optional="YES" attributeType="String"/>
+        <attribute name="exerciseId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="force" optional="YES" attributeType="String"/>
+        <attribute name="imageUrls" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
+        <attribute name="instructions" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
+        <attribute name="isFavorite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="level" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="exerciseSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseSessionEntity" inverseName="exercise" inverseEntity="ExerciseSessionEntity"/>
+        <relationship name="primaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PrimaryMuscleEntity" inverseName="exercises" inverseEntity="PrimaryMuscleEntity"/>
+        <relationship name="ratings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseRatingEntity" inverseName="exercise" inverseEntity="ExerciseRatingEntity"/>
+        <relationship name="secondaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SecondaryMuscleEntity" inverseName="exercises" inverseEntity="SecondaryMuscleEntity"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="exerciseId"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="ExerciseRatingEntity" representedClassName="ExerciseRatingEntity" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String"/>
+        <attribute name="isPublic" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="rating" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="ratingID" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="exercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ExerciseEntity" inverseName="ratings" inverseEntity="ExerciseEntity"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfileEntity" inverseName="ratings" inverseEntity="UserProfileEntity"/>
+    </entity>
+    <entity name="ExerciseSessionEntity" representedClassName="ExerciseSessionEntity" syncable="YES">
+        <attribute name="dateAdded" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="duration" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="sessionId" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="weight" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="exercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ExerciseEntity" inverseName="exerciseSessions" inverseEntity="ExerciseEntity"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfileEntity" inverseName="exerciseSessions" inverseEntity="UserProfileEntity"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="sessionId"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="GoalEntity" representedClassName="GoalEntity" syncable="YES">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="dateAdded" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="frequency" attributeType="String"/>
+        <attribute name="goalID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isCompleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="targetMuscles" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="targetValue" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="progressHistory" toMany="YES" deletionRule="Nullify" destinationEntity="ProgressEntryEntity" inverseName="goal" inverseEntity="ProgressEntryEntity"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfileEntity" inverseName="goals" inverseEntity="UserProfileEntity"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="goalID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="MuscleEntity" representedClassName="MuscleEntity" syncable="YES">
+        <attribute name="muscleID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+    </entity>
+    <entity name="PrimaryMuscleEntity" representedClassName="PrimaryMuscleEntity" parentEntity="MuscleEntity" syncable="YES">
+        <relationship name="exercises" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseEntity" inverseName="primaryMuscles" inverseEntity="ExerciseEntity"/>
+    </entity>
+    <entity name="ProgressEntryEntity" representedClassName="ProgressEntryEntity" syncable="YES">
+        <attribute name="dateAdded" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="progressID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="value" attributeType="Double" usesScalarValueType="YES"/>
+        <relationship name="goal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GoalEntity" inverseName="progressHistory" inverseEntity="GoalEntity"/>
+    </entity>
+    <entity name="SecondaryMuscleEntity" representedClassName="SecondaryMuscleEntity" parentEntity="MuscleEntity" syncable="YES">
+        <relationship name="exercises" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseEntity" inverseName="secondaryMuscles" inverseEntity="ExerciseEntity"/>
+    </entity>
+    <entity name="UserExperienceEntity" representedClassName="UserExperienceEntity" syncable="YES">
+        <attribute name="modelID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="totalExperience" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="experienceEntries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserExperienceEntryEntity" inverseName="userExperience" inverseEntity="UserExperienceEntryEntity"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfileEntity" inverseName="userExperience" inverseEntity="UserProfileEntity"/>
+    </entity>
+    <entity name="UserExperienceEntryEntity" representedClassName="UserExperienceEntryEntity" syncable="YES">
+        <attribute name="calculationDetails" optional="YES" attributeType="String"/>
+        <attribute name="modelID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="xpGained" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="userExperience" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserExperienceEntity" inverseName="experienceEntries" inverseEntity="UserExperienceEntity"/>
+    </entity>
+    <entity name="UserProfileEntity" representedClassName="UserProfileEntity" syncable="YES">
+        <attribute name="availableEquipment" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
+        <attribute name="avatarUrl" optional="YES" attributeType="String"/>
+        <attribute name="email" attributeType="String"/>
+        <attribute name="fullName" optional="YES" attributeType="String"/>
+        <attribute name="gender" optional="YES" attributeType="String"/>
+        <attribute name="height" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isOnboarded" attributeType="Boolean" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="level" optional="YES" attributeType="String"/>
+        <attribute name="primaryGoalID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="synchronized" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="userId" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="username" attributeType="String"/>
+        <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="xp" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="exerciseSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseSessionEntity" inverseName="user" inverseEntity="ExerciseSessionEntity"/>
+        <relationship name="goals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GoalEntity" inverseName="user" inverseEntity="GoalEntity"/>
+        <relationship name="ratings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseRatingEntity" inverseName="user" inverseEntity="ExerciseRatingEntity"/>
+        <relationship name="userExperience" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserExperienceEntity" inverseName="user" inverseEntity="UserExperienceEntity"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="userId"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="WorkoutEntity" representedClassName="WorkoutEntity" syncable="YES">
+        <attribute name="name" attributeType="String" defaultValueString=""/>
+        <attribute name="targetMuscles" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
+        <attribute name="workoutType" attributeType="String"/>
+        <relationship name="createdBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfileEntity"/>
+        <relationship name="workoutExercises" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutExerciseEntity" inverseName="workout" inverseEntity="WorkoutExerciseEntity"/>
+    </entity>
+    <entity name="WorkoutExerciseEntity" representedClassName="WorkoutExerciseEntity" syncable="YES">
+        <attribute name="numberOfReps" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="exercise" maxCount="1" deletionRule="Nullify" destinationEntity="ExerciseEntity"/>
+        <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutEntity" inverseName="workoutExercises" inverseEntity="WorkoutEntity"/>
+    </entity>
+</model>

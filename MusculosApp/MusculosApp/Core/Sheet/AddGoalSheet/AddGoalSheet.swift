@@ -23,12 +23,12 @@ struct AddGoalSheet: View {
         onDismiss: { dismiss() }
       )
 
-      CustomTextField(
+      FormField(
         text: $viewModel.name,
         label: "Name"
       )
       
-      CustomTextField(
+      FormField(
         text: $viewModel.targetValue,
         label: "Target value",
         keyboardType: .numberPad

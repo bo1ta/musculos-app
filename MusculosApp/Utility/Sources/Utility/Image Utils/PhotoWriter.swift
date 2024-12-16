@@ -22,7 +22,7 @@ public struct PhotoWriter {
       try data.write(to: destionationUrl)
       return destionationUrl
     } catch {
-      Logger.logError(error, message: "Could not write image to disk")
+      Logger.error(error, message: "Could not write image to disk")
       return nil
     }
   }

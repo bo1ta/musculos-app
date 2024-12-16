@@ -34,7 +34,7 @@ extension RecommendationSection {
         case .failure(let error):
           EmptyView()
             .onAppear {
-              Logger.logError(error, message: "Error rendering section item image")
+              Logger.error(error, message: "Error rendering section item image")
             }
         @unknown default:
           EmptyView()

@@ -66,7 +66,7 @@ final class UserStore {
 
   init() {
     NotificationCenter.default.publisher(for: .authTokenDidFail)
-      .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
+      .throttle(for: 1, scheduler: RunLoop.main, latest: false)
       .sink { [weak self] _ in
         self?.logOut()
       }
@@ -80,7 +80,7 @@ final class UserStore {
     case .authenticated(let userSession):
       handlePostLogin(session: userSession)
     case .unauthenticated:
-      Logger.logInfo(message: "Could not find user. Using logged-out state")
+      Logger.info(message: "Could not find user. Using logged-out state")
     }
   }
 
@@ -91,7 +91,7 @@ final class UserStore {
       do {
         try await self?.loadCurrentUser()
       } catch {
-        Logger.logError(error, message: "Could not refresh user")
+        Logger.error(error, message: "Could not refresh user")
       }
     }
   }
@@ -113,7 +113,7 @@ final class UserStore {
         try await loadCurrentUser()
         sendEvent(.didLogin)
       } catch {
-        Logger.logError(error, message: "Error loading current user")
+        Logger.error(error, message: "Error loading current user")
       }
     }
   }
@@ -124,7 +124,7 @@ final class UserStore {
         try await self?.userRepository.updateProfileUsingOnboardingData(onboardingData)
         self?.sendEvent(.didFinishOnboarding)
       } catch {
-        Logger.logError(error, message: "Could not update profile with onboarding data")
+        Logger.error(error, message: "Could not update profile with onboarding data")
       }
     }
   }

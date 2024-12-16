@@ -29,13 +29,12 @@ struct HomeScreen: View {
         AchievementCard()
           .defaultShimmering(active: viewModel.isLoading)
 
-
         GoalsSection(goals: viewModel.goals, onAddGoal: {
           navigationRouter.present(.addGoalSheet)
         })
 
-        if let exercise = viewModel.quickExercise {
-          QuickWorkoutSection(exercises: [exercise])
+        if let exercises = viewModel.quickExercises {
+          QuickWorkoutSection(exercises: exercises)
         }
 
         ChallengesSection()

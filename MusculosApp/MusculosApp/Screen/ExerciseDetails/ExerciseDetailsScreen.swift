@@ -84,16 +84,10 @@ struct ExerciseDetailsScreen: View {
     .dismissingGesture(direction: .left, action: navigationRouter.pop)
     .navigationBarBackButtonHidden()
     .animatedScreenBorder(isActive: viewModel.isTimerActive)
-    .inputDialog(
-      isPresented: $viewModel.showInputDialog,
-      title: "What weight?",
-      fieldHint: "?kg",
-      fieldKeyboardType: .decimalPad,
-      buttonTitle: "Start",
-      onSubmit: { inputValue in
-        viewModel.handleDialogInput(inputValue)
-      }
-    )
+    .sheet(isPresented: $viewModel.showInputDialog, content: {
+      SelectWeightSheet(weight: $viewModel.inputWeight, onSubmit: viewModel.startTimer)
+        .presentationDetents([.height(300)])
+    })
     .ratingDialog(
       isPresented: $viewModel.showRatingDialog,
       title: "Rate exercise",

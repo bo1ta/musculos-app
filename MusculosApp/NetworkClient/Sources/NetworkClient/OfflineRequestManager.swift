@@ -23,7 +23,7 @@ actor OfflineRequestManager {
     cancellable = NetworkContainer.shared.networkMonitor().connectionStatusPublisher
       .sink { [weak self] connectionStatus in
         self?.queue.addOperation { [weak self] in
-          await self?.handlePathUpdate(connectionStatus)
+          await self?.handleConnection(connectionStatus)
         }
       }
   }
@@ -44,7 +44,7 @@ actor OfflineRequestManager {
     pendingRequests.removeAll()
   }
 
-  private func handlePathUpdate(_ connectionStatus: NWPath.Status) async {
+  private func handleConnection(_ connectionStatus: NWPath.Status) async {
     let wasOffline = !isInternetAvailable
     isInternetAvailable = connectionStatus == .satisfied
 
@@ -60,7 +60,7 @@ actor OfflineRequestManager {
     for request in requestsToRetry {
       do {
         let data = try await dispatch(request)
-        Logger.logInfo(message: "Retry succeeded after recovering network connectivity")
+        Logger.info(message: "Retry succeeded after recovering network connectivity")
       } catch {
         if isConnectionError(error) {
           addToPendingRequests(request)

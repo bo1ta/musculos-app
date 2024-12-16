@@ -32,6 +32,14 @@ public struct PredicateProvider {
     )
   }
 
+  public static func userExperienceByID(_ id: UUID) -> NSPredicate {
+    return NSPredicate(
+      format: "%K == %@",
+      #keyPath(UserExperienceEntity.modelID),
+      id.uuidString
+    )
+  }
+
   public static func exerciseByGoals(_ goals: [Goal]) -> NSPredicate? {
     var predicate: NSPredicate?
 
@@ -54,11 +62,19 @@ public struct PredicateProvider {
     return predicate
   }
 
-  public static func musclesByIds(_ muscleIds: [Int]) -> NSPredicate {
+  public static func exerciseByCategories(_ categories: [String]) -> NSPredicate? {
     return NSPredicate(
       format: "%K IN %@",
-      #keyPath(PrimaryMuscleEntity.muscleId),
-      muscleIds
+      #keyPath(ExerciseEntity.category),
+      categories
+    )
+  }
+
+  public static func musclesByIds(_ muscleIDs: [Int]) -> NSPredicate {
+    return NSPredicate(
+      format: "%K IN %@",
+      #keyPath(PrimaryMuscleEntity.muscleID),
+      muscleIDs
     )
   }
 
@@ -76,6 +92,17 @@ public struct PredicateProvider {
       #keyPath(UserProfileEntity.userId),
       id as NSUUID
     )
+  }
+
+  public static func exerciseSessionsBetweenDates(_ startDate: Date, endDate: Date) -> NSPredicate {
+    return NSPredicate(
+      format: "dateAdded >= %@ AND dateAdded <= %@",
+      argumentArray: [startDate, endDate]
+    )
+  }
+
+  public static func exerciseSessionsForUser(_ userID: UUID) -> NSPredicate {
+    return NSPredicate(format: "user.userId == %@", userID.uuidString)
   }
 
   public static func goalByID(_ id: UUID) -> NSPredicate {

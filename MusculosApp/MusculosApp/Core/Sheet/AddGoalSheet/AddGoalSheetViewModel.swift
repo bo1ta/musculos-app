@@ -73,7 +73,7 @@ final class AddGoalSheetViewModel {
         try await goalRepository.addGoal(goal)
         didSavePublisher.send(())
       } catch {
-        Logger.logError(error, message: "Could not save goal")
+        Logger.error(error, message: "Could not save goal")
       }
     }
   }

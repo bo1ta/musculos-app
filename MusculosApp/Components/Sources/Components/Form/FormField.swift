@@ -39,7 +39,7 @@ public struct FormField: View {
     VStack(alignment: .leading) {
       if let label {
         Text(label)
-          .font(AppFont.poppins(.regular, size: 16))
+          .font(AppFont.poppins(.medium, size: 16))
           .foregroundStyle(labelColor)
       }
 
@@ -76,6 +76,7 @@ public struct FormField: View {
               })
             }
           }
+          .textContentType(.none)
           .foregroundStyle(.black)
           .textInputAutocapitalization(.never)
           .autocorrectionDisabled()
@@ -88,5 +89,11 @@ public struct FormField: View {
 }
 
 #Preview {
-  FormField(text: .constant(""), label: "Username", labelColor: .indigo, keyboardType: .decimalPad, imageIcon: Image("search-icon"))
+  FormField(
+    text: .constant(""),
+    label: "Username",
+    labelColor: .indigo,
+    keyboardType: .decimalPad,
+    imageIcon: Image("search-icon")
+  )
 }
