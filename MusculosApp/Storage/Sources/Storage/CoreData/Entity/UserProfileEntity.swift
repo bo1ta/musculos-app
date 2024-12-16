@@ -30,6 +30,7 @@ public class UserProfileEntity: NSManagedObject {
   @NSManaged public var goals: Set<GoalEntity>
   @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
   @NSManaged public var exerciseRatings: Set<ExerciseRatingEntity>
+  @NSManaged public var userExperience: UserExperienceEntity?
 
   @nonobjc public class func fetchRequest() -> NSFetchRequest<UserProfileEntity> {
     return NSFetchRequest<UserProfileEntity>(entityName: "UserProfileEntity")

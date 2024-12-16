@@ -240,7 +240,7 @@ extension CoreDataStore {
       return viewStorage
         .allObjects(
           ofType: PrimaryMuscleEntity.self,
-          matching: NSPredicate(format: "NOT (muscleId IN %@)", muscleIds),
+          matching: NSPredicate(format: "NOT (muscleID IN %@)", muscleIds),
           sortedBy: nil
         )
         .flatMap(\.exercises)

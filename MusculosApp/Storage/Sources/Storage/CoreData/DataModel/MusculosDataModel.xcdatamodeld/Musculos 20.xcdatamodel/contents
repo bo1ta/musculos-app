@@ -79,14 +79,14 @@
     </entity>
     <entity name="UserExperienceEntity" representedClassName="UserExperienceEntity" syncable="YES">
         <attribute name="modelID" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="totalExperience" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="userID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="totalExperience" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="experienceEntries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserExperienceEntryEntity" inverseName="userExperience" inverseEntity="UserExperienceEntryEntity"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfileEntity" inverseName="userExperience" inverseEntity="UserProfileEntity"/>
     </entity>
     <entity name="UserExperienceEntryEntity" representedClassName="UserExperienceEntryEntity" syncable="YES">
         <attribute name="calculationDetails" optional="YES" attributeType="String"/>
         <attribute name="modelID" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="xpGained" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="xpGained" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="userExperience" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserExperienceEntity" inverseName="experienceEntries" inverseEntity="UserExperienceEntity"/>
     </entity>
     <entity name="UserProfileEntity" representedClassName="UserProfileEntity" syncable="YES">
@@ -108,6 +108,7 @@
         <relationship name="exerciseSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseSessionEntity" inverseName="user" inverseEntity="ExerciseSessionEntity"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GoalEntity" inverseName="user" inverseEntity="GoalEntity"/>
         <relationship name="ratings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseRatingEntity" inverseName="user" inverseEntity="ExerciseRatingEntity"/>
+        <relationship name="userExperience" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserExperienceEntity" inverseName="user" inverseEntity="UserExperienceEntity"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="userId"/>

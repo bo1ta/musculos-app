@@ -10,13 +10,11 @@ import Utility
 
 public struct UserExperience: Sendable, Codable, DecodableModel {
   public var id: UUID
-  public var userID: UUID
   public var totalExperience: Int
-  public var experienceEntries: [UserExperienceEntry]
+  public var experienceEntries: [UserExperienceEntry]?
 
-  public init(id: UUID, userID: UUID, totalExperience: Int, experienceEntries: [UserExperienceEntry]) {
+  public init(id: UUID, totalExperience: Int, experienceEntries: [UserExperienceEntry]? = nil) {
     self.id = id
-    self.userID = userID
     self.totalExperience = totalExperience
     self.experienceEntries = experienceEntries
   }

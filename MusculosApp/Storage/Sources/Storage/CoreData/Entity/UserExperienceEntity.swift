@@ -13,8 +13,8 @@ import Models
 @objc(UserExperienceEntity)
 public class UserExperienceEntity: NSManagedObject {
   @NSManaged public var modelID: UUID
-  @NSManaged public var totalExperience: Int
-  @NSManaged public var userID: UUID
+  @NSManaged public var totalExperience: NSNumber
+  @NSManaged public var user: UserProfileEntity?
   @NSManaged public var experienceEntries: Set<UserExperienceEntryEntity>
 
   @nonobjc public class func fetchRequest() -> NSFetchRequest<UserExperienceEntity> {
@@ -40,8 +40,7 @@ extension UserExperienceEntity: ReadOnlyConvertible {
   public func toReadOnly() -> UserExperience {
     return UserExperience(
       id: modelID,
-      userID: userID,
-      totalExperience: totalExperience,
+      totalExperience: totalExperience.intValue,
       experienceEntries: experienceEntries.map { $0.toReadOnly() }
     )
   }
@@ -50,12 +49,11 @@ extension UserExperienceEntity: ReadOnlyConvertible {
 extension UserExperienceEntity: EntitySyncable {
   public func populateEntityFrom(_ model: UserExperience, using storage: any StorageType) {
     modelID = model.id
-    totalExperience = model.totalExperience
-    userID = model.userID
+    totalExperience = NSNumber(integerLiteral: model.totalExperience)
     experienceEntries = Set<UserExperienceEntryEntity>()
   }
 
   public func updateEntityFrom(_ model: UserExperience, using storage: any StorageType) {
-    totalExperience = model.totalExperience
+    totalExperience = NSNumber(integerLiteral: model.totalExperience)
   }
 }
