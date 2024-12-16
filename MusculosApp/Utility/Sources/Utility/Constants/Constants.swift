@@ -70,6 +70,10 @@ public enum UserDefaultsKey {
   public static let goalsLastUpdated = "goals_last_updated"
   public static let exercisesLastUpdated = "exercises_last_updated"
   public static let exerciseSessionsLastUpdated = "exercise_sessions_last_updated"
+
+  public static func syncDate(for entityName: String) -> String {
+    return "\(entityName)_sync_lastUpdatedAt"
+  }
 }
 
 public enum MessageConstant: String {

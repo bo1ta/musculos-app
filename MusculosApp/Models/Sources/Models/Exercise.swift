@@ -23,6 +23,7 @@ public struct Exercise: Codable, Sendable {
   public var imageUrls: [String] = []
   public var isFavorite: Bool?
   public var updatedAt: Date?
+  public var ratings: [ExerciseRating]?
 
   public init(
     category: String,
@@ -36,7 +37,8 @@ public struct Exercise: Codable, Sendable {
     instructions: [String],
     imageUrls: [String],
     isFavorite: Bool = false,
-    updatedAt: Date? = nil
+    updatedAt: Date? = nil,
+    ratings: [ExerciseRating]? = nil
   ) {
     self.category = category
     self.equipment = equipment
@@ -50,6 +52,7 @@ public struct Exercise: Codable, Sendable {
     self.imageUrls = imageUrls
     self.isFavorite = isFavorite
     self.updatedAt = updatedAt
+    self.ratings = ratings
   }
 
   enum CodingKeys: String, CodingKey {

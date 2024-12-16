@@ -15,8 +15,6 @@ import Utility
 
 public actor GoalRepository: BaseRepository {
   @Injected(\NetworkContainer.goalService) private var service: GoalServiceProtocol
-  @Injected(\StorageContainer.goalDataStore) private var dataStore: GoalDataStoreProtocol
-  @Injected(\DataRepositoryContainer.backgroundWorker) private var backgroundWorker: BackgroundWorker
 
   private let updateThreshold: TimeInterval = .oneHour
 
@@ -27,7 +25,7 @@ public actor GoalRepository: BaseRepository {
   }
 
   public func addGoal(_ goal: Goal) async throws {
-    try await dataStore.add(goal)
+    try await coreDataStore.importModel(goal, of: GoalEntity.self)
 
     backgroundWorker.queueOperation { [weak self] in
       try await self?.service.addGoal(goal)
@@ -35,7 +33,7 @@ public actor GoalRepository: BaseRepository {
   }
 
   public func getGoalDetails(_ goalID: UUID) async throws -> Goal? {
-    let goal = await dataStore.getByID(goalID)
+    let goal = await coreDataStore.goal(by: goalID)
 
     let backgroundTask = backgroundWorker.queueOperation { [weak self] in
       return try await self?.service.getGoalByID(goalID)
@@ -53,16 +51,12 @@ public actor GoalRepository: BaseRepository {
       throw MusculosError.notFound
     }
 
-    guard !shouldUseLocalStorage() else {
-      return await dataStore.getAllForUser(currentUserID)
+    guard !shouldUseLocalStorageForEntity(GoalEntity.self) else {
+      return await coreDataStore.userProfile(for: currentUserID)?.goals ?? []
     }
 
-    let goals = await dataStore.getAllForUser(currentUserID)
-    backgroundWorker.queueOperation { [weak self] in
-      try await self?.dataStore.importToStorage(models: goals, localObjectType: GoalEntity.self)
-      await self?.dataStore.updateLastUpdated(Date())
-    }
-
+    let goals = try await service.getUserGoals()
+    syncStorage(goals, of: GoalEntity.self)
     return goals
   }
 
@@ -77,16 +71,10 @@ public actor GoalRepository: BaseRepository {
       user: user
     )
 
-    try await dataStore.add(goal)
-    try await service.addGoal(goal)
+    async let localTask = coreDataStore.importModel(goal, of: GoalEntity.self)
+    async let remoteTask = service.addGoal(goal)
+    _ = try await (localTask, remoteTask)
 
     return goal
-  }
-
-  private func shouldUseLocalStorage() -> Bool {
-    guard let lastUpdated = dataStore.getLastUpdated() else {
-      return false
-    }
-    return Date().timeIntervalSince(lastUpdated) < updateThreshold
   }
 }

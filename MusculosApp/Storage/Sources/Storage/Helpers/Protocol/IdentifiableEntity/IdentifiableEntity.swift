@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol IdentifiableEntity {
+public protocol IdentifiableEntity: Sendable {
 
   /// Identifier key used for Core Data predicate
   ///

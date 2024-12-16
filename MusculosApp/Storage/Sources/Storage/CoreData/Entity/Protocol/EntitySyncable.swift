@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 import Utility
 
-public protocol EntitySyncable {
+public protocol EntitySyncable: Object {
   associatedtype ModelType: IdentifiableEntity
 
   func populateEntityFrom(_ model: ModelType, using storage: StorageType)

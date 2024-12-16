@@ -13,26 +13,19 @@ import NetworkClient
 import Factory
 
 public actor ExerciseSessionRepository: BaseRepository {
-  @Injected(\StorageContainer.userDataStore) private var userDataStore: UserDataStoreProtocol
-  @Injected(\StorageContainer.exerciseSessionDataStore) private var dataStore: ExerciseSessionDataStoreProtocol
   @Injected(\NetworkContainer.exerciseSessionService) private var service: ExerciseSessionServiceProtocol
-  @Injected(\DataRepositoryContainer.backgroundWorker) private var backgroundWorker: BackgroundWorker
-
-  private let updateThreshold: TimeInterval = .oneDay
 
   public func getExerciseSessions() async throws -> [ExerciseSession] {
     guard let currentUserID = self.currentUserID else {
       throw MusculosError.notFound
     }
 
-    guard await !shouldUseLocalStorage() else {
-      return await dataStore.getAll(for: currentUserID)
+    guard await !shouldUseLocalStorageForEntity(ExerciseSessionEntity.self) else {
+      return await coreDataStore.exerciseSessionsForUser(currentUserID)
     }
 
     let exerciseSessions = try await service.getAll()
-    backgroundWorker.queueOperation { [weak self] in
-      try await self?.dataStore.importToStorage(models: exerciseSessions, localObjectType: ExerciseSessionEntity.self)
-    }
+    syncStorage(exerciseSessions, of: ExerciseSessionEntity.self)
     return exerciseSessions
   }
 
@@ -40,27 +33,27 @@ public actor ExerciseSessionRepository: BaseRepository {
     guard let userID = self.currentUserID else {
       throw MusculosError.notFound
     }
-    return await dataStore.getRecommendedExercisesBasedOnPastSessions(userID: userID)
+    return await coreDataStore.exerciseRecommendationsByHistory(for: userID)
   }
 
   public func getCompletedSinceLastWeek() async throws -> [ExerciseSession] {
     guard let userID = self.currentUserID else {
       throw MusculosError.notFound
     }
-    return await dataStore.getCompletedSinceLastWeek(userId: userID)
+    return await coreDataStore.exerciseSessionsCompletedSinceLastWeek(for: userID)
   }
 
   public func getCompletedToday() async throws -> [ExerciseSession] {
     guard let userID = self.currentUserID else {
       throw MusculosError.notFound
     }
-    return await dataStore.getCompletedToday(userId: userID)
+    return await coreDataStore.exerciseSessionCompletedToday(for: userID)
   }
 
   public func addSession(_ exercise: Exercise, dateAdded: Date, duration: Double, weight: Double) async throws {
     guard
       let currentUserID = self.currentUserID,
-      let currentProfile = await userDataStore.loadProfile(userId: currentUserID)
+      let currentProfile = await coreDataStore.userProfile(for: currentUserID)
     else {
       throw MusculosError.notFound
     }
@@ -74,17 +67,10 @@ public actor ExerciseSessionRepository: BaseRepository {
       weight: weight
     )
 
-    try await dataStore.addSession(exerciseSession)
+    try await coreDataStore.importModel(exerciseSession, of: ExerciseSessionEntity.self)
 
-    backgroundWorker.queueOperation(priority: .low) { [weak self] in
+    backgroundWorker.queueOperation(priority: .high) { [weak self] in
       try await self?.service.add(exerciseSession)
     }
-  }
-
-  private func shouldUseLocalStorage() -> Bool {
-    guard let lastUpdated = dataStore.getLastUpdated() else {
-      return false
-    }
-    return Date().timeIntervalSince(lastUpdated) < updateThreshold
   }
 }

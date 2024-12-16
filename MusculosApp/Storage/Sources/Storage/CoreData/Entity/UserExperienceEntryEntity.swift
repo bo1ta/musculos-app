@@ -14,7 +14,6 @@ import Models
 public class UserExperienceEntryEntity: NSManagedObject {
   @NSManaged public var modelID: UUID
   @NSManaged public var xpGained: Int
-  @NSManaged public var calculationDetails: String?
   @NSManaged public var userExperience: UserExperienceEntity
 
   @nonobjc public class func fetchRequest() -> NSFetchRequest<UserExperienceEntryEntity> {
@@ -27,8 +26,7 @@ extension UserExperienceEntryEntity: ReadOnlyConvertible {
     return UserExperienceEntry(
       id: modelID,
       userExperience: userExperience.toReadOnly(),
-      xpGained: xpGained,
-      calculationDetails: calculationDetails
+      xpGained: xpGained
     )
   }
 }

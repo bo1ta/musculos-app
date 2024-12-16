@@ -13,24 +13,19 @@ import NetworkClient
 import Factory
 
 public actor RatingRepository: BaseRepository {
-  @Injected(\StorageContainer.ratingDataStore) private var dataStore: RatingDataStoreProtocol
-  @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
   @Injected(\NetworkContainer.ratingService) private var service: RatingServiceProtocol
-  @Injected(\DataRepositoryContainer.backgroundWorker) private var backgroundWorker: BackgroundWorker
 
   public func getExerciseRatingsForCurrentUser() async throws -> [ExerciseRating] {
-    guard let currentUserID = userManager.currentUserID else {
+    guard let currentUserID = self.currentUserID else {
       throw MusculosError.notFound
     }
 
     guard self.isConnectedToInternet else {
-      return await dataStore.getRatingsForUser(currentUserID)
+      return await coreDataStore.userProfile(for: currentUserID)?.ratings ?? []
     }
 
     let ratings = try await service.getExerciseRatingsForCurrentUser()
-    backgroundWorker.queueOperation { [weak self] in
-      try await self?.dataStore.importExerciseRatings(ratings)
-    }
+    syncStorage(ratings, of: ExerciseRatingEntity.self)
     return ratings
   }
 
@@ -41,23 +36,21 @@ public actor RatingRepository: BaseRepository {
 
   public func getRatingsForExercise(_ exerciseID: UUID) async throws -> [ExerciseRating] {
     guard self.isConnectedToInternet else {
-      return await dataStore.getRatingsForExercise(exerciseID)
+      return await coreDataStore.exerciseByID(exerciseID)?.ratings ?? []
     }
 
     let ratings = try await service.getRatingsByExerciseID(exerciseID)
-    backgroundWorker.queueOperation { [weak self] in
-      try await self?.dataStore.importExerciseRatings(ratings)
-    }
+    syncStorage(ratings, of: ExerciseRatingEntity.self)
     return ratings
   }
 
   public func addRating(rating: Double, for exerciseID: UUID) async throws {
-    guard let currentUserID = userManager.currentUserID else {
+    guard let currentUserID = self.currentUserID else {
       throw MusculosError.notFound
     }
     
     let exerciseRating = ExerciseRating(exerciseID: exerciseID, userID: currentUserID, isPublic: true, rating: rating)
-    try await dataStore.addExerciseRating(exerciseRating)
+    try await coreDataStore.importModel(exerciseRating, of: ExerciseRatingEntity.self)
     try await service.addExerciseRating(exerciseRating)
   }
 }

@@ -46,6 +46,11 @@ extension StorageContainer {
     self { RatingDataStore() }
   }
 
+  public var coreDataStore: Factory<CoreDataStore> {
+    self { CoreDataStore() }
+      .shared
+  }
+
   public var storageManager: Factory<StorageManagerType> {
     self { StorageManager() }
       .onTest { InMemoryStorageManager() }

@@ -86,6 +86,17 @@ public struct PredicateProvider {
     )
   }
 
+  public static func exerciseSessionsBetweenDates(_ startDate: Date, endDate: Date) -> NSPredicate {
+    return NSPredicate(
+      format: "dateAdded >= %@ AND dateAdded <= %@",
+      argumentArray: [startDate, endDate]
+    )
+  }
+
+  public static func exerciseSessionsForUser(_ userID: UUID) -> NSPredicate {
+    return NSPredicate(format: "user.userId == %@", userID.uuidString)
+  }
+
   public static func goalByID(_ id: UUID) -> NSPredicate {
     return NSPredicate(
       format: "%K == %@",
