@@ -66,7 +66,7 @@ final class UserStore {
 
   init() {
     NotificationCenter.default.publisher(for: .authTokenDidFail)
-      .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
+      .throttle(for: 1, scheduler: RunLoop.main, latest: false)
       .sink { [weak self] _ in
         self?.logOut()
       }

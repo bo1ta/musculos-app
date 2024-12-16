@@ -151,7 +151,7 @@ extension CoreDataStore {
 
 extension CoreDataStore {
   public func exerciseSessionsForUser(_ userID: UUID) async -> [ExerciseSession] {
-    return await getAll(ExerciseSessionEntity.self, predicate: PredicateProvider.userProfileById(userID))
+    return await getAll(ExerciseSessionEntity.self, predicate: PredicateProvider.exerciseSessionsForUser(userID))
   }
 
   public func exerciseSessionCompletedToday(for userID: UUID) async -> [ExerciseSession] {
