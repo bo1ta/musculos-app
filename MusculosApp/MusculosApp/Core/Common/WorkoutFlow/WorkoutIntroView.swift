@@ -82,6 +82,3 @@ struct WorkoutIntroView: View {
   }
 }
 
-#Preview {
-  WorkoutIntroView(workout: WorkoutFactory.create(), onStartTapped: {})
-}

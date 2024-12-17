@@ -41,7 +41,9 @@ public class ExerciseFactory: BaseFactory {
     return exercise
   }
 
-  public static func createExercise() -> Exercise {
-    return ExerciseFactory().create()
+  public static func createExercise(isFavorite: Bool = false) -> Exercise {
+    let factory = ExerciseFactory()
+    factory.isFavorite = isFavorite
+    return factory.create()
   }
 }

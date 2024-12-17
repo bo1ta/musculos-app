@@ -34,7 +34,3 @@ struct WorkoutFlowView: View {
     }
   }
 }
-
-#Preview {
-  WorkoutFlowView(workout: WorkoutFactory.create(), onComplete: {})
-}

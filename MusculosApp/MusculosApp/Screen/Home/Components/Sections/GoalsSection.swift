@@ -9,6 +9,7 @@ import SwiftUI
 import Components
 import Models
 import Utility
+import Storage
 
 struct GoalsSection: View {
   var goals: [Goal]
@@ -41,7 +42,7 @@ struct GoalsSection: View {
 }
 
 #Preview {
-  GoalsSection(goals: [GoalFactory.createGoal(), GoalFactory.createGoal(name: "Goal 2")], onAddGoal: {})
+  GoalsSection(goals: [GoalFactory.createGoal(), GoalFactory.createGoal()], onAddGoal: {})
 }
 
 private struct AddGoalCard: View {

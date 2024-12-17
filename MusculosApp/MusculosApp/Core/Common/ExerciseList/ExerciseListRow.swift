@@ -9,6 +9,7 @@ import SwiftUI
 import Models
 import Utility
 import Components
+import Storage
 
 struct ExerciseListRow: View {
   var exercise: Exercise

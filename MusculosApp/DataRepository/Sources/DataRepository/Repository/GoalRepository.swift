@@ -16,8 +16,6 @@ import Utility
 public actor GoalRepository: BaseRepository {
   @Injected(\NetworkContainer.goalService) private var service: GoalServiceProtocol
 
-  private let updateThreshold: TimeInterval = .oneHour
-
   public init() {}
 
   public func getOnboardingGoals() async throws -> [OnboardingGoal] {

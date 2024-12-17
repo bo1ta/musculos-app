@@ -8,10 +8,10 @@
 import SwiftUI
 import Models
 import Components
-import NetworkClient
 import Factory
 import Utility
 import DataRepository
+import Storage
 
 struct ExerciseListView: View {
   @Environment(\.navigationRouter) private var navigationRouter

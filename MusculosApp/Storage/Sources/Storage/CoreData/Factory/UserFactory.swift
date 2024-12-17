@@ -84,7 +84,9 @@ public class GoalFactory: BaseFactory {
     return goal
   }
 
-  public static func createGoal() -> Goal {
-    return GoalFactory().create()
+  public static func createGoal(user: UserProfile? = nil) -> Goal {
+    let factory = GoalFactory()
+    factory.user = user
+    return factory.create()
   }
 }

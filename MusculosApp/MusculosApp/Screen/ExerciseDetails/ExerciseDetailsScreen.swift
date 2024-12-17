@@ -9,6 +9,7 @@ import SwiftUI
 import Models
 import Components
 import Utility
+import Storage
 
 struct ExerciseDetailsScreen: View {
   @Namespace private var animationNamespace

@@ -10,6 +10,7 @@ import Models
 import NetworkClient
 import Utility
 import Shimmer
+import Storage
 
 struct UserAvatar: View {
   let profile: UserProfile?
@@ -45,5 +46,5 @@ struct UserAvatar: View {
 }
 
 #Preview {
-  UserAvatar(profile: UserProfileFactory.createProfile())
+  UserAvatar(profile: UserProfileFactory.createUser())
 }
