@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Storage
 import Models
 import Components
 import Utility
@@ -53,5 +54,13 @@ struct HomeScreen: View {
 }
 
 #Preview {
+  let exerciseSession = ExerciseSessionFactory.createExerciseSession()
+  let _ = StorageContainer.shared.userManager.register {
+    StubUserSessionManager(
+      expectedTokenValue: "random-token",
+      expectedUser: .init(id: exerciseSession.user.userId)
+    )
+  }
+
   HomeScreen()
 }

@@ -13,8 +13,6 @@ import Factory
 @preconcurrency import CoreData
 
 public class StorageManager: StorageManagerType, @unchecked Sendable {
-  public static let shared = StorageManager()
-
   private var cancellables = Set<AnyCancellable>()
 
   public init() {
