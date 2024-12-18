@@ -13,6 +13,7 @@ import NetworkClient
 import Network
 
 struct MusculosApp: App {
+  @Environment(\.scenePhase) private var scenePhase
   @State private var appModel = AppModel()
 
   var body: some Scene {
@@ -23,23 +24,25 @@ struct MusculosApp: App {
             RootTabView()
           case .loggedOut:
             SplashScreen()
-              .transition(.asymmetric(insertion: .opacity, removal: .identity))
+              .transition(.asymmetric(insertion: .opacity, removal: .push(from: .top)))
           case .onboarding:
             OnboardingScreen()
               .transition(.asymmetric(insertion: .push(from: .bottom), removal: .scale))
           case .loading:
             LoadingOverlayView(progress: $appModel.progress)
+              .transition(.asymmetric(insertion: .opacity, removal: .push(from: .top)))
           }
         }
         .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: appModel.appState)
         .toastView(toast: $appModel.toast)
-        .onReceive(appModel.userStore.eventPublisher, perform: appModel.handleUserEvent(_:))
-        .onReceive(appModel.networkMonitor.connectionStatusPublisher, perform: appModel.handleConnectionStatusUpdate(_:))
         .task {
           await appModel.loadInitialState()
         }
         .environment(\.userStore, appModel.userStore)
         .environment(\.healthKitViewModel, HealthKitViewModel())
+        .onChange(of: scenePhase) { _, newPhase in
+          appModel.handleScenePhaseChange(newPhase)
+        }
     }
   }
 }

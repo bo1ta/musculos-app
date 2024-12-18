@@ -6,11 +6,11 @@
 //
 
 import Factory
+import Combine
 import Components
-import Observation
 import Network
 import NetworkClient
-import Utility
+import SwiftUI
 
 enum AppState {
   case loggedIn
@@ -29,28 +29,28 @@ final class AppModel {
   var toast: Toast?
   var appState: AppState = .loading
 
+  private var cancellables = Set<AnyCancellable>()
+  private var toastTask: Task<Void, Never>?
+
   let userStore: UserStore
 
   init(userStore: UserStore = UserStore()) {
     self.userStore = userStore
+    setupObservers()
   }
 
-  func handleConnectionStatusUpdate(_ connectionStatus: NWPath.Status) {
-    switch connectionStatus {
-    case .satisfied:
-      guard var toast, toast.style == .warning else {
-        return
+  private func setupObservers() {
+    networkMonitor.connectionStatusPublisher
+      .sink { [weak self] connectionStatus in
+        self?.handleConnectionStatus(connectionStatus)
       }
-      toast = Toast(style: .success, message: "Connected")
-      break
-    case .unsatisfied:
-      toast = Toast(style: .warning, message: "Lost internet connection. Trying to reconnect...")
-      break
-    case .requiresConnection:
-      break
-    @unknown default:
-      break
-    }
+      .store(in: &cancellables)
+
+    userStore.eventPublisher
+      .sink{ [weak self] event in
+        self?.handleUserEvent(event)
+      }
+      .store(in: &cancellables)
   }
 
   func loadInitialState() async {
@@ -65,14 +65,52 @@ final class AppModel {
         appState = .onboarding
       } else {
         appState = .loggedIn
-        networkMonitor.startMonitoring()
       }
     } else {
       appState = .loggedOut
     }
   }
 
-  func handleUserEvent(_ event: UserStore.Event) {
+  func handleScenePhaseChange(_ phase: ScenePhase) {
+    switch phase {
+    case .active:
+      networkMonitor.startMonitoring()
+    case .background:
+      networkMonitor.stopMonitoring()
+    default:
+      break
+    }
+  }
+
+  private func handleConnectionStatus(_ connectionStatus: NWPath.Status) {
+    switch connectionStatus {
+    case .satisfied:
+      guard let toast, toast.style == .warning else {
+        return
+      }
+      showToast(.success, message: "Re-connected to the internet")
+    case .unsatisfied:
+      showToast(.warning, message: "Lost internet connection. Trying to reconnect...")
+    default:
+      break
+    }
+  }
+
+  private func showToast(_ style: Toast.ToastStyle, message: String) {
+    toastTask?.cancel()
+
+    toastTask = Task { [weak self] in
+      guard let self, !Task.isCancelled else {
+        return
+      }
+
+      toast = Toast(style: style, message: message)
+      try? await Task.sleep(for: .seconds(2))
+      toast = nil
+    }
+  }
+
+  private func handleUserEvent(_ event: UserStore.Event) {
     switch event {
     case .didLogin:
       appState = userStore.isOnboarded ? .loggedIn : .onboarding
