@@ -13,7 +13,7 @@ struct RootHistoryScreen: View {
     ManagedNavigationStack(scene: "history") {
       HistoryScreen()
         .navigationCheckpoint(.history)
-        .navigationDestination(HistoryDestinations.self)
+        .navigationDestination(CommonDestinations.self)
     }
   }
 }
