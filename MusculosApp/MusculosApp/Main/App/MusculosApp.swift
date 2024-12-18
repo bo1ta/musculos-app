@@ -8,9 +8,6 @@
 import SwiftUI
 import Components
 import Utility
-import Factory
-import NetworkClient
-import Network
 
 struct MusculosApp: App {
   @Environment(\.scenePhase) private var scenePhase

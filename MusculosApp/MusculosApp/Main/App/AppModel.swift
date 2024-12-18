@@ -47,7 +47,7 @@ final class AppModel {
       .store(in: &cancellables)
 
     userStore.eventPublisher
-      .sink{ [weak self] event in
+      .sink { [weak self] event in
         self?.handleUserEvent(event)
       }
       .store(in: &cancellables)
