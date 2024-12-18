@@ -54,14 +54,5 @@ struct HomeScreen: View {
 }
 
 #Preview {
-  let user = UserProfileFactory.createUser()
-  let _ = GoalFactory.createGoal(user: user)
-  let _ = StorageContainer.shared.userManager.register {
-    StubUserSessionManager(
-      expectedTokenValue: "random-token",
-      expectedUser: .init(id: user.userId)
-    )
-  }
-
   HomeScreen()
 }
