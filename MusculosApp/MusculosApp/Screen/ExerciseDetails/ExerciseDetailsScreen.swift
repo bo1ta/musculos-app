@@ -15,7 +15,7 @@ struct ExerciseDetailsScreen: View {
   @Namespace private var animationNamespace
   private let timerActionAnimationID = "timerActionAnimationID"
 
-  @Environment(\.navigationRouter) private var navigationRouter
+  @Environment(\.navigator) private var navigator
   @State private var viewModel: ExerciseDetailsViewModel
 
   var exercise: Exercise
@@ -34,7 +34,7 @@ struct ExerciseDetailsScreen: View {
         .overlay {
           VStack {
             HStack(alignment: .top) {
-              BackButton(onPress: navigationRouter.pop)
+              BackButton(onPress: { navigator.pop() })
               Spacer()
             }
             .padding()
@@ -82,7 +82,9 @@ struct ExerciseDetailsScreen: View {
       await viewModel.initialLoad()
     }
     .onDisappear(perform: viewModel.cleanUp)
-    .dismissingGesture(direction: .left, action: navigationRouter.pop)
+    .dismissingGesture(direction: .left, action: {
+      navigator.pop()
+    })
     .navigationBarBackButtonHidden()
     .animatedScreenBorder(isActive: viewModel.isTimerActive)
     .sheet(isPresented: $viewModel.showInputDialog, content: {
@@ -95,6 +97,7 @@ struct ExerciseDetailsScreen: View {
       rating: $viewModel.userRating,
       onSave: viewModel.saveRating(_:)
     )
+    .toolbar(.hidden, for: .tabBar)
   }
 }
 

@@ -19,11 +19,6 @@ extension EnvironmentValues {
     get { self[HealthKitViewModelKey.self] }
     set { self[HealthKitViewModelKey.self] = newValue }
   }
-  
-  var navigationRouter: NavigationRouter {
-    get { self[NavigationRouterKey.self] }
-    set { self[NavigationRouterKey.self] = newValue}
-  }
 }
 
 // MARK: - UserStoreKey
@@ -37,10 +32,3 @@ private struct UserStoreKey: @preconcurrency EnvironmentKey {
 private struct HealthKitViewModelKey: @preconcurrency EnvironmentKey {
   @MainActor static var defaultValue: HealthKitViewModel = HealthKitViewModel()
 }
-
-// MARK: - NavigationRouterKey
-
-private struct NavigationRouterKey: @preconcurrency EnvironmentKey {
-  @MainActor static var defaultValue: NavigationRouter = NavigationRouter()
-}
-

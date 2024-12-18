@@ -11,7 +11,8 @@ import Components
 
 struct SignInView: View {
   @Environment(\.userStore) private var userStore
-  @Environment(\.navigationRouter) private var navigationRouter
+  @Environment(\.navigator) private var navigator
+
   @Bindable var viewModel: AuthenticationViewModel
 
   var onBack: () -> Void

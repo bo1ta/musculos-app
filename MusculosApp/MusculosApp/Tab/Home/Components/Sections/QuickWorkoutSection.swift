@@ -9,17 +9,15 @@ import SwiftUI
 import Components
 import Utility
 import Models
+import Navigator
 
 struct QuickWorkoutSection: View {
-  @Environment(\.navigationRouter) private var navigationRouter
+  @Environment(\.navigator) private var navigator: Navigator
+
   let exercises: [Exercise]
 
   private var cardGradient: LinearGradient {
     LinearGradient(colors: [Color(hex: "0EA5E9"), Color(hex: "3B82F6")], startPoint: .leading, endPoint: .trailing)
-  }
-
-  init(exercises: [Exercise]) {
-    self.exercises = exercises
   }
 
   var body: some View {
@@ -35,7 +33,7 @@ struct QuickWorkoutSection: View {
               gradient: cardGradient,
               rightContent: {
                 IconButton(systemImageName: "chevron.right", action: {
-                  navigationRouter.push(.exerciseDetails(exercise))
+                  navigator.navigate(to: CommonDestinations.exerciseDetails(exercise))
                 })
               })
           }
