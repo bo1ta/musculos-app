@@ -12,9 +12,10 @@ import Factory
 import Utility
 import DataRepository
 import Storage
+import Navigator
 
 struct ExerciseListView: View {
-  @Environment(\.navigationRouter) private var navigationRouter
+  @Environment(\.navigator) private var navigator
   @Injected(\DataRepositoryContainer.exerciseRepository) private var repository: ExerciseRepository
 
   @State private var state: LoadingViewState<[Exercise]> = .empty
@@ -33,10 +34,10 @@ struct ExerciseListView: View {
       case .loading:
         loadingSkeleton
       case .loaded(let exercises):
-        List(exercises) { exercise in
+        List(exercises, id: \.id) { exercise in
           VStack {
             Button(action: {
-              navigationRouter.push(.exerciseDetails(exercise))
+              navigator.push(CommonDestinations.exerciseDetails(exercise))
             }, label: {
               ExerciseListRow(exercise: exercise)
             })
@@ -58,6 +59,9 @@ struct ExerciseListView: View {
       }
     }
     .task {
+      guard state == .empty else {
+        return
+      }
       do {
         try await initialLoad()
       } catch {
@@ -73,6 +77,7 @@ struct ExerciseListView: View {
       exercises = exercises.filter { $0.name.localizedCaseInsensitiveContains(newValue) }
       state = .loaded(exercises)
     }
+    .toolbar(.hidden, for: .tabBar)
   }
 
   private var loadingSkeleton: some View {

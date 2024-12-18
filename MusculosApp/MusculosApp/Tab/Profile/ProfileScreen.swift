@@ -17,7 +17,7 @@ struct ProfileScreen: View {
 
   @Environment(\.userStore) private var userStore
   @Environment(\.healthKitViewModel) private var healthKitViewModel
-  @Environment(\.navigationRouter) private var navigationRouter
+  @Environment(\.navigator) private var navigator
 
   @State private var selectedWorkout: String? = nil
   @State private var exercises: [Exercise] = []
@@ -56,7 +56,7 @@ struct ProfileScreen: View {
           )
           ExerciseCardsStack(
             exercises: exercises,
-            onTapExercise: { navigationRouter.push(.exerciseDetails($0)) }
+            onTapExercise: { navigator.navigate(to: CommonDestinations.exerciseDetails($0)) }
           )
         })
 

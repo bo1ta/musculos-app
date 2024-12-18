@@ -10,10 +10,11 @@ import Storage
 import Models
 import Components
 import Utility
+import Navigator
 
 struct HomeScreen: View {
+  @Environment(\.navigator) private var navigator: Navigator
   @Environment(\.userStore) private var userStore
-  @Environment(\.navigationRouter) private var navigationRouter
 
   @State private var viewModel = HomeViewModel()
 
@@ -23,7 +24,7 @@ struct HomeScreen: View {
         GreetingHeader(
           profile: userStore.currentUserProfile,
           onNotificationsTap: {
-            navigationRouter.push(.notifications)
+            navigator.navigate(to: HomeDestinations.notifications)
           }
         )
 
@@ -31,7 +32,7 @@ struct HomeScreen: View {
           .defaultShimmering(active: viewModel.isLoading)
 
         GoalsSection(goals: viewModel.goals, onAddGoal: {
-          navigationRouter.present(.addGoalSheet)
+          navigator.navigate(to: HomeDestinations.addGoal)
         })
 
         if let exercises = viewModel.quickExercises {
