@@ -37,6 +37,7 @@ public struct AppColor {
   public static let lightBrown = Color(hex: "F18184")
   public static let navyBlue = Color(hex: "0E2250")
   public static let lightBlue = Color(hex: "E1EFF4")
+  public static let darkPurple = Color(hex: "27067A")
 
   public static let orangeGradient = LinearGradient(
     gradient: Gradient(colors: [.orange, .red]),

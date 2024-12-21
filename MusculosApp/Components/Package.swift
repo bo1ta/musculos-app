@@ -13,14 +13,16 @@ let package = Package(
   ],
   dependencies: [
     .package(name: "Utility", path: "../Utility"),
-    .package(url: "https://github.com/airbnb/HorizonCalendar", branch: "master")
+    .package(url: "https://github.com/airbnb/HorizonCalendar", branch: "master"),
+    .package(url: "https://github.com/markiv/SwiftUI-Shimmer", exact: "1.4.2")
   ],
   targets: [
     .target(
       name: "Components",
       dependencies: [
         .product(name: "Utility", package: "Utility"),
-        "HorizonCalendar"
+        "HorizonCalendar",
+        .product(name: "Shimmer", package: "SwiftUI-Shimmer"),
       ]
     ),
   ]
