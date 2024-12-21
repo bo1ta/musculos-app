@@ -12,7 +12,6 @@ let package = Package(
             targets: ["Utility"]),
     ],
     dependencies: [
-      .package(url: "https://github.com/markiv/SwiftUI-Shimmer", exact: "1.4.2"),
       .package(url: "https://github.com/SwiftyBeaver/SwiftyBeaver.git", .upToNextMajor(from: "2.0.0")),
     ],
     targets: [
@@ -22,7 +21,6 @@ let package = Package(
           name: "Utility",
           dependencies: [
             "SwiftyBeaver",
-            .product(name: "Shimmer", package: "SwiftUI-Shimmer"),
           ]
         ),
     ]

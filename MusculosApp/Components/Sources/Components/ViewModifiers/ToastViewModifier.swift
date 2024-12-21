@@ -43,10 +43,9 @@ public struct ToastViewModifier: ViewModifier {
   }
 
   private func showToast() {
-    guard let toast = toast else { return }
-
-    UIImpactFeedbackGenerator(style: .light)
-      .impactOccurred()
+    guard let toast else {
+      return
+    }
 
     if toast.duration > 0 {
       workItem?.cancel()

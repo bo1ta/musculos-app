@@ -54,11 +54,11 @@ final class AppModel {
   }
 
   func loadInitialState() async {
-    progress = 0.1
+    progress = 0.3
 
     await userStore.initialLoad()
 
-    progress = 0.9
+    progress = 1.0
 
     if userStore.isLoggedIn {
       if !userStore.isOnboarded {
@@ -105,8 +105,6 @@ final class AppModel {
       }
 
       toast = Toast(style: style, message: message)
-      try? await Task.sleep(for: .seconds(2))
-      toast = nil
     }
   }
 

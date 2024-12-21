@@ -12,7 +12,7 @@ struct RootExploreScreen: View {
   var body: some View {
     ManagedNavigationStack(scene: "explore") {
       ExploreScreen()
-        .navigationCheckpoint(.home)
+        .navigationCheckpoint(.explore)
         .navigationDestination(ExploreDestinations.self)
         .navigationDestination(CommonDestinations.self)
     }

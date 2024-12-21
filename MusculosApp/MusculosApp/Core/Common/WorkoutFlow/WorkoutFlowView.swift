@@ -27,7 +27,7 @@ struct WorkoutFlowView: View {
       WorkoutIntroView(workout: workout, onStartTapped: viewModel.handleNextStep)
     case .session:
       if let exercise = viewModel.currentExercise {
-        ExerciseDetailsScreen(exercise: exercise, onComplete: viewModel.handleNextExercise)
+        ExerciseDetailsScreen(exercise: exercise)
       }
     case .completion:
       EmptyView()

@@ -10,12 +10,6 @@ import SwiftyBeaver
 
 public let Logger = ConsoleLogger.shared
 
-public protocol Loggable {
-  func info(message: String, properties: [String: Any]?, file: String, function: String, line: Int)
-  func error(_ error: Error, message: String, properties: [String: Any]?, file: String, function: String, line: Int)
-  func warning(message: String, properties: [String: Any]?, file: String, function: String, line: Int)
-}
-
 public struct ConsoleLogger: Loggable, @unchecked Sendable {
   static let shared = ConsoleLogger()
 
@@ -23,7 +17,7 @@ public struct ConsoleLogger: Loggable, @unchecked Sendable {
 
   public init() {
     console = ConsoleDestination()
-    console.logPrintWay = .logger(subsystem: "NoveltyApp", category: "UI")
+    console.logPrintWay = .logger(subsystem: "MusculosApp", category: "UI")
   }
 
   public func info(message: String, properties: [String : Any]? = nil, file: String = #file, function: String = #function, line: Int = #line) {

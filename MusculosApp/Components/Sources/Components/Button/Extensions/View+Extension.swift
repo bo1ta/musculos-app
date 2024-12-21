@@ -1,15 +1,15 @@
 //
 //  View+Extension.swift
+//  Components
 //
-//
-//  Created by Solomon Alexandru on 29.07.2024.
+//  Created by Solomon Alexandru on 21.12.2024.
 //
 
 import SwiftUI
 import Shimmer
 
 public extension View {
-  public func defaultShimmering(active: Bool = true) -> some View {
+  func defaultShimmering(active: Bool = true) -> some View {
     self.shimmering(
       active: active,
       gradient: Gradient(
@@ -23,12 +23,16 @@ public extension View {
 // MARK: - View Modifiers
 
 public extension View {
-  public func withKeyboardDismissingOnTap() -> some View {
+  func withKeyboardDismissingOnTap() -> some View {
     self.modifier(KeyboardDismissableViewModifier())
   }
 
   func animatedScreenBorder(isActive: Bool) -> some View {
     self.modifier(AnimatedScreenBordersModifier(isActive: isActive))
+  }
+
+  func toastView(toast: Binding<Toast?>) -> some View {
+    self.modifier(ToastViewModifier(toast: toast))
   }
 }
 
@@ -48,7 +52,7 @@ public extension View {
   }
 }
 
-extension DragGesture.Value {
+public extension DragGesture.Value {
   public func detectDirection(_ tolerance: Double = 24) -> Direction? {
     if startLocation.x < location.x - tolerance {
       return .left
@@ -69,7 +73,7 @@ extension DragGesture.Value {
     return nil
   }
 
-  public enum Direction {
+  enum Direction {
     case left
     case right
     case up

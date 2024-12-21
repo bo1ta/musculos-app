@@ -43,6 +43,8 @@ final class ExerciseDetailsViewModel {
   var isFavorite = false
   var showInputDialog = false
   var showRatingDialog = false
+  var showXPGainDialog = false
+  var currentUserExperienceEntry: UserExperienceEntry?
   var userRating = 0
   var exerciseRatings: [ExerciseRating] = []
   var inputWeight: Double = 0
@@ -58,6 +60,13 @@ final class ExerciseDetailsViewModel {
       return 0.0
     }
     return exerciseRatings.reduce(0) { $0 + $1.rating } / Double(exerciseRatings.count)
+  }
+
+  var currentXPGain: Int {
+    guard let currentUserExperienceEntry else {
+      return 0
+    }
+    return currentUserExperienceEntry.xpGained
   }
 
   private let toastSubject = PassthroughSubject<Toast, Never>()
@@ -151,11 +160,30 @@ final class ExerciseDetailsViewModel {
     saveExerciseSessionTask = Task { [weak self] in
       guard let self else { return }
       do {
-        try await exerciseSessionRepository.addSession(exercise, dateAdded: Date(), duration: Double(self.elapsedTime), weight: inputWeight ?? 0)
+        let userExperience = try await exerciseSessionRepository.addSession(exercise, dateAdded: Date(), duration: Double(self.elapsedTime), weight: inputWeight)
+        await showUserExperience(userExperience)
+
         try await maybeUpdateGoals()
       } catch {
         Logger.error(error, message: "Could not save exercise session")
       }
+    }
+  }
+
+  private func showUserExperience(_ userExperience: UserExperienceEntry) async {
+    currentUserExperienceEntry = userExperience
+
+    showXPGainDialog = true
+    defer { showXPGainDialog = false }
+
+    try? await Task.sleep(for: .seconds(2))
+  }
+
+  func handleSubmit() {
+    if isTimerActive {
+      stopTimer()
+    } else {
+      showInputDialog.toggle()
     }
   }
 
