@@ -25,9 +25,8 @@ public struct XPGainViewModifier: ViewModifier {
             XPGainView(xpGained)
             Spacer()
           }
-          .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: showView)
+          .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .slide))
           .padding(.top, 10)
-          .transition(.asymmetric(insertion: .push(from: .top), removal: .move(edge: .top)))
           .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
       }
