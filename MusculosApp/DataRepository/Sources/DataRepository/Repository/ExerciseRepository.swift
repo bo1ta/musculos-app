@@ -62,7 +62,6 @@ public actor ExerciseRepository: BaseRepository {
     return exercises
   }
 
-
   public func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
     try await coreDataStore.favoriteExercise(exercise, isFavorite: isFavorite)
 

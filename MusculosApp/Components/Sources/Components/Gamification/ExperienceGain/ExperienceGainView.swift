@@ -9,8 +9,6 @@ import SwiftUI
 import Utility
 
 public struct XPGainView: View {
-  @State private var isAnimating = false
-
   let xpGained: Int
 
   public init(_ xpGained: Int) {
@@ -35,15 +33,6 @@ public struct XPGainView: View {
           .shadow(color: .black.opacity(0.2), radius: 2)
       )
       .shadow(color: .purple.opacity(0.5), radius: 8)
-      .scaleEffect(isAnimating ? 1.1 : 1.0)
-      .opacity(isAnimating ? 1 : 0.8)
-      .animation(
-        .spring(response: 0.3, dampingFraction: 0.6).repeatCount(1),
-        value: isAnimating
-      )
-      .onAppear {
-        isAnimating = true
-      }
   }
 
   private var gradient: LinearGradient {
@@ -60,5 +49,5 @@ public struct XPGainView: View {
 }
 
 #Preview {
-  XPGainView(100)
+  XPGainView(20)
 }

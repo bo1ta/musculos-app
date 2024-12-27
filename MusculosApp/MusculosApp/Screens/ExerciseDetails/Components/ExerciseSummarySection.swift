@@ -13,11 +13,8 @@ import Storage
 
 struct ExerciseSummarySection: View {
   let exercise: Exercise
+  let isFavorite: Bool
   let onFavorite: () -> Void
-
-  private var heartColor: Color {
-    return exercise.isFavorite ?? false ? .red : .black
-  }
 
   var body: some View {
     VStack(alignment: .leading, spacing: 5) {
@@ -29,7 +26,7 @@ struct ExerciseSummarySection: View {
           Image("heart-icon")
             .resizable()
             .renderingMode(.template)
-            .foregroundStyle(heartColor)
+            .foregroundStyle(isFavorite ? .red : .black)
             .aspectRatio(contentMode: .fit)
             .frame(height: 30)
         })
@@ -41,5 +38,5 @@ struct ExerciseSummarySection: View {
 }
 
 #Preview {
-  ExerciseSummarySection(exercise: ExerciseFactory.createExercise(isFavorite: true), onFavorite: {})
+  ExerciseSummarySection(exercise: ExerciseFactory.createExercise(isFavorite: true), isFavorite: true, onFavorite: {})
 }
