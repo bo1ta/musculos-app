@@ -8,69 +8,105 @@
 import SwiftUI
 
 public struct AnimatedScreenBordersModifier: ViewModifier {
-  @State private var animationPhase: CGFloat = 0
-  @State private var dimOpacity: CGFloat = 0.0
-
   let isActive: Bool
+  let borderHeight: CGFloat
 
-  public init(isActive: Bool) {
+  public init(isActive: Bool, borderHeight: CGFloat = 14.0) {
     self.isActive = isActive
+    self.borderHeight = borderHeight
   }
 
   public func body(content: Content) -> some View {
     content
       .overlay {
         if isActive {
-          GeometryReader { geometry in
-            ZStack {
-              FullScreenBorderAnimation(size: geometry.size)
-                .opacity(dimOpacity)
-                .animation(.easeInOut(duration: 0.5).repeatForever(autoreverses: true), value: dimOpacity)
-            }
-          }
-          .ignoresSafeArea()
-          .onAppear {
-            withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
-              dimOpacity = 0.7
-            }
-          }
+          BorderAnimationContainer(borderHeight: borderHeight)
         }
       }
   }
+}
 
-  struct FullScreenBorderAnimation: View {
-    @State private var animationPhase: CGFloat = 0
+private struct BorderAnimationContainer: View {
+  @State private var dimOpacity: CGFloat = 0.0
+  let borderHeight: CGFloat
 
-    let size: CGSize
-
-    var body: some View {
-      Path { path in
-        path.move(to: CGPoint(x: 0, y: 0))
-        path.addLine(to: CGPoint(x: size.width, y: 0))
-        path.addLine(to: CGPoint(x: size.width, y: size.height))
-        path.addLine(to: CGPoint(x: 0, y: size.height))
-        path.closeSubpath()
+  var body: some View {
+    GeometryReader { geometry in
+      OptimizedBorderAnimation(size: geometry.size, borderHeight: borderHeight)
+        .opacity(dimOpacity)
+    }
+    .ignoresSafeArea()
+    .onAppear {
+      withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+        dimOpacity = 0.7
       }
-      .stroke(
-        LinearGradient(
-          gradient: Gradient(colors: [.red, .red.opacity(0.9), .red.opacity(0.8)]),
-          startPoint: .topLeading,
-          endPoint: .bottomTrailing
-        ),
-        style: StrokeStyle(
-          lineWidth: 16,
-          lineCap: .round,
-          lineJoin: .round,
-          dash: [30, 15],
-          dashPhase: animationPhase
-        )
+    }
+  }
+}
+
+private struct OptimizedBorderAnimation: View {
+  @State private var animationPhase: CGFloat = 0
+  let size: CGSize
+  let borderHeight: CGFloat
+
+  private let gradient = LinearGradient(
+    gradient: Gradient(colors: [.red, .red.opacity(0.9), .red.opacity(0.8)]),
+    startPoint: .topLeading,
+    endPoint: .bottomTrailing
+  )
+
+  private let lineHeight = 14.0
+
+  var body: some View {
+    ZStack {
+      // Top border
+      DashedLine()
+        .frame(width: size.width, height: 16)
+        .position(x: size.width / 2, y: 8)
+
+      // Right border
+      DashedLine()
+        .frame(width: size.height, height: 16)
+        .rotationEffect(.degrees(90), anchor: .center)
+        .position(x: size.width - 8, y: size.height / 2)
+
+      // Bottom border
+      DashedLine()
+        .frame(width: size.width, height: 16)
+        .position(x: size.width / 2, y: size.height - 8)
+
+      // Left border
+      DashedLine()
+        .frame(width: size.height, height: 16)
+        .rotationEffect(.degrees(90), anchor: .center)
+        .position(x: 8, y: size.height / 2)
+    }
+    .blur(radius: 8)
+  }
+}
+
+private struct DashedLine: View {
+  @State private var animationPhase: CGFloat = 0
+
+  var body: some View {
+    Rectangle()
+      .fill(.red)
+      .mask(
+        Rectangle()
+          .stroke(
+            style: StrokeStyle(
+              lineWidth: 14,
+              lineCap: .round,
+              lineJoin: .round,
+              dash: [30, 15],
+              dashPhase: animationPhase
+            )
+          )
       )
-      .blur(radius: 8)
       .onAppear {
-        withAnimation(.linear.repeatForever(autoreverses: false).speed(0.1)) {
+        withAnimation(.linear.repeatForever(autoreverses: false).speed(1)) {
           animationPhase -= 45
         }
       }
-    }
   }
 }
