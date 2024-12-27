@@ -48,9 +48,9 @@ public actor RatingRepository: BaseRepository {
     guard let currentUserID = self.currentUserID else {
       throw MusculosError.notFound
     }
-    
+
     let exerciseRating = ExerciseRating(exerciseID: exerciseID, userID: currentUserID, isPublic: true, rating: rating)
-    try await coreDataStore.importModel(exerciseRating, of: ExerciseRatingEntity.self)
     try await service.addExerciseRating(exerciseRating)
+    syncStorage(exerciseRating, of: ExerciseRatingEntity.self)
   }
 }

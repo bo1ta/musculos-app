@@ -40,7 +40,6 @@ final class ExerciseDetailsViewModel {
   private(set) var isTimerActive = false
   private(set) var elapsedTime: Int = 0
 
-  var isFavorite = false
   var showInputDialog = false
   var showRatingDialog = false
   var showXPGainDialog = false
@@ -67,6 +66,10 @@ final class ExerciseDetailsViewModel {
       return 0
     }
     return currentUserExperienceEntry.xpGained
+  }
+
+  var isFavorite: Bool {
+    return exercise.isFavorite ?? false
   }
 
   private let toastSubject = PassthroughSubject<Toast, Never>()
@@ -136,21 +139,16 @@ final class ExerciseDetailsViewModel {
     }
   }
 
-  func updateFavorite(_ isFavorite: Bool) {
+  func toggleIsFavorite() {
     markFavoriteTask?.cancel()
 
     markFavoriteTask = Task { [weak self] in
       guard let self else { return }
 
       do {
-        // short debounce
-        try await Task.sleep(for: .milliseconds(500))
-        guard !Task.isCancelled else { return }
-
-        try await exerciseRepository.setFavoriteExercise(exercise, isFavorite: self.isFavorite)
-
+        try await exerciseRepository.setFavoriteExercise(exercise, isFavorite: !isFavorite)
+        await loadExerciseDetails()
       } catch {
-        self.isFavorite = !isFavorite
         Logger.error(error, message: "Could not update exercise.isFavorite")
       }
     }

@@ -124,6 +124,7 @@ extension ExerciseEntity: ReadOnlyConvertible {
       secondaryMuscles: secondaryMuscles,
       instructions: instructions ?? [],
       imageUrls: self.imageUrls ?? [],
+      isFavorite: self.isFavorite,
       updatedAt: self.updatedAt
     )
   }

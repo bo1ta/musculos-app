@@ -15,7 +15,7 @@ struct ExerciseDetailsContent: View {
 
   var body: some View {
     ScrollView {
-      ExerciseSummarySection(exercise: viewModel.exercise, onFavorite:  { viewModel.updateFavorite(!viewModel.isFavorite) })
+      ExerciseSummarySection(exercise: viewModel.exercise, isFavorite: viewModel.isFavorite, onFavorite: viewModel.toggleIsFavorite)
         .padding(.horizontal)
 
       HStack(spacing: 15) {

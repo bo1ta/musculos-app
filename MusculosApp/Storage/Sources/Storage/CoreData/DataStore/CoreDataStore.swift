@@ -267,14 +267,13 @@ extension CoreDataStore {
   }
 
   public func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
-    try await storageManager.performWrite { writerDerivedStorage in
-      guard let exercise = writerDerivedStorage.firstObject(
-        of: ExerciseEntity.self,
-        matching: PredicateProvider.exerciseById(exercise.id)
-      ) else {
+    try await storageManager.performWrite { storage in
+      guard let exercise = storage.firstObject(of: ExerciseEntity.self, matching: PredicateProvider.exerciseById(exercise.id)) else {
         throw MusculosError.notFound
       }
+
       exercise.isFavorite = isFavorite
+      storage.saveIfNeeded()
     }
   }
 }
