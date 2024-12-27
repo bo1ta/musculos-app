@@ -171,10 +171,15 @@ final class ExerciseDetailsViewModel {
   private func showUserExperience(_ userExperience: UserExperienceEntry) async {
     currentUserExperienceEntry = userExperience
 
-    showXPGainDialog = true
-    defer { showXPGainDialog = false }
+    withAnimation {
+      showXPGainDialog = true
+    }
 
     try? await Task.sleep(for: .seconds(2))
+
+    withAnimation {
+      showXPGainDialog = false
+    }
   }
 
   func handleSubmit() {
