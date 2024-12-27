@@ -29,26 +29,19 @@ struct AddWorkoutSheet: View {
         onBack: onBack,
         onDismiss: { dismiss() }
       )
-      .padding(.bottom, 25)
-      
-      VStack(spacing: 35) {
+      .padding(.vertical, 25)
+
+      VStack( alignment: .leading, spacing: 15) {
         FormField(text: $viewModel.workoutName, label: "Name")
         FormField(text: $viewModel.workoutType, label: "Type")
-        FormField(text: $viewModel.muscleSearchQuery, label: "Target")
-
         MultiOptionsSelectView(showOptions: $viewModel.showSelectMuscles, selectedOptions: $viewModel.selectedMuscles, title: "Target muscles", options: muscleOptions)
-      }
-      .padding(.horizontal, 5)
 
-      VStack(alignment: .leading) {
-        Text("Recommended exercises")
-          .font(.body(.bold, size: 14))
+        if !viewModel.exercises.isEmpty {
+          Text("Recommended Exercises")
+            .font(AppFont.poppins(.medium, size: 15))
+            .foregroundStyle(.black)
 
-        switch viewModel.state {
-        case .loading:
-          CardItemShimmering()
-        case .loaded(let exercises):
-          ForEach(combineWithSelected(exercises), id: \.hashValue) { exercise in
+          ForEach(combineWithSelected(viewModel.exercises)) { exercise in
             CardItem(
               title: exercise.name,
               isSelected: viewModel.isExerciseSelected(exercise),
@@ -57,15 +50,9 @@ struct AddWorkoutSheet: View {
               }
             )
           }
-        case .empty:
-          EmptyView()
-        case .error(let errorMessage):
-          Text(errorMessage)
         }
       }
-      .transition(.blurReplace)
       .padding(.horizontal, 5)
-      .padding(.top, 20)
     }
     .scrollIndicators(.hidden)
     .padding([.horizontal, .top], 15)
@@ -74,7 +61,7 @@ struct AddWorkoutSheet: View {
         Text("Save")
           .frame(maxWidth: .infinity)
       })
-      .buttonStyle(PrimaryButtonStyle())
+      .buttonStyle(ActionButtonStyle())
       .padding(.horizontal, 10)
     }
     .sliderDialog(
@@ -83,7 +70,6 @@ struct AddWorkoutSheet: View {
       isPresented: $viewModel.showRepsDialog,
       onSelectedValue: viewModel.didSelectExercise
     )
-    .animation(.easeInOut(duration: 0.2), value: viewModel.state)
     .onReceive(viewModel.didSaveSubject, perform: { _ in
       dismiss()
     })

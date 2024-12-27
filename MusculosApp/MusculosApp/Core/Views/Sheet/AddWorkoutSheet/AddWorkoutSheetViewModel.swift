@@ -17,15 +17,9 @@ import Storage
 @Observable
 @MainActor
 final class AddWorkoutSheetViewModel {
-  
-  // MARK: - Dependencies
-
-  @ObservationIgnored
-  @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
-
 
   // MARK: - Observed properties
   
@@ -40,12 +34,6 @@ final class AddWorkoutSheetViewModel {
   }
   var showSelectMuscles = true
   
-  var muscleSearchQuery: String = "" {
-    didSet {
-      self.searchQuerySubject.send(())
-    }
-  }
-  
   var currentSelectedExercise: Exercise? = nil {
     didSet {
       if currentSelectedExercise != nil {
@@ -59,9 +47,9 @@ final class AddWorkoutSheetViewModel {
   var selectedMuscleTypes: [MuscleType] {
     return selectedMuscles.compactMap { MuscleType(rawValue: $0) }
   }
-  
-  var state: LoadingViewState<[Exercise]> = .empty
-  
+
+  private(set) var exercises: [Exercise] = []
+
   // MARK: - Subjects
   
   let didSaveSubject = PassthroughSubject<Void, Never>()
@@ -82,44 +70,20 @@ final class AddWorkoutSheetViewModel {
     setupPublishers()
   }
 
-  private func initialLoad() async {
-    state = .loading
-
-    do {
-      let exercises = try await exerciseRepository.getExercises()
-      state = .loaded(exercises)
-    } catch {
-      state = .error("Could not fetch exercises")
-    }
-  }
-
   private func setupPublishers() {
-    searchQuerySubject
-      .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
-      .sink { [weak self] _ in
-        guard let self else { return }
-        self.searchByMuscleName(self.muscleSearchQuery)
-      }
-      .store(in: &cancellables)
-    
     musclesChanged
       .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
       .sink { [weak self] _ in
-        guard let self else { return }
-        self.updateExercises()
+        self?.updateExercises()
       }
       .store(in: &cancellables)
-    
   }
   
   private func updateExercises() {
     guard !selectedMuscles.isEmpty else { return }
     
     updateTask = Task {
-      state = .loading
-      
-      let results = await exerciseRepository.getExercisesForMuscleTypes(selectedMuscleTypes)
-      state = .loaded(results)
+      exercises = await exerciseRepository.getExercisesForMuscleTypes(selectedMuscleTypes)
     }
   }
   
@@ -130,8 +94,9 @@ final class AddWorkoutSheetViewModel {
   }
   
   func didSelectExercise(with numberOfReps: Int = 0) {
-    guard let exercise = currentSelectedExercise else { return }
-    
+    guard let exercise = currentSelectedExercise else {
+      return
+    }
     defer { currentSelectedExercise = nil }
     
     if let index = selectedExercises.firstIndex(where: { $0.exercise == exercise }) {
@@ -158,26 +123,6 @@ final class AddWorkoutSheetViewModel {
 // MARK: - Data Store methods
 
 extension AddWorkoutSheetViewModel {
-  func searchByMuscleName(_ name: String) {
-    loadTask?.cancel()
-    
-    loadTask = Task { @MainActor in
-      state = .loading
-      
-      do {
-        let results = try await exerciseRepository.searchByQuery(name)
-        if results.isEmpty {
-          state = .empty
-        } else {
-          state = .loaded(results)
-        }
-      } catch {
-        Logger.error(error, message: "Error searching query")
-      }
-    }
-  }
-  
-  
   func submitWorkout() {
 //    guard !selectedExercises.isEmpty, !workoutName.isEmpty, !muscleSearchQuery.isEmpty else { return }
 //

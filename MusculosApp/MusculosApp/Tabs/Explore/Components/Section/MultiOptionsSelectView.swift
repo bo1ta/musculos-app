@@ -15,7 +15,11 @@ struct MultiOptionsSelectView: View {
   
   var title: String
   var options: [String]
-  
+
+  let columns = [
+    GridItem(.adaptive(minimum: 100))
+  ]
+
   var body: some View {
     VStack {
       Button {
@@ -25,7 +29,7 @@ struct MultiOptionsSelectView: View {
       } label: {
         HStack {
           Text(title)
-            .font(AppFont.poppins(.regular, size: 16))
+            .font(AppFont.poppins(.regular, size: 15))
           Spacer()
           Image(systemName: showOptions ? "chevron.up" : "chevron.down")
         }
@@ -34,11 +38,7 @@ struct MultiOptionsSelectView: View {
 
       if showOptions {
         LazyVGrid(
-          columns: [
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-            GridItem(.flexible())
-          ],
+          columns: columns,
           spacing: 5
         ) {
             ForEach(options, id: \.self) { filter in

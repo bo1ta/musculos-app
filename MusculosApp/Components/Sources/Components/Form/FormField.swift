@@ -39,7 +39,7 @@ public struct FormField: View {
     VStack(alignment: .leading) {
       if let label {
         Text(label)
-          .font(AppFont.poppins(.medium, size: 16))
+          .font(AppFont.poppins(.medium, size: 15))
           .foregroundStyle(labelColor)
       }
 

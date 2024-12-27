@@ -18,13 +18,13 @@ public struct SelectedButtonStyle: ButtonStyle {
 
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .padding(16)
+      .padding(10)
       .background(isSelected ? AppColor.navyBlue : .white)
       .foregroundColor(isSelected ? .white : .black)
       .font(isSelected ? .body(.bold) : .body(.regular))
-      .clipShape(RoundedRectangle(cornerRadius: 25))
+      .clipShape(RoundedRectangle(cornerRadius: 10))
       .overlay(
-        RoundedRectangle(cornerRadius: 25)
+        RoundedRectangle(cornerRadius: 10)
           .stroke(isSelected ? AppColor.navyBlue : .gray, lineWidth: 0.75)
       )
       .scaleEffect(configuration.isPressed ? 0.85 : 1.0)
