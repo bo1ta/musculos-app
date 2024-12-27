@@ -50,6 +50,7 @@ struct ExerciseDetailsScreen: View {
     .dismissingGesture(direction: .left, action: { navigator.pop() })
     .toolbar(.hidden, for: .tabBar)
     .navigationBarBackButtonHidden()
+    .preference(key: ShowTabPreferenceKey.self, value: false)
   }
 }
 

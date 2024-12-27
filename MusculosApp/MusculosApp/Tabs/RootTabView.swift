@@ -20,6 +20,7 @@ enum RootTabs: String {
 struct RootTabView: View {
   @SceneStorage("selectedTab") var selectedTab: RootTabs = .home
   @State private var showActionSheet = false
+  @State private var showAddButton = true
 
   var body: some View {
     ZStack(alignment: .bottom) {
@@ -45,13 +46,18 @@ struct RootTabView: View {
         selectedTab = tab
         return .auto
       }
-
-      AddActionButton(action: { showActionSheet = true })
-      .offset(y: -30)
-      .sheet(isPresented: $showActionSheet) {
-        AddActionSheetContainer()
+      
+      if showAddButton {
+        AddActionButton(action: { showActionSheet = true })
+          .offset(y: -30)
+          .sheet(isPresented: $showActionSheet) {
+            AddActionSheetContainer()
+          }
       }
     }
+    .onPreferenceChange(ShowTabPreferenceKey.self, perform: { value in
+      showAddButton = value
+    })
   }
 }
 
