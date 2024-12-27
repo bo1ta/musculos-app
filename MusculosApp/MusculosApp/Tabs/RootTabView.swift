@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+import Components
 import Navigator
+import Utility
 
 enum RootTabs: String {
   case home
@@ -17,29 +19,38 @@ enum RootTabs: String {
 
 struct RootTabView: View {
   @SceneStorage("selectedTab") var selectedTab: RootTabs = .home
+  @State private var showActionSheet = false
 
   var body: some View {
-    TabView(selection: $selectedTab) {
-      RootHomeScreen()
-        .tabItem { Label("Home", systemImage: "house") }
-        .tag(RootTabs.home)
+    ZStack(alignment: .bottom) {
+      TabView(selection: $selectedTab) {
+        RootHomeScreen()
+          .tabItem { Label("Home", systemImage: "house") }
+          .tag(RootTabs.home)
 
-      RootExploreScreen()
-        .tabItem { Label("Explore", systemImage: "newspaper") }
-        .tag(RootTabs.explore)
+        RootExploreScreen()
+          .tabItem { Label("Explore", systemImage: "newspaper") }
+          .tag(RootTabs.explore)
 
-      RootHistoryScreen()
-        .tabItem { Label("History", systemImage: "calendar.badge.clock") }
-        .tag(RootTabs.history)
+        RootHistoryScreen()
+          .tabItem { Label("History", systemImage: "calendar.badge.clock") }
+          .tag(RootTabs.history)
 
-      RootProfileScreen()
-        .tabItem { Label("Profile", systemImage: "person") }
-        .tag(RootTabs.profile)
-    }
-    .onNavigationReceive { (tab: RootTabs, navigator) in
-      navigator.dismissAll()
-      selectedTab = tab
-      return .auto
+        RootProfileScreen()
+          .tabItem { Label("Profile", systemImage: "person") }
+          .tag(RootTabs.profile)
+      }
+      .onNavigationReceive { (tab: RootTabs, navigator) in
+        navigator.dismissAll()
+        selectedTab = tab
+        return .auto
+      }
+
+      AddActionButton(action: { showActionSheet = true })
+      .offset(y: -30)
+      .sheet(isPresented: $showActionSheet) {
+        AddActionSheetContainer()
+      }
     }
   }
 }
