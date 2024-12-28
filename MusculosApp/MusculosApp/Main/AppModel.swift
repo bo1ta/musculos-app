@@ -114,6 +114,7 @@ final class AppModel {
       appState = userStore.isOnboarded ? .loggedIn : .onboarding
     case .didLogOut:
       appState = .loggedOut
+      toast = .info("Logged out")
     case .didFinishOnboarding:
       appState = .loggedIn
     }

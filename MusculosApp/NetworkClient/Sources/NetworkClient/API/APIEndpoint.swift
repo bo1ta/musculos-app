@@ -14,6 +14,7 @@ public enum Endpoint {
   case goals(APIRoute.GoalsRoute)
   case templates(APIRoute.TemplatesRoute)
   case ratings(APIRoute.RatingsRoute)
+  case images(APIRoute.ImagesRoute)
 
   public var path: String {
     switch self {
@@ -29,6 +30,8 @@ public enum Endpoint {
       return "/templates/\(route.path)"
     case .ratings(let route):
       return "/ratings/\(route.path)"
+    case .images(let route):
+      return "/images/\(route.path)"
     }
   }
 
@@ -47,12 +50,15 @@ public enum Endpoint {
   }
 }
 
-public struct APIEndpoint {
+public enum APIEndpoint {
   private static let base = "http://musclehustle.xyz:3000/api/v1"
+  private static let publicBase = "http://musclehustle.xyz:3000"
 
   static func baseWithEndpoint(endpoint: Endpoint) -> URL? {
-    return URL(
-      string: Self.base + endpoint.path
-    )
+    return URL(string: Self.base + endpoint.path)
+  }
+
+  static func baseWithPath(_ path: String) -> URL? {
+    return URL(string: Self.publicBase + path)
   }
 }

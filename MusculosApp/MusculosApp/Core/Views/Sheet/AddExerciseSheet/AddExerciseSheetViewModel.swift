@@ -12,6 +12,7 @@ import Models
 import Utility
 import DataRepository
 import Components
+import NetworkClient
 
 @Observable
 @MainActor
@@ -19,6 +20,9 @@ final class AddExerciseSheetViewModel {
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
+
+  @ObservationIgnored
+  @Injected(\NetworkContainer.imageService) private var imageService: ImageServiceProtocol
 
   var exerciseName = ""
   var equipment = ""
@@ -52,18 +56,36 @@ final class AddExerciseSheetViewModel {
     level.count > 0 &&
     category.count > 0
   }
-  
+
+  private func uploadImages() async -> [String] {
+    var results = [String]()
+
+    let images = pickedPhotos.map { $0.image }
+    for image in images {
+      do {
+        let imageURL = try await imageService.uploadImage(image: image)
+        results.append(imageURL.absoluteString)
+      } catch {
+        Logger.error(error, message: "Error uploading image.")
+      }
+    }
+
+    return results
+  }
+
   func saveExercise() {
     guard isExerciseValid else {
       toast = .warning("Cannot save exercise with empty fields")
       return
     }
 
-    saveExerciseTask = Task {
-      let imageUrls = pickedPhotos.compactMap {
-        PhotoWriter.saveImage($0.image, with: $0.id.uuidString)?.absoluteString
+    saveExerciseTask = Task { [weak self] in
+      guard let self else {
+        return
       }
-      let instructionsString = self.instructions.map { $0.text }
+
+      let imageUrls = await uploadImages()
+      let instructionsString = instructions.map { $0.text }
       
       let exercise = Exercise(
         category: category,
