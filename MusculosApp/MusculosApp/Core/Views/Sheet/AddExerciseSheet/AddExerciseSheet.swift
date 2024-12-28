@@ -42,9 +42,6 @@ struct AddExerciseSheet: View {
       )
       .padding(.top, 25)
       
-      imageOptionView
-        .padding(.top, 25)
-      
       AddDetailOptionCardView(options: $viewModel.instructions)
         .padding(.top, 25)
       
@@ -79,6 +76,9 @@ struct AddExerciseSheet: View {
         options: ExerciseConstants.categoryOptions
       )
       .padding(.top, 25)
+
+      imageOptionView
+        .padding(.top, 25)
     }
     .padding(.bottom, 30)
     .scrollIndicators(.hidden)
@@ -96,10 +96,11 @@ struct AddExerciseSheet: View {
         Text("Save")
           .frame(maxWidth: .infinity)
       })
-      .buttonStyle(PrimaryButtonStyle())
+      .buttonStyle(ActionButtonStyle())
       .padding(.horizontal, 10)
       .padding(.bottom)
     }
+    .toastView(toast: $viewModel.toast)
     .onDisappear(perform: viewModel.onDisappear)
   }
   

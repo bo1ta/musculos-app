@@ -46,7 +46,7 @@ struct AddWorkoutSheet: View {
               title: exercise.name,
               isSelected: viewModel.isExerciseSelected(exercise),
               onSelect: {
-                viewModel.currentSelectedExercise = exercise
+                viewModel.willSelectExercise(exercise)
               }
             )
           }

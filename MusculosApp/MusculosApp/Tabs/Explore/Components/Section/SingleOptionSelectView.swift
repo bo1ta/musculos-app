@@ -14,7 +14,11 @@ struct SingleOptionSelectView: View {
   
   var title: String
   var options: [String]
-  
+
+  let columns = [
+    GridItem(.adaptive(minimum: 100))
+  ]
+
   var body: some View {
     VStack {
       
@@ -32,11 +36,7 @@ struct SingleOptionSelectView: View {
       
       if showOptions {
         LazyVGrid(
-          columns: [
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-            GridItem(.flexible())
-          ],
+          columns: columns,
           spacing: 5
         ) {
           ForEach(options, id: \.self) { filter in

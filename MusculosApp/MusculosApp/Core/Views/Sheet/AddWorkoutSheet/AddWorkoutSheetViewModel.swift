@@ -89,6 +89,15 @@ final class AddWorkoutSheetViewModel {
     return selectedWorkoutExercise.first(where: { $0.exercise == exercise }) != nil
   }
 
+  func willSelectExercise(_ exercise: Exercise) {
+    let selectedExercises = selectedWorkoutExercise.compactMap(\.exercise)
+    if let firstIndex = selectedExercises.firstIndex(where: { $0 == exercise }) {
+      selectedWorkoutExercise.remove(at: firstIndex)
+    } else {
+      currentSelectedExercise = exercise
+    }
+  }
+
   func didSelectExercise(with numberOfReps: Int = 0) {
     guard let exercise = currentSelectedExercise else {
       return

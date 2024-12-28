@@ -10,8 +10,8 @@ import Factory
 import Combine
 import Models
 import Utility
-import Storage
 import DataRepository
+import Components
 
 @Observable
 @MainActor
@@ -23,21 +23,25 @@ final class AddExerciseSheetViewModel {
   var exerciseName = ""
   var equipment = ""
   var force = ""
+  var level = ""
+  var category = ""
   var targetMuscles: [String] = []
   var instructions: [AddDetailOption] = [AddDetailOption(id: 0, text: "")]
   var images: [Image] = []
-  var level: String = ""
-  var category: String = ""
-
   var showForceOptions = true
   var showMusclesOptions = true
   var showLevelOptions = true
   var showCategoryOptions = true
   var showEquipmentOptions = true
-  
+  var toast: Toast?
+
   private(set) var saveExerciseTask: Task<Void, Never>?
 
-  let didSavePublisher = PassthroughSubject<Void, Never>()
+  var didSavePublisher: AnyPublisher<Void, Never> {
+    didSaveSubject.eraseToAnyPublisher()
+  }
+
+  private let didSaveSubject = PassthroughSubject<Void, Never>()
 
   private var isExerciseValid: Bool {
     exerciseName.count > 0 &&
@@ -49,8 +53,11 @@ final class AddExerciseSheetViewModel {
   }
   
   func saveExercise(with photos: [PhotoModel] = []) {
-    guard isExerciseValid else { return }
-    
+    guard isExerciseValid else {
+      toast = .warning("Cannot save exercise with empty fields")
+      return
+    }
+
     saveExerciseTask = Task {
       let imageUrls = photos.compactMap {
         PhotoWriter.saveImage($0.image, with: $0.id.uuidString)?.absoluteString
@@ -70,8 +77,9 @@ final class AddExerciseSheetViewModel {
       
       do {
         try await exerciseRepository.addExercise(exercise)
-        didSavePublisher.send(())
+        didSaveSubject.send(())
       } catch {
+        toast = .error("Cannot save exercise with empty fields")
         Logger.error(error, message: "Could not save exercise")
       }
     }
