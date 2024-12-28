@@ -6,29 +6,29 @@
 //
 
 import Factory
-import Utility
 import UIKit
+import Utility
 
 public final class StorageContainer: SharedContainer {
-  nonisolated(unsafe) public static let shared = StorageContainer()
+  public nonisolated(unsafe) static let shared = StorageContainer()
 
   public var manager = ContainerManager()
 }
 
-extension StorageContainer {
-  public var coreDataStore: Factory<CoreDataStore> {
+public extension StorageContainer {
+  var coreDataStore: Factory<CoreDataStore> {
     self { CoreDataStore() }
       .shared
   }
 
-  public var storageManager: Factory<StorageManagerType> {
+  var storageManager: Factory<StorageManagerType> {
     self { StorageManager() }
       .onTest { InMemoryStorageManager() }
       .onPreview { InMemoryStorageManager() }
       .singleton
   }
 
-  public var userManager: Factory<UserSessionManagerProtocol> {
+  var userManager: Factory<UserSessionManagerProtocol> {
     self { UserSessionManager() }
       .cached
   }

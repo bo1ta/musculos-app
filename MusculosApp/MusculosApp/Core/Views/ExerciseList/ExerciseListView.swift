@@ -5,14 +5,14 @@
 //  Created by Solomon Alexandru on 28.09.2024.
 //
 
-import SwiftUI
-import Models
 import Components
-import Factory
-import Utility
 import DataRepository
-import Storage
+import Factory
+import Models
 import Navigator
+import Storage
+import SwiftUI
+import Utility
 
 struct ExerciseListView: View {
   @Environment(\.navigator) private var navigator
@@ -33,7 +33,7 @@ struct ExerciseListView: View {
       switch state {
       case .loading:
         loadingSkeleton
-      case .loaded(let exercises):
+      case let .loaded(exercises):
         List(exercises, id: \.id) { exercise in
           VStack {
             Button(action: {
@@ -54,7 +54,7 @@ struct ExerciseListView: View {
         .listStyle(.plain)
       case .empty:
         EmptyView()
-      case .error(let errorMessage):
+      case let .error(errorMessage):
         Text(errorMessage)
       }
     }
@@ -81,27 +81,26 @@ struct ExerciseListView: View {
   }
 
   private var loadingSkeleton: some View {
-    List(0..<10) { _ in
-        ExerciseListRow(exercise: ExerciseFactory.createExercise())
-          .redacted(reason: .placeholder)
-      }
-      .defaultShimmering()
+    List(0 ..< 10) { _ in
+      ExerciseListRow(exercise: ExerciseFactory.createExercise())
+        .redacted(reason: .placeholder)
     }
+    .defaultShimmering()
+  }
 
   @MainActor
   private func initialLoad() async throws {
     state = .loading
 
     switch filterType {
-    case .filteredByWorkoutGoal(let workoutGoal):
+    case let .filteredByWorkoutGoal(workoutGoal):
       let exercises = try await repository.getExercisesByWorkoutGoal(workoutGoal)
       results = exercises
       state = .loaded(results)
-    case .filteredByMuscleGroup(let muscleGroup):
+    case let .filteredByMuscleGroup(muscleGroup):
       let exercises = try await repository.getByMuscleGroup(muscleGroup)
       results = exercises
       state = .loaded(results)
-
     }
   }
 }
@@ -113,8 +112,8 @@ extension ExerciseListView {
 
     var navigationBarTitle: String {
       switch self {
-      case .filteredByWorkoutGoal(_): "Filtered by workout goal"
-      case .filteredByMuscleGroup(_): "Filtered by muscle group"
+      case .filteredByWorkoutGoal: "Filtered by workout goal"
+      case .filteredByMuscleGroup: "Filtered by muscle group"
       }
     }
   }

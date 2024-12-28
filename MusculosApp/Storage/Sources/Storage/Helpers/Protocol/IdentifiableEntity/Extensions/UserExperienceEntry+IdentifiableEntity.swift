@@ -1,5 +1,5 @@
 //
-//  UserEntry+IdentifiableEntity.swift
+//  UserExperienceEntry+IdentifiableEntity.swift
 //  Storage
 //
 //  Created by Solomon Alexandru on 16.12.2024.

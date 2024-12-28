@@ -5,23 +5,23 @@
 //  Created by Solomon Alexandru on 13.03.2024.
 //
 
-import SwiftUI
-import Models
-import Utility
 import Components
+import Models
 import Storage
+import SwiftUI
+import Utility
 
 struct AddWorkoutSheet: View {
   @Environment(\.dismiss) private var dismiss
 
   @State private var viewModel = AddWorkoutSheetViewModel()
-  
+
   private var muscleOptions: [String] {
     return MuscleType.allCases.map { $0.rawValue }
   }
-  
+
   let onBack: () -> Void
-  
+
   var body: some View {
     ScrollView {
       SheetNavBar(

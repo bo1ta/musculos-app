@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 04.06.2023.
 //
 
-import SwiftUI
 import Components
 import Navigator
+import SwiftUI
 import Utility
 
 enum RootTabs: String {
@@ -63,4 +63,3 @@ struct RootTabView: View {
 #Preview {
   RootTabView()
 }
-

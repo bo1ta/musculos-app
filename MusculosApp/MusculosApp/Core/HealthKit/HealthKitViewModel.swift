@@ -6,53 +6,54 @@
 //
 
 import Foundation
-import SwiftUI
 import HealthKit
+import SwiftUI
 import Utility
 
 @Observable
 @MainActor
 final class HealthKitViewModel {
-  
   // MARK: - Dependencies
-  
+
   @ObservationIgnored
   private let healthStore = HKHealthStore()
-  
+
   @ObservationIgnored
   private let manager: HealthKitManager
-  
+
   // MARK: - Observed properties
-  
+
   var stepsCount: String = ""
   var sleepTime: String = ""
   var dietaryWater: String = ""
   var isAuthorized: Bool = false
   var errorMessage: String = ""
   var isLoading: Bool = false
-  
+
   init() {
-    self.manager = HealthKitManager(healthStore: healthStore)
+    manager = HealthKitManager(healthStore: healthStore)
     updateAuthorizationStatus()
   }
-  
+
   @MainActor
   func requestPermissions() async {
     await manager.setUpPermissions()
     updateAuthorizationStatus()
   }
-  
+
   func loadAllData() async {
-    guard isAuthorized else { return }
-    
+    guard isAuthorized else {
+      return
+    }
+
     await withTaskGroup(of: Void.self) { group in
       isLoading = true
       defer { isLoading = false }
-      
+
       group.addTask { await self.loadUserSteps() }
       group.addTask { await self.loadSleepAnalysis() }
       group.addTask { await self.loadDietaryWater() }
-      
+
       await group.waitForAll()
     }
   }
@@ -63,7 +64,7 @@ final class HealthKitViewModel {
 extension HealthKitViewModel {
   private func updateAuthorizationStatus() {
     let stepQuantity = HKCategoryType(.sleepAnalysis)
-    
+
     let status = healthStore.authorizationStatus(for: stepQuantity)
     switch status {
     case .sharingAuthorized:
@@ -74,7 +75,7 @@ extension HealthKitViewModel {
       Logger.error(MusculosError.badRequest, message: "Cannot update authorization status")
     }
   }
-  
+
   @MainActor
   private func loadUserSteps() async {
     do {
@@ -96,7 +97,7 @@ extension HealthKitViewModel {
       errorMessage = "Could not load data"
     }
   }
-  
+
   @MainActor
   private func loadDietaryWater() async {
     do {

@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 20.02.2024.
 //
 
-import Foundation
 import Combine
+import Foundation
 import Utility
 
 public protocol MusculosClientProtocol: Sendable {
@@ -24,7 +24,7 @@ public struct MusculosClient: MusculosClientProtocol {
   }()
 
   init(requestMiddlewares: [RequestMiddleware] = [], responseMiddlewares: [ResponseMiddleware] = []) {
-    self.pipeline = MiddlewarePipeline(requestMiddlewares: requestMiddlewares, responseMiddlewares: responseMiddlewares)
+    pipeline = MiddlewarePipeline(requestMiddlewares: requestMiddlewares, responseMiddlewares: responseMiddlewares)
   }
 
   @discardableResult
@@ -36,5 +36,5 @@ public struct MusculosClient: MusculosClientProtocol {
 
 private enum CacheCapacity {
   static let cacheMemoryCapacity: Int = 25 * 1024 * 1024 // 25mb
-  static let cacheDiskCapacity : Int = 50 * 1024 * 1024 // 50mb
+  static let cacheDiskCapacity: Int = 50 * 1024 * 1024 // 50mb
 }

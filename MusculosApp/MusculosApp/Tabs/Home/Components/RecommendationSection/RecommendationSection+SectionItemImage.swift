@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 26.09.2024.
 //
 
+import NetworkClient
 import SwiftUI
 import Utility
-import NetworkClient
 
 extension RecommendationSection {
   struct SectionItemImage: View {
@@ -25,13 +25,13 @@ extension RecommendationSection {
             .frame(width: imageWidth, height: imageHeight)
             .redacted(reason: .placeholder)
             .defaultShimmering()
-        case .success(let image):
+        case let .success(image):
           image
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: imageWidth, height: imageHeight)
             .clipShape(RoundedRectangle(cornerRadius: 20))
-        case .failure(let error):
+        case let .failure(error):
           EmptyView()
             .onAppear {
               Logger.error(error, message: "Error rendering section item image")
@@ -43,4 +43,3 @@ extension RecommendationSection {
     }
   }
 }
-

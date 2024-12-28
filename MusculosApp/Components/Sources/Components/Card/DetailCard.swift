@@ -50,6 +50,6 @@ public struct DetailCard<Content: View>: View {
   }
 }
 
-  #Preview {
-    DetailCard(text: "Details here") { }
-  }
+#Preview {
+  DetailCard(text: "Details here") {}
+}

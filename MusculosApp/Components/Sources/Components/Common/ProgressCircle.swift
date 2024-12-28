@@ -20,7 +20,7 @@ public struct ProgressCircle: View {
   private let gradient = Gradient(colors: [
     .yellow,
     .orange,
-    .red.opacity(0.7)
+    .red.opacity(0.7),
   ])
 
   public var body: some View {

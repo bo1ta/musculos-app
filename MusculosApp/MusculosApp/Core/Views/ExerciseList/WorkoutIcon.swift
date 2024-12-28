@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 25.05.2024.
 //
 
-import SwiftUI
 import Models
+import SwiftUI
 
 struct WorkoutIcon: View {
   let category: String
@@ -26,7 +26,6 @@ struct WorkoutIcon: View {
         .frame(width: 15, height: 15)
         .foregroundStyle(.black)
         .shadow(radius: 0.8)
-
     }
   }
 }

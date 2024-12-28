@@ -11,7 +11,7 @@ public struct WorkoutExercise: Codable, Sendable {
   public let id: UUID
   public let numberOfReps: Int
   public let exercise: Exercise
-  
+
   public init(id: UUID = UUID(), numberOfReps: Int, exercise: Exercise) {
     self.id = id
     self.numberOfReps = numberOfReps
@@ -20,10 +20,10 @@ public struct WorkoutExercise: Codable, Sendable {
 }
 
 extension WorkoutExercise: Hashable {
-  public static func ==(_ lhs: WorkoutExercise, rhs: WorkoutExercise) -> Bool {
+  public static func == (_ lhs: WorkoutExercise, rhs: WorkoutExercise) -> Bool {
     return lhs.id == rhs.id
   }
-  
+
   public func hash(into hasher: inout Hasher) {
     hasher.combine(numberOfReps)
     hasher.combine(exercise.id)

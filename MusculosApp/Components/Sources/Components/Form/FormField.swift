@@ -1,6 +1,6 @@
 //
 //  FormField.swift
-//  
+//
 //
 //  Created by Solomon Alexandru on 28.07.2024.
 //
@@ -49,7 +49,8 @@ public struct FormField: View {
             gradient: Gradient(colors: [Color.white, Color.white.opacity(0.9)]),
             startPoint: .top,
             endPoint: .bottom
-          ))
+          )
+        )
         .shadow(color: .gray.opacity(0.3), radius: 3)
         .frame(maxWidth: .infinity)
         .frame(height: 40)

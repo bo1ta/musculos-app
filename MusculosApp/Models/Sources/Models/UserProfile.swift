@@ -21,7 +21,7 @@ public struct UserProfile: Codable, Sendable {
   public let availableEquipment: [String]?
   public let primaryGoalID: UUID?
   public var isOnboarded: Bool?
-  public var xp: Int? = 0
+  public var xp: Int? = 0 // swiftlint:disable:this identifier_name
   public var goals: [Goal]?
   public var ratings: [ExerciseRating]?
 
@@ -38,7 +38,7 @@ public struct UserProfile: Codable, Sendable {
     availableEquipment: [String]? = nil,
     primaryGoalID: UUID? = nil,
     isOnboarded: Bool? = false,
-    xp: Int? = 0,
+    xp: Int? = 0, // swiftlint:disable:this identifier_name
     goals: [Goal]? = nil,
     ratings: [ExerciseRating]? = nil
   ) {
@@ -72,18 +72,20 @@ public struct UserProfile: Codable, Sendable {
     case availableEquipment = "equipment"
     case primaryGoalID
     case isOnboarded
-    case xp
+    case xp // swiftlint:disable:this identifier_name
     case goals
   }
 
   public var avatarUrl: URL? {
-    guard let avatar else { return nil }
+    guard let avatar else {
+      return nil
+    }
     return URL(string: avatar)
   }
 }
 
 extension UserProfile: Equatable {
-  public static func ==(_ lhs: UserProfile, rhs: UserProfile) -> Bool {
+  public static func == (_ lhs: UserProfile, rhs: UserProfile) -> Bool {
     return lhs.userId == rhs.userId
   }
 }

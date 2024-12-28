@@ -1,13 +1,13 @@
 //
-//  PrimaryMuscleEntity+CoreDataProperties.swift
+//  PrimaryMuscleEntity.swift
 //
 //
 //  Created by Solomon Alexandru on 12.12.2024.
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 import Models
 
 @objc(PrimaryMuscleEntity)
@@ -22,7 +22,9 @@ public class PrimaryMuscleEntity: MuscleEntity {
     return Set<PrimaryMuscleEntity>(
       muscles
         .compactMap { muscle -> PrimaryMuscleEntity? in
-          guard let muscleType = MuscleType(rawValue: muscle) else { return nil }
+          guard let muscleType = MuscleType(rawValue: muscle) else {
+            return nil
+          }
 
           let predicate = NSPredicate(
             format: "%K == %d",
@@ -35,7 +37,7 @@ public class PrimaryMuscleEntity: MuscleEntity {
             return entity
           } else {
             let entity = storage.insertNewObject(ofType: PrimaryMuscleEntity.self)
-            entity.muscleID = NSNumber(integerLiteral: muscleType.id)
+            entity.muscleID = muscleType.id as NSNumber
             entity.name = muscleType.rawValue
             entity.exercises.insert(exerciseEntity)
             return entity
@@ -43,30 +45,28 @@ public class PrimaryMuscleEntity: MuscleEntity {
         }
     )
   }
-
 }
 
 // MARK: Generated accessors for exercises
-extension PrimaryMuscleEntity {
 
+public extension PrimaryMuscleEntity {
   @objc(addExercisesObject:)
-  @NSManaged public func addToExercises(_ value: ExerciseEntity)
+  @NSManaged func addToExercises(_ value: ExerciseEntity)
 
   @objc(removeExercisesObject:)
-  @NSManaged public func removeFromExercises(_ value: ExerciseEntity)
+  @NSManaged func removeFromExercises(_ value: ExerciseEntity)
 
   @objc(addExercises:)
-  @NSManaged public func addToExercises(_ values: Set<ExerciseEntity>)
+  @NSManaged func addToExercises(_ values: Set<ExerciseEntity>)
 
   @objc(removeExercises:)
-  @NSManaged public func removeFromExercises(_ values: Set<ExerciseEntity>)
-
+  @NSManaged func removeFromExercises(_ values: Set<ExerciseEntity>)
 }
 
-extension PrimaryMuscleEntity : Identifiable { }
+extension PrimaryMuscleEntity: Identifiable {}
 
 extension PrimaryMuscleEntity: ReadOnlyConvertible {
   public func toReadOnly() -> String {
-    return self.name
+    return name
   }
 }

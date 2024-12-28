@@ -5,20 +5,19 @@
 //  Created by Solomon Alexandru on 06.04.2024.
 //
 
-import Foundation
-import SwiftUI
-import Factory
 import Combine
-import Models
-import Utility
-import DataRepository
-import Storage
 import Components
+import DataRepository
+import Factory
+import Foundation
+import Models
+import Storage
+import SwiftUI
+import Utility
 
 @Observable
 @MainActor
 final class AddWorkoutSheetViewModel {
-
   @ObservationIgnored
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore: CoreDataStore
 
@@ -46,7 +45,7 @@ final class AddWorkoutSheetViewModel {
 
   var selectedMuscles: [String] = [] {
     didSet {
-      self.updateExercises()
+      updateExercises()
     }
   }
 
@@ -76,7 +75,9 @@ final class AddWorkoutSheetViewModel {
   private(set) var updateTask: Task<Void, Never>?
 
   private func updateExercises() {
-    guard !selectedMuscles.isEmpty else { return }
+    guard !selectedMuscles.isEmpty else {
+      return
+    }
 
     updateTask = Task {
       exercises = await coreDataStore.exercisesForMuscles(selectedMuscleTypes)
@@ -86,7 +87,7 @@ final class AddWorkoutSheetViewModel {
   // MARK: - UI Logic
 
   func isExerciseSelected(_ exercise: Exercise) -> Bool {
-    return selectedWorkoutExercise.first(where: { $0.exercise == exercise }) != nil
+    return selectedWorkoutExercise.contains(where: { $0.exercise == exercise })
   }
 
   func willSelectExercise(_ exercise: Exercise) {
@@ -132,9 +133,11 @@ extension AddWorkoutSheetViewModel {
     }
 
     submitWorkoutTask = Task { [weak self] in
-      guard let self else { return }
+      guard let self else {
+        return
+      }
 
-      guard let currentUserID = userManager.currentUserID, let currentUserProfile =  await coreDataStore.userProfile(for: currentUserID) else {
+      guard let currentUserID = userManager.currentUserID, let currentUserProfile = await coreDataStore.userProfile(for: currentUserID) else {
         handleError(MusculosError.notFound, message: "Invalid user")
         return
       }

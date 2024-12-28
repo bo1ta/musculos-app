@@ -5,20 +5,19 @@
 //  Created by Solomon Alexandru on 17.04.2024.
 //
 
-import Foundation
-import SwiftUI
 import Combine
+import CoreData
+import DataRepository
 import Factory
-import Utility
+import Foundation
 import Models
 import Storage
-import DataRepository
-import CoreData
+import SwiftUI
+import Utility
 
 @Observable
 @MainActor
 final class ExploreViewModel {
-
   // MARK: - Dependencies
 
   @ObservationIgnored
@@ -60,10 +59,10 @@ final class ExploreViewModel {
   private let coreModelNotificationHandler: CoreModelNotificationHandler
 
   init() {
-    self.coreModelNotificationHandler = CoreModelNotificationHandler(
+    coreModelNotificationHandler = CoreModelNotificationHandler(
       storageType: StorageContainer.shared.storageManager().writerDerivedStorage
     )
-    self.coreModelNotificationHandler.eventPublisher
+    coreModelNotificationHandler.eventPublisher
       .debounce(for: .milliseconds(700), scheduler: RunLoop.main)
       .sink { [weak self] updateObjectEvent in
         self?.handleUpdate(updateObjectEvent)

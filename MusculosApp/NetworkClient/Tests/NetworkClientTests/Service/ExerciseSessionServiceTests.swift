@@ -5,14 +5,14 @@
 //  Created by Solomon Alexandru on 16.10.2024.
 //
 
-import Testing
-import Foundation
 import Factory
+import Foundation
+import Testing
 
-@testable import NetworkClient
 @testable import Models
-@testable import Utility
+@testable import NetworkClient
 @testable import Storage
+@testable import Utility
 
 @Suite(.serialized)
 final class ExerciseSessionServiceTests: MusculosTestBase {
@@ -47,7 +47,7 @@ final class ExerciseSessionServiceTests: MusculosTestBase {
       "dateAdded": exerciseSession.dateAdded.ISO8601Format(),
       "duration": exerciseSession.duration,
       "exerciseID": exercise.id.uuidString,
-      "sessionID": exerciseSession.sessionId.uuidString
+      "sessionID": exerciseSession.sessionId.uuidString,
     ]
     stubClient.expectedResponseData = try parseDataFromFile(name: "userExperienceEntry")
 

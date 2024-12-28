@@ -1,12 +1,12 @@
 //
-//  ExerciseCardsStack.swift
+//  ExerciseCardStack.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 04.10.2024.
 //
 
-import SwiftUI
 import Models
+import SwiftUI
 
 public struct ExerciseCardsStack: View {
   var exercises: [Exercise]

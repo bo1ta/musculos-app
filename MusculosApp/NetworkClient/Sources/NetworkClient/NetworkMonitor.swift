@@ -5,13 +5,14 @@
 //  Created by Solomon Alexandru on 23.11.2024.
 //
 
-import Network
-import Foundation
 import Combine
+import Foundation
+import Network
 
 public protocol NetworkMonitorProtocol {
   var connectionStatusPublisher: AnyPublisher<NWPath.Status, Never> { get }
   var isConnected: Bool { get }
+
   func startMonitoring()
   func stopMonitoring()
 }

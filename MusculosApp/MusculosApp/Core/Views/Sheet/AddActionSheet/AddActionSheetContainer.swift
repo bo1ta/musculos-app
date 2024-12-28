@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 13.03.2024.
 //
 
-import SwiftUI
 import Components
+import SwiftUI
 
 struct AddActionSheetContainer: View {
   private enum Step {
@@ -49,7 +49,7 @@ struct AddActionSheetContainer: View {
       currentStep = .createWorkout
     }
   }
-  
+
   @MainActor
   private func handleBack() {
     currentStep = .createItem

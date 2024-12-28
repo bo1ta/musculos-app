@@ -9,29 +9,29 @@ import Factory
 import Utility
 
 public final class NetworkContainer: SharedContainer {
-  nonisolated(unsafe) public static let shared = NetworkContainer()
+  public nonisolated(unsafe) static let shared = NetworkContainer()
   public var manager = ContainerManager()
 }
 
-extension NetworkContainer {
-  public var client: Factory<MusculosClientProtocol> {
+public extension NetworkContainer {
+  var client: Factory<MusculosClientProtocol> {
     self {
       MusculosClient(
         requestMiddlewares: [
           ConnectivityMiddleware(),
           AuthorizationMiddleware(),
-          RetryMiddleware()
+          RetryMiddleware(),
         ],
         responseMiddlewares: [
           AuthCheckerMiddleware(),
-          LoggingMiddleware()
+          LoggingMiddleware(),
         ]
       )
     }
     .cached
   }
 
-  public var networkMonitor: Factory<NetworkMonitorProtocol> {
+  var networkMonitor: Factory<NetworkMonitorProtocol> {
     self { NetworkMonitor() }
       .singleton
   }
@@ -41,28 +41,27 @@ extension NetworkContainer {
       .singleton
   }
 
-  public var userService: Factory<UserServiceProtocol> {
+  var userService: Factory<UserServiceProtocol> {
     self { UserService() }
   }
 
-  public var exerciseService: Factory<ExerciseServiceProtocol> {
+  var exerciseService: Factory<ExerciseServiceProtocol> {
     self { ExerciseService() }
   }
 
-  public var exerciseSessionService: Factory<ExerciseSessionServiceProtocol> {
+  var exerciseSessionService: Factory<ExerciseSessionServiceProtocol> {
     self { ExerciseSessionService() }
   }
 
-  public var goalService: Factory<GoalServiceProtocol> {
+  var goalService: Factory<GoalServiceProtocol> {
     self { GoalService() }
   }
 
-  public var ratingService: Factory<RatingServiceProtocol> {
+  var ratingService: Factory<RatingServiceProtocol> {
     self { RatingService() }
   }
 
-  public var imageService: Factory<ImageServiceProtocol> {
+  var imageService: Factory<ImageServiceProtocol> {
     self { ImageService() }
   }
 }
-

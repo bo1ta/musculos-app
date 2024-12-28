@@ -13,7 +13,7 @@ public struct LoadingProgressCircle: View {
   let progressColor: Color
 
   public init(progress: Binding<Double>, progressColor: Color = .orange) {
-    self._progress = progress
+    _progress = progress
     self.progressColor = progressColor
   }
 

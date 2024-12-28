@@ -5,12 +5,12 @@
 //  Created by Solomon Alexandru on 23.09.2024.
 //
 
-import SwiftUI
 import Models
 import NetworkClient
-import Utility
 import Shimmer
 import Storage
+import SwiftUI
+import Utility
 
 struct UserAvatar: View {
   let profile: UserProfile?
@@ -22,13 +22,13 @@ struct UserAvatar: View {
         Circle()
           .frame(height: 40)
           .defaultShimmering()
-      case .success(let image):
+      case let .success(image):
         image
           .resizable()
           .frame(width: 40, height: 40)
           .aspectRatio(contentMode: .fit)
           .clipShape(Circle())
-      case .failure(_):
+      case .failure:
         Circle()
           .frame(height: 40)
           .foregroundStyle(.green)

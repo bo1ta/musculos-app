@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import Utility
 import Models
+import Utility
 
 public enum UserSessionState: Sendable {
   case authenticated(UserSession)
@@ -20,22 +20,22 @@ public protocol UserSessionManagerProtocol: Sendable {
   func clearSession()
 }
 
-extension UserSessionManagerProtocol {
-  public var isAuthenticated: Bool {
+public extension UserSessionManagerProtocol {
+  var isAuthenticated: Bool {
     if case .authenticated = getCurrentState() {
       return true
     }
     return false
   }
 
-  public var currentUserSession: UserSession? {
-    if case .authenticated(let session) = getCurrentState() {
+  var currentUserSession: UserSession? {
+    if case let .authenticated(session) = getCurrentState() {
       return session
     }
     return nil
   }
 
-  public var currentUserID: UUID? {
+  var currentUserID: UUID? {
     return currentUserSession?.user.id
   }
 }
@@ -44,32 +44,37 @@ public final class UserSessionManager: UserSessionManagerProtocol, @unchecked Se
   private var cachedSessionState: UserSessionState?
 
   public func getCurrentState() -> UserSessionState {
-      if let cachedSessionState {
-        return cachedSessionState
-      }
+    if let cachedSessionState {
+      return cachedSessionState
+    }
 
-      let session = loadSessionFromUserDefaults()
-      cachedSessionState =  session != nil ? .authenticated(session!) : .unauthenticated
-      return cachedSessionState!
+    if let session = loadSessionFromUserDefaults() {
+      cachedSessionState = .authenticated(session)
+      return .authenticated(session)
+    } else {
+      return .unauthenticated
+    }
   }
 
   public func updateSession(_ session: UserSession) {
-      if let data = try? JSONEncoder().encode(session) {
-        UserDefaults.standard.set(data, forKey: UserDefaultsKey.userSession)
-        cachedSessionState = .authenticated(session)
-      }
+    if let data = try? JSONEncoder().encode(session) {
+      UserDefaults.standard.set(data, forKey: UserDefaultsKey.userSession)
+      cachedSessionState = .authenticated(session)
+    }
   }
 
   public func clearSession() {
-      UserDefaults.standard.removeObject(forKey: UserDefaultsKey.userSession)
-      cachedSessionState = nil
+    UserDefaults.standard.removeObject(forKey: UserDefaultsKey.userSession)
+    cachedSessionState = nil
   }
 
   private func loadSessionFromUserDefaults() -> UserSession? {
     guard
       let data = UserDefaults.standard.data(forKey: UserDefaultsKey.userSession),
       let userSession = try? UserSession.createFrom(data)
-    else { return nil }
+    else {
+      return nil
+    }
 
     return userSession
   }

@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
 import Models
+import SwiftUI
 
 @Observable
 final class WorkoutFlowViewModel {
@@ -16,20 +16,20 @@ final class WorkoutFlowViewModel {
     case session
     case completion
   }
-  
+
   private(set) var step: Step = .intro
   private(set) var currentExerciseIndex = 0
-  
+
   let workout: Workout
-  
+
   init(workout: Workout) {
     self.workout = workout
   }
-  
+
   var currentExercise: Exercise? {
     return workout.workoutExercises[safe: currentExerciseIndex]?.exercise
   }
-  
+
   func handleNextExercise() {
     if currentExerciseIndex == workout.workoutExercises.count - 1 {
       handleNextStep()
@@ -37,16 +37,14 @@ final class WorkoutFlowViewModel {
       currentExerciseIndex += 1
     }
   }
-  
+
   func handleNextStep() {
     withAnimation {
       switch step {
       case .intro:
         step = .session
-        break
       case .session:
         step = .completion
-        break
       case .completion:
         break
       }

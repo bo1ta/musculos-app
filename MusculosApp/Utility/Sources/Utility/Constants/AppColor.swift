@@ -1,5 +1,5 @@
 //
-//  Color+Extension.swift
+//  AppColor.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 10.06.2023.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 public extension Color {
-  public struct AppColor {
+  enum AppColor {
     public static let blue100 = Color("Blue100")
     public static let blue200 = Color("Blue200")
     public static let blue300 = Color("Blue300")
@@ -19,7 +19,7 @@ public extension Color {
     public static let blue700 = Color("Blue700")
     public static let blue800 = Color("Blue800")
     public static let blue900 = Color("Blue900")
-    
+
     public static let green100 = Color("Green100")
     public static let green200 = Color("Green200")
     public static let green300 = Color("Green300")
@@ -32,7 +32,7 @@ public extension Color {
   }
 }
 
-public struct AppColor {
+public enum AppColor {
   public static let brightOrange = Color(hex: "FBC12E")
   public static let lightBrown = Color(hex: "F18184")
   public static let navyBlue = Color(hex: "0E2250")

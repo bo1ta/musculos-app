@@ -5,11 +5,11 @@
 //  Created by Solomon Alexandru on 19.04.2024.
 //
 
-import SwiftUI
-import Models
-import Utility
 import Components
+import Models
 import Storage
+import SwiftUI
+import Utility
 
 struct AddExerciseSheet: View {
   @Environment(\.dismiss) private var dismiss
@@ -84,8 +84,7 @@ struct AddExerciseSheet: View {
     .onDisappear(perform: viewModel.onDisappear)
   }
 
-
-  private var imageOptionView: some View  {
+  private var imageOptionView: some View {
     VStack(alignment: .leading) {
       Text("Images (optional)")
         .font(.body(.bold, size: 15))

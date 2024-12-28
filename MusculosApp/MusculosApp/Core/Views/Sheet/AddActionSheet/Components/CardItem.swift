@@ -5,14 +5,14 @@
 //  Created by Solomon Alexandru on 02.03.2024.
 //
 
-import SwiftUI
 import Shimmer
+import SwiftUI
 
 struct CardItem: View {
   let title: String
   let isSelected: Bool
   let onSelect: () -> Void
-  
+
   var body: some View {
     RoundedRectangle(cornerRadius: 10)
       .foregroundStyle(.white)
@@ -26,7 +26,7 @@ struct CardItem: View {
               .font(.body(.regular, size: 13))
               .foregroundStyle(Color.AppColor.blue800)
             Spacer()
-            
+
             Circle()
               .frame(width: 20, height: 20)
               .foregroundStyle(isSelected ? Color.AppColor.blue500 : .white)

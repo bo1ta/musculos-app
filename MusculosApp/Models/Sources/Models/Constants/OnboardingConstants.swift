@@ -1,5 +1,5 @@
 //
-//  OnboardingData.swift
+//  OnboardingConstants.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 18.06.2024.
@@ -15,15 +15,14 @@ public protocol OnboardingOption {
   var image: Image? { get }
 }
 
-public struct OnboardingConstants {
-  
+public enum OnboardingConstants {
   // MARK: - Level
 
   public enum Level: OnboardingOption, CaseIterable {
     case beginner
     case intermmediate
     case advanced
-    
+
     public var title: String {
       switch self {
       case .beginner: "Beginner"
@@ -31,7 +30,7 @@ public struct OnboardingConstants {
       case .advanced: "Advanced"
       }
     }
-    
+
     public var description: String {
       switch self {
       case .beginner: "Someone who is relatively new to regular exercise or has just started"
@@ -39,7 +38,7 @@ public struct OnboardingConstants {
       case .advanced: "Someone who exercises consistently and has a well-established fitness routine"
       }
     }
-    
+
     public var image: Image? {
       return nil
     }
@@ -52,14 +51,14 @@ public struct OnboardingConstants {
       }
     }
   }
-  
+
   // MARK: - Equipment
-  
+
   public enum Equipment: OnboardingOption, CaseIterable {
     case none
     case dumbbells
     case gym
-    
+
     public var title: String {
       switch self {
       case .none: "None"
@@ -67,7 +66,7 @@ public struct OnboardingConstants {
       case .gym: "Gym"
       }
     }
-    
+
     public var description: String {
       switch self {
       case .none: "No equipment. I prefer working out with my body weight"
@@ -75,7 +74,7 @@ public struct OnboardingConstants {
       case .gym: "I have access to a gym that provides equipment"
       }
     }
-    
+
     public var image: Image? {
       switch self {
       case .none: Image(systemName: "figure.flexibility")
@@ -84,9 +83,9 @@ public struct OnboardingConstants {
       }
     }
   }
-  
+
   // MARK: - Goal
-  
+
   public enum Goal: OnboardingOption, CaseIterable, Sendable {
     case loseWeight
     case getFitter
@@ -99,7 +98,7 @@ public struct OnboardingConstants {
       case .gainMuscles: "Gain muscles"
       }
     }
-    
+
     public var description: String {
       switch self {
       case .loseWeight: "Burn fat & get lean"
@@ -107,7 +106,7 @@ public struct OnboardingConstants {
       case .gainMuscles: "Build mass & strength"
       }
     }
-    
+
     public var image: Image? {
       switch self {
       case .loseWeight: Image("rope-icon")
@@ -117,4 +116,3 @@ public struct OnboardingConstants {
     }
   }
 }
-

@@ -1,5 +1,5 @@
 //
-//  XPGainView.swift
+//  ExperienceGainView.swift
 //  Components
 //
 //  Created by Solomon Alexandru on 21.12.2024.

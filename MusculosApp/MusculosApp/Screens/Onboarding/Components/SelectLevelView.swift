@@ -5,10 +5,10 @@
 //  Created by Solomon Alexandru on 18.06.2024.
 //
 
-import Foundation
-import SwiftUI
-import Models
 import Components
+import Foundation
+import Models
+import SwiftUI
 import Utility
 
 struct SelectLevelView: View {
@@ -49,14 +49,15 @@ struct SelectLevelView: View {
         isSelected: isLevelSelected(level),
         content: {
           makeStarsImage(for: level)
-        })
+        }
+      )
       .animation(.smooth, value: selectedLevel)
     })
   }
 
   private func makeStarsImage(for level: OnboardingConstants.Level) -> some View {
     HStack(spacing: 5) {
-      ForEach(0..<level.numberOfStars, id: \.self) { _ in
+      ForEach(0 ..< level.numberOfStars, id: \.self) { _ in
         Image(isLevelSelected(level) ? "star-icon" : "star-icon-empty")
           .resizable()
           .aspectRatio(contentMode: .fit)

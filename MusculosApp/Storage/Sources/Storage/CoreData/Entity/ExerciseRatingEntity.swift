@@ -1,19 +1,19 @@
 //
-//  ExerciseRatingEntity+CoreDataClass.swift
-//  
+//  ExerciseRatingEntity.swift
+//
 //
 //  Created by Solomon Alexandru on 23.11.2024.
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 import Models
 
 @objc(ExerciseRatingEntity)
 public class ExerciseRatingEntity: NSManagedObject {
   @nonobjc public class func fetchRequest() -> NSFetchRequest<ExerciseRatingEntity> {
-      return NSFetchRequest<ExerciseRatingEntity>(entityName: "ExerciseRatingEntity")
+    return NSFetchRequest<ExerciseRatingEntity>(entityName: "ExerciseRatingEntity")
   }
 
   @NSManaged public var ratingID: UUID
@@ -45,18 +45,20 @@ extension ExerciseRatingEntity: EntitySyncable {
     guard
       let exerciseEntity = storage.firstObject(of: ExerciseEntity.self, matching: PredicateProvider.exerciseById(model.exerciseID)),
       let userProfileEntity = storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(model.userID))
-    else { return }
+    else {
+      return
+    }
 
-    self.exercise = exerciseEntity
-    self.user = userProfileEntity
-    self.ratingID = model.ratingID
-    self.rating = NSNumber(floatLiteral: model.rating)
-    self.isPublic = model.isPublic ?? true
-    self.comment = model.comment
+    exercise = exerciseEntity
+    user = userProfileEntity
+    ratingID = model.ratingID
+    rating = model.rating as NSNumber
+    isPublic = model.isPublic ?? true
+    comment = model.comment
   }
 
-  public func updateEntityFrom(_ model: ExerciseRating, using storage: any StorageType) {
-    self.comment = model.comment
-    self.rating = NSNumber(floatLiteral: model.rating)
+  public func updateEntityFrom(_ model: ExerciseRating, using _: any StorageType) {
+    comment = model.comment
+    rating = model.rating as NSNumber
   }
 }

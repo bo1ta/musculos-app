@@ -12,6 +12,6 @@ extension Goal: IdentifiableEntity {
   public static let identifierKey: String = "goalID"
 
   public var identifierValue: UUID {
-    self.id
+    id
   }
 }

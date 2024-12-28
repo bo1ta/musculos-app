@@ -5,18 +5,18 @@
 //  Created by Solomon Alexandru on 19.10.2024.
 //
 
+import Factory
 import Foundation
 import Models
-import Utility
-import Storage
 import NetworkClient
-import Factory
+import Storage
+import Utility
 
 public actor ExerciseSessionRepository: BaseRepository {
   @Injected(\NetworkContainer.exerciseSessionService) private var service: ExerciseSessionServiceProtocol
 
   public func getExerciseSessions() async throws -> [ExerciseSession] {
-    guard let currentUserID = self.currentUserID else {
+    guard let currentUserID = currentUserID else {
       throw MusculosError.notFound
     }
 
@@ -30,43 +30,27 @@ public actor ExerciseSessionRepository: BaseRepository {
   }
 
   public func getRecommendationsForLeastWorkedMuscles() async throws -> [Exercise] {
-    guard let userID = self.currentUserID else {
+    guard let userID = currentUserID else {
       throw MusculosError.notFound
     }
     return await coreDataStore.exerciseRecommendationsByHistory(for: userID)
   }
 
   public func getCompletedSinceLastWeek() async throws -> [ExerciseSession] {
-    guard let userID = self.currentUserID else {
+    guard let userID = currentUserID else {
       throw MusculosError.notFound
     }
     return await coreDataStore.exerciseSessionsCompletedSinceLastWeek(for: userID)
   }
 
   public func getCompletedToday() async throws -> [ExerciseSession] {
-    guard let userID = self.currentUserID else {
+    guard let userID = currentUserID else {
       throw MusculosError.notFound
     }
     return await coreDataStore.exerciseSessionCompletedToday(for: userID)
   }
 
-  public func addSession(_ exercise: Exercise, dateAdded: Date, duration: Double, weight: Double) async throws -> UserExperienceEntry {
-    guard
-      let currentUserID = self.currentUserID,
-      let currentProfile = await coreDataStore.userProfile(for: currentUserID)
-    else {
-      throw MusculosError.notFound
-    }
-
-    let exerciseSession = ExerciseSession(
-      dateAdded: dateAdded,
-      sessionId: UUID(),
-      user: currentProfile,
-      exercise: exercise,
-      duration: duration,
-      weight: weight
-    )
-
+  public func addSession(_ exerciseSession: ExerciseSession) async throws -> UserExperienceEntry {
     let userExperienceEntry = try await service.add(exerciseSession)
 
     backgroundWorker.queueOperation(priority: .high) { [weak self] in

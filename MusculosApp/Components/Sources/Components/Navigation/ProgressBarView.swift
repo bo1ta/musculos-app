@@ -19,7 +19,7 @@ public struct ProgressBarView: View {
   public var body: some View {
     HStack {
       Spacer()
-      ForEach(0..<self.progressCount, id: \.self) { index in
+      ForEach(0 ..< self.progressCount, id: \.self) { index in
         if index == currentProgress {
           Image(systemName: "circle.fill")
             .font(.system(size: 11))
@@ -37,10 +37,8 @@ public struct ProgressBarView: View {
   }
 }
 
-struct ProgressBarView_Preview: PreviewProvider {
-  static var previews: some View {
-    ProgressBarView(progressCount: 5, currentProgress: 2)
-      .padding()
-      .previewLayout(.sizeThatFits)
-  }
+#Preview {
+  ProgressBarView(progressCount: 5, currentProgress: 2)
+    .padding()
+    .previewLayout(.sizeThatFits)
 }

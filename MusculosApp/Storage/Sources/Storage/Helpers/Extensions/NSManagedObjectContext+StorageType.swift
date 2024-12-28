@@ -5,96 +5,96 @@
 //  Created by Solomon Alexandru on 25.03.2024.
 //
 
-import Foundation
 import CoreData
+import Foundation
 import Utility
 
 extension NSManagedObjectContext: StorageType {
   public var parentStorage: StorageType? {
     return parent
   }
-  
+
   public func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T] {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.sortDescriptors = descriptors
-    
+
     return loadObjects(ofType: type, with: request)
   }
-  
+
   public func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, relationshipKeyPathsForPrefetching: [String]) -> [T] {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.relationshipKeyPathsForPrefetching = relationshipKeyPathsForPrefetching
-    
+
     return loadObjects(ofType: type, with: request)
   }
-  
+
   public func allObjects<T: Object>(ofType type: T.Type, fetchLimit: Int, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T] {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.sortDescriptors = descriptors
     request.fetchLimit = fetchLimit
-    
+
     return loadObjects(ofType: type, with: request)
   }
-  
+
   public func countObjects<T: Object>(ofType type: T.Type) -> Int {
     countObjects(ofType: type, matching: nil)
   }
-  
+
   public func countObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?) -> Int {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.resultType = .countResultType
-    
+
     var result = 0
-    
+
     do {
       result = try count(for: request)
     } catch {
       Logger.error(error, message: "Unable to count objects")
     }
-    
+
     return result
   }
-  
+
   public func deleteObject<T: Object>(_ object: T) {
     guard let object = object as? NSManagedObject else {
       Logger.error(MusculosError.decodingError, message: "Cannot delete object! Invalid kind")
       return
     }
-    
+
     delete(object)
   }
-  
+
   func deleteAllObjects<T: Object>(ofType type: T.Type) {
     let request = fetchRequest(forType: type)
     request.includesPropertyValues = false
     request.includesSubentities = false
-    
+
     for object in loadObjects(ofType: type, with: request) {
       deleteObject(object)
     }
   }
-  
+
   public func firstObject<T: Object>(of type: T.Type) -> T? {
     firstObject(of: type, matching: nil)
   }
-  
+
   public func firstObject<T: Object>(of type: T.Type, matching predicate: NSPredicate?) -> T? {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.fetchLimit = 1
-    
+
     return loadObjects(ofType: type, with: request).first
   }
-  
-  public func insertNewObject<T: Object>(ofType type: T.Type) -> T {
-    return NSEntityDescription.insertNewObject(forEntityName: T.entityName, into: self) as! T
+
+  public func insertNewObject<T: Object>(ofType _: T.Type) -> T {
+    return NSEntityDescription.insertNewObject(forEntityName: T.entityName, into: self) as! T // swiftlint:disable:this force_cast
   }
-  
-  public func loadObject<T: Object>(ofType type: T.Type, with objectID: T.ObjectID) -> T? {
+
+  public func loadObject<T: Object>(ofType _: T.Type, with objectID: T.ObjectID) -> T? {
     guard let objectID = objectID as? NSManagedObjectID else {
       Logger.error(
         MusculosError.notFound,
@@ -103,7 +103,7 @@ extension NSManagedObjectContext: StorageType {
       )
       return nil
     }
-    
+
     do {
       return try existingObject(with: objectID) as? T
     } catch {
@@ -113,20 +113,22 @@ extension NSManagedObjectContext: StorageType {
         properties: ["object_name": T.entityName]
       )
     }
-    
+
     return nil
   }
-  
+
   public func findOrInsert<T: Object>(of type: T.Type, using predicate: NSPredicate) -> T {
     if let existingObject = firstObject(of: type, matching: predicate) {
       return existingObject
     }
     return insertNewObject(ofType: type)
   }
-  
+
   public func saveIfNeeded() {
-    guard hasChanges else { return }
-    
+    guard hasChanges else {
+      return
+    }
+
     do {
       try save()
     } catch {
@@ -137,18 +139,18 @@ extension NSManagedObjectContext: StorageType {
       )
     }
   }
-  
+
   public func fetchUniquePropertyValues<T: Object>(of type: T.Type, property propertyToFetch: String) -> Set<UUID> {
     let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: type.entityName)
     fetchRequest.resultType = .dictionaryResultType
     fetchRequest.propertiesToFetch = [propertyToFetch]
 
     do {
-      guard let results = try self.fetch(fetchRequest) as? [[String: Any]] else {
+      guard let results = try fetch(fetchRequest) as? [[String: Any]] else {
         return []
       }
       return Set<UUID>(results.compactMap { dict in
-        return dict[propertyToFetch] as? UUID
+        dict[propertyToFetch] as? UUID
       })
     } catch {
       Logger.error(
@@ -156,35 +158,38 @@ extension NSManagedObjectContext: StorageType {
         message: "Cannot fetch by property",
         properties: [
           "property_name": propertyToFetch,
-          "entity_name": type.entityName
-        ])
+          "entity_name": type.entityName,
+        ]
+      )
       return []
     }
   }
 
   /// Loads the collection of entities that match with a given Fetch Request
   ///
-  private func loadObjects<T: Object>(ofType type: T.Type, with request: NSFetchRequest<NSFetchRequestResult>) -> [T] {
+  private func loadObjects<T: Object>(ofType _: T.Type, with request: NSFetchRequest<NSFetchRequestResult>) -> [T] {
     var objects: [T]?
 
     do {
-      objects = try self.fetch(request) as? [T]
+      objects = try fetch(request) as? [T]
     } catch {
       Logger.error(error, message: "Could not load objects")
     }
     return objects ?? []
   }
-  
+
   /// Returns a NSFetchRequest instance with its *Entity Name* always set, for the specified Object Type.
   ///
   private func fetchRequest<T: Object>(forType type: T.Type) -> NSFetchRequest<NSFetchRequestResult> {
     return NSFetchRequest<NSFetchRequestResult>(entityName: type.entityName)
   }
-  
+
   public func perform(_ block: @escaping () throws -> Void) async throws {
     return try await withCheckedThrowingContinuation { [weak self] continuation in
-      guard let self else { return }
-      
+      guard let self else {
+        return
+      }
+
       self.performAndWait {
         do {
           try block()
@@ -195,10 +200,10 @@ extension NSManagedObjectContext: StorageType {
       }
     }
   }
-  
+
   public func perform<ResultType>(_ block: @escaping () -> ResultType) async -> ResultType {
     return await withCheckedContinuation { continuation in
-      
+
       self.perform {
         let result = block()
         continuation.resume(returning: result)

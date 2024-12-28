@@ -1,5 +1,5 @@
 //
-//  MusculosService.swift
+//  APIService.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 20.02.2024.

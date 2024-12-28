@@ -1,6 +1,6 @@
 //
 //  ContentLengthPreferenceKey.swift
-//  
+//
 //
 //  Created by Solomon Alexandru on 26.08.2024.
 //

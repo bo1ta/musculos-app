@@ -1,6 +1,6 @@
 //
 //  UIState.swift
-//  
+//
 //
 //  Created by Solomon Alexandru on 30.07.2024.
 //
@@ -20,7 +20,7 @@ extension UIState: Equatable {
       return true
     case (.loading, .loading):
       return true
-    case (.error(let error1), .error(let error2)):
+    case let (.error(error1), .error(error2)):
       return error1.localizedDescription == error2.localizedDescription
     default:
       return false

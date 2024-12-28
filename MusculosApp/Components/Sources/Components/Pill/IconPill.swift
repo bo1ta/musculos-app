@@ -23,7 +23,9 @@ public struct IconPill: View {
   }
 
   private var systemImageSize: CGFloat {
-    guard option.systemImage != nil else { return 0 }
+    guard option.systemImage != nil else {
+      return 0
+    }
 
     /// `ImageScale.small
     return 40.0
@@ -67,9 +69,7 @@ public struct IconPill: View {
   }
 }
 
-struct IconPill_Preview: PreviewProvider {
-  static var previews: some View {
-    IconPill(option: IconPillOption(title: "1x / week", systemImage: "clock"))
-      .previewLayout(.sizeThatFits)
-  }
+#Preview {
+  IconPill(option: IconPillOption(title: "1x / week", systemImage: "clock"))
+    .previewLayout(.sizeThatFits)
 }

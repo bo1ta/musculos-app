@@ -1,6 +1,6 @@
 //
 //  PrimaryButtonStyle.swift
-//  
+//
 //
 //  Created by Solomon Alexandru on 30.07.2024.
 //
@@ -26,8 +26,8 @@ public struct PrimaryButtonStyle: ButtonStyle {
 }
 
 #Preview {
-  Button(action: {}) {
+  Button(action: {}, label: {
     Text("Primary Button")
-  }
+  })
   .buttonStyle(PrimaryButtonStyle())
 }

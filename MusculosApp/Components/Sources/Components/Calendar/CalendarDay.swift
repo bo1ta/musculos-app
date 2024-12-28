@@ -5,16 +5,16 @@
 //  Created by Solomon Alexandru on 26.11.2024.
 //
 
+import Foundation
 import SwiftUI
 import Utility
-import Foundation
 
 struct CalendarDay: View {
   let date: Date
   let isSelected: Bool
   let markers: [CalendarMarker]
 
-  public init(date: Date, isSelected: Bool, markers: [CalendarMarker]) {
+  init(date: Date, isSelected: Bool, markers: [CalendarMarker]) {
     self.date = date
     self.isSelected = isSelected
     self.markers = markers

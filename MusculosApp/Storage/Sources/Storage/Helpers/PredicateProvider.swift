@@ -8,7 +8,7 @@
 import CoreData
 import Models
 
-public struct PredicateProvider {
+public enum PredicateProvider {
   public static func favoriteExercise() -> NSPredicate {
     return NSPredicate(
       format: "%K == true",
@@ -54,7 +54,7 @@ public struct PredicateProvider {
         predicate = if predicate == nil {
           categoryPredicate
         } else {
-          NSCompoundPredicate(orPredicateWithSubpredicates: [predicate!, categoryPredicate])
+          NSCompoundPredicate(orPredicateWithSubpredicates: [predicate!, categoryPredicate]) // swiftlint:disable:this force_unwrapping
         }
       }
     }
@@ -106,8 +106,7 @@ public struct PredicateProvider {
   }
 
   public static func goalByID(_ id: UUID) -> NSPredicate {
-    return NSPredicate(format: "%K == %@", #keyPath(GoalEntity.goalID), id as NSUUID
-    )
+    return NSPredicate(format: "%K == %@", #keyPath(GoalEntity.goalID), id as NSUUID)
   }
 
   public static func exerciseRatingByID(_ id: UUID) -> NSPredicate {

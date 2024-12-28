@@ -1,13 +1,13 @@
 //
-//  ProgressEntryEntity+CoreDataClass.swift
-//  
+//  ProgressEntryEntity.swift
+//
 //
 //  Created by Solomon Alexandru on 27.09.2024.
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 import Models
 
 @objc(ProgressEntryEntity)
@@ -28,7 +28,7 @@ extension ProgressEntryEntity: ReadOnlyConvertible {
       return nil
     }
     return ProgressEntry(
-      progressID: self.progressID,
+      progressID: progressID,
       dateAdded: dateAdded,
       value: value.doubleValue,
       goal: goal.toReadOnly()
@@ -37,14 +37,14 @@ extension ProgressEntryEntity: ReadOnlyConvertible {
 }
 
 extension ProgressEntryEntity: EntitySyncable {
-  public func populateEntityFrom(_ model: ProgressEntry, using storage: StorageType) {
-    self.value = NSNumber(floatLiteral: model.value)
-    self.dateAdded = model.dateAdded
-    self.progressID = model.progressID
+  public func populateEntityFrom(_ model: ProgressEntry, using _: StorageType) {
+    value = model.value as NSNumber
+    dateAdded = model.dateAdded
+    progressID = model.progressID
   }
 
-  public func updateEntityFrom(_ model: ProgressEntry, using storage: StorageType) {
-    self.value = NSNumber(floatLiteral: model.value)
-    self.dateAdded = model.dateAdded
+  public func updateEntityFrom(_ model: ProgressEntry, using _: StorageType) {
+    value = model.value as NSNumber
+    dateAdded = model.dateAdded
   }
 }

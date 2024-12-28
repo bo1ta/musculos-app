@@ -5,14 +5,14 @@
 //  Created by Solomon Alexandru on 16.10.2024.
 //
 
-import Testing
-import Foundation
 import Factory
+import Foundation
+import Testing
 
-@testable import NetworkClient
 @testable import Models
-@testable import Utility
+@testable import NetworkClient
 @testable import Storage
+@testable import Utility
 
 @Suite(.serialized)
 final class UserServiceTests: MusculosTestBase {
@@ -23,7 +23,7 @@ final class UserServiceTests: MusculosTestBase {
     stubClient.expectedBody = [
       "email": "test@test.com",
       "password": "test",
-      "username": "tester"
+      "username": "tester",
     ]
     stubClient.expectedResponseData = try parseDataFromFile(name: "authenticationResult")
 
@@ -43,7 +43,7 @@ final class UserServiceTests: MusculosTestBase {
     stubClient.expectedEndpoint = .users(.login)
     stubClient.expectedBody = [
       "email": "test@test.com",
-      "password": "test"
+      "password": "test",
     ]
     stubClient.expectedResponseData = try parseDataFromFile(name: "authenticationResult")
 

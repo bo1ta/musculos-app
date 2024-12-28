@@ -12,7 +12,7 @@ public struct ToastView: View {
   var style: Toast.ToastStyle
   var message: String
   var width: CGFloat = .infinity
-  
+
   public var body: some View {
     RoundedRectangle(cornerRadius: 8)
       .frame(maxWidth: .infinity)

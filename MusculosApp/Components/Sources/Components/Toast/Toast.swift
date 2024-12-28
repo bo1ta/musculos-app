@@ -43,7 +43,7 @@ public struct Toast: Equatable, Sendable {
 public extension Toast {
   enum ToastStyle: Sendable {
     case success, info, warning, error
-    
+
     var borderColor: Color {
       switch self {
       case .success: Color.AppColor.green700
@@ -52,7 +52,7 @@ public extension Toast {
       case .error: Color.red
       }
     }
-    
+
     var backgroundColor: Color {
       switch self {
       case .success: Color.AppColor.green100
@@ -61,7 +61,7 @@ public extension Toast {
       case .error: Color.red
       }
     }
-    
+
     var systemImageName: String {
       switch self {
       case .success: "checkmark.circle.fill"

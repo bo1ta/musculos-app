@@ -1,6 +1,6 @@
 //
 //  SecondaryButton.swift
-//  
+//
 //
 //  Created by Solomon Alexandru on 22.08.2024.
 //

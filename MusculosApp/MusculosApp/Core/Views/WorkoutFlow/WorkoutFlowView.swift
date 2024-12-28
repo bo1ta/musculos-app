@@ -5,22 +5,22 @@
 //  Created by Solomon Alexandru on 25.05.2024.
 //
 
-import SwiftUI
 import Models
+import SwiftUI
 
 struct WorkoutFlowView: View {
   @Environment(\.dismiss) private var dismiss
   @State private var viewModel: WorkoutFlowViewModel
-  
+
   let workout: Workout
   let onComplete: () -> Void
-  
+
   init(workout: Workout, onComplete: @escaping () -> Void) {
-    self.viewModel = WorkoutFlowViewModel(workout: workout)
+    viewModel = WorkoutFlowViewModel(workout: workout)
     self.workout = workout
     self.onComplete = onComplete
   }
-  
+
   var body: some View {
     switch viewModel.step {
     case .intro:

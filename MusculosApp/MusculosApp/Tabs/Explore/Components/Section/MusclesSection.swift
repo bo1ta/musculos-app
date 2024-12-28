@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 13.11.2024.
 //
 
-import SwiftUI
-import Models
 import Components
+import Models
+import SwiftUI
 
 struct MusclesSection: View {
   let onSelectedMuscle: (MuscleGroup) -> Void
@@ -15,7 +15,10 @@ struct MusclesSection: View {
   private let cardColors: [Color] = [.red, .blue, .green, .yellow, .purple, .orange, .pink, .teal, .indigo, .cyan]
 
   private func getRandomColor() -> Color {
-    return cardColors.randomElement()!.opacity(0.7)
+    if let randomElement = cardColors.randomElement() {
+      return randomElement.opacity(0.7)
+    }
+    return Color.red.opacity(0.7)
   }
 
   var body: some View {
@@ -34,6 +37,7 @@ struct MusclesSection: View {
             .padding([.vertical, .horizontal], 5)
           }
         }
-      })
+      }
+    )
   }
 }

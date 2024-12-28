@@ -70,7 +70,6 @@ public struct ChallengeCard: View {
               .fixedSize(horizontal: false, vertical: true)
               .foregroundStyle(.white)
 
-
             if let subLabel {
               Text(subLabel)
                 .font(AppFont.poppins(.light, size: 12))

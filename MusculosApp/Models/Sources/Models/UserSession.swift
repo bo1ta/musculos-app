@@ -1,12 +1,12 @@
 //
-//  AuthToken.swift
-//  
+//  UserSession.swift
+//
 //
 //  Created by Solomon Alexandru on 08.09.2024.
 //
 
-import Utility
 import Foundation
+import Utility
 
 public struct UserSession: Sendable, Codable, DecodableModel {
   public var token: Token

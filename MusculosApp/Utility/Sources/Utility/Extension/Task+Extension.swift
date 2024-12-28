@@ -20,7 +20,7 @@ public extension Task {
     Task<Success, Error>(priority: priority) {
       var currentDelay = retryDelay
 
-      for _ in 0..<maxRetryCount {
+      for _ in 0 ..< maxRetryCount {
         do {
           return try await operation()
         } catch {

@@ -5,15 +5,15 @@
 //  Created by Solomon Alexandru on 28.12.2024.
 //
 
-import Testing
-import Foundation
 import Factory
+import Foundation
+import Testing
 import UIKit
 
-@testable import NetworkClient
 @testable import Models
-@testable import Utility
+@testable import NetworkClient
 @testable import Storage
+@testable import Utility
 
 @Suite(.serialized)
 final class RatingServiceTests: MusculosTestBase {
@@ -27,7 +27,7 @@ final class RatingServiceTests: MusculosTestBase {
       "ratingID": exerciseRating.ratingID.uuidString as Any,
       "exerciseID": exerciseRating.exerciseID.uuidString as Any,
       "rating": exerciseRating.rating as Any,
-      "isPublic": exerciseRating.isPublic as Any
+      "isPublic": exerciseRating.isPublic as Any,
     ]
 
     NetworkContainer.shared.client.register { stubClient }

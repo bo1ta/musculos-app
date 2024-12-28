@@ -5,10 +5,10 @@
 //  Created by Solomon Alexandru on 24.11.2024.
 //
 
-import SwiftUI
 import Components
-import Utility
 import Models
+import SwiftUI
+import Utility
 
 struct HistoryScreen: View {
   @State private var viewModel = HistoryViewModel()

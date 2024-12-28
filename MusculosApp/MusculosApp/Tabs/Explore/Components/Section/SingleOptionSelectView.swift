@@ -5,19 +5,19 @@
 //  Created by Solomon Alexandru on 19.04.2024.
 //
 
-import SwiftUI
 import Components
+import SwiftUI
 import Utility
 
 struct SingleOptionSelectView: View {
   @Binding var showOptions: Bool
   @Binding var selectedOption: String
-  
+
   var title: String
   var options: [String]
 
   let columns = [
-    GridItem(.adaptive(minimum: 100))
+    GridItem(.adaptive(minimum: 100)),
   ]
 
   var body: some View {
@@ -33,7 +33,7 @@ struct SingleOptionSelectView: View {
         }
         .foregroundStyle(.black)
       }
-      
+
       if showOptions {
         LazyVGrid(
           columns: columns,
@@ -51,7 +51,7 @@ struct SingleOptionSelectView: View {
       }
     }
   }
-  
+
   private func handleFilterTap(_ filter: String) {
     if selectedOption == filter {
       selectedOption = ""
@@ -64,4 +64,3 @@ struct SingleOptionSelectView: View {
 #Preview {
   MultiOptionsSelectView(showOptions: .constant(true), selectedOptions: .constant([]), title: "Muscles", options: ["Chest", "Back", "Legs"])
 }
-

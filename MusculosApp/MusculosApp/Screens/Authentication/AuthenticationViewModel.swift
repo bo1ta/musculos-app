@@ -5,18 +5,17 @@
 //  Created by Solomon Alexandru on 10.03.2024.
 //
 
-import Foundation
 import Combine
-import Utility
-import SwiftUI
-import Models
 import DataRepository
 import Factory
+import Foundation
+import Models
+import SwiftUI
+import Utility
 
 @Observable
 @MainActor
 class AuthenticationViewModel {
-
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.userRepository) private var repository: UserRepository
 
@@ -38,8 +37,8 @@ class AuthenticationViewModel {
 
   // MARK: - Public
 
-  var email  = ""
-  var username  = ""
+  var email = ""
+  var username = ""
   var password = ""
   var confirmPassword = ""
   var isLoading: Bool = false
@@ -60,15 +59,18 @@ class AuthenticationViewModel {
   private let eventSubject = PassthroughSubject<Event, Never>()
 
   var step: Step
+
   init(initialStep: Step) {
-    self.step = initialStep
+    step = initialStep
   }
 
   func signIn() {
     authTask?.cancel()
-    
+
     authTask = Task { [weak self] in
-      guard let self else { return }
+      guard let self else {
+        return
+      }
 
       isLoading = true
       defer { isLoading = false }
@@ -82,12 +84,14 @@ class AuthenticationViewModel {
       }
     }
   }
-  
+
   func signUp() {
     authTask?.cancel()
-    
+
     authTask = Task { [weak self] in
-      guard let self else { return }
+      guard let self else {
+        return
+      }
 
       isLoading = true
       defer { isLoading = false }
@@ -105,7 +109,7 @@ class AuthenticationViewModel {
       }
     }
   }
-  
+
   func cleanUp() {
     authTask?.cancel()
     authTask = nil

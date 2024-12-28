@@ -9,7 +9,8 @@ let package = Package(
   products: [
     .library(
       name: "DataRepository",
-      targets: ["DataRepository"]),
+      targets: ["DataRepository"]
+    ),
   ],
   dependencies: [
     .package(name: "Utility", path: "../Utility"),
@@ -17,7 +18,7 @@ let package = Package(
     .package(name: "Storage", path: "../Storage"),
     .package(name: "NetworkClient", path: "../NetworkClient"),
     .package(url: "https://github.com/hmlongco/Factory", exact: "2.3.2"),
-    .package(url: "https://github.com/mattmassicotte/Queue", from: "0.1.4")
+    .package(url: "https://github.com/mattmassicotte/Queue", from: "0.1.4"),
   ],
   targets: [
     .target(
@@ -28,7 +29,7 @@ let package = Package(
         .product(name: "Storage", package: "Storage"),
         .product(name: "NetworkClient", package: "NetworkClient"),
         "Factory",
-        "Queue"
+        "Queue",
       ]
     ),
     .testTarget(

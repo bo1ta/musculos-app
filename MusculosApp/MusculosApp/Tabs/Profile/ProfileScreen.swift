@@ -5,12 +5,12 @@
 //  Created by Solomon Alexandru on 08.03.2024.
 //
 
-import SwiftUI
-import Models
-import Utility
 import Components
-import Factory
 import DataRepository
+import Factory
+import Models
+import SwiftUI
+import Utility
 
 struct ProfileScreen: View {
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
@@ -19,14 +19,14 @@ struct ProfileScreen: View {
   @Environment(\.healthKitViewModel) private var healthKitViewModel
   @Environment(\.navigator) private var navigator
 
-  @State private var selectedWorkout: String? = nil
+  @State private var selectedWorkout: String?
   @State private var exercises: [Exercise] = []
 
   private let highlights: [ProfileHighlight] = [
     ProfileHighlight(highlightType: .steps, value: "5432", description: "updated 10 mins ago"),
     ProfileHighlight(highlightType: .sleep, value: "7 hr 31 min", description: "updated 10 mins ago"),
     ProfileHighlight(highlightType: .waterIntake, value: "4.2 ltr", description: "updated now"),
-    ProfileHighlight(highlightType: .workoutTracking, value: "1 day since last workout", description: "updated a day ago")
+    ProfileHighlight(highlightType: .workoutTracking, value: "1 day since last workout", description: "updated a day ago"),
   ]
 
   var body: some View {
@@ -71,7 +71,7 @@ struct ProfileScreen: View {
       }
 
       exercises = (try? await exerciseRepository.getExercises()) ?? []
-     }
+    }
     .scrollIndicators(.hidden)
   }
 }

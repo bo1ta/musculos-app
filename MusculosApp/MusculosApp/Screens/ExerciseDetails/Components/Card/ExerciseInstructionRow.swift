@@ -11,9 +11,9 @@ import Utility
 struct ExerciseInstructionRow: View {
   var title: String
   var index: Int
-  
+
   @State private var textHeight: CGFloat = 0
-  
+
   var body: some View {
     RoundedRectangle(cornerRadius: 10)
       .frame(maxWidth: .infinity)

@@ -26,7 +26,7 @@ public struct StubUserSessionManager: UserSessionManagerProtocol, @unchecked Sen
     )
   }
 
-  public func updateSession(_ session: UserSession) { }
+  public func updateSession(_: UserSession) {}
 
-  public func clearSession() { }
+  public func clearSession() {}
 }

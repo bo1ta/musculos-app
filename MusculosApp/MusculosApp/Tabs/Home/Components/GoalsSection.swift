@@ -5,11 +5,11 @@
 //  Created by Solomon Alexandru on 19.11.2024.
 //
 
-import SwiftUI
 import Components
 import Models
-import Utility
 import Storage
+import SwiftUI
+import Utility
 
 struct GoalsSection: View {
   var goals: [Goal]
@@ -32,12 +32,14 @@ struct GoalsSection: View {
               gradient: cardGradient,
               rightContent: {
                 ProgressCircle(progress: goal.progressPercentage / 100, circleSize: 50)
-            })
+              }
+            )
           }
 
           AddGoalCard(onTap: onAddGoal)
         }
-      })
+      }
+    )
   }
 }
 
@@ -74,4 +76,3 @@ private struct AddGoalCard: View {
     .buttonStyle(.plain)
   }
 }
-

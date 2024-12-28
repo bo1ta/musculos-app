@@ -11,7 +11,7 @@ struct ProgressCard: View {
   var title: String
   var description: String
   var progress: Float
-  
+
   var body: some View {
     RoundedRectangle(cornerRadius: 25)
       .foregroundStyle(Color.AppColor.blue100)

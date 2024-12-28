@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 01.02.2024.
 //
 
-import SwiftUI
 import Components
+import SwiftUI
 import Utility
 
 struct SelectSizeView: View {
@@ -42,7 +42,6 @@ struct SelectSizeView: View {
           .frame(width: 100)
         }
         .padding(.bottom, 50)
-
 
         Image("female-character-question")
           .resizable()

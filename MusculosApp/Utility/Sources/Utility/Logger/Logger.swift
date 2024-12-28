@@ -1,5 +1,5 @@
 //
-//  MusculosLogger.swift
+//  Logger.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 13.09.2023.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftyBeaver
 
-public let Logger = ConsoleLogger.shared
+public let Logger = ConsoleLogger.shared // swiftlint:disable:this identifier_name
 
 public struct ConsoleLogger: Loggable, @unchecked Sendable {
   static let shared = ConsoleLogger()
@@ -20,16 +20,51 @@ public struct ConsoleLogger: Loggable, @unchecked Sendable {
     console.logPrintWay = .logger(subsystem: "MusculosApp", category: "UI")
   }
 
-  public func info(message: String, properties: [String : Any]? = nil, file: String = #file, function: String = #function, line: Int = #line) {
+  public func info(
+    message: String,
+    properties: [String: Any]? = nil,
+    file: String = #file,
+    function: String = #function,
+    line: Int = #line
+  ) {
     console.send(.info, msg: message, thread: Thread.current.threadName, file: file, function: function, line: line, context: properties)
   }
 
-  public func error(_ error: Error, message: String = "", properties: [String: Any]? = nil, file: String = #file, function: String = #function, line: Int = #line) {
-    console.send(.error, msg: "\(message) - Error: \(error.localizedDescription)", thread: Thread.current.threadName, file: file, function: function, line: line, context: properties)
+  public func error(
+    _ error: Error,
+    message: String = "",
+    properties: [String: Any]? = nil,
+    file: String = #file,
+    function: String = #function,
+    line: Int = #line
+  ) {
+    console.send(
+      .error,
+      msg: "\(message) - Error: \(error.localizedDescription)",
+      thread: Thread.current.threadName,
+      file: file,
+      function: function,
+      line: line,
+      context: properties
+    )
   }
 
-  public func warning(message: String, properties: [String: Any]? = nil, file: String = #file, function: String = #function, line: Int = #line) {
-    console.send(.warning, msg: message, thread: Thread.current.threadName, file: file, function: function, line: line, context: properties)
+  public func warning(
+    message: String,
+    properties: [String: Any]? = nil,
+    file: String = #file,
+    function: String = #function,
+    line: Int = #line
+  ) {
+    console.send(
+      .warning,
+      msg: message,
+      thread: Thread.current.threadName,
+      file: file,
+      function: function,
+      line: line,
+      context: properties
+    )
   }
 }
 

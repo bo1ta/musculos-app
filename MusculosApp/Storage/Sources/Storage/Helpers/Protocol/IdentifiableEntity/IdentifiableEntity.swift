@@ -8,7 +8,6 @@
 import Foundation
 
 public protocol IdentifiableEntity: Sendable {
-
   /// Identifier key used for Core Data predicate
   ///
   static var identifierKey: String { get }
@@ -18,8 +17,8 @@ public protocol IdentifiableEntity: Sendable {
   var identifierValue: UUID { get }
 }
 
-extension IdentifiableEntity {
-  public func matchingPredicate() -> NSPredicate {
-    return NSPredicate(format: "%K == %@", Self.identifierKey, self.identifierValue as NSUUID)
+public extension IdentifiableEntity {
+  func matchingPredicate() -> NSPredicate {
+    return NSPredicate(format: "%K == %@", Self.identifierKey, identifierValue as NSUUID)
   }
 }

@@ -5,19 +5,18 @@
 //  Created by Solomon Alexandru on 31.01.2024.
 //
 
-import Foundation
-import SwiftUI
-import Factory
 import Combine
+import DataRepository
+import Factory
+import Foundation
 import Models
 import Storage
+import SwiftUI
 import Utility
-import DataRepository
 
 @Observable
 @MainActor
 final class UserStore {
-
   // MARK: - Injected Dependencies
 
   @ObservationIgnored
@@ -77,7 +76,7 @@ final class UserStore {
     currentUserState = userManager.getCurrentState()
 
     switch currentUserState {
-    case .authenticated(let userSession):
+    case let .authenticated(userSession):
       handlePostLogin(session: userSession)
     case .unauthenticated:
       Logger.info(message: "Could not find user. Using logged-out state")
@@ -104,7 +103,9 @@ final class UserStore {
     updateSession(session)
 
     loginTask = Task { [weak self] in
-      guard let self else { return }
+      guard let self else {
+        return
+      }
 
       isLoading = true
       defer { isLoading = false }

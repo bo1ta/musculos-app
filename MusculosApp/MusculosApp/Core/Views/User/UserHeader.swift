@@ -1,15 +1,15 @@
 //
-//  GreetingHeader.swift
+//  UserHeader.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 22.09.2024.
 //
 
-import SwiftUI
-import Models
-import Utility
-import NetworkClient
 import Components
+import Models
+import NetworkClient
+import SwiftUI
+import Utility
 
 struct UserHeader: View {
   let profile: UserProfile?
@@ -45,13 +45,13 @@ struct UserHeader: View {
   private var greetingForCurrentTime: String {
     let hour = Calendar.current.component(.hour, from: Date())
     switch hour {
-    case 5..<12:
+    case 5 ..< 12:
       return "Good Morning"
-    case 12..<17:
+    case 12 ..< 17:
       return "Good Afternoon"
-    case 17..<21:
+    case 17 ..< 21:
       return "Good Evening"
-    case 21..<24, 0..<5:
+    case 21 ..< 24, 0 ..< 5:
       return "Good Night"
     default:
       return "Hello"

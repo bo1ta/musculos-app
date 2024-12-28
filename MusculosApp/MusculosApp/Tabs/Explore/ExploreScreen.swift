@@ -5,12 +5,12 @@
 //  Created by Solomon Alexandru on 02.02.2024.
 //
 
-import SwiftUI
 import Components
-import Storage
 import Models
-import Utility
 import Navigator
+import Storage
+import SwiftUI
+import Utility
 
 struct ExploreScreen: View {
   @Environment(\.navigator) private var navigator: Navigator

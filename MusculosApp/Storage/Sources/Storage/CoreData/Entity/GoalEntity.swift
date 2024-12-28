@@ -34,7 +34,7 @@ public class GoalEntity: NSManagedObject {
   @NSManaged public func removeFromProgressHistory(_ value: PrimaryMuscleEntity)
 }
 
-extension GoalEntity : Identifiable {}
+extension GoalEntity: Identifiable {}
 
 // MARK: - Read Only Convertible
 
@@ -50,7 +50,7 @@ extension GoalEntity: ReadOnlyConvertible {
 
     return Goal(
       name: name,
-      category: self.category,
+      category: category,
       frequency: goalFrequency,
       progressEntries: [],
       targetValue: targetValue?.intValue ?? 0,
@@ -66,17 +66,17 @@ extension GoalEntity: ReadOnlyConvertible {
 
 extension GoalEntity: EntitySyncable {
   public func populateEntityFrom(_ model: Goal, using storage: StorageType) {
-    self.goalID = model.id
-    self.category = model.category
-    self.dateAdded = model.dateAdded
-    self.endDate = model.endDate
-    self.frequency = model.frequency.rawValue
-    self.isCompleted = model.isCompleted
-    self.name = model.name
-    self.targetValue = NSNumber(integerLiteral: model.targetValue)
-    self.updatedAt = model.updatedAt
+    goalID = model.id
+    category = model.category
+    dateAdded = model.dateAdded
+    endDate = model.endDate
+    frequency = model.frequency.rawValue
+    isCompleted = model.isCompleted
+    name = model.name
+    targetValue = model.targetValue as NSNumber
+    updatedAt = model.updatedAt
 
-    if let user = storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(model.user.userId)){
+    if let user = storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(model.user.userId)) {
       self.user = user
     }
 
@@ -92,18 +92,20 @@ extension GoalEntity: EntitySyncable {
   }
 
   public func updateEntityFrom(_ model: Goal, using storage: StorageType) {
-    if model.targetValue > self.targetValue?.intValue ?? 0 {
-      self.targetValue = NSNumber(integerLiteral: model.targetValue)
+    if model.targetValue > targetValue?.intValue ?? 0 {
+      targetValue = model.targetValue as NSNumber
     }
 
-    if self.endDate == nil {
-      self.endDate = model.endDate
+    if endDate == nil {
+      endDate = model.endDate
     }
 
-    guard let progressEntries = model.progressEntries else { return }
+    guard let progressEntries = model.progressEntries else {
+      return
+    }
 
-    if progressEntries.count > self.progressHistory.count {
-      let mappedProgress = self.progressHistory.map { $0.toReadOnly()?.progressID }
+    if progressEntries.count > progressHistory.count {
+      let mappedProgress = progressHistory.map { $0.toReadOnly()?.progressID }
 
       let history = progressEntries.filter { entry in
         !mappedProgress.contains(entry.progressID)
@@ -120,6 +122,6 @@ extension GoalEntity: EntitySyncable {
       }
     }
 
-    self.updatedAt = model.updatedAt
+    updatedAt = model.updatedAt
   }
 }

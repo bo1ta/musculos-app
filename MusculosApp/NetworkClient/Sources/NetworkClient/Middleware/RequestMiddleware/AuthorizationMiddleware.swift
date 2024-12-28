@@ -1,5 +1,5 @@
 //
-//  AuthRequestMiddleware.swift
+//  AuthorizationMiddleware.swift
 //  NetworkClient
 //
 //  Created by Solomon Alexandru on 08.12.2024.

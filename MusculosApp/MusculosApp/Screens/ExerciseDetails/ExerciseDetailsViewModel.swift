@@ -5,22 +5,24 @@
 //  Created by Solomon Alexandru on 26.05.2024.
 //
 
-import Foundation
-import Factory
 import Combine
-import SwiftUI
+import Components
+import DataRepository
+import Factory
+import Foundation
 import Models
 import Storage
+import SwiftUI
 import Utility
-import DataRepository
-import Components
 
 @Observable
 @MainActor
 final class ExerciseDetailsViewModel {
-
   @ObservationIgnored
   @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
+
+  @ObservationIgnored
+  @Injected(\StorageContainer.coreDataStore) private var coreDataStore: CoreDataStore
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
@@ -47,12 +49,7 @@ final class ExerciseDetailsViewModel {
   var userRating = 0
   var exerciseRatings: [ExerciseRating] = []
   var inputWeight: Double = 0
-
-  var toastPublisher: AnyPublisher<Toast, Never> {
-    return toastSubject
-      .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
-      .eraseToAnyPublisher()
-  }
+  var toast: Toast?
 
   var ratingAverage: Double {
     guard !exerciseRatings.isEmpty else {
@@ -72,7 +69,18 @@ final class ExerciseDetailsViewModel {
     return exercise.isFavorite ?? false
   }
 
-  private let toastSubject = PassthroughSubject<Toast, Never>()
+  private var currentUserID: UUID? {
+    return userManager.currentUserID
+  }
+
+  private var currentUserProfile: UserProfile? {
+    get async {
+      guard let currentUserID else {
+        return nil
+      }
+      return await coreDataStore.userProfile(for: currentUserID)
+    }
+  }
 
   // MARK: - Tasks
 
@@ -120,15 +128,40 @@ final class ExerciseDetailsViewModel {
     }
   }
 
-  private func showErrorToast() {
-    toastSubject.send(Toast(style: .error, message: "Oops! Something went wrong..."))
+  func handleSubmit() {
+    if isTimerActive {
+      stopTimer()
+    } else {
+      showInputDialog.toggle()
+    }
+  }
+
+  func startTimer() {
+    isTimerActive = true
+    elapsedTime = 0
+
+    timerTask = Task { [weak self, isTimerActive] in
+      repeat {
+        try? await Task.sleep(for: .seconds(1))
+        self?.elapsedTime += 1
+      } while !Task.isCancelled && isTimerActive
+    }
+  }
+
+  func stopTimer() {
+    isTimerActive = false
+    timerTask?.cancel()
+
+    saveExerciseSession()
   }
 
   func saveRating(_ rating: Int) {
     showRatingDialog = false
 
     saveRatingTask = Task { [weak self] in
-      guard let self else { return }
+      guard let self else {
+        return
+      }
 
       do {
         try await ratingRepository.addRating(rating: Double(rating), for: exercise.id)
@@ -143,26 +176,34 @@ final class ExerciseDetailsViewModel {
     markFavoriteTask?.cancel()
 
     markFavoriteTask = Task { [weak self] in
-      guard let self else { return }
+      guard let self else {
+        return
+      }
 
       do {
         try await exerciseRepository.setFavoriteExercise(exercise, isFavorite: !isFavorite)
         await loadExerciseDetails()
       } catch {
+        showErrorToast()
         Logger.error(error, message: "Could not update exercise.isFavorite")
       }
     }
   }
 
-  func saveExerciseSession() {
+  private func saveExerciseSession() {
     saveExerciseSessionTask = Task { [weak self] in
-      guard let self else { return }
+      guard let self, let currentUserProfile = await self.currentUserProfile else {
+        return
+      }
+
       do {
-        let userExperience = try await exerciseSessionRepository.addSession(exercise, dateAdded: Date(), duration: Double(self.elapsedTime), weight: inputWeight)
+        let exerciseSession = ExerciseSession(user: currentUserProfile, exercise: exercise, duration: Double(elapsedTime), weight: inputWeight)
+        let userExperience = try await exerciseSessionRepository.addSession(exerciseSession)
         await showUserExperience(userExperience)
 
-        try await maybeUpdateGoals()
+        await maybeUpdateGoals(for: exerciseSession)
       } catch {
+        showErrorToast()
         Logger.error(error, message: "Could not save exercise session")
       }
     }
@@ -182,42 +223,20 @@ final class ExerciseDetailsViewModel {
     }
   }
 
-  func handleSubmit() {
-    if isTimerActive {
-      stopTimer()
-    } else {
-      showInputDialog.toggle()
+  private func showErrorToast() {
+    toast = .error("Oops! Something went wrong")
+  }
+
+  private func maybeUpdateGoals(for exerciseSession: ExerciseSession) async {
+    guard let currentUserID = userManager.currentUserID else {
+      return
     }
-  }
 
-  func startTimer() {
-    isTimerActive = true
-    elapsedTime = 0
-
-    timerTask = Task { [weak self, isTimerActive] in
-      repeat {
-        try? await Task.sleep(for: .seconds(1))
-        self?.elapsedTime += 1
-      } while (!Task.isCancelled && isTimerActive)
+    do {
+      try await coreDataStore.updateGoalProgress(userID: currentUserID, exerciseSession: exerciseSession)
+    } catch {
+      Logger.error(error, message: "Cannot update goal progress")
     }
-  }
-
-  func stopTimer() {
-    isTimerActive = false
-    timerTask?.cancel()
-
-    saveExerciseSession()
-  }
-
-  // TODO: Use progress entry to update the goal
-  private func maybeUpdateGoals() async throws {
-    //    let goals = await goalDataStore.getAll()
-    //
-    //    for goal in goals {
-    //      if let _ = ExerciseConstants.goalToExerciseCategories[goal.category] {
-    //        try await goalDataStore.incrementCurrentValue(goal)
-    //      }
-    //    }
   }
 
   // MARK: - Clean up

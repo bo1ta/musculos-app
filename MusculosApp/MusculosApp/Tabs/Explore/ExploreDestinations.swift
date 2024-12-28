@@ -6,8 +6,8 @@
 //
 
 import Models
-import SwiftUI
 import Navigator
+import SwiftUI
 
 public enum ExploreDestinations {
   case exerciseListByGoal(WorkoutGoal)
@@ -18,9 +18,9 @@ public enum ExploreDestinations {
 extension ExploreDestinations: NavigationDestination {
   public var view: some View {
     switch self {
-    case .exerciseListByGoal(let workoutGoal):
+    case let .exerciseListByGoal(workoutGoal):
       ExerciseListView(filterType: .filteredByWorkoutGoal(workoutGoal))
-    case .exerciseListByMuscleGroup(let muscleGroup):
+    case let .exerciseListByMuscleGroup(muscleGroup):
       ExerciseListView(filterType: .filteredByMuscleGroup(muscleGroup))
     case .exerciseFilters:
       ExerciseFilterSheet(onFiltered: { _ in })
@@ -30,11 +30,11 @@ extension ExploreDestinations: NavigationDestination {
   public var method: NavigationMethod {
     switch self {
     case .exerciseListByGoal:
-        .push
+      .push
     case .exerciseListByMuscleGroup:
-        .push
+      .push
     case .exerciseFilters:
-        .sheet
+      .sheet
     }
   }
 }

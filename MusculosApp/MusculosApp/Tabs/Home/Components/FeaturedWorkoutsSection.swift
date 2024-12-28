@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 23.09.2024.
 //
 
-import SwiftUI
 import Components
 import Models
+import SwiftUI
 import Utility
 
 struct FeaturedWorkoutsSection: View {

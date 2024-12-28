@@ -1,14 +1,13 @@
 //
-//  MuscleEntity+CoreDataProperties.swift
-//  
+//  MuscleEntity.swift
+//
 //
 //  Created by Solomon Alexandru on 12.12.2024.
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 @objc(MuscleEntity)
 public class MuscleEntity: NSManagedObject {

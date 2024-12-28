@@ -11,12 +11,12 @@ import Utility
 struct ScoreBadge: View {
   let value: Int
   let color: Color
-  
+
   init(value: Int, color: Color = .red) {
     self.value = value
     self.color = color
   }
-  
+
   var body: some View {
     Image(systemName: "shield.fill")
       .foregroundStyle(color)

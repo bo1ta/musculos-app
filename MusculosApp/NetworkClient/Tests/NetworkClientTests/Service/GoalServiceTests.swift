@@ -5,14 +5,14 @@
 //  Created by Solomon Alexandru on 27.10.2024.
 //
 
-import Testing
-import Foundation
 import Factory
+import Foundation
+import Testing
 
-@testable import NetworkClient
 @testable import Models
-@testable import Utility
+@testable import NetworkClient
 @testable import Storage
+@testable import Utility
 
 @Suite(.serialized)
 final class GoalServiceTests: MusculosTestBase {
@@ -92,7 +92,7 @@ final class GoalServiceTests: MusculosTestBase {
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .goals(.goalDetails(expectedGoaID))
     stubClient.expectedAuthToken = stubSession.expectedTokenValue
-    stubClient.expectedResponseData = try self.parseDataFromFile(name: "goal")
+    stubClient.expectedResponseData = try parseDataFromFile(name: "goal")
 
     NetworkContainer.shared.client.register { stubClient }
     defer {

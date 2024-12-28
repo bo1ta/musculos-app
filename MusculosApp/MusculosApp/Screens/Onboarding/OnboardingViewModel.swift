@@ -5,13 +5,13 @@
 //  Created by Solomon Alexandru on 18.03.2024.
 //
 
-import Foundation
-import SwiftUI
-import Factory
 import Combine
-import Models
-import Utility
 import DataRepository
+import Factory
+import Foundation
+import Models
+import SwiftUI
+import Utility
 
 @Observable
 @MainActor
@@ -38,8 +38,8 @@ final class OnboardingViewModel {
   private(set) var wizardStep: OnboardingWizardStep = .heightAndWeight
   var selectedWeight: String = ""
   var selectedHeight: String = ""
-  var selectedGoal: OnboardingGoal? = nil
-  var selectedLevel: OnboardingConstants.Level? = nil
+  var selectedGoal: OnboardingGoal?
+  var selectedLevel: OnboardingConstants.Level?
   var onboardingGoals: [OnboardingGoal] = []
 
   func initialLoad() async {
@@ -69,7 +69,9 @@ final class OnboardingViewModel {
   }
 
   func handleBack() {
-    guard let previousStep else { return }
+    guard let previousStep else {
+      return
+    }
     wizardStep = previousStep
   }
 
@@ -103,7 +105,7 @@ final class OnboardingViewModel {
 extension OnboardingViewModel {
   enum OnboardingWizardStep: Int {
     case heightAndWeight, level, goal, permissions
-    
+
     var title: String {
       switch self {
       case .heightAndWeight:

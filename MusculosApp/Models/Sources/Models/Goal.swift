@@ -49,17 +49,17 @@ public struct Goal: Sendable, Codable {
   }
 
   public init(onboardingGoal: OnboardingConstants.Goal, user: UserProfile) {
-    self.id = UUID()
-    self.name = onboardingGoal.title
-    self.category = onboardingGoal.title
-    self.frequency = .weekly
-    self.progressEntries = []
-    self.targetValue = 5
-    self.endDate = DateHelper.getDateFromNextWeek()
-    self.isCompleted = false
-    self.dateAdded = Date()
+    id = UUID()
+    name = onboardingGoal.title
+    category = onboardingGoal.title
+    frequency = .weekly
+    progressEntries = []
+    targetValue = 5
+    endDate = DateHelper.getDateFromNextWeek()
+    isCompleted = false
+    dateAdded = Date()
     self.user = user
-    self.updatedAt = Date()
+    updatedAt = Date()
   }
 
   public mutating func updateProgress(newValue: Double) {
@@ -75,7 +75,9 @@ public struct Goal: Sendable, Codable {
   }
 
   public var daysUntilExpires: Int? {
-    guard let endDate else { return nil }
+    guard let endDate else {
+      return nil
+    }
 
     let calendar = Calendar.current
     let currentDate = Date()
@@ -108,20 +110,22 @@ public struct Goal: Sendable, Codable {
   }
 
   public var latestProgress: ProgressEntry? {
-    return progressEntries?.sorted(by: { $0.dateAdded < $1.dateAdded }).last
+    return progressEntries?.min(by: { $0.dateAdded < $1.dateAdded })
   }
 
   public var currentStreak: Int {
-    guard let progressEntries else { return 0 }
+    guard let progressEntries else {
+      return 0
+    }
 
     var streak = 0
 
     let sortedHistory = progressEntries.sorted(by: { $0.dateAdded < $1.dateAdded })
-    for (i, entry) in sortedHistory.enumerated() {
-      guard i > 0 else {
+    for (index, entry) in sortedHistory.enumerated() {
+      guard index > 0 else {
         continue
       }
-      if Calendar.current.isDate(entry.dateAdded, equalTo: sortedHistory[i - 1].dateAdded, toGranularity: .day) {
+      if Calendar.current.isDate(entry.dateAdded, equalTo: sortedHistory[index - 1].dateAdded, toGranularity: .day) {
         streak += 1
       }
     }
@@ -133,7 +137,7 @@ public struct Goal: Sendable, Codable {
 // MARK: - Helper types
 
 public extension Goal {
-  public enum Category: String, CaseIterable, Sendable, Codable {
+  enum Category: String, CaseIterable, Sendable, Codable {
     case loseWeight, gainWeight, growMuscle, drinkWater, general, buildMass = "Build mass & strength"
 
     public var label: String {
@@ -166,7 +170,7 @@ public extension Goal {
           .olympicWeightlifting,
           .strength,
           .strongman,
-          .powerlifting
+          .powerlifting,
         ]
       case .drinkWater:
         return [.cardio, .stretching]
@@ -174,14 +178,14 @@ public extension Goal {
     }
 
     public static func initFromLabel(_ label: String) -> Self {
-      if let first =  Self.allCases.first { $0.label == label } {
+      if let first = allCases.first { $0.label == label } {
         return first
       }
       return .general
     }
   }
 
-  public enum Frequency: String, CaseIterable, Sendable, Codable {
+  enum Frequency: String, CaseIterable, Sendable, Codable {
     case daily
     case weekly
     case fixedDate

@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 18.12.2024.
 //
 
-import Navigator
 import Models
+import Navigator
 import SwiftUI
 
 enum CommonDestinations {
@@ -16,7 +16,7 @@ enum CommonDestinations {
 extension CommonDestinations: NavigationDestination {
   public var view: some View {
     switch self {
-    case .exerciseDetails(let exercise):
+    case let .exerciseDetails(exercise):
       ExerciseDetailsScreen(exercise: exercise)
     }
   }

@@ -776,6 +776,7 @@
 				BC1160C82A2CFB830028D8FC /* Sources */,
 				BC1160C92A2CFB830028D8FC /* Frameworks */,
 				BC1160CA2A2CFB830028D8FC /* Resources */,
+				BC31EBD42D20928100BF8078 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -903,6 +904,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BC31EBD42D20928100BF8078 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint; then\n    swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BC1160C82A2CFB830028D8FC /* Sources */ = {
@@ -1146,6 +1168,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MusculosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 8JV792LAQ5;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MusculosApp/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
@@ -1185,6 +1208,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MusculosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 8JV792LAQ5;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MusculosApp/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";

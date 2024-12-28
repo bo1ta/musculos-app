@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 18.12.2024.
 //
 
-import SwiftUI
 import Navigator
+import SwiftUI
 
 struct RootHomeScreen: View {
   var body: some View {

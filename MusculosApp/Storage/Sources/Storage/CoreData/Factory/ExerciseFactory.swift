@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 18.12.2024.
 //
 
-import Models
 import Foundation
+import Models
 
 public class ExerciseFactory: BaseFactory {
   typealias Constants = ExerciseConstants

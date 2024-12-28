@@ -5,25 +5,25 @@
 //  Created by Solomon Alexandru on 03.02.2024.
 //
 
-import SwiftUI
-import Models
-import Utility
 import Components
+import Models
+import SwiftUI
+import Utility
 
 struct ExerciseFilterSheet: View {
   @Environment(\.dismiss) private var dismiss
   let onFiltered: ([Exercise]) -> Void
-  
+
   @State private var viewModel = ExerciseFilterSheetViewModel()
-  
+
   private var searchButtonText: String {
-    if viewModel.results.count > 0 {
+    if !viewModel.results.isEmpty {
       return "Show (\(viewModel.results.count)) results"
     } else {
       return "Search"
     }
   }
-  
+
   var body: some View {
     VStack(spacing: 10) {
       header
@@ -72,7 +72,7 @@ struct ExerciseFilterSheet: View {
       }
     }
   }
-  
+
   private var header: some View {
     Rectangle()
       .frame(maxWidth: .infinity)
@@ -85,10 +85,10 @@ struct ExerciseFilterSheet: View {
           HStack {
             backButton
             Spacer()
-            
+
             Text("Search & filter")
               .font(.header(.bold, size: 18))
-            
+
             Spacer()
             resetButton
           }
@@ -96,7 +96,7 @@ struct ExerciseFilterSheet: View {
         .padding()
       }
   }
-  
+
   private var backButton: some View {
     Button {
       dismiss()
@@ -105,7 +105,7 @@ struct ExerciseFilterSheet: View {
         .foregroundStyle(.black)
     }
   }
-  
+
   private var resetButton: some View {
     Button {
       viewModel.resetFilters()
@@ -115,7 +115,7 @@ struct ExerciseFilterSheet: View {
         .font(.body(.regular, size: 15))
     }
   }
-  
+
   private func handleSearch() {
     onFiltered(viewModel.results)
     dismiss()

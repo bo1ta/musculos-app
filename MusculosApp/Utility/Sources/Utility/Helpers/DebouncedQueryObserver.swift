@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 09.02.2024.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 /// Helper observable object with a query subscriber
 ///

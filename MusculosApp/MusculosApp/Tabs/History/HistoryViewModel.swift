@@ -5,18 +5,17 @@
 //  Created by Solomon Alexandru on 24.11.2024.
 //
 
-import Observation
-import Foundation
-import Factory
-import Models
-import DataRepository
-import Utility
 import Components
+import DataRepository
+import Factory
+import Foundation
+import Models
+import Observation
+import Utility
 
 @Observable
 @MainActor
 final class HistoryViewModel {
-
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepository
 
@@ -53,7 +52,6 @@ final class HistoryViewModel {
   }
 
   private func filterSessionByDay(date: Date) -> [ExerciseSession] {
-   return exerciseSessions.filter({ Calendar.current.isDate($0.dateAdded, equalTo: date, toGranularity: .day) })
+    return exerciseSessions.filter({ Calendar.current.isDate($0.dateAdded, equalTo: date, toGranularity: .day) })
   }
 }
-

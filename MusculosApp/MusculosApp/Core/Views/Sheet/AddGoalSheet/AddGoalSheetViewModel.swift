@@ -5,19 +5,18 @@
 //  Created by Solomon Alexandru on 02.05.2024.
 //
 
-import Foundation
-import SwiftUI
 import Combine
-import Factory
-import Models
-import Utility
-import Storage
 import DataRepository
+import Factory
+import Foundation
+import Models
+import Storage
+import SwiftUI
+import Utility
 
 @Observable
 @MainActor
 final class AddGoalSheetViewModel {
-  
   // MARK: - Dependency
 
   @ObservationIgnored
@@ -27,7 +26,7 @@ final class AddGoalSheetViewModel {
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
 
   // MARK: - Observed properties
-  
+
   var name: String = ""
   var category: String = ""
   var showCategoryOptions: Bool = true
@@ -35,25 +34,27 @@ final class AddGoalSheetViewModel {
   var showEndDate: Bool = true
   var showFrequencyOptions: Bool = true
   var endDate: Date = Date()
-  
+
   var frequency: String = "" {
     didSet {
       if frequency == Goal.Frequency.fixedDate.description {
-        self.showEndDate = true
+        showEndDate = true
       }
     }
   }
-  
+
   private(set) var didSavePublisher = PassthroughSubject<Void, Never>()
 
   // MARK: - Tasks
-  
+
   @ObservationIgnored
   private(set) var saveTask: Task<Void, Never>?
 
   func saveGoal() {
     saveTask = Task { [weak self] in
-      guard let self else { return }
+      guard let self else {
+        return
+      }
 
       guard let currentUser = await userRepository.getCurrentUser() else {
         return
@@ -68,7 +69,7 @@ final class AddGoalSheetViewModel {
         dateAdded: Date(),
         user: currentUser
       )
-      
+
       do {
         try await goalRepository.addGoal(goal)
         didSavePublisher.send(())
@@ -77,9 +78,9 @@ final class AddGoalSheetViewModel {
       }
     }
   }
-  
+
   // MARK: - Clean up
-  
+
   func cleanUp() {
     saveTask?.cancel()
     saveTask = nil

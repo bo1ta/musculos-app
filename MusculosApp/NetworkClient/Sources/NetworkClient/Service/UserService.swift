@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 15.09.2024.
 //
 
+import Factory
 import Foundation
 import Models
-import Factory
 
 public protocol UserServiceProtocol: Sendable {
   func register(email: String, password: String, username: String) async throws -> UserSession
@@ -24,7 +24,7 @@ public struct UserService: APIService, UserServiceProtocol, @unchecked Sendable 
     request.body = [
       "email": email,
       "password": password,
-      "username": username
+      "username": username,
     ]
 
     let data = try await client.dispatch(request)
@@ -35,7 +35,7 @@ public struct UserService: APIService, UserServiceProtocol, @unchecked Sendable 
     var request = APIRequest(method: .post, endpoint: .users(.login))
     request.body = [
       "email": email,
-      "password": password
+      "password": password,
     ]
 
     let data = try await client.dispatch(request)
@@ -55,10 +55,9 @@ public struct UserService: APIService, UserServiceProtocol, @unchecked Sendable 
     level: String? = nil,
     isOnboarded: Bool = false
   ) async throws -> UserProfile {
-
     var request = APIRequest(method: .post, endpoint: .users(.updateProfile))
     request.body = [
-      "isOnboarded": isOnboarded
+      "isOnboarded": isOnboarded,
     ]
     if let weight {
       request.body?["weight"] = weight

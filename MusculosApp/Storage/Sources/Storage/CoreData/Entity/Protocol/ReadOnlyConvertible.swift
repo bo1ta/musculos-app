@@ -13,21 +13,20 @@ public protocol ReadOnlyConvertible: TypeErasedReadOnlyConvertible {
   /// Represents the ReadOnly Type (mirroring the receiver).
   ///
   associatedtype ReadOnlyType
-  
+
   /// Returns a ReadOnly version of the receiver.
   ///
   func toReadOnly() -> ReadOnlyType
 }
 
 public protocol TypeErasedReadOnlyConvertible {
-
-    /// Returns a ReadOnly version of the receiver, but with no Type associated.
-    ///
-    func toTypeErasedReadOnly() -> Any
+  /// Returns a ReadOnly version of the receiver, but with no Type associated.
+  ///
+  func toTypeErasedReadOnly() -> Any
 }
 
-extension ReadOnlyConvertible {
-    public func toTypeErasedReadOnly() -> Any {
-        return toReadOnly()
-    }
+public extension ReadOnlyConvertible {
+  func toTypeErasedReadOnly() -> Any {
+    return toReadOnly()
+  }
 }

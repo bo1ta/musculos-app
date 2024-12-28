@@ -1,6 +1,6 @@
 //
 //  SynchronizationState.swift
-//  
+//
 //
 //  Created by Solomon Alexandru on 15.07.2024.
 //
@@ -13,6 +13,6 @@ public enum SynchronizationState: Int {
   case error = 2
 
   func asNSNumber() -> NSNumber {
-    return NSNumber(integerLiteral: rawValue)
+    return rawValue as NSNumber
   }
 }

@@ -1,28 +1,30 @@
 //
-//  SecondaryMuscleEntity+CoreDataProperties.swift
-//  
+//  SecondaryMuscleEntity.swift
+//
 //
 //  Created by Solomon Alexandru on 12.12.2024.
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 import Models
 
 @objc(SecondaryMuscleEntity)
 public class SecondaryMuscleEntity: MuscleEntity {
   @NSManaged public var exercises: Set<ExerciseEntity>
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<SecondaryMuscleEntity> {
-        return NSFetchRequest<SecondaryMuscleEntity>(entityName: "SecondaryMuscleEntity")
-    }
+  @nonobjc public class func fetchRequest() -> NSFetchRequest<SecondaryMuscleEntity> {
+    return NSFetchRequest<SecondaryMuscleEntity>(entityName: "SecondaryMuscleEntity")
+  }
 
   static func createFor(exerciseEntity: ExerciseEntity, from muscles: [String], using storage: StorageType) -> Set<SecondaryMuscleEntity> {
     return Set<SecondaryMuscleEntity>(
       muscles
         .compactMap { muscle -> SecondaryMuscleEntity? in
-          guard let muscleType = MuscleType(rawValue: muscle) else { return nil }
+          guard let muscleType = MuscleType(rawValue: muscle) else {
+            return nil
+          }
 
           let predicate = NSPredicate(
             format: "%K == %d",
@@ -35,7 +37,7 @@ public class SecondaryMuscleEntity: MuscleEntity {
             return entity
           } else {
             let entity = storage.insertNewObject(ofType: SecondaryMuscleEntity.self)
-            entity.muscleID = NSNumber(integerLiteral: muscleType.id)
+            entity.muscleID = muscleType.id as NSNumber
             entity.name = muscleType.rawValue
             entity.exercises.insert(exerciseEntity)
             return entity
@@ -46,23 +48,22 @@ public class SecondaryMuscleEntity: MuscleEntity {
 }
 
 // MARK: Generated accessors for exercises
-extension SecondaryMuscleEntity {
 
-    @objc(addExercisesObject:)
-    @NSManaged public func addToExercises(_ value: ExerciseEntity)
+public extension SecondaryMuscleEntity {
+  @objc(addExercisesObject:)
+  @NSManaged func addToExercises(_ value: ExerciseEntity)
 
-    @objc(removeExercisesObject:)
-    @NSManaged public func removeFromExercises(_ value: ExerciseEntity)
+  @objc(removeExercisesObject:)
+  @NSManaged func removeFromExercises(_ value: ExerciseEntity)
 
-    @objc(addExercises:)
-    @NSManaged public func addToExercises(_ values: Set<ExerciseEntity>)
+  @objc(addExercises:)
+  @NSManaged func addToExercises(_ values: Set<ExerciseEntity>)
 
-    @objc(removeExercises:)
-    @NSManaged public func removeFromExercises(_ values: Set<ExerciseEntity>)
-
+  @objc(removeExercises:)
+  @NSManaged func removeFromExercises(_ values: Set<ExerciseEntity>)
 }
 
-extension SecondaryMuscleEntity : Identifiable { }
+extension SecondaryMuscleEntity: Identifiable {}
 
 extension SecondaryMuscleEntity: ReadOnlyConvertible {
   public func toReadOnly() -> String {

@@ -14,7 +14,7 @@ struct ScoreCard: View {
   let score: Int
   let onTap: () -> Void
   let badgeColor: Color
-  
+
   init(
     title: String,
     description: String,
@@ -28,7 +28,7 @@ struct ScoreCard: View {
     self.onTap = onTap
     self.badgeColor = badgeColor
   }
-  
+
   var body: some View {
     RoundedRectangle(cornerRadius: 12.0)
       .frame(maxWidth: .infinity)
@@ -56,7 +56,5 @@ struct ScoreCard: View {
 }
 
 #Preview {
-  ScoreCard(title: "Fitness Score", description: "Based on your overview fitness tracking, your score is 87 and considered good", score: 87, onTap: {
-
-  })
+  ScoreCard(title: "Fitness Score", description: "Based on your overview fitness tracking, your score is 87 and considered good", score: 87, onTap: {})
 }

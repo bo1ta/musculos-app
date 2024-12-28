@@ -5,13 +5,13 @@
 //  Created by Solomon Alexandru on 08.07.2023.
 //
 
-import SwiftUI
-import Shimmer
-import Models
 import Components
+import Models
 import NetworkClient
-import Utility
+import Shimmer
 import Storage
+import SwiftUI
+import Utility
 
 struct ExerciseSecondaryCard: View {
   let exercise: Exercise
@@ -42,14 +42,15 @@ struct ExerciseSecondaryCard: View {
         }
       }
   }
-  
+
   // MARK: - Views
+
   @ViewBuilder
   private var backgroundView: some View {
     if let imageUrl = exercise.displayImageURL {
       AsyncCachedImage(url: imageUrl, content: { imagePhase in
         switch imagePhase {
-        case .success(let image):
+        case let .success(image):
           image
             .resizable()
             .aspectRatio(contentMode: .fill)
@@ -66,8 +67,6 @@ struct ExerciseSecondaryCard: View {
   }
 }
 
-
 #Preview(traits: .sizeThatFitsLayout) {
   ExerciseSecondaryCard(exercise: ExerciseFactory.createExercise())
 }
-

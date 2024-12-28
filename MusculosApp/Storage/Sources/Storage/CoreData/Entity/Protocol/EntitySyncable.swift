@@ -1,12 +1,12 @@
 //
-//  EntityMappable.swift
+//  EntitySyncable.swift
 //
 //
 //  Created by Solomon Alexandru on 15.09.2024.
 //
 
-import Foundation
 import CoreData
+import Foundation
 import Utility
 
 public protocol EntitySyncable: Object {

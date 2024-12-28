@@ -14,20 +14,21 @@ import SwiftUI
 public struct AsyncCachedImage<Content>: View where Content: View {
   private let url: URL?
   private let scale: CGFloat
-  private let contentPhase: ((AsyncImagePhase) -> Content)
-  
+  private let contentPhase: (AsyncImagePhase) -> Content
+
   @State private var isLoading = true
-  @State private var loadedImage: Image? = nil
-  
-  public init(url: URL?,
-       scale: CGFloat = 1.0,
-       @ViewBuilder content: @escaping (AsyncImagePhase) -> Content
+  @State private var loadedImage: Image?
+
+  public init(
+    url: URL?,
+    scale: CGFloat = 1.0,
+    @ViewBuilder content: @escaping (AsyncImagePhase) -> Content
   ) where Content: View {
     self.url = url
     self.scale = scale
-    self.contentPhase = content
+    contentPhase = content
   }
-  
+
   public var body: some View {
     VStack {
       if isLoading {
@@ -36,15 +37,15 @@ public struct AsyncCachedImage<Content>: View where Content: View {
         contentPhase(.success(loadedImage))
       }
     }
-    .task(id: self.url) {
+    .task(id: url) {
       await loadImage()
     }
   }
-  
+
   private func loadImage() async {
     if let url {
       defer { isLoading = false }
-      
+
       let image = await ImageCacheManager.shared.imageForURL(url)
       loadedImage = image
     }

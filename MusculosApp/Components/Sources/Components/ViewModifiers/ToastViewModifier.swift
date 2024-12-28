@@ -20,9 +20,9 @@ public struct ToastViewModifier: ViewModifier {
           toastView
             .transition(.asymmetric(insertion: .push(from: .bottom), removal: .move(edge: .bottom)))
         }
-          .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: toast)
+        .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: toast)
       )
-      .onChange(of: toast) { _, value in
+      .onChange(of: toast) { _, _ in
         showToast()
       }
   }

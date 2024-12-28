@@ -1,13 +1,13 @@
 //
-//  UserProfileEntity+CoreDataClass.swift
+//  UserProfileEntity.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 13.07.2024.
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 import Models
 
 @objc(UserProfileEntity)
@@ -26,7 +26,7 @@ public class UserProfileEntity: NSManagedObject {
   @NSManaged public var username: String
   @NSManaged public var weight: NSNumber?
   @NSManaged public var isOnboarded: Bool
-  @NSManaged public var xp: NSNumber
+  @NSManaged public var xp: NSNumber // swiftlint:disable:this identifier_name
   @NSManaged public var goals: Set<GoalEntity>
   @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
   @NSManaged public var exerciseRatings: Set<ExerciseRatingEntity>
@@ -42,51 +42,49 @@ public class UserProfileEntity: NSManagedObject {
     }
 
     set {
-      synchronized = NSNumber(integerLiteral: newValue.rawValue)
+      synchronized = newValue.rawValue as NSNumber
     }
   }
 }
 
 // MARK: - Generated accessors for relationships
 
-extension UserProfileEntity {
-
+public extension UserProfileEntity {
   @objc(addExerciseSessionsObject:)
-  @NSManaged public func addToExerciseSessions(_ value: ExerciseSessionEntity)
+  @NSManaged func addToExerciseSessions(_ value: ExerciseSessionEntity)
 
   @objc(removeExerciseSessionsObject:)
-  @NSManaged public func removeFromExerciseSessions(_ value: ExerciseSessionEntity)
+  @NSManaged func removeFromExerciseSessions(_ value: ExerciseSessionEntity)
 
   @objc(addExerciseSessions:)
-  @NSManaged public func addToExerciseSessions(_ values: NSSet)
+  @NSManaged func addToExerciseSessions(_ values: NSSet)
 
   @objc(removeExerciseSessions:)
-  @NSManaged public func removeFromExerciseSessions(_ values: NSSet)
+  @NSManaged func removeFromExerciseSessions(_ values: NSSet)
 
   @objc(addGoalsObject:)
-  @NSManaged public func addToGoals(_ value: GoalEntity)
+  @NSManaged func addToGoals(_ value: GoalEntity)
 
   @objc(removeFromGoalsObject:)
-  @NSManaged public func removeFromGoals(_ value: GoalEntity)
+  @NSManaged func removeFromGoals(_ value: GoalEntity)
 
   @objc(addGoals:)
-  @NSManaged public func addToGoals(_ values: NSSet)
+  @NSManaged func addToGoals(_ values: NSSet)
 
   @objc(removeGoals:)
-  @NSManaged public func removeFromGoals(_ values: NSSet)
+  @NSManaged func removeFromGoals(_ values: NSSet)
 
   @objc(addExerciseRatingsObject:)
-  @NSManaged public func addToExerciseRatings(_ value: ExerciseRatingEntity)
+  @NSManaged func addToExerciseRatings(_ value: ExerciseRatingEntity)
 
   @objc(removeExerciseRatingsObject:)
-  @NSManaged public func removeFromExerciseRatings(_ value: ExerciseRatingEntity)
+  @NSManaged func removeFromExerciseRatings(_ value: ExerciseRatingEntity)
 
   @objc(addExerciseRatings:)
-  @NSManaged public func addToExerciseRatings(_ values: NSSet)
+  @NSManaged func addToExerciseRatings(_ values: NSSet)
 
   @objc(removeExerciseRatings:)
-  @NSManaged public func removeFromExerciseRatings(_ values: NSSet)
-
+  @NSManaged func removeFromExerciseRatings(_ values: NSSet)
 }
 
 // MARK: - ReadOnlyConvertible
@@ -136,49 +134,53 @@ extension UserProfileEntity {
 // MARK: - EntitySyncable
 
 extension UserProfileEntity: EntitySyncable {
-  public func populateEntityFrom(_ model: UserProfile, using storage: StorageType) {
-    self.userId = model.userId
-    self.availableEquipment = model.availableEquipment
-    self.avatarUrl = model.avatar
-    self.email = model.email
-    self.fullName = model.fullName
-    self.gender = model.gender
-    self.level = model.level
-    self.username = model.username
-    self.isOnboarded = model.isOnboarded ?? false
-    self.xp = NSNumber(integerLiteral: model.xp ?? 0)
+  public func populateEntityFrom(_ model: UserProfile, using _: StorageType) {
+    userId = model.userId
+    availableEquipment = model.availableEquipment
+    avatarUrl = model.avatar
+    email = model.email
+    fullName = model.fullName
+    gender = model.gender
+    level = model.level
+    username = model.username
+    isOnboarded = model.isOnboarded ?? false
+    xp = (model.xp ?? 0) as NSNumber
 
     if let weight = model.weight {
-      self.weight = NSNumber(floatLiteral: weight)
+      self.weight = weight as NSNumber
     }
     if let height = model.height {
-      self.height = NSNumber(floatLiteral: height)
+      self.height = height as NSNumber
     }
     if let primaryGoalID = model.primaryGoalID {
       self.primaryGoalID = primaryGoalID
     }
 
-    self.synchronized = SynchronizationState.synchronized.asNSNumber()
+    synchronized = SynchronizationState.synchronized.asNSNumber()
   }
 
   public func updateEntityFrom(_ model: UserProfile, using storage: any StorageType) {
-    self.avatarUrl = model.avatar
-    self.isOnboarded = model.isOnboarded ?? false
+    avatarUrl = model.avatar
+    isOnboarded = model.isOnboarded ?? false
 
     if let weight = model.weight {
-      self.weight = NSNumber(floatLiteral: weight)
+      self.weight = weight as NSNumber
     }
+
     if let height = model.height {
-      self.height = NSNumber(floatLiteral: height)
+      self.height = height as NSNumber
     }
+
     if let primaryGoalID = model.primaryGoalID {
       self.primaryGoalID = primaryGoalID
     }
+
+    // swiftlint:disable:next identifier_name
     if let xp = model.xp, xp > self.xp.intValue {
-      self.xp = NSNumber(integerLiteral: xp)
+      self.xp = xp as NSNumber
     }
 
-    self.synchronized = SynchronizationState.synchronized.asNSNumber()
+    synchronized = SynchronizationState.synchronized.asNSNumber()
 
     if let goals = model.goals {
       var goalsSet = Set<GoalEntity>()

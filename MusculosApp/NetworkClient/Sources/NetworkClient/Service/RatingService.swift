@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 23.11.2024.
 //
 
-import Models
-import Foundation
 import Factory
+import Foundation
+import Models
 
 public protocol RatingServiceProtocol: Sendable {
   func addExerciseRating(_ exerciseRating: ExerciseRating) async throws
@@ -24,7 +24,7 @@ public struct RatingService: APIService, RatingServiceProtocol, @unchecked Senda
       "ratingID": exerciseRating.ratingID.uuidString as Any,
       "exerciseID": exerciseRating.exerciseID.uuidString as Any,
       "rating": exerciseRating.rating as Any,
-      "isPublic": exerciseRating.isPublic as Any
+      "isPublic": exerciseRating.isPublic as Any,
     ]
     try await client.dispatch(request)
   }

@@ -1,0 +1,26 @@
+# format options
+--allman false
+--indent 2
+--trimwhitespace "always"
+--wraparguments before-first
+--nilinit remove
+--stripunusedargs "closure-only"
+--voidtype "void"
+
+# rules
+--enable redundantBreak
+--enable redundantInit
+--enable redundantLetError
+--enable redundantOptionalBinding
+--enable redundantParens
+--enable redundantProperty
+--enable spaceAroundBraces
+--enable spaceAroundOperators
+--enable spaceInsideBraces
+--enable spaceInsideBrackets
+--enable spaceInsideGenerics
+--enable spaceInsideParens
+--enable wrapConditionalBodies
+--disable trailingClosures
+--disable redundantType
+--disable wrapMultilineStatementBraces

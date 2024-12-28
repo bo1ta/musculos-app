@@ -1,5 +1,5 @@
 //
-//  ExerciseConstant.swift
+//  ExerciseConstants.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 25.03.2024.
@@ -8,19 +8,19 @@
 import Foundation
 import SwiftUI
 
-public struct ExerciseConstants {
+public enum ExerciseConstants {
   public enum ForceType: String, CaseIterable {
     case pull, push, `static`
   }
-  
+
   public enum LevelType: String, CaseIterable {
     case beginner, intermediate, expert
   }
-  
+
   public enum MechanicType: String, CaseIterable {
     case compound, isolation
   }
-  
+
   public enum EquipmentType: String, CaseIterable {
     case machine
     case other
@@ -68,7 +68,7 @@ public struct ExerciseConstants {
       }
     }
   }
-  
+
   public enum CategoryType: String, CaseIterable {
     case strength
     case stretching
@@ -77,7 +77,7 @@ public struct ExerciseConstants {
     case powerlifting
     case cardio
     case olympicWeightlifting = "olympic weightlifting"
-    
+
     public var imageName: String {
       switch self {
       case .strength: "strength-icon"
@@ -89,7 +89,7 @@ public struct ExerciseConstants {
       }
     }
   }
-  
+
   /// All cases lists -- perfect for filters!
   ///
   public static let muscleOptions = MuscleType.allCases.map { $0.rawValue }
@@ -103,11 +103,11 @@ public struct ExerciseConstants {
       ExerciseConstants.CategoryType.strength.rawValue,
       ExerciseConstants.CategoryType.powerlifting.rawValue,
       ExerciseConstants.CategoryType.strongman.rawValue,
-      ExerciseConstants.CategoryType.olympicWeightlifting.rawValue
+      ExerciseConstants.CategoryType.olympicWeightlifting.rawValue,
     ],
     Goal.Category.loseWeight.rawValue: [
       ExerciseConstants.CategoryType.cardio.rawValue,
-      ExerciseConstants.CategoryType.stretching.rawValue
-    ]
+      ExerciseConstants.CategoryType.stretching.rawValue,
+    ],
   ]
 }

@@ -5,15 +5,15 @@
 //  Created by Solomon Alexandru on 01.02.2024.
 //
 
-import SwiftUI
-import HealthKitUI
-import Utility
 import Components
+import HealthKitUI
+import SwiftUI
+import Utility
 
 struct OnboardingScreen: View {
   @Environment(\.userStore) private var userStore: UserStore
   @State private var viewModel = OnboardingViewModel()
-  @State private var toast: Toast? = nil
+  @State private var toast: Toast?
 
   var body: some View {
     VStack {
@@ -36,9 +36,9 @@ struct OnboardingScreen: View {
 
   private func handleEvent(_ event: OnboardingViewModel.Event) {
     switch event {
-    case .didFinishOnboarding(let onboardingData):
+    case let .didFinishOnboarding(onboardingData):
       userStore.handlePostOnboarding(onboardingData)
-    case .didFinishWithError(_):
+    case .didFinishWithError:
       toast = Toast(style: .error, message: "Could not save data...")
     case .didFailLoadingOnboardingData:
       toast = Toast(style: .error, message: "Could not load data...")
@@ -78,7 +78,7 @@ extension OnboardingScreen {
       }
     }
     .animation(.smooth(duration: 0.2), value: viewModel.wizardStep)
-    .dismissingGesture(direction: .left, action: viewModel.handleBack)
+    .dismissingGesture(direction: .left, action: { viewModel.handleBack() })
   }
 
   private var backButton: some View {

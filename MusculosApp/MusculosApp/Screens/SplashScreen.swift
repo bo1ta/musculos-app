@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 31.01.2024.
 //
 
-import SwiftUI
 import Components
+import SwiftUI
 import Utility
 
 struct SplashScreen: View {
@@ -22,7 +22,7 @@ struct SplashScreen: View {
             showLoginScreen = false
           }
         )
-        .transition(.asymmetric(insertion: .push(from: .bottom), removal: .push(from:. top)))
+        .transition(.asymmetric(insertion: .push(from: .bottom), removal: .push(from: .top)))
       } else {
         splashScreen
           .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom)))

@@ -18,19 +18,19 @@ public struct LoadingOverlayView: View {
     progressColor: Color = Color.orange,
     backgroundColor: Color = AppColor.navyBlue
   ) {
-    self._progress = progress
+    _progress = progress
     self.progressColor = progressColor
     self.backgroundColor = backgroundColor
   }
 
-    public var body: some View {
-      VStack(alignment: .center) {
-        LoadingProgressCircle(progress: $progress)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(backgroundColor)
-      .ignoresSafeArea()
+  public var body: some View {
+    VStack(alignment: .center) {
+      LoadingProgressCircle(progress: $progress)
     }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .background(backgroundColor)
+    .ignoresSafeArea()
+  }
 }
 
 #Preview {

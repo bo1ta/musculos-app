@@ -1,6 +1,6 @@
 //
 //  SmoothTransitionModifier.swift
-//  
+//
 //
 //  Created by Solomon Alexandru on 25.08.2024.
 //
@@ -19,4 +19,3 @@ struct SmoothTransitionModifier: ViewModifier {
       .animation(.smooth(duration: duration), value: isPresented)
   }
 }
-

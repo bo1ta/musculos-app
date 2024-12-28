@@ -1,5 +1,5 @@
 //
-//  OptionPill.swift
+//  TextPill.swift
 //  Components
 //
 //  Created by Solomon Alexandru on 01.10.2024.

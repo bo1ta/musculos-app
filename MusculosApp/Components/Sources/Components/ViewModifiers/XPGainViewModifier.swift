@@ -18,20 +18,19 @@ public struct XPGainViewModifier: ViewModifier {
   }
 
   public func body(content: Content) -> some View {
-      content
-        .overlay {
-          ZStack {
-            if showView {
-              VStack {
-                XPGainView(xpGained)
-              }
-              .padding()
-              .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-              .transition(.scale(scale: 0.5).combined(with: .move(edge: .trailing)))
-              .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: showView)
+    content
+      .overlay {
+        ZStack {
+          if showView {
+            VStack {
+              XPGainView(xpGained)
             }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            .transition(.scale(scale: 0.5).combined(with: .move(edge: .trailing)))
+            .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: showView)
           }
         }
-    }
+      }
+  }
 }
-

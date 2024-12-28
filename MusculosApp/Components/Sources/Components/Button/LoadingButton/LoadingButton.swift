@@ -1,5 +1,5 @@
 //
-//  LoadableButton.swift
+//  LoadingButton.swift
 //
 //
 //  Created by Solomon Alexandru on 30.07.2024.
@@ -30,7 +30,7 @@ public struct LoadingButton: View {
     self.animationDuration = animationDuration
     self.action = action
     self.isDisabled = isDisabled
-    self._isLoading = isLoading
+    _isLoading = isLoading
   }
 
   public var body: some View {
@@ -56,7 +56,7 @@ public struct LoadingButton: View {
       }
     })
     .buttonStyle(PrimaryButtonStyle())
-    .disabled(isLoading  || isDisabled)
+    .disabled(isLoading || isDisabled)
     .opacity(isDisabled ? 0.6 : 1.0)
   }
 }

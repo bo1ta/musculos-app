@@ -1,5 +1,5 @@
 //
-//  RatingDialogView.swift
+//  DialogRateView.swift
 //  Components
 //
 //  Created by Solomon Alexandru on 23.11.2024.
@@ -16,8 +16,8 @@ public struct DialogRateView: View {
   let onSave: (Int) -> Void
 
   public init(isPresented: Binding<Bool>, rating: Binding<Int>, title: String, onSave: @escaping (Int) -> Void) {
-    self._isPresented = isPresented
-    self._rating = rating
+    _isPresented = isPresented
+    _rating = rating
     self.title = title
     self.onSave = onSave
   }
@@ -34,7 +34,7 @@ public struct DialogRateView: View {
             .font(AppFont.poppins(.bold, size: 19))
 
           HStack {
-            ForEach(1...5, id: \.self) { index in
+            ForEach(1 ... 5, id: \.self) { index in
               let imageName = rating >= index ? "star-icon" : "star-icon-empty"
 
               Button(action: {
@@ -51,7 +51,7 @@ public struct DialogRateView: View {
           }
 
           Spacer()
-          
+
           PrimaryButton(title: "Save rating", action: {
             onSave(rating)
           })

@@ -39,9 +39,6 @@ public struct CustomNavigationBarView: View {
   }
 }
 
-struct CustomNavigationBarView_Preview: PreviewProvider {
-  static var previews: some View {
-    CustomNavigationBarView(title: "Custom Navigation Bar")
-      .previewLayout(.sizeThatFits)
-  }
+#Preview {
+  CustomNavigationBarView(title: "Custom Navigation Bar")
 }

@@ -5,11 +5,11 @@
 //  Created by Solomon Alexandru on 26.11.2024.
 //
 
-import SwiftUI
 import Components
-import Utility
 import Models
 import Navigator
+import SwiftUI
+import Utility
 
 struct QuickWorkoutSection: View {
   @Environment(\.navigator) private var navigator: Navigator
@@ -35,7 +35,8 @@ struct QuickWorkoutSection: View {
                 IconButton(systemImageName: "chevron.right", action: {
                   navigator.navigate(to: CommonDestinations.exerciseDetails(exercise))
                 })
-              })
+              }
+            )
           }
         }
       }

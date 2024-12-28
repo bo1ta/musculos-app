@@ -5,10 +5,10 @@
 //  Created by Solomon Alexandru on 01.02.2024.
 //
 
-import SwiftUI
-import Models
-import Utility
 import Components
+import Models
+import SwiftUI
+import Utility
 
 struct SelectGoalView: View {
   var onboardingGoals: [OnboardingGoal]
@@ -32,8 +32,8 @@ struct SelectGoalView: View {
     }
     .safeAreaInset(edge: .bottom, content: {
       PrimaryButton(title: "Continue", action: onContinue)
-      .padding(.horizontal, 30)
-      .padding(.top, 30)
+        .padding(.horizontal, 30)
+        .padding(.top, 30)
     })
     .animation(.easeInOut(duration: 0.2), value: selectedGoal)
     .padding(20)
@@ -70,8 +70,8 @@ struct SelectGoalView: View {
           .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isGoalSelected(goal))
       } else {
         Image(goal.iconName)
-            .resizable()
-            .transition(.opacity)
+          .resizable()
+          .transition(.opacity)
       }
     }
     .aspectRatio(contentMode: .fit)
@@ -84,4 +84,3 @@ struct SelectGoalView: View {
     return selectedGoal == goal
   }
 }
-

@@ -14,7 +14,7 @@ public struct Workout: Sendable, Identifiable {
   public let workoutType: String
   public let createdBy: UserProfile
   public let workoutExercises: [WorkoutExercise]
-  
+
   public init(id: UUID = UUID(), name: String, targetMuscles: [String], workoutType: String, createdBy: UserProfile, workoutExercises: [WorkoutExercise]) {
     self.id = id
     self.name = name
@@ -26,10 +26,10 @@ public struct Workout: Sendable, Identifiable {
 }
 
 extension Workout: Hashable {
-  public static func ==(_ lhs: Workout, rhs: Workout) -> Bool {
+  public static func == (_ lhs: Workout, rhs: Workout) -> Bool {
     return lhs.name == rhs.name && lhs.workoutType == rhs.workoutType
   }
-  
+
   public func hash(into hasher: inout Hasher) {
     hasher.combine(name)
     hasher.combine(workoutType)

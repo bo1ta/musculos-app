@@ -1,14 +1,14 @@
 //
-//  CategorySectionView.swift
+//  ExploreExerciseContentView.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 25.02.2024.
 //
 
-//import SwiftUI
-//import Utility
+// import SwiftUI
+// import Utility
 //
-//struct ExploreCategorySectionView: View {
+// struct ExploreCategorySectionView: View {
 //  var currentSection: ExploreCategorySection
 //  var onChangeSection: ((ExploreCategorySection) -> Void)?
 //
@@ -44,10 +44,8 @@
 //      }
 //    }
 //  }
-//}
+// }
 //
-//#Preview {
+// #Preview {
 //  ExploreCategorySectionView(currentSection: .discover, onChangeSection: { _ in })
-//}
-
-
+// }

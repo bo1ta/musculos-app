@@ -12,6 +12,6 @@ extension ProgressEntry: IdentifiableEntity {
   public static let identifierKey: String = "progressID"
 
   public var identifierValue: UUID {
-    self.progressID
+    progressID
   }
 }

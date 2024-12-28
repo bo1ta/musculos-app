@@ -8,15 +8,17 @@
 import Foundation
 import SwiftUI
 
-public struct PhotoWriter {
+public enum PhotoWriter {
   private static var documentsUrl: URL? {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     return paths.first
   }
-  
+
   public static func saveImage(_ image: UIImage, with name: String) -> URL? {
-    guard let documentsUrl, let data = image.pngData() else { return nil }
-    
+    guard let documentsUrl, let data = image.pngData() else {
+      return nil
+    }
+
     let destionationUrl = documentsUrl.appendingPathComponent(name)
     do {
       try data.write(to: destionationUrl)

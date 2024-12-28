@@ -5,12 +5,12 @@
 //  Created by Solomon Alexandru on 19.10.2024.
 //
 
+import Factory
 import Foundation
 import Models
-import Utility
-import Storage
 import NetworkClient
-import Factory
+import Storage
+import Utility
 
 public actor ExerciseRepository: BaseRepository {
   @Injected(\NetworkContainer.exerciseService) private var service: ExerciseServiceProtocol
@@ -26,7 +26,7 @@ public actor ExerciseRepository: BaseRepository {
   }
 
   public func getExercises() async throws -> [Exercise] {
-    guard self.isConnectedToInternet else {
+    guard isConnectedToInternet else {
       return await coreDataStore.getAll(ExerciseEntity.self, fetchLimit: 20)
     }
 
@@ -89,7 +89,7 @@ public actor ExerciseRepository: BaseRepository {
   }
 
   public func getRecommendedExercisesByMuscleGroups() async throws -> [Exercise] {
-    guard let currentUserID = self.currentUserID else {
+    guard let currentUserID = currentUserID else {
       throw MusculosError.notFound
     }
 
@@ -99,8 +99,7 @@ public actor ExerciseRepository: BaseRepository {
     }
 
     let muscles = Array(Set(exerciseSessions.flatMap { $0.exercise.muscleTypes }))
-    let exercises = await coreDataStore.exercisesExcludingMuscles(muscles)
-    return exercises
+    return await coreDataStore.exercisesExcludingMuscles(muscles)
   }
 
   public func getRecommendedExercisesByGoals() async throws -> [Exercise] {

@@ -5,19 +5,18 @@
 //  Created by Solomon Alexandru on 22.09.2024.
 //
 
-import Observation
-import Models
-import Utility
-import Factory
-import DataRepository
-import Storage
 import Combine
+import DataRepository
+import Factory
 import Foundation
+import Models
+import Observation
+import Storage
+import Utility
 
 @Observable
 @MainActor
 final class HomeViewModel {
-
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
 

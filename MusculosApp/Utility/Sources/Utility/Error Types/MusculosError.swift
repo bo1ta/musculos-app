@@ -14,7 +14,7 @@ public enum MusculosError: LocalizedError, CustomStringConvertible {
   case error4xx(_ code: Int)
   case error5xx(_ code: Int)
   case urlSessionFailed(_ error: URLError)
-  
+
   public var description: String {
     switch self {
     case .invalidRequest:
@@ -27,15 +27,15 @@ public enum MusculosError: LocalizedError, CustomStringConvertible {
       return "Forbidden"
     case .notFound:
       return "Not found"
-    case .error4xx(let code):
+    case let .error4xx(code):
       return "Client error: \(code)"
     case .serverError:
       return "Server error"
-    case .error5xx(let code):
+    case let .error5xx(code):
       return "Server error: \(code)"
     case .decodingError:
       return "Decoding error"
-    case .urlSessionFailed(let error):
+    case let .urlSessionFailed(error):
       return "URL session failed: \(error.localizedDescription)"
     case .unknownError:
       return "Unknown error"
@@ -45,7 +45,7 @@ public enum MusculosError: LocalizedError, CustomStringConvertible {
       return "Offline"
     }
   }
-  
+
   public static func httpError(_ statusCode: Int) -> MusculosError {
     switch statusCode {
     case 400:
@@ -56,11 +56,11 @@ public enum MusculosError: LocalizedError, CustomStringConvertible {
       return .forbidden
     case 404:
       return .notFound
-    case 402, 405...499:
+    case 402, 405 ... 499:
       return .error4xx(statusCode)
     case 500:
       return .serverError
-    case 501...599:
+    case 501 ... 599:
       return .error5xx(statusCode)
     default:
       return .unknownError

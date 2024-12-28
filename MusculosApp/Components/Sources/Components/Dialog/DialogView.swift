@@ -11,11 +11,11 @@ import SwiftUI
 public struct DialogView: View {
   @Environment(\.dismiss) var dismiss
   @Binding var isPresented: Bool
-  
+
   let title: String
   let description: String?
   let buttonTitle: String
-  
+
   public init(
     title: String,
     description: String? = nil,
@@ -25,9 +25,9 @@ public struct DialogView: View {
     self.title = title
     self.description = description
     self.buttonTitle = buttonTitle
-    self._isPresented = isPresented
+    _isPresented = isPresented
   }
-  
+
   public var body: some View {
     RoundedRectangle(cornerRadius: 25.0)
       .foregroundStyle(Color.AppColor.blue100)
@@ -39,16 +39,16 @@ public struct DialogView: View {
             .font(.header(.bold, size: 14))
             .foregroundStyle(Color.AppColor.blue800)
             .padding(.top, 20)
-          
+
           if let description {
             Text(description)
               .font(.body(.regular, size: 10))
               .foregroundStyle(.black)
               .padding(.horizontal, 60)
           }
-          
+
           Spacer()
-          
+
           Button {
             isPresented = false
           } label: {

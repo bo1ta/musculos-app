@@ -1,13 +1,13 @@
 //
-//  ExerciseSessionEntity+CoreDataClass.swift
+//  ExerciseSessionEntity.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 01.06.2024.
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 import Models
 
 @objc(ExerciseSessionEntity)
@@ -32,8 +32,8 @@ extension ExerciseSessionEntity: ReadOnlyConvertible {
     let exercise = self.exercise.toReadOnly()
 
     return ExerciseSession(
-      dateAdded: self.dateAdded,
-      sessionId: self.sessionId,
+      dateAdded: dateAdded,
+      sessionId: sessionId,
       user: user,
       exercise: exercise
     )
@@ -46,18 +46,20 @@ extension ExerciseSessionEntity: EntitySyncable {
       of: UserProfileEntity.self,
       matching: PredicateProvider.userProfileById(model.user.userId)
     )
-    else { return }
+    else {
+      return
+    }
 
     self.user = user
-    self.dateAdded = model.dateAdded
-    self.duration = NSNumber(floatLiteral: model.duration)
-    self.sessionId = model.sessionId
-    self.exercise = ExerciseEntity.findOrCreate(from: model.exercise, using: storage)
-    self.weight = NSNumber(floatLiteral: model.weight ?? 0)
+    dateAdded = model.dateAdded
+    duration = model.duration as NSNumber
+    sessionId = model.sessionId
+    exercise = ExerciseEntity.findOrCreate(from: model.exercise, using: storage)
+    weight = NSNumber(floatLiteral: model.weight ?? 0) // swiftlint:disable:this compiler_protocol_init
   }
 
-  public func updateEntityFrom(_ model: ExerciseSession, using storage: StorageType) {
-    self.dateAdded = model.dateAdded
-    self.duration = NSNumber(floatLiteral: model.duration)
+  public func updateEntityFrom(_ model: ExerciseSession, using _: StorageType) {
+    dateAdded = model.dateAdded
+    duration = model.duration as NSNumber
   }
 }

@@ -32,8 +32,7 @@ struct CalendarHeader: View {
             Image(systemName: "chevron.left")
               .foregroundStyle(.black)
           }
-      }
-      )
+      })
 
       Spacer()
 

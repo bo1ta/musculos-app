@@ -1,12 +1,12 @@
 //
-//  DataStoreBase.swift
+//  BaseDataStore.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 16.03.2024.
 //
 
-import Foundation
 import Factory
+import Foundation
 
 /// Helper protocol for Core Data store operations
 ///
@@ -16,8 +16,8 @@ public protocol BaseDataStore {
   var storageManager: StorageManagerType { get }
 }
 
-extension BaseDataStore {
-  public var storageManager: StorageManagerType {
+public extension BaseDataStore {
+  var storageManager: StorageManagerType {
     return StorageContainer.shared.storageManager()
   }
 
@@ -25,9 +25,9 @@ extension BaseDataStore {
   /// If the object exists, update it
   /// If no object exists, create it
   ///
-  public func handleObjectSync<SyncableEntity: EntitySyncable & Object>(
+  func handleObjectSync<SyncableEntity: EntitySyncable & Object>(
     remoteObject: SyncableEntity.ModelType,
-    localObjectType: SyncableEntity.Type
+    localObjectType _: SyncableEntity.Type
   ) async throws {
     return try await storageManager.performWrite { storage in
       if let existingEntity = storage.firstObject(of: SyncableEntity.self, matching: remoteObject.matchingPredicate()) {
@@ -42,9 +42,9 @@ extension BaseDataStore {
   /// Handle the objects insertion
   /// Existing objects are skipped
   ///
-  public func importToStorage<SyncableEntity: EntitySyncable & Object>(
+  func importToStorage<SyncableEntity: EntitySyncable & Object>(
     models: [SyncableEntity.ModelType],
-    localObjectType: SyncableEntity.Type
+    localObjectType _: SyncableEntity.Type
   ) async throws {
     return try await storageManager.performWrite { storage in
       let existingIdentifiers = storage.fetchUniquePropertyValues(

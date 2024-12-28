@@ -9,8 +9,8 @@ import Foundation
 
 public protocol Object: AnyObject {
   associatedtype ObjectID
-  
+
   var objectID: ObjectID { get }
-  
+
   static var entityName: String { get }
 }

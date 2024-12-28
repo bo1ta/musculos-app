@@ -5,19 +5,19 @@
 //  Created by Solomon Alexandru on 03.02.2024.
 //
 
+import Components
 import SwiftUI
 import Utility
-import Components
 
 struct MultiOptionsSelectView: View {
   @Binding var showOptions: Bool
   @Binding var selectedOptions: [String]
-  
+
   var title: String
   var options: [String]
 
   let columns = [
-    GridItem(.adaptive(minimum: 100))
+    GridItem(.adaptive(minimum: 100)),
   ]
 
   var body: some View {
@@ -41,20 +41,20 @@ struct MultiOptionsSelectView: View {
           columns: columns,
           spacing: 5
         ) {
-            ForEach(options, id: \.self) { filter in
-              Button {
-                handleFilterTap(filter)
-              } label: {
-                Text(filter)
-              }
-              .buttonStyle(SelectedButtonStyle(isSelected: selectedOptions.contains(filter)))
+          ForEach(options, id: \.self) { filter in
+            Button {
+              handleFilterTap(filter)
+            } label: {
+              Text(filter)
             }
+            .buttonStyle(SelectedButtonStyle(isSelected: selectedOptions.contains(filter)))
           }
+        }
         .transition(.opacity.combined(with: .move(edge: .top)))
       }
     }
   }
-  
+
   private func handleFilterTap(_ filter: String) {
     HapticFeedbackProvider.haptic(.selection)
 

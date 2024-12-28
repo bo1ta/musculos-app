@@ -14,12 +14,12 @@ public enum HTTPMethod: String {
   case delete = "DELETE"
 }
 
-public struct HTTPHeaderConstant {
+public enum HTTPHeaderConstant {
   public static let contentType = "Content-Type"
   public static let authorization = "Authorization"
 }
 
-public struct UIConstant {
+public enum UIConstant {
   public static let componentOpacity: Double = 0.95
 
   public static let shortAnimationDuration: Double = 0.1

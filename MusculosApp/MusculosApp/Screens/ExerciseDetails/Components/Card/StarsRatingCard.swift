@@ -27,9 +27,8 @@ struct StarsRatingCard: View {
               .foregroundStyle(.gray)
 
             Button(action: onClick, label: {
-
               HStack {
-                ForEach(1...5, id: \.self) { index in
+                ForEach(1 ... 5, id: \.self) { index in
                   if index <= Int(stars) {
                     Image("star-icon")
                       .resizable()

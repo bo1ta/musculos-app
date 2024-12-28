@@ -14,7 +14,7 @@ public struct SelectTextResizablePillsStack: View {
 
   public init(options: [String], selectedOption: Binding<String?>) {
     self.options = options
-    self._selectedOption = selectedOption
+    _selectedOption = selectedOption
   }
 
   public var body: some View {

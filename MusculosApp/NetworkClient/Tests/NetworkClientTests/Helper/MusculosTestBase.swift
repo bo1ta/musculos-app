@@ -6,19 +6,18 @@
 //
 
 import Foundation
-import XCTest
 import Models
 import Storage
 import Utility
+import XCTest
 
 protocol MusculosTestBase: AnyObject {}
 
 extension MusculosTestBase {
   func parseDataFromFile(name: String, withExtension: String = "json") throws -> Data {
     guard let fileUrl = Bundle.module.url(forResource: name, withExtension: withExtension) else {
-        throw NSError(domain: "FileNotFound", code: 404, userInfo: [NSLocalizedDescriptionKey: "File \(name).\(withExtension) not found."])
+      throw NSError(domain: "FileNotFound", code: 404, userInfo: [NSLocalizedDescriptionKey: "File \(name).\(withExtension) not found."])
     }
-    let data = try Data(contentsOf: fileUrl)
-    return data
+    return try Data(contentsOf: fileUrl)
   }
 }

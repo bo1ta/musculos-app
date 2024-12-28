@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 03.06.2024.
 //
 
+import Components
 import SwiftUI
 import Utility
-import Components
 
 struct PermissionsView: View {
   @Environment(\.healthKitViewModel) private var healthKitViewModel
@@ -17,7 +17,7 @@ struct PermissionsView: View {
   private let permissionsReasons = [
     "Personalized workouts",
     "Personalized notifications and reminders",
-    "Auto-suggestions for goals & much more"
+    "Auto-suggestions for goals & much more",
   ]
 
   var body: some View {

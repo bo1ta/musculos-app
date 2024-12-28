@@ -5,11 +5,11 @@
 //  Created by Solomon Alexandru on 23.11.2024.
 //
 
-import SwiftUI
-import Models
-import Utility
 import Components
+import Models
 import Storage
+import SwiftUI
+import Utility
 
 struct ExerciseListRow: View {
   var exercise: Exercise

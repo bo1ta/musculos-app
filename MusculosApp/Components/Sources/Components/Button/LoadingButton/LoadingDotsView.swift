@@ -21,7 +21,7 @@ public struct LoadingDotsView: View {
 
   public var body: some View {
     HStack(spacing: 8) {
-      ForEach(0..<3) { index in
+      ForEach(0 ..< 3) { index in
         Circle()
           .fill(dotsColor)
           .frame(width: 10, height: 10)
@@ -29,11 +29,11 @@ public struct LoadingDotsView: View {
           .animation(.easeInOut(duration: animationDuration), value: currentDotIndex)
       }
     }
-//    .onAppear {
-//      timer = Timer.scheduledTimer(withTimeInterval: animationDuration, repeats: true) { _ in
-//        currentDotIndex = (currentDotIndex + 1) % 3
-//      }
-//    }
+    //    .onAppear {
+    //      timer = Timer.scheduledTimer(withTimeInterval: animationDuration, repeats: true) { _ in
+    //        currentDotIndex = (currentDotIndex + 1) % 3
+    //      }
+    //    }
     .onDisappear {
       timer?.invalidate()
       timer = nil

@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 31.01.2024.
 //
 
-import SwiftUI
 import Components
+import SwiftUI
 import Utility
 
 struct SignUpView: View {
@@ -51,7 +51,7 @@ struct SignUpView: View {
 
       Spacer()
     }
-    .dismissingGesture(direction: .left, action: showLogin)
+    .dismissingGesture(direction: .left, action: { showLogin() })
     .padding(.horizontal, 20)
     .onDisappear(perform: viewModel.cleanUp)
   }

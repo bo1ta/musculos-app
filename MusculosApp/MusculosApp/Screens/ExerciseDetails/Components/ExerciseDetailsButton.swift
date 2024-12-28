@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 22.12.2024.
 //
 
-import SwiftUI
 import Components
+import SwiftUI
 import Utility
 
 struct ExerciseDetailsButton: View {

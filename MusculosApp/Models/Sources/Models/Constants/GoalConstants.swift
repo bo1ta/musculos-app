@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct GoalConstants {
+public enum GoalConstants {
   public static let categoryOptions = Goal.Category.allCases.map { $0.label }
   public static let frequencyOptions = Goal.Frequency.allCases.map { $0.description }
 }

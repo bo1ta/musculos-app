@@ -1,13 +1,13 @@
 //
-//  WorkoutEntity+CoreDataClass.swift
+//  WorkoutEntity.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 07.04.2024.
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 import Models
 
 @objc(WorkoutEntity)
@@ -25,8 +25,8 @@ class WorkoutEntity: NSManagedObject {
 }
 
 // MARK: Generated accessors for workoutExercises
-extension WorkoutEntity {
 
+extension WorkoutEntity {
   @objc(addWorkoutExercisesObject:)
   @NSManaged func addToWorkoutExercises(_ value: WorkoutExerciseEntity)
 
@@ -38,16 +38,15 @@ extension WorkoutEntity {
 
   @objc(removeWorkoutExercises:)
   @NSManaged func removeFromWorkoutExercises(_ values: NSSet)
-
 }
 
-extension WorkoutEntity : Identifiable {}
+extension WorkoutEntity: Identifiable {}
 
 extension WorkoutEntity: ReadOnlyConvertible {
   public func toReadOnly() -> Workout {
     let workoutExercisesToRead = workoutExercises.compactMap { $0.toReadOnly() }
     let person = createdBy.toReadOnly()
-    
+
     return Workout(
       id: modelID,
       name: name,
@@ -61,19 +60,19 @@ extension WorkoutEntity: ReadOnlyConvertible {
 
 extension WorkoutEntity: EntitySyncable {
   func populateEntityFrom(_ model: Workout, using storage: any StorageType) {
-    self.modelID = model.id
-    self.name = model.name
-    self.targetMuscles = model.targetMuscles
-    self.workoutType = model.workoutType
-    self.createdBy = UserProfileEntity.entityFrom(model.createdBy, using: storage)
-    self.workoutExercises = getWorkoutExercisesFrom(model.workoutExercises, storage: storage)
+    modelID = model.id
+    name = model.name
+    targetMuscles = model.targetMuscles
+    workoutType = model.workoutType
+    createdBy = UserProfileEntity.entityFrom(model.createdBy, using: storage)
+    workoutExercises = getWorkoutExercisesFrom(model.workoutExercises, storage: storage)
   }
 
-  func updateEntityFrom(_ model: Workout, using storage: any StorageType) {}
+  func updateEntityFrom(_: Workout, using _: any StorageType) {}
 
   private func getWorkoutExercisesFrom(_ workoutExercises: [WorkoutExercise], storage: StorageType) -> Set<WorkoutExerciseEntity> {
     return Set(workoutExercises.map {
-      return WorkoutExerciseEntity.findOrCreate($0, using: storage)
+      WorkoutExerciseEntity.findOrCreate($0, using: storage)
     })
   }
 

@@ -5,10 +5,10 @@
 //  Created by Solomon Alexandru on 22.12.2024.
 //
 
-import SwiftUI
-import Utility
 import Components
 import Models
+import SwiftUI
+import Utility
 
 struct ExerciseDetailsContent: View {
   let viewModel: ExerciseDetailsViewModel
@@ -35,4 +35,3 @@ struct ExerciseDetailsContent: View {
     .scrollIndicators(.hidden)
   }
 }
-

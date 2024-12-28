@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 31.07.2024.
 //
 
+import CoreHaptics
 import SwiftUI
 import UIKit
-import CoreHaptics
 
 @MainActor
 public struct HapticFeedbackProvider {

@@ -5,19 +5,18 @@
 //  Created by Solomon Alexandru on 19.04.2024.
 //
 
-import SwiftUI
-import Factory
 import Combine
-import Models
-import Utility
-import DataRepository
 import Components
+import DataRepository
+import Factory
+import Models
 import NetworkClient
+import SwiftUI
+import Utility
 
 @Observable
 @MainActor
 final class AddExerciseSheetViewModel {
-
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
 
@@ -49,12 +48,12 @@ final class AddExerciseSheetViewModel {
   private let didSaveSubject = PassthroughSubject<Void, Never>()
 
   private var isExerciseValid: Bool {
-    exerciseName.count > 0 &&
-    equipment.count > 0 &&
-    force.count > 0 &&
-    targetMuscles.count > 0 &&
-    level.count > 0 &&
-    category.count > 0
+    !exerciseName.isEmpty &&
+      !equipment.isEmpty &&
+      !force.isEmpty &&
+      !targetMuscles.isEmpty &&
+      !level.isEmpty &&
+      !category.isEmpty
   }
 
   private func uploadImages() async -> [String] {
@@ -86,7 +85,7 @@ final class AddExerciseSheetViewModel {
 
       let imageUrls = await uploadImages()
       let instructionsString = instructions.map { $0.text }
-      
+
       let exercise = Exercise(
         category: category,
         id: UUID(),
@@ -97,7 +96,7 @@ final class AddExerciseSheetViewModel {
         instructions: instructionsString,
         imageUrls: imageUrls
       )
-      
+
       do {
         try await exerciseRepository.addExercise(exercise)
         didSaveSubject.send(())

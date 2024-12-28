@@ -9,7 +9,7 @@ import Factory
 import Foundation
 
 public final class DataRepositoryContainer: SharedContainer {
-  nonisolated(unsafe) public static let shared = DataRepositoryContainer()
+  public nonisolated(unsafe) static let shared = DataRepositoryContainer()
 
   public var manager = ContainerManager()
 }
@@ -20,24 +20,24 @@ extension DataRepositoryContainer: AutoRegistering {
   }
 }
 
-extension DataRepositoryContainer {
-  public var userRepository: Factory<UserRepository> {
+public extension DataRepositoryContainer {
+  var userRepository: Factory<UserRepository> {
     self { UserRepository() }
   }
 
-  public var exerciseRepository: Factory<ExerciseRepository> {
+  var exerciseRepository: Factory<ExerciseRepository> {
     self { ExerciseRepository() }
   }
 
-  public var exerciseSessionRepository: Factory<ExerciseSessionRepository> {
+  var exerciseSessionRepository: Factory<ExerciseSessionRepository> {
     self { ExerciseSessionRepository() }
   }
 
-  public var goalRepository: Factory<GoalRepository> {
+  var goalRepository: Factory<GoalRepository> {
     self { GoalRepository() }
   }
 
-  public var ratingRepository: Factory<RatingRepository> {
+  var ratingRepository: Factory<RatingRepository> {
     self { RatingRepository() }
   }
 

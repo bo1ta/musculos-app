@@ -5,12 +5,11 @@
 //  Created by Solomon Alexandru on 26.10.2024.
 //
 
+import Factory
 import Foundation
 import Models
-import Utility
-import Storage
 import NetworkClient
-import Factory
+import Storage
 import Utility
 
 public actor GoalRepository: BaseRepository {
@@ -45,7 +44,7 @@ public actor GoalRepository: BaseRepository {
   }
 
   public func getGoals() async throws -> [Goal] {
-    guard let currentUserID = self.currentUserID else {
+    guard let currentUserID = currentUserID else {
       throw MusculosError.notFound
     }
 

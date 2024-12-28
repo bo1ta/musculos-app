@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 26.10.2024.
 //
 
+import Factory
 import Foundation
 import Models
-import Factory
 
 public protocol GoalServiceProtocol: Sendable {
   func getOnboardingGoals() async throws -> [OnboardingGoal]
@@ -43,23 +43,23 @@ public struct GoalService: APIService, GoalServiceProtocol, @unchecked Sendable 
       "endDate": goal.endDate?.ISO8601Format() as Any,
       "isCompleted": goal.isCompleted,
       "category": goal.category as Any,
-      "targetValue": goal.targetValue
+      "targetValue": goal.targetValue,
     ]
     _ = try await client.dispatch(request)
   }
-  
+
   public func getGoalByID(_ goalID: UUID) async throws -> Goal {
     let request = APIRequest(method: .get, endpoint: .goals(.goalDetails(goalID)))
     let data = try await client.dispatch(request)
     return try Goal.createFrom(data)
   }
-  
+
   public func addProgressEntry(_ entry: ProgressEntry) async throws {
     var request = APIRequest(method: .post, endpoint: .goals(.updateProgress))
     request.body = [
       "goalID": entry.goal.id,
       "dateAdded": entry.dateAdded,
-      "value": entry.value
+      "value": entry.value,
     ]
     try await client.dispatch(request)
   }

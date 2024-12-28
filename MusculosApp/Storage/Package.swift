@@ -9,7 +9,8 @@ let package = Package(
   products: [
     .library(
       name: "Storage",
-      targets: ["Storage"]),
+      targets: ["Storage"]
+    ),
   ],
   dependencies: [
     .package(name: "Utility", path: "../Utility"),
@@ -24,7 +25,7 @@ let package = Package(
         .product(name: "Utility", package: "Utility"),
         .product(name: "Models", package: "Models"),
         "Factory",
-        "Fakery"
+        "Fakery",
       ]
     ),
     .testTarget(

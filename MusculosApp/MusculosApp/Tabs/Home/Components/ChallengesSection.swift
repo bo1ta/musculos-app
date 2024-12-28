@@ -5,10 +5,10 @@
 //  Created by Solomon Alexandru on 25.09.2024.
 //
 
-import SwiftUI
-import Utility
 import Components
 import Models
+import SwiftUI
+import Utility
 
 struct ChallengesSection: View {
   var body: some View {
@@ -21,7 +21,8 @@ struct ChallengesSection: View {
           }
           .padding([.horizontal], 5)
         }
-      })
+      }
+    )
   }
 }
 

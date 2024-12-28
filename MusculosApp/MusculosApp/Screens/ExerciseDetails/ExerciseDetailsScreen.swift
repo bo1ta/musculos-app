@@ -5,11 +5,11 @@
 //  Created by Solomon Alexandru on 09.02.2024.
 //
 
-import SwiftUI
-import Models
 import Components
-import Utility
+import Models
 import Storage
+import SwiftUI
+import Utility
 
 struct ExerciseDetailsScreen: View {
   @Environment(\.navigator) private var navigator
@@ -18,7 +18,7 @@ struct ExerciseDetailsScreen: View {
   var exercise: Exercise
 
   init(exercise: Exercise) {
-    self.viewModel = ExerciseDetailsViewModel(exercise: exercise)
+    viewModel = ExerciseDetailsViewModel(exercise: exercise)
     self.exercise = exercise
   }
 
@@ -58,4 +58,3 @@ struct ExerciseDetailsScreen: View {
     exercise: ExerciseFactory.createExercise(isFavorite: true)
   )
 }
-

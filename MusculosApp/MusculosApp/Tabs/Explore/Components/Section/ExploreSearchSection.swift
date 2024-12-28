@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 18.11.2024.
 //
 
-import SwiftUI
 import Components
+import SwiftUI
 import Utility
 
 struct ExploreSearchSection: View {
@@ -29,7 +29,7 @@ struct ExploreSearchSection: View {
       .buttonStyle(.plain)
       .padding(.horizontal, 5)
     }
-    .onChange(of: debouncedQueryObserver.debouncedQuery) { oldQuery, newQuery in
+    .onChange(of: debouncedQueryObserver.debouncedQuery) { _, newQuery in
       if newQuery.count > 3 {
         onSearchQuery(newQuery)
       }

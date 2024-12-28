@@ -13,20 +13,20 @@ struct InformationCard: View {
     case general
     case warning
   }
-  
+
   var title: String
   var description: String
   var style: InformationStyle
-  
+
   var cardColor: Color {
     switch style {
     case .general:
       return Color.AppColor.green700
     case .warning:
-        return Color.yellow
+      return Color.yellow
     }
   }
-  
+
   var body: some View {
     RoundedRectangle(cornerRadius: 25)
       .foregroundStyle(cardColor)

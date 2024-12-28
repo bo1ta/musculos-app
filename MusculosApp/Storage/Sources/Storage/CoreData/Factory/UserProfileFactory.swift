@@ -21,7 +21,7 @@ public class UserProfileFactory: BaseFactory {
   public var availableEquipment: [String]?
   public var primaryGoalID: UUID?
   public var isOnboarded: Bool?
-  public var xp: Int? = 0
+  public var xp: Int? = 0 // swiftlint:disable:this identifier_name
   public var goals: [Goal]?
   public var ratings: [ExerciseRating]?
 

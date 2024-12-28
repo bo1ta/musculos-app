@@ -21,7 +21,7 @@ struct RetryMiddleware: RequestMiddleware {
 
   func intercept(request: APIRequest, proceed: @Sendable @escaping (APIRequest) async throws -> (Data, URLResponse)) async throws -> (Data, URLResponse) {
     try await retrying(maxRetryCount: maxRetryCount, retryDelay: retryDelay, shouldRetry: shouldRetry) {
-      return try await proceed(request)
+      try await proceed(request)
     }
   }
 
@@ -46,7 +46,7 @@ struct RetryMiddleware: RequestMiddleware {
   ) async throws -> Success {
     var currentDelay = retryDelay
 
-    for attempt in 0..<maxRetryCount {
+    for attempt in 0 ..< maxRetryCount {
       do {
         return try await operation()
       } catch {

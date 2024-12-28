@@ -15,6 +15,7 @@ enum ResponseMiddlewarePriority: Int {
 
 protocol ResponseMiddleware: Sendable {
   var priority: ResponseMiddlewarePriority { get }
+
   func intercept(response: (Data, URLResponse), for request: APIRequest) async throws -> (Data, URLResponse)
 }
 

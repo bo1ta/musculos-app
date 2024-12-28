@@ -21,9 +21,9 @@ extension LoadingViewState: Equatable {
       return true
     case (.empty, .empty):
       return true
-    case (.error(let lhsMessage), .error(let rhsMessage)):
+    case let (.error(lhsMessage), .error(rhsMessage)):
       return lhsMessage == rhsMessage
-    case (.loaded(let lhsData), .loaded(let rhsData)):
+    case let (.loaded(lhsData), .loaded(rhsData)):
       return lhsData == rhsData
     default:
       return false

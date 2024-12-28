@@ -16,7 +16,7 @@ public class ExerciseSessionFactory: BaseFactory {
   public var duration: Double?
   public var weight: Double?
 
-  public override init() {}
+  override public init() {}
 
   public func create() -> ExerciseSession {
     let model = ExerciseSession(

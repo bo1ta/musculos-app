@@ -39,7 +39,7 @@ public struct SineWaveView: View {
     animationDuration: Double = 5.0
   ) {
     self.waveCount = waveCount
-    self._waveSize = waveSize
+    _waveSize = waveSize
     self.baseAmplitude = baseAmplitude
     self.baseFrequency = baseFrequency
     self.backgroundColor = backgroundColor
@@ -48,14 +48,14 @@ public struct SineWaveView: View {
     self.waveColors = waveColors
     self.isAnimated = isAnimated
     self.animationDuration = animationDuration
-    self._amplitude = State(initialValue: baseAmplitude)
+    _amplitude = State(initialValue: baseAmplitude)
   }
 
   public var body: some View {
     ZStack {
       backgroundColor.ignoresSafeArea()
 
-      ForEach(0..<waveCount, id: \.self) { index in
+      ForEach(0 ..< waveCount, id: \.self) { index in
         SineWaveAnimatableShape(
           waveSize: waveSize,
           phase: phase,
@@ -70,24 +70,26 @@ public struct SineWaveView: View {
     }
     .transition(.slide)
     .onAppear {
-      guard isAnimated else { return }
+      guard isAnimated else {
+        return
+      }
 
       withAnimation(.linear(duration: animationDuration).repeatForever(autoreverses: true)) {
         phase = .pi * 2
         amplitude = .pi * baseAmplitude / 1.5
       }
     }
-    .onChange(of: waveSize, { _, _ in
+    .onChange(of: waveSize) { _, _ in
       withAnimation(.linear(duration: animationDuration).repeatForever(autoreverses: true)) {
         phase = .pi * 2
         amplitude = .pi * baseAmplitude / 1.5
       }
-    })
+    }
     .ignoresSafeArea()
   }
 
   private func randomizeAmplitude(_ base: CGFloat) -> CGFloat {
-    return base * CGFloat.random(in: 0.8...1.2)
+    return base * CGFloat.random(in: 0.8 ... 1.2)
   }
 
   private func getWaveOffset(for index: Int) -> CGFloat {
@@ -105,7 +107,6 @@ public struct SineWaveView: View {
         return baseWaveColor
       }
     }
-
 
     if let waveColors, let color = waveColors[safe: index] {
       return color

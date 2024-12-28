@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 06.09.2024.
 //
 
+import Combine
 import CoreData
 import Utility
-import Combine
 
 /// Class that listens to "core" models that are used accross the app
 /// and publishes an event when updates happen
@@ -40,7 +40,9 @@ public final class CoreModelNotificationHandler {
 
   @objc
   private func managedObjectContextDidSave(_ notification: Notification) {
-    guard let userInfo = notification.userInfo else { return }
+    guard let userInfo = notification.userInfo else {
+      return
+    }
 
     let insertedObjects = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject> ?? []
     let updatedObjects = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject> ?? []

@@ -5,13 +5,13 @@
 //  Created by Solomon Alexandru on 28.12.2024.
 //
 
-import Testing
-import Foundation
 import Factory
+import Foundation
+import Testing
 import UIKit
 
-@testable import NetworkClient
 @testable import Models
+@testable import NetworkClient
 @testable import Utility
 
 @Suite(.serialized)
@@ -28,12 +28,13 @@ final class ImageServiceTests: MusculosTestBase {
     }
 
     let service = ImageService()
-    let imageURL = try await service.uploadImage(image: createMockImage())
+    let mockImage = try #require(createMockImage())
+    let imageURL = try await service.uploadImage(image: mockImage)
     let expectedURL = APIEndpoint.baseWithPath("/directory/fileName.jpg")
     #expect(imageURL == expectedURL)
   }
 
-  private func createMockImage() -> UIImage {
+  private func createMockImage() -> UIImage? {
     let size = CGSize(width: 100, height: 100)
 
     UIGraphicsBeginImageContextWithOptions(size, false, 0)
@@ -42,6 +43,6 @@ final class ImageServiceTests: MusculosTestBase {
     let context = UIGraphicsGetCurrentContext()
     context?.clear(CGRect(origin: .zero, size: size))
 
-    return UIGraphicsGetImageFromCurrentImageContext()!
+    return UIGraphicsGetImageFromCurrentImageContext()
   }
 }

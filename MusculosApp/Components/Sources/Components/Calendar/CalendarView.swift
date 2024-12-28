@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 24.11.2024.
 //
 
-import SwiftUI
 import HorizonCalendar
+import SwiftUI
 import Utility
 
 public struct CalendarView: View {
@@ -24,14 +24,14 @@ public struct CalendarView: View {
   private var calendarMarkers: [CalendarMarker]
 
   public init(selectedDate: Binding<Date?>, calendarMarkers: [CalendarMarker]) {
-    self._selectedDate = selectedDate
+    _selectedDate = selectedDate
     self.calendarMarkers = calendarMarkers
   }
 
   public var body: some View {
     CalendarViewRepresentable(
       calendar: calendar,
-      visibleDateRange: startDate...endDate,
+      visibleDateRange: startDate ... endDate,
       monthsLayout: .horizontal(options: HorizontalMonthsLayoutOptions()),
       dataDependency: calendarMarkers,
       proxy: calendarProxy
@@ -45,22 +45,22 @@ public struct CalendarView: View {
         )
       }
     }
-    .onDaySelection({ day in
+    .onDaySelection { day in
       updateSelectedDate(day: day)
-    })
-    .dayOfWeekHeaders({ _, weekdayIndex in
+    }
+    .dayOfWeekHeaders { _, weekdayIndex in
       Text(calendar.shortWeekdaySymbols[weekdayIndex])
         .font(AppFont.poppins(.semibold, size: 16))
         .foregroundStyle(.gray)
-    })
-    .monthHeaders({ month in
+    }
+    .monthHeaders { month in
       CalendarHeader(
         title: getMonthName(month),
         subtitle: String(month.year),
         onPreviousMonth: showPreviousMonth,
         onNextMonth: showNextMonth
       )
-    })
+    }
     .interMonthSpacing(24)
     .verticalDayMargin(8)
     .horizontalDayMargin(8)

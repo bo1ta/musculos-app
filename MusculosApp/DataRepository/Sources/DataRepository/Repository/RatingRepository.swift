@@ -5,22 +5,22 @@
 //  Created by Solomon Alexandru on 23.11.2024.
 //
 
+import Factory
 import Foundation
 import Models
-import Utility
-import Storage
 import NetworkClient
-import Factory
+import Storage
+import Utility
 
 public actor RatingRepository: BaseRepository {
   @Injected(\NetworkContainer.ratingService) private var service: RatingServiceProtocol
 
   public func getExerciseRatingsForCurrentUser() async throws -> [ExerciseRating] {
-    guard let currentUserID = self.currentUserID else {
+    guard let currentUserID = currentUserID else {
       throw MusculosError.notFound
     }
 
-    guard self.isConnectedToInternet else {
+    guard isConnectedToInternet else {
       return await coreDataStore.userProfile(for: currentUserID)?.ratings ?? []
     }
 
@@ -35,7 +35,7 @@ public actor RatingRepository: BaseRepository {
   }
 
   public func getRatingsForExercise(_ exerciseID: UUID) async throws -> [ExerciseRating] {
-    guard self.isConnectedToInternet else {
+    guard isConnectedToInternet else {
       return await coreDataStore.exerciseByID(exerciseID)?.ratings ?? []
     }
 
@@ -45,7 +45,7 @@ public actor RatingRepository: BaseRepository {
   }
 
   public func addRating(rating: Double, for exerciseID: UUID) async throws {
-    guard let currentUserID = self.currentUserID else {
+    guard let currentUserID = currentUserID else {
       throw MusculosError.notFound
     }
 

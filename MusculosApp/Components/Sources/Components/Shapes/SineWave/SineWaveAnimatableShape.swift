@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  SineWaveAnimatableShape.swift
+//
 //
 //  Created by Solomon Alexandru on 16.08.2024.
 //
@@ -46,21 +46,23 @@ public struct SineWaveAnimatableShape: Shape, Animatable, @unchecked Sendable {
     }
   }
 
+  // swiftlint:disable identifier_name
+
   private func makePathAtTheBottom(in rect: CGRect) -> Path {
     return Path { path in
-       let width = rect.width
-       let height = rect.height
-       let midHeight = calculateMidHeight(from: height)
-       path.move(to: CGPoint(x: 0, y: midHeight))
-       for x in stride(from: 0, through: width, by: 1) {
-         let relativeX = x / width
-         let y = midHeight + sin(relativeX * frequency * .pi * 2 + phase) * amplitude * height * waveSize
-         path.addLine(to: CGPoint(x: x, y: y))
-       }
-       path.addLine(to: CGPoint(x: width, y: height))
-       path.addLine(to: CGPoint(x: 0, y: height))
-       path.closeSubpath()
-     }
+      let width = rect.width
+      let height = rect.height
+      let midHeight = calculateMidHeight(from: height)
+      path.move(to: CGPoint(x: 0, y: midHeight))
+      for x in stride(from: 0, through: width, by: 1) {
+        let relativeX = x / width
+        let y = midHeight + sin(relativeX * frequency * .pi * 2 + phase) * amplitude * height * waveSize
+        path.addLine(to: CGPoint(x: x, y: y))
+      }
+      path.addLine(to: CGPoint(x: width, y: height))
+      path.addLine(to: CGPoint(x: 0, y: height))
+      path.closeSubpath()
+    }
   }
 
   private func makePathAtTheTop(in rect: CGRect) -> Path {
@@ -84,19 +86,20 @@ public struct SineWaveAnimatableShape: Shape, Animatable, @unchecked Sendable {
     }
   }
 
+  // swiftlint:enable identifier_name
+
   private func calculateMidHeight(from height: CGFloat) -> CGFloat {
-    let midHeight = switch wavePosition {
+    return switch wavePosition {
     case .top:
       height * (waveSize / 2 + 0.2 * offset)
     case .bottom:
       height * (1 - waveSize / 2 + 0.2 * offset)
     }
-    return midHeight
   }
 }
 
 public extension SineWaveAnimatableShape {
-  public enum WavePosition {
+  enum WavePosition {
     case top, bottom
   }
 }

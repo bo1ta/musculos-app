@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import Utility
 import Queue
+import Utility
 
 final class BackgroundWorker: Sendable {
   private let backgroundQueue = AsyncQueue()
@@ -21,7 +21,7 @@ final class BackgroundWorker: Sendable {
     }
   }
 
-  public func waitForAll() async {
+  func waitForAll() async {
     _ = await backgroundQueue.addBarrierOperation {}.result
   }
 }

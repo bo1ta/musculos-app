@@ -8,7 +8,6 @@
 import SwiftUI
 import Utility
 
-
 public struct SmallCardWithContent<Content: View>: View {
   let title: String
   let description: String
@@ -47,7 +46,6 @@ public struct SmallCardWithContent<Content: View>: View {
               .frame(width: UIConstant.Size.large.iconHeight, height: UIConstant.Size.large.iconHeight)
               .padding(.leading, 3)
           }
-
 
           VStack(alignment: .leading, spacing: 0) {
             Text(title)

@@ -5,15 +5,15 @@
 //  Created by Solomon Alexandru on 23.09.2024.
 //
 
-import SwiftUI
 import Components
-import Utility
 import Models
+import SwiftUI
+import Utility
 
 struct RecommendationSection: View {
   private let gridRows = [
     GridItem(.flexible()),
-    GridItem(.flexible())
+    GridItem(.flexible()),
   ]
 
   let exercises: [Exercise]
@@ -47,7 +47,8 @@ struct RecommendationSection: View {
                   options: exercise.primaryMuscles,
                   content: {
                     SectionItemImage(imageURL: exercise.displayImageURL)
-                  })
+                  }
+                )
               })
               .buttonStyle(.plain)
             }
@@ -56,7 +57,7 @@ struct RecommendationSection: View {
         .shadow(radius: 1.2)
         .ignoresSafeArea()
         .scrollIndicators(.hidden)
-      })
+      }
+    )
   }
 }
-

@@ -7,14 +7,14 @@
 //
 
 import Foundation
-import Utility
 import SwiftUI
+import Utility
 
 public struct Exercise: Codable, Sendable {
   public var category: String
   public var equipment: String?
   public var force: String?
-  public var id: UUID = UUID()
+  public var id: UUID = .init()
   public var level: String
   public var name: String
   public var primaryMuscles: [String] = []
@@ -122,13 +122,13 @@ public struct Exercise: Codable, Sendable {
   public var levelColor: Color {
     switch level {
     case Level.beginner.rawValue:
-        .blue
+      .blue
     case Level.intermediate.rawValue:
-        .orange
+      .orange
     case Level.expert.rawValue:
-        .red
+      .red
     default:
-        .white
+      .white
     }
   }
 }
@@ -145,15 +145,15 @@ public extension Exercise {
 
 extension Exercise: Hashable {
   public func hash(into hasher: inout Hasher) {
-    hasher.combine(self.name)
-    hasher.combine(self.id)
+    hasher.combine(name)
+    hasher.combine(id)
   }
 }
 
-extension Exercise: DecodableModel { }
+extension Exercise: DecodableModel {}
 
 extension Exercise: Identifiable {
-  public static func ==(_ lhs: Exercise, rhs: Exercise) -> Bool {
+  public static func == (_ lhs: Exercise, rhs: Exercise) -> Bool {
     return lhs.id == rhs.id
   }
 }

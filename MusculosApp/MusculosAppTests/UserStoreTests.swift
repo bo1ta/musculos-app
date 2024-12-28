@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 07.12.2024.
 //
 
-import Testing
 @testable import MusculosApp
+import Testing
 
 @Suite(.serialized)
 struct UserStoreTests {

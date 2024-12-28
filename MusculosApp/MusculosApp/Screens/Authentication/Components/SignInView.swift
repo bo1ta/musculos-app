@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 31.01.2024.
 //
 
+import Components
 import SwiftUI
 import Utility
-import Components
 
 struct SignInView: View {
   @Environment(\.userStore) private var userStore
@@ -38,7 +38,6 @@ struct SignInView: View {
 // MARK: - Subviews
 
 extension SignInView {
-
   private var headerStack: some View {
     HStack {
       Button(action: onBack, label: {
@@ -77,7 +76,7 @@ extension SignInView {
       Text("Don't have an account?")
         .font(AppFont.poppins(.regular, size: 15))
         .shadow(radius: 0.3)
-      
+
       Button(action: {
         viewModel.step = .register
       }, label: {

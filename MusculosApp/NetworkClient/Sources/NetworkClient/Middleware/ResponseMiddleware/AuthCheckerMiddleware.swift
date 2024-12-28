@@ -1,5 +1,5 @@
 //
-//  AuthResponseMiddleware.swift
+//  AuthCheckerMiddleware.swift
 //  NetworkClient
 //
 //  Created by Solomon Alexandru on 08.12.2024.
@@ -11,10 +11,10 @@ import Utility
 struct AuthCheckerMiddleware: ResponseMiddleware {
   var priority: ResponseMiddlewarePriority { .authChecker }
 
-  func intercept(response: (Data, URLResponse), for request: APIRequest) async throws -> (Data, URLResponse) {
+  func intercept(response: (Data, URLResponse), for _: APIRequest) async throws -> (Data, URLResponse) {
     let (_, urlResponse) = response
 
-    if let httpResponse = urlResponse as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+    if let httpResponse = urlResponse as? HTTPURLResponse, !(200 ... 299).contains(httpResponse.statusCode) {
       if isInvalidTokenResponse(httpResponse: httpResponse) {
         sendInvalidTokenNotification()
       }

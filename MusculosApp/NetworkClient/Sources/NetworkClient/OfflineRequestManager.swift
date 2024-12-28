@@ -6,11 +6,11 @@
 //
 
 import Combine
-import Foundation
 import Factory
+import Foundation
 import Network
-import Utility
 import Queue
+import Utility
 
 actor OfflineRequestManager {
   private let queue = AsyncQueue()
@@ -48,7 +48,7 @@ actor OfflineRequestManager {
     let wasOffline = !isInternetAvailable
     isInternetAvailable = connectionStatus == .satisfied
 
-    if isInternetAvailable && wasOffline {
+    if isInternetAvailable, wasOffline {
       await retryPendingRequests()
     }
   }

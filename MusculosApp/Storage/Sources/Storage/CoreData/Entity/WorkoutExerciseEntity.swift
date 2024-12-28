@@ -1,34 +1,34 @@
 //
-//  WorkoutExerciseEntity+CoreDataClass.swift
+//  WorkoutExerciseEntity.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 07.04.2024.
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 import Models
 
 @objc(WorkoutExerciseEntity)
 class WorkoutExerciseEntity: NSManagedObject {
-  @NSManaged public var modelID: UUID
-  @NSManaged public var numberOfReps: NSNumber
-  @NSManaged public var exercise: ExerciseEntity
-  @NSManaged public var workout: WorkoutEntity?
+  @NSManaged var modelID: UUID
+  @NSManaged var numberOfReps: NSNumber
+  @NSManaged var exercise: ExerciseEntity
+  @NSManaged var workout: WorkoutEntity?
 
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<WorkoutExerciseEntity> {
+  @nonobjc class func fetchRequest() -> NSFetchRequest<WorkoutExerciseEntity> {
     return NSFetchRequest<WorkoutExerciseEntity>(entityName: "WorkoutExerciseEntity")
   }
 }
 
-extension WorkoutExerciseEntity : Identifiable { }
+extension WorkoutExerciseEntity: Identifiable {}
 
 extension WorkoutExerciseEntity: ReadOnlyConvertible {
   public func toReadOnly() -> WorkoutExercise {
     return WorkoutExercise(
       id: modelID,
-      numberOfReps: self.numberOfReps.intValue,
+      numberOfReps: numberOfReps.intValue,
       exercise: exercise.toReadOnly()
     )
   }
@@ -41,7 +41,7 @@ extension WorkoutExerciseEntity: EntitySyncable {
     exercise = ExerciseEntity.findOrCreate(from: model.exercise, using: storage)
   }
 
-  func updateEntityFrom(_ model: WorkoutExercise, using storage: any StorageType) {
+  func updateEntityFrom(_ model: WorkoutExercise, using _: any StorageType) {
     numberOfReps = NSNumber(value: model.numberOfReps)
   }
 }

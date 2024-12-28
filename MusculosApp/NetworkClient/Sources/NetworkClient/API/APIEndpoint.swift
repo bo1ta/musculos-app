@@ -18,26 +18,26 @@ public enum Endpoint {
 
   public var path: String {
     switch self {
-    case .users(let route):
+    case let .users(route):
       return "/users/\(route.path)"
-    case .exercises(let route):
+    case let .exercises(route):
       return "/exercises/\(route.path)"
-    case .exerciseSessions(let route):
+    case let .exerciseSessions(route):
       return "/exercise-session/\(route.path)"
-    case .goals(let route):
+    case let .goals(route):
       return "/goals/\(route.path)"
-    case .templates(let route):
+    case let .templates(route):
       return "/templates/\(route.path)"
-    case .ratings(let route):
+    case let .ratings(route):
       return "/ratings/\(route.path)"
-    case .images(let route):
+    case let .images(route):
       return "/images/\(route.path)"
     }
   }
 
   public var isAuthorizationRequired: Bool {
     switch self {
-    case .users(let endpoint):
+    case let .users(endpoint):
       switch endpoint {
       case .login, .register:
         return false
@@ -55,10 +55,10 @@ public enum APIEndpoint {
   private static let publicBase = "http://musclehustle.xyz:3000"
 
   static func baseWithEndpoint(endpoint: Endpoint) -> URL? {
-    return URL(string: Self.base + endpoint.path)
+    return URL(string: base + endpoint.path)
   }
 
   static func baseWithPath(_ path: String) -> URL? {
-    return URL(string: Self.publicBase + path)
+    return URL(string: publicBase + path)
   }
 }

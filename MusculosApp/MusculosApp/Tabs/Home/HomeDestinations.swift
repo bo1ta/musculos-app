@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 18.12.2024.
 //
 
-import SwiftUI
 import Models
 import Navigator
+import SwiftUI
 
 public enum HomeDestinations {
   case addGoal
@@ -27,9 +27,9 @@ extension HomeDestinations: NavigationDestination {
   public var method: NavigationMethod {
     switch self {
     case .addGoal:
-        .sheet
+      .sheet
     case .notifications:
-        .push
+      .push
     }
   }
 }

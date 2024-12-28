@@ -5,15 +5,15 @@
 //  Created by Solomon Alexandru on 30.07.2024.
 //
 
+import Components
 import SwiftUI
 import Utility
-import Components
 
 struct AuthenticationScreen: View {
   @Environment(\.userStore) private var userStore
 
   @State private var viewModel: AuthenticationViewModel
-  @State private var toast: Toast? = nil
+  @State private var toast: Toast?
 
   // used for the wave animation
   @State private var waveSize: CGFloat
@@ -24,8 +24,8 @@ struct AuthenticationScreen: View {
   var onBack: () -> Void
 
   init(initialStep: AuthenticationViewModel.Step, onBack: @escaping () -> Void) {
-    self._waveSize = State(initialValue: initialStep == .login ? originalSignInWaveSize : originalSignUpWaveSize)
-    self.viewModel = AuthenticationViewModel(initialStep: initialStep)
+    _waveSize = State(initialValue: initialStep == .login ? originalSignInWaveSize : originalSignUpWaveSize)
+    viewModel = AuthenticationViewModel(initialStep: initialStep)
     self.onBack = onBack
   }
 
@@ -76,10 +76,10 @@ struct AuthenticationScreen: View {
     switch event {
     case let .onLoginSuccess(userSession), let .onRegisterSuccess(userSession):
       userStore.handlePostLogin(session: userSession)
-    case .onLoginFailure(let error):
+    case let .onLoginFailure(error):
       toast = .init(style: .error, message: "Could not register. Please try again later")
       Logger.error(error, message: "Login failed")
-    case .onRegisterFailure(let error):
+    case let .onRegisterFailure(error):
       toast = .init(style: .error, message: "Could not register. Please try again later")
       Logger.error(error, message: "Register failed")
     }
@@ -89,4 +89,3 @@ struct AuthenticationScreen: View {
 #Preview {
   AuthenticationScreen(initialStep: .login, onBack: {})
 }
-

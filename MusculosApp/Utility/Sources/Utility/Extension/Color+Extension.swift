@@ -1,9 +1,10 @@
 //
 //  Color+Extension.swift
-//  
+//
 //
 //  Created by Solomon Alexandru on 30.07.2024.
 //
+// swiftlint:disable identifier_name
 
 import SwiftUI
 
@@ -28,8 +29,10 @@ public extension Color {
       .sRGB,
       red: Double(r) / 255,
       green: Double(g) / 255,
-      blue:  Double(b) / 255,
+      blue: Double(b) / 255,
       opacity: Double(a) / 255
     )
   }
 }
+
+// swiftlint:enable identifier_name

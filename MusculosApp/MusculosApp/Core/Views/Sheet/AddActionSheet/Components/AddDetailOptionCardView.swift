@@ -5,29 +5,29 @@
 //  Created by Solomon Alexandru on 01.05.2024.
 //
 
+import Components
 import Foundation
 import SwiftUI
-import Components
 
 struct AddDetailOptionCardView: View {
   @Binding var options: [AddDetailOption]
-  
+
   var body: some View {
     VStack(alignment: .leading) {
       Text("Instructions")
         .font(.body(.bold, size: 15))
         .foregroundStyle(.black)
-      
+
       ForEach($options) { option in
         HStack {
           FormField(text: option.text, textHint: "Instruction")
             .padding(.top, 10)
-          
+
           if option.id == options.count - 1 {
             Button {
               options.append(AddDetailOption(id: options.count, text: ""))
             } label: {
-             Image(systemName: "plus")
+              Image(systemName: "plus")
                 .resizable()
                 .foregroundStyle(Color.AppColor.blue500)
                 .frame(width: 13, height: 13)
@@ -53,7 +53,7 @@ struct AddDetailOptionCardView: View {
 
 #Preview {
   AddDetailOptionCardView(options: .constant([
-    AddDetailOption(id: 0, text: "")
+    AddDetailOption(id: 0, text: ""),
   ]))
 }
 

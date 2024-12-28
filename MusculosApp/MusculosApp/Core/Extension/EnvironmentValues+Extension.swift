@@ -6,15 +6,15 @@
 //
 
 import Foundation
-import SwiftUI
 import Storage
+import SwiftUI
 
 extension EnvironmentValues {
   var userStore: UserStore {
     get { self[UserStoreKey.self] }
     set { self[UserStoreKey.self] = newValue }
   }
-  
+
   var healthKitViewModel: HealthKitViewModel {
     get { self[HealthKitViewModelKey.self] }
     set { self[HealthKitViewModelKey.self] = newValue }

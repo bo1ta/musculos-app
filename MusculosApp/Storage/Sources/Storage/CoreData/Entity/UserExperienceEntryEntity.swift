@@ -1,13 +1,13 @@
 //
-//  UserExperienceEntryEntity+CoreDataProperties.swift
+//  UserExperienceEntryEntity.swift
 //
 //
 //  Created by Solomon Alexandru on 15.12.2024.
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 import Models
 
 @objc(UserExperienceEntryEntity)
@@ -33,18 +33,25 @@ extension UserExperienceEntryEntity: ReadOnlyConvertible {
 
 extension UserExperienceEntryEntity: EntitySyncable {
   public func populateEntityFrom(_ model: UserExperienceEntry, using storage: any StorageType) {
-    self.modelID = model.id
-    self.xpGained = NSNumber(integerLiteral: model.xpGained)
+    modelID = model.id
+    xpGained = .init(integerLiteral: model.xpGained)
 
-    let userExperienceEntity = storage.findOrInsert(of: UserExperienceEntity.self, using: PredicateProvider.userExperienceByID(model.userExperience.id))
+    let userExperienceEntity = storage.findOrInsert(
+      of: UserExperienceEntity.self,
+      using: PredicateProvider.userExperienceByID(model.userExperience.id)
+    )
     userExperienceEntity.populateEntityFrom(model.userExperience, using: storage)
 
-    if let currentUserID = StorageContainer.shared.userManager().currentUserID, let userEntity = storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(currentUserID)) {
+    if let currentUserID = StorageContainer.shared.userManager().currentUserID,
+       let userEntity = storage.firstObject(
+         of: UserProfileEntity.self,
+         matching: PredicateProvider.userProfileById(currentUserID)
+       ) {
       userExperienceEntity.user = userEntity
     }
   }
 
-  public func updateEntityFrom(_ model: UserExperienceEntry, using storage: any StorageType) {
-    self.xpGained = NSNumber(integerLiteral: model.xpGained)
+  public func updateEntityFrom(_ model: UserExperienceEntry, using _: any StorageType) {
+    xpGained = model.xpGained as NSNumber
   }
 }

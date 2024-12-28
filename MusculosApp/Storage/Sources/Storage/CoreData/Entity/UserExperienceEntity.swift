@@ -6,8 +6,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 import Models
 
 @objc(UserExperienceEntity)
@@ -22,18 +22,18 @@ public class UserExperienceEntity: NSManagedObject {
   }
 }
 
-extension UserExperienceEntity {
+public extension UserExperienceEntity {
   @objc(addExperienceEntriesObject:)
-  @NSManaged public func addToExperienceEntries(_ value: UserExperienceEntryEntity)
+  @NSManaged func addToExperienceEntries(_ value: UserExperienceEntryEntity)
 
   @objc(removeExperienceEntriesObject:)
-  @NSManaged public func removeFromExperienceEntries(_ value: UserExperienceEntryEntity)
+  @NSManaged func removeFromExperienceEntries(_ value: UserExperienceEntryEntity)
 
   @objc(addExperienceEntries:)
-  @NSManaged public func addToExperienceEntries(_ values: Set<UserExperienceEntryEntity>)
+  @NSManaged func addToExperienceEntries(_ values: Set<UserExperienceEntryEntity>)
 
   @objc(removeExperienceEntries:)
-  @NSManaged public func removeFromExperienceEntries(_ values: Set<UserExperienceEntryEntity>)
+  @NSManaged func removeFromExperienceEntries(_ values: Set<UserExperienceEntryEntity>)
 }
 
 extension UserExperienceEntity: ReadOnlyConvertible {
@@ -47,13 +47,13 @@ extension UserExperienceEntity: ReadOnlyConvertible {
 }
 
 extension UserExperienceEntity: EntitySyncable {
-  public func populateEntityFrom(_ model: UserExperience, using storage: any StorageType) {
+  public func populateEntityFrom(_ model: UserExperience, using _: any StorageType) {
     modelID = model.id
-    totalExperience = NSNumber(integerLiteral: model.totalExperience)
+    totalExperience = model.totalExperience as NSNumber
     experienceEntries = Set<UserExperienceEntryEntity>()
   }
 
-  public func updateEntityFrom(_ model: UserExperience, using storage: any StorageType) {
-    totalExperience = NSNumber(integerLiteral: model.totalExperience)
+  public func updateEntityFrom(_ model: UserExperience, using _: any StorageType) {
+    totalExperience = model.totalExperience as NSNumber
   }
 }

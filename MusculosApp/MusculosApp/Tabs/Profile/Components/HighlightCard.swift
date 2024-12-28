@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 08.03.2024.
 //
 
+import Models
 import SwiftUI
 import Utility
-import Models
 
 struct HighlightCard: View {
   let profileHighlight: ProfileHighlight

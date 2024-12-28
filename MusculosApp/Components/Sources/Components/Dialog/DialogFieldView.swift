@@ -28,7 +28,7 @@ public struct DialogFieldView: View {
     buttonTitle: String,
     onSubmit: @escaping (String) -> Void
   ) {
-    self._isPresented = isPresented
+    _isPresented = isPresented
     self.title = title
     self.fieldLabel = fieldLabel
     self.fieldHint = fieldHint

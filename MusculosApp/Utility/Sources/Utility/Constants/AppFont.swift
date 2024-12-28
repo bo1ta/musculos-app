@@ -8,13 +8,13 @@
 import Foundation
 import SwiftUI
 
-public struct AppFont {
+public enum AppFont {
   public enum Header: String {
     case regular = "Epilogue-Regular"
     case medium = "Epilogue-Medium"
     case bold = "Epilogue-Bold"
   }
-  
+
   public enum Body: String {
     case regular = "Inter-Regular"
     case medium = "Inter-Medium"
@@ -46,7 +46,7 @@ public struct AppFont {
   public static func header(_ headerType: AppFont.Header, size: CGFloat = 12.0) -> Font {
     return Font.custom(headerType.rawValue, size: size)
   }
-  
+
   public static func body(_ bodyType: AppFont.Body, size: CGFloat = 12.0) -> Font {
     return Font.custom(bodyType.rawValue, size: size)
   }
@@ -61,11 +61,11 @@ public struct AppFont {
 }
 
 public extension Font {
-  public static func header(_ headerType: AppFont.Header, size: CGFloat = 12.0) -> Font {
+  static func header(_ headerType: AppFont.Header, size: CGFloat = 12.0) -> Font {
     return AppFont.header(headerType, size: size)
   }
-  
-  public static func body(_ bodyType: AppFont.Body, size: CGFloat = 12.0) -> Font {
+
+  static func body(_ bodyType: AppFont.Body, size: CGFloat = 12.0) -> Font {
     return AppFont.body(bodyType, size: size)
   }
 }

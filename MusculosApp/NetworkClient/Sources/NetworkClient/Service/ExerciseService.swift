@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 26.01.2024.
 //
 
+import Factory
 import Foundation
 import Models
-import Factory
 import Utility
 
 public protocol ExerciseServiceProtocol: Sendable {
@@ -31,11 +31,11 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
     let data = try await client.dispatch(request)
     return try Exercise.createArrayFrom(data)
   }
-  
+
   public func searchByQuery(_ query: String) async throws -> [Exercise] {
     var request = APIRequest(method: .get, endpoint: .exercises(.filtered))
     request.queryParams = [
-      URLQueryItem(name: "name", value: query)
+      URLQueryItem(name: "name", value: query),
     ]
 
     let data = try await client.dispatch(request)
@@ -45,7 +45,7 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
   public func getByMuscle(_ muscle: MuscleType) async throws -> [Exercise] {
     var request = APIRequest(method: .get, endpoint: .exercises(.filtered))
     request.queryParams = [
-      URLQueryItem(name: "muscle", value: muscle.rawValue)
+      URLQueryItem(name: "muscle", value: muscle.rawValue),
     ]
 
     let data = try await client.dispatch(request)
@@ -55,7 +55,7 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
   public func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise] {
     var request = APIRequest(method: .get, endpoint: .exercises(.filtered))
     request.queryParams = [
-      URLQueryItem(name: "muscleGroup", value: muscleGroup.name)
+      URLQueryItem(name: "muscleGroup", value: muscleGroup.name),
     ]
 
     let data = try await client.dispatch(request)
@@ -80,7 +80,7 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
     var request = APIRequest(method: .post, endpoint: .exercises(.favoriteExercises))
     request.body = [
       "exercise_id": exercise.id.uuidString,
-      "is_favorite": isFavorite
+      "is_favorite": isFavorite,
     ]
 
     _ = try await client.dispatch(request)
@@ -89,7 +89,7 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
   public func getByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise] {
     var request = APIRequest(method: .get, endpoint: .exercises(.exercisesByGoals))
     request.queryParams = [
-      URLQueryItem(name: "goal", value: String(workoutGoal.rawValue))
+      URLQueryItem(name: "goal", value: String(workoutGoal.rawValue)),
     ]
 
     let data = try await client.dispatch(request)

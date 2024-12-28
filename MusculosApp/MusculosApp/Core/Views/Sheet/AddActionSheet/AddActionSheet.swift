@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 12.03.2024.
 //
 
+import Components
 import Foundation
 import SwiftUI
-import Components
 import Utility
 
 struct AddActionSheet: View {
@@ -44,7 +44,8 @@ struct AddActionSheet: View {
                 }
                 .padding(.leading, 60)
               }
-          })
+          }
+        )
       }
     }
   }
@@ -54,7 +55,7 @@ extension AddActionSheet {
   enum ItemType: String, CaseIterable {
     case workout, exercise, goal
 
-    var title: String { self.rawValue.capitalized }
+    var title: String { rawValue.capitalized }
 
     var systemImageName: String {
       switch self {

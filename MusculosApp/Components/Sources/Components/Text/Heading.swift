@@ -1,6 +1,6 @@
 //
-//  Header.swift
-//  
+//  Heading.swift
+//
 //
 //  Created by Solomon Alexandru on 21.08.2024.
 //

@@ -5,12 +5,12 @@
 //  Created by Solomon Alexandru on 17.10.2024.
 //
 
+import Factory
 import Foundation
 import Models
-import Utility
-import Storage
 import NetworkClient
-import Factory
+import Storage
+import Utility
 
 public actor UserRepository: BaseRepository {
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
@@ -25,7 +25,7 @@ public actor UserRepository: BaseRepository {
   }
 
   public func getCurrentUser() async -> UserProfile? {
-    guard let currentUserID = self.currentUserID else {
+    guard let currentUserID = currentUserID else {
       return nil
     }
 
@@ -42,7 +42,7 @@ public actor UserRepository: BaseRepository {
 
   public func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws {
     guard
-      let currentUserID = self.currentUserID,
+      let currentUserID = currentUserID,
       let currentProfile = await coreDataStore.userProfile(for: currentUserID)
     else {
       throw MusculosError.notFound
