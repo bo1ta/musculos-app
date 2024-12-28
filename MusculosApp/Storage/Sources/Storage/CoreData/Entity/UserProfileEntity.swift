@@ -114,6 +114,23 @@ extension UserProfileEntity {
   static func userFromID(_ userID: UUID, on storage: StorageType) -> UserProfileEntity? {
     return storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(userID))
   }
+
+  static func currentUser() -> UserProfileEntity? {
+    guard let currentUserID = StorageContainer.shared.userManager().currentUserID else {
+      return nil
+    }
+    return userFromID(currentUserID, on: StorageContainer.shared.storageManager().viewStorage)
+  }
+
+  static func entityFrom(_ model: UserProfile, using storage: StorageType) -> UserProfileEntity {
+    if let userProfile = userFromID(model.userId, on: storage) {
+      return userProfile
+    } else {
+      let userProfile = storage.insertNewObject(ofType: UserProfileEntity.self)
+      userProfile.populateEntityFrom(model, using: storage)
+      return userProfile
+    }
+  }
 }
 
 // MARK: - EntitySyncable

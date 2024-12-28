@@ -35,7 +35,10 @@ final class ExerciseSessionServiceTests: MusculosTestBase {
 
   @Test func add() async throws {
     let exercise = ExerciseFactory.createExercise()
-    let exerciseSession = ExerciseSessionFactory.createExerciseSession(exercise: exercise)
+
+    let factory = ExerciseSessionFactory()
+    factory.exercise = exercise
+    let exerciseSession = factory.create()
 
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .post
@@ -46,12 +49,13 @@ final class ExerciseSessionServiceTests: MusculosTestBase {
       "exerciseID": exercise.id.uuidString,
       "sessionID": exerciseSession.sessionId.uuidString
     ]
+    stubClient.expectedResponseData = try parseDataFromFile(name: "userExperienceEntry")
 
     NetworkContainer.shared.client.register { stubClient }
     defer {
       NetworkContainer.shared.client.reset()
     }
 
-    try await ExerciseSessionService().add(exerciseSession)
+    _ = try await ExerciseSessionService().add(exerciseSession)
   }
 }

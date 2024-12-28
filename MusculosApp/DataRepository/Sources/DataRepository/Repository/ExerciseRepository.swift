@@ -19,6 +19,10 @@ public actor ExerciseRepository: BaseRepository {
 
   public func addExercise(_ exercise: Exercise) async throws {
     try await coreDataStore.importModel(exercise, of: ExerciseEntity.self)
+
+    backgroundWorker.queueOperation { [weak self] in
+      try await self?.service.addExercise(exercise)
+    }
   }
 
   public func getExercises() async throws -> [Exercise] {

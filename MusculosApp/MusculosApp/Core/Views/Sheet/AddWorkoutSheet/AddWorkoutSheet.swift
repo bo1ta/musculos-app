@@ -31,22 +31,22 @@ struct AddWorkoutSheet: View {
       )
       .padding(.vertical, 25)
 
-      VStack( alignment: .leading, spacing: 15) {
+      VStack(alignment: .leading, spacing: 15) {
         FormField(text: $viewModel.workoutName, label: "Name")
         FormField(text: $viewModel.workoutType, label: "Type")
         MultiOptionsSelectView(showOptions: $viewModel.showSelectMuscles, selectedOptions: $viewModel.selectedMuscles, title: "Target muscles", options: muscleOptions)
 
-        if !viewModel.exercises.isEmpty {
+        if !viewModel.displayExercises.isEmpty {
           Text("Recommended Exercises")
             .font(AppFont.poppins(.medium, size: 15))
             .foregroundStyle(.black)
 
-          ForEach(combineWithSelected(viewModel.exercises)) { exercise in
+          ForEach(viewModel.displayExercises) { exercise in
             CardItem(
               title: exercise.name,
               isSelected: viewModel.isExerciseSelected(exercise),
               onSelect: {
-                viewModel.currentSelectedExercise = exercise
+                viewModel.willSelectExercise(exercise)
               }
             )
           }
@@ -70,21 +70,11 @@ struct AddWorkoutSheet: View {
       isPresented: $viewModel.showRepsDialog,
       onSelectedValue: viewModel.didSelectExercise
     )
-    .onReceive(viewModel.didSaveSubject, perform: { _ in
+    .toastView(toast: $viewModel.toast)
+    .onReceive(viewModel.didSavePublisher, perform: { _ in
       dismiss()
     })
     .onDisappear(perform: viewModel.cleanUp)
-  }
-}
-
-// MARK: - Private Functions
-
-extension AddWorkoutSheet {
-  private func combineWithSelected(_ loadedExercises: [Exercise]) -> [Exercise] {
-    var exercises = viewModel.selectedExercises.compactMap { $0.exercise }
-    let noDuplicates = loadedExercises.compactMap { exercises.contains($0) ? nil : $0 }
-    exercises.append(contentsOf: noDuplicates)
-    return exercises
   }
 }
 

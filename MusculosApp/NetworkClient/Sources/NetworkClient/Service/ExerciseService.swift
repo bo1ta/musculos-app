@@ -8,6 +8,7 @@
 import Foundation
 import Models
 import Factory
+import Utility
 
 public protocol ExerciseServiceProtocol: Sendable {
   func getExercises() async throws -> [Exercise]
@@ -18,6 +19,7 @@ public protocol ExerciseServiceProtocol: Sendable {
   func getFavoriteExercises() async throws -> [Exercise]
   func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws
   func getByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise]
+  func addExercise(_ exercise: Exercise) async throws
 }
 
 public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
@@ -37,7 +39,7 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
     ]
 
     let data = try await client.dispatch(request)
-    return try await Exercise.createArrayFrom(data)
+    return try Exercise.createArrayFrom(data)
   }
 
   public func getByMuscle(_ muscle: MuscleType) async throws -> [Exercise] {
@@ -47,7 +49,7 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
     ]
 
     let data = try await client.dispatch(request)
-    return try await Exercise.createArrayFrom(data)
+    return try Exercise.createArrayFrom(data)
   }
 
   public func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise] {
@@ -57,7 +59,7 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
     ]
 
     let data = try await client.dispatch(request)
-    return try await Exercise.createArrayFrom(data)
+    return try Exercise.createArrayFrom(data)
   }
 
   public func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise {
@@ -92,5 +94,15 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
 
     let data = try await client.dispatch(request)
     return try Exercise.createArrayFrom(data)
+  }
+
+  public func addExercise(_ exercise: Exercise) async throws {
+    guard let body = exercise.toDictionary() else {
+      throw MusculosError.invalidRequest
+    }
+
+    var request = APIRequest(method: .post, endpoint: .exercises(.index))
+    request.body = body
+    _ = try await client.dispatch(request)
   }
 }

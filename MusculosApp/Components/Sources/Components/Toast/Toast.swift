@@ -20,6 +20,22 @@ public struct Toast: Equatable, Sendable {
     self.duration = duration
     self.width = width
   }
+
+  public static func warning(_ message: String) -> Toast {
+    return Toast(style: .warning, message: message)
+  }
+
+  public static func error(_ message: String) -> Toast {
+    return Toast(style: .error, message: message)
+  }
+
+  public static func success(_ message: String) -> Toast {
+    return Toast(style: .success, message: message)
+  }
+
+  public static func info(_ message: String) -> Toast {
+    return Toast(style: .info, message: message)
+  }
 }
 
 // MARK: - Toast Style

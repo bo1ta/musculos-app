@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Components
+import Utility
 
 struct SingleOptionSelectView: View {
   @Binding var showOptions: Bool
@@ -14,16 +15,19 @@ struct SingleOptionSelectView: View {
   
   var title: String
   var options: [String]
-  
+
+  let columns = [
+    GridItem(.adaptive(minimum: 100))
+  ]
+
   var body: some View {
     VStack {
-      
       Button {
         showOptions.toggle()
       } label: {
         HStack {
           Text(title)
-            .font(.body(.bold, size: 15))
+            .font(AppFont.poppins(.medium, size: 15))
           Spacer()
           Image(systemName: showOptions ? "chevron.up" : "chevron.down")
         }
@@ -32,11 +36,7 @@ struct SingleOptionSelectView: View {
       
       if showOptions {
         LazyVGrid(
-          columns: [
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-            GridItem(.flexible())
-          ],
+          columns: columns,
           spacing: 5
         ) {
           ForEach(options, id: \.self) { filter in

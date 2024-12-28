@@ -88,4 +88,14 @@ public struct APIRoute {
       }
     }
   }
+
+  public enum ImagesRoute {
+    case upload
+
+    public var path: String {
+      switch self {
+      case .upload: "upload"
+      }
+    }
+  }
 }

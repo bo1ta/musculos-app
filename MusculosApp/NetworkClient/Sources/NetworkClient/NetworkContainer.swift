@@ -31,6 +31,11 @@ extension NetworkContainer {
     .cached
   }
 
+  public var networkMonitor: Factory<NetworkMonitorProtocol> {
+    self { NetworkMonitor() }
+      .singleton
+  }
+
   internal var offlineRequestManager: Factory<OfflineRequestManager> {
     self { OfflineRequestManager() }
       .singleton
@@ -56,9 +61,8 @@ extension NetworkContainer {
     self { RatingService() }
   }
 
-  public var networkMonitor: Factory<NetworkMonitorProtocol> {
-    self { NetworkMonitor() }
-      .singleton
+  public var imageService: Factory<ImageServiceProtocol> {
+    self { ImageService() }
   }
 }
 

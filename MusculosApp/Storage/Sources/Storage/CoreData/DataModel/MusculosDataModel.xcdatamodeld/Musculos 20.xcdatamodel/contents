@@ -15,11 +15,7 @@
         <relationship name="primaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PrimaryMuscleEntity" inverseName="exercises" inverseEntity="PrimaryMuscleEntity"/>
         <relationship name="ratings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseRatingEntity" inverseName="exercise" inverseEntity="ExerciseRatingEntity"/>
         <relationship name="secondaryMuscles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SecondaryMuscleEntity" inverseName="exercises" inverseEntity="SecondaryMuscleEntity"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="exerciseId"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
+        <relationship name="workoutExercises" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutExerciseEntity" inverseName="exercise" inverseEntity="WorkoutExerciseEntity"/>
     </entity>
     <entity name="ExerciseRatingEntity" representedClassName="ExerciseRatingEntity" syncable="YES">
         <attribute name="comment" optional="YES" attributeType="String"/>
@@ -109,6 +105,7 @@
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GoalEntity" inverseName="user" inverseEntity="GoalEntity"/>
         <relationship name="ratings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseRatingEntity" inverseName="user" inverseEntity="ExerciseRatingEntity"/>
         <relationship name="userExperience" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserExperienceEntity" inverseName="user" inverseEntity="UserExperienceEntity"/>
+        <relationship name="workouts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutEntity" inverseName="createdBy" inverseEntity="WorkoutEntity"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="userId"/>
@@ -116,15 +113,17 @@
         </uniquenessConstraints>
     </entity>
     <entity name="WorkoutEntity" representedClassName="WorkoutEntity" syncable="YES">
+        <attribute name="modelID" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
         <attribute name="targetMuscles" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
         <attribute name="workoutType" attributeType="String"/>
-        <relationship name="createdBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfileEntity"/>
+        <relationship name="createdBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfileEntity" inverseName="workouts" inverseEntity="UserProfileEntity"/>
         <relationship name="workoutExercises" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutExerciseEntity" inverseName="workout" inverseEntity="WorkoutExerciseEntity"/>
     </entity>
     <entity name="WorkoutExerciseEntity" representedClassName="WorkoutExerciseEntity" syncable="YES">
+        <attribute name="modelID" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="numberOfReps" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="exercise" maxCount="1" deletionRule="Nullify" destinationEntity="ExerciseEntity"/>
+        <relationship name="exercise" maxCount="1" deletionRule="Nullify" destinationEntity="ExerciseEntity" inverseName="workoutExercises" inverseEntity="ExerciseEntity"/>
         <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutEntity" inverseName="workoutExercises" inverseEntity="WorkoutEntity"/>
     </entity>
 </model>

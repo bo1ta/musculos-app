@@ -39,7 +39,7 @@ actor OfflineRequestManager {
     return (error as? URLError)?.code == .notConnectedToInternet
   }
 
-  func cancelPendingRequests() async {1
+  func cancelPendingRequests() async {
     await queue.addBarrierOperation(operation: {}).value
     pendingRequests.removeAll()
   }
@@ -59,7 +59,7 @@ actor OfflineRequestManager {
 
     for request in requestsToRetry {
       do {
-        let data = try await dispatch(request)
+        try await dispatch(request)
         Logger.info(message: "Retry succeeded after recovering network connectivity")
       } catch {
         if isConnectionError(error) {

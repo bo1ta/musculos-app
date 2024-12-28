@@ -29,7 +29,7 @@ struct MultiOptionsSelectView: View {
       } label: {
         HStack {
           Text(title)
-            .font(AppFont.poppins(.regular, size: 15))
+            .font(AppFont.poppins(.medium, size: 15))
           Spacer()
           Image(systemName: showOptions ? "chevron.up" : "chevron.down")
         }

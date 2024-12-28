@@ -10,7 +10,7 @@ import Combine
 import Utility
 
 public protocol MusculosClientProtocol: Sendable {
-  func dispatch(_ request: APIRequest) async throws -> Data
+  @discardableResult func dispatch(_ request: APIRequest) async throws -> Data
 }
 
 public struct MusculosClient: MusculosClientProtocol {
@@ -26,7 +26,8 @@ public struct MusculosClient: MusculosClientProtocol {
   init(requestMiddlewares: [RequestMiddleware] = [], responseMiddlewares: [ResponseMiddleware] = []) {
     self.pipeline = MiddlewarePipeline(requestMiddlewares: requestMiddlewares, responseMiddlewares: responseMiddlewares)
   }
-  
+
+  @discardableResult
   public func dispatch(_ request: APIRequest) async throws -> Data {
     let (data, _) = try await pipeline.execute(request: request, using: urlSession)
     return data
