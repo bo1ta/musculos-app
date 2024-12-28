@@ -12,6 +12,7 @@ import Factory
 @testable import NetworkClient
 @testable import Models
 @testable import Utility
+@testable import Storage
 
 @Suite(.serialized)
 final class ExerciseServiceTests: MusculosTestBase {
@@ -80,5 +81,20 @@ final class ExerciseServiceTests: MusculosTestBase {
     let service = ExerciseService()
     let exercise = try await service.getExerciseDetails(for: exerciseID)
     #expect(exercise.isFavorite == true)
+  }
+
+  @Test func addExercise() async throws {
+    var stubClient = StubMusculosClient()
+    stubClient.expectedMethod = .post
+    stubClient.expectedEndpoint = .exercises(.index)
+
+    NetworkContainer.shared.client.register { stubClient }
+    defer {
+      NetworkContainer.shared.client.reset()
+    }
+
+    let service = ExerciseService()
+    let exercise = ExerciseFactory.createExercise()
+    try await service.addExercise(exercise)
   }
 }

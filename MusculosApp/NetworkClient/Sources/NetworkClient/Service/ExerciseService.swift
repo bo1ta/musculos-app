@@ -39,7 +39,7 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
     ]
 
     let data = try await client.dispatch(request)
-    return try await Exercise.createArrayFrom(data)
+    return try Exercise.createArrayFrom(data)
   }
 
   public func getByMuscle(_ muscle: MuscleType) async throws -> [Exercise] {
@@ -49,7 +49,7 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
     ]
 
     let data = try await client.dispatch(request)
-    return try await Exercise.createArrayFrom(data)
+    return try Exercise.createArrayFrom(data)
   }
 
   public func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise] {
@@ -59,7 +59,7 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
     ]
 
     let data = try await client.dispatch(request)
-    return try await Exercise.createArrayFrom(data)
+    return try Exercise.createArrayFrom(data)
   }
 
   public func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise {

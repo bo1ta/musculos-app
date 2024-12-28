@@ -1,5 +1,5 @@
 {
-  "originHash" : "92fb1440f3af0cdba64aa40605cea3e80eeaab4dcefd28c14b1a609878526655",
+  "originHash" : "ceecd4b3b3cb7f10de99b6169c0a5a0b5d7388c3c8e006ecf0f00d0e62e18637",
   "pins" : [
     {
       "identity" : "factory",
@@ -11,12 +11,30 @@
       }
     },
     {
-      "identity" : "swiftui-shimmer",
+      "identity" : "fakery",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/markiv/SwiftUI-Shimmer",
+      "location" : "https://github.com/vadymmarkov/Fakery",
       "state" : {
-        "revision" : "5659a623567cefe258d1e3e67cb65585fbb6ecb6",
-        "version" : "1.4.2"
+        "revision" : "71cb3bf36a808534659d1248780c2bf3c4c4fc91",
+        "version" : "5.1.0"
+      }
+    },
+    {
+      "identity" : "queue",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mattmassicotte/Queue",
+      "state" : {
+        "revision" : "6adf359a705e3252742905b413bb8f56401043ca",
+        "version" : "0.2.0"
+      }
+    },
+    {
+      "identity" : "swiftybeaver",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
+      "state" : {
+        "revision" : "8cba041db09596183331d123f337d0eb2e6e8e91",
+        "version" : "2.1.1"
       }
     }
   ],

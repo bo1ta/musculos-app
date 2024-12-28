@@ -12,7 +12,7 @@ struct AuthCheckerMiddleware: ResponseMiddleware {
   var priority: ResponseMiddlewarePriority { .authChecker }
 
   func intercept(response: (Data, URLResponse), for request: APIRequest) async throws -> (Data, URLResponse) {
-    let (data, urlResponse) = response
+    let (_, urlResponse) = response
 
     if let httpResponse = urlResponse as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
       if isInvalidTokenResponse(httpResponse: httpResponse) {

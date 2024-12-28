@@ -45,7 +45,7 @@ public struct UserService: APIService, UserServiceProtocol, @unchecked Sendable 
   public func currentUser() async throws -> UserProfile {
     let request = APIRequest(method: .get, endpoint: .users(.currentProfile))
     let data = try await client.dispatch(request)
-    return try await UserProfile.createFrom(data)
+    return try UserProfile.createFrom(data)
   }
 
   public func updateUser(
@@ -74,6 +74,6 @@ public struct UserService: APIService, UserServiceProtocol, @unchecked Sendable 
     }
 
     let data = try await client.dispatch(request)
-    return try await UserProfile.createFrom(data)
+    return try UserProfile.createFrom(data)
   }
 }

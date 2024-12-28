@@ -56,7 +56,7 @@ final class GoalServiceTests: MusculosTestBase {
   }
 
   @Test func addGoal() async throws {
-    let userProfile = UserProfileFactory.createProfile()
+    let userProfile = UserProfileFactory.createUser()
     let goal = GoalFactory.createGoal(user: userProfile)
 
     var stubSession = StubUserSessionManager(expectedTokenValue: "super-secret-token")

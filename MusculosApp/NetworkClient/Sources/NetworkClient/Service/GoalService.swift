@@ -40,12 +40,12 @@ public struct GoalService: APIService, GoalServiceProtocol, @unchecked Sendable 
       "userID": goal.user.userId.uuidString,
       "frequency": goal.frequency.rawValue,
       "dateAdded": goal.dateAdded.ISO8601Format(),
-      "endDate": goal.endDate?.ISO8601Format(),
+      "endDate": goal.endDate?.ISO8601Format() as Any,
       "isCompleted": goal.isCompleted,
-      "category": goal.category,
+      "category": goal.category as Any,
       "targetValue": goal.targetValue
     ]
-    try await client.dispatch(request)
+    _ = try await client.dispatch(request)
   }
   
   public func getGoalByID(_ goalID: UUID) async throws -> Goal {
