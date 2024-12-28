@@ -16,67 +16,53 @@ struct AddGoalSheet: View {
   @State private var viewModel = AddGoalSheetViewModel()
 
   var body: some View {
-    VStack(spacing: 25) {
+    ScrollView {
       SheetNavBar(
-        title: "Set a new goal",
+        title: "Add a new goal",
         onBack: { dismiss() },
         onDismiss: { dismiss() }
       )
+      .padding(.vertical, 25)
 
-      FormField(
-        text: $viewModel.name,
-        label: "Name"
-      )
-      
-      FormField(
-        text: $viewModel.targetValue,
-        label: "Target value",
-        keyboardType: .numberPad
-      )
-      
-      SingleOptionSelectView(
-        showOptions: $viewModel.showCategoryOptions,
-        selectedOption: $viewModel.category,
-        title: "Category",
-        options: GoalConstants.categoryOptions
-      )
-      
-      SingleOptionSelectView(
-        showOptions: $viewModel.showFrequencyOptions,
-        selectedOption: $viewModel.frequency,
-        title: "Frequency",
-        options: GoalConstants.frequencyOptions
-      )
-      
-      if viewModel.showEndDate {
+      VStack(spacing: 20) {
+        FormField(text: $viewModel.name, label: "Name")
+        FormField(text: $viewModel.targetValue, label: "Target value", keyboardType: .numberPad)
+        SingleOptionSelectView(
+          showOptions: $viewModel.showCategoryOptions,
+          selectedOption: $viewModel.category,
+          title: "Category",
+          options: GoalConstants.categoryOptions
+        )
+        SingleOptionSelectView(
+          showOptions: $viewModel.showFrequencyOptions,
+          selectedOption: $viewModel.frequency,
+          title: "Frequency",
+          options: GoalConstants.frequencyOptions
+        )
         DatePicker(
           "End Date",
           selection: $viewModel.endDate,
           displayedComponents: [.date]
         )
+        .opacity(viewModel.showEndDate ? 1 : 0)
         .padding(.top)
-        .font(.body(.bold, size: 15))
       }
-      
-      Spacer()
     }
     .padding([.horizontal, .top], 15)
+    .padding(.bottom, 30)
+    .frame(alignment: .top)
     .safeAreaInset(edge: .bottom) {
-      Button(action: {
-        viewModel.saveGoal()
-      }, label: {
+      Button(action: viewModel.saveGoal, label: {
         Text("Save")
           .frame(maxWidth: .infinity)
       })
-      .buttonStyle(PrimaryButtonStyle())
-      .padding(.horizontal, 10)
+      .buttonStyle(ActionButtonStyle())
+      .padding(.horizontal, 20)
     }
     .onReceive(viewModel.didSavePublisher, perform: { _ in
       dismiss()
     })
-    .onDisappear {
-      viewModel.cleanUp()
-    }
+    .onDisappear(perform: viewModel.cleanUp)
   }
 }
 

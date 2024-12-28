@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Components
+import Utility
 
 struct SingleOptionSelectView: View {
   @Binding var showOptions: Bool
@@ -21,13 +22,12 @@ struct SingleOptionSelectView: View {
 
   var body: some View {
     VStack {
-      
       Button {
         showOptions.toggle()
       } label: {
         HStack {
           Text(title)
-            .font(.body(.bold, size: 15))
+            .font(AppFont.poppins(.medium, size: 15))
           Spacer()
           Image(systemName: showOptions ? "chevron.up" : "chevron.down")
         }
