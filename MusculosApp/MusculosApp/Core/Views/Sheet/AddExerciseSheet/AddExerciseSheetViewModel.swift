@@ -26,13 +26,14 @@ final class AddExerciseSheetViewModel {
   var level = ""
   var category = ""
   var targetMuscles: [String] = []
-  var instructions: [AddDetailOption] = [AddDetailOption(id: 0, text: "")]
-  var images: [Image] = []
+  var instructions = [AddDetailOption(id: 0, text: "")]
   var showForceOptions = true
   var showMusclesOptions = true
   var showLevelOptions = true
   var showCategoryOptions = true
   var showEquipmentOptions = true
+  var pickedPhotos: [PhotoModel] = []
+  var showPhotoPicker = false
   var toast: Toast?
 
   private(set) var saveExerciseTask: Task<Void, Never>?
@@ -52,14 +53,14 @@ final class AddExerciseSheetViewModel {
     category.count > 0
   }
   
-  func saveExercise(with photos: [PhotoModel] = []) {
+  func saveExercise() {
     guard isExerciseValid else {
       toast = .warning("Cannot save exercise with empty fields")
       return
     }
 
     saveExerciseTask = Task {
-      let imageUrls = photos.compactMap {
+      let imageUrls = pickedPhotos.compactMap {
         PhotoWriter.saveImage($0.image, with: $0.id.uuidString)?.absoluteString
       }
       let instructionsString = self.instructions.map { $0.text }

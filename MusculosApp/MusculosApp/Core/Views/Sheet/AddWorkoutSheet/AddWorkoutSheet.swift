@@ -31,7 +31,7 @@ struct AddWorkoutSheet: View {
       )
       .padding(.vertical, 25)
 
-      VStack( alignment: .leading, spacing: 15) {
+      VStack(alignment: .leading, spacing: 15) {
         FormField(text: $viewModel.workoutName, label: "Name")
         FormField(text: $viewModel.workoutType, label: "Type")
         MultiOptionsSelectView(showOptions: $viewModel.showSelectMuscles, selectedOptions: $viewModel.selectedMuscles, title: "Target muscles", options: muscleOptions)

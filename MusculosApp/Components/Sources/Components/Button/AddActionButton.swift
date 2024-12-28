@@ -22,7 +22,7 @@ public struct AddActionButton: View {
         .foregroundStyle(AppColor.navyBlue)
         .overlay {
           Image(systemName: "plus")
-                   .foregroundStyle(.white)
+            .foregroundStyle(.white)
         }
         .shadow(radius: 4)
     }
