@@ -48,9 +48,8 @@ struct ExerciseDetailsScreen: View {
     .modifier(XPGainViewModifier(showView: viewModel.showXPGainDialog, xpGained: viewModel.currentXPGain))
     .animatedScreenBorder(isActive: viewModel.isTimerActive)
     .dismissingGesture(direction: .left, action: { navigator.pop() })
-    .toolbar(.hidden, for: .tabBar)
     .navigationBarBackButtonHidden()
-    .preference(key: ShowTabPreferenceKey.self, value: false)
+    .tabBarHidden()
   }
 }
 

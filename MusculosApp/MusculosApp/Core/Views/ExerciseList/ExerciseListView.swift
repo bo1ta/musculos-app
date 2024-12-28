@@ -77,7 +77,7 @@ struct ExerciseListView: View {
       exercises = exercises.filter { $0.name.localizedCaseInsensitiveContains(newValue) }
       state = .loaded(exercises)
     }
-    .toolbar(.hidden, for: .tabBar)
+    .tabBarHidden()
   }
 
   private var loadingSkeleton: some View {
