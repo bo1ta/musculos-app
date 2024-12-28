@@ -22,16 +22,15 @@ public struct ImageService: APIService, ImageServiceProtocol, @unchecked Sendabl
     }
 
     var request = APIRequest(method: .post, endpoint: .images(.upload))
-    request.body = [
-      "picture": encodedImage as Any
-    ]
+    request.body = ["picture": encodedImage as Any]
 
-    let responseData = try await client.dispatch(request)
-    let response = try ImageUploadResponse.createFrom(responseData)
+    let response = try await client.dispatch(request)
+    let imageSource = try ImageSource.createFrom(response)
 
-    guard let imageURL = APIEndpoint.baseWithPath(response.filePath) else {
+    guard let imageURL = APIEndpoint.baseWithPath(imageSource.filePath) else {
       throw MusculosError.notFound
     }
+
     return imageURL
   }
 
@@ -44,7 +43,7 @@ public struct ImageService: APIService, ImageServiceProtocol, @unchecked Sendabl
 }
 
 extension ImageService {
-  struct ImageUploadResponse: DecodableModel {
+  struct ImageSource: DecodableModel {
     let filePath: String
     let fileName: String
   }
