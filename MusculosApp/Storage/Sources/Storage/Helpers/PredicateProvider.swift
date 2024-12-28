@@ -106,26 +106,19 @@ public struct PredicateProvider {
   }
 
   public static func goalByID(_ id: UUID) -> NSPredicate {
-    return NSPredicate(
-      format: "%K == %@",
-      #keyPath(GoalEntity.goalID),
-      id as NSUUID
+    return NSPredicate(format: "%K == %@", #keyPath(GoalEntity.goalID), id as NSUUID
     )
   }
 
   public static func exerciseRatingByID(_ id: UUID) -> NSPredicate {
-    return NSPredicate(
-      format: "%K == %@",
-      #keyPath(ExerciseRatingEntity.ratingID),
-      id as NSUUID
-    )
+    return NSPredicate(format: "%K == %@", #keyPath(ExerciseRatingEntity.ratingID), id as NSUUID)
   }
 
   public static func progressEntryByID(_ id: UUID) -> NSPredicate {
-    return NSPredicate(
-      format: "%K == %@",
-      #keyPath(ProgressEntryEntity.progressID),
-      id as NSUUID
-      )
+    return NSPredicate(format: "%K == %@", #keyPath(ProgressEntryEntity.progressID), id as NSUUID)
+  }
+
+  public static func workoutByID(_ id: UUID) -> NSPredicate {
+    return NSPredicate(format: "%K == %@", #keyPath(WorkoutEntity.modelID), id as NSUUID)
   }
 }

@@ -277,3 +277,15 @@ extension CoreDataStore {
     }
   }
 }
+
+// MARK: - Workout
+
+extension CoreDataStore {
+  public func workout(by id: UUID) async -> Workout? {
+    return await firstObject(WorkoutEntity.self, predicate: PredicateProvider.workoutByID(id))
+  }
+
+  public func insertWorkout(_ workout: Workout) async throws {
+    return try await importModel(workout, of: WorkoutEntity.self)
+  }
+}

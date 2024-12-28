@@ -422,7 +422,6 @@
 		BC352AE32A326D6C00DAA3AB /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				BC3760E52D1F5EF6000A92F3 /* PreferenceKeys */,
 				BC1B7E362D136F5E0002158C /* CommonDestinations.swift */,
 				BCA24BFD2B6AD33200124EC3 /* UserStore.swift */,
 				BC3C0C672D177D360039B367 /* Views */,
@@ -692,6 +691,7 @@
 			isa = PBXGroup;
 			children = (
 				BC545E392C3C6A8F00713B86 /* EnvironmentValues+Extension.swift */,
+				BC3760E52D1F5EF6000A92F3 /* PreferenceKeys */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
