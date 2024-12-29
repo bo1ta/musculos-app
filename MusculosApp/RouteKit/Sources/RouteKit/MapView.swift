@@ -1,6 +1,6 @@
 //
 //  MapView.swift
-//  MusculosApp
+//  RouteKit
 //
 //  Created by Solomon Alexandru on 29.12.2024.
 //
@@ -10,27 +10,32 @@ import MapKit
 import CoreLocation
 import Utility
 
-struct MapLocationView: UIViewRepresentable {
+public struct MapLocationView: UIViewRepresentable {
   @Binding var locations: [CLLocationCoordinate2D]
   @Binding var isTracking: Bool
 
   let mapView = MKMapView()
 
-  func makeUIView(context: Context) -> some UIView {
+  public init(locations: Binding<[CLLocationCoordinate2D]>, isTracking: Binding<Bool>) {
+    self._locations = locations
+    self._isTracking = isTracking
+  }
+
+  public func makeUIView(context: Context) -> some UIView {
     mapView.delegate = context.coordinator
     mapView.showsUserLocation = true
     return mapView
   }
 
-  func updateUIView(_ uiView: UIViewType, context: Context) {}
+  public func updateUIView(_ uiView: UIViewType, context: Context) {}
 
-  func makeCoordinator() -> Coordinator {
+  public func makeCoordinator() -> Coordinator {
     Coordinator(self)
   }
 }
 
 extension MapLocationView {
-  class Coordinator: NSObject, CLLocationManagerDelegate, MKMapViewDelegate {
+  public class Coordinator: NSObject, @preconcurrency CLLocationManagerDelegate, MKMapViewDelegate, @unchecked Sendable {
     private enum LocationError: Error {
       case authorizationDenied
     }
@@ -52,11 +57,7 @@ extension MapLocationView {
       checkAuthorizationStatus()
     }
 
-    deinit {
-      locationManager.stopUpdatingLocation()
-    }
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
       guard isTracking, let newLocation = locations.last else {
         return
       }
@@ -65,7 +66,7 @@ extension MapLocationView {
       updatePolyline()
     }
 
-    func checkAuthorizationStatus() {
+    public func checkAuthorizationStatus() {
       switch locationManager.authorizationStatus {
       case .notDetermined:
         locationManager.requestWhenInUseAuthorization()
@@ -81,7 +82,7 @@ extension MapLocationView {
       }
     }
 
-    func setupInitialRegion() {
+    public func setupInitialRegion() {
       guard let initialLocation = locationManager.location?.coordinate else {
         Logger.warning(message: "Cannot get initial location")
         return
@@ -96,7 +97,7 @@ extension MapLocationView {
       parent.mapView.setRegion(region, animated: true)
     }
 
-    func updatePolyline() {
+    public func updatePolyline() {
       let polyline = MKPolyline(coordinates: locations, count: locations.count)
       parent.mapView.removeOverlays(parent.mapView.overlays)
       parent.mapView.addOverlay(polyline)

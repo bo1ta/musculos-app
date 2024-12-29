@@ -10,6 +10,7 @@ import CoreLocation
 import Models
 import SwiftUI
 import Utility
+import RouteKit
 
 struct HistoryScreen: View {
   @State private var viewModel = HistoryViewModel()
