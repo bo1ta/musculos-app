@@ -6,28 +6,14 @@
 //
 
 import Components
-import DataRepository
-import Factory
 import Models
 import SwiftUI
-import Utility
 
 struct ProfileScreen: View {
-  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
-
   @Environment(\.userStore) private var userStore
-  @Environment(\.healthKitViewModel) private var healthKitViewModel
   @Environment(\.navigator) private var navigator
 
-  @State private var selectedWorkout: String?
-  @State private var exercises: [Exercise] = []
-
-  private let highlights: [ProfileHighlight] = [
-    ProfileHighlight(highlightType: .steps, value: "5432", description: "updated 10 mins ago"),
-    ProfileHighlight(highlightType: .sleep, value: "7 hr 31 min", description: "updated 10 mins ago"),
-    ProfileHighlight(highlightType: .waterIntake, value: "4.2 ltr", description: "updated now"),
-    ProfileHighlight(highlightType: .workoutTracking, value: "1 day since last workout", description: "updated a day ago"),
-  ]
+  @State private var viewModel = ProfileViewModel()
 
   var body: some View {
     ScrollView {
@@ -43,7 +29,7 @@ struct ProfileScreen: View {
         })
         ContentSectionWithHeaderAndButton(headerTitle: "Highlights", buttonTitle: "See more", onAction: {}, content: {
           VStack {
-            ForEach(highlights, id: \.hashValue) { profileHighlight in
+            ForEach(viewModel.getHighlights(), id: \.hashValue) { profileHighlight in
               HighlightCard(profileHighlight: profileHighlight)
             }
           }
@@ -52,10 +38,10 @@ struct ProfileScreen: View {
         ContentSectionWithHeaderAndButton(headerTitle: "Your workout", buttonTitle: "See more", onAction: {}, content: {
           SelectTextResizablePillsStack(
             options: ExerciseConstants.categoryOptions,
-            selectedOption: $selectedWorkout
+            selectedOption: $viewModel.selectedWorkout
           )
           ExerciseCardsStack(
-            exercises: exercises,
+            exercises: viewModel.exercises,
             onTapExercise: { navigator.navigate(to: CommonDestinations.exerciseDetails($0)) }
           )
         })
@@ -64,13 +50,7 @@ struct ProfileScreen: View {
       .padding(.bottom, 30)
     }
     .task {
-      if healthKitViewModel.isAuthorized {
-        await healthKitViewModel.loadAllData()
-      } else {
-        // load different data
-      }
-
-      exercises = (try? await exerciseRepository.getExercises()) ?? []
+      await viewModel.initialLoad()
     }
     .scrollIndicators(.hidden)
   }

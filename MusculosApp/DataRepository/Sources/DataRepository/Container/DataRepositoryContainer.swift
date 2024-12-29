@@ -41,6 +41,10 @@ public extension DataRepositoryContainer {
     self { RatingRepository() }
   }
 
+  var healthKitClient: Factory<HealthKitClient> {
+    self { HealthKitClient() }
+  }
+
   internal var backgroundWorker: Factory<BackgroundWorker> {
     self { BackgroundWorker() }
       .singleton

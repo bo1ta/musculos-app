@@ -36,7 +36,6 @@ struct MusculosApp: App {
         await appModel.loadInitialState()
       }
       .environment(\.userStore, appModel.userStore)
-      .environment(\.healthKitViewModel, HealthKitViewModel())
       .onChange(of: scenePhase) { _, newPhase in
         appModel.handleScenePhaseChange(newPhase)
       }

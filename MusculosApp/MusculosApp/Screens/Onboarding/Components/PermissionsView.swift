@@ -8,10 +8,9 @@
 import Components
 import SwiftUI
 import Utility
+import DataRepository
 
 struct PermissionsView: View {
-  @Environment(\.healthKitViewModel) private var healthKitViewModel
-
   let onDone: () -> Void
 
   private let permissionsReasons = [
@@ -52,8 +51,12 @@ struct PermissionsView: View {
 
   private func requestPermissions() {
     Task {
-      await healthKitViewModel.requestPermissions()
-      onDone()
+      do {
+        _ = try await DataRepositoryContainer.shared.healthKitClient().requestPermissions()
+        onDone()
+      } catch {
+        Logger.error(error, message: "Error requesting health kit permissions")
+      }
     }
   }
 
