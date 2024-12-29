@@ -12,9 +12,15 @@ let package = Package(
       targets: ["RouteKit"]
     ),
   ],
+  dependencies: [
+    .package(name: "Utility", path: "../Utility"),
+  ],
   targets: [
     .target(
-      name: "RouteKit"
+      name: "RouteKit",
+      dependencies: [
+        .product(name: "Utility", package: "Utility"),
+      ]
     ),
     .testTarget(
       name: "RouteKitTests",
