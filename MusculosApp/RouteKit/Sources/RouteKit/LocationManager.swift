@@ -17,7 +17,7 @@ public final class LocationManager: NSObject, @unchecked Sendable {
   private(set) var isTracking = false
   private var locationContinuation: AsyncStream<CLLocation>.Continuation?
 
-  lazy var locationStream: AsyncStream<CLLocation> = {
+  public lazy var locationStream: AsyncStream<CLLocation> = {
     AsyncStream { (continuation: AsyncStream<CLLocation>.Continuation) -> Void in
       self.locationContinuation = continuation
       self.locationContinuation?.onTermination = { [weak self] _ in
@@ -37,33 +37,35 @@ public final class LocationManager: NSObject, @unchecked Sendable {
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
   }
 
+  public func startTracking() {
+    locationManager.startUpdatingLocation()
+    Logger.info(message: "LocationManager started tracking location")
+    isTracking = true
+  }
+
+  public func stopTracking() {
+    locationManager.stopUpdatingLocation()
+    Logger.info(message: "LocationManager stopped tracking location")
+    isTracking = false
+  }
+
   public func checkAuthorizationStatus() {
     switch locationManager.authorizationStatus {
+    case .authorizedAlways, .authorizedWhenInUse:
+      startTracking()
     case .notDetermined:
       locationManager.requestWhenInUseAuthorization()
     case .restricted:
       Logger.error(LocationError.authorizationDenied, message: "Location authorization restricted")
     case .denied:
       Logger.error(LocationError.authorizationDenied, message: "Location authorization denied")
-    case .authorizedAlways, .authorizedWhenInUse:
-      startTracking()
     @unknown default:
-      Logger.warning(message: "Unknown authorization status")
+      Logger.error(MusculosError.unknownError, message: "Unknown authorization status")
     }
   }
-
-  private func startTracking() {
-    locationManager.startUpdatingLocation()
-    isTracking = true
-    Logger.info(message: "LocationManager started tracking location")
-  }
-
-  private func stopTracking() {
-    locationManager.stopUpdatingLocation()
-    isTracking = false
-    Logger.info(message: "LocationManager stopped tracking location")
-  }
 }
+
+// MARK: - CLLocationManagerDelegate
 
 extension LocationManager: CLLocationManagerDelegate {
   public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

@@ -36,68 +36,46 @@ public struct MapLocationView: UIViewRepresentable {
 
 extension MapLocationView {
   public class Coordinator: NSObject, @preconcurrency CLLocationManagerDelegate, MKMapViewDelegate, @unchecked Sendable {
-    private enum LocationError: Error {
-      case authorizationDenied
-    }
+    private var locationsTask: Task<Void, Never>?
 
     var parent: MapLocationView
-    var locationManager: CLLocationManager
-    var locations: [CLLocationCoordinate2D]
-    var isTracking: Bool
+    var locationManager: LocationManager
 
     init(_ parent: MapLocationView) {
       self.parent = parent
-      self.locations = parent.locations
-      self.isTracking = parent.isTracking
-      self.locationManager = CLLocationManager()
+      self.locationManager = LocationManager()
 
       super.init()
 
-      self.locationManager.delegate = self
-      checkAuthorizationStatus()
+      locationManager.checkAuthorizationStatus()
+      startListeningForLocationUpdates()
     }
 
-    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-      guard isTracking, let newLocation = locations.last else {
-        return
-      }
-
-      self.locations.append(newLocation.coordinate)
-      updatePolyline()
+    deinit {
+      locationsTask?.cancel()
     }
 
-    public func checkAuthorizationStatus() {
-      switch locationManager.authorizationStatus {
-      case .notDetermined:
-        locationManager.requestWhenInUseAuthorization()
-      case .restricted:
-        Logger.error(LocationError.authorizationDenied, message: "Location authorization restricted")
-      case .denied:
-        Logger.error(LocationError.authorizationDenied, message: "Location authorization denied")
-      case .authorizedAlways, .authorizedWhenInUse:
-        locationManager.startUpdatingLocation()
-        setupInitialRegion()
-      @unknown default:
-        Logger.warning(message: "Unknown authorization status")
+    private func startListeningForLocationUpdates() {
+      locationsTask?.cancel()
+
+      locationsTask = Task { [weak self] in
+        guard let self else {
+          return
+        }
+
+        for await location in locationManager.locationStream {
+          updateMapLocation(location)
+        }
       }
     }
 
-    public func setupInitialRegion() {
-      guard let initialLocation = locationManager.location?.coordinate else {
-        Logger.warning(message: "Cannot get initial location")
-        return
-      }
-
+    private func updateMapLocation(_ location: CLLocation) {
       let zoomLevel: CLLocationDistance = 0.01
-      let region = MKCoordinateRegion(
-        center: initialLocation,
-        span: MKCoordinateSpan(latitudeDelta: zoomLevel, longitudeDelta: zoomLevel)
-      )
-
+      let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: zoomLevel, longitudeDelta: zoomLevel))
       parent.mapView.setRegion(region, animated: true)
     }
 
-    public func updatePolyline() {
+    public func updatePolyline(_ locations: [CLLocationCoordinate2D]) {
       let polyline = MKPolyline(coordinates: locations, count: locations.count)
       parent.mapView.removeOverlays(parent.mapView.overlays)
       parent.mapView.addOverlay(polyline)
