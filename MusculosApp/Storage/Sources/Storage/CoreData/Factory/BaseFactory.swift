@@ -21,4 +21,8 @@ public class BaseFactory: @unchecked Sendable {
       try await self?.dataStore.importModel(model, of: type)
     }
   }
+
+  func awaitPendingOperations() async {
+    await backgroundWorker.addBarrierOperation(operation: {}).value
+  }
 }

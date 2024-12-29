@@ -1,13 +1,13 @@
 {
-  "originHash" : "46d176670b7e28f6497a6f1a749caceb32f3b2af938e1c72cdd57a10db07480a",
+  "originHash" : "b1921a92f782a97b251a4dce829e055b6bca144dcb97db8745a4d22b78ed45e9",
   "pins" : [
     {
       "identity" : "factory",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/hmlongco/Factory",
       "state" : {
-        "revision" : "587995f7d5cc667951d635fbf6b4252324ba0439",
-        "version" : "2.3.2"
+        "revision" : "fb04a8918848e413d3921d346a23bae7f81088d9",
+        "version" : "2.4.3"
       }
     },
     {
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mattmassicotte/Queue",
       "state" : {
-        "revision" : "8d6f936097888f97011610ced40313655dc5948d",
-        "version" : "0.1.4"
+        "revision" : "6adf359a705e3252742905b413bb8f56401043ca",
+        "version" : "0.2.0"
       }
     },
     {
@@ -62,15 +62,6 @@
       "state" : {
         "revision" : "8cba041db09596183331d123f337d0eb2e6e8e91",
         "version" : "2.1.1"
-      }
-    },
-    {
-      "identity" : "toast-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/BastiaanJansen/toast-swift",
-      "state" : {
-        "revision" : "9a40b722b6eeb9683d47e3584501e81525741291",
-        "version" : "2.1.2"
       }
     }
   ],

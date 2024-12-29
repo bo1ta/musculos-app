@@ -9,8 +9,9 @@ import Factory
 import Utility
 
 public final class NetworkContainer: SharedContainer {
-  public nonisolated(unsafe) static let shared = NetworkContainer()
-  public var manager = ContainerManager()
+  public static let shared = NetworkContainer()
+
+  public nonisolated(unsafe) var manager = ContainerManager()
 }
 
 public extension NetworkContainer {

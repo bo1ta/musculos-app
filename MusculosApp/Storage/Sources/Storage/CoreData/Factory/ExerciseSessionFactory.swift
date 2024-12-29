@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-public class ExerciseSessionFactory: BaseFactory {
+public class ExerciseSessionFactory: BaseFactory, @unchecked Sendable {
   public var dateAdded: Date?
   public var sessionId: UUID?
   public var user: UserProfile?

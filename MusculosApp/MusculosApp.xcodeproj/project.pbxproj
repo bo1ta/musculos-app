@@ -21,6 +21,9 @@
 		BC0DA89A2CA396FF0011EC63 /* LeagueSpartan-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0DA88D2CA396FF0011EC63 /* LeagueSpartan-Bold.ttf */; };
 		BC0DA89B2CA396FF0011EC63 /* LeagueSpartan-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0DA8922CA396FF0011EC63 /* LeagueSpartan-Regular.ttf */; };
 		BC0DA8A02CA5EACF0011EC63 /* RecommendationSection+SectionItemImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0DA89F2CA5EAC40011EC63 /* RecommendationSection+SectionItemImage.swift */; };
+		BC0E32762D21D7F3009B5E4A /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = BC0E32752D21D7F3009B5E4A /* Factory */; };
+		BC0E32792D21D80B009B5E4A /* Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = BC0E32782D21D80B009B5E4A /* Navigator */; };
+		BC0E327C2D21D863009B5E4A /* Utility in Frameworks */ = {isa = PBXBuildFile; productRef = BC0E327B2D21D863009B5E4A /* Utility */; };
 		BC0ECAEA2CF3A46200FC6367 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0ECAE92CF3A45F00FC6367 /* HistoryViewModel.swift */; };
 		BC1160D02A2CFB830028D8FC /* MusculosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160CF2A2CFB830028D8FC /* MusculosApp.swift */; };
 		BC1160D22A2CFB830028D8FC /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1160D12A2CFB830028D8FC /* RootTabView.swift */; };
@@ -30,7 +33,6 @@
 		BC1674B12BE26EBB0012048D /* AddDetailOptionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1674B02BE26EBB0012048D /* AddDetailOptionCardView.swift */; };
 		BC1674B62BE2E73F0012048D /* AddGoalSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1674B52BE2E73F0012048D /* AddGoalSheet.swift */; };
 		BC1674D42BE2F8F70012048D /* AddGoalSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1674D32BE2F8F70012048D /* AddGoalSheetViewModel.swift */; };
-		BC1B7E222D124BB70002158C /* Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = BC1B7E212D124BB70002158C /* Navigator */; };
 		BC1B7E242D12502E0002158C /* RootHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E232D12502B0002158C /* RootHomeScreen.swift */; };
 		BC1B7E262D1352CF0002158C /* RootExploreScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E252D1352C70002158C /* RootExploreScreen.swift */; };
 		BC1B7E282D13536B0002158C /* RootHistoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E272D1353670002158C /* RootHistoryScreen.swift */; };
@@ -62,6 +64,7 @@
 		BC545E482C3C730E00713B86 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = BC545E472C3C730E00713B86 /* Storage */; };
 		BC569FDB2C45965900F9C918 /* Components in Frameworks */ = {isa = PBXBuildFile; productRef = BC569FDA2C45965900F9C918 /* Components */; };
 		BC583B0D2BA8C76500236C0D /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC583B0C2BA8C76500236C0D /* OnboardingViewModel.swift */; };
+		BC5A73452D21E25F00E0D61A /* Components in Frameworks */ = {isa = PBXBuildFile; productRef = BC5A73442D21E25F00E0D61A /* Components */; };
 		BC606A6E2C221CBD00154781 /* SelectLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC606A6D2C221CBD00154781 /* SelectLevelView.swift */; };
 		BC6249752BEC20BB00393915 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = BC6249742BEC20BB00393915 /* Shimmer */; };
 		BC655B012CB0497600C19E07 /* YourWorkoutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC655B002CB0497600C19E07 /* YourWorkoutSection.swift */; };
@@ -93,7 +96,6 @@
 		BC81E5D12BD2F9D90005891D /* SheetNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81E5D02BD2F9D90005891D /* SheetNavBar.swift */; };
 		BC81E5D32BD2FC730005891D /* SingleOptionSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81E5D22BD2FC730005891D /* SingleOptionSelectView.swift */; };
 		BC81E5D72BD3063B0005891D /* AddExerciseSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81E5D62BD3063B0005891D /* AddExerciseSheetViewModel.swift */; };
-		BC828CDE2C02802500AB9D1D /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = BC828CDD2C02802500AB9D1D /* Factory */; };
 		BC828CE32C028E9200AB9D1D /* ExerciseDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC828CE22C028E9200AB9D1D /* ExerciseDetailsViewModel.swift */; };
 		BC828CE52C02924200AB9D1D /* WorkoutFlowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC828CE42C02924200AB9D1D /* WorkoutFlowViewModel.swift */; };
 		BC88B8EF2D20D00700E6ECBD /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC88B8EE2D20D00400E6ECBD /* MapView.swift */; };
@@ -268,14 +270,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCD0119C2CC174150012CEA0 /* DataRepository in Frameworks */,
+				BC0E327C2D21D863009B5E4A /* Utility in Frameworks */,
 				BC6249752BEC20BB00393915 /* Shimmer in Frameworks */,
 				BCF6487B2C3C36CC00D1C46F /* Models in Frameworks */,
 				BC569FDB2C45965900F9C918 /* Components in Frameworks */,
-				BC828CDE2C02802500AB9D1D /* Factory in Frameworks */,
-				BC1B7E222D124BB70002158C /* Navigator in Frameworks */,
 				BC545E482C3C730E00713B86 /* Storage in Frameworks */,
+				BC0E32792D21D80B009B5E4A /* Navigator in Frameworks */,
+				BC5A73452D21E25F00E0D61A /* Components in Frameworks */,
 				BC08E99C2CA628B60082EDF8 /* Utility in Frameworks */,
 				BCFC24C32C98FB9A00F28D7A /* NetworkClient in Frameworks */,
+				BC0E32762D21D7F3009B5E4A /* Factory in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -571,9 +575,9 @@
 		BC781FFA2B9B5E2F009F9FB5 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				BC39FB772D217833004EB5D0 /* ProfileViewModel.swift */,
 				BC1B7E2A2D1356090002158C /* RootProfileScreen.swift */,
 				BC781FFB2B9B5E3E009F9FB5 /* ProfileScreen.swift */,
+				BC39FB772D217833004EB5D0 /* ProfileViewModel.swift */,
 				BC781FFD2B9B6057009F9FB5 /* Components */,
 			);
 			path = Profile;
@@ -766,9 +770,9 @@
 			buildConfigurationList = BC1160F62A2CFB840028D8FC /* Build configuration list for PBXNativeTarget "MusculosApp" */;
 			buildPhases = (
 				BC1160C82A2CFB830028D8FC /* Sources */,
+				BC31EBD42D20928100BF8078 /* ShellScript */,
 				BC1160C92A2CFB830028D8FC /* Frameworks */,
 				BC1160CA2A2CFB830028D8FC /* Resources */,
-				BC31EBD42D20928100BF8078 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -777,14 +781,16 @@
 			name = MusculosApp;
 			packageProductDependencies = (
 				BC6249742BEC20BB00393915 /* Shimmer */,
-				BC828CDD2C02802500AB9D1D /* Factory */,
 				BCF6487A2C3C36CC00D1C46F /* Models */,
 				BC545E472C3C730E00713B86 /* Storage */,
 				BC569FDA2C45965900F9C918 /* Components */,
 				BCFC24C22C98FB9A00F28D7A /* NetworkClient */,
 				BC08E99B2CA628B60082EDF8 /* Utility */,
 				BCD0119B2CC174150012CEA0 /* DataRepository */,
-				BC1B7E212D124BB70002158C /* Navigator */,
+				BC0E32752D21D7F3009B5E4A /* Factory */,
+				BC0E32782D21D80B009B5E4A /* Navigator */,
+				BC0E327B2D21D863009B5E4A /* Utility */,
+				BC5A73442D21E25F00E0D61A /* Components */,
 			);
 			productName = MusculosApp;
 			productReference = BC1160CC2A2CFB830028D8FC /* MusculosApp.app */;
@@ -839,12 +845,13 @@
 			mainGroup = BC1160C32A2CFB820028D8FC;
 			packageReferences = (
 				BC6249732BEC20AC00393915 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
-				BC828CDC2C02802500AB9D1D /* XCRemoteSwiftPackageReference "Factory" */,
-				BCF648792C3C36CC00D1C46F /* XCLocalSwiftPackageReference "Models" */,
-				BC569FD92C45965900F9C918 /* XCLocalSwiftPackageReference "Components" */,
-				BC08E99A2CA628B60082EDF8 /* XCLocalSwiftPackageReference "Utility" */,
-				BCD0119A2CC174150012CEA0 /* XCLocalSwiftPackageReference "DataRepository" */,
-				BC1B7E202D124BB70002158C /* XCRemoteSwiftPackageReference "Navigator" */,
+				BC0E32742D21D7F3009B5E4A /* XCRemoteSwiftPackageReference "Factory" */,
+				BC0E32772D21D80B009B5E4A /* XCRemoteSwiftPackageReference "Navigator" */,
+				BC0E327A2D21D863009B5E4A /* XCLocalSwiftPackageReference "Utility" */,
+				BC0E327D2D21D898009B5E4A /* XCLocalSwiftPackageReference "Models" */,
+				BC1050A72D21D8FD00D5ADCE /* XCLocalSwiftPackageReference "Storage" */,
+				BC1050A82D21D93C00D5ADCE /* XCLocalSwiftPackageReference "DataRepository" */,
+				BC5A73432D21E25F00E0D61A /* XCLocalSwiftPackageReference "Components" */,
 			);
 			productRefGroup = BC1160CD2A2CFB830028D8FC /* Products */;
 			projectDirPath = "";
@@ -914,7 +921,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint; then\n    swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint; then\n    swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1166,6 +1173,9 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Allow read access to health data to configure your profile";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Allow write access to health data to save your progress";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Allow location access to build and display custom Map routes";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Allow location access to build and display custom Map routes";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow location access to build and display custom Map routes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1206,6 +1216,9 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Allow read access to health data to configure your profile";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Allow write access to health data to save your progress";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Allow location access to build and display custom Map routes";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Allow location access to build and display custom Map routes";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow location access to build and display custom Map routes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1304,26 +1317,38 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		BC08E99A2CA628B60082EDF8 /* XCLocalSwiftPackageReference "Utility" */ = {
+		BC0E327A2D21D863009B5E4A /* XCLocalSwiftPackageReference "Utility" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Utility;
 		};
-		BC569FD92C45965900F9C918 /* XCLocalSwiftPackageReference "Components" */ = {
+		BC0E327D2D21D898009B5E4A /* XCLocalSwiftPackageReference "Models" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = Components;
+			relativePath = Models;
 		};
-		BCD0119A2CC174150012CEA0 /* XCLocalSwiftPackageReference "DataRepository" */ = {
+		BC1050A72D21D8FD00D5ADCE /* XCLocalSwiftPackageReference "Storage" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Storage;
+		};
+		BC1050A82D21D93C00D5ADCE /* XCLocalSwiftPackageReference "DataRepository" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = DataRepository;
 		};
-		BCF648792C3C36CC00D1C46F /* XCLocalSwiftPackageReference "Models" */ = {
+		BC5A73432D21E25F00E0D61A /* XCLocalSwiftPackageReference "Components" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = Models;
+			relativePath = Components;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BC1B7E202D124BB70002158C /* XCRemoteSwiftPackageReference "Navigator" */ = {
+		BC0E32742D21D7F3009B5E4A /* XCRemoteSwiftPackageReference "Factory" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Factory";
+			requirement = {
+				kind = exactVersion;
+				version = 2.4.3;
+			};
+		};
+		BC0E32772D21D80B009B5E4A /* XCRemoteSwiftPackageReference "Navigator" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hmlongco/Navigator";
 			requirement = {
@@ -1339,14 +1364,6 @@
 				version = 1.4.2;
 			};
 		};
-		BC828CDC2C02802500AB9D1D /* XCRemoteSwiftPackageReference "Factory" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/hmlongco/Factory";
-			requirement = {
-				kind = exactVersion;
-				version = 2.3.2;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1354,10 +1371,19 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Utility;
 		};
-		BC1B7E212D124BB70002158C /* Navigator */ = {
+		BC0E32752D21D7F3009B5E4A /* Factory */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BC1B7E202D124BB70002158C /* XCRemoteSwiftPackageReference "Navigator" */;
+			package = BC0E32742D21D7F3009B5E4A /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = Factory;
+		};
+		BC0E32782D21D80B009B5E4A /* Navigator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC0E32772D21D80B009B5E4A /* XCRemoteSwiftPackageReference "Navigator" */;
 			productName = Navigator;
+		};
+		BC0E327B2D21D863009B5E4A /* Utility */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Utility;
 		};
 		BC545E472C3C730E00713B86 /* Storage */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1367,15 +1393,14 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Components;
 		};
+		BC5A73442D21E25F00E0D61A /* Components */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Components;
+		};
 		BC6249742BEC20BB00393915 /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BC6249732BEC20AC00393915 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
-		};
-		BC828CDD2C02802500AB9D1D /* Factory */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BC828CDC2C02802500AB9D1D /* XCRemoteSwiftPackageReference "Factory" */;
-			productName = Factory;
 		};
 		BCD0119B2CC174150012CEA0 /* DataRepository */ = {
 			isa = XCSwiftPackageProductDependency;

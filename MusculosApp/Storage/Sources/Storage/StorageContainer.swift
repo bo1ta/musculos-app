@@ -10,9 +10,9 @@ import UIKit
 import Utility
 
 public final class StorageContainer: SharedContainer {
-  public nonisolated(unsafe) static let shared = StorageContainer()
+  public static let shared = StorageContainer()
 
-  public var manager = ContainerManager()
+  public nonisolated(unsafe) var manager = ContainerManager()
 }
 
 public extension StorageContainer {

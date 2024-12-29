@@ -13,8 +13,7 @@ let package = Package(
     ),
   ],
   dependencies: [
-    .package(name: "Utility", path: "../Utility"),
-    .package(url: "https://github.com/hmlongco/Factory", exact: "2.3.2"),
+    .package(name: "Utility", path: "../Utility")
   ],
   targets: [
     .target(
@@ -23,8 +22,7 @@ let package = Package(
         .product(
           name: "Utility",
           package: "Utility"
-        ),
-        "Factory",
+        )
       ]
     ),
   ]

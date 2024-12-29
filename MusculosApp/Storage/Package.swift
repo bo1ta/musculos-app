@@ -15,8 +15,9 @@ let package = Package(
   dependencies: [
     .package(name: "Utility", path: "../Utility"),
     .package(name: "Models", path: "../Models"),
-    .package(url: "https://github.com/hmlongco/Factory", exact: "2.3.2"),
+    .package(url: "https://github.com/hmlongco/Factory", exact: "2.4.3"),
     .package(url: "https://github.com/vadymmarkov/Fakery", from: "5.0.0"),
+    .package(url: "https://github.com/mattmassicotte/Queue", from: "0.1.4"),
   ],
   targets: [
     .target(
@@ -26,6 +27,7 @@ let package = Package(
         .product(name: "Models", package: "Models"),
         "Factory",
         "Fakery",
+        "Queue",
       ]
     ),
     .testTarget(

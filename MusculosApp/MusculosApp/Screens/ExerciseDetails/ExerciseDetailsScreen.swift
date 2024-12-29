@@ -15,16 +15,13 @@ struct ExerciseDetailsScreen: View {
   @Environment(\.navigator) private var navigator
   @State private var viewModel: ExerciseDetailsViewModel
 
-  var exercise: Exercise
-
   init(exercise: Exercise) {
     viewModel = ExerciseDetailsViewModel(exercise: exercise)
-    self.exercise = exercise
   }
 
   var body: some View {
     VStack(spacing: 10) {
-      ExerciseDetailsHeader(exercise: exercise, onBack: { navigator.pop() })
+      ExerciseDetailsHeader(exercise: viewModel.exercise, onBack: { navigator.pop() })
       ExerciseDetailsContent(viewModel: viewModel)
     }
     .task {

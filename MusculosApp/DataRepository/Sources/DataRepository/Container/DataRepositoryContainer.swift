@@ -9,9 +9,9 @@ import Factory
 import Foundation
 
 public final class DataRepositoryContainer: SharedContainer {
-  public nonisolated(unsafe) static let shared = DataRepositoryContainer()
+  public static let shared = DataRepositoryContainer()
 
-  public var manager = ContainerManager()
+  public nonisolated(unsafe) var manager = ContainerManager()
 }
 
 extension DataRepositoryContainer: AutoRegistering {

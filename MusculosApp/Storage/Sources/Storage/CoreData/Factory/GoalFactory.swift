@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-public class GoalFactory: BaseFactory {
+public class GoalFactory: BaseFactory, @unchecked Sendable {
   public var id: UUID?
   public var name: String?
   public var category: String?
