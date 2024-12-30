@@ -49,6 +49,10 @@ public final class LocationManager: NSObject, @unchecked Sendable {
     isTracking = false
   }
 
+  public func closeLocationStream() {
+    locationContinuation?.finish()
+  }
+
   public func checkAuthorizationStatus() {
     switch locationManager.authorizationStatus {
     case .authorizedAlways, .authorizedWhenInUse:

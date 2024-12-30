@@ -66,6 +66,7 @@
 		BC583B0D2BA8C76500236C0D /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC583B0C2BA8C76500236C0D /* OnboardingViewModel.swift */; };
 		BC5A73452D21E25F00E0D61A /* Components in Frameworks */ = {isa = PBXBuildFile; productRef = BC5A73442D21E25F00E0D61A /* Components */; };
 		BC5A73482D21E3A600E0D61A /* RouteKit in Frameworks */ = {isa = PBXBuildFile; productRef = BC5A73472D21E3A600E0D61A /* RouteKit */; };
+		BC5A734B2D221D1600E0D61A /* LiveRouteScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5A734A2D221D1600E0D61A /* LiveRouteScreen.swift */; };
 		BC606A6E2C221CBD00154781 /* SelectLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC606A6D2C221CBD00154781 /* SelectLevelView.swift */; };
 		BC6249752BEC20BB00393915 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = BC6249742BEC20BB00393915 /* Shimmer */; };
 		BC655B012CB0497600C19E07 /* YourWorkoutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC655B002CB0497600C19E07 /* YourWorkoutSection.swift */; };
@@ -199,6 +200,7 @@
 		BC4E5D562CAC61050046ABEE /* StarsRatingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarsRatingCard.swift; sourceTree = "<group>"; };
 		BC545E392C3C6A8F00713B86 /* EnvironmentValues+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Extension.swift"; sourceTree = "<group>"; };
 		BC583B0C2BA8C76500236C0D /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		BC5A734A2D221D1600E0D61A /* LiveRouteScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveRouteScreen.swift; sourceTree = "<group>"; };
 		BC606A6D2C221CBD00154781 /* SelectLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLevelView.swift; sourceTree = "<group>"; };
 		BC655B002CB0497600C19E07 /* YourWorkoutSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourWorkoutSection.swift; sourceTree = "<group>"; };
 		BC655B022CB055B300C19E07 /* ExerciseCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCardStack.swift; sourceTree = "<group>"; };
@@ -496,6 +498,14 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		BC5A73492D221CF000E0D61A /* LiveRoute */ = {
+			isa = PBXGroup;
+			children = (
+				BC5A734A2D221D1600E0D61A /* LiveRouteScreen.swift */,
+			);
+			path = LiveRoute;
+			sourceTree = "<group>";
+		};
 		BC5CC2C22C7B645D0016D694 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,6 +533,7 @@
 		BC6F365B2BB4E205000F6CFA /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				BC5A73492D221CF000E0D61A /* LiveRoute */,
 				BC10E42C2A3B8AB00008A72E /* Authentication */,
 				BC97C9342BA0EFFE00AA07C4 /* ExerciseDetails */,
 				BCA24C052B6AFF7000124EC3 /* Onboarding */,
@@ -997,6 +1008,7 @@
 				BC4E5D572CAC61050046ABEE /* StarsRatingCard.swift in Sources */,
 				BCA24C002B6AE68500124EC3 /* SignUpView.swift in Sources */,
 				BCD59AA42BB627E60039F662 /* ProgressCard.swift in Sources */,
+				BC5A734B2D221D1600E0D61A /* LiveRouteScreen.swift in Sources */,
 				BC1160D22A2CFB830028D8FC /* RootTabView.swift in Sources */,
 				BC6F365A2BB4E14D000F6CFA /* AppLauncher.swift in Sources */,
 				BC81E5D72BD3063B0005891D /* AddExerciseSheetViewModel.swift in Sources */,

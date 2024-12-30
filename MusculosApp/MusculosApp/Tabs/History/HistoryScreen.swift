@@ -14,8 +14,6 @@ import RouteKit
 
 struct HistoryScreen: View {
   @State private var viewModel = HistoryViewModel()
-  @State private var locations: [CLLocationCoordinate2D] = []
-  @State private var isTracking: Bool = false
 
   private let cardGradient = LinearGradient(colors: [.blue, .blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
 
@@ -26,9 +24,6 @@ struct HistoryScreen: View {
           selectedDate: $viewModel.selectedDate,
           calendarMarkers: viewModel.calendarMarkers
         )
-
-        MapLocationView(locations: $locations, isTracking: $isTracking)
-          .frame(width: 400, height: 500)
       }
 
       if !viewModel.filteredSessions.isEmpty {

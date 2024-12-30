@@ -12,6 +12,7 @@ import SwiftUI
 public enum HomeDestinations {
   case addGoal
   case notifications
+  case liveRoute
 }
 
 extension HomeDestinations: NavigationDestination {
@@ -20,7 +21,9 @@ extension HomeDestinations: NavigationDestination {
     case .addGoal:
       AddGoalSheet()
     case .notifications:
-      EmptyView()
+      LiveRouteScreen()
+    case .liveRoute:
+      LiveRouteScreen()
     }
   }
 
@@ -30,6 +33,8 @@ extension HomeDestinations: NavigationDestination {
       .sheet
     case .notifications:
       .push
+    case .liveRoute:
+        .push
     }
   }
 }

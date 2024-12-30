@@ -14,23 +14,28 @@ public struct MapLocationView: UIViewRepresentable {
   @Binding var locations: [CLLocationCoordinate2D]
   @Binding var isTracking: Bool
 
-  let mapView = MKMapView()
+  private var mapView: MKMapView?
 
   public init(locations: Binding<[CLLocationCoordinate2D]>, isTracking: Binding<Bool>) {
     self._locations = locations
     self._isTracking = isTracking
   }
 
-  public func makeUIView(context: Context) -> some UIView {
+  public func makeUIView(context: Context) -> MKMapView {
+    let mapView = MKMapView()
     mapView.delegate = context.coordinator
     mapView.showsUserLocation = true
     return mapView
   }
 
-  public func updateUIView(_ uiView: UIViewType, context: Context) {}
+  public func updateUIView(_ uiView: MKMapView, context: Context) {}
 
   public func makeCoordinator() -> Coordinator {
     Coordinator(self)
+  }
+
+  public static func dismantleUIView(_ uiView: MKMapView, coordinator: Coordinator) {
+    coordinator.stopListeningForLocationUpdates()
   }
 }
 
@@ -38,8 +43,8 @@ extension MapLocationView {
   public class Coordinator: NSObject, @preconcurrency CLLocationManagerDelegate, MKMapViewDelegate, @unchecked Sendable {
     private var locationsTask: Task<Void, Never>?
 
-    var parent: MapLocationView
-    var locationManager: LocationManager
+    var parent: MapLocationView?
+    private let  locationManager: LocationManager
 
     init(_ parent: MapLocationView) {
       self.parent = parent
@@ -55,7 +60,7 @@ extension MapLocationView {
       locationsTask?.cancel()
     }
 
-    private func startListeningForLocationUpdates() {
+    func startListeningForLocationUpdates() {
       locationsTask?.cancel()
 
       locationsTask = Task { [weak self] in
@@ -69,20 +74,25 @@ extension MapLocationView {
       }
     }
 
+    func stopListeningForLocationUpdates() {
+      locationsTask?.cancel()
+      locationManager.closeLocationStream()
+    }
+
     private func updateMapLocation(_ location: CLLocation) {
       let zoomLevel: CLLocationDistance = 0.01
       let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: zoomLevel, longitudeDelta: zoomLevel))
-      parent.mapView.setRegion(region, animated: true)
+      parent?.mapView?.setRegion(region, animated: true)
     }
 
     public func updatePolyline(_ locations: [CLLocationCoordinate2D]) {
       let polyline = MKPolyline(coordinates: locations, count: locations.count)
-      parent.mapView.removeOverlays(parent.mapView.overlays)
-      parent.mapView.addOverlay(polyline)
+      parent?.mapView?.removeOverlays(parent?.mapView?.overlays ?? [])
+      parent?.mapView?.addOverlay(polyline)
 
       if let lastLocation = locations.last {
         let region = MKCoordinateRegion(center: lastLocation, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-        parent.mapView.setRegion(region, animated: true)
+        parent?.mapView?.setRegion(region, animated: true)
       }
     }
   }
