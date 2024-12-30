@@ -38,15 +38,26 @@ public final class LocationManager: NSObject, @unchecked Sendable {
   }
 
   public func startTracking() {
+    guard !isTracking else {
+      return
+    }
+    defer { isTracking = true }
+
+    // Force initialization of locationStream
+    _ = locationStream
+
     locationManager.startUpdatingLocation()
     Logger.info(message: "LocationManager started tracking location")
-    isTracking = true
   }
 
   public func stopTracking() {
+    guard isTracking else {
+      return
+    }
+    defer { isTracking = false }
+
     locationManager.stopUpdatingLocation()
     Logger.info(message: "LocationManager stopped tracking location")
-    isTracking = false
   }
 
   public func closeLocationStream() {
@@ -56,6 +67,7 @@ public final class LocationManager: NSObject, @unchecked Sendable {
   public func checkAuthorizationStatus() {
     switch locationManager.authorizationStatus {
     case .authorizedAlways, .authorizedWhenInUse:
+      Logger.info(message: "Location authorization granted")
       startTracking()
     case .notDetermined:
       locationManager.requestWhenInUseAuthorization()
@@ -85,6 +97,9 @@ extension LocationManager: CLLocationManagerDelegate {
   }
 
   public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    guard !isTracking else {
+      return
+    }
     checkAuthorizationStatus()
   }
 }

@@ -11,27 +11,16 @@ import CoreLocation
 import Utility
 
 public struct MapLocationView: UIViewRepresentable {
-  @Binding var locations: [CLLocationCoordinate2D]
-  @Binding var isTracking: Bool
-
-  private var mapView: MKMapView?
-
-  public init(locations: Binding<[CLLocationCoordinate2D]>, isTracking: Binding<Bool>) {
-    self._locations = locations
-    self._isTracking = isTracking
-  }
+  @Binding var averagePace: Double
 
   public func makeUIView(context: Context) -> MKMapView {
-    let mapView = MKMapView()
-    mapView.delegate = context.coordinator
-    mapView.showsUserLocation = true
-    return mapView
+    context.coordinator.mapView
   }
 
   public func updateUIView(_ uiView: MKMapView, context: Context) {}
 
   public func makeCoordinator() -> Coordinator {
-    Coordinator(self)
+    Coordinator(averagePace: $averagePace)
   }
 
   public static func dismantleUIView(_ uiView: MKMapView, coordinator: Coordinator) {
@@ -41,13 +30,22 @@ public struct MapLocationView: UIViewRepresentable {
 
 extension MapLocationView {
   public class Coordinator: NSObject, @preconcurrency CLLocationManagerDelegate, MKMapViewDelegate, @unchecked Sendable {
+    private var averagePace: Binding<Double>
     private var locationsTask: Task<Void, Never>?
+    private let locationManager: LocationManager
+    private var totalDistance: CLLocationDistance = 0.0
+    private var startTime: Date?
+    private var lastLocation: CLLocation?
 
-    var parent: MapLocationView?
-    private let  locationManager: LocationManager
+    public lazy var mapView: MKMapView = {
+      let mapView = MKMapView()
+      mapView.delegate = self
+      mapView.showsUserLocation = true
+      return mapView
+    }()
 
-    init(_ parent: MapLocationView) {
-      self.parent = parent
+    init(averagePace: Binding<Double>) {
+      self.averagePace = averagePace
       self.locationManager = LocationManager()
 
       super.init()
@@ -62,16 +60,42 @@ extension MapLocationView {
 
     func startListeningForLocationUpdates() {
       locationsTask?.cancel()
-
       locationsTask = Task { [weak self] in
         guard let self else {
           return
         }
 
+        startTime = Date()
+
         for await location in locationManager.locationStream {
           updateMapLocation(location)
+
+          await MainActor.run {
+            averagePace = .constant(calculateAveragePace(from: location))
+          }
+
+          lastLocation = location
         }
       }
+    }
+
+    private func calculateAveragePace(from location: CLLocation) -> Double {
+      guard let lastLocation, let startTime else {
+        return 0.0
+      }
+
+      totalDistance += location.distance(from: lastLocation)
+
+      let elapsedTime = location.timestamp.timeIntervalSince(startTime)
+      let elapsedTimeMinutes = elapsedTime / 60.0
+
+      guard totalDistance > 0 else {
+        return 0.0
+      }
+
+      let pace = elapsedTimeMinutes / (self.totalDistance / 1000.0)
+      Logger.info(message: "Average pace: \(String(format: "%.2f min/km", pace))")
+      return pace
     }
 
     func stopListeningForLocationUpdates() {
@@ -82,17 +106,17 @@ extension MapLocationView {
     private func updateMapLocation(_ location: CLLocation) {
       let zoomLevel: CLLocationDistance = 0.01
       let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: zoomLevel, longitudeDelta: zoomLevel))
-      parent?.mapView?.setRegion(region, animated: true)
+      mapView.setRegion(region, animated: true)
     }
 
     public func updatePolyline(_ locations: [CLLocationCoordinate2D]) {
       let polyline = MKPolyline(coordinates: locations, count: locations.count)
-      parent?.mapView?.removeOverlays(parent?.mapView?.overlays ?? [])
-      parent?.mapView?.addOverlay(polyline)
+      mapView.removeOverlays(mapView.overlays)
+      mapView.addOverlay(polyline)
 
       if let lastLocation = locations.last {
         let region = MKCoordinateRegion(center: lastLocation, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-        parent?.mapView?.setRegion(region, animated: true)
+        mapView.setRegion(region, animated: true)
       }
     }
   }

@@ -8,6 +8,7 @@
 import Models
 import Navigator
 import SwiftUI
+import RouteKit
 
 public enum HomeDestinations {
   case addGoal
@@ -22,6 +23,7 @@ extension HomeDestinations: NavigationDestination {
       AddGoalSheet()
     case .notifications:
       LiveRouteScreen()
+        .tabBarHidden()
     case .liveRoute:
       LiveRouteScreen()
     }
