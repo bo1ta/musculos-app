@@ -47,7 +47,7 @@ public final class LocationManager: NSObject, @unchecked Sendable {
     _ = locationStream
 
     locationManager.startUpdatingLocation()
-    Logger.info(message: "LocationManager started tracking location")
+    Logger.info(message: "Started tracking location")
   }
 
   public func stopTracking() {
@@ -57,7 +57,7 @@ public final class LocationManager: NSObject, @unchecked Sendable {
     defer { isTracking = false }
 
     locationManager.stopUpdatingLocation()
-    Logger.info(message: "LocationManager stopped tracking location")
+    Logger.info(message: "Stopped tracking location")
   }
 
   public func closeLocationStream() {
@@ -93,7 +93,7 @@ extension LocationManager: CLLocationManagerDelegate {
 
   public func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
     Logger.error(error, message: "Location manager failed with error")
-    locationContinuation?.finish()
+    closeLocationStream()
   }
 
   public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {

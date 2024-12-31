@@ -54,10 +54,6 @@ extension MapLocationView {
       startListeningForLocationUpdates()
     }
 
-    deinit {
-      locationsTask?.cancel()
-    }
-
     func startListeningForLocationUpdates() {
       locationsTask?.cancel()
       locationsTask = Task { [weak self] in
@@ -93,9 +89,9 @@ extension MapLocationView {
         return 0.0
       }
 
-      let pace = elapsedTimeMinutes / (self.totalDistance / 1000.0)
-      Logger.info(message: "Average pace: \(String(format: "%.2f min/km", pace))")
-      return pace
+      let averagePace = elapsedTimeMinutes / (totalDistance / 1000.0)
+      Logger.info(message: "Average pace: \(String(format: "%.2f min/km", averagePace))")
+      return averagePace
     }
 
     func stopListeningForLocationUpdates() {
