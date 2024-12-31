@@ -20,7 +20,7 @@ extension HomeDestinations: NavigationDestination {
   public var view: some View {
     switch self {
     case .addGoal:
-      AddGoalSheet()
+      AddGoalSheet(onBack: {})
     case .notifications:
       LiveRouteScreen()
         .tabBarHidden()

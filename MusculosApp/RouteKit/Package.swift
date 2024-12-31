@@ -14,12 +14,14 @@ let package = Package(
   ],
   dependencies: [
     .package(name: "Utility", path: "../Utility"),
+    .package(name: "Components", path: "../Components"),
   ],
   targets: [
     .target(
       name: "RouteKit",
       dependencies: [
         .product(name: "Utility", package: "Utility"),
+        .product(name: "Components", package: "Components"),
       ]
     ),
     .testTarget(

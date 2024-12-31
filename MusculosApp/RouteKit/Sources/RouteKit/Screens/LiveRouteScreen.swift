@@ -18,7 +18,7 @@ public struct LiveRouteScreen: View {
   public var body: some View {
     GeometryReader { proxy in
       VStack {
-        MapLocationView(averagePace: $averagePace)
+        RouteView(averagePace: $averagePace)
         Spacer()
       }
       .ignoresSafeArea()

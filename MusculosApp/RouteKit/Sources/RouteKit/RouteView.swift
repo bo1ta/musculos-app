@@ -10,8 +10,14 @@ import MapKit
 import CoreLocation
 import Utility
 
-public struct MapLocationView: UIViewRepresentable {
+public struct RouteView: UIViewRepresentable {
+  @Binding var currentLocation: CLLocation?
   @Binding var averagePace: Double
+
+  init(currentLocation: Binding<CLLocation?> = .constant(nil), averagePace: Binding<Double>) {
+    self._currentLocation = currentLocation
+    self._averagePace = averagePace
+  }
 
   public func makeUIView(context: Context) -> MKMapView {
     context.coordinator.mapView
@@ -20,7 +26,7 @@ public struct MapLocationView: UIViewRepresentable {
   public func updateUIView(_ uiView: MKMapView, context: Context) {}
 
   public func makeCoordinator() -> Coordinator {
-    Coordinator(averagePace: $averagePace)
+    Coordinator(averagePace: $averagePace, currentLocation: $currentLocation)
   }
 
   public static func dismantleUIView(_ uiView: MKMapView, coordinator: Coordinator) {
@@ -28,14 +34,16 @@ public struct MapLocationView: UIViewRepresentable {
   }
 }
 
-extension MapLocationView {
-  public class Coordinator: NSObject, @preconcurrency CLLocationManagerDelegate, MKMapViewDelegate, @unchecked Sendable {
+extension RouteView {
+  public class Coordinator: NSObject, MKMapViewDelegate, @unchecked Sendable {
     private var averagePace: Binding<Double>
-    private var locationsTask: Task<Void, Never>?
+    private var currentLocation: Binding<CLLocation?>
+
     private let locationManager: LocationManager
     private var totalDistance: CLLocationDistance = 0.0
     private var startTime: Date?
-    private var lastLocation: CLLocation?
+    private var locationsTask: Task<Void, Never>?
+    private var pinnedLocations: [CLLocationCoordinate2D] = []
 
     public lazy var mapView: MKMapView = {
       let mapView = MKMapView()
@@ -44,14 +52,43 @@ extension MapLocationView {
       return mapView
     }()
 
-    init(averagePace: Binding<Double>) {
+    init(averagePace: Binding<Double>, currentLocation: Binding<CLLocation?>) {
       self.averagePace = averagePace
+      self.currentLocation = currentLocation
       self.locationManager = LocationManager()
 
       super.init()
 
       locationManager.checkAuthorizationStatus()
       startListeningForLocationUpdates()
+      setupGestureRecognizer()
+    }
+
+    private func setupGestureRecognizer() {
+      let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+      longPressGesture.minimumPressDuration = 0.5
+      mapView.addGestureRecognizer(longPressGesture)
+    }
+
+    @objc
+    private func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+      guard gestureRecognizer.state == .began else {
+        return
+      }
+
+      let touchPoint = gestureRecognizer.location(in: mapView)
+      let coordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
+      addMarker(at: coordinate)
+    }
+
+    private func addMarker(at coordinate: CLLocationCoordinate2D) {
+      let annotation = MKPointAnnotation()
+      annotation.coordinate = coordinate
+      annotation.title = "Custom Pin"
+      annotation.subtitle = "Long press to add another pin"
+      mapView.addAnnotation(annotation)
+      pinnedLocations.append(coordinate)
+      updatePolyline(pinnedLocations)
     }
 
     func startListeningForLocationUpdates() {
@@ -64,19 +101,17 @@ extension MapLocationView {
         startTime = Date()
 
         for await location in locationManager.locationStream {
-          updateMapLocation(location)
-
           await MainActor.run {
+            updateMapLocation(location)
             averagePace = .constant(calculateAveragePace(from: location))
+            currentLocation = .constant(location)
           }
-
-          lastLocation = location
         }
       }
     }
 
     private func calculateAveragePace(from location: CLLocation) -> Double {
-      guard let lastLocation, let startTime else {
+      guard let lastLocation = currentLocation.wrappedValue, let startTime else {
         return 0.0
       }
 
@@ -114,6 +149,32 @@ extension MapLocationView {
         let region = MKCoordinateRegion(center: lastLocation, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         mapView.setRegion(region, animated: true)
       }
+    }
+
+    // MARK: - MKMapViewDelegate
+
+    public func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
+      guard !annotation.isKind(of: MKUserLocation.self) else {
+        return nil
+      }
+
+      let identifier = "CustomPin"
+      var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+
+      if annotationView == nil {
+        annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+        annotationView?.canShowCallout = true
+
+        // Customize pin appearance
+        if let markerView = annotationView as? MKMarkerAnnotationView {
+          markerView.markerTintColor = .systemPurple
+          markerView.glyphImage = UIImage(systemName: "mappin")
+        }
+      } else {
+        annotationView?.annotation = annotation
+      }
+
+      return annotationView
     }
   }
 }

@@ -15,11 +15,13 @@ struct AddGoalSheet: View {
   @Environment(\.dismiss) private var dismiss
   @State private var viewModel = AddGoalSheetViewModel()
 
+  var onBack: () -> Void
+
   var body: some View {
     ScrollView {
       SheetNavBar(
         title: "Add a new goal",
-        onBack: { dismiss() },
+        onBack: onBack,
         onDismiss: { dismiss() }
       )
       .padding(.vertical, 25)
@@ -67,5 +69,5 @@ struct AddGoalSheet: View {
 }
 
 #Preview {
-  AddGoalSheet()
+  AddGoalSheet(onBack: {})
 }
