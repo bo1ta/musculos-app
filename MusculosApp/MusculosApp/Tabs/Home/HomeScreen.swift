@@ -24,7 +24,7 @@ struct HomeScreen: View {
         UserHeader(
           profile: userStore.currentUserProfile,
           onNotificationsTap: {
-            navigator.navigate(to: HomeDestinations.notifications)
+            navigator.navigate(to: HomeDestinations.liveRoute)
           }
         )
 
