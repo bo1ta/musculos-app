@@ -74,7 +74,6 @@ struct AddExerciseSheet: View {
       .padding(.horizontal, 10)
       .padding(.bottom)
     }
-    .toastView(toast: $viewModel.toast)
     .onDisappear(perform: viewModel.onDisappear)
   }
 

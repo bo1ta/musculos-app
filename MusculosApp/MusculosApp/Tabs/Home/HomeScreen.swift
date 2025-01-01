@@ -14,7 +14,6 @@ import Utility
 
 struct HomeScreen: View {
   @Environment(\.navigator) private var navigator: Navigator
-  @Environment(\.userStore) private var userStore
 
   @State private var viewModel = HomeViewModel()
 
@@ -22,7 +21,7 @@ struct HomeScreen: View {
     ScrollView {
       VStack(alignment: .leading, spacing: 15) {
         UserHeader(
-          profile: userStore.currentUserProfile,
+          profile: viewModel.currentUser,
           onNotificationsTap: {
             navigator.navigate(to: HomeDestinations.liveRoute)
           })

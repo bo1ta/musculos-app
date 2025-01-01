@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Components
 import DataRepository
 import Factory
 import Foundation
@@ -18,31 +19,34 @@ import Utility
 @Observable
 @MainActor
 final class OnboardingViewModel {
+
+  @ObservationIgnored
+  @Injected(\.toastService) private var toastService: ToastService
+
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
 
-  // MARK: - Event
-
-  enum Event {
-    case didFinishOnboarding(OnboardingData)
-    case didFinishWithError(Error)
-    case didFailLoadingOnboardingData
-  }
-
-  private let eventSubject = PassthroughSubject<Event, Never>()
-
-  var eventPublisher: AnyPublisher<Event, Never> {
-    eventSubject.eraseToAnyPublisher()
-  }
+  @ObservationIgnored
+  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
 
   // MARK: - Observed properties
 
-  private(set) var wizardStep = OnboardingWizardStep.heightAndWeight
   var selectedWeight = ""
   var selectedHeight = ""
   var selectedGoal: OnboardingGoal?
   var selectedLevel: OnboardingConstants.Level?
   var onboardingGoals: [OnboardingGoal] = []
+
+  private(set) var wizardStep = OnboardingWizardStep.heightAndWeight
+  private(set) var onboardingTask: Task<Void, Never>?
+
+  private var previousStep: OnboardingWizardStep? {
+    OnboardingWizardStep(rawValue: wizardStep.rawValue - 1)
+  }
+
+  private var nextStep: OnboardingWizardStep? {
+    OnboardingWizardStep(rawValue: wizardStep.rawValue + 1)
+  }
 
   func initialLoad() async {
     prepareHaptics()
@@ -50,8 +54,14 @@ final class OnboardingViewModel {
     do {
       onboardingGoals = try await goalRepository.getOnboardingGoals()
     } catch {
-      sendEvent(.didFailLoadingOnboardingData)
+      toastService.error("Could not save onboarding data")
     }
+  }
+
+  private func prepareHaptics() {
+    HapticFeedbackProvider.prepareHaptic(.lightImpact)
+    HapticFeedbackProvider.prepareHaptic(.heavyImpact)
+    HapticFeedbackProvider.prepareHaptic(.notifySuccess)
   }
 
   func handleNextStep() {
@@ -59,12 +69,23 @@ final class OnboardingViewModel {
       wizardStep = nextStep
       sendHaptic(.heavyImpact)
     } else {
+      saveOnboardingData()
+    }
+  }
+
+  private func saveOnboardingData() {
+    onboardingTask = Task { [weak self] in
+      guard let self else {
+        return
+      }
+
       let onboardingData = OnboardingData(
         weight: Int(selectedWeight),
         height: Int(selectedHeight),
         level: selectedLevel?.title,
         goal: selectedGoal)
-      sendEvent(.didFinishOnboarding(onboardingData))
+
+      await userStore.updateOnboardingStatus(onboardingData)
       sendHaptic(.notifySuccess)
     }
   }
@@ -76,24 +97,8 @@ final class OnboardingViewModel {
     wizardStep = previousStep
   }
 
-  // MARK: - Private
-
-  private var previousStep: OnboardingWizardStep? {
-    OnboardingWizardStep(rawValue: wizardStep.rawValue - 1)
-  }
-
-  private var nextStep: OnboardingWizardStep? {
-    OnboardingWizardStep(rawValue: wizardStep.rawValue + 1)
-  }
-
-  private func sendEvent(_ event: Event) {
-    eventSubject.send(event)
-  }
-
-  private func prepareHaptics() {
-    HapticFeedbackProvider.prepareHaptic(.lightImpact)
-    HapticFeedbackProvider.prepareHaptic(.heavyImpact)
-    HapticFeedbackProvider.prepareHaptic(.notifySuccess)
+  func cleanUp() {
+    onboardingTask?.cancel()
   }
 
   private func sendHaptic(_ hapticStyle: HapticFeedbackProvider.HapticFeedbackStyle) {

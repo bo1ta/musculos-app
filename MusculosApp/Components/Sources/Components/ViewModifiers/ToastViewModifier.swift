@@ -17,52 +17,18 @@ public struct ToastViewModifier: ViewModifier {
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .overlay(
         ZStack {
-          toastView
+          if let toast {
+            VStack {
+              Spacer()
+              ToastView(
+                style: toast.style,
+                message: toast.message,
+                width: toast.width)
+            }
+            .padding(.bottom, 100)
             .transition(.asymmetric(insertion: .push(from: .bottom), removal: .move(edge: .bottom)))
+          }
         }
-        .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: toast))
-      .onChange(of: toast) { _, _ in
-        showToast()
-      }
-  }
-
-  @ViewBuilder
-  var toastView: some View {
-    if let toast {
-      VStack {
-        Spacer()
-        ToastView(
-          style: toast.style,
-          message: toast.message,
-          width: toast.width)
-      }
-      .padding(.bottom, 100)
-    }
-  }
-
-  private func showToast() {
-    guard let toast else {
-      return
-    }
-
-    if toast.duration > 0 {
-      workItem?.cancel()
-
-      let task = DispatchWorkItem {
-        dismissToast()
-      }
-      workItem = task
-
-      DispatchQueue.main.asyncAfter(deadline: .now() + toast.duration, execute: task)
-    }
-  }
-
-  private func dismissToast() {
-    withAnimation {
-      toast = nil
-    }
-
-    workItem?.cancel()
-    workItem = nil
+          .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: toast))
   }
 }

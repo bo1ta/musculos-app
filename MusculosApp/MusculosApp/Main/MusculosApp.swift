@@ -38,9 +38,8 @@ struct MusculosApp: App {
       .task {
         await appModel.loadInitialState()
       }
-      .environment(\.userStore, appModel.userStore)
       .onChange(of: scenePhase) { _, newPhase in
-        appModel.handleScenePhaseChange(newPhase)
+        appModel.didChangeScenePhase(newPhase)
       }
     }
   }

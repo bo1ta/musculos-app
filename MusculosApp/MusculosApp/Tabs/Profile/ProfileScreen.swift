@@ -10,7 +10,6 @@ import Models
 import SwiftUI
 
 struct ProfileScreen: View {
-  @Environment(\.userStore) private var userStore
   @Environment(\.navigator) private var navigator
 
   @State private var viewModel = ProfileViewModel()
@@ -18,7 +17,7 @@ struct ProfileScreen: View {
   var body: some View {
     ScrollView {
       VStack(spacing: 10) {
-        UserHeader(profile: userStore.currentUserProfile, onNotificationsTap: { })
+        UserHeader(profile: viewModel.currentUser, onNotificationsTap: { })
         ContentSectionWithHeaderAndButton(headerTitle: "Overview", buttonTitle: "See more", onAction: { }, content: {
           ScoreCard(
             title: "Fitness Score",

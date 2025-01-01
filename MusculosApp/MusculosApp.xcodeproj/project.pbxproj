@@ -60,7 +60,6 @@
 		BC4E5D532CAB601F0046ABEE /* ExerciseSummarySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E5D522CAB601F0046ABEE /* ExerciseSummarySection.swift */; };
 		BC4E5D552CAC58070046ABEE /* EquipmentCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E5D542CAC58070046ABEE /* EquipmentCard.swift */; };
 		BC4E5D572CAC61050046ABEE /* StarsRatingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E5D562CAC61050046ABEE /* StarsRatingCard.swift */; };
-		BC545E3E2C3C6A8F00713B86 /* EnvironmentValues+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC545E392C3C6A8F00713B86 /* EnvironmentValues+Extension.swift */; };
 		BC545E482C3C730E00713B86 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = BC545E472C3C730E00713B86 /* Storage */; };
 		BC569FDB2C45965900F9C918 /* Components in Frameworks */ = {isa = PBXBuildFile; productRef = BC569FDA2C45965900F9C918 /* Components */; };
 		BC583B0D2BA8C76500236C0D /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC583B0C2BA8C76500236C0D /* OnboardingViewModel.swift */; };
@@ -99,11 +98,12 @@
 		BC81E5D72BD3063B0005891D /* AddExerciseSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81E5D62BD3063B0005891D /* AddExerciseSheetViewModel.swift */; };
 		BC828CE32C028E9200AB9D1D /* ExerciseDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC828CE22C028E9200AB9D1D /* ExerciseDetailsViewModel.swift */; };
 		BC828CE52C02924200AB9D1D /* WorkoutFlowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC828CE42C02924200AB9D1D /* WorkoutFlowViewModel.swift */; };
+		BC8FCDDB2D24D9B1009CF61E /* OnboardingWizard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8FCDDA2D24D9AE009CF61E /* OnboardingWizard.swift */; };
+		BC8FCDDD2D25B598009CF61E /* Container+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8FCDDC2D25B594009CF61E /* Container+Extension.swift */; };
 		BC97C9322BA0D5D500AA07C4 /* AddActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC97C9312BA0D5D500AA07C4 /* AddActionSheet.swift */; };
 		BC9A020E2C593ED5003C83A8 /* AuthenticationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A020D2C593ED5003C83A8 /* AuthenticationScreen.swift */; };
 		BCA24BEF2B69D3AE00124EC3 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BEE2B69D3AE00124EC3 /* SplashScreen.swift */; };
 		BCA24BFC2B6AB9AF00124EC3 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BFB2B6AB9AF00124EC3 /* SignInView.swift */; };
-		BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BFD2B6AD33200124EC3 /* UserStore.swift */; };
 		BCA24C002B6AE68500124EC3 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BFF2B6AE68500124EC3 /* SignUpView.swift */; };
 		BCA24C082B6AFF8200124EC3 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C072B6AFF8200124EC3 /* OnboardingScreen.swift */; };
 		BCA24C0D2B6B14EE00124EC3 /* SelectSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */; };
@@ -197,7 +197,6 @@
 		BC4E5D522CAB601F0046ABEE /* ExerciseSummarySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSummarySection.swift; sourceTree = "<group>"; };
 		BC4E5D542CAC58070046ABEE /* EquipmentCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquipmentCard.swift; sourceTree = "<group>"; };
 		BC4E5D562CAC61050046ABEE /* StarsRatingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarsRatingCard.swift; sourceTree = "<group>"; };
-		BC545E392C3C6A8F00713B86 /* EnvironmentValues+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Extension.swift"; sourceTree = "<group>"; };
 		BC583B0C2BA8C76500236C0D /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		BC606A6D2C221CBD00154781 /* SelectLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLevelView.swift; sourceTree = "<group>"; };
 		BC655B002CB0497600C19E07 /* YourWorkoutSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourWorkoutSection.swift; sourceTree = "<group>"; };
@@ -232,11 +231,12 @@
 		BC82446E2BAE6AE700CFA645 /* MusculosAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MusculosAppDebug.entitlements; sourceTree = "<group>"; };
 		BC828CE22C028E9200AB9D1D /* ExerciseDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsViewModel.swift; sourceTree = "<group>"; };
 		BC828CE42C02924200AB9D1D /* WorkoutFlowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFlowViewModel.swift; sourceTree = "<group>"; };
+		BC8FCDDA2D24D9AE009CF61E /* OnboardingWizard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWizard.swift; sourceTree = "<group>"; };
+		BC8FCDDC2D25B594009CF61E /* Container+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+Extension.swift"; sourceTree = "<group>"; };
 		BC97C9312BA0D5D500AA07C4 /* AddActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddActionSheet.swift; sourceTree = "<group>"; };
 		BC9A020D2C593ED5003C83A8 /* AuthenticationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationScreen.swift; sourceTree = "<group>"; };
 		BCA24BEE2B69D3AE00124EC3 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
 		BCA24BFB2B6AB9AF00124EC3 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
-		BCA24BFD2B6AD33200124EC3 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 		BCA24BFF2B6AE68500124EC3 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		BCA24C072B6AFF8200124EC3 /* OnboardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
 		BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSizeView.swift; sourceTree = "<group>"; };
@@ -408,6 +408,7 @@
 		BC2EAE2D2C223F9D00FB3C1F /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				BC8FCDDA2D24D9AE009CF61E /* OnboardingWizard.swift */,
 				BCA24C0C2B6B14EE00124EC3 /* SelectSizeView.swift */,
 				BCA24C0E2B6B2B5D00124EC3 /* SelectGoalView.swift */,
 				BC606A6D2C221CBD00154781 /* SelectLevelView.swift */,
@@ -429,7 +430,6 @@
 			isa = PBXGroup;
 			children = (
 				BC1B7E362D136F5E0002158C /* CommonDestinations.swift */,
-				BCA24BFD2B6AD33200124EC3 /* UserStore.swift */,
 				BC3C0C672D177D360039B367 /* Views */,
 				BCAE95A62C447E9600AD91BE /* Extension */,
 			);
@@ -688,7 +688,7 @@
 		BCAE95A62C447E9600AD91BE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				BC545E392C3C6A8F00713B86 /* EnvironmentValues+Extension.swift */,
+				BC8FCDDC2D25B594009CF61E /* Container+Extension.swift */,
 				BC3760E52D1F5EF6000A92F3 /* PreferenceKeys */,
 			);
 			path = Extension;
@@ -938,6 +938,7 @@
 				BC1B7E372D136F660002158C /* CommonDestinations.swift in Sources */,
 				BC75310D2CF3613500C85033 /* HistoryScreen.swift in Sources */,
 				BC583B0D2BA8C76500236C0D /* OnboardingViewModel.swift in Sources */,
+				BC8FCDDD2D25B598009CF61E /* Container+Extension.swift in Sources */,
 				BC781FFF2B9B6061009F9FB5 /* ScoreCard.swift in Sources */,
 				BC828CE52C02924200AB9D1D /* WorkoutFlowViewModel.swift in Sources */,
 				BC3C0C662D1777750039B367 /* ExerciseDetailsContent.swift in Sources */,
@@ -951,7 +952,6 @@
 				BC0ECAEA2CF3A46200FC6367 /* HistoryViewModel.swift in Sources */,
 				BC1B7E2D2D1358A10002158C /* ExploreDestinations.swift in Sources */,
 				BCA24BFC2B6AB9AF00124EC3 /* SignInView.swift in Sources */,
-				BCA24BFE2B6AD33200124EC3 /* UserStore.swift in Sources */,
 				BC43682C2CED42C3006E712F /* ExploreScreen.swift in Sources */,
 				BC43682D2CED42C3006E712F /* ExploreViewModel.swift in Sources */,
 				BC74C1B62C0107CA0021B932 /* WorkoutIntroView.swift in Sources */,
@@ -964,7 +964,6 @@
 				BC4E5D552CAC58070046ABEE /* EquipmentCard.swift in Sources */,
 				BC3C0C622D1774640039B367 /* ExerciseDetailsButton.swift in Sources */,
 				BC1674B62BE2E73F0012048D /* AddGoalSheet.swift in Sources */,
-				BC545E3E2C3C6A8F00713B86 /* EnvironmentValues+Extension.swift in Sources */,
 				BC1B7E282D13536B0002158C /* RootHistoryScreen.swift in Sources */,
 				BC7820012B9B64F1009F9FB5 /* ScoreBadge.swift in Sources */,
 				BC4368242CEBC5A8006E712F /* ExploreSearchSection.swift in Sources */,
@@ -991,6 +990,7 @@
 				BC811F742CA03AA600C3CC01 /* HomeViewModel.swift in Sources */,
 				BCC46FF42C0E2E97006D76E2 /* PermissionsView.swift in Sources */,
 				BC39FB782D217836004EB5D0 /* ProfileViewModel.swift in Sources */,
+				BC8FCDDB2D24D9B1009CF61E /* OnboardingWizard.swift in Sources */,
 				BC828CE32C028E9200AB9D1D /* ExerciseDetailsViewModel.swift in Sources */,
 				BCA24C082B6AFF8200124EC3 /* OnboardingScreen.swift in Sources */,
 				BC4368262CEC08DE006E712F /* GoalsSection.swift in Sources */,
@@ -1357,7 +1357,7 @@
 			repositoryURL = "https://github.com/hmlongco/Navigator";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.8.0;
+				minimumVersion = 0.8.1;
 			};
 		};
 		BC6249732BEC20AC00393915 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {

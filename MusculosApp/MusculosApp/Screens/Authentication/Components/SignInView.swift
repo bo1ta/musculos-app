@@ -12,7 +12,6 @@ import Utility
 // MARK: - SignInView
 
 struct SignInView: View {
-  @Environment(\.userStore) private var userStore
   @Environment(\.navigator) private var navigator
 
   @Bindable var viewModel: AuthenticationViewModel

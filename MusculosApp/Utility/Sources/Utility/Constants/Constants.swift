@@ -28,6 +28,8 @@ public enum HTTPHeaderConstant {
 public enum UIConstant {
   public static let componentOpacity = 0.95
 
+  public static let toastStandardDuration = 3.0
+
   public static let shortAnimationDuration = 0.1
   public static let mediumAnimationDuration = 0.25
   public static let longAnimationDuration = 0.5

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct OnboardingData {
+public struct OnboardingData: Sendable {
   public let weight: Int?
   public let height: Int?
   public let level: String?

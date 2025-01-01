@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Components
 import DataRepository
 import Factory
 import Foundation
@@ -19,20 +20,17 @@ class AuthenticationViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.userRepository) private var repository: UserRepository
 
+  @ObservationIgnored
+  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
+
+  @ObservationIgnored
+  @Injected(\.toastService) private var toastService: ToastService
+
   // MARK: - Auth step
 
   enum Step {
     case login
     case register
-  }
-
-  // MARK: - Event
-
-  enum Event {
-    case onLoginSuccess(UserSession)
-    case onLoginFailure(Error)
-    case onRegisterSuccess(UserSession)
-    case onRegisterFailure(Error)
   }
 
   // MARK: - Public
@@ -42,10 +40,6 @@ class AuthenticationViewModel {
   var password = ""
   var confirmPassword = ""
   var isLoading = false
-
-  var eventPublisher: AnyPublisher<Event, Never> {
-    eventSubject.eraseToAnyPublisher()
-  }
 
   var isLoginFormValid: Bool {
     RegexValidator.isValidEmail(email) && RegexValidator.isValidPassword(password)
@@ -57,7 +51,6 @@ class AuthenticationViewModel {
   }
 
   private(set) var authTask: Task<Void, Never>?
-  private let eventSubject = PassthroughSubject<Event, Never>()
 
   var step: Step
 
@@ -78,9 +71,9 @@ class AuthenticationViewModel {
 
       do {
         let session = try await repository.login(email: email, password: password)
-        sendEvent(.onLoginSuccess(session))
+        await userStore.authenticateSession(session)
       } catch {
-        sendEvent(.onLoginFailure(error))
+        toastService.error("An error occured while signing in")
         Logger.error(error, message: "Sign in failed")
       }
     }
@@ -98,13 +91,10 @@ class AuthenticationViewModel {
       defer { isLoading = false }
 
       do {
-        let session = try await repository.register(
-          email: email,
-          password: password,
-          username: username)
-        sendEvent(.onRegisterSuccess(session))
+        let session = try await repository.register(email: email, password: password, username: username)
+        await userStore.authenticateSession(session)
       } catch {
-        sendEvent(.onRegisterFailure(error))
+        toastService.error("An error occured while signing up")
         Logger.error(error, message: "Sign Up failed")
       }
     }
@@ -113,9 +103,5 @@ class AuthenticationViewModel {
   func cleanUp() {
     authTask?.cancel()
     authTask = nil
-  }
-
-  private func sendEvent(_ event: Event) {
-    eventSubject.send(event)
   }
 }

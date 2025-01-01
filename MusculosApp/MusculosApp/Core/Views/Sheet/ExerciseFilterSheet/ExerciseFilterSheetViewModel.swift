@@ -50,7 +50,7 @@ class ExerciseFilterSheetViewModel {
 
   init() {
     filtersChanged
-      .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+      .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
       .sink { [weak self] _ in
         self?.filterExercises()
       }

@@ -10,10 +10,7 @@ import SwiftUI
 import Utility
 
 struct AuthenticationScreen: View {
-  @Environment(\.userStore) private var userStore
-
   @State private var viewModel: AuthenticationViewModel
-  @State private var toast: Toast?
 
   /// used for the wave animation
   @State private var waveSize: CGFloat
@@ -52,11 +49,9 @@ struct AuthenticationScreen: View {
       .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: viewModel.step)
     }
     .onDisappear(perform: viewModel.cleanUp)
-    .onReceive(viewModel.eventPublisher, perform: handleAuthEvent(_:))
     .onChange(of: viewModel.step) { _, step in
       handleStepUpdate(step)
     }
-    .toastView(toast: $toast)
     .dismissingGesture(
       direction: .left,
       action: {
@@ -69,21 +64,6 @@ struct AuthenticationScreen: View {
 
   private func handleStepUpdate(_ step: AuthenticationViewModel.Step) {
     waveSize = step == .login ? originalSignInWaveSize : originalSignUpWaveSize
-  }
-
-  private func handleAuthEvent(_ event: AuthenticationViewModel.Event) {
-    switch event {
-    case .onLoginSuccess(let userSession), .onRegisterSuccess(let userSession):
-      userStore.handlePostLogin(session: userSession)
-
-    case .onLoginFailure(let error):
-      toast = .init(style: .error, message: "Could not register. Please try again later")
-      Logger.error(error, message: "Login failed")
-
-    case .onRegisterFailure(let error):
-      toast = .init(style: .error, message: "Could not register. Please try again later")
-      Logger.error(error, message: "Register failed")
-    }
   }
 }
 

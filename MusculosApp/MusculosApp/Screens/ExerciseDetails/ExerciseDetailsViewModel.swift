@@ -18,6 +18,12 @@ import Utility
 @Observable
 @MainActor
 final class ExerciseDetailsViewModel {
+
+  // MARK: Dependencies
+
+  @ObservationIgnored
+  @Injected(\.toastService) private var toastService: ToastService
+
   @ObservationIgnored
   @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
 
@@ -49,7 +55,6 @@ final class ExerciseDetailsViewModel {
   var userRating = 0
   var exerciseRatings: [ExerciseRating] = []
   var inputWeight: Double = 0
-  var toast: Toast?
 
   var ratingAverage: Double {
     guard !exerciseRatings.isEmpty else {
@@ -129,6 +134,10 @@ final class ExerciseDetailsViewModel {
       showErrorToast()
       Logger.error(error, message: "Could not load exercise ratings")
     }
+  }
+
+  private func showErrorToast() {
+    toastService.error("Oops! Something went wrong")
   }
 
   func handleSubmit() {
@@ -228,10 +237,6 @@ final class ExerciseDetailsViewModel {
     withAnimation {
       showXPGainDialog = false
     }
-  }
-
-  private func showErrorToast() {
-    toast = .error("Oops! Something went wrong")
   }
 
   private func maybeUpdateGoals(for exerciseSession: ExerciseSession) async {

@@ -15,6 +15,13 @@ import Utility
 @Observable
 @MainActor
 final class ProfileViewModel {
+
+  @ObservationIgnored
+  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
+
+  @ObservationIgnored
+  @Injected(\.toastService) private var toastService: ToastService
+
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
 
@@ -24,9 +31,11 @@ final class ProfileViewModel {
   private(set) var exercises: [Exercise] = []
   private(set) var userTotalSteps = 0.0
   private(set) var userTotalSleep = 0
-  private(set) var toast: Toast?
-
   var selectedWorkout: String?
+
+  var currentUser: UserProfile? {
+    userStore.currentUser
+  }
 
   func initialLoad() async {
     async let exerciseTask: Void = loadFavoriteExercises()
@@ -46,7 +55,7 @@ final class ProfileViewModel {
   private func loadHealthKitData() async {
     do {
       guard try await healthKitClient.requestPermissions() else {
-        toast = .warning("Not showing HealthKit data")
+        toastService.warning("Not showing HealthKit data")
         return
       }
 
@@ -55,7 +64,7 @@ final class ProfileViewModel {
 
       (userTotalSleep, userTotalSteps) = try await (totalSleepTask, totalStepsTask)
     } catch {
-      toast = .error("Unable to load HealthKit data")
+      toastService.error("Unable to load HealthKit data")
       Logger.error(error, message: "Error loading HealthKit data")
     }
   }

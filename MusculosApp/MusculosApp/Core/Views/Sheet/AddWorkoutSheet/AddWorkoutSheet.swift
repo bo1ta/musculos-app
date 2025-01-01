@@ -71,7 +71,6 @@ struct AddWorkoutSheet: View {
       buttonTitle: "Save",
       isPresented: $viewModel.showRepsDialog,
       onSelectedValue: viewModel.didSelectExercise)
-    .toastView(toast: $viewModel.toast)
     .onReceive(viewModel.didSavePublisher, perform: { _ in
       dismiss()
     })

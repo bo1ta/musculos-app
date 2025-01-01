@@ -29,6 +29,11 @@ extension DataRepositoryContainer {
     self { UserRepository() }
   }
 
+  public var userStore: Factory<UserStore> {
+    self { UserStore() }
+      .cached
+  }
+
   public var exerciseRepository: Factory<ExerciseRepository> {
     self { ExerciseRepository() }
   }
