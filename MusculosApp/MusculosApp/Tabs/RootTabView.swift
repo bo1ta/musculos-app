@@ -55,14 +55,14 @@ struct RootTabView: View {
         .offset(y: -30)
         .opacity(showAddButton ? 1 : 0)
     }
-    .onPreferenceChange(ShowTabPreferenceKey.self, perform: { value in
-      DispatchQueue.main.async {
-        showAddButton = value
-      }
-    })
+    .onPreferenceChange(ShowTabPreferenceKey.self, perform: updateButtonVisibility(_:))
     .sheet(isPresented: $showActionSheet) {
       AddActionSheetContainer()
     }
+  }
+
+  private func updateButtonVisibility(_ showButton: Bool) {
+    showAddButton = showButton
   }
 }
 
