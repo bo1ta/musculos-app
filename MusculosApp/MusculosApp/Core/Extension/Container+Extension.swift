@@ -9,8 +9,8 @@ import Components
 import Factory
 
 extension Container {
-  var toastService: Factory<ToastService> {
-    self { ToastService() }
+  var toastManager: Factory<ToastManager> {
+    self { ToastManager() }
       .singleton
   }
 }

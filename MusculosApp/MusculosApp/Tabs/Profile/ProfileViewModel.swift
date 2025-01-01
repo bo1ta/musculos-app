@@ -20,7 +20,7 @@ final class ProfileViewModel {
   @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
 
   @ObservationIgnored
-  @Injected(\.toastService) private var toastService: ToastService
+  @Injected(\.toastManager) private var toastManager: ToastManager
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
@@ -55,7 +55,7 @@ final class ProfileViewModel {
   private func loadHealthKitData() async {
     do {
       guard try await healthKitClient.requestPermissions() else {
-        toastService.warning("Not showing HealthKit data")
+        toastManager.showWarning("Not showing HealthKit data")
         return
       }
 
@@ -64,7 +64,7 @@ final class ProfileViewModel {
 
       (userTotalSleep, userTotalSteps) = try await (totalSleepTask, totalStepsTask)
     } catch {
-      toastService.error("Unable to load HealthKit data")
+      toastManager.showError("Unable to load HealthKit data")
       Logger.error(error, message: "Error loading HealthKit data")
     }
   }

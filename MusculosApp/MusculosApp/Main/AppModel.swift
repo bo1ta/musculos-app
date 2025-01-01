@@ -36,7 +36,7 @@ final class AppModel {
   @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
 
   @ObservationIgnored
-  @Injected(\.toastService) private var toastService: ToastService
+  @Injected(\.toastManager) private var toastManager: ToastManager
 
   private var cancellables = Set<AnyCancellable>()
   private(set) var appState = AppState.loading
@@ -65,7 +65,7 @@ final class AppModel {
       }
       .store(in: &cancellables)
 
-    toastService.toastPublisher
+    toastManager.toastPublisher
       .sink { [weak self] toast in
         self?.toast = toast
       }

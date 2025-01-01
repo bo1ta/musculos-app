@@ -24,7 +24,7 @@ class AuthenticationViewModel {
   @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
 
   @ObservationIgnored
-  @Injected(\.toastService) private var toastService: ToastService
+  @Injected(\.toastManager) private var toastManager: ToastManager
 
   // MARK: - Auth step
 
@@ -73,7 +73,7 @@ class AuthenticationViewModel {
         let session = try await repository.login(email: email, password: password)
         await userStore.authenticateSession(session)
       } catch {
-        toastService.error("An error occured while signing in")
+        toastManager.showError("An error occured while signing in")
         Logger.error(error, message: "Sign in failed")
       }
     }
@@ -94,7 +94,7 @@ class AuthenticationViewModel {
         let session = try await repository.register(email: email, password: password, username: username)
         await userStore.authenticateSession(session)
       } catch {
-        toastService.error("An error occured while signing up")
+        toastManager.showError("An error occured while signing up")
         Logger.error(error, message: "Sign Up failed")
       }
     }

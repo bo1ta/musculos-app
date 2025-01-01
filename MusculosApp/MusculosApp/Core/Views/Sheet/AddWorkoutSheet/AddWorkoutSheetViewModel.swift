@@ -24,7 +24,7 @@ final class AddWorkoutSheetViewModel {
   // MARK: Dependencies
 
   @ObservationIgnored
-  @Injected(\.toastService) private var toastService: ToastService
+  @Injected(\.toastManager) private var toastManager: ToastManager
 
   @ObservationIgnored
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore: CoreDataStore
@@ -132,7 +132,7 @@ final class AddWorkoutSheetViewModel {
 extension AddWorkoutSheetViewModel {
   func submitWorkout() {
     guard !selectedWorkoutExercise.isEmpty, !workoutName.isEmpty, !workoutType.isEmpty else {
-      toastService.warning("Cannot save workout with empty data")
+      toastManager.showWarning("Cannot save workout with empty data")
       return
     }
 
@@ -165,7 +165,7 @@ extension AddWorkoutSheetViewModel {
   }
 
   private func handleError(_ error: Error, message: String) {
-    toastService.error(message)
+    toastManager.showError(message)
     Logger.error(error, message: message)
   }
 }

@@ -9,7 +9,7 @@ import Combine
 import SwiftUI
 import Utility
 
-public class ToastService: @unchecked Sendable {
+public class ToastManager: @unchecked Sendable {
   private let toastSubject = CurrentValueSubject<Toast?, Never>(nil)
 
   public var toastPublisher: AnyPublisher<Toast?, Never> {
@@ -27,19 +27,19 @@ public class ToastService: @unchecked Sendable {
     }
   }
 
-  public func info(_ message: String) {
+  public func showInfo(_ message: String) {
     show(.info(message))
   }
 
-  public func warning(_ message: String) {
+  public func showWarning(_ message: String) {
     show(.warning(message))
   }
 
-  public func success(_ message: String) {
+  public func showSuccess(_ message: String) {
     show(.success(message))
   }
 
-  public func error(_ message: String) {
+  public func showError(_ message: String) {
     show(.error(message))
   }
 }

@@ -21,7 +21,7 @@ final class AddExerciseSheetViewModel {
   // MARK: Dependencies
 
   @ObservationIgnored
-  @Injected(\.toastService) private var toastService: ToastService
+  @Injected(\.toastManager) private var toastManager: ToastManager
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
@@ -65,7 +65,7 @@ final class AddExerciseSheetViewModel {
 
   func saveExercise() {
     guard isExerciseValid else {
-      toastService.warning("Cannot save exercise with empty fields")
+      toastManager.showWarning("Cannot save exercise with empty fields")
       return
     }
 
@@ -91,7 +91,7 @@ final class AddExerciseSheetViewModel {
         try await exerciseRepository.addExercise(exercise)
         didSaveSubject.send(())
       } catch {
-        toastService.error("Cannot save exercise with empty fields")
+        toastManager.showError("Cannot save exercise with empty fields")
         Logger.error(error, message: "Could not save exercise")
       }
     }

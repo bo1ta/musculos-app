@@ -21,7 +21,7 @@ import Utility
 final class OnboardingViewModel {
 
   @ObservationIgnored
-  @Injected(\.toastService) private var toastService: ToastService
+  @Injected(\.toastManager) private var toastManager: ToastManager
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
@@ -54,7 +54,7 @@ final class OnboardingViewModel {
     do {
       onboardingGoals = try await goalRepository.getOnboardingGoals()
     } catch {
-      toastService.error("Could not save onboarding data")
+      toastManager.showError("Could not save onboarding data")
     }
   }
 

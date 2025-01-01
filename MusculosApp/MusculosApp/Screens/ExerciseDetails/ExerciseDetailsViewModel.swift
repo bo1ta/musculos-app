@@ -22,7 +22,7 @@ final class ExerciseDetailsViewModel {
   // MARK: Dependencies
 
   @ObservationIgnored
-  @Injected(\.toastService) private var toastService: ToastService
+  @Injected(\.toastManager) private var toastManager: ToastManager
 
   @ObservationIgnored
   @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
@@ -137,7 +137,7 @@ final class ExerciseDetailsViewModel {
   }
 
   private func showErrorToast() {
-    toastService.error("Oops! Something went wrong")
+    toastManager.showError("Oops! Something went wrong")
   }
 
   func handleSubmit() {
