@@ -41,7 +41,6 @@
 		BC1B7E312D1359060002158C /* HomeDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E302D1359030002158C /* HomeDestinations.swift */; };
 		BC1B7E372D136F660002158C /* CommonDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E362D136F5E0002158C /* CommonDestinations.swift */; };
 		BC1B7E392D137B2A0002158C /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E382D137B230002158C /* AppModel.swift */; };
-		BC1F03C22D04B72500DC7AF7 /* UserStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F038C2D04A63500DC7AF7 /* UserStoreTests.swift */; };
 		BC261AB82B6DA0EF0018E21F /* ExerciseFilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC261AB72B6DA0EF0018E21F /* ExerciseFilterSheet.swift */; };
 		BC29B40D2CE4F624005C641F /* MusclesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29B40C2CE4F624005C641F /* MusclesSection.swift */; };
 		BC32A54B2D0A486B005896D2 /* SelectWeightSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC32A54A2D0A486B005896D2 /* SelectWeightSheet.swift */; };
@@ -177,7 +176,6 @@
 		BC1B7E302D1359030002158C /* HomeDestinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDestinations.swift; sourceTree = "<group>"; };
 		BC1B7E362D136F5E0002158C /* CommonDestinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDestinations.swift; sourceTree = "<group>"; };
 		BC1B7E382D137B230002158C /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
-		BC1F038C2D04A63500DC7AF7 /* UserStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStoreTests.swift; sourceTree = "<group>"; };
 		BC261AB72B6DA0EF0018E21F /* ExerciseFilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFilterSheet.swift; sourceTree = "<group>"; };
 		BC29B40C2CE4F624005C641F /* MusclesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusclesSection.swift; sourceTree = "<group>"; };
 		BC32A54A2D0A486B005896D2 /* SelectWeightSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectWeightSheet.swift; sourceTree = "<group>"; };
@@ -376,7 +374,6 @@
 		BC1160E52A2CFB840028D8FC /* MusculosAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				BC1F038C2D04A63500DC7AF7 /* UserStoreTests.swift */,
 			);
 			path = MusculosAppTests;
 			sourceTree = "<group>";
@@ -1024,7 +1021,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC1F03C22D04B72500DC7AF7 /* UserStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
