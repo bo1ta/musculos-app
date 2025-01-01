@@ -13,6 +13,8 @@ import Models
 import SwiftUI
 import Utility
 
+// MARK: - OnboardingViewModel
+
 @Observable
 @MainActor
 final class OnboardingViewModel {
@@ -35,9 +37,9 @@ final class OnboardingViewModel {
 
   // MARK: - Observed properties
 
-  private(set) var wizardStep: OnboardingWizardStep = .heightAndWeight
-  var selectedWeight: String = ""
-  var selectedHeight: String = ""
+  private(set) var wizardStep = OnboardingWizardStep.heightAndWeight
+  var selectedWeight = ""
+  var selectedHeight = ""
   var selectedGoal: OnboardingGoal?
   var selectedLevel: OnboardingConstants.Level?
   var onboardingGoals: [OnboardingGoal] = []
@@ -61,8 +63,7 @@ final class OnboardingViewModel {
         weight: Int(selectedWeight),
         height: Int(selectedHeight),
         level: selectedLevel?.title,
-        goal: selectedGoal
-      )
+        goal: selectedGoal)
       sendEvent(.didFinishOnboarding(onboardingData))
       sendHaptic(.notifySuccess)
     }
@@ -78,11 +79,11 @@ final class OnboardingViewModel {
   // MARK: - Private
 
   private var previousStep: OnboardingWizardStep? {
-    return OnboardingWizardStep(rawValue: wizardStep.rawValue - 1)
+    OnboardingWizardStep(rawValue: wizardStep.rawValue - 1)
   }
 
   private var nextStep: OnboardingWizardStep? {
-    return OnboardingWizardStep(rawValue: wizardStep.rawValue + 1)
+    OnboardingWizardStep(rawValue: wizardStep.rawValue + 1)
   }
 
   private func sendEvent(_ event: Event) {
@@ -100,7 +101,7 @@ final class OnboardingViewModel {
   }
 }
 
-// MARK: - Step enum
+// MARK: OnboardingViewModel.OnboardingWizardStep
 
 extension OnboardingViewModel {
   enum OnboardingWizardStep: Int {

@@ -18,7 +18,8 @@ import Testing
 final class ExerciseSessionServiceTests: MusculosTestBase {
   @Injected(\NetworkContainer.client) var client: MusculosClientProtocol
 
-  @Test func getAll() async throws {
+  @Test
+  func getAll() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .exerciseSessions(.index)
@@ -33,7 +34,8 @@ final class ExerciseSessionServiceTests: MusculosTestBase {
     #expect(exerciseSessions.count == 1)
   }
 
-  @Test func add() async throws {
+  @Test
+  func add() async throws {
     let exercise = ExerciseFactory.createExercise()
 
     let factory = ExerciseSessionFactory()

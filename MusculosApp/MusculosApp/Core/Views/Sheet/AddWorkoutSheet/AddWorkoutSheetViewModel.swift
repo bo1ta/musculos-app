@@ -15,6 +15,8 @@ import Storage
 import SwiftUI
 import Utility
 
+// MARK: - AddWorkoutSheetViewModel
+
 @Observable
 @MainActor
 final class AddWorkoutSheetViewModel {
@@ -59,7 +61,7 @@ final class AddWorkoutSheetViewModel {
   }
 
   var selectedMuscleTypes: [MuscleType] {
-    return selectedMuscles.compactMap { MuscleType(rawValue: $0) }
+    selectedMuscles.compactMap { MuscleType(rawValue: $0) }
   }
 
   private var exercises: [Exercise] = []
@@ -87,7 +89,7 @@ final class AddWorkoutSheetViewModel {
   // MARK: - UI Logic
 
   func isExerciseSelected(_ exercise: Exercise) -> Bool {
-    return selectedWorkoutExercise.contains(where: { $0.exercise == exercise })
+    selectedWorkoutExercise.contains(where: { $0.exercise == exercise })
   }
 
   func willSelectExercise(_ exercise: Exercise) {
@@ -137,7 +139,10 @@ extension AddWorkoutSheetViewModel {
         return
       }
 
-      guard let currentUserID = userManager.currentUserID, let currentUserProfile = await coreDataStore.userProfile(for: currentUserID) else {
+      guard
+        let currentUserID = userManager.currentUserID,
+        let currentUserProfile = await coreDataStore.userProfile(for: currentUserID)
+      else {
         handleError(MusculosError.notFound, message: "Invalid user")
         return
       }
@@ -148,8 +153,7 @@ extension AddWorkoutSheetViewModel {
           targetMuscles: selectedMuscles,
           workoutType: workoutType,
           createdBy: currentUserProfile,
-          workoutExercises: selectedWorkoutExercise
-        )
+          workoutExercises: selectedWorkoutExercise)
         try await coreDataStore.insertWorkout(workout)
         didSaveSubject.send(())
       } catch {

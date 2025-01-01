@@ -40,8 +40,9 @@ struct MiddlewarePipeline {
 
   private func executeRequestMiddlewares(
     request: APIRequest,
-    handler: @Sendable @escaping (APIRequest) async throws -> (Data, URLResponse)
-  ) async throws -> (Data, URLResponse) {
+    handler: @Sendable @escaping (APIRequest) async throws -> (Data, URLResponse))
+    async throws -> (Data, URLResponse)
+  {
     var nextHandler = handler
 
     for middleware in sortedRequestMiddlewares {
@@ -57,8 +58,9 @@ struct MiddlewarePipeline {
 
   private func executeResponseMiddlewares(
     response: (Data, URLResponse),
-    for request: APIRequest
-  ) async throws -> (Data, URLResponse) {
+    for request: APIRequest)
+    async throws -> (Data, URLResponse)
+  {
     var modifiedResponse = response
 
     for middleware in sortedResponseMiddlewares {

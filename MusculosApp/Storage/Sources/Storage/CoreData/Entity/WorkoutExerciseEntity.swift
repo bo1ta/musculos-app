@@ -10,6 +10,8 @@ import CoreData
 import Foundation
 import Models
 
+// MARK: - WorkoutExerciseEntity
+
 @objc(WorkoutExerciseEntity)
 class WorkoutExerciseEntity: NSManagedObject {
   @NSManaged var modelID: UUID
@@ -17,22 +19,28 @@ class WorkoutExerciseEntity: NSManagedObject {
   @NSManaged var exercise: ExerciseEntity
   @NSManaged var workout: WorkoutEntity?
 
-  @nonobjc class func fetchRequest() -> NSFetchRequest<WorkoutExerciseEntity> {
-    return NSFetchRequest<WorkoutExerciseEntity>(entityName: "WorkoutExerciseEntity")
+  @nonobjc
+  class func fetchRequest() -> NSFetchRequest<WorkoutExerciseEntity> {
+    NSFetchRequest<WorkoutExerciseEntity>(entityName: "WorkoutExerciseEntity")
   }
 }
 
-extension WorkoutExerciseEntity: Identifiable {}
+// MARK: Identifiable
+
+extension WorkoutExerciseEntity: Identifiable { }
+
+// MARK: ReadOnlyConvertible
 
 extension WorkoutExerciseEntity: ReadOnlyConvertible {
   public func toReadOnly() -> WorkoutExercise {
-    return WorkoutExercise(
+    WorkoutExercise(
       id: modelID,
       numberOfReps: numberOfReps.intValue,
-      exercise: exercise.toReadOnly()
-    )
+      exercise: exercise.toReadOnly())
   }
 }
+
+// MARK: EntitySyncable
 
 extension WorkoutExerciseEntity: EntitySyncable {
   func populateEntityFrom(_ model: WorkoutExercise, using storage: any StorageType) {

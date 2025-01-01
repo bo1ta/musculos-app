@@ -13,6 +13,6 @@ public enum SynchronizationState: Int {
   case error = 2
 
   func asNSNumber() -> NSNumber {
-    return rawValue as NSNumber
+    rawValue as NSNumber
   }
 }

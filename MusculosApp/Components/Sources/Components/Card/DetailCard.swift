@@ -20,8 +20,8 @@ public struct DetailCard<Content: View>: View {
     text: String,
     font: Font = AppFont.poppins(.semibold, size: 16),
     isSelected: Bool = false,
-    @ViewBuilder content: @escaping () -> Content
-  ) {
+    @ViewBuilder content: @escaping () -> Content)
+  {
     self.text = text
     self.font = font
     self.isSelected = isSelected
@@ -51,5 +51,5 @@ public struct DetailCard<Content: View>: View {
 }
 
 #Preview {
-  DetailCard(text: "Details here") {}
+  DetailCard(text: "Details here") { }
 }

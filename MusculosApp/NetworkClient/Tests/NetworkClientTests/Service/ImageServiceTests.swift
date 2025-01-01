@@ -16,7 +16,8 @@ import UIKit
 
 @Suite(.serialized)
 final class ImageServiceTests: MusculosTestBase {
-  @Test func uploadImage() async throws {
+  @Test
+  func uploadImage() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .images(.upload)

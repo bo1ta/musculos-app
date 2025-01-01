@@ -25,17 +25,20 @@ extension RecommendationSection {
             .frame(width: imageWidth, height: imageHeight)
             .redacted(reason: .placeholder)
             .defaultShimmering()
-        case let .success(image):
+
+        case .success(let image):
           image
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: imageWidth, height: imageHeight)
             .clipShape(RoundedRectangle(cornerRadius: 20))
-        case let .failure(error):
+
+        case .failure(let error):
           EmptyView()
             .onAppear {
               Logger.error(error, message: "Error rendering section item image")
             }
+
         @unknown default:
           EmptyView()
         }

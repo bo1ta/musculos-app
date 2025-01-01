@@ -51,7 +51,7 @@ struct ExerciseInstructionRow: View {
       }
       .onPreferenceChange(ContentLengthPreferenceKey.self, perform: { value in
         DispatchQueue.main.async {
-          self.textHeight = value
+          textHeight = value
         }
       })
   }

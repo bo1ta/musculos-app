@@ -24,12 +24,10 @@ struct SelectWeightSheet: View {
       Slider(
         value: Binding(
           get: { weight },
-          set: { weight = roundWeight($0) }
-        ),
-        in: 0 ... 150
-      )
-      .padding(.vertical)
-      .tint(.red)
+          set: { weight = roundWeight($0) }),
+        in: 0 ... 150)
+        .padding(.vertical)
+        .tint(.red)
 
       Text(String(format: "%.1f", weight))
         .foregroundStyle(.red)
@@ -47,10 +45,10 @@ struct SelectWeightSheet: View {
   /// E.g. 1.0, 1.5, 2.0
   ///
   private func roundWeight(_ weight: Double) -> Double {
-    return (weight * 2).rounded() / 2
+    (weight * 2).rounded() / 2
   }
 }
 
 #Preview {
-  SelectWeightSheet(weight: .constant(40), onSubmit: {})
+  SelectWeightSheet(weight: .constant(40), onSubmit: { })
 }

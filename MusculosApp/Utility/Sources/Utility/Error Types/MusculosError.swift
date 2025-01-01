@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - MusculosError
+
 public enum MusculosError: LocalizedError, CustomStringConvertible {
   case invalidRequest, badRequest, unauthorized, forbidden, notFound, serverError, decodingError, unknownError
   case cancelled
@@ -18,52 +20,52 @@ public enum MusculosError: LocalizedError, CustomStringConvertible {
   public var description: String {
     switch self {
     case .invalidRequest:
-      return "Invalid request"
+      "Invalid request"
     case .badRequest:
-      return "Bad request"
+      "Bad request"
     case .unauthorized:
-      return "Unauthorized"
+      "Unauthorized"
     case .forbidden:
-      return "Forbidden"
+      "Forbidden"
     case .notFound:
-      return "Not found"
-    case let .error4xx(code):
-      return "Client error: \(code)"
+      "Not found"
+    case .error4xx(let code):
+      "Client error: \(code)"
     case .serverError:
-      return "Server error"
-    case let .error5xx(code):
-      return "Server error: \(code)"
+      "Server error"
+    case .error5xx(let code):
+      "Server error: \(code)"
     case .decodingError:
-      return "Decoding error"
-    case let .urlSessionFailed(error):
-      return "URL session failed: \(error.localizedDescription)"
+      "Decoding error"
+    case .urlSessionFailed(let error):
+      "URL session failed: \(error.localizedDescription)"
     case .unknownError:
-      return "Unknown error"
+      "Unknown error"
     case .cancelled:
-      return "Cancelled"
+      "Cancelled"
     case .offline:
-      return "Offline"
+      "Offline"
     }
   }
 
   public static func httpError(_ statusCode: Int) -> MusculosError {
     switch statusCode {
     case 400:
-      return .badRequest
+      .badRequest
     case 401:
-      return .unauthorized
+      .unauthorized
     case 403:
-      return .forbidden
+      .forbidden
     case 404:
-      return .notFound
+      .notFound
     case 402, 405 ... 499:
-      return .error4xx(statusCode)
+      .error4xx(statusCode)
     case 500:
-      return .serverError
+      .serverError
     case 501 ... 599:
-      return .error5xx(statusCode)
+      .error5xx(statusCode)
     default:
-      return .unknownError
+      .unknownError
     }
   }
 
@@ -80,8 +82,10 @@ public enum MusculosError: LocalizedError, CustomStringConvertible {
   }
 }
 
+// MARK: Equatable
+
 extension MusculosError: Equatable {
-  public static func == (lhs: MusculosError, rhs: MusculosError) -> Bool {
-    return lhs.description == rhs.description
+  public static func ==(lhs: MusculosError, rhs: MusculosError) -> Bool {
+    lhs.description == rhs.description
   }
 }

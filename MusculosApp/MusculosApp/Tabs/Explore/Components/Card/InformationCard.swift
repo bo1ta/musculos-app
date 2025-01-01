@@ -21,9 +21,9 @@ struct InformationCard: View {
   var cardColor: Color {
     switch style {
     case .general:
-      return Color.AppColor.green700
+      Color.AppColor.green700
     case .warning:
-      return Color.yellow
+      Color.yellow
     }
   }
 

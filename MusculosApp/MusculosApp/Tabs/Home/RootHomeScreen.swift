@@ -8,6 +8,8 @@
 import Navigator
 import SwiftUI
 
+// MARK: - RootHomeScreen
+
 struct RootHomeScreen: View {
   var body: some View {
     ManagedNavigationStack(scene: "home") {

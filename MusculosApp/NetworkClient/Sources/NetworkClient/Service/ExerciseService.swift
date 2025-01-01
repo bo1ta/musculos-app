@@ -10,6 +10,8 @@ import Foundation
 import Models
 import Utility
 
+// MARK: - ExerciseServiceProtocol
+
 public protocol ExerciseServiceProtocol: Sendable {
   func getExercises() async throws -> [Exercise]
   func searchByQuery(_ query: String) async throws -> [Exercise]
@@ -21,6 +23,8 @@ public protocol ExerciseServiceProtocol: Sendable {
   func getByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise]
   func addExercise(_ exercise: Exercise) async throws
 }
+
+// MARK: - ExerciseService
 
 public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
   @Injected(\NetworkContainer.client) var client: MusculosClientProtocol

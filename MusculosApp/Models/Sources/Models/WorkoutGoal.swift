@@ -18,45 +18,45 @@ public enum WorkoutGoal: Int, CaseIterable, Sendable {
 
   public var iconName: String {
     switch self {
-    case .general: return "health-sneakers"
-    case .growMuscles: return "health-biceps"
-    case .loseWeight: return "health-counter"
-    case .increaseStrength: return "health-dumbbell"
-    case .improveEndurance: return "health-treadmill"
-    case .flexibility: return "health-jump-rope"
+    case .general: "health-sneakers"
+    case .growMuscles: "health-biceps"
+    case .loseWeight: "health-counter"
+    case .increaseStrength: "health-dumbbell"
+    case .improveEndurance: "health-treadmill"
+    case .flexibility: "health-jump-rope"
     }
   }
 
   public var title: String {
     switch self {
-    case .general: return "General"
-    case .growMuscles: return "Grow muscles"
-    case .loseWeight: return "Lose weight"
-    case .increaseStrength: return "Increase strength"
-    case .improveEndurance: return "Improve endurance"
-    case .flexibility: return "Flexibility"
+    case .general: "General"
+    case .growMuscles: "Grow muscles"
+    case .loseWeight: "Lose weight"
+    case .increaseStrength: "Increase strength"
+    case .improveEndurance: "Improve endurance"
+    case .flexibility: "Flexibility"
     }
   }
 
   public var color: Color {
     switch self {
-    case .general: return .blue
-    case .growMuscles: return .green
-    case .loseWeight: return .red
-    case .increaseStrength: return .yellow
-    case .improveEndurance: return .purple
-    case .flexibility: return .orange
+    case .general: .blue
+    case .growMuscles: .green
+    case .loseWeight: .red
+    case .increaseStrength: .yellow
+    case .improveEndurance: .purple
+    case .flexibility: .orange
     }
   }
 
   public var goalCategory: Goal.Category {
     switch self {
     case .general, .flexibility, .improveEndurance:
-      return .general
+      .general
     case .growMuscles, .increaseStrength:
-      return .growMuscle
+      .growMuscle
     case .loseWeight:
-      return .loseWeight
+      .loseWeight
     }
   }
 }

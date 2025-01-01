@@ -18,8 +18,8 @@ public struct TextResizablePill: View {
     title: String,
     color: Color = .gray.opacity(0.2),
     selectionColor: Color = .orange,
-    isSelected: Bool = false
-  ) {
+    isSelected: Bool = false)
+  {
     self.title = title
     self.color = color
     self.selectionColor = selectionColor
@@ -30,8 +30,7 @@ public struct TextResizablePill: View {
     Rectangle()
       .frame(
         width: title.widthOfString(usingFont: UIFont.systemFont(ofSize: 13)) + 20,
-        height: 30
-      )
+        height: 30)
       .foregroundStyle(isSelected ? selectionColor : color)
       .overlay {
         Text(title)

@@ -9,6 +9,8 @@ import Factory
 import Foundation
 import Models
 
+// MARK: - GoalServiceProtocol
+
 public protocol GoalServiceProtocol: Sendable {
   func getOnboardingGoals() async throws -> [OnboardingGoal]
   func getUserGoals() async throws -> [Goal]
@@ -16,6 +18,8 @@ public protocol GoalServiceProtocol: Sendable {
   func getGoalByID(_ goalID: UUID) async throws -> Goal
   func addProgressEntry(_ entry: ProgressEntry) async throws
 }
+
+// MARK: - GoalService
 
 public struct GoalService: APIService, GoalServiceProtocol, @unchecked Sendable {
   @Injected(\NetworkContainer.client) var client: MusculosClientProtocol

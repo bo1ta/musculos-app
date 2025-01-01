@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 public struct SecondaryButtonStyle: ButtonStyle {
-  public init() {}
+  public init() { }
 
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label
@@ -23,7 +23,7 @@ public struct SecondaryButtonStyle: ButtonStyle {
 }
 
 #Preview {
-  Button(action: {}, label: {
+  Button(action: { }, label: {
     Text("Click me")
   })
   .buttonStyle(SecondaryButtonStyle())

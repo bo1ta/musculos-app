@@ -15,7 +15,7 @@ import Utility
 public actor ExerciseRepository: BaseRepository {
   @Injected(\NetworkContainer.exerciseService) private var service: ExerciseServiceProtocol
 
-  public init() {}
+  public init() { }
 
   public func addExercise(_ exercise: Exercise) async throws {
     try await coreDataStore.importModel(exercise, of: ExerciseEntity.self)
@@ -85,11 +85,11 @@ public actor ExerciseRepository: BaseRepository {
   }
 
   public func getExercisesForMuscleTypes(_ muscleTypes: [MuscleType]) async -> [Exercise] {
-    return await coreDataStore.exercisesForMuscles(muscleTypes)
+    await coreDataStore.exercisesForMuscles(muscleTypes)
   }
 
   public func getRecommendedExercisesByMuscleGroups() async throws -> [Exercise] {
-    guard let currentUserID = currentUserID else {
+    guard let currentUserID else {
       throw MusculosError.notFound
     }
 

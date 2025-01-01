@@ -14,12 +14,14 @@ import Storage
 import SwiftUI
 import Utility
 
+// MARK: - ExerciseListView
+
 struct ExerciseListView: View {
   @Environment(\.navigator) private var navigator
   @Injected(\DataRepositoryContainer.exerciseRepository) private var repository: ExerciseRepository
 
-  @State private var state: LoadingViewState<[Exercise]> = .empty
-  @State private var searchQuery: String = ""
+  @State private var state = LoadingViewState<[Exercise]>.empty
+  @State private var searchQuery = ""
   @State private var results: [Exercise] = []
 
   let filterType: FilterType
@@ -33,7 +35,8 @@ struct ExerciseListView: View {
       switch state {
       case .loading:
         loadingSkeleton
-      case let .loaded(exercises):
+
+      case .loaded(let exercises):
         List(exercises, id: \.id) { exercise in
           VStack {
             Button(action: {
@@ -48,13 +51,14 @@ struct ExerciseListView: View {
         .searchable(
           text: $searchQuery,
           placement: .automatic,
-          prompt: ""
-        )
+          prompt: "")
         .textInputAutocapitalization(.never)
         .listStyle(.plain)
+
       case .empty:
         EmptyView()
-      case let .error(errorMessage):
+
+      case .error(let errorMessage):
         Text(errorMessage)
       }
     }
@@ -69,7 +73,7 @@ struct ExerciseListView: View {
       }
     }
     .onChange(of: searchQuery) { _, newValue in
-      guard case var .loaded(exercises) = state, !newValue.isEmpty else {
+      guard case .loaded(var exercises) = state, !newValue.isEmpty else {
         state = .loaded(results)
         return
       }
@@ -93,17 +97,20 @@ struct ExerciseListView: View {
     state = .loading
 
     switch filterType {
-    case let .filteredByWorkoutGoal(workoutGoal):
+    case .filteredByWorkoutGoal(let workoutGoal):
       let exercises = try await repository.getExercisesByWorkoutGoal(workoutGoal)
       results = exercises
       state = .loaded(results)
-    case let .filteredByMuscleGroup(muscleGroup):
+
+    case .filteredByMuscleGroup(let muscleGroup):
       let exercises = try await repository.getByMuscleGroup(muscleGroup)
       results = exercises
       state = .loaded(results)
     }
   }
 }
+
+// MARK: ExerciseListView.FilterType
 
 extension ExerciseListView {
   enum FilterType {

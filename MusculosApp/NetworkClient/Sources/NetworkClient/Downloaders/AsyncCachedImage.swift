@@ -22,8 +22,8 @@ public struct AsyncCachedImage<Content>: View where Content: View {
   public init(
     url: URL?,
     scale: CGFloat = 1.0,
-    @ViewBuilder content: @escaping (AsyncImagePhase) -> Content
-  ) where Content: View {
+    @ViewBuilder content: @escaping (AsyncImagePhase) -> Content) where Content: View
+  {
     self.url = url
     self.scale = scale
     contentPhase = content

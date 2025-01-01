@@ -43,5 +43,8 @@ struct HighlightCard: View {
 }
 
 #Preview {
-  HighlightCard(profileHighlight: ProfileHighlight(highlightType: .sleep, value: "7 hr 31 min", description: "updated 10 mins ago"))
+  HighlightCard(profileHighlight: ProfileHighlight(
+    highlightType: .sleep,
+    value: "7 hr 31 min",
+    description: "updated 10 mins ago"))
 }

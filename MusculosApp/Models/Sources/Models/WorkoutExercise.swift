@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - WorkoutExercise
+
 public struct WorkoutExercise: Codable, Sendable {
   public let id: UUID
   public let numberOfReps: Int
@@ -19,9 +21,11 @@ public struct WorkoutExercise: Codable, Sendable {
   }
 }
 
+// MARK: Hashable
+
 extension WorkoutExercise: Hashable {
-  public static func == (_ lhs: WorkoutExercise, rhs: WorkoutExercise) -> Bool {
-    return lhs.id == rhs.id
+  public static func ==(_ lhs: WorkoutExercise, rhs: WorkoutExercise) -> Bool {
+    lhs.id == rhs.id
   }
 
   public func hash(into hasher: inout Hasher) {

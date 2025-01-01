@@ -10,6 +10,8 @@ import CoreData
 import Foundation
 import Models
 
+// MARK: - WorkoutEntity
+
 @objc(WorkoutEntity)
 class WorkoutEntity: NSManagedObject {
   @NSManaged var modelID: UUID
@@ -19,8 +21,9 @@ class WorkoutEntity: NSManagedObject {
   @NSManaged var createdBy: UserProfileEntity
   @NSManaged var workoutExercises: Set<WorkoutExerciseEntity>
 
-  @nonobjc class func fetchRequest() -> NSFetchRequest<WorkoutEntity> {
-    return NSFetchRequest<WorkoutEntity>(entityName: "WorkoutEntity")
+  @nonobjc
+  class func fetchRequest() -> NSFetchRequest<WorkoutEntity> {
+    NSFetchRequest<WorkoutEntity>(entityName: "WorkoutEntity")
   }
 }
 
@@ -28,19 +31,27 @@ class WorkoutEntity: NSManagedObject {
 
 extension WorkoutEntity {
   @objc(addWorkoutExercisesObject:)
-  @NSManaged func addToWorkoutExercises(_ value: WorkoutExerciseEntity)
+  @NSManaged
+  func addToWorkoutExercises(_ value: WorkoutExerciseEntity)
 
   @objc(removeWorkoutExercisesObject:)
-  @NSManaged func removeFromWorkoutExercises(_ value: WorkoutExerciseEntity)
+  @NSManaged
+  func removeFromWorkoutExercises(_ value: WorkoutExerciseEntity)
 
   @objc(addWorkoutExercises:)
-  @NSManaged func addToWorkoutExercises(_ values: NSSet)
+  @NSManaged
+  func addToWorkoutExercises(_ values: NSSet)
 
   @objc(removeWorkoutExercises:)
-  @NSManaged func removeFromWorkoutExercises(_ values: NSSet)
+  @NSManaged
+  func removeFromWorkoutExercises(_ values: NSSet)
 }
 
-extension WorkoutEntity: Identifiable {}
+// MARK: Identifiable
+
+extension WorkoutEntity: Identifiable { }
+
+// MARK: ReadOnlyConvertible
 
 extension WorkoutEntity: ReadOnlyConvertible {
   public func toReadOnly() -> Workout {
@@ -53,10 +64,11 @@ extension WorkoutEntity: ReadOnlyConvertible {
       targetMuscles: targetMuscles,
       workoutType: workoutType,
       createdBy: person,
-      workoutExercises: workoutExercisesToRead
-    )
+      workoutExercises: workoutExercisesToRead)
   }
 }
+
+// MARK: EntitySyncable
 
 extension WorkoutEntity: EntitySyncable {
   func populateEntityFrom(_ model: Workout, using storage: any StorageType) {
@@ -68,10 +80,14 @@ extension WorkoutEntity: EntitySyncable {
     workoutExercises = getWorkoutExercisesFrom(model.workoutExercises, storage: storage)
   }
 
-  func updateEntityFrom(_: Workout, using _: any StorageType) {}
+  func updateEntityFrom(_: Workout, using _: any StorageType) { }
 
-  private func getWorkoutExercisesFrom(_ workoutExercises: [WorkoutExercise], storage: StorageType) -> Set<WorkoutExerciseEntity> {
-    return Set(workoutExercises.map {
+  private func getWorkoutExercisesFrom(
+    _ workoutExercises: [WorkoutExercise],
+    storage: StorageType)
+    -> Set<WorkoutExerciseEntity>
+  {
+    Set(workoutExercises.map {
       WorkoutExerciseEntity.findOrCreate($0, using: storage)
     })
   }

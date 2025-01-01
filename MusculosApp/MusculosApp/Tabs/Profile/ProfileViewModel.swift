@@ -5,12 +5,12 @@
 //  Created by Solomon Alexandru on 29.12.2024.
 //
 
-import SwiftUI
-import Factory
 import Components
-import Utility
 import DataRepository
+import Factory
 import Models
+import SwiftUI
+import Utility
 
 @Observable
 @MainActor
@@ -61,7 +61,7 @@ final class ProfileViewModel {
   }
 
   func getHighlights() -> [ProfileHighlight] {
-    return [
+    [
       ProfileHighlight(highlightType: .steps, value: "5432", description: "updated 10 mins ago"),
       ProfileHighlight(highlightType: .sleep, value: "7 hr 31 min", description: "updated 10 mins ago"),
       ProfileHighlight(highlightType: .waterIntake, value: "4.2 ltr", description: "updated now"),

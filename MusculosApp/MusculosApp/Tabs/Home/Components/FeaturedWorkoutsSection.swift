@@ -30,14 +30,12 @@ struct FeaturedWorkoutsSection: View {
               IconTitleCard(
                 icon: Image(workoutGoal.iconName),
                 imageColor: workoutGoal.color,
-                title: workoutGoal.title
-              )
+                title: workoutGoal.title)
             })
             .buttonStyle(.plain)
           }
           .padding([.vertical, .horizontal], 5)
         }
-      }
-    )
+      })
   }
 }

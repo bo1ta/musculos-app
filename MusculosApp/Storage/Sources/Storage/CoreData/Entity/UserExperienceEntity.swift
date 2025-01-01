@@ -10,6 +10,8 @@ import CoreData
 import Foundation
 import Models
 
+// MARK: - UserExperienceEntity
+
 @objc(UserExperienceEntity)
 public class UserExperienceEntity: NSManagedObject {
   @NSManaged public var modelID: UUID
@@ -17,34 +19,42 @@ public class UserExperienceEntity: NSManagedObject {
   @NSManaged public var user: UserProfileEntity?
   @NSManaged public var experienceEntries: Set<UserExperienceEntryEntity>
 
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<UserExperienceEntity> {
-    return NSFetchRequest<UserExperienceEntity>(entityName: "UserExperienceEntity")
+  @nonobjc
+  public class func fetchRequest() -> NSFetchRequest<UserExperienceEntity> {
+    NSFetchRequest<UserExperienceEntity>(entityName: "UserExperienceEntity")
   }
 }
 
-public extension UserExperienceEntity {
+extension UserExperienceEntity {
   @objc(addExperienceEntriesObject:)
-  @NSManaged func addToExperienceEntries(_ value: UserExperienceEntryEntity)
+  @NSManaged
+  public func addToExperienceEntries(_ value: UserExperienceEntryEntity)
 
   @objc(removeExperienceEntriesObject:)
-  @NSManaged func removeFromExperienceEntries(_ value: UserExperienceEntryEntity)
+  @NSManaged
+  public func removeFromExperienceEntries(_ value: UserExperienceEntryEntity)
 
   @objc(addExperienceEntries:)
-  @NSManaged func addToExperienceEntries(_ values: Set<UserExperienceEntryEntity>)
+  @NSManaged
+  public func addToExperienceEntries(_ values: Set<UserExperienceEntryEntity>)
 
   @objc(removeExperienceEntries:)
-  @NSManaged func removeFromExperienceEntries(_ values: Set<UserExperienceEntryEntity>)
+  @NSManaged
+  public func removeFromExperienceEntries(_ values: Set<UserExperienceEntryEntity>)
 }
+
+// MARK: ReadOnlyConvertible
 
 extension UserExperienceEntity: ReadOnlyConvertible {
   public func toReadOnly() -> UserExperience {
-    return UserExperience(
+    UserExperience(
       id: modelID,
       totalExperience: totalExperience.intValue,
-      experienceEntries: experienceEntries.map { $0.toReadOnly() }
-    )
+      experienceEntries: experienceEntries.map { $0.toReadOnly() })
   }
 }
+
+// MARK: EntitySyncable
 
 extension UserExperienceEntity: EntitySyncable {
   public func populateEntityFrom(_ model: UserExperience, using _: any StorageType) {

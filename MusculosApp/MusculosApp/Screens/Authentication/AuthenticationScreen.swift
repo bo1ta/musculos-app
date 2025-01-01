@@ -15,7 +15,7 @@ struct AuthenticationScreen: View {
   @State private var viewModel: AuthenticationViewModel
   @State private var toast: Toast?
 
-  // used for the wave animation
+  /// used for the wave animation
   @State private var waveSize: CGFloat
 
   private let originalSignInWaveSize = 1.9
@@ -36,14 +36,14 @@ struct AuthenticationScreen: View {
         waveSize: $waveSize,
         backgroundColor: Color.white,
         wavePosition: .bottom,
-        baseWaveColor: AppColor.navyBlue
-      )
+        baseWaveColor: AppColor.navyBlue)
 
       Group {
         switch viewModel.step {
         case .login:
           SignInView(viewModel: viewModel, onBack: onBack)
             .transition(.asymmetric(insertion: .push(from: .leading), removal: .push(from: .trailing)))
+
         case .register:
           SignUpView(viewModel: viewModel, onBack: onBack)
             .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
@@ -63,8 +63,7 @@ struct AuthenticationScreen: View {
         if viewModel.step == .register {
           viewModel.step = .login
         }
-      }
-    )
+      })
     .background(Color.AppColor.blue200)
   }
 
@@ -74,12 +73,14 @@ struct AuthenticationScreen: View {
 
   private func handleAuthEvent(_ event: AuthenticationViewModel.Event) {
     switch event {
-    case let .onLoginSuccess(userSession), let .onRegisterSuccess(userSession):
+    case .onLoginSuccess(let userSession), .onRegisterSuccess(let userSession):
       userStore.handlePostLogin(session: userSession)
-    case let .onLoginFailure(error):
+
+    case .onLoginFailure(let error):
       toast = .init(style: .error, message: "Could not register. Please try again later")
       Logger.error(error, message: "Login failed")
-    case let .onRegisterFailure(error):
+
+    case .onRegisterFailure(let error):
       toast = .init(style: .error, message: "Could not register. Please try again later")
       Logger.error(error, message: "Register failed")
     }
@@ -87,5 +88,5 @@ struct AuthenticationScreen: View {
 }
 
 #Preview {
-  AuthenticationScreen(initialStep: .login, onBack: {})
+  AuthenticationScreen(initialStep: .login, onBack: { })
 }

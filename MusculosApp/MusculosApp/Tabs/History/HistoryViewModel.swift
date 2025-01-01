@@ -52,6 +52,6 @@ final class HistoryViewModel {
   }
 
   private func filterSessionByDay(date: Date) -> [ExerciseSession] {
-    return exerciseSessions.filter({ Calendar.current.isDate($0.dateAdded, equalTo: date, toGranularity: .day) })
+    exerciseSessions.filter { Calendar.current.isDate($0.dateAdded, equalTo: date, toGranularity: .day) }
   }
 }

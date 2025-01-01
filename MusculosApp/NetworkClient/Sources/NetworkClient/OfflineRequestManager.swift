@@ -36,11 +36,11 @@ actor OfflineRequestManager {
   }
 
   func isConnectionError(_ error: Error) -> Bool {
-    return (error as? URLError)?.code == .notConnectedToInternet
+    (error as? URLError)?.code == .notConnectedToInternet
   }
 
   func cancelPendingRequests() async {
-    await queue.addBarrierOperation(operation: {}).value
+    await queue.addBarrierOperation(operation: { }).value
     pendingRequests.removeAll()
   }
 

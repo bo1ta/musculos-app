@@ -8,6 +8,8 @@
 import Foundation
 import Models
 
+// MARK: - Challenge
+
 public struct Challenge: Sendable {
   public let name: String
   public let exercises: [ChallengeExercise]
@@ -20,6 +22,8 @@ public struct Challenge: Sendable {
   }
 }
 
+// MARK: - ChallengeExercise
+
 public struct ChallengeExercise: Sendable {
   public let name: String
   public let image: String?
@@ -28,7 +32,14 @@ public struct ChallengeExercise: Sendable {
   public let duration: Int
   public let restDuration: Int
 
-  public init(name: String, image: String? = nil, instructions: String? = nil, rounds: Int, duration: Int = 60, restDuration: Int = 30) {
+  public init(
+    name: String,
+    image: String? = nil,
+    instructions: String? = nil,
+    rounds: Int,
+    duration: Int = 60,
+    restDuration: Int = 30)
+  {
     self.name = name
     self.image = image
     self.instructions = instructions
@@ -38,13 +49,15 @@ public struct ChallengeExercise: Sendable {
   }
 }
 
+// MARK: Hashable
+
 extension ChallengeExercise: Hashable {
   public func hash(into hasher: inout Hasher) {
     hasher.combine(name)
     hasher.combine(rounds)
   }
 
-  public static func == (lhs: ChallengeExercise, rhs: ChallengeExercise) -> Bool {
-    return lhs.name == rhs.name
+  public static func ==(lhs: ChallengeExercise, rhs: ChallengeExercise) -> Bool {
+    lhs.name == rhs.name
   }
 }

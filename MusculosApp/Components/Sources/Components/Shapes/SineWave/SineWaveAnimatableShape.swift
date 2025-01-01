@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 import UIKit
 
+// MARK: - SineWaveAnimatableShape
+
 public struct SineWaveAnimatableShape: Shape, Animatable, @unchecked Sendable {
   var waveSize: CGFloat
   var phase: CGFloat
@@ -17,7 +19,14 @@ public struct SineWaveAnimatableShape: Shape, Animatable, @unchecked Sendable {
   var offset: CGFloat
   var wavePosition: WavePosition
 
-  public init(waveSize: CGFloat, phase: CGFloat, amplitude: CGFloat, frequency: CGFloat, offset: CGFloat, wavePosition: WavePosition = .top) {
+  public init(
+    waveSize: CGFloat,
+    phase: CGFloat,
+    amplitude: CGFloat,
+    frequency: CGFloat,
+    offset: CGFloat,
+    wavePosition: WavePosition = .top)
+  {
     self.waveSize = waveSize
     self.phase = phase
     self.amplitude = amplitude
@@ -28,7 +37,7 @@ public struct SineWaveAnimatableShape: Shape, Animatable, @unchecked Sendable {
 
   public var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
     get {
-      return AnimatablePair(AnimatablePair(phase, amplitude), waveSize)
+      AnimatablePair(AnimatablePair(phase, amplitude), waveSize)
     }
     set {
       phase = newValue.first.first
@@ -40,16 +49,16 @@ public struct SineWaveAnimatableShape: Shape, Animatable, @unchecked Sendable {
   public func path(in rect: CGRect) -> Path {
     switch wavePosition {
     case .top:
-      return makePathAtTheTop(in: rect)
+      makePathAtTheTop(in: rect)
     case .bottom:
-      return makePathAtTheBottom(in: rect)
+      makePathAtTheBottom(in: rect)
     }
   }
 
   // swiftlint:disable identifier_name
 
   private func makePathAtTheBottom(in rect: CGRect) -> Path {
-    return Path { path in
+    Path { path in
       let width = rect.width
       let height = rect.height
       let midHeight = calculateMidHeight(from: height)
@@ -66,7 +75,7 @@ public struct SineWaveAnimatableShape: Shape, Animatable, @unchecked Sendable {
   }
 
   private func makePathAtTheTop(in rect: CGRect) -> Path {
-    return Path { path in
+    Path { path in
       let width = rect.width
       let height = rect.height
       let midHeight = calculateMidHeight(from: height)
@@ -89,7 +98,7 @@ public struct SineWaveAnimatableShape: Shape, Animatable, @unchecked Sendable {
   // swiftlint:enable identifier_name
 
   private func calculateMidHeight(from height: CGFloat) -> CGFloat {
-    return switch wavePosition {
+    switch wavePosition {
     case .top:
       height * (waveSize / 2 + 0.2 * offset)
     case .bottom:
@@ -98,8 +107,10 @@ public struct SineWaveAnimatableShape: Shape, Animatable, @unchecked Sendable {
   }
 }
 
-public extension SineWaveAnimatableShape {
-  enum WavePosition {
+// MARK: SineWaveAnimatableShape.WavePosition
+
+extension SineWaveAnimatableShape {
+  public enum WavePosition {
     case top, bottom
   }
 }

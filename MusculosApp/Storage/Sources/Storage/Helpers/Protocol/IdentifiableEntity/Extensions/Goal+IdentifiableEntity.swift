@@ -9,7 +9,7 @@ import Foundation
 import Models
 
 extension Goal: IdentifiableEntity {
-  public static let identifierKey: String = "goalID"
+  public static let identifierKey = "goalID"
 
   public var identifierValue: UUID {
     id

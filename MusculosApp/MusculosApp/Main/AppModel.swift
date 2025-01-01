@@ -12,12 +12,16 @@ import Network
 import NetworkClient
 import SwiftUI
 
+// MARK: - AppState
+
 enum AppState {
   case loggedIn
   case loggedOut
   case onboarding
   case loading
 }
+
+// MARK: - AppModel
 
 @Observable
 @MainActor
@@ -27,7 +31,7 @@ final class AppModel {
 
   var progress = 0.0
   var toast: Toast?
-  var appState: AppState = .loading
+  var appState = AppState.loading
 
   private var cancellables = Set<AnyCancellable>()
   private var toastTask: Task<Void, Never>?
@@ -89,8 +93,10 @@ final class AppModel {
         return
       }
       showToast(.success, message: "Re-connected to the internet")
+
     case .unsatisfied:
       showToast(.warning, message: "Lost internet connection. Trying to reconnect...")
+
     default:
       break
     }
@@ -112,9 +118,11 @@ final class AppModel {
     switch event {
     case .didLogin:
       appState = userStore.isOnboarded ? .loggedIn : .onboarding
+
     case .didLogOut:
       appState = .loggedOut
       toast = .info("Logged out")
+
     case .didFinishOnboarding:
       appState = .loggedIn
     }

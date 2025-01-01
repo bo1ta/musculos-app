@@ -10,6 +10,8 @@ import NetworkClient
 import Storage
 import Utility
 
+// MARK: - BaseRepository
+
 protocol BaseRepository: Actor {
   var localStorageUpdateThreshold: TimeInterval { get }
 
@@ -24,19 +26,19 @@ extension BaseRepository {
   var localStorageUpdateThreshold: TimeInterval { .oneHour }
 
   var currentUserID: UUID? {
-    return StorageContainer.shared.userManager().currentUserID
+    StorageContainer.shared.userManager().currentUserID
   }
 
   var coreDataStore: CoreDataStore {
-    return StorageContainer.shared.coreDataStore()
+    StorageContainer.shared.coreDataStore()
   }
 
   var isConnectedToInternet: Bool {
-    return NetworkContainer.shared.networkMonitor().isConnected
+    NetworkContainer.shared.networkMonitor().isConnected
   }
 
   var backgroundWorker: BackgroundWorker {
-    return DataRepositoryContainer.shared.backgroundWorker()
+    DataRepositoryContainer.shared.backgroundWorker()
   }
 
   func syncStorage<T: EntitySyncable>(_ models: [T.ModelType], of type: T.Type) {
@@ -53,19 +55,19 @@ extension BaseRepository {
     }
   }
 
-  func getSyncDateForEntity<T: EntitySyncable>(_ entity: T.Type) -> Date? {
-    return UserDefaults.standard.object(forKey: getUserDefaultsKey(entity.entityName)) as? Date
+  func getSyncDateForEntity(_ entity: (some EntitySyncable).Type) -> Date? {
+    UserDefaults.standard.object(forKey: getUserDefaultsKey(entity.entityName)) as? Date
   }
 
-  func setSyncDateForEntity<T: EntitySyncable>(_ entity: T.Type, date: Date) {
+  func setSyncDateForEntity(_ entity: (some EntitySyncable).Type, date: Date) {
     UserDefaults.standard.set(date, forKey: getUserDefaultsKey(entity.entityName))
   }
 
   private func getUserDefaultsKey(_ entityName: String) -> String {
-    return UserDefaultsKey.syncDate(for: entityName)
+    UserDefaultsKey.syncDate(for: entityName)
   }
 
-  func shouldUseLocalStorageForEntity<T: EntitySyncable>(_ entity: T.Type) -> Bool {
+  func shouldUseLocalStorageForEntity(_ entity: (some EntitySyncable).Type) -> Bool {
     guard let lastUpdated = getSyncDateForEntity(entity) else {
       return false
     }

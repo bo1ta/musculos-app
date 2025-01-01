@@ -21,12 +21,10 @@ public struct StubUserSessionManager: UserSessionManagerProtocol, @unchecked Sen
     UserSessionState.authenticated(
       UserSession(
         token: UserSession.Token(value: expectedTokenValue ?? "token"),
-        user: expectedUser ?? UserSession.User(id: UUID())
-      )
-    )
+        user: expectedUser ?? UserSession.User(id: UUID())))
   }
 
-  public func updateSession(_: UserSession) {}
+  public func updateSession(_: UserSession) { }
 
-  public func clearSession() {}
+  public func clearSession() { }
 }

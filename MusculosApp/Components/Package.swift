@@ -9,8 +9,7 @@ let package = Package(
   products: [
     .library(
       name: "Components",
-      targets: ["Components"]
-    ),
+      targets: ["Components"]),
   ],
   dependencies: [
     .package(name: "Utility", path: "../Utility"),
@@ -24,7 +23,5 @@ let package = Package(
         .product(name: "Utility", package: "Utility"),
         "HorizonCalendar",
         .product(name: "Shimmer", package: "SwiftUI-Shimmer"),
-      ]
-    ),
-  ]
-)
+      ]),
+  ])

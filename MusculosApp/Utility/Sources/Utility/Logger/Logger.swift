@@ -10,6 +10,8 @@ import SwiftyBeaver
 
 public let Logger = ConsoleLogger.shared // swiftlint:disable:this identifier_name
 
+// MARK: - ConsoleLogger
+
 public struct ConsoleLogger: Loggable, @unchecked Sendable {
   static let shared = ConsoleLogger()
 
@@ -25,9 +27,16 @@ public struct ConsoleLogger: Loggable, @unchecked Sendable {
     properties: [String: Any]? = nil,
     file: String = #file,
     function: String = #function,
-    line: Int = #line
-  ) {
-    console.send(.info, msg: message, thread: Thread.current.threadName, file: file, function: function, line: line, context: properties)
+    line: Int = #line)
+  {
+    console.send(
+      .info,
+      msg: message,
+      thread: Thread.current.threadName,
+      file: file,
+      function: function,
+      line: line,
+      context: properties)
   }
 
   public func error(
@@ -36,8 +45,8 @@ public struct ConsoleLogger: Loggable, @unchecked Sendable {
     properties: [String: Any]? = nil,
     file: String = #file,
     function: String = #function,
-    line: Int = #line
-  ) {
+    line: Int = #line)
+  {
     console.send(
       .error,
       msg: "\(message) - Error: \(error.localizedDescription)",
@@ -45,8 +54,7 @@ public struct ConsoleLogger: Loggable, @unchecked Sendable {
       file: file,
       function: function,
       line: line,
-      context: properties
-    )
+      context: properties)
   }
 
   public func warning(
@@ -54,8 +62,8 @@ public struct ConsoleLogger: Loggable, @unchecked Sendable {
     properties: [String: Any]? = nil,
     file: String = #file,
     function: String = #function,
-    line: Int = #line
-  ) {
+    line: Int = #line)
+  {
     console.send(
       .warning,
       msg: message,
@@ -63,31 +71,30 @@ public struct ConsoleLogger: Loggable, @unchecked Sendable {
       file: file,
       function: function,
       line: line,
-      context: properties
-    )
+      context: properties)
   }
 }
 
 extension Thread {
   var threadName: String {
     if isMainThread {
-      return "main"
+      "main"
     } else if let threadName = Thread.current.name, !threadName.isEmpty {
-      return threadName
+      threadName
     } else {
-      return description
+      description
     }
   }
 
   var queueName: String {
     if let queueName = String(validatingUTF8: __dispatch_queue_get_label(nil)) {
-      return queueName
+      queueName
     } else if let operationQueueName = OperationQueue.current?.name, !operationQueueName.isEmpty {
-      return operationQueueName
+      operationQueueName
     } else if let dispatchQueueName = OperationQueue.current?.underlyingQueue?.label, !dispatchQueueName.isEmpty {
-      return dispatchQueueName
+      dispatchQueueName
     } else {
-      return "n/a"
+      "n/a"
     }
   }
 }

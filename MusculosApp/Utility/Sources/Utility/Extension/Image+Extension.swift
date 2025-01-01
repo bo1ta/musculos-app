@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-public extension Image {
-  func resizedToFit(_ size: Double) -> some View {
+extension Image {
+  public func resizedToFit(_ size: Double) -> some View {
     resizable()
       .frame(width: size, height: size)
   }

@@ -17,7 +17,7 @@ final class WorkoutFlowViewModel {
     case completion
   }
 
-  private(set) var step: Step = .intro
+  private(set) var step = Step.intro
   private(set) var currentExerciseIndex = 0
 
   let workout: Workout
@@ -27,7 +27,7 @@ final class WorkoutFlowViewModel {
   }
 
   var currentExercise: Exercise? {
-    return workout.workoutExercises[safe: currentExerciseIndex]?.exercise
+    workout.workoutExercises[safe: currentExerciseIndex]?.exercise
   }
 
   func handleNextExercise() {

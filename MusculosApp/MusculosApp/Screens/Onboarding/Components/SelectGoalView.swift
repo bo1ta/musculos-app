@@ -50,8 +50,7 @@ struct SelectGoalView: View {
         isSelected: isGoalSelected(goal),
         content: {
           makeImageForGoal(goal)
-        }
-      )
+        })
     })
   }
 
@@ -64,9 +63,7 @@ struct SelectGoalView: View {
           .transition(
             .asymmetric(
               insertion: .scale(scale: 0.5).combined(with: .opacity),
-              removal: .opacity
-            )
-          )
+              removal: .opacity))
           .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isGoalSelected(goal))
       } else {
         Image(goal.iconName)
@@ -81,6 +78,6 @@ struct SelectGoalView: View {
   }
 
   private func isGoalSelected(_ goal: OnboardingGoal) -> Bool {
-    return selectedGoal == goal
+    selectedGoal == goal
   }
 }

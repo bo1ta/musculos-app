@@ -11,6 +11,8 @@ import Foundation
 public typealias ReadStorageClosure<ResultType> = (StorageType) -> ResultType
 public typealias WriteStorageClosure = (StorageType) throws -> Void
 
+// MARK: - StorageManagerType
+
 public protocol StorageManagerType {
   /// Returns the `Storage` associated to the main thread
   ///

@@ -22,9 +22,8 @@ struct AddExerciseSheet: View {
       SheetNavBar(
         title: "Create a new exercise",
         onBack: onBack,
-        onDismiss: { dismiss() }
-      )
-      .padding(.vertical, 25)
+        onDismiss: { dismiss() })
+        .padding(.vertical, 25)
 
       VStack(alignment: .leading, spacing: 20) {
         FormField(text: $viewModel.exerciseName, label: "Name")
@@ -32,33 +31,28 @@ struct AddExerciseSheet: View {
           showOptions: $viewModel.showMusclesOptions,
           selectedOptions: $viewModel.targetMuscles,
           title: "Muscles",
-          options: ExerciseConstants.muscleOptions
-        )
+          options: ExerciseConstants.muscleOptions)
         AddDetailOptionCardView(options: $viewModel.instructions)
         SingleOptionSelectView(
           showOptions: $viewModel.showEquipmentOptions,
           selectedOption: $viewModel.equipment,
           title: "Category",
-          options: ExerciseConstants.equipmentOptions
-        )
+          options: ExerciseConstants.equipmentOptions)
         SingleOptionSelectView(
           showOptions: $viewModel.showForceOptions,
           selectedOption: $viewModel.force,
           title: "Force",
-          options: ExerciseConstants.forceOptions
-        )
+          options: ExerciseConstants.forceOptions)
         SingleOptionSelectView(
           showOptions: $viewModel.showLevelOptions,
           selectedOption: $viewModel.level,
           title: "Level",
-          options: ExerciseConstants.levelOptions
-        )
+          options: ExerciseConstants.levelOptions)
         SingleOptionSelectView(
           showOptions: $viewModel.showCategoryOptions,
           selectedOption: $viewModel.category,
           title: "Category",
-          options: ExerciseConstants.categoryOptions
-        )
+          options: ExerciseConstants.categoryOptions)
         imageOptionView
       }
     }
@@ -105,8 +99,7 @@ struct AddExerciseSheet: View {
             label: {
               Image(systemName: "plus")
                 .foregroundStyle(.black)
-            }
-          )
+            })
         }
       }
       .frame(alignment: .center)
@@ -115,5 +108,5 @@ struct AddExerciseSheet: View {
 }
 
 #Preview {
-  AddExerciseSheet(onBack: {})
+  AddExerciseSheet(onBack: { })
 }

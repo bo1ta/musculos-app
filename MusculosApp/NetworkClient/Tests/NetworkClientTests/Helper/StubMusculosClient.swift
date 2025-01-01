@@ -6,8 +6,8 @@
 //
 
 import Foundation
-@testable import NetworkClient
 import Testing
+@testable import NetworkClient
 @testable import Utility
 
 struct StubMusculosClient: MusculosClientProtocol, @unchecked Sendable {

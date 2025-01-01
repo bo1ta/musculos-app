@@ -9,18 +9,22 @@ import Models
 import Navigator
 import SwiftUI
 
+// MARK: - ExploreDestinations
+
 public enum ExploreDestinations {
   case exerciseListByGoal(WorkoutGoal)
   case exerciseListByMuscleGroup(MuscleGroup)
   case exerciseFilters
 }
 
+// MARK: NavigationDestination
+
 extension ExploreDestinations: NavigationDestination {
   public var view: some View {
     switch self {
-    case let .exerciseListByGoal(workoutGoal):
+    case .exerciseListByGoal(let workoutGoal):
       ExerciseListView(filterType: .filteredByWorkoutGoal(workoutGoal))
-    case let .exerciseListByMuscleGroup(muscleGroup):
+    case .exerciseListByMuscleGroup(let muscleGroup):
       ExerciseListView(filterType: .filteredByMuscleGroup(muscleGroup))
     case .exerciseFilters:
       ExerciseFilterSheet(onFiltered: { _ in })

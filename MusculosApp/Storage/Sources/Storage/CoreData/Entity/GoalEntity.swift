@@ -8,6 +8,8 @@
 import CoreData
 import Models
 
+// MARK: - GoalEntity
+
 @objc(GoalEntity)
 public class GoalEntity: NSManagedObject {
   @NSManaged public var goalID: UUID
@@ -23,27 +25,32 @@ public class GoalEntity: NSManagedObject {
   @NSManaged public var user: UserProfileEntity
   @NSManaged public var updatedAt: Date?
 
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<GoalEntity> {
-    return NSFetchRequest<GoalEntity>(entityName: "GoalEntity")
+  @nonobjc
+  public class func fetchRequest() -> NSFetchRequest<GoalEntity> {
+    NSFetchRequest<GoalEntity>(entityName: "GoalEntity")
   }
 
   @objc(addProgressHistoryObject:)
-  @NSManaged public func addToProgressHistory(_ value: ProgressEntryEntity)
+  @NSManaged
+  public func addToProgressHistory(_ value: ProgressEntryEntity)
 
   @objc(removeProgressHistoryObject:)
-  @NSManaged public func removeFromProgressHistory(_ value: PrimaryMuscleEntity)
+  @NSManaged
+  public func removeFromProgressHistory(_ value: PrimaryMuscleEntity)
 }
 
-extension GoalEntity: Identifiable {}
+// MARK: Identifiable
 
-// MARK: - Read Only Convertible
+extension GoalEntity: Identifiable { }
+
+// MARK: ReadOnlyConvertible
 
 extension GoalEntity: ReadOnlyConvertible {
   typealias GoalCategory = Goal.Category
   typealias GoalFrequency = Goal.Frequency
 
   public func toReadOnly() -> Goal {
-    var goalFrequency: GoalFrequency = .daily
+    var goalFrequency = GoalFrequency.daily
     if let frequency, let frequencyType = GoalFrequency(rawValue: frequency) {
       goalFrequency = frequencyType
     }
@@ -57,12 +64,11 @@ extension GoalEntity: ReadOnlyConvertible {
       endDate: endDate,
       isCompleted: isCompleted,
       dateAdded: dateAdded,
-      user: user.toReadOnly()
-    )
+      user: user.toReadOnly())
   }
 }
 
-// MARK: - Entity Syncable
+// MARK: EntitySyncable
 
 extension GoalEntity: EntitySyncable {
   public func populateEntityFrom(_ model: Goal, using storage: StorageType) {
@@ -76,7 +82,10 @@ extension GoalEntity: EntitySyncable {
     targetValue = model.targetValue as NSNumber
     updatedAt = model.updatedAt
 
-    if let user = storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(model.user.userId)) {
+    if
+      let user = storage
+        .firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(model.user.userId))
+    {
       self.user = user
     }
 
@@ -114,8 +123,7 @@ extension GoalEntity: EntitySyncable {
       for entry in history {
         let progressEntity = storage.findOrInsert(
           of: ProgressEntryEntity.self,
-          using: PredicateProvider.userProfileById(entry.progressID)
-        )
+          using: PredicateProvider.userProfileById(entry.progressID))
         progressEntity.populateEntityFrom(entry, using: storage)
 
         addToProgressHistory(progressEntity)

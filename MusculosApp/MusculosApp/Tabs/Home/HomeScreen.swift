@@ -25,8 +25,7 @@ struct HomeScreen: View {
           profile: userStore.currentUserProfile,
           onNotificationsTap: {
             navigator.navigate(to: HomeDestinations.liveRoute)
-          }
-        )
+          })
 
         AchievementCard()
           .defaultShimmering(active: viewModel.isLoading)

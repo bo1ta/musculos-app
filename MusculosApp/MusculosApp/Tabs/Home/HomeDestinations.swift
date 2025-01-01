@@ -7,8 +7,10 @@
 
 import Models
 import Navigator
-import SwiftUI
 import RouteKit
+import SwiftUI
+
+// MARK: - HomeDestinations
 
 public enum HomeDestinations {
   case addGoal
@@ -16,14 +18,18 @@ public enum HomeDestinations {
   case liveRoute
 }
 
+// MARK: NavigationDestination
+
 extension HomeDestinations: NavigationDestination {
   public var view: some View {
     switch self {
     case .addGoal:
-      AddGoalSheet(onBack: {})
+      AddGoalSheet(onBack: { })
+
     case .notifications:
       LiveRouteScreen()
         .tabBarHidden()
+
     case .liveRoute:
       LiveRouteScreen()
     }
@@ -36,7 +42,7 @@ extension HomeDestinations: NavigationDestination {
     case .notifications:
       .push
     case .liveRoute:
-        .push
+      .push
     }
   }
 }

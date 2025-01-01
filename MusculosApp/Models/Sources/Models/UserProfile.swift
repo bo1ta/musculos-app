@@ -8,6 +8,8 @@
 import Foundation
 import Utility
 
+// MARK: - UserProfile
+
 public struct UserProfile: Codable, Sendable {
   public var userId: UUID
   public let avatar: String?
@@ -40,8 +42,8 @@ public struct UserProfile: Codable, Sendable {
     isOnboarded: Bool? = false,
     xp: Int? = 0, // swiftlint:disable:this identifier_name
     goals: [Goal]? = nil,
-    ratings: [ExerciseRating]? = nil
-  ) {
+    ratings: [ExerciseRating]? = nil)
+  {
     self.userId = userId
     self.email = email
     self.fullName = fullName
@@ -84,10 +86,14 @@ public struct UserProfile: Codable, Sendable {
   }
 }
 
+// MARK: Equatable
+
 extension UserProfile: Equatable {
-  public static func == (_ lhs: UserProfile, rhs: UserProfile) -> Bool {
-    return lhs.userId == rhs.userId
+  public static func ==(_ lhs: UserProfile, rhs: UserProfile) -> Bool {
+    lhs.userId == rhs.userId
   }
 }
 
-extension UserProfile: DecodableModel {}
+// MARK: DecodableModel
+
+extension UserProfile: DecodableModel { }

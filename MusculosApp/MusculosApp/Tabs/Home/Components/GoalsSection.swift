@@ -11,6 +11,8 @@ import Storage
 import SwiftUI
 import Utility
 
+// MARK: - GoalsSection
+
 struct GoalsSection: View {
   var goals: [Goal]
   var onAddGoal: () -> Void
@@ -32,20 +34,20 @@ struct GoalsSection: View {
               gradient: cardGradient,
               rightContent: {
                 ProgressCircle(progress: goal.progressPercentage / 100, circleSize: 50)
-              }
-            )
+              })
           }
 
           AddGoalCard(onTap: onAddGoal)
         }
-      }
-    )
+      })
   }
 }
 
 #Preview {
-  GoalsSection(goals: [GoalFactory.createGoal(), GoalFactory.createGoal()], onAddGoal: {})
+  GoalsSection(goals: [GoalFactory.createGoal(), GoalFactory.createGoal()], onAddGoal: { })
 }
+
+// MARK: - AddGoalCard
 
 private struct AddGoalCard: View {
   let onTap: () -> Void

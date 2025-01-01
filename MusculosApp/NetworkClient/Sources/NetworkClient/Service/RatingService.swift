@@ -9,11 +9,15 @@ import Factory
 import Foundation
 import Models
 
+// MARK: - RatingServiceProtocol
+
 public protocol RatingServiceProtocol: Sendable {
   func addExerciseRating(_ exerciseRating: ExerciseRating) async throws
   func getRatingsByExerciseID(_ exerciseID: UUID) async throws -> [ExerciseRating]
   func getExerciseRatingsForCurrentUser() async throws -> [ExerciseRating]
 }
+
+// MARK: - RatingService
 
 public struct RatingService: APIService, RatingServiceProtocol, @unchecked Sendable {
   @Injected(\NetworkContainer.client) var client

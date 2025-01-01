@@ -10,6 +10,8 @@ import Navigator
 import SwiftUI
 import Utility
 
+// MARK: - RootTabs
+
 enum RootTabs: String {
   case home
   case explore
@@ -17,8 +19,10 @@ enum RootTabs: String {
   case profile
 }
 
+// MARK: - RootTabView
+
 struct RootTabView: View {
-  @SceneStorage("selectedTab") var selectedTab: RootTabs = .home
+  @SceneStorage("selectedTab") var selectedTab = RootTabs.home
   @State private var showActionSheet = false
   @State private var showAddButton = true
 
@@ -52,7 +56,9 @@ struct RootTabView: View {
         .opacity(showAddButton ? 1 : 0)
     }
     .onPreferenceChange(ShowTabPreferenceKey.self, perform: { value in
-      showAddButton = value
+      DispatchQueue.main.async {
+        showAddButton = value
+      }
     })
     .sheet(isPresented: $showActionSheet) {
       AddActionSheetContainer()

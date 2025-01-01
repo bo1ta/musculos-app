@@ -39,8 +39,8 @@ struct MultiOptionsSelectView: View {
       if showOptions {
         LazyVGrid(
           columns: columns,
-          spacing: 5
-        ) {
+          spacing: 5)
+        {
           ForEach(options, id: \.self) { filter in
             Button {
               handleFilterTap(filter)
@@ -67,5 +67,9 @@ struct MultiOptionsSelectView: View {
 }
 
 #Preview {
-  MultiOptionsSelectView(showOptions: .constant(true), selectedOptions: .constant([]), title: "Muscles", options: ["Chest", "Back", "Legs"])
+  MultiOptionsSelectView(
+    showOptions: .constant(true),
+    selectedOptions: .constant([]),
+    title: "Muscles",
+    options: ["Chest", "Back", "Legs"])
 }

@@ -15,6 +15,8 @@ import Storage
 import SwiftUI
 import Utility
 
+// MARK: - ExploreViewModel
+
 @Observable
 @MainActor
 final class ExploreViewModel {
@@ -51,7 +53,7 @@ final class ExploreViewModel {
   private(set) var recommendedExercisesByGoals: [Exercise] = []
 
   var displayGoal: Goal? {
-    return goals.first
+    goals.first
   }
 
   // MARK: - Init
@@ -60,8 +62,7 @@ final class ExploreViewModel {
 
   init() {
     coreModelNotificationHandler = CoreModelNotificationHandler(
-      storageType: StorageContainer.shared.storageManager().writerDerivedStorage
-    )
+      storageType: StorageContainer.shared.storageManager().writerDerivedStorage)
     coreModelNotificationHandler.eventPublisher
       .debounce(for: .milliseconds(700), scheduler: RunLoop.main)
       .sink { [weak self] updateObjectEvent in
@@ -95,7 +96,13 @@ extension ExploreViewModel {
     async let completedTodayExercisesTask: Void = refreshExercisesCompletedToday()
     async let goalsTask: Void = loadGoals()
 
-    _ = await (exercisesTask, favoriteExercisesTask, recommendedExercisesByGoalsTask, recommendedExercisesByPastSessionsTask, completedTodayExercisesTask, goalsTask)
+    _ = await (
+      exercisesTask,
+      favoriteExercisesTask,
+      recommendedExercisesByGoalsTask,
+      recommendedExercisesByPastSessionsTask,
+      completedTodayExercisesTask,
+      goalsTask)
   }
 
   private func loadExercises() async {

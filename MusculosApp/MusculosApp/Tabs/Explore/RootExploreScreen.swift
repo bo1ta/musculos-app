@@ -8,6 +8,8 @@
 import Navigator
 import SwiftUI
 
+// MARK: - RootExploreScreen
+
 struct RootExploreScreen: View {
   var body: some View {
     ManagedNavigationStack(scene: "explore") {

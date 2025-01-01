@@ -25,8 +25,7 @@ public struct SelectedButtonStyle: ButtonStyle {
       .clipShape(RoundedRectangle(cornerRadius: 10))
       .overlay(
         RoundedRectangle(cornerRadius: 10)
-          .stroke(isSelected ? AppColor.navyBlue : .gray, lineWidth: 0.75)
-      )
+          .stroke(isSelected ? AppColor.navyBlue : .gray, lineWidth: 0.75))
       .scaleEffect(configuration.isPressed ? 0.85 : 1.0)
   }
 }

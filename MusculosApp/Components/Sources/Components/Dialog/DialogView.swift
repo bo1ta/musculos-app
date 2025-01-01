@@ -20,8 +20,8 @@ public struct DialogView: View {
     title: String,
     description: String? = nil,
     buttonTitle: String = "Continue",
-    isPresented: Binding<Bool>
-  ) {
+    isPresented: Binding<Bool>)
+  {
     self.title = title
     self.description = description
     self.buttonTitle = buttonTitle
@@ -65,5 +65,8 @@ public struct DialogView: View {
 }
 
 #Preview {
-  DialogView(title: "Something occured", description: "Extra long description with more description", isPresented: .constant(true))
+  DialogView(
+    title: "Something occured",
+    description: "Extra long description with more description",
+    isPresented: .constant(true))
 }

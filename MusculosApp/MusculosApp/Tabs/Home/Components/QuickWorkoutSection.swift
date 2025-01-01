@@ -35,11 +35,9 @@ struct QuickWorkoutSection: View {
                 IconButton(systemImageName: "chevron.right", action: {
                   navigator.navigate(to: CommonDestinations.exerciseDetails(exercise))
                 })
-              }
-            )
+              })
           }
         }
-      }
-    )
+      })
   }
 }

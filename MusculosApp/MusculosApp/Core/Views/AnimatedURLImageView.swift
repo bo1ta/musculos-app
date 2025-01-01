@@ -19,7 +19,6 @@ struct AnimatedURLImageView: View {
   let interval: TimeInterval
 
   @State private var currentIndex = 0
-  @State private var cachedImages: [URL: UIImage] = [:]
   @State private var timer: Timer?
 
   init(imageURLs: [URL], interval: TimeInterval = .init(floatLiteral: 1)) {
@@ -32,19 +31,21 @@ struct AnimatedURLImageView: View {
       if let imageUrl = imageURLs[safe: currentIndex] {
         AsyncCachedImage(url: imageUrl) { imagePhase in
           switch imagePhase {
-          case let .success(image):
+          case .success(let image):
             image
               .resizable()
               .ignoresSafeArea()
               .aspectRatio(contentMode: .fit)
               .frame(maxWidth: .infinity)
               .frame(minHeight: 300)
+
           case .empty, .failure:
             Color.white
               .frame(maxWidth: .infinity)
               .frame(minHeight: 300)
               .ignoresSafeArea()
               .shimmering()
+
           @unknown default:
             fatalError("AsyncCachedImage fatal error")
           }
@@ -61,7 +62,7 @@ struct AnimatedURLImageView: View {
     }
 
     timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
-      self.updateCurrentIndex()
+      updateCurrentIndex()
     }
     if let timer {
       RunLoop.current.add(timer, forMode: .common)

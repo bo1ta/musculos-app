@@ -41,18 +41,19 @@ class AuthenticationViewModel {
   var username = ""
   var password = ""
   var confirmPassword = ""
-  var isLoading: Bool = false
+  var isLoading = false
 
   var eventPublisher: AnyPublisher<Event, Never> {
     eventSubject.eraseToAnyPublisher()
   }
 
   var isLoginFormValid: Bool {
-    return RegexValidator.isValidEmail(email) && RegexValidator.isValidPassword(password)
+    RegexValidator.isValidEmail(email) && RegexValidator.isValidPassword(password)
   }
 
   var isRegisterFormValid: Bool {
-    return RegexValidator.isValidEmail(email) && RegexValidator.isValidUsername(username) && RegexValidator.isValidPassword(password) && password == confirmPassword
+    RegexValidator.isValidEmail(email) && RegexValidator.isValidUsername(username) && RegexValidator
+      .isValidPassword(password) && password == confirmPassword
   }
 
   private(set) var authTask: Task<Void, Never>?
@@ -100,8 +101,7 @@ class AuthenticationViewModel {
         let session = try await repository.register(
           email: email,
           password: password,
-          username: username
-        )
+          username: username)
         sendEvent(.onRegisterSuccess(session))
       } catch {
         sendEvent(.onRegisterFailure(error))

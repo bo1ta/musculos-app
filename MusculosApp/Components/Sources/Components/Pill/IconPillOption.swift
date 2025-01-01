@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - IconPillOption
+
 public struct IconPillOption {
   var title: String
   var systemImage: String?
@@ -17,8 +19,10 @@ public struct IconPillOption {
   }
 }
 
+// MARK: Hashable
+
 extension IconPillOption: Hashable {
-  public static func == (lhs: IconPillOption, rhs: IconPillOption) -> Bool {
-    return lhs.title == rhs.title
+  public static func ==(lhs: IconPillOption, rhs: IconPillOption) -> Bool {
+    lhs.title == rhs.title
   }
 }

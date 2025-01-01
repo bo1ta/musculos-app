@@ -19,12 +19,15 @@ struct MusculosApp: App {
         switch appModel.appState {
         case .loggedIn:
           RootTabView()
+
         case .loggedOut:
           SplashScreen()
             .transition(.asymmetric(insertion: .opacity, removal: .push(from: .top)))
+
         case .onboarding:
           OnboardingScreen()
             .transition(.asymmetric(insertion: .push(from: .bottom), removal: .scale))
+
         case .loading:
           LoadingOverlayView(progress: $appModel.progress)
             .transition(.asymmetric(insertion: .opacity, removal: .push(from: .top)))

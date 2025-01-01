@@ -19,5 +19,5 @@ extension EnvironmentValues {
 // MARK: - UserStoreKey
 
 private struct UserStoreKey: @preconcurrency EnvironmentKey {
-  @MainActor static var defaultValue: UserStore = UserStore()
+  @MainActor static var defaultValue = UserStore()
 }

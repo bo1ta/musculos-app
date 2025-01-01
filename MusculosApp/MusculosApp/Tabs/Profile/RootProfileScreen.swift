@@ -8,6 +8,8 @@
 import Navigator
 import SwiftUI
 
+// MARK: - RootProfileScreen
+
 struct RootProfileScreen: View {
   var body: some View {
     ManagedNavigationStack(scene: "profile") {

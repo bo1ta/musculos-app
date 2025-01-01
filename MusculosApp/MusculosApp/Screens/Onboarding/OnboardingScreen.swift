@@ -10,6 +10,8 @@ import HealthKitUI
 import SwiftUI
 import Utility
 
+// MARK: - OnboardingScreen
+
 struct OnboardingScreen: View {
   @Environment(\.userStore) private var userStore: UserStore
   @State private var viewModel = OnboardingViewModel()
@@ -36,7 +38,7 @@ struct OnboardingScreen: View {
 
   private func handleEvent(_ event: OnboardingViewModel.Event) {
     switch event {
-    case let .didFinishOnboarding(onboardingData):
+    case .didFinishOnboarding(let onboardingData):
       userStore.handlePostOnboarding(onboardingData)
     case .didFinishWithError:
       toast = Toast(style: .error, message: "Could not save data...")
@@ -56,22 +58,22 @@ extension OnboardingScreen {
         SelectSizeView(
           selectedWeight: $viewModel.selectedWeight,
           selectedHeight: $viewModel.selectedHeight,
-          onContinue: viewModel.handleNextStep
-        )
-        .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+          onContinue: viewModel.handleNextStep)
+          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+
       case .level:
         SelectLevelView(
           selectedLevel: $viewModel.selectedLevel,
-          onContinue: viewModel.handleNextStep
-        )
-        .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+          onContinue: viewModel.handleNextStep)
+          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+
       case .goal:
         SelectGoalView(
           onboardingGoals: viewModel.onboardingGoals,
           selectedGoal: $viewModel.selectedGoal,
-          onContinue: viewModel.handleNextStep
-        )
-        .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+          onContinue: viewModel.handleNextStep)
+          .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+
       case .permissions:
         PermissionsView(onDone: viewModel.handleNextStep)
           .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .push(from: .top)))

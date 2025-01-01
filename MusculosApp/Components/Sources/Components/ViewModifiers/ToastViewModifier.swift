@@ -20,8 +20,7 @@ public struct ToastViewModifier: ViewModifier {
           toastView
             .transition(.asymmetric(insertion: .push(from: .bottom), removal: .move(edge: .bottom)))
         }
-        .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: toast)
-      )
+        .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: toast))
       .onChange(of: toast) { _, _ in
         showToast()
       }
@@ -29,14 +28,13 @@ public struct ToastViewModifier: ViewModifier {
 
   @ViewBuilder
   var toastView: some View {
-    if let toast = toast {
+    if let toast {
       VStack {
         Spacer()
         ToastView(
           style: toast.style,
           message: toast.message,
-          width: toast.width
-        )
+          width: toast.width)
       }
       .padding(.bottom, 100)
     }

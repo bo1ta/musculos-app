@@ -10,11 +10,13 @@ import Foundation
 import SwiftUI
 import Utility
 
+// MARK: - Exercise
+
 public struct Exercise: Codable, Sendable {
   public var category: String
   public var equipment: String?
   public var force: String?
-  public var id: UUID = .init()
+  public var id = UUID()
   public var level: String
   public var name: String
   public var primaryMuscles: [String] = []
@@ -38,8 +40,8 @@ public struct Exercise: Codable, Sendable {
     imageUrls: [String],
     isFavorite: Bool = false,
     updatedAt: Date? = nil,
-    ratings: [ExerciseRating]? = nil
-  ) {
+    ratings: [ExerciseRating]? = nil)
+  {
     self.category = category
     self.equipment = equipment
     self.force = force
@@ -67,11 +69,11 @@ public struct Exercise: Codable, Sendable {
   }
 
   public var primaryMusclesTypes: [MuscleType] {
-    return primaryMuscles.compactMap { MuscleType(rawValue: $0) }
+    primaryMuscles.compactMap { MuscleType(rawValue: $0) }
   }
 
   public var secondaryMusclesTypes: [MuscleType] {
-    return secondaryMuscles.compactMap { MuscleType(rawValue: $0) }
+    secondaryMuscles.compactMap { MuscleType(rawValue: $0) }
   }
 
   public var displayOptions: [String] {
@@ -100,7 +102,7 @@ public struct Exercise: Codable, Sendable {
   }
 
   public func getImagesURLs() -> [URL] {
-    return imageUrls.compactMap { imageUrlString in
+    imageUrls.compactMap { imageUrlString in
       URL(string: imageUrlString)
     }
   }
@@ -133,15 +135,17 @@ public struct Exercise: Codable, Sendable {
   }
 }
 
-public extension Exercise {
-  enum ForceType: String, Codable {
+extension Exercise {
+  public enum ForceType: String, Codable {
     case pull, push, stay = "static"
   }
 
-  enum Level: String, Codable {
+  public enum Level: String, Codable {
     case intermediate, beginner, expert
   }
 }
+
+// MARK: Hashable
 
 extension Exercise: Hashable {
   public func hash(into hasher: inout Hasher) {
@@ -150,10 +154,14 @@ extension Exercise: Hashable {
   }
 }
 
-extension Exercise: DecodableModel {}
+// MARK: DecodableModel
+
+extension Exercise: DecodableModel { }
+
+// MARK: Identifiable
 
 extension Exercise: Identifiable {
-  public static func == (_ lhs: Exercise, rhs: Exercise) -> Bool {
-    return lhs.id == rhs.id
+  public static func ==(_ lhs: Exercise, rhs: Exercise) -> Bool {
+    lhs.id == rhs.id
   }
 }

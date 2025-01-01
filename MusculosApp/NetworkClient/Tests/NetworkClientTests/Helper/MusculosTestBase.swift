@@ -11,12 +11,17 @@ import Storage
 import Utility
 import XCTest
 
-protocol MusculosTestBase: AnyObject {}
+// MARK: - MusculosTestBase
+
+protocol MusculosTestBase: AnyObject { }
 
 extension MusculosTestBase {
   func parseDataFromFile(name: String, withExtension: String = "json") throws -> Data {
     guard let fileUrl = Bundle.module.url(forResource: name, withExtension: withExtension) else {
-      throw NSError(domain: "FileNotFound", code: 404, userInfo: [NSLocalizedDescriptionKey: "File \(name).\(withExtension) not found."])
+      throw NSError(
+        domain: "FileNotFound",
+        code: 404,
+        userInfo: [NSLocalizedDescriptionKey: "File \(name).\(withExtension) not found."])
     }
     return try Data(contentsOf: fileUrl)
   }

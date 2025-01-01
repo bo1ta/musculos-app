@@ -48,19 +48,19 @@ final class UserStore {
   // MARK: - Observed properties
 
   private(set) var currentUserProfile: UserProfile?
-  private(set) var currentUserState: UserSessionState = .unauthenticated
+  private(set) var currentUserState = UserSessionState.unauthenticated
   private(set) var isLoading = false
 
   var displayName: String {
-    return currentUserProfile?.username ?? ""
+    currentUserProfile?.username ?? ""
   }
 
   var isOnboarded: Bool {
-    return currentUserProfile?.isOnboarded ?? false
+    currentUserProfile?.isOnboarded ?? false
   }
 
   var isLoggedIn: Bool {
-    return userManager.isAuthenticated && currentUserProfile != nil
+    userManager.isAuthenticated && currentUserProfile != nil
   }
 
   init() {
@@ -76,7 +76,7 @@ final class UserStore {
     currentUserState = userManager.getCurrentState()
 
     switch currentUserState {
-    case let .authenticated(userSession):
+    case .authenticated(let userSession):
       handlePostLogin(session: userSession)
     case .unauthenticated:
       Logger.info(message: "Could not find user. Using logged-out state")

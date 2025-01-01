@@ -9,14 +9,18 @@ import Models
 import Navigator
 import SwiftUI
 
+// MARK: - CommonDestinations
+
 enum CommonDestinations {
   case exerciseDetails(Exercise)
 }
 
+// MARK: NavigationDestination
+
 extension CommonDestinations: NavigationDestination {
   public var view: some View {
     switch self {
-    case let .exerciseDetails(exercise):
+    case .exerciseDetails(let exercise):
       ExerciseDetailsScreen(exercise: exercise)
     }
   }

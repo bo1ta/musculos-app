@@ -41,13 +41,12 @@ public class UserProfileFactory: BaseFactory, @unchecked Sendable {
       isOnboarded: isOnboarded ?? true,
       xp: xp,
       goals: goals,
-      ratings: ratings
-    )
+      ratings: ratings)
     syncObject(model, of: UserProfileEntity.self)
     return model
   }
 
   public static func createUser() -> UserProfile {
-    return UserProfileFactory().create()
+    UserProfileFactory().create()
   }
 }

@@ -48,15 +48,15 @@ public enum DateHelper {
   }
 
   public static func nowPlusMinutes(_ minutes: Double) -> Date {
-    return Date().addingTimeInterval(minutes * 60)
+    Date().addingTimeInterval(minutes * 60)
   }
 
   public static func nowPlusDays(_ days: Int) -> Date {
-    return Calendar.current.date(byAdding: .day, value: days, to: Date())!
+    Calendar.current.date(byAdding: .day, value: days, to: Date())!
   }
 
   public static func nowPlusYears(_ years: Int) -> Date {
-    return Calendar.current.date(byAdding: .year, value: years, to: Date())!
+    Calendar.current.date(byAdding: .year, value: years, to: Date())!
   }
 
   public static func formatTimeFromSeconds(_ seconds: Double) -> String {

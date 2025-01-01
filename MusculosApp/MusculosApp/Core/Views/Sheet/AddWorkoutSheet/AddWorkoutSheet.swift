@@ -17,7 +17,7 @@ struct AddWorkoutSheet: View {
   @State private var viewModel = AddWorkoutSheetViewModel()
 
   private var muscleOptions: [String] {
-    return MuscleType.allCases.map { $0.rawValue }
+    MuscleType.allCases.map { $0.rawValue }
   }
 
   let onBack: () -> Void
@@ -27,14 +27,17 @@ struct AddWorkoutSheet: View {
       SheetNavBar(
         title: "Create a new workout",
         onBack: onBack,
-        onDismiss: { dismiss() }
-      )
-      .padding(.vertical, 25)
+        onDismiss: { dismiss() })
+        .padding(.vertical, 25)
 
       VStack(alignment: .leading, spacing: 15) {
         FormField(text: $viewModel.workoutName, label: "Name")
         FormField(text: $viewModel.workoutType, label: "Type")
-        MultiOptionsSelectView(showOptions: $viewModel.showSelectMuscles, selectedOptions: $viewModel.selectedMuscles, title: "Target muscles", options: muscleOptions)
+        MultiOptionsSelectView(
+          showOptions: $viewModel.showSelectMuscles,
+          selectedOptions: $viewModel.selectedMuscles,
+          title: "Target muscles",
+          options: muscleOptions)
 
         if !viewModel.displayExercises.isEmpty {
           Text("Recommended Exercises")
@@ -47,8 +50,7 @@ struct AddWorkoutSheet: View {
               isSelected: viewModel.isExerciseSelected(exercise),
               onSelect: {
                 viewModel.willSelectExercise(exercise)
-              }
-            )
+              })
           }
         }
       }
@@ -68,8 +70,7 @@ struct AddWorkoutSheet: View {
       title: "How many reps?",
       buttonTitle: "Save",
       isPresented: $viewModel.showRepsDialog,
-      onSelectedValue: viewModel.didSelectExercise
-    )
+      onSelectedValue: viewModel.didSelectExercise)
     .toastView(toast: $viewModel.toast)
     .onReceive(viewModel.didSavePublisher, perform: { _ in
       dismiss()
@@ -79,5 +80,5 @@ struct AddWorkoutSheet: View {
 }
 
 #Preview {
-  AddWorkoutSheet(onBack: {})
+  AddWorkoutSheet(onBack: { })
 }

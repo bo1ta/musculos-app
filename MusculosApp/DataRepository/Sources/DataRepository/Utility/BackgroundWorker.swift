@@ -12,16 +12,18 @@ import Utility
 final class BackgroundWorker: Sendable {
   private let backgroundQueue = AsyncQueue()
 
-  @discardableResult func queueOperation<Success: Sendable>(
+  @discardableResult
+  func queueOperation<Success: Sendable>(
     priority: TaskPriority? = .low,
-    @_inheritActorContext operation: @escaping @Sendable () async throws -> Success
-  ) -> Task<Success, Error> {
-    return backgroundQueue.addOperation(priority: priority) {
+    @_inheritActorContext operation: @escaping @Sendable () async throws -> Success)
+    -> Task<Success, Error>
+  {
+    backgroundQueue.addOperation(priority: priority) {
       try await operation()
     }
   }
 
   func waitForAll() async {
-    _ = await backgroundQueue.addBarrierOperation {}.result
+    _ = await backgroundQueue.addBarrierOperation { }.result
   }
 }

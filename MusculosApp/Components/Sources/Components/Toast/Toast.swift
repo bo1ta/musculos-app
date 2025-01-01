@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 
+// MARK: - Toast
+
 public struct Toast: Equatable, Sendable {
   public var style: ToastStyle
   public var message: String
@@ -22,26 +24,26 @@ public struct Toast: Equatable, Sendable {
   }
 
   public static func warning(_ message: String) -> Toast {
-    return Toast(style: .warning, message: message)
+    Toast(style: .warning, message: message)
   }
 
   public static func error(_ message: String) -> Toast {
-    return Toast(style: .error, message: message)
+    Toast(style: .error, message: message)
   }
 
   public static func success(_ message: String) -> Toast {
-    return Toast(style: .success, message: message)
+    Toast(style: .success, message: message)
   }
 
   public static func info(_ message: String) -> Toast {
-    return Toast(style: .info, message: message)
+    Toast(style: .info, message: message)
   }
 }
 
-// MARK: - Toast Style
+// MARK: Toast.ToastStyle
 
-public extension Toast {
-  enum ToastStyle: Sendable {
+extension Toast {
+  public enum ToastStyle: Sendable {
     case success, info, warning, error
 
     var borderColor: Color {

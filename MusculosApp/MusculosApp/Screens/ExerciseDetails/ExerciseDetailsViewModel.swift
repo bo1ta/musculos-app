@@ -40,7 +40,7 @@ final class ExerciseDetailsViewModel {
 
   private(set) var showChallengeExercise = false
   private(set) var isTimerActive = false
-  private(set) var elapsedTime: Int = 0
+  private(set) var elapsedTime = 0
 
   var showInputDialog = false
   var showRatingDialog = false
@@ -66,11 +66,11 @@ final class ExerciseDetailsViewModel {
   }
 
   var isFavorite: Bool {
-    return exercise.isFavorite ?? false
+    exercise.isFavorite ?? false
   }
 
   private var currentUserID: UUID? {
-    return userManager.currentUserID
+    userManager.currentUserID
   }
 
   private var currentUserProfile: UserProfile? {
@@ -119,7 +119,10 @@ final class ExerciseDetailsViewModel {
     do {
       exerciseRatings = try await ratingRepository.getRatingsForExercise(exercise.id)
 
-      if let currentUserID = userManager.currentUserID, let userRating = exerciseRatings.first(where: { $0.userID == currentUserID })?.rating {
+      if
+        let currentUserID = userManager.currentUserID,
+        let userRating = exerciseRatings.first(where: { $0.userID == currentUserID })?.rating
+      {
         self.userRating = Int(userRating)
       }
     } catch {
@@ -192,12 +195,16 @@ final class ExerciseDetailsViewModel {
 
   private func saveExerciseSession() {
     saveExerciseSessionTask = Task { [weak self] in
-      guard let self, let currentUserProfile = await self.currentUserProfile else {
+      guard let self, let currentUserProfile = await currentUserProfile else {
         return
       }
 
       do {
-        let exerciseSession = ExerciseSession(user: currentUserProfile, exercise: exercise, duration: Double(elapsedTime), weight: inputWeight)
+        let exerciseSession = ExerciseSession(
+          user: currentUserProfile,
+          exercise: exercise,
+          duration: Double(elapsedTime),
+          weight: inputWeight)
         let userExperience = try await exerciseSessionRepository.addSession(exerciseSession)
         await showUserExperience(userExperience)
 

@@ -9,6 +9,8 @@ import Components
 import Foundation
 import SwiftUI
 
+// MARK: - AddDetailOptionCardView
+
 struct AddDetailOptionCardView: View {
   @Binding var options: [AddDetailOption]
 
@@ -57,7 +59,7 @@ struct AddDetailOptionCardView: View {
   ]))
 }
 
-// MARK: - Option Model
+// MARK: - AddDetailOption
 
 struct AddDetailOption: Identifiable {
   let id: Int

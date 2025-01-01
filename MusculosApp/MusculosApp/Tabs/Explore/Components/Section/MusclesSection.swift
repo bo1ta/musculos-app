@@ -37,7 +37,6 @@ struct MusclesSection: View {
             .padding([.vertical, .horizontal], 5)
           }
         }
-      }
-    )
+      })
   }
 }

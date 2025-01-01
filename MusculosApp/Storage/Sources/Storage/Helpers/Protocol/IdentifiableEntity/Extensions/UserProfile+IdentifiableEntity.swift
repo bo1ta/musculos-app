@@ -9,7 +9,7 @@ import Foundation
 import Models
 
 extension UserProfile: IdentifiableEntity {
-  public static let identifierKey: String = "userId"
+  public static let identifierKey = "userId"
 
   public var identifierValue: UUID {
     userId

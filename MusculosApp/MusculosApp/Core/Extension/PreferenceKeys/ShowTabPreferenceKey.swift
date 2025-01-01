@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ShowTabPreferenceKey: PreferenceKey {
-  nonisolated(unsafe) static var defaultValue: Bool = true
+  nonisolated(unsafe) static var defaultValue = true
 
   static func reduce(value: inout Bool, nextValue: () -> Bool) {
     value = nextValue()

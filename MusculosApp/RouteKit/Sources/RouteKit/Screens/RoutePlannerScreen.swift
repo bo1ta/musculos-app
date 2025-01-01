@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 31.12.2024.
 //
 
-import CoreLocation
 import Components
+import CoreLocation
 import SwiftUI
 import Utility
 
@@ -16,8 +16,6 @@ public struct RoutePlannerScreen: View {
   @State private var startLocation = ""
   @State private var endLocation = ""
   @State private var currentLocation: CLLocation?
-  @State private var showLocationSearchSheet = false
-
   public var body: some View {
     ZStack(alignment: .bottom) {
       RouteView(currentLocation: $currentLocation, averagePace: $averagePace)
@@ -32,16 +30,13 @@ public struct RoutePlannerScreen: View {
             FormField(text: $endLocation, textHint: "End location")
             PrimaryButton(title: "Plan route", action: planRoute)
           }
-            .padding(.horizontal, 40)
-        )
+          .padding(.horizontal, 40))
         .opacity(showRouteForm ? 1 : 0)
     }
     .ignoresSafeArea()
   }
 
-  private func planRoute() {
-
-  }
+  private func planRoute() { }
 }
 
 #Preview {

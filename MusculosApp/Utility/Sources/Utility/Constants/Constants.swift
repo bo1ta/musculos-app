@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - HTTPMethod
+
 public enum HTTPMethod: String {
   case get = "GET"
   case post = "POST"
@@ -14,53 +16,59 @@ public enum HTTPMethod: String {
   case delete = "DELETE"
 }
 
+// MARK: - HTTPHeaderConstant
+
 public enum HTTPHeaderConstant {
   public static let contentType = "Content-Type"
   public static let authorization = "Authorization"
 }
 
+// MARK: - UIConstant
+
 public enum UIConstant {
-  public static let componentOpacity: Double = 0.95
+  public static let componentOpacity = 0.95
 
-  public static let shortAnimationDuration: Double = 0.1
-  public static let mediumAnimationDuration: Double = 0.25
-  public static let longAnimationDuration: Double = 0.5
+  public static let shortAnimationDuration = 0.1
+  public static let mediumAnimationDuration = 0.25
+  public static let longAnimationDuration = 0.5
 
-  public static let smallIconSize: Double = 16.0
-  public static let mediumIconSize: Double = 23.0
-  public static let largeIconSize: Double = 25.0
+  public static let smallIconSize = 16.0
+  public static let mediumIconSize = 23.0
+  public static let largeIconSize = 25.0
 
   public enum Size {
     case extraSmall, small, medium, large
 
     public var cardHeight: Double {
       switch self {
-      case .extraSmall: return 45.0
-      case .small: return 75.0
-      case .medium: return 150.0
-      case .large: return 200.0
+      case .extraSmall: 45.0
+      case .small: 75.0
+      case .medium: 150.0
+      case .large: 200.0
       }
     }
 
     public var iconHeight: Double {
       switch self {
-      case .extraSmall: return 10.0
-      case .small: return 16.0
-      case .medium: return 23.0
-      case .large: return 30.0
+      case .extraSmall: 10.0
+      case .small: 16.0
+      case .medium: 23.0
+      case .large: 30.0
       }
     }
 
     public var cornerRadius: Double {
       switch self {
-      case .extraSmall: return 5.0
-      case .small: return 10.0
-      case .medium: return 15.0
-      case .large: return 20.0
+      case .extraSmall: 5.0
+      case .small: 10.0
+      case .medium: 15.0
+      case .large: 20.0
       }
     }
   }
 }
+
+// MARK: - UserDefaultsKey
 
 public enum UserDefaultsKey {
   public static let userSession = "user_session"
@@ -72,13 +80,17 @@ public enum UserDefaultsKey {
   public static let exerciseSessionsLastUpdated = "exercise_sessions_last_updated"
 
   public static func syncDate(for entityName: String) -> String {
-    return "\(entityName)_sync_lastUpdatedAt"
+    "\(entityName)_sync_lastUpdatedAt"
   }
 }
+
+// MARK: - MessageConstant
 
 public enum MessageConstant: String {
   case genericErrorMessage = "Something went wrong. Please try again"
 }
+
+// MARK: - ModelUpdatedEvent
 
 public enum ModelUpdatedEvent {
   case didAddGoal
@@ -87,6 +99,6 @@ public enum ModelUpdatedEvent {
   case didFavoriteExercise
 
   public static var userInfoKey: String {
-    return "ModelUpdatedEventKey"
+    "ModelUpdatedEventKey"
   }
 }

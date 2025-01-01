@@ -8,9 +8,9 @@
 import Components
 import CoreLocation
 import Models
+import RouteKit
 import SwiftUI
 import Utility
-import RouteKit
 
 struct HistoryScreen: View {
   @State private var viewModel = HistoryViewModel()
@@ -22,8 +22,7 @@ struct HistoryScreen: View {
       VStack {
         CalendarView(
           selectedDate: $viewModel.selectedDate,
-          calendarMarkers: viewModel.calendarMarkers
-        )
+          calendarMarkers: viewModel.calendarMarkers)
       }
 
       if !viewModel.filteredSessions.isEmpty {
@@ -32,8 +31,7 @@ struct HistoryScreen: View {
             title: exerciseSession.exercise.name,
             description: exerciseSession.dateAdded.ISO8601Format(),
             gradient: cardGradient,
-            rightContent: {}
-          )
+            rightContent: { })
         }
       }
 

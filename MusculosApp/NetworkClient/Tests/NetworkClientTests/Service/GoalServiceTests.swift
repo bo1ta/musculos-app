@@ -16,7 +16,8 @@ import Testing
 
 @Suite(.serialized)
 final class GoalServiceTests: MusculosTestBase {
-  @Test func getOnboardingGoals() async throws {
+  @Test
+  func getOnboardingGoals() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .templates(.goals)
@@ -32,7 +33,8 @@ final class GoalServiceTests: MusculosTestBase {
     #expect(goalTemplates.count == 3)
   }
 
-  @Test func getUserGoals() async throws {
+  @Test
+  func getUserGoals() async throws {
     let stubSession = StubUserSessionManager(expectedTokenValue: "super-secret-token")
     StorageContainer.shared.userManager.register { stubSession }
     defer {
@@ -55,7 +57,8 @@ final class GoalServiceTests: MusculosTestBase {
     #expect(goals.count == 2)
   }
 
-  @Test func addGoal() async throws {
+  @Test
+  func addGoal() async throws {
     let userProfile = UserProfileFactory.createUser()
     let goal = GoalFactory.createGoal(user: userProfile)
 
@@ -80,7 +83,8 @@ final class GoalServiceTests: MusculosTestBase {
     try await service.addGoal(goal)
   }
 
-  @Test func getGoalByID() async throws {
+  @Test
+  func getGoalByID() async throws {
     let expectedGoaID = try #require(UUID(uuidString: "038E927E-4E82-48C6-8E47-5B21670E688C"))
     let stubSession = StubUserSessionManager(expectedTokenValue: "super-secret-token")
     StorageContainer.shared.userManager.register { stubSession }
@@ -104,7 +108,8 @@ final class GoalServiceTests: MusculosTestBase {
     #expect(serviceGoal.id.uuidString == expectedGoaID.uuidString)
   }
 
-  @Test func addProgressEntry() async throws {
+  @Test
+  func addProgressEntry() async throws {
     let goal = GoalFactory.createGoal()
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .post

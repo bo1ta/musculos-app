@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 import Utility
 
+// MARK: - Goal
+
 public struct Goal: Sendable, Codable {
   public let id: UUID
   public let name: String
@@ -33,8 +35,8 @@ public struct Goal: Sendable, Codable {
     isCompleted: Bool = false,
     dateAdded: Date,
     user: UserProfile,
-    updatedAt: Date? = Date()
-  ) {
+    updatedAt: Date? = Date())
+  {
     self.id = id
     self.name = name
     self.category = category
@@ -102,15 +104,15 @@ public struct Goal: Sendable, Codable {
   }
 
   public var formattedProgressPercentage: String {
-    return String(format: "%.0f%%", progressPercentage)
+    String(format: "%.0f%%", progressPercentage)
   }
 
   public var currentValue: Double {
-    return latestProgress?.value ?? 0
+    latestProgress?.value ?? 0
   }
 
   public var latestProgress: ProgressEntry? {
-    return progressEntries?.min(by: { $0.dateAdded < $1.dateAdded })
+    progressEntries?.min(by: { $0.dateAdded < $1.dateAdded })
   }
 
   public var currentStreak: Int {
@@ -136,8 +138,8 @@ public struct Goal: Sendable, Codable {
 
 // MARK: - Helper types
 
-public extension Goal {
-  enum Category: String, CaseIterable, Sendable, Codable {
+extension Goal {
+  public enum Category: String, CaseIterable, Sendable, Codable {
     case loseWeight, gainWeight, growMuscle, drinkWater, general, buildMass = "Build mass & strength"
 
     public var label: String {
@@ -164,16 +166,18 @@ public extension Goal {
     public var mappedExerciseCategories: [ExerciseConstants.CategoryType] {
       switch self {
       case .loseWeight, .general:
-        return [.cardio, .stretching, .plyometrics]
+        [.cardio, .stretching, .plyometrics]
+
       case .gainWeight, .growMuscle, .buildMass:
-        return [
+        [
           .olympicWeightlifting,
           .strength,
           .strongman,
           .powerlifting,
         ]
+
       case .drinkWater:
-        return [.cardio, .stretching]
+        [.cardio, .stretching]
       }
     }
 
@@ -185,7 +189,7 @@ public extension Goal {
     }
   }
 
-  enum Frequency: String, CaseIterable, Sendable, Codable {
+  public enum Frequency: String, CaseIterable, Sendable, Codable {
     case daily
     case weekly
     case fixedDate
@@ -200,6 +204,8 @@ public extension Goal {
   }
 }
 
+// MARK: Hashable
+
 extension Goal: Hashable {
   public func hash(into hasher: inout Hasher) {
     hasher.combine(name)
@@ -207,4 +213,6 @@ extension Goal: Hashable {
   }
 }
 
-extension Goal: DecodableModel {}
+// MARK: DecodableModel
+
+extension Goal: DecodableModel { }

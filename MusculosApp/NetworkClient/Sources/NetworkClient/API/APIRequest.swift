@@ -39,7 +39,7 @@ public struct APIRequest: @unchecked Sendable {
     var request = URLRequest(url: baseURL)
     request.httpMethod = method.rawValue
 
-    if let body = body {
+    if let body {
       request.httpBody = requestBody(from: body)
     }
 

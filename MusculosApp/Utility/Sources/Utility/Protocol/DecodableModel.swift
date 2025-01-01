@@ -7,39 +7,39 @@
 
 import Foundation
 
+// MARK: - DecodableModel
+
 /// Utility that decodes Data into a Codable object
 /// Supports single objects or arrays
 ///
-public protocol DecodableModel: Codable {}
+public protocol DecodableModel: Codable { }
 
-public extension DecodableModel where Self: Codable {
-  static func createFrom(_ data: Data) throws -> Self {
+extension DecodableModel where Self: Codable {
+  public static func createFrom(_ data: Data) throws -> Self {
     do {
       return try JSONHelper.decoder.decode(Self.self, from: data)
     } catch {
       Logger.error(
         error,
         message: "Could not decode object",
-        properties: ["object": String(describing: Self.self)]
-      )
+        properties: ["object": String(describing: Self.self)])
       throw error
     }
   }
 
-  static func createArrayFrom(_ data: Data) throws -> [Self] {
+  public static func createArrayFrom(_ data: Data) throws -> [Self] {
     do {
       return try JSONHelper.decoder.decode([Self].self, from: data)
     } catch {
       Logger.error(
         error,
         message: "Could not decode object",
-        properties: ["object": String(describing: Self.self)]
-      )
+        properties: ["object": String(describing: Self.self)])
       throw error
     }
   }
 
-  func toDictionary() -> [String: Any]? {
+  public func toDictionary() -> [String: Any]? {
     guard let data = try? JSONHelper.encoder.encode(self) else {
       return nil
     }
@@ -51,6 +51,8 @@ public extension DecodableModel where Self: Codable {
     return dictionary
   }
 }
+
+// MARK: - JSONHelper
 
 private class JSONHelper {
   static let decoder: JSONDecoder = {

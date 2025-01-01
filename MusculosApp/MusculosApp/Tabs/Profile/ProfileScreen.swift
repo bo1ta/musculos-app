@@ -18,16 +18,15 @@ struct ProfileScreen: View {
   var body: some View {
     ScrollView {
       VStack(spacing: 10) {
-        UserHeader(profile: userStore.currentUserProfile, onNotificationsTap: {})
-        ContentSectionWithHeaderAndButton(headerTitle: "Overview", buttonTitle: "See more", onAction: {}, content: {
+        UserHeader(profile: userStore.currentUserProfile, onNotificationsTap: { })
+        ContentSectionWithHeaderAndButton(headerTitle: "Overview", buttonTitle: "See more", onAction: { }, content: {
           ScoreCard(
             title: "Fitness Score",
             description: "Based on your overview fitness tracking, your score is 87 and considered good",
             score: 87,
-            onTap: {}
-          )
+            onTap: { })
         })
-        ContentSectionWithHeaderAndButton(headerTitle: "Highlights", buttonTitle: "See more", onAction: {}, content: {
+        ContentSectionWithHeaderAndButton(headerTitle: "Highlights", buttonTitle: "See more", onAction: { }, content: {
           VStack {
             ForEach(viewModel.getHighlights(), id: \.hashValue) { profileHighlight in
               HighlightCard(profileHighlight: profileHighlight)
@@ -35,15 +34,13 @@ struct ProfileScreen: View {
           }
         })
 
-        ContentSectionWithHeaderAndButton(headerTitle: "Your workout", buttonTitle: "See more", onAction: {}, content: {
+        ContentSectionWithHeaderAndButton(headerTitle: "Your workout", buttonTitle: "See more", onAction: { }, content: {
           SelectTextResizablePillsStack(
             options: ExerciseConstants.categoryOptions,
-            selectedOption: $viewModel.selectedWorkout
-          )
+            selectedOption: $viewModel.selectedWorkout)
           ExerciseCardsStack(
             exercises: viewModel.exercises,
-            onTapExercise: { navigator.navigate(to: CommonDestinations.exerciseDetails($0)) }
-          )
+            onTapExercise: { navigator.navigate(to: CommonDestinations.exerciseDetails($0)) })
         })
       }
       .padding(.horizontal, 15)

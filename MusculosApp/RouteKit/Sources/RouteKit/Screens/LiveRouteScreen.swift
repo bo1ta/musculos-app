@@ -5,15 +5,15 @@
 //  Created by Solomon Alexandru on 30.12.2024.
 //
 
-import SwiftUI
-import RouteKit
 import CoreLocation
+import RouteKit
+import SwiftUI
 import Utility
 
 public struct LiveRouteScreen: View {
   @State private var averagePace: Double = 0
 
-  public init() {}
+  public init() { }
 
   public var body: some View {
     GeometryReader { proxy in

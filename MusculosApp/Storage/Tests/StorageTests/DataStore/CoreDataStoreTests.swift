@@ -8,19 +8,21 @@
 import Factory
 import Foundation
 import Models
-@testable import Storage
 import Testing
+@testable import Storage
 
 @Suite(.serialized)
 public class CoreDataStoreTests: MusculosTestBase {
   @Injected(\StorageContainer.coreDataStore) private var dataStore
 
-  @Test func getAll() async throws {
+  @Test
+  func getAll() async throws {
     let exercises = await dataStore.getAll(ExerciseEntity.self)
     #expect(exercises.isEmpty)
   }
 
-  @Test func importModel() async throws {
+  @Test
+  func importModel() async throws {
     let factory = ExerciseFactory()
     let exercise = factory.create()
     await factory.awaitPendingOperations()
@@ -30,7 +32,8 @@ public class CoreDataStoreTests: MusculosTestBase {
     #expect(local?.name == exercise.name)
   }
 
-  @Test func getByMuscles() async throws {
+  @Test
+  func getByMuscles() async throws {
     let factory = ExerciseFactory()
     factory.name = "First Exercise"
     factory.primaryMuscles = [MuscleType.chest.rawValue]
@@ -43,7 +46,8 @@ public class CoreDataStoreTests: MusculosTestBase {
     #expect(firstExercise.name == exercise.name)
   }
 
-  @Test func getCompletedSinceLastWeek() async throws {
+  @Test
+  func getCompletedSinceLastWeek() async throws {
     let exercise = try await setupExercise()
     let profile = try await setupCurrentUser()
 

@@ -30,8 +30,7 @@ public struct XPGainView: View {
         Text("+ \(xpGained) XP")
           .foregroundStyle(.white)
           .font(AppFont.poppins(.bold, size: 18))
-          .shadow(color: .black.opacity(0.2), radius: 2)
-      )
+          .shadow(color: .black.opacity(0.2), radius: 2))
       .shadow(color: .purple.opacity(0.5), radius: 8)
   }
 
@@ -43,8 +42,7 @@ public struct XPGainView: View {
         AppColor.darkPurple.opacity(0.2),
       ],
       startPoint: .topLeading,
-      endPoint: .bottomTrailing
-    )
+      endPoint: .bottomTrailing)
   }
 }
 

@@ -24,25 +24,21 @@ struct SignUpView: View {
         FormField(
           text: $viewModel.email,
           label: "Email",
-          labelColor: .white
-        )
+          labelColor: .white)
         FormField(
           text: $viewModel.password,
           label: "Password",
           labelColor: .white,
-          isSecureField: true
-        )
+          isSecureField: true)
         FormField(
           text: $viewModel.confirmPassword,
           label: "Confirm password",
           labelColor: .white,
-          isSecureField: true
-        )
+          isSecureField: true)
         FormField(
           text: $viewModel.username,
           label: "Username",
-          labelColor: .white
-        )
+          labelColor: .white)
       }
 
       LoadingButton(title: "Sign up", isLoading: $viewModel.isLoading, action: viewModel.signUp)
@@ -62,5 +58,5 @@ struct SignUpView: View {
 }
 
 #Preview {
-  AuthenticationScreen(initialStep: .register, onBack: {})
+  AuthenticationScreen(initialStep: .register, onBack: { })
 }

@@ -10,10 +10,13 @@ import CoreData
 import Foundation
 import Models
 
+// MARK: - ProgressEntryEntity
+
 @objc(ProgressEntryEntity)
 public class ProgressEntryEntity: NSManagedObject {
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<ProgressEntryEntity> {
-    return NSFetchRequest<ProgressEntryEntity>(entityName: "ProgressEntryEntity")
+  @nonobjc
+  public class func fetchRequest() -> NSFetchRequest<ProgressEntryEntity> {
+    NSFetchRequest<ProgressEntryEntity>(entityName: "ProgressEntryEntity")
   }
 
   @NSManaged public var value: NSNumber
@@ -21,6 +24,8 @@ public class ProgressEntryEntity: NSManagedObject {
   @NSManaged public var goal: GoalEntity?
   @NSManaged public var progressID: UUID
 }
+
+// MARK: ReadOnlyConvertible
 
 extension ProgressEntryEntity: ReadOnlyConvertible {
   public func toReadOnly() -> ProgressEntry? {
@@ -31,10 +36,11 @@ extension ProgressEntryEntity: ReadOnlyConvertible {
       progressID: progressID,
       dateAdded: dateAdded,
       value: value.doubleValue,
-      goal: goal.toReadOnly()
-    )
+      goal: goal.toReadOnly())
   }
 }
+
+// MARK: EntitySyncable
 
 extension ProgressEntryEntity: EntitySyncable {
   public func populateEntityFrom(_ model: ProgressEntry, using _: StorageType) {

@@ -8,11 +8,15 @@
 import Factory
 import Foundation
 
+// MARK: - DataRepositoryContainer
+
 public final class DataRepositoryContainer: SharedContainer {
   public static let shared = DataRepositoryContainer()
 
   public nonisolated(unsafe) var manager = ContainerManager()
 }
+
+// MARK: AutoRegistering
 
 extension DataRepositoryContainer: AutoRegistering {
   public func autoRegister() {
@@ -20,32 +24,32 @@ extension DataRepositoryContainer: AutoRegistering {
   }
 }
 
-public extension DataRepositoryContainer {
-  var userRepository: Factory<UserRepository> {
+extension DataRepositoryContainer {
+  public var userRepository: Factory<UserRepository> {
     self { UserRepository() }
   }
 
-  var exerciseRepository: Factory<ExerciseRepository> {
+  public var exerciseRepository: Factory<ExerciseRepository> {
     self { ExerciseRepository() }
   }
 
-  var exerciseSessionRepository: Factory<ExerciseSessionRepository> {
+  public var exerciseSessionRepository: Factory<ExerciseSessionRepository> {
     self { ExerciseSessionRepository() }
   }
 
-  var goalRepository: Factory<GoalRepository> {
+  public var goalRepository: Factory<GoalRepository> {
     self { GoalRepository() }
   }
 
-  var ratingRepository: Factory<RatingRepository> {
+  public var ratingRepository: Factory<RatingRepository> {
     self { RatingRepository() }
   }
 
-  var healthKitClient: Factory<HealthKitClient> {
+  public var healthKitClient: Factory<HealthKitClient> {
     self { HealthKitClient() }
   }
 
-  internal var backgroundWorker: Factory<BackgroundWorker> {
+  var backgroundWorker: Factory<BackgroundWorker> {
     self { BackgroundWorker() }
       .singleton
   }

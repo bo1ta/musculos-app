@@ -16,7 +16,7 @@ public actor RatingRepository: BaseRepository {
   @Injected(\NetworkContainer.ratingService) private var service: RatingServiceProtocol
 
   public func getExerciseRatingsForCurrentUser() async throws -> [ExerciseRating] {
-    guard let currentUserID = currentUserID else {
+    guard let currentUserID else {
       throw MusculosError.notFound
     }
 
@@ -45,7 +45,7 @@ public actor RatingRepository: BaseRepository {
   }
 
   public func addRating(rating: Double, for exerciseID: UUID) async throws {
-    guard let currentUserID = currentUserID else {
+    guard let currentUserID else {
       throw MusculosError.notFound
     }
 

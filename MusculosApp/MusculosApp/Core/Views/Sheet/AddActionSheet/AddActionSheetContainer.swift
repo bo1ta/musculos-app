@@ -13,7 +13,7 @@ struct AddActionSheetContainer: View {
     case createItem, createWorkout, createExercise, createGoal
   }
 
-  @State private var currentStep: Step = .createItem
+  @State private var currentStep = Step.createItem
   @Namespace private var animationNamespace
 
   var body: some View {
@@ -24,14 +24,17 @@ struct AddActionSheetContainer: View {
           .presentationDetents([.height(200)])
           .matchedGeometryEffect(id: "sheet", in: animationNamespace)
           .transition(.move(edge: .top).combined(with: .opacity))
+
       case .createWorkout:
         AddWorkoutSheet(onBack: handleBack)
           .matchedGeometryEffect(id: "sheet", in: animationNamespace)
           .transition(.move(edge: .bottom).combined(with: .scale(scale: 0.95)))
+
       case .createExercise:
         AddExerciseSheet(onBack: handleBack)
           .matchedGeometryEffect(id: "sheet", in: animationNamespace)
           .transition(.move(edge: .bottom).combined(with: .scale(scale: 0.95)))
+
       case .createGoal:
         AddGoalSheet(onBack: handleBack)
           .matchedGeometryEffect(id: "sheet", in: animationNamespace)

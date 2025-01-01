@@ -23,8 +23,8 @@ public struct LoadingButton: View {
     animationDuration: Double = 0.6,
     isLoading: Binding<Bool>,
     isDisabled: Bool = false,
-    action: @escaping () -> Void
-  ) {
+    action: @escaping () -> Void)
+  {
     self.title = title
     self.dotsColor = dotsColor
     self.animationDuration = animationDuration
@@ -62,5 +62,5 @@ public struct LoadingButton: View {
 }
 
 #Preview {
-  LoadingButton(title: "Click me", isLoading: .constant(false), action: {})
+  LoadingButton(title: "Click me", isLoading: .constant(false), action: { })
 }

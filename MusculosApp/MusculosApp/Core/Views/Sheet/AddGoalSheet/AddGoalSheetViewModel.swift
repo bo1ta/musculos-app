@@ -27,15 +27,15 @@ final class AddGoalSheetViewModel {
 
   // MARK: - Observed properties
 
-  var name: String = ""
-  var category: String = ""
-  var showCategoryOptions: Bool = true
-  var targetValue: String = ""
-  var showEndDate: Bool = true
-  var showFrequencyOptions: Bool = true
-  var endDate: Date = Date()
+  var name = ""
+  var category = ""
+  var showCategoryOptions = true
+  var targetValue = ""
+  var showEndDate = true
+  var showFrequencyOptions = true
+  var endDate = Date()
 
-  var frequency: String = "" {
+  var frequency = "" {
     didSet {
       if frequency == Goal.Frequency.fixedDate.description {
         showEndDate = true
@@ -47,8 +47,7 @@ final class AddGoalSheetViewModel {
 
   // MARK: - Tasks
 
-  @ObservationIgnored
-  private(set) var saveTask: Task<Void, Never>?
+  @ObservationIgnored private(set) var saveTask: Task<Void, Never>?
 
   func saveGoal() {
     saveTask = Task { [weak self] in
@@ -62,13 +61,12 @@ final class AddGoalSheetViewModel {
 
       let goal = Goal(
         name: name,
-        category: self.category,
-        frequency: Goal.Frequency(rawValue: self.frequency) ?? .daily,
-        targetValue: Int(self.targetValue) ?? 5,
+        category: category,
+        frequency: Goal.Frequency(rawValue: frequency) ?? .daily,
+        targetValue: Int(targetValue) ?? 5,
         endDate: endDate,
         dateAdded: Date(),
-        user: currentUser
-      )
+        user: currentUser)
 
       do {
         try await goalRepository.addGoal(goal)

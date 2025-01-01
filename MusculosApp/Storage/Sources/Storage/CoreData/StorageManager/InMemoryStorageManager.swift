@@ -11,12 +11,12 @@ import Utility
 
 public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
   override public var coalesceSaveInterval: Double {
-    return 0.0
+    0.0
   }
 
   private var _persistentContainer: NSPersistentContainer?
 
-  override public init() {}
+  override public init() { }
 
   override public var persistentContainer: NSPersistentContainer {
     get {
@@ -34,7 +34,7 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
         let container = NSPersistentContainer(name: "MusculosDataStore", managedObjectModel: model)
         container.persistentStoreDescriptions = [description]
         container.loadPersistentStores { _, error in
-          if let error = error {
+          if let error {
             Logger.error(error, message: "Failed to load persistent store")
           }
         }
@@ -44,7 +44,7 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
       }
     }
 
-    set {}
+    set { }
   }
 
   override public func performWrite(_ writeClosure: @escaping WriteStorageClosure) async throws {

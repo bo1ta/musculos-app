@@ -16,7 +16,7 @@ public class ExerciseSessionFactory: BaseFactory, @unchecked Sendable {
   public var duration: Double?
   public var weight: Double?
 
-  override public init() {}
+  override public init() { }
 
   public func create() -> ExerciseSession {
     let model = ExerciseSession(
@@ -25,13 +25,12 @@ public class ExerciseSessionFactory: BaseFactory, @unchecked Sendable {
       user: user ?? UserProfileFactory.createUser(),
       exercise: exercise ?? ExerciseFactory.createExercise(),
       duration: duration ?? faker.number.randomDouble(),
-      weight: weight ?? faker.number.randomDouble()
-    )
+      weight: weight ?? faker.number.randomDouble())
     syncObject(model, of: ExerciseSessionEntity.self)
     return model
   }
 
   public static func createExerciseSession() -> ExerciseSession {
-    return ExerciseSessionFactory().create()
+    ExerciseSessionFactory().create()
   }
 }

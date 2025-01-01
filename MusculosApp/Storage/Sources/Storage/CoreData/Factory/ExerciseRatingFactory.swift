@@ -23,13 +23,12 @@ public class ExerciseRatingFactory: BaseFactory, @unchecked Sendable {
       userID: userID ?? UserProfileFactory.createUser().userId,
       isPublic: isPublic ?? false,
       rating: rating ?? 4.0,
-      comment: comment ?? "awesome"
-    )
+      comment: comment ?? "awesome")
     syncObject(exerciseRating, of: ExerciseRatingEntity.self)
     return exerciseRating
   }
 
   public static func createExerciseRating() -> ExerciseRating {
-    return ExerciseRatingFactory().create()
+    ExerciseRatingFactory().create()
   }
 }

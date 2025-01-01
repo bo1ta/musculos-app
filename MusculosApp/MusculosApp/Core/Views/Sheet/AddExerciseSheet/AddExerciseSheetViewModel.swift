@@ -94,8 +94,7 @@ final class AddExerciseSheetViewModel {
         primaryMuscles: targetMuscles,
         secondaryMuscles: [],
         instructions: instructionsString,
-        imageUrls: imageUrls
-      )
+        imageUrls: imageUrls)
 
       do {
         try await exerciseRepository.addExercise(exercise)

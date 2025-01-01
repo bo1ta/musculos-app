@@ -16,7 +16,7 @@ public actor ExerciseSessionRepository: BaseRepository {
   @Injected(\NetworkContainer.exerciseSessionService) private var service: ExerciseSessionServiceProtocol
 
   public func getExerciseSessions() async throws -> [ExerciseSession] {
-    guard let currentUserID = currentUserID else {
+    guard let currentUserID else {
       throw MusculosError.notFound
     }
 

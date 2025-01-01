@@ -8,50 +8,51 @@
 import Foundation
 import SwiftUI
 
-public extension View {
-  func defaultDialog(
+extension View {
+  public func defaultDialog(
     title: String,
     description: String? = nil,
     buttonTitle: String = "Continue",
-    isPresented: Binding<Bool>
-  ) -> some View {
+    isPresented: Binding<Bool>)
+    -> some View
+  {
     fullScreenCover(isPresented: isPresented) {
       DialogView(
         title: title,
         description: description,
         buttonTitle: buttonTitle,
-        isPresented: isPresented
-      )
-      .presentationBackground(.clear)
+        isPresented: isPresented)
+        .presentationBackground(.clear)
     }
   }
 
-  func sliderDialog(
+  public func sliderDialog(
     title: String,
     buttonTitle: String,
     isPresented: Binding<Bool>,
-    onSelectedValue: @escaping (Int) -> Void
-  ) -> some View {
+    onSelectedValue: @escaping (Int) -> Void)
+    -> some View
+  {
     fullScreenCover(isPresented: isPresented) {
       DialogSelectView(
         title: title,
         buttonTitle: buttonTitle,
         isPresented: isPresented,
-        onSelectedValue: onSelectedValue
-      )
-      .presentationBackground(.clear)
+        onSelectedValue: onSelectedValue)
+        .presentationBackground(.clear)
     }
   }
 
-  func inputDialog(
+  public func inputDialog(
     isPresented: Binding<Bool>,
     title: String,
     fieldLabel: String? = nil,
     fieldHint: String? = nil,
     fieldKeyboardType: UIKeyboardType = .default,
     buttonTitle: String = "Continue",
-    onSubmit: @escaping (String) -> Void
-  ) -> some View {
+    onSubmit: @escaping (String) -> Void)
+    -> some View
+  {
     fullScreenCover(isPresented: isPresented) {
       DialogFieldView(
         isPresented: isPresented,
@@ -60,26 +61,25 @@ public extension View {
         fieldHint: fieldHint,
         fieldKeyboardType: fieldKeyboardType,
         buttonTitle: buttonTitle,
-        onSubmit: onSubmit
-      )
-      .presentationBackground(.clear)
+        onSubmit: onSubmit)
+        .presentationBackground(.clear)
     }
   }
 
-  func ratingDialog(
+  public func ratingDialog(
     isPresented: Binding<Bool>,
     title: String,
     rating: Binding<Int>,
-    onSave: @escaping (Int) -> Void
-  ) -> some View {
+    onSave: @escaping (Int) -> Void)
+    -> some View
+  {
     fullScreenCover(isPresented: isPresented) {
       DialogRateView(
         isPresented: isPresented,
         rating: rating,
         title: title,
-        onSave: onSave
-      )
-      .presentationBackground(.clear)
+        onSave: onSave)
+        .presentationBackground(.clear)
     }
   }
 }

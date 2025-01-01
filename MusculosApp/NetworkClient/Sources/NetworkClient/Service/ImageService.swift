@@ -9,9 +9,13 @@ import Factory
 import SwiftUI
 import Utility
 
+// MARK: - ImageServiceProtocol
+
 public protocol ImageServiceProtocol: Sendable {
   func uploadImage(image: UIImage) async throws -> URL
 }
+
+// MARK: - ImageService
 
 public struct ImageService: APIService, ImageServiceProtocol, @unchecked Sendable {
   @Injected(\NetworkContainer.client) var client: MusculosClientProtocol
@@ -41,6 +45,8 @@ public struct ImageService: APIService, ImageServiceProtocol, @unchecked Sendabl
     return imageData.base64EncodedString()
   }
 }
+
+// MARK: ImageService.ImageSource
 
 extension ImageService {
   struct ImageSource: DecodableModel {

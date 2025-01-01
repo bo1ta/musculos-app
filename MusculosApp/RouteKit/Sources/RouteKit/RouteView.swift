@@ -5,34 +5,38 @@
 //  Created by Solomon Alexandru on 29.12.2024.
 //
 
-import SwiftUI
-import MapKit
 import CoreLocation
+import MapKit
+import SwiftUI
 import Utility
+
+// MARK: - RouteView
 
 public struct RouteView: UIViewRepresentable {
   @Binding var currentLocation: CLLocation?
   @Binding var averagePace: Double
 
   init(currentLocation: Binding<CLLocation?> = .constant(nil), averagePace: Binding<Double>) {
-    self._currentLocation = currentLocation
-    self._averagePace = averagePace
+    _currentLocation = currentLocation
+    _averagePace = averagePace
   }
 
   public func makeUIView(context: Context) -> MKMapView {
     context.coordinator.mapView
   }
 
-  public func updateUIView(_ uiView: MKMapView, context: Context) {}
+  public func updateUIView(_: MKMapView, context _: Context) { }
 
   public func makeCoordinator() -> Coordinator {
     Coordinator(averagePace: $averagePace, currentLocation: $currentLocation)
   }
 
-  public static func dismantleUIView(_ uiView: MKMapView, coordinator: Coordinator) {
+  public static func dismantleUIView(_: MKMapView, coordinator: Coordinator) {
     coordinator.stopListeningForLocationUpdates()
   }
 }
+
+// MARK: RouteView.Coordinator
 
 extension RouteView {
   public class Coordinator: NSObject, MKMapViewDelegate, @unchecked Sendable {
@@ -55,7 +59,7 @@ extension RouteView {
     init(averagePace: Binding<Double>, currentLocation: Binding<CLLocation?>) {
       self.averagePace = averagePace
       self.currentLocation = currentLocation
-      self.locationManager = LocationManager()
+      locationManager = LocationManager()
 
       super.init()
 
@@ -136,7 +140,9 @@ extension RouteView {
 
     private func updateMapLocation(_ location: CLLocation) {
       let zoomLevel: CLLocationDistance = 0.01
-      let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: zoomLevel, longitudeDelta: zoomLevel))
+      let region = MKCoordinateRegion(
+        center: location.coordinate,
+        span: MKCoordinateSpan(latitudeDelta: zoomLevel, longitudeDelta: zoomLevel))
       mapView.setRegion(region, animated: true)
     }
 

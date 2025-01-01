@@ -9,7 +9,7 @@ import Foundation
 import Models
 
 extension ExerciseRating: IdentifiableEntity {
-  public static let identifierKey: String = "ratingID"
+  public static let identifierKey = "ratingID"
 
   public var identifierValue: UUID {
     ratingID

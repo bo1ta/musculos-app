@@ -11,8 +11,8 @@ import Foundation
 /// Helper observable object with a query subscriber
 ///
 public class DebouncedQueryObserver: ObservableObject {
-  @Published public var searchQuery: String = ""
-  @Published public var debouncedQuery: String = ""
+  @Published public var searchQuery = ""
+  @Published public var debouncedQuery = ""
 
   public init(delay: Double = 0.5) {
     $searchQuery

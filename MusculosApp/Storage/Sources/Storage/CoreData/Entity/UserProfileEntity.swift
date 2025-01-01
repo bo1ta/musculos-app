@@ -10,6 +10,8 @@ import CoreData
 import Foundation
 import Models
 
+// MARK: - UserProfileEntity
+
 @objc(UserProfileEntity)
 public class UserProfileEntity: NSManagedObject {
   @NSManaged public var userId: UUID
@@ -32,8 +34,9 @@ public class UserProfileEntity: NSManagedObject {
   @NSManaged public var exerciseRatings: Set<ExerciseRatingEntity>
   @NSManaged public var userExperience: UserExperienceEntity?
 
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<UserProfileEntity> {
-    return NSFetchRequest<UserProfileEntity>(entityName: "UserProfileEntity")
+  @nonobjc
+  public class func fetchRequest() -> NSFetchRequest<UserProfileEntity> {
+    NSFetchRequest<UserProfileEntity>(entityName: "UserProfileEntity")
   }
 
   public var synchronizationState: SynchronizationState {
@@ -49,49 +52,61 @@ public class UserProfileEntity: NSManagedObject {
 
 // MARK: - Generated accessors for relationships
 
-public extension UserProfileEntity {
+extension UserProfileEntity {
   @objc(addExerciseSessionsObject:)
-  @NSManaged func addToExerciseSessions(_ value: ExerciseSessionEntity)
+  @NSManaged
+  public func addToExerciseSessions(_ value: ExerciseSessionEntity)
 
   @objc(removeExerciseSessionsObject:)
-  @NSManaged func removeFromExerciseSessions(_ value: ExerciseSessionEntity)
+  @NSManaged
+  public func removeFromExerciseSessions(_ value: ExerciseSessionEntity)
 
   @objc(addExerciseSessions:)
-  @NSManaged func addToExerciseSessions(_ values: NSSet)
+  @NSManaged
+  public func addToExerciseSessions(_ values: NSSet)
 
   @objc(removeExerciseSessions:)
-  @NSManaged func removeFromExerciseSessions(_ values: NSSet)
+  @NSManaged
+  public func removeFromExerciseSessions(_ values: NSSet)
 
   @objc(addGoalsObject:)
-  @NSManaged func addToGoals(_ value: GoalEntity)
+  @NSManaged
+  public func addToGoals(_ value: GoalEntity)
 
   @objc(removeFromGoalsObject:)
-  @NSManaged func removeFromGoals(_ value: GoalEntity)
+  @NSManaged
+  public func removeFromGoals(_ value: GoalEntity)
 
   @objc(addGoals:)
-  @NSManaged func addToGoals(_ values: NSSet)
+  @NSManaged
+  public func addToGoals(_ values: NSSet)
 
   @objc(removeGoals:)
-  @NSManaged func removeFromGoals(_ values: NSSet)
+  @NSManaged
+  public func removeFromGoals(_ values: NSSet)
 
   @objc(addExerciseRatingsObject:)
-  @NSManaged func addToExerciseRatings(_ value: ExerciseRatingEntity)
+  @NSManaged
+  public func addToExerciseRatings(_ value: ExerciseRatingEntity)
 
   @objc(removeExerciseRatingsObject:)
-  @NSManaged func removeFromExerciseRatings(_ value: ExerciseRatingEntity)
+  @NSManaged
+  public func removeFromExerciseRatings(_ value: ExerciseRatingEntity)
 
   @objc(addExerciseRatings:)
-  @NSManaged func addToExerciseRatings(_ values: NSSet)
+  @NSManaged
+  public func addToExerciseRatings(_ values: NSSet)
 
   @objc(removeExerciseRatings:)
-  @NSManaged func removeFromExerciseRatings(_ values: NSSet)
+  @NSManaged
+  public func removeFromExerciseRatings(_ values: NSSet)
 }
 
-// MARK: - ReadOnlyConvertible
+// MARK: ReadOnlyConvertible
 
 extension UserProfileEntity: ReadOnlyConvertible {
   public func toReadOnly() -> UserProfile {
-    return UserProfile(
+    UserProfile(
       userId: userId,
       email: email,
       username: username,
@@ -101,8 +116,7 @@ extension UserProfileEntity: ReadOnlyConvertible {
       availableEquipment: availableEquipment,
       primaryGoalID: primaryGoalID,
       isOnboarded: isOnboarded,
-      xp: xp.intValue
-    )
+      xp: xp.intValue)
   }
 }
 
@@ -110,7 +124,7 @@ extension UserProfileEntity: ReadOnlyConvertible {
 
 extension UserProfileEntity {
   static func userFromID(_ userID: UUID, on storage: StorageType) -> UserProfileEntity? {
-    return storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(userID))
+    storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(userID))
   }
 
   static func currentUser() -> UserProfileEntity? {
@@ -131,7 +145,7 @@ extension UserProfileEntity {
   }
 }
 
-// MARK: - EntitySyncable
+// MARK: EntitySyncable
 
 extension UserProfileEntity: EntitySyncable {
   public func populateEntityFrom(_ model: UserProfile, using _: StorageType) {
@@ -188,8 +202,7 @@ extension UserProfileEntity: EntitySyncable {
       for goal in goals {
         let goalEntity = storage.findOrInsert(
           of: GoalEntity.self,
-          using: PredicateProvider.goalByID(goal.id)
-        )
+          using: PredicateProvider.goalByID(goal.id))
         goalEntity.updateEntityFrom(goal, using: storage)
         goalsSet.insert(goalEntity)
       }

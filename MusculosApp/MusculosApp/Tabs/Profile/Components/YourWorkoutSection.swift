@@ -14,7 +14,7 @@ struct YourWorkoutSection: View {
   @Binding var selectedCategory: String?
 
   var body: some View {
-    ContentSectionWithHeaderAndButton(headerTitle: "Your workout", buttonTitle: "See more", onAction: {}, content: {
+    ContentSectionWithHeaderAndButton(headerTitle: "Your workout", buttonTitle: "See more", onAction: { }, content: {
       SelectTextResizablePillsStack(options: ExerciseConstants.categoryOptions, selectedOption: $selectedCategory)
       ExerciseCardsStack(exercises: exercises, onTapExercise: { _ in })
     })

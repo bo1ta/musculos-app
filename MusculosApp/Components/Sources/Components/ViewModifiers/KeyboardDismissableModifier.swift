@@ -10,18 +10,18 @@ import SwiftUI
 /// View modifier that hides the keyboard when tapping outside of it
 ///
 public struct KeyboardDismissableViewModifier: ViewModifier {
-  public init() {}
+  public init() { }
 
   public func body(content: Content) -> some View {
     content
       .onTapGesture {
         // swiftlint:disable:next first_where
         let keyWindow = UIApplication.shared.connectedScenes
-          .filter({ $0.activationState == .foregroundActive })
-          .map({ $0 as? UIWindowScene })
-          .compactMap({ $0 })
+          .filter { $0.activationState == .foregroundActive }
+          .map { $0 as? UIWindowScene }
+          .compactMap { $0 }
           .first?.windows
-          .filter({ $0.isKeyWindow }).first
+          .filter { $0.isKeyWindow }.first
         keyWindow?.endEditing(true)
       }
   }

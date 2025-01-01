@@ -7,23 +7,27 @@
 
 import Foundation
 
+// MARK: - UIState
+
 public enum UIState {
   case idle
   case loading
   case error(Error)
 }
 
+// MARK: Equatable
+
 extension UIState: Equatable {
-  public static func == (lhs: UIState, rhs: UIState) -> Bool {
+  public static func ==(lhs: UIState, rhs: UIState) -> Bool {
     switch (lhs, rhs) {
     case (.idle, .idle):
-      return true
+      true
     case (.loading, .loading):
-      return true
-    case let (.error(error1), .error(error2)):
-      return error1.localizedDescription == error2.localizedDescription
+      true
+    case (.error(let error1), .error(let error2)):
+      error1.localizedDescription == error2.localizedDescription
     default:
-      return false
+      false
     }
   }
 }

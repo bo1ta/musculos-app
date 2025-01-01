@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-public extension String {
-  func widthOfString(usingFont font: UIFont) -> CGFloat {
+extension String {
+  public func widthOfString(usingFont font: UIFont) -> CGFloat {
     let fontAttributes = [NSAttributedString.Key.font: font]
     let size = self.size(withAttributes: fontAttributes)
     return size.width

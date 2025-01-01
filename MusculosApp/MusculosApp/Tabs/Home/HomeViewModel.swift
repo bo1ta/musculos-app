@@ -34,7 +34,9 @@ final class HomeViewModel {
   private let coreNotificationHandler: CoreModelNotificationHandler
 
   init() {
-    coreNotificationHandler = CoreModelNotificationHandler(storageType: StorageContainer.shared.storageManager().writerDerivedStorage)
+    coreNotificationHandler = CoreModelNotificationHandler(
+      storageType: StorageContainer.shared.storageManager()
+        .writerDerivedStorage)
     coreNotificationHandler.eventPublisher
       .debounce(for: .milliseconds(700), scheduler: DispatchQueue.main)
       .sink { [weak self] event in

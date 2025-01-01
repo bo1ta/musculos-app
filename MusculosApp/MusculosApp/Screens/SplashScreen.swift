@@ -10,8 +10,8 @@ import SwiftUI
 import Utility
 
 struct SplashScreen: View {
-  @State private var showLoginScreen: Bool = false
-  @State private var initialAuthStep: AuthenticationViewModel.Step = .login
+  @State private var showLoginScreen = false
+  @State private var initialAuthStep = AuthenticationViewModel.Step.login
 
   var body: some View {
     VStack {
@@ -20,9 +20,8 @@ struct SplashScreen: View {
           initialStep: initialAuthStep,
           onBack: {
             showLoginScreen = false
-          }
-        )
-        .transition(.asymmetric(insertion: .push(from: .bottom), removal: .push(from: .top)))
+          })
+          .transition(.asymmetric(insertion: .push(from: .bottom), removal: .push(from: .top)))
       } else {
         splashScreen
           .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom)))
@@ -39,8 +38,7 @@ struct SplashScreen: View {
         backgroundColor: .white,
         wavePosition: .bottom,
         waveColors: [AppColor.navyBlue],
-        isAnimated: false
-      )
+        isAnimated: false)
 
       VStack(alignment: .center) {
         Image("male-character-sitting")
