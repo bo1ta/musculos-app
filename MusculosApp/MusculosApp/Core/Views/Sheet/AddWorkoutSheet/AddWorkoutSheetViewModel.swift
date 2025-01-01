@@ -45,9 +45,9 @@ final class AddWorkoutSheetViewModel {
   var showRepsDialog = false
   var showSelectMuscles = true
 
-   var didSavePublisher: AnyPublisher<Void, Never> {
-     didSaveSubject.eraseToAnyPublisher()
-   }
+  var didSavePublisher: AnyPublisher<Void, Never> {
+    didSaveSubject.eraseToAnyPublisher()
+  }
 
   var currentSelectedExercise: Exercise? {
     didSet {
@@ -77,8 +77,6 @@ final class AddWorkoutSheetViewModel {
   var selectedMuscleTypes: [MuscleType] {
     selectedMuscles.compactMap { MuscleType(rawValue: $0) }
   }
-
-
 
   private func updateExercises() {
     guard !selectedMuscles.isEmpty else {
@@ -161,14 +159,13 @@ extension AddWorkoutSheetViewModel {
         try await coreDataStore.insertWorkout(workout)
         didSaveSubject.send(())
       } catch {
-        let message = "Error adding workout"
-        toastService.error(message)
-        Logger.error(error, message: message)
+        handleError(error, message: "Error adding workout")
       }
     }
   }
 
   private func handleError(_ error: Error, message: String) {
-
+    toastService.error(message)
+    Logger.error(error, message: message)
   }
 }

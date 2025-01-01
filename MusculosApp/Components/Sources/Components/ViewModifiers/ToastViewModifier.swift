@@ -10,8 +10,6 @@ import Utility
 
 public struct ToastViewModifier: ViewModifier {
   @Binding var toast: Toast?
-  @State private var workItem: DispatchWorkItem?
-
   public func body(content: Content) -> some View {
     content
       .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -29,6 +27,6 @@ public struct ToastViewModifier: ViewModifier {
             .transition(.asymmetric(insertion: .push(from: .bottom), removal: .move(edge: .bottom)))
           }
         }
-          .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: toast))
+        .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: toast))
   }
 }

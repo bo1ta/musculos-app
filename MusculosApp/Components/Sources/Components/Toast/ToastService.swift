@@ -18,7 +18,7 @@ public class ToastService: @unchecked Sendable {
       .eraseToAnyPublisher()
   }
 
-  public init() {}
+  public init() { }
 
   public func show(_ toast: Toast, autoDismissAfter seconds: TimeInterval = UIConstant.toastStandardDuration) {
     toastSubject.send(toast)

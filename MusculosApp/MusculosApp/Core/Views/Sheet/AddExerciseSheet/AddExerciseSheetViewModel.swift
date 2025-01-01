@@ -56,11 +56,11 @@ final class AddExerciseSheetViewModel {
 
   private var isExerciseValid: Bool {
     !exerciseName.isEmpty &&
-    !equipment.isEmpty &&
-    !force.isEmpty &&
-    !targetMuscles.isEmpty &&
-    !level.isEmpty &&
-    !category.isEmpty
+      !equipment.isEmpty &&
+      !force.isEmpty &&
+      !targetMuscles.isEmpty &&
+      !level.isEmpty &&
+      !category.isEmpty
   }
 
   func saveExercise() {
