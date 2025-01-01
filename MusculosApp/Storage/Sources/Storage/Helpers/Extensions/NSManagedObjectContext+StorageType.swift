@@ -113,7 +113,7 @@ extension NSManagedObjectContext: StorageType {
   public func loadObject<T: Object>(ofType _: T.Type, with objectID: T.ObjectID) -> T? {
     guard let objectID = objectID as? NSManagedObjectID else {
       Logger.error(
-        MusculosError.notFound,
+        MusculosError.unexpectedNil,
         message: "Cannot find objectID in context",
         properties: ["object_name": T.entityName])
       return nil

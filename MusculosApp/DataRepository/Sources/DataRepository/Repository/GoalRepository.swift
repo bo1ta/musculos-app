@@ -45,7 +45,7 @@ public actor GoalRepository: BaseRepository {
 
   public func getGoals() async throws -> [Goal] {
     guard let currentUserID else {
-      throw MusculosError.notFound
+      throw MusculosError.unexpectedNil
     }
 
     guard !shouldUseLocalStorageForEntity(GoalEntity.self) else {

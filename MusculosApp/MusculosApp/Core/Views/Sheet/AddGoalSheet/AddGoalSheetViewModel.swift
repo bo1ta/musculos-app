@@ -20,7 +20,7 @@ final class AddGoalSheetViewModel {
   // MARK: - Dependency
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userRepository) private var userRepository: UserRepository
+  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
@@ -55,7 +55,7 @@ final class AddGoalSheetViewModel {
         return
       }
 
-      guard let currentUser = await userRepository.getCurrentUser() else {
+      guard let currentUser = userStore.currentUser else {
         return
       }
 

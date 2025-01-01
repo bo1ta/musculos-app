@@ -60,7 +60,7 @@ public final class UserStore: @unchecked Sendable {
 
   @discardableResult
   public func loadCurrentUser() async -> UserProfile? {
-    guard let currentUser = await userRepository.getCurrentUser() else {
+    guard let currentUser = try? await userRepository.getCurrentUser() else {
       return nil
     }
 

@@ -28,7 +28,7 @@ struct MiddlewarePipeline {
   func execute(request: APIRequest, using session: URLSession) async throws -> (Data, URLResponse) {
     let finalRequestHandler: @Sendable (APIRequest) async throws -> (Data, URLResponse) = { modifiedRequest in
       guard let urlRequest = modifiedRequest.asURLRequest() else {
-        throw MusculosError.badRequest
+        throw MusculosError.networkError(.badRequest)
       }
 
       return try await session.data(for: urlRequest)

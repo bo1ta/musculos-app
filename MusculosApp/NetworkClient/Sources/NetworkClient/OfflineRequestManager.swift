@@ -71,7 +71,7 @@ actor OfflineRequestManager {
 
   private func dispatch(_ request: APIRequest) async throws {
     guard let request = request.asURLRequest() else {
-      throw MusculosError.badRequest
+      throw MusculosError.networkError(.badRequest)
     }
 
     _ = try await URLSession.shared.data(for: request)

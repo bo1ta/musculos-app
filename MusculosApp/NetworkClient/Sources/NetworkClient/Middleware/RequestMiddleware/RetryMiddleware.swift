@@ -30,16 +30,7 @@ struct RetryMiddleware: RequestMiddleware {
   }
 
   private func shouldRetry(_ error: Error) -> Bool {
-    guard let error = error as? MusculosError else {
-      return false
-    }
-
-    switch error {
-    case .badRequest, .notFound:
-      return true
-    default:
-      return false
-    }
+    MusculosError.isRetryableError(error)
   }
 
   private func retrying<Success>(

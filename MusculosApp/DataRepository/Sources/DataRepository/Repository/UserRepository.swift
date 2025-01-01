@@ -24,9 +24,9 @@ public actor UserRepository: BaseRepository {
     try await service.login(email: email, password: password)
   }
 
-  public func getCurrentUser() async -> UserProfile? {
+  public func getCurrentUser() async throws -> UserProfile? {
     guard let currentUserID else {
-      return nil
+      throw MusculosError.unexpectedNil
     }
 
     let backgroundTask = backgroundWorker.queueOperation(priority: .high) { [weak self] in
@@ -45,7 +45,7 @@ public actor UserRepository: BaseRepository {
       let currentUserID,
       let currentProfile = await coreDataStore.userProfile(for: currentUserID)
     else {
-      throw MusculosError.notFound
+      throw MusculosError.unexpectedNil
     }
 
     var goal: Goal?

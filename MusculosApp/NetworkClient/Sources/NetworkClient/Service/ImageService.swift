@@ -22,7 +22,7 @@ public struct ImageService: APIService, ImageServiceProtocol, @unchecked Sendabl
 
   public func uploadImage(image: UIImage) async throws -> URL {
     guard let encodedImage = encodedImage(image) else {
-      throw MusculosError.badRequest
+      throw MusculosError.networkError(.badRequest)
     }
 
     var request = APIRequest(method: .post, endpoint: .images(.upload))
@@ -32,7 +32,7 @@ public struct ImageService: APIService, ImageServiceProtocol, @unchecked Sendabl
     let imageSource = try ImageSource.createFrom(response)
 
     guard let imageURL = APIEndpoint.baseWithPath(imageSource.filePath) else {
-      throw MusculosError.notFound
+      throw MusculosError.unexpectedNil
     }
 
     return imageURL

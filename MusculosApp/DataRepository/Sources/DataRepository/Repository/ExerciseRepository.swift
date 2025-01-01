@@ -47,14 +47,14 @@ public actor ExerciseRepository: BaseRepository {
 
   public func getExercisesCompletedSinceLastWeek() async throws -> [Exercise] {
     guard let currentUserID else {
-      throw MusculosError.notFound
+      throw MusculosError.unexpectedNil
     }
     return await coreDataStore.exerciseSessionsCompletedSinceLastWeek(for: currentUserID).map { $0.exercise }
   }
 
   public func getFavoriteExercises() async throws -> [Exercise] {
     guard let currentUserID else {
-      throw MusculosError.notFound
+      throw MusculosError.unexpectedNil
     }
 
     guard await !shouldUseLocalStorageForEntity(ExerciseEntity.self) else {
@@ -90,7 +90,7 @@ public actor ExerciseRepository: BaseRepository {
 
   public func getRecommendedExercisesByMuscleGroups() async throws -> [Exercise] {
     guard let currentUserID else {
-      throw MusculosError.notFound
+      throw MusculosError.unexpectedNil
     }
 
     let exerciseSessions = await coreDataStore.exerciseSessionsForUser(currentUserID)

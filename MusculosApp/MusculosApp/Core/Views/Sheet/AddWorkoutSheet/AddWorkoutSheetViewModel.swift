@@ -145,7 +145,7 @@ extension AddWorkoutSheetViewModel {
         let currentUserID = userManager.currentUserID,
         let currentUserProfile = await coreDataStore.userProfile(for: currentUserID)
       else {
-        handleError(MusculosError.notFound, message: "Invalid user")
+        handleError(MusculosError.unexpectedNil, message: "Invalid user")
         return
       }
 

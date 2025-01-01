@@ -114,7 +114,7 @@ extension CoreDataStore {
           of: UserProfileEntity.self,
           matching: PredicateProvider.userProfileById(userId))
       else {
-        throw MusculosError.notFound
+        throw MusculosError.unexpectedNil
       }
 
       userProfile.level = level
@@ -183,7 +183,7 @@ extension CoreDataStore {
   public func insertProgressEntry(_ progressEntry: ProgressEntry, for goalID: UUID) async throws {
     try await storageManager.performWrite { storage in
       guard let goal = storage.firstObject(of: GoalEntity.self, matching: PredicateProvider.goalByID(goalID)) else {
-        throw MusculosError.notFound
+        throw MusculosError.unexpectedNil
       }
 
       guard !goal.progressHistory.contains(where: { $0.progressID == progressEntry.progressID }) else {
@@ -302,7 +302,7 @@ extension CoreDataStore {
     try await storageManager.performWrite { storage in
       guard let exercise = storage.firstObject(of: ExerciseEntity.self, matching: PredicateProvider.exerciseById(exercise.id))
       else {
-        throw MusculosError.notFound
+        throw MusculosError.unexpectedNil
       }
 
       exercise.isFavorite = isFavorite

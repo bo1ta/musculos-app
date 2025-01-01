@@ -174,7 +174,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
       .appendingPathComponent("MusculosDataModel.sqlite")
 
     guard FileManager.default.fileExists(atPath: url.path) else {
-      Logger.error(MusculosError.notFound, message: "Could not find sqlite db")
+      Logger.error(MusculosError.unexpectedNil, message: "Could not find sqlite db")
       return
     }
 

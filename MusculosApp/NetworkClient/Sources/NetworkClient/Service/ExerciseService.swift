@@ -102,7 +102,7 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
 
   public func addExercise(_ exercise: Exercise) async throws {
     guard let body = exercise.toDictionary() else {
-      throw MusculosError.invalidRequest
+      throw MusculosError.networkError(.invalidRequest)
     }
 
     var request = APIRequest(method: .post, endpoint: .exercises(.index))
