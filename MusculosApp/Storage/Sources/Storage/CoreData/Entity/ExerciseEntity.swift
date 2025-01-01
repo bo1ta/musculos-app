@@ -165,7 +165,7 @@ extension ExerciseEntity: EntitySyncable {
     isFavorite = model.isFavorite ?? false
     primaryMuscles = PrimaryMuscleEntity.createFor(exerciseEntity: self, from: model.primaryMuscles, using: storage)
     secondaryMuscles = SecondaryMuscleEntity.createFor(exerciseEntity: self, from: model.secondaryMuscles, using: storage)
-    updatedAt = model.updatedAt
+    updatedAt = model.updatedAt ?? Date()
   }
 
   public func updateEntityFrom(_ model: Exercise, using _: StorageType) {

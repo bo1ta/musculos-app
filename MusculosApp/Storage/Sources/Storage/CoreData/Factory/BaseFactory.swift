@@ -6,23 +6,19 @@
 //
 
 import Fakery
-import Queue
 
 public class BaseFactory: @unchecked Sendable {
   let faker = Faker()
-  let backgroundWorker = AsyncQueue()
 
-  var dataStore: CoreDataStore {
-    StorageContainer.shared.coreDataStore()
+  var storage: StorageType {
+    StorageContainer.shared.storageManager().writerDerivedStorage
   }
 
   func syncObject<T: EntitySyncable>(_ model: T.ModelType, of type: T.Type) {
-    backgroundWorker.addOperation(priority: .high) { [weak self] in
-      try await self?.dataStore.importModel(model, of: type)
+    storage.performAndWait {
+      let entity = storage.insertNewObject(ofType: type)
+      entity.populateEntityFrom(model, using: storage)
+      storage.saveIfNeeded()
     }
-  }
-
-  func awaitPendingOperations() async {
-    await backgroundWorker.addBarrierOperation(operation: { }).value
   }
 }

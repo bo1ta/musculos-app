@@ -7,19 +7,18 @@
 
 import Foundation
 import Testing
-@testable import NetworkClient
-@testable import Utility
+import Utility
 
-struct StubMusculosClient: MusculosClientProtocol, @unchecked Sendable {
-  var expectedEndpoint: Endpoint?
-  var expectedMethod: HTTPMethod?
-  var expectedBody: [String: Any]?
-  var expectedOpk: String?
-  var expectedQueryParams: [URLQueryItem]?
-  var expectedResponseData: Data?
-  var expectedAuthToken: String?
+public struct StubMusculosClient: MusculosClientProtocol, @unchecked Sendable {
+  public var expectedEndpoint: Endpoint?
+  public var expectedMethod: HTTPMethod?
+  public var expectedBody: [String: Any]?
+  public var expectedOpk: String?
+  public var expectedQueryParams: [URLQueryItem]?
+  public var expectedResponseData: Data?
+  public var expectedAuthToken: String?
 
-  func dispatch(_ request: APIRequest) async throws -> Data {
+  public func dispatch(_ request: APIRequest) async throws -> Data {
     if let expectedEndpoint {
       #expect(request.endpoint.path == expectedEndpoint.path)
     }

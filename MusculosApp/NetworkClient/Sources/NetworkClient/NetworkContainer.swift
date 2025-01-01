@@ -30,12 +30,18 @@ extension NetworkContainer {
           LoggingMiddleware(),
         ])
     }
+    .onTest {
+      StubMusculosClient()
+    }
     .cached
   }
 
   public var networkMonitor: Factory<NetworkMonitorProtocol> {
     self { NetworkMonitor() }
-      .singleton
+      .onTest {
+        StubNetworkMonitor(isConnected: true)
+      }
+      .cached
   }
 
   var offlineRequestManager: Factory<OfflineRequestManager> {

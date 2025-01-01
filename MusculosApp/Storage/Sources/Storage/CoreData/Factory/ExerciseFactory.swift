@@ -23,7 +23,7 @@ public class ExerciseFactory: BaseFactory, @unchecked Sendable {
   public var imageUrls: [String]?
   public var isFavorite: Bool?
 
-  public func create() -> Exercise {
+  public func create(populateDataStore: Bool = true) -> Exercise {
     let exercise = Exercise(
       category: category ?? Constants.CategoryType.cardio.rawValue,
       equipment: equipment ?? Constants.EquipmentType.bands.rawValue,
@@ -35,14 +35,19 @@ public class ExerciseFactory: BaseFactory, @unchecked Sendable {
       secondaryMuscles: secondaryMuscles ?? [MuscleType.biceps.rawValue],
       instructions: instructions ?? ["Step 1", "Step 2"],
       imageUrls: imageUrls ?? [faker.internet.url()],
-      isFavorite: isFavorite ?? false)
-    syncObject(exercise, of: ExerciseEntity.self)
+      isFavorite: isFavorite ?? false,
+      updatedAt: Date())
+
+    if populateDataStore {
+      syncObject(exercise, of: ExerciseEntity.self)
+    }
+
     return exercise
   }
 
-  public static func createExercise(isFavorite: Bool = false) -> Exercise {
+  public static func createExercise(isFavorite: Bool = false, populateDataStore: Bool = true) -> Exercise {
     let factory = ExerciseFactory()
     factory.isFavorite = isFavorite
-    return factory.create()
+    return factory.create(populateDataStore: populateDataStore)
   }
 }

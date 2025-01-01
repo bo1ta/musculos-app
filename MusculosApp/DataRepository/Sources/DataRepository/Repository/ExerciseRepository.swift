@@ -12,7 +12,21 @@ import NetworkClient
 import Storage
 import Utility
 
-public actor ExerciseRepository: BaseRepository {
+public protocol ExerciseRepositoryProtocol: Actor {
+  func addExercise(_ exercise: Exercise) async throws
+  func getExercises() async throws -> [Exercise]
+  func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise
+  func getExercisesCompletedSinceLastWeek() async throws -> [Exercise]
+  func getFavoriteExercises() async throws -> [Exercise]
+  func getExercisesByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise]
+  func getExercisesForMuscleTypes(_ muscleTypes: [MuscleType]) async -> [Exercise]
+  func getRecommendedExercisesByMuscleGroups() async throws -> [Exercise]
+  func getRecommendedExercisesByGoals() async -> [Exercise]
+  func searchByQuery(_ query: String) async throws -> [Exercise]
+  func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise]
+}
+
+public actor ExerciseRepository: BaseRepository, ExerciseRepositoryProtocol {
   @Injected(\NetworkContainer.exerciseService) private var service: ExerciseServiceProtocol
 
   public init() { }
@@ -57,7 +71,7 @@ public actor ExerciseRepository: BaseRepository {
       throw MusculosError.unexpectedNil
     }
 
-    guard await !shouldUseLocalStorageForEntity(ExerciseEntity.self) else {
+    guard !shouldUseLocalStorageForEntity(ExerciseEntity.self) else {
       return await coreDataStore.favoriteExercises(for: currentUserID)
     }
 
@@ -75,7 +89,7 @@ public actor ExerciseRepository: BaseRepository {
   }
 
   public func getExercisesByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise] {
-    guard await !shouldUseLocalStorageForEntity(ExerciseEntity.self) else {
+    guard !shouldUseLocalStorageForEntity(ExerciseEntity.self) else {
       return await coreDataStore.exercisesForWorkoutGoal(workoutGoal)
     }
 
@@ -102,7 +116,7 @@ public actor ExerciseRepository: BaseRepository {
     return await coreDataStore.exercisesExcludingMuscles(muscles)
   }
 
-  public func getRecommendedExercisesByGoals() async throws -> [Exercise] {
+  public func getRecommendedExercisesByGoals() async -> [Exercise] {
     let goals = await coreDataStore.getAll(GoalEntity.self)
     guard !goals.isEmpty else {
       return []
@@ -112,12 +126,9 @@ public actor ExerciseRepository: BaseRepository {
   }
 
   public func searchByQuery(_ query: String) async throws -> [Exercise] {
-    guard let muscleType = MuscleType(rawValue: query) else {
-      return try await service.searchByQuery(query)
-    }
-
     let exercises = await coreDataStore.exercisesByQuery(query)
-    if exercises.count >= 10 {
+
+    if !exercises.isEmpty {
       return exercises
     } else {
       let remoteExercises = try await service.searchByQuery(query)
@@ -128,7 +139,7 @@ public actor ExerciseRepository: BaseRepository {
 
   public func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise] {
     let localExercises = await coreDataStore.exercisesForMuscles(muscleGroup.muscles)
-    guard localExercises.count < 50 else {
+    guard localExercises.isEmpty else {
       return localExercises
     }
 
