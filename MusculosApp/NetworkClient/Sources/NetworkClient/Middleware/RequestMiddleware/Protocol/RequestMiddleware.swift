@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - MiddlewarePriority
+
 enum MiddlewarePriority: Int {
   case authorizationMiddleware = 3
   case connectivityMiddleware = 2
@@ -14,10 +16,13 @@ enum MiddlewarePriority: Int {
   case retryMiddleware = -1
 }
 
+// MARK: - RequestMiddleware
+
 protocol RequestMiddleware: Sendable {
   var priority: MiddlewarePriority { get }
 
-  func intercept(request: APIRequest, proceed: @Sendable @escaping (APIRequest) async throws -> (Data, URLResponse)) async throws -> (Data, URLResponse)
+  func intercept(request: APIRequest, proceed: @Sendable @escaping (APIRequest) async throws -> (Data, URLResponse)) async throws
+    -> (Data, URLResponse)
 }
 
 extension RequestMiddleware {

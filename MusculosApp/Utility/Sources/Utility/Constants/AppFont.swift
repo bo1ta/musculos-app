@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 
+// MARK: - AppFont
+
 public enum AppFont {
   public enum Header: String {
     case regular = "Epilogue-Regular"
@@ -44,28 +46,28 @@ public enum AppFont {
   }
 
   public static func header(_ headerType: AppFont.Header, size: CGFloat = 12.0) -> Font {
-    return Font.custom(headerType.rawValue, size: size)
+    Font.custom(headerType.rawValue, size: size)
   }
 
   public static func body(_ bodyType: AppFont.Body, size: CGFloat = 12.0) -> Font {
-    return Font.custom(bodyType.rawValue, size: size)
+    Font.custom(bodyType.rawValue, size: size)
   }
 
   public static func poppins(_ type: Poppins, size: CGFloat = 14.0) -> Font {
-    return Font.custom(type.rawValue, size: size)
+    Font.custom(type.rawValue, size: size)
   }
 
   public static func spartan(_ type: LeagueSpartan, size: CGFloat = 14.0) -> Font {
-    return Font.custom(type.rawValue, size: size)
+    Font.custom(type.rawValue, size: size)
   }
 }
 
-public extension Font {
-  static func header(_ headerType: AppFont.Header, size: CGFloat = 12.0) -> Font {
-    return AppFont.header(headerType, size: size)
+extension Font {
+  public static func header(_ headerType: AppFont.Header, size: CGFloat = 12.0) -> Font {
+    AppFont.header(headerType, size: size)
   }
 
-  static func body(_ bodyType: AppFont.Body, size: CGFloat = 12.0) -> Font {
-    return AppFont.body(bodyType, size: size)
+  public static func body(_ bodyType: AppFont.Body, size: CGFloat = 12.0) -> Font {
+    AppFont.body(bodyType, size: size)
   }
 }

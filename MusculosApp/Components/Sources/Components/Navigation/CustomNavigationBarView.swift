@@ -29,7 +29,7 @@ public struct CustomNavigationBarView: View {
             Text(title)
               .foregroundColor(.white)
               .fontWeight(.bold)
-              .font(self.font)
+              .font(font)
 
             Spacer()
           }

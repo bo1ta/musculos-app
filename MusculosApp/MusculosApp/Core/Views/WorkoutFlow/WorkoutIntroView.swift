@@ -22,7 +22,7 @@ struct WorkoutIntroView: View {
 
       Spacer()
 
-      Button(action: {}, label: {
+      Button(action: { }, label: {
         Text("\(workout.workoutExercises.count) TOTAL")
           .font(AppFont.body(.bold, size: 11.0))
           .foregroundStyle(.white)
@@ -57,8 +57,8 @@ struct WorkoutIntroView: View {
   private var exerciseList: some View {
     VStack(spacing: 10) {
       ForEach(
-        workout.workoutExercises, id: \.hashValue
-      ) { workoutExercise in
+        workout.workoutExercises, id: \.hashValue)
+      { workoutExercise in
         VStack {
           HStack {
             WorkoutIcon(category: workoutExercise.exercise.category)

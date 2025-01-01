@@ -10,6 +10,8 @@ import Foundation
 import SwiftUI
 import Utility
 
+// MARK: - AddActionSheet
+
 struct AddActionSheet: View {
   @Environment(\.dismiss) private var dismiss
 
@@ -44,12 +46,13 @@ struct AddActionSheet: View {
                 }
                 .padding(.leading, 60)
               }
-          }
-        )
+          })
       }
     }
   }
 }
+
+// MARK: AddActionSheet.ItemType
 
 extension AddActionSheet {
   enum ItemType: String, CaseIterable {

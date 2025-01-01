@@ -10,6 +10,8 @@ import Foundation
 import Models
 import Utility
 
+// MARK: - ExerciseServiceProtocol
+
 public protocol ExerciseServiceProtocol: Sendable {
   func getExercises() async throws -> [Exercise]
   func searchByQuery(_ query: String) async throws -> [Exercise]
@@ -21,6 +23,8 @@ public protocol ExerciseServiceProtocol: Sendable {
   func getByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise]
   func addExercise(_ exercise: Exercise) async throws
 }
+
+// MARK: - ExerciseService
 
 public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
   @Injected(\NetworkContainer.client) var client: MusculosClientProtocol
@@ -98,7 +102,7 @@ public struct ExerciseService: ExerciseServiceProtocol, @unchecked Sendable {
 
   public func addExercise(_ exercise: Exercise) async throws {
     guard let body = exercise.toDictionary() else {
-      throw MusculosError.invalidRequest
+      throw MusculosError.networkError(.invalidRequest)
     }
 
     var request = APIRequest(method: .post, endpoint: .exercises(.index))

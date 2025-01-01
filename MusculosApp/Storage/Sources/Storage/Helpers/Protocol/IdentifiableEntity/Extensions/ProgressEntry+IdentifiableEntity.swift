@@ -9,7 +9,7 @@ import Foundation
 import Models
 
 extension ProgressEntry: IdentifiableEntity {
-  public static let identifierKey: String = "progressID"
+  public static let identifierKey = "progressID"
 
   public var identifierValue: UUID {
     progressID

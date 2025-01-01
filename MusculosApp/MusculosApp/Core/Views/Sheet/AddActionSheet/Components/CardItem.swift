@@ -8,6 +8,8 @@
 import Shimmer
 import SwiftUI
 
+// MARK: - CardItem
+
 struct CardItem: View {
   let title: String
   let isSelected: Bool
@@ -32,8 +34,7 @@ struct CardItem: View {
               .foregroundStyle(isSelected ? Color.AppColor.blue500 : .white)
               .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                  .stroke(.gray, lineWidth: 1)
-              )
+                  .stroke(.gray, lineWidth: 1))
           }
           .padding(.horizontal, 20)
         })
@@ -42,8 +43,10 @@ struct CardItem: View {
 }
 
 #Preview {
-  CardItem(title: "100 miles running", isSelected: true, onSelect: {})
+  CardItem(title: "100 miles running", isSelected: true, onSelect: { })
 }
+
+// MARK: - CardItemShimmering
 
 struct CardItemShimmering: View {
   var body: some View {

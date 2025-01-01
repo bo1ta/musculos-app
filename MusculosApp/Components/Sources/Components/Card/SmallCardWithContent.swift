@@ -20,8 +20,8 @@ public struct SmallCardWithContent<Content: View>: View {
     description: String,
     gradient: LinearGradient = .init(gradient: .init(colors: [.white]), startPoint: .top, endPoint: .bottom),
     leftImageName: String? = nil,
-    @ViewBuilder rightContent: () -> Content
-  ) {
+    @ViewBuilder rightContent: () -> Content)
+  {
     self.title = title
     self.description = description
     self.gradient = gradient

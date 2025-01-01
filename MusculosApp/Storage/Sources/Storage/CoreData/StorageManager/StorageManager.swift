@@ -20,16 +20,18 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   }
 
   private func setupNotificationPublisher() {
-    NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: writerDerivedStorage as? NSManagedObjectContext)
+    NotificationCenter.default.publisher(
+      for: .NSManagedObjectContextObjectsDidChange,
+      object: writerDerivedStorage as? NSManagedObjectContext)
       .debounce(for: .seconds(coalesceSaveInterval), scheduler: DispatchQueue.global())
       .sink { [weak self] _ in
-        self?.saveChanges(completion: {})
+        self?.saveChanges(completion: { })
       }
       .store(in: &cancellables)
   }
 
   public var coalesceSaveInterval: Double {
-    return 0.5
+    0.5
   }
 
   // MARK: - Migration
@@ -75,7 +77,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
     }
 
     container.loadPersistentStores { _, error in
-      if let error = error {
+      if let error {
         Logger.error(error, message: "Failed to load persistent store")
       }
     }
@@ -84,7 +86,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   }()
 
   public var viewStorage: StorageType {
-    return persistentContainer.viewContext
+    persistentContainer.viewContext
   }
 
   public lazy var writerDerivedStorage: StorageType = {
@@ -105,9 +107,9 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
         return
       }
 
-      self.writerDerivedStorage.saveIfNeeded()
+      writerDerivedStorage.saveIfNeeded()
 
-      self.viewStorage.performAndWait {
+      viewStorage.performAndWait {
         self.viewStorage.saveIfNeeded()
         completion()
       }
@@ -132,7 +134,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   /// Performs the closure in the `viewStorage` context
   ///
   public func performRead<ResultType>(_ readClosure: @escaping ReadStorageClosure<ResultType>) async -> ResultType {
-    return await viewStorage.perform {
+    await viewStorage.perform {
       readClosure(self.viewStorage)
     }
   }
@@ -172,7 +174,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
       .appendingPathComponent("MusculosDataModel.sqlite")
 
     guard FileManager.default.fileExists(atPath: url.path) else {
-      Logger.error(MusculosError.notFound, message: "Could not find sqlite db")
+      Logger.error(MusculosError.unexpectedNil, message: "Could not find sqlite db")
       return
     }
 
@@ -188,8 +190,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
 
     for entity in persistentContainer.persistentStoreCoordinator.managedObjectModel.entities {
       let request = NSBatchDeleteRequest(
-        fetchRequest: NSFetchRequest(entityName: entity.name ?? "")
-      )
+        fetchRequest: NSFetchRequest(entityName: entity.name ?? ""))
       do {
         try viewContext.execute(request)
       } catch {

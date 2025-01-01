@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// MARK: - TabBarVisibilityModifier
+
 struct TabBarVisibilityModifier: ViewModifier {
   let isHidden: Bool
 

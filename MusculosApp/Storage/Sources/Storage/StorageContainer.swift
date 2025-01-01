@@ -9,26 +9,28 @@ import Factory
 import UIKit
 import Utility
 
+// MARK: - StorageContainer
+
 public final class StorageContainer: SharedContainer {
   public static let shared = StorageContainer()
 
   public nonisolated(unsafe) var manager = ContainerManager()
 }
 
-public extension StorageContainer {
-  var coreDataStore: Factory<CoreDataStore> {
+extension StorageContainer {
+  public var coreDataStore: Factory<CoreDataStore> {
     self { CoreDataStore() }
       .shared
   }
 
-  var storageManager: Factory<StorageManagerType> {
+  public var storageManager: Factory<StorageManagerType> {
     self { StorageManager() }
       .onTest { InMemoryStorageManager() }
       .onPreview { InMemoryStorageManager() }
       .singleton
   }
 
-  var userManager: Factory<UserSessionManagerProtocol> {
+  public var userManager: Factory<UserSessionManagerProtocol> {
     self { UserSessionManager() }
       .cached
   }

@@ -27,7 +27,7 @@ class ExerciseFilterSheetViewModel {
     case muscle, category, equipment
   }
 
-  var selectedLevelFilter: String = "" {
+  var selectedLevelFilter = "" {
     didSet {
       filtersChanged.send(())
     }
@@ -50,7 +50,7 @@ class ExerciseFilterSheetViewModel {
 
   init() {
     filtersChanged
-      .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+      .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
       .sink { [weak self] _ in
         self?.filterExercises()
       }
@@ -58,7 +58,7 @@ class ExerciseFilterSheetViewModel {
   }
 
   func makeSearchFilterBinding(for key: SearchFilterKey) -> Binding<[String]> {
-    return Binding {
+    Binding {
       self.filters[key] ?? []
     } set: { newValue in
       self.filters[key] = newValue
@@ -67,7 +67,7 @@ class ExerciseFilterSheetViewModel {
   }
 
   func makeFilterDisplayBinding(for filterDisplayable: FilterDisplayable) -> Binding<Bool> {
-    return Binding {
+    Binding {
       self.displayFilter[filterDisplayable] ?? true
     } set: { newValue in
       self.displayFilter[filterDisplayable] = newValue
@@ -77,10 +77,6 @@ class ExerciseFilterSheetViewModel {
   func resetFilters() {
     selectedLevelFilter = ""
     filters = [:]
-  }
-
-  private var shouldHandleSearch: Bool {
-    !filters.isEmpty || !selectedLevelFilter.isEmpty
   }
 
   func filterExercises() {
@@ -104,9 +100,9 @@ class ExerciseFilterSheetViewModel {
       if !equipments.isEmpty {
         filteredExercises = filteredExercises.filter { exercise in
           if let equipment = exercise.equipment {
-            return equipments.contains(equipment)
+            equipments.contains(equipment)
           } else {
-            return true
+            true
           }
         }
       }

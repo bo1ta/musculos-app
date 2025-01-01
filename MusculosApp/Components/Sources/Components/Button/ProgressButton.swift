@@ -29,7 +29,12 @@ public struct ProgressButton: View {
             .font(AppFont.poppins(.semibold, size: 40))
             .foregroundStyle(.red)
         }
-      ActionButton(actionType: .negative, buttonSize: .large, title: "Stop", systemImageName: "arrow.down.right", onClick: onClick)
+      ActionButton(
+        actionType: .negative,
+        buttonSize: .large,
+        title: "Stop",
+        systemImageName: "arrow.down.right",
+        onClick: onClick)
     }
   }
 }

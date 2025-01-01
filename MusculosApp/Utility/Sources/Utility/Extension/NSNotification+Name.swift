@@ -7,6 +7,6 @@
 
 import Foundation
 
-public extension NSNotification.Name {
-  static let authTokenDidFail = NSNotification.Name("authTokenDidFail")
+extension NSNotification.Name {
+  public static let authTokenDidFail = NSNotification.Name("authTokenDidFail")
 }

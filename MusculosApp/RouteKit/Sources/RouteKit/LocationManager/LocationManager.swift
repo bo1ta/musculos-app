@@ -5,9 +5,11 @@
 //  Created by Solomon Alexandru on 29.12.2024.
 //
 
-import CoreLocation
 import Combine
+import CoreLocation
 import Utility
+
+// MARK: - LocationManager
 
 public final class LocationManager: NSObject, @unchecked Sendable {
   private enum LocationError: Error {
@@ -17,14 +19,12 @@ public final class LocationManager: NSObject, @unchecked Sendable {
   private(set) var isTracking = false
   private var locationContinuation: AsyncStream<CLLocation>.Continuation?
 
-  public lazy var locationStream: AsyncStream<CLLocation> = {
-    AsyncStream { (continuation: AsyncStream<CLLocation>.Continuation) -> Void in
-      self.locationContinuation = continuation
-      self.locationContinuation?.onTermination = { [weak self] _ in
-        self?.stopTracking()
-      }
+  public lazy var locationStream: AsyncStream<CLLocation> = AsyncStream { (continuation: AsyncStream<CLLocation>.Continuation) in
+    self.locationContinuation = continuation
+    self.locationContinuation?.onTermination = { [weak self] _ in
+      self?.stopTracking()
     }
-  }()
+  }
 
   private let locationManager: CLLocationManager
 
@@ -69,34 +69,38 @@ public final class LocationManager: NSObject, @unchecked Sendable {
     case .authorizedAlways, .authorizedWhenInUse:
       Logger.info(message: "Location authorization granted")
       startTracking()
+
     case .notDetermined:
       locationManager.requestWhenInUseAuthorization()
+
     case .restricted:
       Logger.error(LocationError.authorizationDenied, message: "Location authorization restricted")
+
     case .denied:
       Logger.error(LocationError.authorizationDenied, message: "Location authorization denied")
+
     @unknown default:
       Logger.error(MusculosError.unknownError, message: "Unknown authorization status")
     }
   }
 }
 
-// MARK: - CLLocationManagerDelegate
+// MARK: CLLocationManagerDelegate
 
 extension LocationManager: CLLocationManagerDelegate {
-  public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+  public func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     guard isTracking, let newLocation = locations.last else {
       return
     }
     locationContinuation?.yield(newLocation)
   }
 
-  public func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+  public func locationManager(_: CLLocationManager, didFailWithError error: any Error) {
     Logger.error(error, message: "Location manager failed with error")
     closeLocationStream()
   }
 
-  public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+  public func locationManagerDidChangeAuthorization(_: CLLocationManager) {
     guard !isTracking else {
       return
     }

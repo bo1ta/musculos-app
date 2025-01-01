@@ -11,10 +11,15 @@ import Utility
 
 extension NSManagedObjectContext: StorageType {
   public var parentStorage: StorageType? {
-    return parent
+    parent
   }
 
-  public func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T] {
+  public func allObjects<T: Object>(
+    ofType type: T.Type,
+    matching predicate: NSPredicate?,
+    sortedBy descriptors: [NSSortDescriptor]?)
+    -> [T]
+  {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.sortDescriptors = descriptors
@@ -22,7 +27,12 @@ extension NSManagedObjectContext: StorageType {
     return loadObjects(ofType: type, with: request)
   }
 
-  public func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, relationshipKeyPathsForPrefetching: [String]) -> [T] {
+  public func allObjects<T: Object>(
+    ofType type: T.Type,
+    matching predicate: NSPredicate?,
+    relationshipKeyPathsForPrefetching: [String])
+    -> [T]
+  {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.relationshipKeyPathsForPrefetching = relationshipKeyPathsForPrefetching
@@ -30,7 +40,13 @@ extension NSManagedObjectContext: StorageType {
     return loadObjects(ofType: type, with: request)
   }
 
-  public func allObjects<T: Object>(ofType type: T.Type, fetchLimit: Int, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T] {
+  public func allObjects<T: Object>(
+    ofType type: T.Type,
+    fetchLimit: Int,
+    matching predicate: NSPredicate?,
+    sortedBy descriptors: [NSSortDescriptor]?)
+    -> [T]
+  {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.sortDescriptors = descriptors
@@ -39,11 +55,11 @@ extension NSManagedObjectContext: StorageType {
     return loadObjects(ofType: type, with: request)
   }
 
-  public func countObjects<T: Object>(ofType type: T.Type) -> Int {
+  public func countObjects(ofType type: (some Object).Type) -> Int {
     countObjects(ofType: type, matching: nil)
   }
 
-  public func countObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?) -> Int {
+  public func countObjects(ofType type: (some Object).Type, matching predicate: NSPredicate?) -> Int {
     let request = fetchRequest(forType: type)
     request.predicate = predicate
     request.resultType = .countResultType
@@ -59,7 +75,7 @@ extension NSManagedObjectContext: StorageType {
     return result
   }
 
-  public func deleteObject<T: Object>(_ object: T) {
+  public func deleteObject(_ object: some Object) {
     guard let object = object as? NSManagedObject else {
       Logger.error(MusculosError.decodingError, message: "Cannot delete object! Invalid kind")
       return
@@ -68,7 +84,7 @@ extension NSManagedObjectContext: StorageType {
     delete(object)
   }
 
-  func deleteAllObjects<T: Object>(ofType type: T.Type) {
+  func deleteAllObjects(ofType type: (some Object).Type) {
     let request = fetchRequest(forType: type)
     request.includesPropertyValues = false
     request.includesSubentities = false
@@ -91,16 +107,15 @@ extension NSManagedObjectContext: StorageType {
   }
 
   public func insertNewObject<T: Object>(ofType _: T.Type) -> T {
-    return NSEntityDescription.insertNewObject(forEntityName: T.entityName, into: self) as! T // swiftlint:disable:this force_cast
+    NSEntityDescription.insertNewObject(forEntityName: T.entityName, into: self) as! T // swiftlint:disable:this force_cast
   }
 
   public func loadObject<T: Object>(ofType _: T.Type, with objectID: T.ObjectID) -> T? {
     guard let objectID = objectID as? NSManagedObjectID else {
       Logger.error(
-        MusculosError.notFound,
+        MusculosError.unexpectedNil,
         message: "Cannot find objectID in context",
-        properties: ["object_name": T.entityName]
-      )
+        properties: ["object_name": T.entityName])
       return nil
     }
 
@@ -110,8 +125,7 @@ extension NSManagedObjectContext: StorageType {
       Logger.error(
         error,
         message: "Error loading object",
-        properties: ["object_name": T.entityName]
-      )
+        properties: ["object_name": T.entityName])
     }
 
     return nil
@@ -135,12 +149,11 @@ extension NSManagedObjectContext: StorageType {
       rollback()
       Logger.error(
         error,
-        message: "Failed to save context"
-      )
+        message: "Failed to save context")
     }
   }
 
-  public func fetchUniquePropertyValues<T: Object>(of type: T.Type, property propertyToFetch: String) -> Set<UUID> {
+  public func fetchUniquePropertyValues(of type: (some Object).Type, property propertyToFetch: String) -> Set<UUID> {
     let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: type.entityName)
     fetchRequest.resultType = .dictionaryResultType
     fetchRequest.propertiesToFetch = [propertyToFetch]
@@ -159,8 +172,7 @@ extension NSManagedObjectContext: StorageType {
         properties: [
           "property_name": propertyToFetch,
           "entity_name": type.entityName,
-        ]
-      )
+        ])
       return []
     }
   }
@@ -180,17 +192,17 @@ extension NSManagedObjectContext: StorageType {
 
   /// Returns a NSFetchRequest instance with its *Entity Name* always set, for the specified Object Type.
   ///
-  private func fetchRequest<T: Object>(forType type: T.Type) -> NSFetchRequest<NSFetchRequestResult> {
-    return NSFetchRequest<NSFetchRequestResult>(entityName: type.entityName)
+  private func fetchRequest(forType type: (some Object).Type) -> NSFetchRequest<NSFetchRequestResult> {
+    NSFetchRequest<NSFetchRequestResult>(entityName: type.entityName)
   }
 
   public func perform(_ block: @escaping () throws -> Void) async throws {
-    return try await withCheckedThrowingContinuation { [weak self] continuation in
+    try await withCheckedThrowingContinuation { [weak self] continuation in
       guard let self else {
         return
       }
 
-      self.performAndWait {
+      performAndWait {
         do {
           try block()
           continuation.resume()
@@ -202,7 +214,7 @@ extension NSManagedObjectContext: StorageType {
   }
 
   public func perform<ResultType>(_ block: @escaping () -> ResultType) async -> ResultType {
-    return await withCheckedContinuation { continuation in
+    await withCheckedContinuation { continuation in
 
       self.perform {
         let result = block()
@@ -214,13 +226,13 @@ extension NSManagedObjectContext: StorageType {
   public func createFetchedResultsController<ResultType>(
     fetchRequest: NSFetchRequest<ResultType>,
     sectionNameKeyPath: String?,
-    cacheName: String?
-  ) -> NSFetchedResultsController<ResultType> {
-    return NSFetchedResultsController(
+    cacheName: String?)
+    -> NSFetchedResultsController<ResultType>
+  {
+    NSFetchedResultsController(
       fetchRequest: fetchRequest,
       managedObjectContext: self,
       sectionNameKeyPath: sectionNameKeyPath,
-      cacheName: cacheName
-    )
+      cacheName: cacheName)
   }
 }

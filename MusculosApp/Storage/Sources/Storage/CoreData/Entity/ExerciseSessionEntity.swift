@@ -10,10 +10,13 @@ import CoreData
 import Foundation
 import Models
 
+// MARK: - ExerciseSessionEntity
+
 @objc(ExerciseSessionEntity)
 public class ExerciseSessionEntity: NSManagedObject {
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<ExerciseSessionEntity> {
-    return NSFetchRequest<ExerciseSessionEntity>(entityName: "ExerciseSessionEntity")
+  @nonobjc
+  public class func fetchRequest() -> NSFetchRequest<ExerciseSessionEntity> {
+    NSFetchRequest<ExerciseSessionEntity>(entityName: "ExerciseSessionEntity")
   }
 
   @NSManaged public var dateAdded: Date
@@ -24,28 +27,33 @@ public class ExerciseSessionEntity: NSManagedObject {
   @NSManaged public var weight: NSNumber
 }
 
-extension ExerciseSessionEntity: Identifiable {}
+// MARK: Identifiable
+
+extension ExerciseSessionEntity: Identifiable { }
+
+// MARK: ReadOnlyConvertible
 
 extension ExerciseSessionEntity: ReadOnlyConvertible {
   public func toReadOnly() -> ExerciseSession {
-    let user = self.user.toReadOnly()
-    let exercise = self.exercise.toReadOnly()
+    let user = user.toReadOnly()
+    let exercise = exercise.toReadOnly()
 
     return ExerciseSession(
       dateAdded: dateAdded,
       sessionId: sessionId,
       user: user,
-      exercise: exercise
-    )
+      exercise: exercise)
   }
 }
 
+// MARK: EntitySyncable
+
 extension ExerciseSessionEntity: EntitySyncable {
   public func populateEntityFrom(_ model: ExerciseSession, using storage: StorageType) {
-    guard let user = storage.firstObject(
-      of: UserProfileEntity.self,
-      matching: PredicateProvider.userProfileById(model.user.userId)
-    )
+    guard
+      let user = storage.firstObject(
+        of: UserProfileEntity.self,
+        matching: PredicateProvider.userProfileById(model.user.userId))
     else {
       return
     }

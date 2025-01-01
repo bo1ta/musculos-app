@@ -33,8 +33,7 @@ public class GoalFactory: BaseFactory, @unchecked Sendable {
       isCompleted: isCompleted ?? false,
       dateAdded: dateAdded ?? Date(),
       user: user ?? UserProfileFactory.createUser(),
-      updatedAt: updatedAt ?? Date()
-    )
+      updatedAt: updatedAt ?? Date())
     syncObject(goal, of: GoalEntity.self)
     return goal
   }

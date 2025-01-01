@@ -8,6 +8,8 @@
 import Foundation
 import Utility
 
+// MARK: - OnboardingGoal
+
 public struct OnboardingGoal: DecodableModel, Sendable {
   public let id: UUID
   public let title: String
@@ -21,6 +23,8 @@ public struct OnboardingGoal: DecodableModel, Sendable {
     self.iconName = iconName
   }
 }
+
+// MARK: Hashable
 
 extension OnboardingGoal: Hashable {
   public func hash(into hasher: inout Hasher) {

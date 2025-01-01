@@ -47,8 +47,7 @@ public struct WaveShapeAnimatable: Shape, Animatable {
     path.addCurve(
       to: CGPoint(x: 0, y: waveHeight),
       control1: CGPoint(x: control1X, y: controlY1),
-      control2: CGPoint(x: control2X, y: controlY2)
-    )
+      control2: CGPoint(x: control2X, y: controlY2))
 
     path.closeSubpath()
     return path

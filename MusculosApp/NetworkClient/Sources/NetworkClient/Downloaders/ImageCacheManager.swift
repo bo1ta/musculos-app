@@ -9,14 +9,14 @@ import Factory
 import Foundation
 import SwiftUI
 
+// MARK: - ImageCacheManager
+
 /// Shared instance of cached images
 ///
 public actor ImageCacheManager {
   public static let shared = ImageCacheManager()
 
   private var cache: [URL: Image] = [:]
-  private var downloadTask: Task<Image?, Never>?
-
   private let imageDownloader = ImageDownloader()
 
   public subscript(url: URL?) -> Image? {
@@ -40,13 +40,14 @@ public actor ImageCacheManager {
 
   public func imageForURL(_ url: URL) async -> Image? {
     if let image = cache[url] {
-      return image
+      image
     } else {
-      return await downloadAndCacheImage(url)
+      await downloadAndCacheImage(url)
     }
   }
 
-  @discardableResult private func downloadAndCacheImage(_ url: URL) async -> Image? {
+  @discardableResult
+  private func downloadAndCacheImage(_ url: URL) async -> Image? {
     if let image = await imageDownloader.downloadImage(from: url) {
       add(image, for: url)
       return image
@@ -55,6 +56,8 @@ public actor ImageCacheManager {
     return nil
   }
 }
+
+// MARK: - ImageDownloader
 
 struct ImageDownloader {
   var client: MusculosClient

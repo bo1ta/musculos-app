@@ -16,19 +16,19 @@ public enum ProfileHighlightType: CaseIterable, Hashable {
 
   public var systemImageName: String {
     switch self {
-    case .steps: return "figure.run"
-    case .sleep: return "sleep"
-    case .waterIntake: return "drop.fill"
-    case .workoutTracking: return "dumbbell.fill"
+    case .steps: "figure.run"
+    case .sleep: "sleep"
+    case .waterIntake: "drop.fill"
+    case .workoutTracking: "dumbbell.fill"
     }
   }
 
   public var color: Color {
     switch self {
-    case .steps: return .yellow
-    case .sleep: return AppColor.navyBlue
-    case .waterIntake: return .orange.opacity(0.6)
-    case .workoutTracking: return .red
+    case .steps: .yellow
+    case .sleep: AppColor.navyBlue
+    case .waterIntake: .orange.opacity(0.6)
+    case .workoutTracking: .red
     }
   }
 

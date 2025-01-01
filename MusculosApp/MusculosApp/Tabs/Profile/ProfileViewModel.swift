@@ -5,16 +5,23 @@
 //  Created by Solomon Alexandru on 29.12.2024.
 //
 
-import SwiftUI
-import Factory
 import Components
-import Utility
 import DataRepository
+import Factory
 import Models
+import SwiftUI
+import Utility
 
 @Observable
 @MainActor
 final class ProfileViewModel {
+
+  @ObservationIgnored
+  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
+
+  @ObservationIgnored
+  @Injected(\.toastManager) private var toastManager: ToastManager
+
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
 
@@ -24,9 +31,11 @@ final class ProfileViewModel {
   private(set) var exercises: [Exercise] = []
   private(set) var userTotalSteps = 0.0
   private(set) var userTotalSleep = 0
-  private(set) var toast: Toast?
-
   var selectedWorkout: String?
+
+  var currentUser: UserProfile? {
+    userStore.currentUser
+  }
 
   func initialLoad() async {
     async let exerciseTask: Void = loadFavoriteExercises()
@@ -46,7 +55,7 @@ final class ProfileViewModel {
   private func loadHealthKitData() async {
     do {
       guard try await healthKitClient.requestPermissions() else {
-        toast = .warning("Not showing HealthKit data")
+        toastManager.showWarning("Not showing HealthKit data")
         return
       }
 
@@ -55,13 +64,13 @@ final class ProfileViewModel {
 
       (userTotalSleep, userTotalSteps) = try await (totalSleepTask, totalStepsTask)
     } catch {
-      toast = .error("Unable to load HealthKit data")
+      toastManager.showError("Unable to load HealthKit data")
       Logger.error(error, message: "Error loading HealthKit data")
     }
   }
 
   func getHighlights() -> [ProfileHighlight] {
-    return [
+    [
       ProfileHighlight(highlightType: .steps, value: "5432", description: "updated 10 mins ago"),
       ProfileHighlight(highlightType: .sleep, value: "7 hr 31 min", description: "updated 10 mins ago"),
       ProfileHighlight(highlightType: .waterIntake, value: "4.2 ltr", description: "updated now"),

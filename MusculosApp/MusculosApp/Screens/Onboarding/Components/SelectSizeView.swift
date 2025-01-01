@@ -28,18 +28,16 @@ struct SelectSizeView: View {
           FormField(
             text: $selectedWeight,
             label: "Weight",
-            keyboardType: .numberPad
-          )
-          .frame(width: 100)
+            keyboardType: .numberPad)
+            .frame(width: 100)
 
           Spacer()
 
           FormField(
             text: $selectedHeight,
             label: "Height",
-            keyboardType: .numberPad
-          )
-          .frame(width: 100)
+            keyboardType: .numberPad)
+            .frame(width: 100)
         }
         .padding(.bottom, 50)
 
@@ -58,5 +56,5 @@ struct SelectSizeView: View {
 }
 
 #Preview {
-  SelectSizeView(selectedWeight: .constant("120"), selectedHeight: .constant("120"), onContinue: {})
+  SelectSizeView(selectedWeight: .constant("120"), selectedHeight: .constant("120"), onContinue: { })
 }

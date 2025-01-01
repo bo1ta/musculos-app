@@ -17,16 +17,16 @@ public actor UserRepository: BaseRepository {
   @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
 
   public func register(email: String, password: String, username: String) async throws -> UserSession {
-    return try await service.register(email: email, password: password, username: username)
+    try await service.register(email: email, password: password, username: username)
   }
 
   public func login(email: String, password: String) async throws -> UserSession {
-    return try await service.login(email: email, password: password)
+    try await service.login(email: email, password: password)
   }
 
-  public func getCurrentUser() async -> UserProfile? {
-    guard let currentUserID = currentUserID else {
-      return nil
+  public func getCurrentUser() async throws -> UserProfile? {
+    guard let currentUserID else {
+      throw MusculosError.unexpectedNil
     }
 
     let backgroundTask = backgroundWorker.queueOperation(priority: .high) { [weak self] in
@@ -42,10 +42,10 @@ public actor UserRepository: BaseRepository {
 
   public func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws {
     guard
-      let currentUserID = currentUserID,
+      let currentUserID,
       let currentProfile = await coreDataStore.userProfile(for: currentUserID)
     else {
-      throw MusculosError.notFound
+      throw MusculosError.unexpectedNil
     }
 
     var goal: Goal?
@@ -59,19 +59,18 @@ public actor UserRepository: BaseRepository {
       height: onboardingData.height,
       primaryGoalID: goal?.id,
       level: onboardingData.level,
-      isOnboarded: true
-    )
+      isOnboarded: true)
 
     try await service.updateUser(
       weight: onboardingData.weight,
       height: onboardingData.height,
       primaryGoalID: goal?.id,
       level: onboardingData.level,
-      isOnboarded: true
-    )
+      isOnboarded: true)
   }
 
-  @discardableResult private func syncCurrentUser() async throws -> UserProfile {
+  @discardableResult
+  private func syncCurrentUser() async throws -> UserProfile {
     let profile = try await service.currentUser()
     try await coreDataStore.importModel(profile, of: UserProfileEntity.self)
     return profile

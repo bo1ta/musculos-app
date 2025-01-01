@@ -7,8 +7,11 @@
 
 import Foundation
 
+// MARK: - MuscleType
+
 public enum MuscleType: String, CaseIterable, Identifiable, Sendable {
-  case abdominals, hamstrings, adductors, quadriceps, biceps, shoulders, chest, calves, glutes, lats, triceps, traps, forearms, neck, abductors
+  case abdominals, hamstrings, adductors, quadriceps, biceps, shoulders, chest, calves, glutes, lats, triceps, traps, forearms,
+       neck, abductors
   case middleBack = "middle back"
   case lowerBack = "lower back"
 
@@ -34,6 +37,8 @@ public enum MuscleType: String, CaseIterable, Identifiable, Sendable {
     }
   }
 }
+
+// MARK: - MuscleGroup
 
 public struct MuscleGroup: Hashable, Sendable {
   public let name: String

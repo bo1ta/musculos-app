@@ -9,7 +9,7 @@ import Foundation
 import Models
 
 extension UserExperienceEntry: IdentifiableEntity {
-  public static let identifierKey: String = "modelID"
+  public static let identifierKey = "modelID"
 
   public var identifierValue: UUID { id }
 }

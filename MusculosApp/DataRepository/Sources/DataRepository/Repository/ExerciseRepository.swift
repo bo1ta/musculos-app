@@ -15,7 +15,7 @@ import Utility
 public actor ExerciseRepository: BaseRepository {
   @Injected(\NetworkContainer.exerciseService) private var service: ExerciseServiceProtocol
 
-  public init() {}
+  public init() { }
 
   public func addExercise(_ exercise: Exercise) async throws {
     try await coreDataStore.importModel(exercise, of: ExerciseEntity.self)
@@ -47,14 +47,14 @@ public actor ExerciseRepository: BaseRepository {
 
   public func getExercisesCompletedSinceLastWeek() async throws -> [Exercise] {
     guard let currentUserID else {
-      throw MusculosError.notFound
+      throw MusculosError.unexpectedNil
     }
     return await coreDataStore.exerciseSessionsCompletedSinceLastWeek(for: currentUserID).map { $0.exercise }
   }
 
   public func getFavoriteExercises() async throws -> [Exercise] {
     guard let currentUserID else {
-      throw MusculosError.notFound
+      throw MusculosError.unexpectedNil
     }
 
     guard await !shouldUseLocalStorageForEntity(ExerciseEntity.self) else {
@@ -85,12 +85,12 @@ public actor ExerciseRepository: BaseRepository {
   }
 
   public func getExercisesForMuscleTypes(_ muscleTypes: [MuscleType]) async -> [Exercise] {
-    return await coreDataStore.exercisesForMuscles(muscleTypes)
+    await coreDataStore.exercisesForMuscles(muscleTypes)
   }
 
   public func getRecommendedExercisesByMuscleGroups() async throws -> [Exercise] {
-    guard let currentUserID = currentUserID else {
-      throw MusculosError.notFound
+    guard let currentUserID else {
+      throw MusculosError.unexpectedNil
     }
 
     let exerciseSessions = await coreDataStore.exerciseSessionsForUser(currentUserID)

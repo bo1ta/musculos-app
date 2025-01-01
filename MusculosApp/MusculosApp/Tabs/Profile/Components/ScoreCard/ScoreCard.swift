@@ -20,8 +20,8 @@ struct ScoreCard: View {
     description: String,
     score: Int,
     onTap: @escaping () -> Void,
-    badgeColor: Color = .orange
-  ) {
+    badgeColor: Color = .orange)
+  {
     self.title = title
     self.description = description
     self.score = score
@@ -56,5 +56,9 @@ struct ScoreCard: View {
 }
 
 #Preview {
-  ScoreCard(title: "Fitness Score", description: "Based on your overview fitness tracking, your score is 87 and considered good", score: 87, onTap: {})
+  ScoreCard(
+    title: "Fitness Score",
+    description: "Based on your overview fitness tracking, your score is 87 and considered good",
+    score: 87,
+    onTap: { })
 }

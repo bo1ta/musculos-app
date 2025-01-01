@@ -8,6 +8,8 @@
 import Foundation
 import Utility
 
+// MARK: - ExerciseSession
+
 public struct ExerciseSession: Codable, Sendable {
   public let dateAdded: Date
   public let sessionId: UUID
@@ -16,7 +18,14 @@ public struct ExerciseSession: Codable, Sendable {
   public let duration: Double
   public var weight: Double?
 
-  public init(dateAdded: Date = Date(), sessionId: UUID = UUID(), user: UserProfile, exercise: Exercise, duration: Double = 0, weight: Double = 0) {
+  public init(
+    dateAdded: Date = Date(),
+    sessionId: UUID = UUID(),
+    user: UserProfile,
+    exercise: Exercise,
+    duration: Double = 0,
+    weight: Double = 0)
+  {
     self.dateAdded = dateAdded
     self.sessionId = sessionId
     self.user = user
@@ -26,4 +35,6 @@ public struct ExerciseSession: Codable, Sendable {
   }
 }
 
-extension ExerciseSession: DecodableModel {}
+// MARK: DecodableModel
+
+extension ExerciseSession: DecodableModel { }

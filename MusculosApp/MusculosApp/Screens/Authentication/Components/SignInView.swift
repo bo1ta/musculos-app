@@ -9,8 +9,9 @@ import Components
 import SwiftUI
 import Utility
 
+// MARK: - SignInView
+
 struct SignInView: View {
-  @Environment(\.userStore) private var userStore
   @Environment(\.navigator) private var navigator
 
   @Bindable var viewModel: AuthenticationViewModel
@@ -59,14 +60,12 @@ extension SignInView {
       FormField(
         text: $viewModel.email,
         label: "Email",
-        labelColor: labelColor
-      )
+        labelColor: labelColor)
       FormField(
         text: $viewModel.password,
         label: "Password",
         labelColor: labelColor,
-        isSecureField: true
-      )
+        isSecureField: true)
     }
     .padding(.vertical, 20)
   }
@@ -90,5 +89,5 @@ extension SignInView {
 }
 
 #Preview {
-  AuthenticationScreen(initialStep: .login, onBack: {})
+  AuthenticationScreen(initialStep: .login, onBack: { })
 }

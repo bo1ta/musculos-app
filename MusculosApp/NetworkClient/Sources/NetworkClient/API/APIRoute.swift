@@ -17,10 +17,10 @@ public enum APIRoute {
 
     public var path: String {
       switch self {
-      case .login: return "login"
-      case .register: return "register"
-      case .currentProfile: return "me"
-      case .updateProfile: return "me/update-profile"
+      case .login: "login"
+      case .register: "register"
+      case .currentProfile: "me"
+      case .updateProfile: "me/update-profile"
       }
     }
   }
@@ -34,11 +34,11 @@ public enum APIRoute {
 
     public var path: String {
       switch self {
-      case .index: return ""
-      case let .exerciseDetails(id): return "\(id)"
-      case .favoriteExercises: return "favorites"
-      case .exercisesByGoals: return "getByGoals"
-      case .filtered: return "filtered"
+      case .index: ""
+      case .exerciseDetails(let id): "\(id)"
+      case .favoriteExercises: "favorites"
+      case .exercisesByGoals: "getByGoals"
+      case .filtered: "filtered"
       }
     }
   }
@@ -48,7 +48,7 @@ public enum APIRoute {
 
     public var path: String {
       switch self {
-      case .index: return ""
+      case .index: ""
       }
     }
   }
@@ -60,9 +60,9 @@ public enum APIRoute {
 
     public var path: String {
       switch self {
-      case .index: return ""
-      case let .goalDetails(id): return "\(id)"
-      case .updateProgress: return "update-progress"
+      case .index: ""
+      case .goalDetails(let id): "\(id)"
+      case .updateProgress: "update-progress"
       }
     }
   }
@@ -72,7 +72,7 @@ public enum APIRoute {
 
     public var path: String {
       switch self {
-      case .goals: return "goals"
+      case .goals: "goals"
       }
     }
   }
@@ -84,7 +84,7 @@ public enum APIRoute {
     public var path: String {
       switch self {
       case .index: ""
-      case let .exerciseID(exerciseID): exerciseID.uuidString
+      case .exerciseID(let exerciseID): exerciseID.uuidString
       }
     }
   }

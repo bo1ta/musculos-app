@@ -13,46 +13,56 @@ struct AddActionSheetContainer: View {
     case createItem, createWorkout, createExercise, createGoal
   }
 
-  @State private var currentStep: Step = .createItem
+  @State private var currentStep = Step.createItem
+  @Namespace private var animationNamespace
 
   var body: some View {
-    ZStack(alignment: .top) {
-      VStack {
-        switch currentStep {
-        case .createItem:
-          AddActionSheet(onItemTapped: handleTap(for:))
-            .presentationDetents([.height(200)])
-            .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom)))
-        case .createWorkout:
-          AddWorkoutSheet(onBack: handleBack)
-            .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .push(from: .top)))
-        case .createExercise:
-          AddExerciseSheet(onBack: handleBack)
-            .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .push(from: .top)))
-        case .createGoal:
-          AddGoalSheet()
-            .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .push(from: .top)))
-        }
+    VStack {
+      switch currentStep {
+      case .createItem:
+        AddActionSheet(onItemTapped: handleTap(for:))
+          .presentationDetents([.height(200)])
+          .matchedGeometryEffect(id: "sheet", in: animationNamespace)
+          .transition(.move(edge: .top).combined(with: .opacity))
+
+      case .createWorkout:
+        AddWorkoutSheet(onBack: handleBack)
+          .matchedGeometryEffect(id: "sheet", in: animationNamespace)
+          .transition(.move(edge: .bottom).combined(with: .scale(scale: 0.95)))
+
+      case .createExercise:
+        AddExerciseSheet(onBack: handleBack)
+          .matchedGeometryEffect(id: "sheet", in: animationNamespace)
+          .transition(.move(edge: .bottom).combined(with: .scale(scale: 0.95)))
+
+      case .createGoal:
+        AddGoalSheet(onBack: handleBack)
+          .matchedGeometryEffect(id: "sheet", in: animationNamespace)
+          .transition(.move(edge: .bottom).combined(with: .scale(scale: 0.95)))
       }
-      .animation(.easeInOut(duration: 0.2), value: currentStep)
     }
+    .animation(.easeInOut(duration: 0.2), value: currentStep)
   }
 
   @MainActor
   private func handleTap(for itemType: AddActionSheet.ItemType) {
-    switch itemType {
-    case .exercise:
-      currentStep = .createExercise
-    case .goal:
-      currentStep = .createGoal
-    case .workout:
-      currentStep = .createWorkout
+    withAnimation {
+      switch itemType {
+      case .exercise:
+        currentStep = .createExercise
+      case .goal:
+        currentStep = .createGoal
+      case .workout:
+        currentStep = .createWorkout
+      }
     }
   }
 
   @MainActor
   private func handleBack() {
-    currentStep = .createItem
+    withAnimation {
+      currentStep = .createItem
+    }
   }
 }
 

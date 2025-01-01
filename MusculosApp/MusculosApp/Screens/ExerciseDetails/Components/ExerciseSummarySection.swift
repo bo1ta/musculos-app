@@ -38,5 +38,5 @@ struct ExerciseSummarySection: View {
 }
 
 #Preview {
-  ExerciseSummarySection(exercise: ExerciseFactory.createExercise(isFavorite: true), isFavorite: true, onFavorite: {})
+  ExerciseSummarySection(exercise: ExerciseFactory.createExercise(isFavorite: true), isFavorite: true, onFavorite: { })
 }

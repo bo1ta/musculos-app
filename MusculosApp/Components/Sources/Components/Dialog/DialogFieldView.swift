@@ -26,8 +26,8 @@ public struct DialogFieldView: View {
     fieldHint: String?,
     fieldKeyboardType: UIKeyboardType,
     buttonTitle: String,
-    onSubmit: @escaping (String) -> Void
-  ) {
+    onSubmit: @escaping (String) -> Void)
+  {
     _isPresented = isPresented
     self.title = title
     self.fieldLabel = fieldLabel
@@ -53,9 +53,8 @@ public struct DialogFieldView: View {
             label: fieldLabel,
             labelColor: .white,
             textHint: fieldHint,
-            keyboardType: fieldKeyboardType
-          )
-          .frame(width: 150)
+            keyboardType: fieldKeyboardType)
+            .frame(width: 150)
 
           Button(action: {
             isPresented = false
@@ -77,5 +76,12 @@ public struct DialogFieldView: View {
 }
 
 #Preview {
-  DialogFieldView(isPresented: .constant(true), title: "What is your name?", fieldLabel: nil, fieldHint: nil, fieldKeyboardType: .default, buttonTitle: "Continue", onSubmit: { _ in })
+  DialogFieldView(
+    isPresented: .constant(true),
+    title: "What is your name?",
+    fieldLabel: nil,
+    fieldHint: nil,
+    fieldKeyboardType: .default,
+    buttonTitle: "Continue",
+    onSubmit: { _ in })
 }

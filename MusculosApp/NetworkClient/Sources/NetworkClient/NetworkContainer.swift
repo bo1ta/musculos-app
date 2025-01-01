@@ -8,14 +8,16 @@
 import Factory
 import Utility
 
+// MARK: - NetworkContainer
+
 public final class NetworkContainer: SharedContainer {
   public static let shared = NetworkContainer()
 
   public nonisolated(unsafe) var manager = ContainerManager()
 }
 
-public extension NetworkContainer {
-  var client: Factory<MusculosClientProtocol> {
+extension NetworkContainer {
+  public var client: Factory<MusculosClientProtocol> {
     self {
       MusculosClient(
         requestMiddlewares: [
@@ -26,43 +28,42 @@ public extension NetworkContainer {
         responseMiddlewares: [
           AuthCheckerMiddleware(),
           LoggingMiddleware(),
-        ]
-      )
+        ])
     }
     .cached
   }
 
-  var networkMonitor: Factory<NetworkMonitorProtocol> {
+  public var networkMonitor: Factory<NetworkMonitorProtocol> {
     self { NetworkMonitor() }
       .singleton
   }
 
-  internal var offlineRequestManager: Factory<OfflineRequestManager> {
+  var offlineRequestManager: Factory<OfflineRequestManager> {
     self { OfflineRequestManager() }
       .singleton
   }
 
-  var userService: Factory<UserServiceProtocol> {
+  public var userService: Factory<UserServiceProtocol> {
     self { UserService() }
   }
 
-  var exerciseService: Factory<ExerciseServiceProtocol> {
+  public var exerciseService: Factory<ExerciseServiceProtocol> {
     self { ExerciseService() }
   }
 
-  var exerciseSessionService: Factory<ExerciseSessionServiceProtocol> {
+  public var exerciseSessionService: Factory<ExerciseSessionServiceProtocol> {
     self { ExerciseSessionService() }
   }
 
-  var goalService: Factory<GoalServiceProtocol> {
+  public var goalService: Factory<GoalServiceProtocol> {
     self { GoalService() }
   }
 
-  var ratingService: Factory<RatingServiceProtocol> {
+  public var ratingService: Factory<RatingServiceProtocol> {
     self { RatingService() }
   }
 
-  var imageService: Factory<ImageServiceProtocol> {
+  public var imageService: Factory<ImageServiceProtocol> {
     self { ImageService() }
   }
 }

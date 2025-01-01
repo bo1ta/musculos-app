@@ -9,22 +9,20 @@ let package = Package(
   products: [
     .library(
       name: "RouteKit",
-      targets: ["RouteKit"]
-    ),
+      targets: ["RouteKit"]),
   ],
   dependencies: [
     .package(name: "Utility", path: "../Utility"),
+    .package(name: "Components", path: "../Components"),
   ],
   targets: [
     .target(
       name: "RouteKit",
       dependencies: [
         .product(name: "Utility", package: "Utility"),
-      ]
-    ),
+        .product(name: "Components", package: "Components"),
+      ]),
     .testTarget(
       name: "RouteKitTests",
-      dependencies: ["RouteKit"]
-    ),
-  ]
-)
+      dependencies: ["RouteKit"]),
+  ])

@@ -15,14 +15,15 @@ struct AddGoalSheet: View {
   @Environment(\.dismiss) private var dismiss
   @State private var viewModel = AddGoalSheetViewModel()
 
+  var onBack: () -> Void
+
   var body: some View {
     ScrollView {
       SheetNavBar(
         title: "Add a new goal",
-        onBack: { dismiss() },
-        onDismiss: { dismiss() }
-      )
-      .padding(.vertical, 25)
+        onBack: onBack,
+        onDismiss: { dismiss() })
+        .padding(.vertical, 25)
 
       VStack(spacing: 20) {
         FormField(text: $viewModel.name, label: "Name")
@@ -31,21 +32,18 @@ struct AddGoalSheet: View {
           showOptions: $viewModel.showCategoryOptions,
           selectedOption: $viewModel.category,
           title: "Category",
-          options: GoalConstants.categoryOptions
-        )
+          options: GoalConstants.categoryOptions)
         SingleOptionSelectView(
           showOptions: $viewModel.showFrequencyOptions,
           selectedOption: $viewModel.frequency,
           title: "Frequency",
-          options: GoalConstants.frequencyOptions
-        )
+          options: GoalConstants.frequencyOptions)
         DatePicker(
           "End Date",
           selection: $viewModel.endDate,
-          displayedComponents: [.date]
-        )
-        .opacity(viewModel.showEndDate ? 1 : 0)
-        .padding(.top)
+          displayedComponents: [.date])
+          .opacity(viewModel.showEndDate ? 1 : 0)
+          .padding(.top)
       }
     }
     .padding([.horizontal, .top], 15)
@@ -67,5 +65,5 @@ struct AddGoalSheet: View {
 }
 
 #Preview {
-  AddGoalSheet()
+  AddGoalSheet(onBack: { })
 }

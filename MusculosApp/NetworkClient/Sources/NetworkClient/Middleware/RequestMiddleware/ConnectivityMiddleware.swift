@@ -14,7 +14,11 @@ struct ConnectivityMiddleware: RequestMiddleware, @unchecked Sendable {
 
   var priority: MiddlewarePriority { .connectivityMiddleware }
 
-  func intercept(request: APIRequest, proceed: @escaping (APIRequest) async throws -> (Data, URLResponse)) async throws -> (Data, URLResponse) {
+  func intercept(
+    request: APIRequest,
+    proceed: @escaping (APIRequest) async throws -> (Data, URLResponse))
+    async throws -> (Data, URLResponse)
+  {
     do {
       return try await proceed(request)
     } catch {

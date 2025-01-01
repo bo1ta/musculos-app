@@ -8,6 +8,8 @@
 import Navigator
 import SwiftUI
 
+// MARK: - RootHistoryScreen
+
 struct RootHistoryScreen: View {
   var body: some View {
     ManagedNavigationStack(scene: "history") {

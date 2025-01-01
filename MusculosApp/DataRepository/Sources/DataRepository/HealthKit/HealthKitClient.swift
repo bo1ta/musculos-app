@@ -17,19 +17,19 @@ public final class HealthKitClient: @unchecked Sendable {
   }
 
   private static let writePermissions: Set<HKSampleType> = [
-    HKQuantityType(.stepCount)
+    HKQuantityType(.stepCount),
   ]
 
   private static let readPermissions: Set<HKSampleType> = [
     HKQuantityType(.stepCount),
-    HKCategoryType(.sleepAnalysis)
+    HKCategoryType(.sleepAnalysis),
   ]
 
   private var queryAnchor: HKQueryAnchor?
   private let healthStore: HKHealthStore
 
   public init() {
-    self.healthStore = HKHealthStore()
+    healthStore = HKHealthStore()
     loadQueryAnchor()
   }
 
@@ -40,8 +40,7 @@ public final class HealthKitClient: @unchecked Sendable {
 
     try await healthStore.requestAuthorization(
       toShare: Self.writePermissions,
-      read: Self.readPermissions
-    )
+      read: Self.readPermissions)
 
     return try checkPermissions()
   }
@@ -61,7 +60,7 @@ public final class HealthKitClient: @unchecked Sendable {
   }
 
   public func getTotalStepsSinceLastWeek() async throws -> Double {
-    return try await getTotalSteps(startDate: DateHelper.nowPlusDays(-7), endDate: Date())
+    try await getTotalSteps(startDate: DateHelper.nowPlusDays(-7), endDate: Date())
   }
 
   public func getTotalSteps(startDate: Date, endDate: Date) async throws -> Double {
@@ -72,14 +71,12 @@ public final class HealthKitClient: @unchecked Sendable {
     let predicate = HKQuery.predicateForSamples(
       withStart: startDate,
       end: endDate,
-      options: .strictEndDate
-    )
+      options: .strictEndDate)
     let anchorDescription = HKAnchoredObjectQueryDescriptor(
       predicates: [
         .quantitySample(type: HKQuantityType(.stepCount), predicate: predicate),
       ],
-      anchor: queryAnchor
-    )
+      anchor: queryAnchor)
 
     let results = try await anchorDescription.result(for: healthStore)
     updateQueryAnchor(results.newAnchor)
@@ -93,24 +90,22 @@ public final class HealthKitClient: @unchecked Sendable {
   }
 
   public func getTotalSleepSinceLastWeek() async throws -> Int {
-    return try await getTotalSleep(startDate: DateHelper.nowPlusDays(-7), endDate: Date())
+    try await getTotalSleep(startDate: DateHelper.nowPlusDays(-7), endDate: Date())
   }
 
-  public func getTotalSleep(startDate: Date, endDate: Date) async throws -> Int {
+  public func getTotalSleep(startDate _: Date, endDate _: Date) async throws -> Int {
     guard try checkPermissions() else {
       throw HealthKitError.noPermissions
     }
 
     let predicate = HKQuery.predicateForCategorySamples(
       with: .equalTo,
-      value: HKCategoryValueSleepAnalysis.inBed.rawValue
-    )
+      value: HKCategoryValueSleepAnalysis.inBed.rawValue)
     let anchorDescription = HKAnchoredObjectQueryDescriptor(
       predicates: [
         .categorySample(type: HKCategoryType(.sleepAnalysis), predicate: predicate),
       ],
-      anchor: queryAnchor
-    )
+      anchor: queryAnchor)
 
     let results = try await anchorDescription.result(for: healthStore)
     updateQueryAnchor(results.newAnchor)
@@ -121,7 +116,6 @@ public final class HealthKitClient: @unchecked Sendable {
 
     Logger.info(message: "HealthKit Total Sleep", properties: ["totalSleep": totalSleep])
     return totalSleep
-
   }
 
   private func loadQueryAnchor() {

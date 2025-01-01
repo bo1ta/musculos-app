@@ -18,9 +18,9 @@ struct ExerciseFilterSheet: View {
 
   private var searchButtonText: String {
     if !viewModel.results.isEmpty {
-      return "Show (\(viewModel.results.count)) results"
+      "Show (\(viewModel.results.count)) results"
     } else {
-      return "Search"
+      "Search"
     }
   }
 
@@ -33,26 +33,22 @@ struct ExerciseFilterSheet: View {
             showOptions: viewModel.makeFilterDisplayBinding(for: .muscle),
             selectedOptions: viewModel.makeSearchFilterBinding(for: .muscle),
             title: "Muscles",
-            options: ExerciseConstants.muscleOptions
-          )
+            options: ExerciseConstants.muscleOptions)
           MultiOptionsSelectView(
             showOptions: viewModel.makeFilterDisplayBinding(for: .category),
             selectedOptions: viewModel.makeSearchFilterBinding(for: .category),
             title: "Workout Types",
-            options: ExerciseConstants.categoryOptions
-          )
+            options: ExerciseConstants.categoryOptions)
           SingleOptionSelectView(
             showOptions: viewModel.makeFilterDisplayBinding(for: .difficulty),
             selectedOption: $viewModel.selectedLevelFilter,
             title: "Difficulty",
-            options: ExerciseConstants.levelOptions
-          )
+            options: ExerciseConstants.levelOptions)
           MultiOptionsSelectView(
             showOptions: viewModel.makeFilterDisplayBinding(for: .equipment),
             selectedOptions: viewModel.makeSearchFilterBinding(for: .equipment),
             title: "Equipment",
-            options: ExerciseConstants.equipmentOptions
-          )
+            options: ExerciseConstants.equipmentOptions)
         }
         .padding(.top, 10)
       }

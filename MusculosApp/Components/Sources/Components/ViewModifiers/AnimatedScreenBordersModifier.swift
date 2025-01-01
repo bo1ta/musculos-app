@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// MARK: - AnimatedScreenBordersModifier
+
 public struct AnimatedScreenBordersModifier: ViewModifier {
   let isActive: Bool
   let borderHeight: CGFloat
@@ -26,6 +28,8 @@ public struct AnimatedScreenBordersModifier: ViewModifier {
   }
 }
 
+// MARK: - BorderAnimationContainer
+
 private struct BorderAnimationContainer: View {
   @State private var dimOpacity: CGFloat = 0.0
   let borderHeight: CGFloat
@@ -44,6 +48,8 @@ private struct BorderAnimationContainer: View {
   }
 }
 
+// MARK: - OptimizedBorderAnimation
+
 private struct OptimizedBorderAnimation: View {
   @State private var animationPhase: CGFloat = 0
   let size: CGSize
@@ -52,10 +58,7 @@ private struct OptimizedBorderAnimation: View {
   private let gradient = LinearGradient(
     gradient: Gradient(colors: [.red, .red.opacity(0.9), .red.opacity(0.8)]),
     startPoint: .topLeading,
-    endPoint: .bottomTrailing
-  )
-
-  private let lineHeight = 14.0
+    endPoint: .bottomTrailing)
 
   var body: some View {
     ZStack {
@@ -85,6 +88,8 @@ private struct OptimizedBorderAnimation: View {
   }
 }
 
+// MARK: - DashedLine
+
 private struct DashedLine: View {
   @State private var animationPhase: CGFloat = 0
 
@@ -99,10 +104,7 @@ private struct DashedLine: View {
               lineCap: .round,
               lineJoin: .round,
               dash: [30, 15],
-              dashPhase: animationPhase
-            )
-          )
-      )
+              dashPhase: animationPhase)))
       .onAppear {
         withAnimation(.linear.repeatForever(autoreverses: false).speed(1)) {
           animationPhase -= 45

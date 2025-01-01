@@ -13,7 +13,7 @@ public class BaseFactory: @unchecked Sendable {
   let backgroundWorker = AsyncQueue()
 
   var dataStore: CoreDataStore {
-    return StorageContainer.shared.coreDataStore()
+    StorageContainer.shared.coreDataStore()
   }
 
   func syncObject<T: EntitySyncable>(_ model: T.ModelType, of type: T.Type) {
@@ -23,6 +23,6 @@ public class BaseFactory: @unchecked Sendable {
   }
 
   func awaitPendingOperations() async {
-    await backgroundWorker.addBarrierOperation(operation: {}).value
+    await backgroundWorker.addBarrierOperation(operation: { }).value
   }
 }

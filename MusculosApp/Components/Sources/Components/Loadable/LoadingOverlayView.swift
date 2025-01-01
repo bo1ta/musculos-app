@@ -16,8 +16,8 @@ public struct LoadingOverlayView: View {
   public init(
     progress: Binding<Double> = .constant(0.4),
     progressColor: Color = Color.orange,
-    backgroundColor: Color = AppColor.navyBlue
-  ) {
+    backgroundColor: Color = AppColor.navyBlue)
+  {
     _progress = progress
     self.progressColor = progressColor
     self.backgroundColor = backgroundColor

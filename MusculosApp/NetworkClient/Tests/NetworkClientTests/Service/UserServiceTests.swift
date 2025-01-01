@@ -16,7 +16,8 @@ import Testing
 
 @Suite(.serialized)
 final class UserServiceTests: MusculosTestBase {
-  @Test func register() async throws {
+  @Test
+  func register() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .users(.register)
@@ -37,7 +38,8 @@ final class UserServiceTests: MusculosTestBase {
     #expect(userSession.token.value == "super-secret-token")
   }
 
-  @Test func login() async throws {
+  @Test
+  func login() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .users(.login)
@@ -57,7 +59,8 @@ final class UserServiceTests: MusculosTestBase {
     #expect(userSession.token.value == "super-secret-token")
   }
 
-  @Test func currentUser() async throws {
+  @Test
+  func currentUser() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .users(.currentProfile)
@@ -81,7 +84,8 @@ final class UserServiceTests: MusculosTestBase {
     #expect(userProfile.xp == 0)
   }
 
-  @Test func updateUser() async throws {
+  @Test
+  func updateUser() async throws {
     let primaryGoalID = UUID()
 
     var stubClient = StubMusculosClient()
@@ -104,8 +108,7 @@ final class UserServiceTests: MusculosTestBase {
       height: 50,
       primaryGoalID: primaryGoalID,
       level: ExerciseConstants.LevelType.beginner.rawValue,
-      isOnboarded: true
-    )
+      isOnboarded: true)
     #expect(userProfile.userId.uuidString == "31A6745A-13BD-4D03-982B-F4C9DFE75B14")
     #expect(userProfile.isOnboarded == false)
     #expect(userProfile.email == "test@test.com")

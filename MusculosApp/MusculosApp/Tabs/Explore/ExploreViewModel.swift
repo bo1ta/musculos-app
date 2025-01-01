@@ -15,6 +15,8 @@ import Storage
 import SwiftUI
 import Utility
 
+// MARK: - ExploreViewModel
+
 @Observable
 @MainActor
 final class ExploreViewModel {
@@ -51,23 +53,19 @@ final class ExploreViewModel {
   private(set) var recommendedExercisesByGoals: [Exercise] = []
 
   var displayGoal: Goal? {
-    return goals.first
+    goals.first
   }
 
-  // MARK: - Init
+  var showRecommendationsByPastSessions: Bool {
+    !recommendedExercisesByPastSessions.isEmpty
+  }
 
-  private let coreModelNotificationHandler: CoreModelNotificationHandler
+  var showRecomendationsByGoals: Bool {
+    !recommendedExercisesByGoals.isEmpty
+  }
 
-  init() {
-    coreModelNotificationHandler = CoreModelNotificationHandler(
-      storageType: StorageContainer.shared.storageManager().writerDerivedStorage
-    )
-    coreModelNotificationHandler.eventPublisher
-      .debounce(for: .milliseconds(700), scheduler: RunLoop.main)
-      .sink { [weak self] updateObjectEvent in
-        self?.handleUpdate(updateObjectEvent)
-      }
-      .store(in: &cancellables)
+  var showFavoriteExercises: Bool {
+    !favoriteExercises.isEmpty
   }
 
   func setFeaturedExercises(_ exercises: [Exercise]) {
@@ -95,7 +93,13 @@ extension ExploreViewModel {
     async let completedTodayExercisesTask: Void = refreshExercisesCompletedToday()
     async let goalsTask: Void = loadGoals()
 
-    _ = await (exercisesTask, favoriteExercisesTask, recommendedExercisesByGoalsTask, recommendedExercisesByPastSessionsTask, completedTodayExercisesTask, goalsTask)
+    _ = await (
+      exercisesTask,
+      favoriteExercisesTask,
+      recommendedExercisesByGoalsTask,
+      recommendedExercisesByPastSessionsTask,
+      completedTodayExercisesTask,
+      goalsTask)
   }
 
   private func loadExercises() async {
@@ -122,18 +126,6 @@ extension ExploreViewModel {
     }
   }
 
-  func searchByMuscleQuery(_ query: String) {
-    searchQueryTask?.cancel()
-
-    searchQueryTask = Task {
-      do {
-        featuredExercises = try await exerciseRepository.searchByQuery(query)
-      } catch {
-        Logger.error(error, message: "Could not search by muscle query", properties: ["query": query])
-      }
-    }
-  }
-
   private func loadFavoriteExercises() async {
     do {
       favoriteExercises = try await exerciseRepository.getFavoriteExercises()
@@ -157,6 +149,18 @@ extension ExploreViewModel {
       Logger.error(error, message: "Could not get goals")
     }
   }
+
+  func searchByMuscleQuery(_ query: String) {
+    searchQueryTask?.cancel()
+
+    searchQueryTask = Task {
+      do {
+        featuredExercises = try await exerciseRepository.searchByQuery(query)
+      } catch {
+        Logger.error(error, message: "Could not search by muscle query", properties: ["query": query])
+      }
+    }
+  }
 }
 
 // MARK: - Model Event Handling
@@ -166,6 +170,7 @@ extension ExploreViewModel {
     notificationUpdateTask?.cancel()
 
     notificationUpdateTask = Task {
+      Logger.info(message: "Did notify someone: \(event)")
       switch event {
       case .didUpdateGoal:
         await loadGoals()

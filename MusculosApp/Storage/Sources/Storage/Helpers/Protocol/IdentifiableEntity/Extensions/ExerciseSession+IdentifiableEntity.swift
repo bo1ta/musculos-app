@@ -9,7 +9,7 @@ import Foundation
 import Models
 
 extension ExerciseSession: IdentifiableEntity {
-  public static let identifierKey: String = "sessionId"
+  public static let identifierKey = "sessionId"
 
   public var identifierValue: UUID {
     sessionId

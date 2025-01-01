@@ -9,8 +9,7 @@ let package = Package(
   products: [
     .library(
       name: "NetworkClient",
-      targets: ["NetworkClient"]
-    ),
+      targets: ["NetworkClient"]),
   ],
   dependencies: [
     .package(name: "Utility", path: "../Utility"),
@@ -28,14 +27,11 @@ let package = Package(
         .product(name: "Storage", package: "Storage"),
         "Factory",
         "Queue",
-      ]
-    ),
+      ]),
     .testTarget(
       name: "NetworkClientTests",
       dependencies: ["NetworkClient"],
       resources: [
         .process("Supporting Files"),
-      ]
-    ),
-  ]
-)
+      ]),
+  ])

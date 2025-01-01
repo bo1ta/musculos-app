@@ -23,8 +23,8 @@ struct RecommendationSection: View {
   init(
     exercises: [Exercise],
     onSelectExercise: @escaping (Exercise) -> Void,
-    onSeeMore: @escaping () -> Void
-  ) {
+    onSeeMore: @escaping () -> Void)
+  {
     self.exercises = exercises
     self.onSelectExercise = onSelectExercise
     self.onSeeMore = onSeeMore
@@ -47,8 +47,7 @@ struct RecommendationSection: View {
                   options: exercise.primaryMuscles,
                   content: {
                     SectionItemImage(imageURL: exercise.displayImageURL)
-                  }
-                )
+                  })
               })
               .buttonStyle(.plain)
             }
@@ -57,7 +56,6 @@ struct RecommendationSection: View {
         .shadow(radius: 1.2)
         .ignoresSafeArea()
         .scrollIndicators(.hidden)
-      }
-    )
+      })
   }
 }

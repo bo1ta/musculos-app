@@ -8,46 +8,46 @@
 
 import Foundation
 
-public extension Date {
-  static var yesterday: Date {
-    return Date().dayBefore
+extension Date {
+  public static var yesterday: Date {
+    Date().dayBefore
   }
 
-  static var tomorrow: Date {
-    return Date().dayAfter
+  public static var tomorrow: Date {
+    Date().dayAfter
   }
 
-  var dayBefore: Date {
-    return Calendar.current.date(byAdding: .day, value: -1, to: noon)!
+  public var dayBefore: Date {
+    Calendar.current.date(byAdding: .day, value: -1, to: noon)!
   }
 
-  var dayAfter: Date {
-    return Calendar.current.date(byAdding: .day, value: 1, to: noon)!
+  public var dayAfter: Date {
+    Calendar.current.date(byAdding: .day, value: 1, to: noon)!
   }
 
-  var noon: Date {
-    return Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: self)!
+  public var noon: Date {
+    Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: self)!
   }
 
-  var month: Int {
-    return Calendar.current.component(.month, from: self)
+  public var month: Int {
+    Calendar.current.component(.month, from: self)
   }
 
-  var day: Int {
+  public var day: Int {
     Calendar.current.component(.day, from: self)
   }
 
-  var isLastDayOfMonth: Bool {
-    return dayAfter.month != month
+  public var isLastDayOfMonth: Bool {
+    dayAfter.month != month
   }
 
-  func monthName() -> String {
+  public func monthName() -> String {
     let formatter = DateFormatter()
     formatter.dateFormat = "MMMM"
     return formatter.string(from: self)
   }
 
-  func dayName() -> String {
+  public func dayName() -> String {
     let formatter = DateFormatter()
     formatter.dateFormat = "EEEE"
     return formatter.string(from: self)

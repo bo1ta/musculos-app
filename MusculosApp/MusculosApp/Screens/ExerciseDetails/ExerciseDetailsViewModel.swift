@@ -18,6 +18,12 @@ import Utility
 @Observable
 @MainActor
 final class ExerciseDetailsViewModel {
+
+  // MARK: Dependencies
+
+  @ObservationIgnored
+  @Injected(\.toastManager) private var toastManager: ToastManager
+
   @ObservationIgnored
   @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
 
@@ -40,7 +46,7 @@ final class ExerciseDetailsViewModel {
 
   private(set) var showChallengeExercise = false
   private(set) var isTimerActive = false
-  private(set) var elapsedTime: Int = 0
+  private(set) var elapsedTime = 0
 
   var showInputDialog = false
   var showRatingDialog = false
@@ -49,7 +55,6 @@ final class ExerciseDetailsViewModel {
   var userRating = 0
   var exerciseRatings: [ExerciseRating] = []
   var inputWeight: Double = 0
-  var toast: Toast?
 
   var ratingAverage: Double {
     guard !exerciseRatings.isEmpty else {
@@ -66,11 +71,11 @@ final class ExerciseDetailsViewModel {
   }
 
   var isFavorite: Bool {
-    return exercise.isFavorite ?? false
+    exercise.isFavorite ?? false
   }
 
   private var currentUserID: UUID? {
-    return userManager.currentUserID
+    userManager.currentUserID
   }
 
   private var currentUserProfile: UserProfile? {
@@ -119,13 +124,20 @@ final class ExerciseDetailsViewModel {
     do {
       exerciseRatings = try await ratingRepository.getRatingsForExercise(exercise.id)
 
-      if let currentUserID = userManager.currentUserID, let userRating = exerciseRatings.first(where: { $0.userID == currentUserID })?.rating {
+      if
+        let currentUserID = userManager.currentUserID,
+        let userRating = exerciseRatings.first(where: { $0.userID == currentUserID })?.rating
+      {
         self.userRating = Int(userRating)
       }
     } catch {
       showErrorToast()
       Logger.error(error, message: "Could not load exercise ratings")
     }
+  }
+
+  private func showErrorToast() {
+    toastManager.showError("Oops! Something went wrong")
   }
 
   func handleSubmit() {
@@ -192,12 +204,16 @@ final class ExerciseDetailsViewModel {
 
   private func saveExerciseSession() {
     saveExerciseSessionTask = Task { [weak self] in
-      guard let self, let currentUserProfile = await self.currentUserProfile else {
+      guard let self, let currentUserProfile = await currentUserProfile else {
         return
       }
 
       do {
-        let exerciseSession = ExerciseSession(user: currentUserProfile, exercise: exercise, duration: Double(elapsedTime), weight: inputWeight)
+        let exerciseSession = ExerciseSession(
+          user: currentUserProfile,
+          exercise: exercise,
+          duration: Double(elapsedTime),
+          weight: inputWeight)
         let userExperience = try await exerciseSessionRepository.addSession(exerciseSession)
         await showUserExperience(userExperience)
 
@@ -221,10 +237,6 @@ final class ExerciseDetailsViewModel {
     withAnimation {
       showXPGainDialog = false
     }
-  }
-
-  private func showErrorToast() {
-    toast = .error("Oops! Something went wrong")
   }
 
   private func maybeUpdateGoals(for exerciseSession: ExerciseSession) async {

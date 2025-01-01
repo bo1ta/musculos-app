@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - Endpoint
+
 public enum Endpoint {
   case users(APIRoute.UsersRoute)
   case exercises(APIRoute.ExercisesRoute)
@@ -18,47 +20,50 @@ public enum Endpoint {
 
   public var path: String {
     switch self {
-    case let .users(route):
-      return "/users/\(route.path)"
-    case let .exercises(route):
-      return "/exercises/\(route.path)"
-    case let .exerciseSessions(route):
-      return "/exercise-session/\(route.path)"
-    case let .goals(route):
-      return "/goals/\(route.path)"
-    case let .templates(route):
-      return "/templates/\(route.path)"
-    case let .ratings(route):
-      return "/ratings/\(route.path)"
-    case let .images(route):
-      return "/images/\(route.path)"
+    case .users(let route):
+      "/users/\(route.path)"
+    case .exercises(let route):
+      "/exercises/\(route.path)"
+    case .exerciseSessions(let route):
+      "/exercise-session/\(route.path)"
+    case .goals(let route):
+      "/goals/\(route.path)"
+    case .templates(let route):
+      "/templates/\(route.path)"
+    case .ratings(let route):
+      "/ratings/\(route.path)"
+    case .images(let route):
+      "/images/\(route.path)"
     }
   }
 
   public var isAuthorizationRequired: Bool {
     switch self {
-    case let .users(endpoint):
+    case .users(let endpoint):
       switch endpoint {
       case .login, .register:
-        return false
+        false
       default:
-        return true
+        true
       }
+
     default:
-      return true
+      true
     }
   }
 }
+
+// MARK: - APIEndpoint
 
 public enum APIEndpoint {
   private static let base = "http://musclehustle.xyz:3000/api/v1"
   private static let publicBase = "http://musclehustle.xyz:3000"
 
   static func baseWithEndpoint(endpoint: Endpoint) -> URL? {
-    return URL(string: base + endpoint.path)
+    URL(string: base + endpoint.path)
   }
 
   static func baseWithPath(_ path: String) -> URL? {
-    return URL(string: publicBase + path)
+    URL(string: publicBase + path)
   }
 }

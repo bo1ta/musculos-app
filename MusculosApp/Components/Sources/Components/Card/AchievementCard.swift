@@ -11,7 +11,7 @@ import Utility
 public struct AchievementCard: View {
   let backgroundColor = AppColor.navyBlue
 
-  public init() {}
+  public init() { }
 
   public var body: some View {
     RoundedRectangle(cornerRadius: 10)

@@ -15,10 +15,10 @@ import Utility
 public actor GoalRepository: BaseRepository {
   @Injected(\NetworkContainer.goalService) private var service: GoalServiceProtocol
 
-  public init() {}
+  public init() { }
 
   public func getOnboardingGoals() async throws -> [OnboardingGoal] {
-    return try await service.getOnboardingGoals()
+    try await service.getOnboardingGoals()
   }
 
   public func addGoal(_ goal: Goal) async throws {
@@ -44,8 +44,8 @@ public actor GoalRepository: BaseRepository {
   }
 
   public func getGoals() async throws -> [Goal] {
-    guard let currentUserID = currentUserID else {
-      throw MusculosError.notFound
+    guard let currentUserID else {
+      throw MusculosError.unexpectedNil
     }
 
     guard !shouldUseLocalStorageForEntity(GoalEntity.self) else {
@@ -65,8 +65,7 @@ public actor GoalRepository: BaseRepository {
       targetValue: 15,
       endDate: nil,
       dateAdded: Date(),
-      user: user
-    )
+      user: user)
 
     async let localTask = coreDataStore.importModel(goal, of: GoalEntity.self)
     async let remoteTask = service.addGoal(goal)

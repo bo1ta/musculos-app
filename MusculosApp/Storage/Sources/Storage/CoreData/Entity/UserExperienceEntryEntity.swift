@@ -10,26 +10,32 @@ import CoreData
 import Foundation
 import Models
 
+// MARK: - UserExperienceEntryEntity
+
 @objc(UserExperienceEntryEntity)
 public class UserExperienceEntryEntity: NSManagedObject {
   @NSManaged public var modelID: UUID
   @NSManaged public var xpGained: NSNumber
   @NSManaged public var userExperience: UserExperienceEntity
 
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<UserExperienceEntryEntity> {
-    return NSFetchRequest<UserExperienceEntryEntity>(entityName: "UserExperienceEntryEntity")
+  @nonobjc
+  public class func fetchRequest() -> NSFetchRequest<UserExperienceEntryEntity> {
+    NSFetchRequest<UserExperienceEntryEntity>(entityName: "UserExperienceEntryEntity")
   }
 }
 
+// MARK: ReadOnlyConvertible
+
 extension UserExperienceEntryEntity: ReadOnlyConvertible {
   public func toReadOnly() -> UserExperienceEntry {
-    return UserExperienceEntry(
+    UserExperienceEntry(
       id: modelID,
       userExperience: userExperience.toReadOnly(),
-      xpGained: xpGained.intValue
-    )
+      xpGained: xpGained.intValue)
   }
 }
+
+// MARK: EntitySyncable
 
 extension UserExperienceEntryEntity: EntitySyncable {
   public func populateEntityFrom(_ model: UserExperienceEntry, using storage: any StorageType) {
@@ -38,15 +44,15 @@ extension UserExperienceEntryEntity: EntitySyncable {
 
     let userExperienceEntity = storage.findOrInsert(
       of: UserExperienceEntity.self,
-      using: PredicateProvider.userExperienceByID(model.userExperience.id)
-    )
+      using: PredicateProvider.userExperienceByID(model.userExperience.id))
     userExperienceEntity.populateEntityFrom(model.userExperience, using: storage)
 
-    if let currentUserID = StorageContainer.shared.userManager().currentUserID,
-       let userEntity = storage.firstObject(
-         of: UserProfileEntity.self,
-         matching: PredicateProvider.userProfileById(currentUserID)
-       ) {
+    if
+      let currentUserID = StorageContainer.shared.userManager().currentUserID,
+      let userEntity = storage.firstObject(
+        of: UserProfileEntity.self,
+        matching: PredicateProvider.userProfileById(currentUserID))
+    {
       userExperienceEntity.user = userEntity
     }
   }

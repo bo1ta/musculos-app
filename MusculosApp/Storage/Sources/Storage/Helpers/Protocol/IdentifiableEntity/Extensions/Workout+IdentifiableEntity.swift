@@ -9,7 +9,7 @@ import Foundation
 import Models
 
 extension Workout: IdentifiableEntity {
-  public static let identifierKey: String = "modelID"
+  public static let identifierKey = "modelID"
 
   public var identifierValue: UUID {
     id

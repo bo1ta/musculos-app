@@ -16,7 +16,8 @@ import Testing
 
 @Suite(.serialized)
 final class ExerciseServiceTests: MusculosTestBase {
-  @Test func getExercises() async throws {
+  @Test
+  func getExercises() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .exercises(.index)
@@ -32,7 +33,8 @@ final class ExerciseServiceTests: MusculosTestBase {
     #expect(exercises.count == 20)
   }
 
-  @Test func getFavoriteExercises() async throws {
+  @Test
+  func getFavoriteExercises() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .exercises(.favoriteExercises)
@@ -48,7 +50,8 @@ final class ExerciseServiceTests: MusculosTestBase {
     #expect(exercises.count == 20)
   }
 
-  @Test func getByWorkoutGoal() async throws {
+  @Test
+  func getByWorkoutGoal() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .exercises(.exercisesByGoals)
@@ -65,7 +68,8 @@ final class ExerciseServiceTests: MusculosTestBase {
     #expect(exercises.count == 20)
   }
 
-  @Test func getExerciseDetails() async throws {
+  @Test
+  func getExerciseDetails() async throws {
     let exerciseID = UUID()
 
     var stubClient = StubMusculosClient()
@@ -83,7 +87,8 @@ final class ExerciseServiceTests: MusculosTestBase {
     #expect(exercise.isFavorite == true)
   }
 
-  @Test func addExercise() async throws {
+  @Test
+  func addExercise() async throws {
     var stubClient = StubMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .exercises(.index)

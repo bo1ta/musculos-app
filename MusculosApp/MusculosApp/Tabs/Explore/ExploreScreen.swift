@@ -21,29 +21,36 @@ struct ExploreScreen: View {
       VStack(spacing: 20) {
         ExploreSearchSection(
           onFiltersTap: { navigator.navigate(to: ExploreDestinations.exerciseFilters) },
-          onSearchQuery: { viewModel.searchByMuscleQuery($0) }
-        )
+          onSearchQuery: { viewModel.searchByMuscleQuery($0) })
         FeaturedWorkoutsSection(onWorkoutGoalSelected: { navigator.navigate(to: ExploreDestinations.exerciseListByGoal($0)) })
         MusclesSection(onSelectedMuscle: { navigator.navigate(to: ExploreDestinations.exerciseListByMuscleGroup($0)) })
 
-        if !viewModel.recommendedExercisesByGoals.isEmpty {
+        if viewModel.showRecomendationsByGoals {
           RecommendationSection(
             exercises: viewModel.recommendedExercisesByGoals,
             onSelectExercise: navigateToExerciseDetails(_:),
-            onSeeMore: {}
-          )
-          .fixedSize(horizontal: false, vertical: true)
+            onSeeMore: { })
+            .fixedSize(horizontal: false, vertical: true)
         }
 
-        if !viewModel.recommendedExercisesByPastSessions.isEmpty {
-          ExerciseSectionView(title: "Recommendations from past sessions", exercises: viewModel.recommendedExercisesByGoals, onExerciseTap: navigateToExerciseDetails(_:))
+        if viewModel.showRecommendationsByPastSessions {
+          ExerciseSectionView(
+            title: "Recommendations from past sessions",
+            exercises: viewModel.recommendedExercisesByGoals,
+            onExerciseTap: navigateToExerciseDetails(_:))
         }
 
-        if !viewModel.favoriteExercises.isEmpty {
-          ExerciseSectionView(title: "My favorites", exercises: viewModel.favoriteExercises, onExerciseTap: navigateToExerciseDetails(_:))
+        if viewModel.showFavoriteExercises {
+          ExerciseSectionView(
+            title: "My favorites",
+            exercises: viewModel.favoriteExercises,
+            onExerciseTap: navigateToExerciseDetails(_:))
         }
 
-        ExerciseSectionView(title: "Featured exercises", exercises: viewModel.featuredExercises, onExerciseTap: navigateToExerciseDetails(_:))
+        ExerciseSectionView(
+          title: "Featured exercises",
+          exercises: viewModel.featuredExercises,
+          onExerciseTap: navigateToExerciseDetails(_:))
       }
       .padding()
       .padding(.bottom, 30)

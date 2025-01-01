@@ -23,6 +23,9 @@ final class HomeViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
 
+  @ObservationIgnored
+  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
+
   private var cancellables = Set<AnyCancellable>()
   private(set) var isLoading = false
   private(set) var challenges: [Challenge] = []
@@ -31,10 +34,16 @@ final class HomeViewModel {
   private(set) var errorMessage: String?
   private(set) var notificationTask: Task<Void, Never>?
 
+  var currentUser: UserProfile? {
+    userStore.currentUser
+  }
+
   private let coreNotificationHandler: CoreModelNotificationHandler
 
   init() {
-    coreNotificationHandler = CoreModelNotificationHandler(storageType: StorageContainer.shared.storageManager().writerDerivedStorage)
+    coreNotificationHandler = CoreModelNotificationHandler(
+      storageType: StorageContainer.shared.storageManager()
+        .writerDerivedStorage)
     coreNotificationHandler.eventPublisher
       .debounce(for: .milliseconds(700), scheduler: DispatchQueue.main)
       .sink { [weak self] event in

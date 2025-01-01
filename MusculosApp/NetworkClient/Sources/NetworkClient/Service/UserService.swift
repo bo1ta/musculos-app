@@ -9,12 +9,16 @@ import Factory
 import Foundation
 import Models
 
+// MARK: - UserServiceProtocol
+
 public protocol UserServiceProtocol: Sendable {
   func register(email: String, password: String, username: String) async throws -> UserSession
   func login(email: String, password: String) async throws -> UserSession
   func currentUser() async throws -> UserProfile
   func updateUser(weight: Int?, height: Int?, primaryGoalID: UUID?, level: String?, isOnboarded: Bool) async throws -> UserProfile
 }
+
+// MARK: - UserService
 
 public struct UserService: APIService, UserServiceProtocol, @unchecked Sendable {
   @Injected(\NetworkContainer.client) var client: MusculosClientProtocol
@@ -53,8 +57,9 @@ public struct UserService: APIService, UserServiceProtocol, @unchecked Sendable 
     height: Int? = nil,
     primaryGoalID: UUID? = nil,
     level: String? = nil,
-    isOnboarded: Bool = false
-  ) async throws -> UserProfile {
+    isOnboarded: Bool = false)
+    async throws -> UserProfile
+  {
     var request = APIRequest(method: .post, endpoint: .users(.updateProfile))
     request.body = [
       "isOnboarded": isOnboarded,

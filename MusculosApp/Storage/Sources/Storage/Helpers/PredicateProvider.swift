@@ -10,34 +10,30 @@ import Models
 
 public enum PredicateProvider {
   public static func favoriteExercise() -> NSPredicate {
-    return NSPredicate(
+    NSPredicate(
       format: "%K == true",
-      #keyPath(ExerciseEntity.isFavorite)
-    )
+      #keyPath(ExerciseEntity.isFavorite))
   }
 
   public static func exerciseById(_ id: UUID) -> NSPredicate {
-    return NSPredicate(
+    NSPredicate(
       format: "%K == %@",
       #keyPath(ExerciseEntity.exerciseId),
-      id as NSUUID
-    )
+      id as NSUUID)
   }
 
   public static func exerciseByName(_ name: String) -> NSPredicate {
-    return NSPredicate(
+    NSPredicate(
       format: "%K CONTAINS %@",
       #keyPath(ExerciseEntity.name),
-      name
-    )
+      name)
   }
 
   public static func userExperienceByID(_ id: UUID) -> NSPredicate {
-    return NSPredicate(
+    NSPredicate(
       format: "%K == %@",
       #keyPath(UserExperienceEntity.modelID),
-      id.uuidString
-    )
+      id.uuidString)
   }
 
   public static func exerciseByGoals(_ goals: [Goal]) -> NSPredicate? {
@@ -48,14 +44,17 @@ public enum PredicateProvider {
         let categoryPredicate = NSPredicate(
           format: "%K IN %@",
           #keyPath(ExerciseEntity.category),
-          categories
-        )
+          categories)
 
-        predicate = if predicate == nil {
-          categoryPredicate
-        } else {
-          NSCompoundPredicate(orPredicateWithSubpredicates: [predicate!, categoryPredicate]) // swiftlint:disable:this force_unwrapping
-        }
+        predicate =
+          if predicate == nil {
+            categoryPredicate
+          } else {
+            NSCompoundPredicate(orPredicateWithSubpredicates: [
+              predicate!, // swiftlint:disable:this force_unwrapping
+              categoryPredicate,
+            ])
+          }
       }
     }
 
@@ -63,61 +62,56 @@ public enum PredicateProvider {
   }
 
   public static func exerciseByCategories(_ categories: [String]) -> NSPredicate? {
-    return NSPredicate(
+    NSPredicate(
       format: "%K IN %@",
       #keyPath(ExerciseEntity.category),
-      categories
-    )
+      categories)
   }
 
   public static func musclesByIds(_ muscleIDs: [Int]) -> NSPredicate {
-    return NSPredicate(
+    NSPredicate(
       format: "%K IN %@",
       #keyPath(PrimaryMuscleEntity.muscleID),
-      muscleIDs
-    )
+      muscleIDs)
   }
 
   public static func userProfileByEmail(_ email: String) -> NSPredicate {
-    return NSPredicate(
+    NSPredicate(
       format: "%K == %@",
       #keyPath(UserProfileEntity.email),
-      email
-    )
+      email)
   }
 
   public static func userProfileById(_ id: UUID) -> NSPredicate {
-    return NSPredicate(
+    NSPredicate(
       format: "%K == %@",
       #keyPath(UserProfileEntity.userId),
-      id as NSUUID
-    )
+      id as NSUUID)
   }
 
   public static func exerciseSessionsBetweenDates(_ startDate: Date, endDate: Date) -> NSPredicate {
-    return NSPredicate(
+    NSPredicate(
       format: "dateAdded >= %@ AND dateAdded <= %@",
-      argumentArray: [startDate, endDate]
-    )
+      argumentArray: [startDate, endDate])
   }
 
   public static func exerciseSessionsForUser(_ userID: UUID) -> NSPredicate {
-    return NSPredicate(format: "user.userId == %@", userID.uuidString)
+    NSPredicate(format: "user.userId == %@", userID.uuidString)
   }
 
   public static func goalByID(_ id: UUID) -> NSPredicate {
-    return NSPredicate(format: "%K == %@", #keyPath(GoalEntity.goalID), id as NSUUID)
+    NSPredicate(format: "%K == %@", #keyPath(GoalEntity.goalID), id as NSUUID)
   }
 
   public static func exerciseRatingByID(_ id: UUID) -> NSPredicate {
-    return NSPredicate(format: "%K == %@", #keyPath(ExerciseRatingEntity.ratingID), id as NSUUID)
+    NSPredicate(format: "%K == %@", #keyPath(ExerciseRatingEntity.ratingID), id as NSUUID)
   }
 
   public static func progressEntryByID(_ id: UUID) -> NSPredicate {
-    return NSPredicate(format: "%K == %@", #keyPath(ProgressEntryEntity.progressID), id as NSUUID)
+    NSPredicate(format: "%K == %@", #keyPath(ProgressEntryEntity.progressID), id as NSUUID)
   }
 
   public static func workoutByID(_ id: UUID) -> NSPredicate {
-    return NSPredicate(format: "%K == %@", #keyPath(WorkoutEntity.modelID), id as NSUUID)
+    NSPredicate(format: "%K == %@", #keyPath(WorkoutEntity.modelID), id as NSUUID)
   }
 }

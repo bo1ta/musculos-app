@@ -9,8 +9,7 @@ let package = Package(
   products: [
     .library(
       name: "Utility",
-      targets: ["Utility"]
-    ),
+      targets: ["Utility"]),
   ],
   dependencies: [
     .package(url: "https://github.com/SwiftyBeaver/SwiftyBeaver.git", .upToNextMajor(from: "2.0.0")),
@@ -20,7 +19,5 @@ let package = Package(
       name: "Utility",
       dependencies: [
         "SwiftyBeaver",
-      ]
-    ),
-  ]
-)
+      ]),
+  ])

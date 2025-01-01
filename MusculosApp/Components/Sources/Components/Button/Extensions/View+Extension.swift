@@ -8,40 +8,43 @@
 import Shimmer
 import SwiftUI
 
-public extension View {
-  func defaultShimmering(active: Bool = true) -> some View {
+extension View {
+  public func defaultShimmering(active: Bool = true) -> some View {
     shimmering(
       active: active,
       gradient: Gradient(
         colors: [
           .white,
           .white.opacity(0.8),
-        ]
-      )
-    )
+        ]))
   }
 }
 
 // MARK: - View Modifiers
 
-public extension View {
-  func withKeyboardDismissingOnTap() -> some View {
+extension View {
+  public func withKeyboardDismissingOnTap() -> some View {
     modifier(KeyboardDismissableViewModifier())
   }
 
-  func animatedScreenBorder(isActive: Bool) -> some View {
+  public func animatedScreenBorder(isActive: Bool) -> some View {
     modifier(AnimatedScreenBordersModifier(isActive: isActive))
   }
 
-  func toastView(toast: Binding<Toast?>) -> some View {
+  public func toastView(toast: Binding<Toast?>) -> some View {
     modifier(ToastViewModifier(toast: toast))
   }
 }
 
 // MARK: - Dismiss Gesture
 
-public extension View {
-  func dismissingGesture(tolerance: Double = 24, direction: DragGesture.Value.Direction, action: @MainActor @escaping () -> Void) -> some View {
+extension View {
+  public func dismissingGesture(
+    tolerance: Double = 24,
+    direction: DragGesture.Value.Direction,
+    action: @MainActor @escaping () -> Void)
+    -> some View
+  {
     gesture(
       DragGesture()
         .onEnded { value in
@@ -49,13 +52,12 @@ public extension View {
           if swipeDirection == direction {
             action()
           }
-        }
-    )
+        })
   }
 }
 
-public extension DragGesture.Value {
-  func detectDirection(_ tolerance: Double = 24) -> Direction? {
+extension DragGesture.Value {
+  public func detectDirection(_ tolerance: Double = 24) -> Direction? {
     if startLocation.x < location.x - tolerance {
       return .left
     }
@@ -75,7 +77,7 @@ public extension DragGesture.Value {
     return nil
   }
 
-  enum Direction {
+  public enum Direction {
     case left
     case right
     case up // swiftlint:disable:this identifier_name

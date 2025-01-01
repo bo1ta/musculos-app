@@ -22,8 +22,8 @@ public struct ChallengeCard: View {
     level: String,
     icon: Image? = nil,
     iconColor: Color = .white,
-    cardColor: Color = .blue
-  ) {
+    cardColor: Color = .blue)
+  {
     self.label = label
     self.subLabel = subLabel
     self.level = level

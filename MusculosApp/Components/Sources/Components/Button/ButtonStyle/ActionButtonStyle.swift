@@ -30,14 +30,14 @@ public struct ActionButtonStyle: ButtonStyle {
 
   private var buttonColor: Color {
     switch actionType {
-    case .positive: return AppColor.navyBlue
-    case .negative: return .red
+    case .positive: AppColor.navyBlue
+    case .negative: .red
     }
   }
 }
 
 #Preview {
-  Button(action: {}, label: {
+  Button(action: { }, label: {
     Text("Click me")
   })
   .buttonStyle(ActionButtonStyle())

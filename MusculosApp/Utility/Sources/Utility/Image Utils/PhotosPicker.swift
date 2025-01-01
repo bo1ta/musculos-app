@@ -10,6 +10,8 @@ import PhotosUI
 import SwiftUI
 import UIKit
 
+// MARK: - PhotosPicker
+
 public struct PhotosPicker: UIViewControllerRepresentable {
   @Binding var assets: [PhotoModel]
 
@@ -27,13 +29,13 @@ public struct PhotosPicker: UIViewControllerRepresentable {
     return picker
   }
 
-  public func updateUIViewController(_: PHPickerViewController, context _: Context) {}
+  public func updateUIViewController(_: PHPickerViewController, context _: Context) { }
 }
 
 // MARK: - Coordinator
 
-public extension PhotosPicker {
-  class Coordinator: NSObject, PHPickerViewControllerDelegate {
+extension PhotosPicker {
+  public class Coordinator: NSObject, PHPickerViewControllerDelegate {
     var parent: PhotosPicker
 
     var pickerTask: Task<Void, Never>?
@@ -60,7 +62,7 @@ public extension PhotosPicker {
     }
 
     func imageStreamFrom(results: [PHPickerResult]) -> AsyncStream<UIImage> {
-      return AsyncStream(UIImage.self) { continuation in
+      AsyncStream(UIImage.self) { continuation in
         let totalResults = results.count
 
         for (index, result) in results.enumerated() {
@@ -87,12 +89,12 @@ public extension PhotosPicker {
     }
   }
 
-  func makeCoordinator() -> Coordinator {
+  public func makeCoordinator() -> Coordinator {
     Coordinator(self)
   }
 }
 
-// MARK: - Helpers
+// MARK: - PhotoModel
 
 public struct PhotoModel: Identifiable {
   public let id: UUID

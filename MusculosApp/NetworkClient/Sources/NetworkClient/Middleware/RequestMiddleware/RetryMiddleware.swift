@@ -19,31 +19,27 @@ struct RetryMiddleware: RequestMiddleware {
     self.retryDelay = retryDelay
   }
 
-  func intercept(request: APIRequest, proceed: @Sendable @escaping (APIRequest) async throws -> (Data, URLResponse)) async throws -> (Data, URLResponse) {
+  func intercept(
+    request: APIRequest,
+    proceed: @Sendable @escaping (APIRequest) async throws -> (Data, URLResponse))
+    async throws -> (Data, URLResponse)
+  {
     try await retrying(maxRetryCount: maxRetryCount, retryDelay: retryDelay, shouldRetry: shouldRetry) {
       try await proceed(request)
     }
   }
 
   private func shouldRetry(_ error: Error) -> Bool {
-    guard let error = error as? MusculosError else {
-      return false
-    }
-
-    switch error {
-    case .badRequest, .notFound:
-      return true
-    default:
-      return false
-    }
+    MusculosError.isRetryableError(error)
   }
 
   private func retrying<Success>(
     maxRetryCount: Int = 3,
     retryDelay: TimeInterval = 1,
     shouldRetry: @Sendable @escaping (Error) -> Bool,
-    operation: @Sendable @escaping () async throws -> Success
-  ) async throws -> Success {
+    operation: @Sendable @escaping () async throws -> Success)
+    async throws -> Success
+  {
     var currentDelay = retryDelay
 
     for attempt in 0 ..< maxRetryCount {

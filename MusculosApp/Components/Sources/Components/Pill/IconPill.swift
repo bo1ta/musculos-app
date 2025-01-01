@@ -8,13 +8,17 @@
 import SwiftUI
 import Utility
 
+// MARK: - IconPillSize
+
 public enum IconPillSize {
   case small, medium, large
 }
 
+// MARK: - IconPill
+
 public struct IconPill: View {
   private let option: IconPillOption
-  private let iconPillSize: IconPillSize = .small
+  private let iconPillSize = IconPillSize.small
   private let backgroundColor: Color
 
   public init(option: IconPillOption, backgroundColor: Color = .black) {
@@ -32,7 +36,7 @@ public struct IconPill: View {
   }
 
   private var fontSizeWidth: CGFloat {
-    return option.title.widthOfString(usingFont: .systemFont(ofSize: 12))
+    option.title.widthOfString(usingFont: .systemFont(ofSize: 12))
   }
 
   private var rectangleWidth: CGFloat {

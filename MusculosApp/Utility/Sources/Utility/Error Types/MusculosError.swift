@@ -7,72 +7,33 @@
 
 import Foundation
 
+// MARK: - MusculosError
+
 public enum MusculosError: LocalizedError, CustomStringConvertible {
-  case invalidRequest, badRequest, unauthorized, forbidden, notFound, serverError, decodingError, unknownError
+  case networkError(NetworkError)
+  case decodingError
+  case unknownError
   case cancelled
   case offline
-  case error4xx(_ code: Int)
-  case error5xx(_ code: Int)
-  case urlSessionFailed(_ error: URLError)
+  case unexpectedNil
 
   public var description: String {
     switch self {
-    case .invalidRequest:
-      return "Invalid request"
-    case .badRequest:
-      return "Bad request"
-    case .unauthorized:
-      return "Unauthorized"
-    case .forbidden:
-      return "Forbidden"
-    case .notFound:
-      return "Not found"
-    case let .error4xx(code):
-      return "Client error: \(code)"
-    case .serverError:
-      return "Server error"
-    case let .error5xx(code):
-      return "Server error: \(code)"
-    case .decodingError:
-      return "Decoding error"
-    case let .urlSessionFailed(error):
-      return "URL session failed: \(error.localizedDescription)"
-    case .unknownError:
-      return "Unknown error"
-    case .cancelled:
-      return "Cancelled"
-    case .offline:
-      return "Offline"
-    }
-  }
-
-  public static func httpError(_ statusCode: Int) -> MusculosError {
-    switch statusCode {
-    case 400:
-      return .badRequest
-    case 401:
-      return .unauthorized
-    case 403:
-      return .forbidden
-    case 404:
-      return .notFound
-    case 402, 405 ... 499:
-      return .error4xx(statusCode)
-    case 500:
-      return .serverError
-    case 501 ... 599:
-      return .error5xx(statusCode)
-    default:
-      return .unknownError
+    case .networkError(let networkError): networkError.description
+    case .decodingError: "Decoding error"
+    case .unknownError: "Unknown error"
+    case .cancelled: "Cancelled"
+    case .offline: "Offline"
+    case .unexpectedNil: "Unexpected nil"
     }
   }
 
   public static func isRetryableError(_ error: Error) -> Bool {
-    guard let error = error as? MusculosError else {
+    guard let error = error as? MusculosError.NetworkError else {
       return false
     }
     switch error {
-    case .badRequest, .unauthorized, .forbidden, .notFound:
+    case .badRequest, .notFound:
       return true
     default:
       return false
@@ -80,8 +41,67 @@ public enum MusculosError: LocalizedError, CustomStringConvertible {
   }
 }
 
+// MARK: MusculosError.NetworkError
+
+extension MusculosError {
+  public enum NetworkError: LocalizedError, CustomStringConvertible, Equatable {
+    case unknownError
+    case notFound
+    case invalidRequest
+    case badRequest
+    case unauthorized
+    case forbidden
+    case serverError
+    case error4xx(_ code: Int)
+    case error5xx(_ code: Int)
+    case urlSessionFailed(_ error: URLError)
+
+    public var description: String {
+      switch self {
+      case .unknownError: "Unknown error"
+      case .notFound: "Not found"
+      case .invalidRequest: "Invalid request"
+      case .badRequest: "Bad request"
+      case .unauthorized: "Unauthorized"
+      case .forbidden: "Forbidden"
+      case .error4xx(let code): "Client error: \(code)"
+      case .serverError: "Server error"
+      case .error5xx(let code): "Server error: \(code)"
+      case .urlSessionFailed(let error): "URL session failed: \(error.localizedDescription)"
+      }
+    }
+
+    public static func ==(lhs: NetworkError, rhs: NetworkError) -> Bool {
+      lhs.description == rhs.description
+    }
+
+    public static func httpError(_ statusCode: Int) -> NetworkError {
+      switch statusCode {
+      case 400:
+        .badRequest
+      case 401:
+        .unauthorized
+      case 403:
+        .forbidden
+      case 404:
+        .notFound
+      case 402, 405 ... 499:
+        .error4xx(statusCode)
+      case 500:
+        .serverError
+      case 501 ... 599:
+        .error5xx(statusCode)
+      default:
+        .unknownError
+      }
+    }
+  }
+}
+
+// MARK: Equatable
+
 extension MusculosError: Equatable {
-  public static func == (lhs: MusculosError, rhs: MusculosError) -> Bool {
-    return lhs.description == rhs.description
+  public static func ==(lhs: MusculosError, rhs: MusculosError) -> Bool {
+    lhs.description == rhs.description
   }
 }

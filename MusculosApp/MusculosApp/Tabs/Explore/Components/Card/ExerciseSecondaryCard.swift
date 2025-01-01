@@ -50,12 +50,13 @@ struct ExerciseSecondaryCard: View {
     if let imageUrl = exercise.displayImageURL {
       AsyncCachedImage(url: imageUrl, content: { imagePhase in
         switch imagePhase {
-        case let .success(image):
+        case .success(let image):
           image
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: 250, height: 140)
             .clipShape(RoundedRectangle(cornerRadius: 20))
+
         default:
           Color.gray
             .frame(width: 250, height: 140)

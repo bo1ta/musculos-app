@@ -9,14 +9,16 @@ import Foundation
 
 private let exponentialBackoff = 2.0
 
-public extension Task {
-  @discardableResult static func retrying(
+extension Task {
+  @discardableResult
+  public static func retrying(
     priority: TaskPriority? = nil,
     maxRetryCount: Int = 3,
     retryDelay: TimeInterval = 1,
     shouldRetry: @Sendable @escaping (Error) -> Bool = { _ in true },
-    operation: @Sendable @escaping () async throws -> Success
-  ) -> Task<Success, Error> {
+    operation: @Sendable @escaping () async throws -> Success)
+    -> Task<Success, Error>
+  {
     Task<Success, Error>(priority: priority) {
       var currentDelay = retryDelay
 

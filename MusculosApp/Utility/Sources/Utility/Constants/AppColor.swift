@@ -8,8 +8,10 @@
 import Foundation
 import SwiftUI
 
-public extension Color {
-  enum AppColor {
+// MARK: - Color.AppColor
+
+extension Color {
+  public enum AppColor {
     public static let blue100 = Color("Blue100")
     public static let blue200 = Color("Blue200")
     public static let blue300 = Color("Blue300")
@@ -32,6 +34,8 @@ public extension Color {
   }
 }
 
+// MARK: - AppColor
+
 public enum AppColor {
   public static let brightOrange = Color(hex: "FBC12E")
   public static let lightBrown = Color(hex: "F18184")
@@ -42,6 +46,5 @@ public enum AppColor {
   public static let orangeGradient = LinearGradient(
     gradient: Gradient(colors: [.orange, .red]),
     startPoint: .topLeading,
-    endPoint: .bottomTrailing
-  )
+    endPoint: .bottomTrailing)
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension TimeInterval {
-  static var oneHour: TimeInterval { 60 * 60 }
-  static var oneDay: TimeInterval { oneHour * 24 }
+extension TimeInterval {
+  public static var oneHour: TimeInterval { 60 * 60 }
+  public static var oneDay: TimeInterval { oneHour * 24 }
 }

@@ -20,8 +20,8 @@ public struct ActionButton: View {
     buttonSize: ButtonSize = .medium,
     title: String,
     systemImageName: String? = nil,
-    onClick: @escaping () -> Void
-  ) {
+    onClick: @escaping () -> Void)
+  {
     self.actionType = actionType
     self.buttonSize = buttonSize
     self.title = title
@@ -58,6 +58,5 @@ public struct ActionButton: View {
   ActionButton(
     title: "Start workout",
     systemImageName: "arrow.up.right",
-    onClick: {}
-  )
+    onClick: { })
 }

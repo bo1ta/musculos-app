@@ -25,11 +25,10 @@ struct ExerciseSectionView: View {
     ContentSectionWithHeaderAndButton(
       headerTitle: title,
       buttonTitle: "See more",
-      onAction: {},
+      onAction: { },
       content: {
         ExerciseCardsStack(exercises: exercises, onTapExercise: onExerciseTap)
           .shadow(radius: 1.0)
-      }
-    )
+      })
   }
 }

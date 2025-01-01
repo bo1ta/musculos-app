@@ -14,16 +14,22 @@ public protocol StorageType {
   /// Returns all of the available objects given a Type
   /// Matching the predicate and sorted with a given collection (if needed)
   ///
-  func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T]
+  func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?)
+    -> [T]
 
   /// Returns all of the available objects given a Type
   /// Matching the predicate and prefetching a given key path
   ///
-  func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, relationshipKeyPathsForPrefetching: [String]) -> [T]
+  func allObjects<T: Object>(ofType type: T.Type, matching predicate: NSPredicate?, relationshipKeyPathsForPrefetching: [String])
+    -> [T]
 
   /// Returns objects with a given limit count
   ///
-  func allObjects<T: Object>(ofType type: T.Type, fetchLimit: Int, matching predicate: NSPredicate?, sortedBy descriptors: [NSSortDescriptor]?) -> [T]
+  func allObjects<T: Object>(
+    ofType type: T.Type,
+    fetchLimit: Int,
+    matching predicate: NSPredicate?,
+    sortedBy descriptors: [NSSortDescriptor]?) -> [T]
 
   /// Returns the count of all available objects, given a Type
   ///
@@ -88,6 +94,5 @@ public protocol StorageType {
   func createFetchedResultsController<ResultType>(
     fetchRequest: NSFetchRequest<ResultType>,
     sectionNameKeyPath: String?,
-    cacheName: String?
-  ) -> NSFetchedResultsController<ResultType>
+    cacheName: String?) -> NSFetchedResultsController<ResultType>
 }

@@ -24,8 +24,8 @@ public struct FormField: View {
     textHint: String? = nil,
     keyboardType: UIKeyboardType = .default,
     isSecureField: Bool = false,
-    imageIcon: Image? = nil
-  ) {
+    imageIcon: Image? = nil)
+  {
     self.text = text
     self.label = label
     self.labelColor = labelColor
@@ -48,9 +48,7 @@ public struct FormField: View {
           LinearGradient(
             gradient: Gradient(colors: [Color.white, Color.white.opacity(0.9)]),
             startPoint: .top,
-            endPoint: .bottom
-          )
-        )
+            endPoint: .bottom))
         .shadow(color: .gray.opacity(0.3), radius: 3)
         .frame(maxWidth: .infinity)
         .frame(height: 40)
@@ -95,6 +93,5 @@ public struct FormField: View {
     label: "Username",
     labelColor: .indigo,
     keyboardType: .decimalPad,
-    imageIcon: Image("search-icon")
-  )
+    imageIcon: Image("search-icon"))
 }

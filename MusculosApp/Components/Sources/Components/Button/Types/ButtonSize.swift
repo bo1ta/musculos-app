@@ -14,9 +14,9 @@ public enum ButtonSize {
 
   public var labelPadding: CGFloat {
     switch self {
-    case .small: return 10
-    case .medium: return 13
-    case .large: return 17
+    case .small: 10
+    case .medium: 13
+    case .large: 17
     }
   }
 }

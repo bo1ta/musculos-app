@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - ProgressEntry
+
 public struct ProgressEntry: Codable, Sendable {
   public let progressID: UUID
   public let dateAdded: Date
@@ -20,6 +22,8 @@ public struct ProgressEntry: Codable, Sendable {
     self.goal = goal
   }
 }
+
+// MARK: Hashable
 
 extension ProgressEntry: Hashable {
   public func hash(into hasher: inout Hasher) {

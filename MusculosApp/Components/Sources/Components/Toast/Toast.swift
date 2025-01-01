@@ -8,40 +8,40 @@
 import Foundation
 import SwiftUI
 
+// MARK: - Toast
+
 public struct Toast: Equatable, Sendable {
   public var style: ToastStyle
   public var message: String
-  public var duration: Double
   public var width: Double
 
-  public init(style: ToastStyle, message: String, duration: Double = 1.5, width: Double = .infinity) {
+  public init(style: ToastStyle, message: String, width: Double = .infinity) {
     self.style = style
     self.message = message
-    self.duration = duration
     self.width = width
   }
 
   public static func warning(_ message: String) -> Toast {
-    return Toast(style: .warning, message: message)
+    Toast(style: .warning, message: message)
   }
 
   public static func error(_ message: String) -> Toast {
-    return Toast(style: .error, message: message)
+    Toast(style: .error, message: message)
   }
 
   public static func success(_ message: String) -> Toast {
-    return Toast(style: .success, message: message)
+    Toast(style: .success, message: message)
   }
 
   public static func info(_ message: String) -> Toast {
-    return Toast(style: .info, message: message)
+    Toast(style: .info, message: message)
   }
 }
 
-// MARK: - Toast Style
+// MARK: Toast.ToastStyle
 
-public extension Toast {
-  enum ToastStyle: Sendable {
+extension Toast {
+  public enum ToastStyle: Sendable {
     case success, info, warning, error
 
     var borderColor: Color {

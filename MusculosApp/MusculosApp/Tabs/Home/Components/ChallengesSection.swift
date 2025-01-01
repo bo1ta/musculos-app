@@ -10,6 +10,8 @@ import Models
 import SwiftUI
 import Utility
 
+// MARK: - ChallengesSection
+
 struct ChallengesSection: View {
   var body: some View {
     ContentSectionWithHeader(
@@ -17,16 +19,19 @@ struct ChallengesSection: View {
       content: {
         HStack {
           ForEach(ChallengeType.allCases, id: \.rawValue) { challengeType in
-            ChallengeCard(label: challengeType.title, level: "expert", icon: Image(challengeType.imageName), cardColor: challengeType.color)
+            ChallengeCard(
+              label: challengeType.title,
+              level: "expert",
+              icon: Image(challengeType.imageName),
+              cardColor: challengeType.color)
           }
           .padding([.horizontal], 5)
         }
-      }
-    )
+      })
   }
 }
 
-// MARK: - Challenge Type
+// MARK: ChallengesSection.ChallengeType
 
 extension ChallengesSection {
   private enum ChallengeType: Int, CaseIterable {
@@ -38,39 +43,39 @@ extension ChallengesSection {
     var imageName: String {
       switch self {
       case .pushups:
-        return "stickman-push-ups"
+        "stickman-push-ups"
       case .squats:
-        return "stickman-squats"
+        "stickman-squats"
       case .crunches:
-        return "stickman-crunches"
+        "stickman-crunches"
       case .stretching:
-        return "stickman-stretching"
+        "stickman-stretching"
       }
     }
 
     var title: String {
       switch self {
       case .pushups:
-        return "Push-ups"
+        "Push-ups"
       case .squats:
-        return "Squats"
+        "Squats"
       case .crunches:
-        return "Crunches"
+        "Crunches"
       case .stretching:
-        return "Stretching"
+        "Stretching"
       }
     }
 
     var color: Color {
       switch self {
       case .pushups:
-        return .red
+        .red
       case .squats:
-        return .blue
+        .blue
       case .crunches:
-        return .green
+        .green
       case .stretching:
-        return .orange
+        .orange
       }
     }
   }

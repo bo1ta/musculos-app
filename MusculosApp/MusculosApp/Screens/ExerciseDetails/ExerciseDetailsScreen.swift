@@ -30,7 +30,10 @@ struct ExerciseDetailsScreen: View {
     .onDisappear(perform: viewModel.cleanUp)
     .frame(alignment: .top)
     .safeAreaInset(edge: .bottom) {
-      ExerciseDetailsButton(elapsedTime: viewModel.elapsedTime, isTimerActive: viewModel.isTimerActive, onClick: viewModel.handleSubmit)
+      ExerciseDetailsButton(
+        elapsedTime: viewModel.elapsedTime,
+        isTimerActive: viewModel.isTimerActive,
+        onClick: viewModel.handleSubmit)
     }
     .sheet(isPresented: $viewModel.showInputDialog, content: {
       SelectWeightSheet(weight: $viewModel.inputWeight, onSubmit: viewModel.startTimer)
@@ -40,8 +43,7 @@ struct ExerciseDetailsScreen: View {
       isPresented: $viewModel.showRatingDialog,
       title: "Rate exercise",
       rating: $viewModel.userRating,
-      onSave: viewModel.saveRating(_:)
-    )
+      onSave: viewModel.saveRating(_:))
     .modifier(XPGainViewModifier(showView: viewModel.showXPGainDialog, xpGained: viewModel.currentXPGain))
     .animatedScreenBorder(isActive: viewModel.isTimerActive)
     .dismissingGesture(direction: .left, action: { navigator.pop() })
@@ -52,6 +54,5 @@ struct ExerciseDetailsScreen: View {
 
 #Preview {
   ExerciseDetailsScreen(
-    exercise: ExerciseFactory.createExercise(isFavorite: true)
-  )
+    exercise: ExerciseFactory.createExercise(isFavorite: true))
 }

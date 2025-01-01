@@ -35,8 +35,7 @@ public class ExerciseFactory: BaseFactory, @unchecked Sendable {
       secondaryMuscles: secondaryMuscles ?? [MuscleType.biceps.rawValue],
       instructions: instructions ?? ["Step 1", "Step 2"],
       imageUrls: imageUrls ?? [faker.internet.url()],
-      isFavorite: isFavorite ?? false
-    )
+      isFavorite: isFavorite ?? false)
     syncObject(exercise, of: ExerciseEntity.self)
     return exercise
   }

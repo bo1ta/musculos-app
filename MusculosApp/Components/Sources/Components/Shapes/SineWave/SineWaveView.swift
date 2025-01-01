@@ -12,9 +12,6 @@ public struct SineWaveView: View {
   @State private var amplitude: CGFloat = 0
   @State private var frequency: CGFloat = 0
 
-  private let fluctuationAmount: CGFloat = 1.2
-  private let bufferAmount: CGFloat = 0.05
-
   let waveCount: Int
   @Binding var waveSize: CGFloat
   let baseAmplitude: CGFloat
@@ -36,8 +33,8 @@ public struct SineWaveView: View {
     baseWaveColor: Color? = nil,
     waveColors: [Color]? = [.white],
     isAnimated: Bool = true,
-    animationDuration: Double = 5.0
-  ) {
+    animationDuration: Double = 5.0)
+  {
     self.waveCount = waveCount
     _waveSize = waveSize
     self.baseAmplitude = baseAmplitude
@@ -62,10 +59,9 @@ public struct SineWaveView: View {
           amplitude: randomizeAmplitude(amplitude),
           frequency: baseFrequency,
           offset: getWaveOffset(for: index),
-          wavePosition: wavePosition
-        )
-        .fill(getWaveColor(for: index))
-        .drawingGroup()
+          wavePosition: wavePosition)
+          .fill(getWaveColor(for: index))
+          .drawingGroup()
       }
     }
     .transition(.slide)
@@ -89,7 +85,7 @@ public struct SineWaveView: View {
   }
 
   private func randomizeAmplitude(_ base: CGFloat) -> CGFloat {
-    return base * CGFloat.random(in: 0.8 ... 1.2)
+    base * CGFloat.random(in: 0.8 ... 1.2)
   }
 
   private func getWaveOffset(for index: Int) -> CGFloat {

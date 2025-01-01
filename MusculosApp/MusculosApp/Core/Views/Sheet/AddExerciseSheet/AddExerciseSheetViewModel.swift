@@ -17,11 +17,19 @@ import Utility
 @Observable
 @MainActor
 final class AddExerciseSheetViewModel {
+
+  // MARK: Dependencies
+
+  @ObservationIgnored
+  @Injected(\.toastManager) private var toastManager: ToastManager
+
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
 
   @ObservationIgnored
   @Injected(\NetworkContainer.imageService) private var imageService: ImageServiceProtocol
+
+  // MARK: Public
 
   var exerciseName = ""
   var equipment = ""
@@ -37,7 +45,6 @@ final class AddExerciseSheetViewModel {
   var showEquipmentOptions = true
   var pickedPhotos: [PhotoModel] = []
   var showPhotoPicker = false
-  var toast: Toast?
 
   private(set) var saveExerciseTask: Task<Void, Never>?
 
@@ -56,25 +63,9 @@ final class AddExerciseSheetViewModel {
       !category.isEmpty
   }
 
-  private func uploadImages() async -> [String] {
-    var results = [String]()
-
-    let images = pickedPhotos.map { $0.image }
-    for image in images {
-      do {
-        let imageURL = try await imageService.uploadImage(image: image)
-        results.append(imageURL.absoluteString)
-      } catch {
-        Logger.error(error, message: "Error uploading image.")
-      }
-    }
-
-    return results
-  }
-
   func saveExercise() {
     guard isExerciseValid else {
-      toast = .warning("Cannot save exercise with empty fields")
+      toastManager.showWarning("Cannot save exercise with empty fields")
       return
     }
 
@@ -94,17 +85,32 @@ final class AddExerciseSheetViewModel {
         primaryMuscles: targetMuscles,
         secondaryMuscles: [],
         instructions: instructionsString,
-        imageUrls: imageUrls
-      )
+        imageUrls: imageUrls)
 
       do {
         try await exerciseRepository.addExercise(exercise)
         didSaveSubject.send(())
       } catch {
-        toast = .error("Cannot save exercise with empty fields")
+        toastManager.showError("Cannot save exercise with empty fields")
         Logger.error(error, message: "Could not save exercise")
       }
     }
+  }
+
+  private func uploadImages() async -> [String] {
+    var results = [String]()
+
+    let images = pickedPhotos.map { $0.image }
+    for image in images {
+      do {
+        let imageURL = try await imageService.uploadImage(image: image)
+        results.append(imageURL.absoluteString)
+      } catch {
+        Logger.error(error, message: "Error uploading image.")
+      }
+    }
+
+    return results
   }
 
   func onDisappear() {

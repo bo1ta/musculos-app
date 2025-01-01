@@ -9,16 +9,23 @@ import Combine
 import Foundation
 import Utility
 
+// MARK: - MusculosClientProtocol
+
 public protocol MusculosClientProtocol: Sendable {
-  @discardableResult func dispatch(_ request: APIRequest) async throws -> Data
+  @discardableResult
+  func dispatch(_ request: APIRequest) async throws -> Data
 }
+
+// MARK: - MusculosClient
 
 public struct MusculosClient: MusculosClientProtocol {
   private let pipeline: MiddlewarePipeline
 
   private let urlSession: URLSession = {
     let urlSession = URLSession(configuration: .default)
-    urlSession.configuration.urlCache = URLCache(memoryCapacity: CacheCapacity.cacheMemoryCapacity, diskCapacity: CacheCapacity.cacheDiskCapacity)
+    urlSession.configuration.urlCache = URLCache(
+      memoryCapacity: CacheCapacity.cacheMemoryCapacity,
+      diskCapacity: CacheCapacity.cacheDiskCapacity)
     urlSession.configuration.requestCachePolicy = .useProtocolCachePolicy
     return urlSession
   }()
@@ -34,7 +41,9 @@ public struct MusculosClient: MusculosClientProtocol {
   }
 }
 
+// MARK: - CacheCapacity
+
 private enum CacheCapacity {
-  static let cacheMemoryCapacity: Int = 25 * 1024 * 1024 // 25mb
-  static let cacheDiskCapacity: Int = 50 * 1024 * 1024 // 50mb
+  static let cacheMemoryCapacity = 25 * 1024 * 1024 // 25mb
+  static let cacheDiskCapacity = 50 * 1024 * 1024 // 50mb
 }

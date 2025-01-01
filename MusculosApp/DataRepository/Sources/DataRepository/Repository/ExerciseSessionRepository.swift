@@ -16,8 +16,8 @@ public actor ExerciseSessionRepository: BaseRepository {
   @Injected(\NetworkContainer.exerciseSessionService) private var service: ExerciseSessionServiceProtocol
 
   public func getExerciseSessions() async throws -> [ExerciseSession] {
-    guard let currentUserID = currentUserID else {
-      throw MusculosError.notFound
+    guard let currentUserID else {
+      throw MusculosError.unexpectedNil
     }
 
     guard await !shouldUseLocalStorageForEntity(ExerciseSessionEntity.self) else {
@@ -31,21 +31,21 @@ public actor ExerciseSessionRepository: BaseRepository {
 
   public func getRecommendationsForLeastWorkedMuscles() async throws -> [Exercise] {
     guard let userID = currentUserID else {
-      throw MusculosError.notFound
+      throw MusculosError.unexpectedNil
     }
     return await coreDataStore.exerciseRecommendationsByHistory(for: userID)
   }
 
   public func getCompletedSinceLastWeek() async throws -> [ExerciseSession] {
     guard let userID = currentUserID else {
-      throw MusculosError.notFound
+      throw MusculosError.unexpectedNil
     }
     return await coreDataStore.exerciseSessionsCompletedSinceLastWeek(for: userID)
   }
 
   public func getCompletedToday() async throws -> [ExerciseSession] {
     guard let userID = currentUserID else {
-      throw MusculosError.notFound
+      throw MusculosError.unexpectedNil
     }
     return await coreDataStore.exerciseSessionCompletedToday(for: userID)
   }

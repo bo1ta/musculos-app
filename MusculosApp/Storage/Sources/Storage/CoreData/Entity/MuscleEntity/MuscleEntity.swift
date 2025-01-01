@@ -14,7 +14,8 @@ public class MuscleEntity: NSManagedObject {
   @NSManaged public var muscleID: NSNumber
   @NSManaged public var name: String
 
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<MuscleEntity> {
-    return NSFetchRequest<MuscleEntity>(entityName: "MuscleEntity")
+  @nonobjc
+  public class func fetchRequest() -> NSFetchRequest<MuscleEntity> {
+    NSFetchRequest<MuscleEntity>(entityName: "MuscleEntity")
   }
 }

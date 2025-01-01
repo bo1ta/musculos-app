@@ -12,33 +12,35 @@ import Utility
 
 public typealias EntityType = Object & ReadOnlyConvertible
 
+// MARK: - CoreDataStore
+
 public final class CoreDataStore: @unchecked Sendable {
   @Injected(\StorageContainer.storageManager) private var storageManager: StorageManagerType
 
-  public init() {}
+  public init() { }
 
   public func getAll<T: EntityType>(_ type: T.Type, predicate: NSPredicate? = nil) async -> [T.ReadOnlyType] {
-    return await storageManager.performRead { storage in
+    await storageManager.performRead { storage in
       storage.allObjects(ofType: type, matching: predicate, sortedBy: nil)
         .map { $0.toReadOnly() }
     }
   }
 
   public func getAll<T: EntityType>(_ type: T.Type, fetchLimit: Int, predicate: NSPredicate? = nil) async -> [T.ReadOnlyType] {
-    return await storageManager.performRead { storage in
+    await storageManager.performRead { storage in
       storage.allObjects(ofType: type, fetchLimit: fetchLimit, matching: predicate, sortedBy: nil)
         .map { $0.toReadOnly() }
     }
   }
 
-  public func getCount<T: Object>(_ type: T.Type, predicate: NSPredicate? = nil) async -> Int {
-    return await storageManager.performRead { storage in
+  public func getCount(_ type: (some Object).Type, predicate: NSPredicate? = nil) async -> Int {
+    await storageManager.performRead { storage in
       storage.countObjects(ofType: type, matching: predicate)
     }
   }
 
   public func firstObject<T: EntityType>(_ type: T.Type, predicate: NSPredicate? = nil) async -> T.ReadOnlyType? {
-    return await storageManager.performRead { storage in
+    await storageManager.performRead { storage in
       storage.firstObject(of: type, matching: predicate)?.toReadOnly()
     }
   }
@@ -88,22 +90,31 @@ public final class CoreDataStore: @unchecked Sendable {
 
 // MARK: - UserProfile
 
-public extension CoreDataStore {
-  func userProfile(for userID: UUID) async -> UserProfile? {
-    return await firstObject(UserProfileEntity.self, predicate: PredicateProvider.userProfileById(userID))
+extension CoreDataStore {
+  public func userProfile(for userID: UUID) async -> UserProfile? {
+    await firstObject(UserProfileEntity.self, predicate: PredicateProvider.userProfileById(userID))
   }
 
-  func userProfile(by email: String) async -> UserProfile? {
-    return await firstObject(UserProfileEntity.self, predicate: PredicateProvider.userProfileByEmail(email))
+  public func userProfile(by email: String) async -> UserProfile? {
+    await firstObject(UserProfileEntity.self, predicate: PredicateProvider.userProfileByEmail(email))
   }
 
-  func updateProfile(userId: UUID, weight: Int?, height: Int?, primaryGoalID: UUID?, level: String?, isOnboarded: Bool = false) async throws {
+  public func updateProfile(
+    userId: UUID,
+    weight: Int?,
+    height: Int?,
+    primaryGoalID: UUID?,
+    level: String?,
+    isOnboarded: Bool = false)
+    async throws
+  {
     try await storageManager.performWrite { writerDerivedStorage in
-      guard let userProfile = writerDerivedStorage.firstObject(
-        of: UserProfileEntity.self,
-        matching: PredicateProvider.userProfileById(userId)
-      ) else {
-        throw MusculosError.notFound
+      guard
+        let userProfile = writerDerivedStorage.firstObject(
+          of: UserProfileEntity.self,
+          matching: PredicateProvider.userProfileById(userId))
+      else {
+        throw MusculosError.unexpectedNil
       }
 
       userProfile.level = level
@@ -123,8 +134,8 @@ public extension CoreDataStore {
     }
   }
 
-  func userExperience(for userID: UUID) async -> UserExperience? {
-    return await storageManager.performRead { storage in
+  public func userExperience(for userID: UUID) async -> UserExperience? {
+    await storageManager.performRead { storage in
       guard
         let userProfile = storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(userID)),
         let experience = userProfile.userExperience
@@ -139,8 +150,8 @@ public extension CoreDataStore {
 
 // MARK: - Goal
 
-public extension CoreDataStore {
-  func updateGoalProgress(userID: UUID, exerciseSession: ExerciseSession) async throws {
+extension CoreDataStore {
+  public func updateGoalProgress(userID: UUID, exerciseSession: ExerciseSession) async throws {
     try await storageManager.performWrite { storage in
       guard let currentUser = UserProfileEntity.userFromID(userID, on: storage), !currentUser.goals.isEmpty else {
         return
@@ -151,7 +162,10 @@ public extension CoreDataStore {
           continue
         }
 
-        if let mappedCategories = ExerciseConstants.goalToExerciseCategories[category], mappedCategories.contains(exerciseSession.exercise.category) {
+        if
+          let mappedCategories = ExerciseConstants.goalToExerciseCategories[category],
+          mappedCategories.contains(exerciseSession.exercise.category)
+        {
           let progressEntry = storage.insertNewObject(ofType: ProgressEntryEntity.self)
           progressEntry.progressID = UUID()
           progressEntry.dateAdded = Date()
@@ -162,14 +176,14 @@ public extension CoreDataStore {
     }
   }
 
-  func goal(by goalID: UUID) async -> Goal? {
-    return await firstObject(GoalEntity.self, predicate: PredicateProvider.goalByID(goalID))
+  public func goal(by goalID: UUID) async -> Goal? {
+    await firstObject(GoalEntity.self, predicate: PredicateProvider.goalByID(goalID))
   }
 
-  func insertProgressEntry(_ progressEntry: ProgressEntry, for goalID: UUID) async throws {
+  public func insertProgressEntry(_ progressEntry: ProgressEntry, for goalID: UUID) async throws {
     try await storageManager.performWrite { storage in
       guard let goal = storage.firstObject(of: GoalEntity.self, matching: PredicateProvider.goalByID(goalID)) else {
-        throw MusculosError.notFound
+        throw MusculosError.unexpectedNil
       }
 
       guard !goal.progressHistory.contains(where: { $0.progressID == progressEntry.progressID }) else {
@@ -184,12 +198,12 @@ public extension CoreDataStore {
 
 // MARK: - Exercise Session
 
-public extension CoreDataStore {
-  func exerciseSessionsForUser(_ userID: UUID) async -> [ExerciseSession] {
-    return await getAll(ExerciseSessionEntity.self, predicate: PredicateProvider.exerciseSessionsForUser(userID))
+extension CoreDataStore {
+  public func exerciseSessionsForUser(_ userID: UUID) async -> [ExerciseSession] {
+    await getAll(ExerciseSessionEntity.self, predicate: PredicateProvider.exerciseSessionsForUser(userID))
   }
 
-  func exerciseSessionCompletedToday(for userID: UUID) async -> [ExerciseSession] {
+  public func exerciseSessionCompletedToday(for userID: UUID) async -> [ExerciseSession] {
     guard let (startDay, endDay) = DateHelper.getCurrentDayRange() as? (Date, Date) else {
       return []
     }
@@ -201,7 +215,7 @@ public extension CoreDataStore {
     return await getAll(ExerciseSessionEntity.self, predicate: compundPredicate)
   }
 
-  func exerciseSessionsCompletedSinceLastWeek(for userID: UUID) async -> [ExerciseSession] {
+  public func exerciseSessionsCompletedSinceLastWeek(for userID: UUID) async -> [ExerciseSession] {
     guard let (startDay, endDay) = DateHelper.getPastWeekRange() as? (Date, Date) else {
       return []
     }
@@ -216,13 +230,13 @@ public extension CoreDataStore {
 
 // MARK: - Exercise
 
-public extension CoreDataStore {
-  func exerciseByID(_ exerciseID: UUID) async -> Exercise? {
-    return await firstObject(ExerciseEntity.self, predicate: PredicateProvider.exerciseById(exerciseID))
+extension CoreDataStore {
+  public func exerciseByID(_ exerciseID: UUID) async -> Exercise? {
+    await firstObject(ExerciseEntity.self, predicate: PredicateProvider.exerciseById(exerciseID))
   }
 
-  func exerciseRecommendationsByHistory(for _: UUID) async -> [Exercise] {
-    return await storageManager.performRead { storage in
+  public func exerciseRecommendationsByHistory(for _: UUID) async -> [Exercise] {
+    await storageManager.performRead { storage in
       let exerciseSessions = storage
         .allObjects(ofType: ExerciseSessionEntity.self, matching: nil, sortedBy: nil)
         .map { $0.toReadOnly() }
@@ -233,64 +247,62 @@ public extension CoreDataStore {
       return storage.allObjects(
         ofType: PrimaryMuscleEntity.self,
         matching: NSPredicate(format: "NOT (muscleId IN %@)", muscleIds),
-        sortedBy: nil
-      )
-      .flatMap { $0.exercises }
-      .map { $0.toReadOnly() }
+        sortedBy: nil)
+        .flatMap { $0.exercises }
+        .map { $0.toReadOnly() }
     }
   }
 
-  func favoriteExercises(for _: UUID) async -> [Exercise] {
-    return await getAll(ExerciseEntity.self, predicate: PredicateProvider.favoriteExercise())
+  public func favoriteExercises(for _: UUID) async -> [Exercise] {
+    await getAll(ExerciseEntity.self, predicate: PredicateProvider.favoriteExercise())
   }
 
-  func exercisesByQuery(_ nameQuery: String) async -> [Exercise] {
-    return await getAll(ExerciseEntity.self, predicate: PredicateProvider.exerciseByName(nameQuery))
+  public func exercisesByQuery(_ nameQuery: String) async -> [Exercise] {
+    await getAll(ExerciseEntity.self, predicate: PredicateProvider.exerciseByName(nameQuery))
   }
 
-  func exercisesForMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
-    return await storageManager.performRead { storage in
+  public func exercisesForMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
+    await storageManager.performRead { storage in
       let muscleIds = muscles.map { $0.id }
 
       return storage
         .allObjects(
           ofType: PrimaryMuscleEntity.self,
           matching: PredicateProvider.musclesByIds(muscleIds),
-          sortedBy: nil
-        )
+          sortedBy: nil)
         .flatMap(\.exercises)
         .map { $0.toReadOnly() }
     }
   }
 
-  func exercisesForGoals(_ goals: [Goal], fetchLimit: Int = 50) async -> [Exercise] {
-    return await getAll(ExerciseEntity.self, fetchLimit: fetchLimit, predicate: PredicateProvider.exerciseByGoals(goals))
+  public func exercisesForGoals(_ goals: [Goal], fetchLimit: Int = 50) async -> [Exercise] {
+    await getAll(ExerciseEntity.self, fetchLimit: fetchLimit, predicate: PredicateProvider.exerciseByGoals(goals))
   }
 
-  func exercisesExcludingMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
-    return await storageManager.performRead { viewStorage in
+  public func exercisesExcludingMuscles(_ muscles: [MuscleType]) async -> [Exercise] {
+    await storageManager.performRead { viewStorage in
       let muscleIds = muscles.map { $0.id }
 
       return viewStorage
         .allObjects(
           ofType: PrimaryMuscleEntity.self,
           matching: NSPredicate(format: "NOT (muscleID IN %@)", muscleIds),
-          sortedBy: nil
-        )
+          sortedBy: nil)
         .flatMap(\.exercises)
         .map { $0.toReadOnly() }
     }
   }
 
-  func exercisesForWorkoutGoal(_ workoutGoal: WorkoutGoal) async -> [Exercise] {
+  public func exercisesForWorkoutGoal(_ workoutGoal: WorkoutGoal) async -> [Exercise] {
     let mappedCategories = workoutGoal.goalCategory.mappedExerciseCategories.map { $0.rawValue }
     return await getAll(ExerciseEntity.self, predicate: PredicateProvider.exerciseByCategories(mappedCategories))
   }
 
-  func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
+  public func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
     try await storageManager.performWrite { storage in
-      guard let exercise = storage.firstObject(of: ExerciseEntity.self, matching: PredicateProvider.exerciseById(exercise.id)) else {
-        throw MusculosError.notFound
+      guard let exercise = storage.firstObject(of: ExerciseEntity.self, matching: PredicateProvider.exerciseById(exercise.id))
+      else {
+        throw MusculosError.unexpectedNil
       }
 
       exercise.isFavorite = isFavorite
@@ -301,12 +313,12 @@ public extension CoreDataStore {
 
 // MARK: - Workout
 
-public extension CoreDataStore {
-  func workout(by id: UUID) async -> Workout? {
-    return await firstObject(WorkoutEntity.self, predicate: PredicateProvider.workoutByID(id))
+extension CoreDataStore {
+  public func workout(by id: UUID) async -> Workout? {
+    await firstObject(WorkoutEntity.self, predicate: PredicateProvider.workoutByID(id))
   }
 
-  func insertWorkout(_ workout: Workout) async throws {
-    return try await importModel(workout, of: WorkoutEntity.self)
+  public func insertWorkout(_ workout: Workout) async throws {
+    try await importModel(workout, of: WorkoutEntity.self)
   }
 }

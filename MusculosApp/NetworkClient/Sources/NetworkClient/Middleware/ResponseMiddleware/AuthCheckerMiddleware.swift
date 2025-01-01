@@ -19,14 +19,14 @@ struct AuthCheckerMiddleware: ResponseMiddleware {
         sendInvalidTokenNotification()
       }
 
-      throw MusculosError.httpError(httpResponse.statusCode)
+      throw MusculosError.networkError(.httpError(httpResponse.statusCode))
     }
 
     return response
   }
 
   private func isInvalidTokenResponse(httpResponse: HTTPURLResponse) -> Bool {
-    return MusculosError.httpError(httpResponse.statusCode) == .unauthorized
+    MusculosError.NetworkError.httpError(httpResponse.statusCode) == .unauthorized
   }
 
   private func sendInvalidTokenNotification() {

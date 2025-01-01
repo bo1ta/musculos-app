@@ -6,9 +6,9 @@
 //
 
 import Components
+import DataRepository
 import SwiftUI
 import Utility
-import DataRepository
 
 struct PermissionsView: View {
   let onDone: () -> Void
@@ -72,5 +72,5 @@ struct PermissionsView: View {
 }
 
 #Preview {
-  PermissionsView(onDone: {})
+  PermissionsView(onDone: { })
 }

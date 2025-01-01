@@ -22,23 +22,25 @@ struct UserAvatar: View {
         Circle()
           .frame(height: 40)
           .defaultShimmering()
-      case let .success(image):
+
+      case .success(let image):
         image
           .resizable()
           .frame(width: 40, height: 40)
           .aspectRatio(contentMode: .fit)
           .clipShape(Circle())
+
       case .failure:
         Circle()
           .frame(height: 40)
           .foregroundStyle(.green)
+
       @unknown default:
         EmptyView()
           .onAppear {
             Logger.error(
               MusculosError.unknownError,
-              message: "Unknown error while fetching avatar"
-            )
+              message: "Unknown error while fetching avatar")
           }
       }
     }

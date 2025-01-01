@@ -10,10 +10,14 @@ import Foundation
 import Models
 import Utility
 
+// MARK: - ExerciseSessionServiceProtocol
+
 public protocol ExerciseSessionServiceProtocol: Sendable {
   func getAll() async throws -> [ExerciseSession]
   func add(_ exerciseSession: ExerciseSession) async throws -> UserExperienceEntry
 }
+
+// MARK: - ExerciseSessionService
 
 public struct ExerciseSessionService: ExerciseSessionServiceProtocol, APIService, @unchecked Sendable {
   @Injected(\NetworkContainer.client) var client: MusculosClientProtocol

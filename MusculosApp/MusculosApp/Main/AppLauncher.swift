@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 
+// MARK: - AppLauncher
+
 @main
 struct AppLauncher {
   static func main() throws {
@@ -19,9 +21,11 @@ struct AppLauncher {
   }
 
   private static var isRunningUnitTests: Bool {
-    return NSClassFromString("XCTestCase") != nil
+    NSClassFromString("XCTestCase") != nil
   }
 }
+
+// MARK: - TestApp
 
 struct TestApp: App {
   var body: some Scene {

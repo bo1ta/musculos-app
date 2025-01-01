@@ -9,10 +9,14 @@ import Foundation
 import Models
 import Utility
 
+// MARK: - UserSessionState
+
 public enum UserSessionState: Sendable {
   case authenticated(UserSession)
   case unauthenticated
 }
+
+// MARK: - UserSessionManagerProtocol
 
 public protocol UserSessionManagerProtocol: Sendable {
   func getCurrentState() -> UserSessionState
@@ -20,25 +24,27 @@ public protocol UserSessionManagerProtocol: Sendable {
   func clearSession()
 }
 
-public extension UserSessionManagerProtocol {
-  var isAuthenticated: Bool {
+extension UserSessionManagerProtocol {
+  public var isAuthenticated: Bool {
     if case .authenticated = getCurrentState() {
       return true
     }
     return false
   }
 
-  var currentUserSession: UserSession? {
-    if case let .authenticated(session) = getCurrentState() {
+  public var currentUserSession: UserSession? {
+    if case .authenticated(let session) = getCurrentState() {
       return session
     }
     return nil
   }
 
-  var currentUserID: UUID? {
-    return currentUserSession?.user.id
+  public var currentUserID: UUID? {
+    currentUserSession?.user.id
   }
 }
+
+// MARK: - UserSessionManager
 
 public final class UserSessionManager: UserSessionManagerProtocol, @unchecked Sendable {
   private var cachedSessionState: UserSessionState?

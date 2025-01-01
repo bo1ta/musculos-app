@@ -9,11 +9,15 @@ import Foundation
 import SwiftUI
 import Utility
 
+// MARK: - OnboardingOption
+
 public protocol OnboardingOption {
   var title: String { get }
   var description: String { get }
   var image: Image? { get }
 }
+
+// MARK: - OnboardingConstants
 
 public enum OnboardingConstants {
   // MARK: - Level
@@ -40,7 +44,7 @@ public enum OnboardingConstants {
     }
 
     public var image: Image? {
-      return nil
+      nil
     }
 
     public var numberOfStars: Int {

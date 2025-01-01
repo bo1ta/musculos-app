@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - ReadOnlyConvertible
+
 /// Helper protocol to convert core data models to a thread-safe model
 ///
 public protocol ReadOnlyConvertible: TypeErasedReadOnlyConvertible {
@@ -19,14 +21,16 @@ public protocol ReadOnlyConvertible: TypeErasedReadOnlyConvertible {
   func toReadOnly() -> ReadOnlyType
 }
 
+// MARK: - TypeErasedReadOnlyConvertible
+
 public protocol TypeErasedReadOnlyConvertible {
   /// Returns a ReadOnly version of the receiver, but with no Type associated.
   ///
   func toTypeErasedReadOnly() -> Any
 }
 
-public extension ReadOnlyConvertible {
-  func toTypeErasedReadOnly() -> Any {
-    return toReadOnly()
+extension ReadOnlyConvertible {
+  public func toTypeErasedReadOnly() -> Any {
+    toReadOnly()
   }
 }

@@ -8,6 +8,8 @@
 import Foundation
 import Utility
 
+// MARK: - ExerciseRating
+
 public struct ExerciseRating: Codable, Sendable {
   public var ratingID: UUID
   public var exerciseID: UUID
@@ -16,7 +18,14 @@ public struct ExerciseRating: Codable, Sendable {
   public var rating: Double
   public var comment: String?
 
-  public init(ratingID: UUID = UUID(), exerciseID: UUID, userID: UUID, isPublic: Bool = true, rating: Double, comment: String? = nil) {
+  public init(
+    ratingID: UUID = UUID(),
+    exerciseID: UUID,
+    userID: UUID,
+    isPublic: Bool = true,
+    rating: Double,
+    comment: String? = nil)
+  {
     self.ratingID = ratingID
     self.exerciseID = exerciseID
     self.userID = userID
@@ -26,4 +35,6 @@ public struct ExerciseRating: Codable, Sendable {
   }
 }
 
-extension ExerciseRating: DecodableModel {}
+// MARK: DecodableModel
+
+extension ExerciseRating: DecodableModel { }

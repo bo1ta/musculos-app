@@ -9,7 +9,9 @@ import Foundation
 
 @testable import Storage
 
-protocol MusculosTestBase: AnyObject {}
+// MARK: - MusculosTestBase
+
+protocol MusculosTestBase: AnyObject { }
 
 extension MusculosTestBase {
   func clearStorage() {

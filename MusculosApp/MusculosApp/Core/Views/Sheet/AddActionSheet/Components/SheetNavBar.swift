@@ -38,5 +38,5 @@ struct SheetNavBar: View {
 }
 
 #Preview {
-  SheetNavBar(title: "Create a new workout", onBack: {}, onDismiss: {})
+  SheetNavBar(title: "Create a new workout", onBack: { }, onDismiss: { })
 }

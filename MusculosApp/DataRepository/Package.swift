@@ -9,8 +9,7 @@ let package = Package(
   products: [
     .library(
       name: "DataRepository",
-      targets: ["DataRepository"]
-    ),
+      targets: ["DataRepository"]),
   ],
   dependencies: [
     .package(name: "Utility", path: "../Utility"),
@@ -30,11 +29,8 @@ let package = Package(
         .product(name: "NetworkClient", package: "NetworkClient"),
         "Factory",
         "Queue",
-      ]
-    ),
+      ]),
     .testTarget(
       name: "DataRepositoryTests",
-      dependencies: ["DataRepository"]
-    ),
-  ]
-)
+      dependencies: ["DataRepository"]),
+  ])

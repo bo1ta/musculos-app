@@ -17,7 +17,8 @@ import UIKit
 
 @Suite(.serialized)
 final class RatingServiceTests: MusculosTestBase {
-  @Test func addExerciseRating() async throws {
+  @Test
+  func addExerciseRating() async throws {
     let exerciseRating = ExerciseRatingFactory.createExerciseRating()
 
     var stubClient = StubMusculosClient()

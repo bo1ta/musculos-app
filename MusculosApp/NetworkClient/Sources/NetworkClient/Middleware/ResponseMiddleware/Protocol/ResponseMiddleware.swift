@@ -7,11 +7,15 @@
 
 import Foundation
 
+// MARK: - ResponseMiddlewarePriority
+
 enum ResponseMiddlewarePriority: Int {
   case authChecker = 2
   case logging = 1
   case `default` = 0
 }
+
+// MARK: - ResponseMiddleware
 
 protocol ResponseMiddleware: Sendable {
   var priority: ResponseMiddlewarePriority { get }

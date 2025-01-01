@@ -17,7 +17,7 @@ public struct CalendarView: View {
   private let endDate = DateHelper.nowPlusYears(1)
 
   private var calendar: Calendar {
-    return Calendar.current
+    Calendar.current
   }
 
   @Binding private var selectedDate: Date?
@@ -34,41 +34,38 @@ public struct CalendarView: View {
       visibleDateRange: startDate ... endDate,
       monthsLayout: .horizontal(options: HorizontalMonthsLayoutOptions()),
       dataDependency: calendarMarkers,
-      proxy: calendarProxy
-    )
-    .days { [calendarMarkers] day in
-      if let date = calendar.date(from: day.components) {
-        CalendarDay(
-          date: date,
-          isSelected: date == selectedDate,
-          markers: filterMarkersForDate(date)
-        )
+      proxy: calendarProxy)
+      .days { [calendarMarkers] day in
+        if let date = calendar.date(from: day.components) {
+          CalendarDay(
+            date: date,
+            isSelected: date == selectedDate,
+            markers: filterMarkersForDate(date))
+        }
       }
-    }
-    .onDaySelection { day in
-      updateSelectedDate(day: day)
-    }
-    .dayOfWeekHeaders { _, weekdayIndex in
-      Text(calendar.shortWeekdaySymbols[weekdayIndex])
-        .font(AppFont.poppins(.semibold, size: 16))
-        .foregroundStyle(.gray)
-    }
-    .monthHeaders { month in
-      CalendarHeader(
-        title: getMonthName(month),
-        subtitle: String(month.year),
-        onPreviousMonth: showPreviousMonth,
-        onNextMonth: showNextMonth
-      )
-    }
-    .interMonthSpacing(24)
-    .verticalDayMargin(8)
-    .horizontalDayMargin(8)
-    .layoutMargins(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
-    .frame(maxWidth: .infinity)
-    .onAppear {
-      calendarProxy.scrollToMonth(containing: currentDate, scrollPosition: .centered, animated: false)
-    }
+      .onDaySelection { day in
+        updateSelectedDate(day: day)
+      }
+      .dayOfWeekHeaders { _, weekdayIndex in
+        Text(calendar.shortWeekdaySymbols[weekdayIndex])
+          .font(AppFont.poppins(.semibold, size: 16))
+          .foregroundStyle(.gray)
+      }
+      .monthHeaders { month in
+        CalendarHeader(
+          title: getMonthName(month),
+          subtitle: String(month.year),
+          onPreviousMonth: showPreviousMonth,
+          onNextMonth: showNextMonth)
+      }
+      .interMonthSpacing(24)
+      .verticalDayMargin(8)
+      .horizontalDayMargin(8)
+      .layoutMargins(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
+      .frame(maxWidth: .infinity)
+      .onAppear {
+        calendarProxy.scrollToMonth(containing: currentDate, scrollPosition: .centered, animated: false)
+      }
   }
 
   @MainActor
@@ -103,11 +100,11 @@ public struct CalendarView: View {
   }
 
   private func filterMarkersForDate(_ date: Date) -> [CalendarMarker] {
-    return calendarMarkers.filter { calendar.isDate($0.date, inSameDayAs: date) }
+    calendarMarkers.filter { calendar.isDate($0.date, inSameDayAs: date) }
   }
 
   private func getMonthName(_ month: MonthComponents) -> String {
-    return calendar.date(from: month.components)?.monthName() ?? ""
+    calendar.date(from: month.components)?.monthName() ?? ""
   }
 }
 

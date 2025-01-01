@@ -22,7 +22,7 @@ public final class CoreModelNotificationHandler {
   private let eventSubject = PassthroughSubject<Event, Never>()
 
   public var eventPublisher: AnyPublisher<Event, Never> {
-    return eventSubject.eraseToAnyPublisher()
+    eventSubject.eraseToAnyPublisher()
   }
 
   public init(storageType: StorageType) {
@@ -30,8 +30,7 @@ public final class CoreModelNotificationHandler {
       self,
       selector: #selector(managedObjectContextDidSave),
       name: .NSManagedObjectContextDidSave,
-      object: storageType as? NSManagedObjectContext
-    )
+      object: storageType as? NSManagedObjectContext)
   }
 
   deinit {

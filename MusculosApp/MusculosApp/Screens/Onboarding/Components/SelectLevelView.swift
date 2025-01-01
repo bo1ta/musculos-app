@@ -49,9 +49,8 @@ struct SelectLevelView: View {
         isSelected: isLevelSelected(level),
         content: {
           makeStarsImage(for: level)
-        }
-      )
-      .animation(.smooth, value: selectedLevel)
+        })
+        .animation(.smooth, value: selectedLevel)
     })
   }
 
@@ -65,19 +64,17 @@ struct SelectLevelView: View {
           .transition(
             .asymmetric(
               insertion: .scale(scale: 0.5).combined(with: .opacity),
-              removal: .opacity
-            )
-          )
+              removal: .opacity))
           .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isLevelSelected(level))
       }
     }
   }
 
   private func isLevelSelected(_ level: OnboardingConstants.Level) -> Bool {
-    return selectedLevel == level
+    selectedLevel == level
   }
 }
 
 #Preview {
-  SelectLevelView(selectedLevel: .constant(.beginner), onContinue: {})
+  SelectLevelView(selectedLevel: .constant(.beginner), onContinue: { })
 }

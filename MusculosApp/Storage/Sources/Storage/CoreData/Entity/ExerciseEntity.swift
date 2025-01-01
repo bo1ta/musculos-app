@@ -11,6 +11,8 @@ import Foundation
 import Models
 import Utility
 
+// MARK: - ExerciseEntity
+
 @objc(ExerciseEntity)
 public final class ExerciseEntity: NSManagedObject {
   @NSManaged public var category: String?
@@ -28,8 +30,9 @@ public final class ExerciseEntity: NSManagedObject {
   @NSManaged public var exerciseRatings: Set<ExerciseRatingEntity>
   @NSManaged public var updatedAt: Date?
 
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<ExerciseEntity> {
-    return NSFetchRequest<ExerciseEntity>(entityName: "ExerciseEntity")
+  @nonobjc
+  public class func fetchRequest() -> NSFetchRequest<ExerciseEntity> {
+    NSFetchRequest<ExerciseEntity>(entityName: "ExerciseEntity")
   }
 
   /// Populate default fields where is needed
@@ -43,71 +46,89 @@ public final class ExerciseEntity: NSManagedObject {
 
 // MARK: Generated accessors for primaryMuscles
 
-public extension ExerciseEntity {
+extension ExerciseEntity {
   @objc(addPrimaryMusclesObject:)
-  @NSManaged func addToPrimaryMuscles(_ value: PrimaryMuscleEntity)
+  @NSManaged
+  public func addToPrimaryMuscles(_ value: PrimaryMuscleEntity)
 
   @objc(removePrimaryMusclesObject:)
-  @NSManaged func removeFromPrimaryMuscles(_ value: PrimaryMuscleEntity)
+  @NSManaged
+  public func removeFromPrimaryMuscles(_ value: PrimaryMuscleEntity)
 
   @objc(addPrimaryMuscles:)
-  @NSManaged func addToPrimaryMuscles(_ values: Set<PrimaryMuscleEntity>)
+  @NSManaged
+  public func addToPrimaryMuscles(_ values: Set<PrimaryMuscleEntity>)
 
   @objc(removePrimaryMuscles:)
-  @NSManaged func removeFromPrimaryMuscles(_ values: Set<PrimaryMuscleEntity>)
+  @NSManaged
+  public func removeFromPrimaryMuscles(_ values: Set<PrimaryMuscleEntity>)
 }
 
 // MARK: Generated accessors for secondaryMuscles
 
-public extension ExerciseEntity {
+extension ExerciseEntity {
   @objc(addSecondaryMusclesObject:)
-  @NSManaged func addToSecondaryMuscles(_ value: SecondaryMuscleEntity)
+  @NSManaged
+  public func addToSecondaryMuscles(_ value: SecondaryMuscleEntity)
 
   @objc(removeSecondaryMusclesObject:)
-  @NSManaged func removeFromSecondaryMuscles(_ value: SecondaryMuscleEntity)
+  @NSManaged
+  public func removeFromSecondaryMuscles(_ value: SecondaryMuscleEntity)
 
   @objc(addSecondaryMuscles:)
-  @NSManaged func addToSecondaryMuscles(_ values: NSSet)
+  @NSManaged
+  public func addToSecondaryMuscles(_ values: NSSet)
 
   @objc(removeSecondaryMuscles:)
-  @NSManaged func removeFromSecondaryMuscles(_ values: NSSet)
+  @NSManaged
+  public func removeFromSecondaryMuscles(_ values: NSSet)
 }
 
 // MARK: Generated accessors for exerciseSessions
 
-public extension ExerciseEntity {
+extension ExerciseEntity {
   @objc(addExerciseSessionsObject:)
-  @NSManaged func addToExerciseSessions(_ value: ExerciseSessionEntity)
+  @NSManaged
+  public func addToExerciseSessions(_ value: ExerciseSessionEntity)
 
   @objc(removeFromExerciseSessions:)
-  @NSManaged func removeFromExerciseSessions(_ value: ExerciseSessionEntity)
+  @NSManaged
+  public func removeFromExerciseSessions(_ value: ExerciseSessionEntity)
 
   @objc(addExerciseSessions:)
-  @NSManaged func addToExerciseSessions(_ values: NSSet)
+  @NSManaged
+  public func addToExerciseSessions(_ values: NSSet)
 
   @objc(removeExerciseSessions:)
-  @NSManaged func removeFromExerciseSessions(_ values: NSSet)
+  @NSManaged
+  public func removeFromExerciseSessions(_ values: NSSet)
 }
 
 // MARK: Generated accessors for exerciseRatings
 
-public extension ExerciseEntity {
+extension ExerciseEntity {
   @objc(addExerciseRatingsObject:)
-  @NSManaged func addToExerciseRatings(_ value: ExerciseRatingEntity)
+  @NSManaged
+  public func addToExerciseRatings(_ value: ExerciseRatingEntity)
 
   @objc(removeFromExerciseRatings:)
-  @NSManaged func removeFromExerciseRatings(_ value: ExerciseSessionEntity)
+  @NSManaged
+  public func removeFromExerciseRatings(_ value: ExerciseSessionEntity)
 
   @objc(addExerciseRatings:)
-  @NSManaged func addToExerciseRatings(_ values: NSSet)
+  @NSManaged
+  public func addToExerciseRatings(_ values: NSSet)
 
   @objc(removeExerciseRatings:)
-  @NSManaged func removeFromExerciseRatings(_ values: NSSet)
+  @NSManaged
+  public func removeFromExerciseRatings(_ values: NSSet)
 }
 
-extension ExerciseEntity: Identifiable {}
+// MARK: Identifiable
 
-// MARK: - ReadOnlyConvertible
+extension ExerciseEntity: Identifiable { }
+
+// MARK: ReadOnlyConvertible
 
 extension ExerciseEntity: ReadOnlyConvertible {
   public func toReadOnly() -> Exercise {
@@ -125,12 +146,11 @@ extension ExerciseEntity: ReadOnlyConvertible {
       instructions: instructions ?? [],
       imageUrls: imageUrls ?? [],
       isFavorite: isFavorite,
-      updatedAt: updatedAt
-    )
+      updatedAt: updatedAt)
   }
 }
 
-// MARK: - EntitySyncable
+// MARK: EntitySyncable
 
 extension ExerciseEntity: EntitySyncable {
   public func populateEntityFrom(_ model: Exercise, using storage: StorageType) {

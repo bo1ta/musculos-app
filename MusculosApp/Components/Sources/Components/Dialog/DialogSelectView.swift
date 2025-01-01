@@ -20,8 +20,8 @@ public struct DialogSelectView: View {
     title: String,
     buttonTitle: String = "Continue",
     isPresented: Binding<Bool>,
-    onSelectedValue: @escaping (Int) -> Void
-  ) {
+    onSelectedValue: @escaping (Int) -> Void)
+  {
     self.title = title
     self.buttonTitle = buttonTitle
     self.onSelectedValue = onSelectedValue
@@ -43,10 +43,9 @@ public struct DialogSelectView: View {
           Slider(
             value: $selectedValue,
             in: 1 ... 15,
-            step: 1
-          )
-          .tint(Color.AppColor.blue500)
-          .padding(.horizontal, 15)
+            step: 1)
+            .tint(Color.AppColor.blue500)
+            .padding(.horizontal, 15)
 
           Text(String(Int(selectedValue)))
             .font(.body(.bold, size: 15))
