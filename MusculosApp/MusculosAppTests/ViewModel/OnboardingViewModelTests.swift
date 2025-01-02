@@ -23,11 +23,13 @@ import XCTest
 @MainActor
 class OnboardingViewModelTests: XCTestCase {
   func testInitialLoad() async throws {
-    let goalRepositoryStub = GoalRepositoryStub(expectedOnboardingGoals: [OnboardingGoal(
-      id: UUID(),
-      title: "title",
-      description: "description",
-      iconName: "icon")])
+    let goalRepositoryStub = GoalRepositoryStub(expectedOnboardingGoals: [
+      OnboardingGoal(
+        id: UUID(),
+        title: "title",
+        description: "description",
+        iconName: "icon"),
+    ])
     DataRepositoryContainer.shared.goalRepository.register { goalRepositoryStub }
     defer { DataRepositoryContainer.shared.goalRepository.reset() }
 
