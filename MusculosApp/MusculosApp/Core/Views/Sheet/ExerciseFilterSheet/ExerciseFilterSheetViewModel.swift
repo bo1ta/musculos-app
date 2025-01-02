@@ -17,7 +17,7 @@ import SwiftUI
 @MainActor
 class ExerciseFilterSheetViewModel {
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
 
   enum FilterDisplayable {
     case muscle, category, difficulty, equipment

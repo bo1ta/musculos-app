@@ -24,7 +24,7 @@ final class AddWorkoutSheetViewModel {
   // MARK: Dependencies
 
   @ObservationIgnored
-  @Injected(\.toastManager) private var toastManager: ToastManager
+  @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   @ObservationIgnored
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore: CoreDataStore

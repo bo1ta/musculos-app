@@ -20,10 +20,10 @@ final class ProfileViewModel {
   @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
 
   @ObservationIgnored
-  @Injected(\.toastManager) private var toastManager: ToastManager
+  @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.healthKitClient) private var healthKitClient: HealthKitClient

@@ -24,6 +24,7 @@ public protocol ExerciseRepositoryProtocol: Actor {
   func getRecommendedExercisesByGoals() async -> [Exercise]
   func searchByQuery(_ query: String) async throws -> [Exercise]
   func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise]
+  func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws
 }
 
 public actor ExerciseRepository: BaseRepository, ExerciseRepositoryProtocol {

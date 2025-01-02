@@ -18,7 +18,7 @@ public final class UserStore: @unchecked Sendable {
 
   // MARK: Private
 
-  @Injected(\DataRepositoryContainer.userRepository) private var userRepository: UserRepository
+  @Injected(\DataRepositoryContainer.userRepository) private var userRepository: UserRepositoryProtocol
   @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
 
   private var cancellables = Set<AnyCancellable>()

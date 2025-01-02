@@ -18,7 +18,7 @@ import Testing
 final class GoalServiceTests: MusculosTestBase {
   @Test
   func getOnboardingGoals() async throws {
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .templates(.goals)
     stubClient.expectedResponseData = try parseDataFromFile(name: "goalsTemplates")
@@ -41,7 +41,7 @@ final class GoalServiceTests: MusculosTestBase {
       StorageContainer.shared.userManager.reset()
     }
 
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .goals(.index)
     stubClient.expectedResponseData = try parseDataFromFile(name: "goals")
@@ -69,7 +69,7 @@ final class GoalServiceTests: MusculosTestBase {
       StorageContainer.shared.userManager.reset()
     }
 
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .goals(.index)
     stubClient.expectedAuthToken = stubSession.expectedTokenValue
@@ -92,7 +92,7 @@ final class GoalServiceTests: MusculosTestBase {
       StorageContainer.shared.userManager.reset()
     }
 
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .goals(.goalDetails(expectedGoaID))
     stubClient.expectedAuthToken = stubSession.expectedTokenValue
@@ -111,7 +111,7 @@ final class GoalServiceTests: MusculosTestBase {
   @Test
   func addProgressEntry() async throws {
     let goal = GoalFactory.createGoal()
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .goals(.updateProgress)
 

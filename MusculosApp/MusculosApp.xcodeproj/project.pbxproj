@@ -99,6 +99,7 @@
 		BC828CE52C02924200AB9D1D /* WorkoutFlowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC828CE42C02924200AB9D1D /* WorkoutFlowViewModel.swift */; };
 		BC8FCDDB2D24D9B1009CF61E /* OnboardingWizard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8FCDDA2D24D9AE009CF61E /* OnboardingWizard.swift */; };
 		BC8FCDDD2D25B598009CF61E /* Container+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8FCDDC2D25B594009CF61E /* Container+Extension.swift */; };
+		BC8FCDDF2D260919009CF61E /* AuthenticationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8FCDDE2D260305009CF61E /* AuthenticationViewModelTests.swift */; };
 		BC97C9322BA0D5D500AA07C4 /* AddActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC97C9312BA0D5D500AA07C4 /* AddActionSheet.swift */; };
 		BC9A020E2C593ED5003C83A8 /* AuthenticationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A020D2C593ED5003C83A8 /* AuthenticationScreen.swift */; };
 		BCA24BEF2B69D3AE00124EC3 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BEE2B69D3AE00124EC3 /* SplashScreen.swift */; };
@@ -231,6 +232,7 @@
 		BC828CE42C02924200AB9D1D /* WorkoutFlowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFlowViewModel.swift; sourceTree = "<group>"; };
 		BC8FCDDA2D24D9AE009CF61E /* OnboardingWizard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWizard.swift; sourceTree = "<group>"; };
 		BC8FCDDC2D25B594009CF61E /* Container+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+Extension.swift"; sourceTree = "<group>"; };
+		BC8FCDDE2D260305009CF61E /* AuthenticationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModelTests.swift; sourceTree = "<group>"; };
 		BC97C9312BA0D5D500AA07C4 /* AddActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddActionSheet.swift; sourceTree = "<group>"; };
 		BC9A020D2C593ED5003C83A8 /* AuthenticationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationScreen.swift; sourceTree = "<group>"; };
 		BCA24BEE2B69D3AE00124EC3 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 		BC1160E52A2CFB840028D8FC /* MusculosAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				BC8FCDDE2D260305009CF61E /* AuthenticationViewModelTests.swift */,
 			);
 			path = MusculosAppTests;
 			sourceTree = "<group>";
@@ -1021,6 +1024,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC8FCDDF2D260919009CF61E /* AuthenticationViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

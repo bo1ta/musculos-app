@@ -22,5 +22,5 @@ struct RootExploreScreen: View {
 }
 
 extension NavigationCheckpoint {
-  nonisolated(unsafe) static let explore: NavigationCheckpoint = "explore"
+  static let explore: NavigationCheckpoint = "explore"
 }

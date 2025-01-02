@@ -25,7 +25,7 @@ extension DataRepositoryContainer: AutoRegistering {
 }
 
 extension DataRepositoryContainer {
-  public var userRepository: Factory<UserRepository> {
+  public var userRepository: Factory<UserRepositoryProtocol> {
     self { UserRepository() }
   }
 
@@ -34,7 +34,7 @@ extension DataRepositoryContainer {
       .cached
   }
 
-  public var exerciseRepository: Factory<ExerciseRepository> {
+  public var exerciseRepository: Factory<ExerciseRepositoryProtocol> {
     self { ExerciseRepository() }
   }
 

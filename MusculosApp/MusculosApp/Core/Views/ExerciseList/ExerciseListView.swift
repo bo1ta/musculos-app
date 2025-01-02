@@ -18,7 +18,7 @@ import Utility
 
 struct ExerciseListView: View {
   @Environment(\.navigator) private var navigator
-  @Injected(\DataRepositoryContainer.exerciseRepository) private var repository: ExerciseRepository
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var repository: ExerciseRepositoryProtocol
 
   @State private var state = LoadingViewState<[Exercise]>.empty
   @State private var searchQuery = ""

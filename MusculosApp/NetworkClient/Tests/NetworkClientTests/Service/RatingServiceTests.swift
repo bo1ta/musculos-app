@@ -21,7 +21,7 @@ final class RatingServiceTests: MusculosTestBase {
   func addExerciseRating() async throws {
     let exerciseRating = ExerciseRatingFactory.createExerciseRating()
 
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .ratings(.index)
     stubClient.expectedBody = [

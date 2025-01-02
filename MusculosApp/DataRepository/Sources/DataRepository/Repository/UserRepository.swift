@@ -12,7 +12,14 @@ import NetworkClient
 import Storage
 import Utility
 
-public actor UserRepository: BaseRepository {
+public protocol UserRepositoryProtocol: Actor {
+  func register(email: String, password: String, username: String) async throws -> UserSession
+  func login(email: String, password: String) async throws -> UserSession
+  func getCurrentUser() async throws -> UserProfile?
+  func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws
+}
+
+public actor UserRepository: BaseRepository, UserRepositoryProtocol {
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
   @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
 

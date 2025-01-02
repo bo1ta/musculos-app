@@ -50,7 +50,7 @@ public class CoreDataStoreTests: MusculosTestBase {
     var factory = ExerciseSessionFactory()
     factory.user = profile
     factory.exercise = exercise
-    _  = factory.create()
+    _ = factory.create()
 
     factory = ExerciseSessionFactory()
     factory.user = profile

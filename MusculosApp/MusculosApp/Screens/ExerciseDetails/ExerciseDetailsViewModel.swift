@@ -22,7 +22,7 @@ final class ExerciseDetailsViewModel {
   // MARK: Dependencies
 
   @ObservationIgnored
-  @Injected(\.toastManager) private var toastManager: ToastManager
+  @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   @ObservationIgnored
   @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
@@ -34,7 +34,7 @@ final class ExerciseDetailsViewModel {
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.ratingRepository) private var ratingRepository: RatingRepository

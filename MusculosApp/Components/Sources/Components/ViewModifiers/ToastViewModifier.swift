@@ -10,6 +10,7 @@ import Utility
 
 public struct ToastViewModifier: ViewModifier {
   @Binding var toast: Toast?
+
   public func body(content: Content) -> some View {
     content
       .frame(maxWidth: .infinity, maxHeight: .infinity)

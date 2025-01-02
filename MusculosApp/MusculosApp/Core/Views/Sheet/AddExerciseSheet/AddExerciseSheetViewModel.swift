@@ -21,10 +21,10 @@ final class AddExerciseSheetViewModel {
   // MARK: Dependencies
 
   @ObservationIgnored
-  @Injected(\.toastManager) private var toastManager: ToastManager
+  @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
 
   @ObservationIgnored
   @Injected(\NetworkContainer.imageService) private var imageService: ImageServiceProtocol

@@ -23,7 +23,7 @@ final class ExploreViewModel {
   // MARK: - Dependencies
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepository
@@ -111,11 +111,7 @@ extension ExploreViewModel {
   }
 
   private func loadRecommendationsByGoals() async {
-    do {
-      recommendedExercisesByGoals = try await exerciseRepository.getRecommendedExercisesByGoals()
-    } catch {
-      Logger.error(error, message: "Could not load recommendations by goals")
-    }
+    recommendedExercisesByGoals = await exerciseRepository.getRecommendedExercisesByGoals()
   }
 
   private func loadRecommendationsByPastSessions() async {

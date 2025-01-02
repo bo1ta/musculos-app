@@ -9,8 +9,8 @@ import Components
 import Factory
 
 extension Container {
-  var toastManager: Factory<ToastManager> {
+  var toastManager: Factory<ToastManagerProtocol> {
     self { ToastManager() }
-      .singleton
+      .cached
   }
 }

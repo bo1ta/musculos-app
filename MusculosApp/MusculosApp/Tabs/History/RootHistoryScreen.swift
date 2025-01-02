@@ -21,5 +21,5 @@ struct RootHistoryScreen: View {
 }
 
 extension NavigationCheckpoint {
-  nonisolated(unsafe) static let history: NavigationCheckpoint = "history"
+  static let history: NavigationCheckpoint = "history"
 }

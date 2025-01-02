@@ -9,7 +9,33 @@ import Combine
 import SwiftUI
 import Utility
 
-public class ToastManager: @unchecked Sendable {
+public protocol ToastManagerProtocol {
+  var toastPublisher: AnyPublisher<Toast?, Never> { get }
+
+  func show(_ toast: Toast, autoDismissAfter seconds: TimeInterval)
+}
+
+public extension ToastManagerProtocol {
+  private static var standardDuration: TimeInterval { UIConstant.toastStandardDuration }
+
+  func showInfo(_ message: String) {
+    show(.info(message), autoDismissAfter: Self.standardDuration)
+  }
+
+  func showWarning(_ message: String) {
+    show(.warning(message), autoDismissAfter: Self.standardDuration)
+  }
+
+  func showSuccess(_ message: String) {
+    show(.success(message), autoDismissAfter: Self.standardDuration)
+  }
+
+  func showError(_ message: String) {
+    show(.error(message), autoDismissAfter: Self.standardDuration)
+  }
+}
+
+public class ToastManager: @unchecked Sendable, ToastManagerProtocol {
   private let toastSubject = CurrentValueSubject<Toast?, Never>(nil)
 
   public var toastPublisher: AnyPublisher<Toast?, Never> {
@@ -25,21 +51,5 @@ public class ToastManager: @unchecked Sendable {
     DispatchQueue.main.asyncAfter(deadline: .now() + seconds) { [weak self] in
       self?.toastSubject.send(nil)
     }
-  }
-
-  public func showInfo(_ message: String) {
-    show(.info(message))
-  }
-
-  public func showWarning(_ message: String) {
-    show(.warning(message))
-  }
-
-  public func showSuccess(_ message: String) {
-    show(.success(message))
-  }
-
-  public func showError(_ message: String) {
-    show(.error(message))
   }
 }

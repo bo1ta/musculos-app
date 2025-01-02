@@ -21,7 +21,7 @@ import Utility
 final class OnboardingViewModel {
 
   @ObservationIgnored
-  @Injected(\.toastManager) private var toastManager: ToastManager
+  @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository

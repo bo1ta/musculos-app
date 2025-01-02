@@ -18,7 +18,7 @@ import Utility
 @MainActor
 final class HomeViewModel {
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepository
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository

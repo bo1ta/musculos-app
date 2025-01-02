@@ -18,7 +18,7 @@ import UIKit
 final class ImageServiceTests: MusculosTestBase {
   @Test
   func uploadImage() async throws {
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .images(.upload)
     stubClient.expectedResponseData = try parseDataFromFile(name: "imageUpload")

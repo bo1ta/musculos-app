@@ -18,7 +18,7 @@ import Testing
 final class UserServiceTests: MusculosTestBase {
   @Test
   func register() async throws {
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .users(.register)
     stubClient.expectedBody = [
@@ -40,7 +40,7 @@ final class UserServiceTests: MusculosTestBase {
 
   @Test
   func login() async throws {
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .users(.login)
     stubClient.expectedBody = [
@@ -61,7 +61,7 @@ final class UserServiceTests: MusculosTestBase {
 
   @Test
   func currentUser() async throws {
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .users(.currentProfile)
     stubClient.expectedAuthToken = "super-secret-token"
@@ -88,7 +88,7 @@ final class UserServiceTests: MusculosTestBase {
   func updateUser() async throws {
     let primaryGoalID = UUID()
 
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .users(.updateProfile)
     stubClient.expectedAuthToken = "super-secret-token"

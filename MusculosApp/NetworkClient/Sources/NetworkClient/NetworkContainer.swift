@@ -30,17 +30,15 @@ extension NetworkContainer {
           LoggingMiddleware(),
         ])
     }
-    .onTest {
-      StubMusculosClient()
-    }
+    .onTest { StubMusculosClient() }
+    .onPreview { StubMusculosClient() }
     .cached
   }
 
   public var networkMonitor: Factory<NetworkMonitorProtocol> {
     self { NetworkMonitor() }
-      .onTest {
-        StubNetworkMonitor(isConnected: true)
-      }
+      .onTest { StubNetworkMonitor(isConnected: true) }
+      .onPreview { StubNetworkMonitor(isConnected: true) }
       .cached
   }
 

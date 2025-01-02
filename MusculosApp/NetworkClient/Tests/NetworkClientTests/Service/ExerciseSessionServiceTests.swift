@@ -20,7 +20,7 @@ final class ExerciseSessionServiceTests: MusculosTestBase {
 
   @Test
   func getAll() async throws {
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .exerciseSessions(.index)
     stubClient.expectedResponseData = try parseDataFromFile(name: "exerciseSessions")
@@ -42,7 +42,7 @@ final class ExerciseSessionServiceTests: MusculosTestBase {
     factory.exercise = exercise
     let exerciseSession = factory.create()
 
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .exerciseSessions(.index)
     stubClient.expectedBody = [

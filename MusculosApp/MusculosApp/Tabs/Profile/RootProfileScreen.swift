@@ -21,5 +21,5 @@ struct RootProfileScreen: View {
 }
 
 extension NavigationCheckpoint {
-  nonisolated(unsafe) static let profile: NavigationCheckpoint = "profile"
+  static let profile: NavigationCheckpoint = "profile"
 }

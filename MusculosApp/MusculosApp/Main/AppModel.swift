@@ -36,7 +36,7 @@ final class AppModel {
   @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
 
   @ObservationIgnored
-  @Injected(\.toastManager) private var toastManager: ToastManager
+  @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   private var cancellables = Set<AnyCancellable>()
   private(set) var appState = AppState.loading

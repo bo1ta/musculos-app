@@ -18,7 +18,7 @@ import Testing
 final class ExerciseServiceTests: MusculosTestBase {
   @Test
   func getExercises() async throws {
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .exercises(.index)
     stubClient.expectedResponseData = try parseDataFromFile(name: "exercises")
@@ -35,7 +35,7 @@ final class ExerciseServiceTests: MusculosTestBase {
 
   @Test
   func getFavoriteExercises() async throws {
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .exercises(.favoriteExercises)
     stubClient.expectedResponseData = try parseDataFromFile(name: "exercises")
@@ -52,7 +52,7 @@ final class ExerciseServiceTests: MusculosTestBase {
 
   @Test
   func getByWorkoutGoal() async throws {
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .exercises(.exercisesByGoals)
     stubClient.expectedQueryParams = [URLQueryItem(name: "goal", value: String(WorkoutGoal.flexibility.rawValue))]
@@ -72,7 +72,7 @@ final class ExerciseServiceTests: MusculosTestBase {
   func getExerciseDetails() async throws {
     let exerciseID = UUID()
 
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .get
     stubClient.expectedEndpoint = .exercises(.exerciseDetails(exerciseID))
     stubClient.expectedResponseData = try parseDataFromFile(name: "exerciseDetails")
@@ -89,7 +89,7 @@ final class ExerciseServiceTests: MusculosTestBase {
 
   @Test
   func addExercise() async throws {
-    var stubClient = StubMusculosClient()
+    var stubClient = MockMusculosClient()
     stubClient.expectedMethod = .post
     stubClient.expectedEndpoint = .exercises(.index)
 
