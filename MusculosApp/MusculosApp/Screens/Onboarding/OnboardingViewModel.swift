@@ -24,10 +24,10 @@ final class OnboardingViewModel {
   @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
+  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
 
   // MARK: - Observed properties
 

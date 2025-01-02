@@ -22,6 +22,7 @@ import XCTest
 @MainActor
 class AuthenticationViewModelTests: XCTestCase {
   private let faker = Faker()
+
   func testLoginFormIsValid() async throws {
     let viewModel = AuthenticationViewModel(initialStep: .login)
     #expect(viewModel.isLoginFormValid == false)
@@ -148,19 +149,5 @@ class AuthenticationViewModelTests: XCTestCase {
 extension AuthenticationViewModelTests {
   private var mockUserSession: UserSession {
     UserSession(token: .init(value: "token"), user: .init(id: UUID()))
-  }
-
-  private class MockToastManager: ToastManagerProtocol {
-    var showExpectation: XCTestExpectation?
-
-    var toastPublisher: AnyPublisher<Toast?, Never> {
-      toastSubject.eraseToAnyPublisher()
-    }
-
-    private let toastSubject = CurrentValueSubject<Toast?, Never>(nil)
-
-    func show(_: Components.Toast, autoDismissAfter _: TimeInterval) {
-      showExpectation?.fulfill()
-    }
   }
 }

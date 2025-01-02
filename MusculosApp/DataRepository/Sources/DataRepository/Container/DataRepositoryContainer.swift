@@ -29,7 +29,7 @@ extension DataRepositoryContainer {
     self { UserRepository() }
   }
 
-  public var userStore: Factory<UserStore> {
+  public var userStore: Factory<UserStoreProtocol> {
     self { UserStore() }
       .cached
   }

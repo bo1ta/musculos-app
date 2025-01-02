@@ -21,10 +21,10 @@ final class HomeViewModel {
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
+  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
 
   private var cancellables = Set<AnyCancellable>()
   private(set) var isLoading = false

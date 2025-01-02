@@ -31,16 +31,21 @@ final class ExerciseDetailsViewModel {
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore: CoreDataStore
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
+  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
+
+  @ObservationIgnored
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.ratingRepository) private var ratingRepository: RatingRepository
+  @Injected(\DataRepositoryContainer.ratingRepository) private var ratingRepository: RatingRepositoryProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepository
+  @Injected(
+    \DataRepositoryContainer
+      .exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepositoryProtocol
 
   // MARK: - Observed properties
 
@@ -79,12 +84,7 @@ final class ExerciseDetailsViewModel {
   }
 
   private var currentUserProfile: UserProfile? {
-    get async {
-      guard let currentUserID else {
-        return nil
-      }
-      return await coreDataStore.userProfile(for: currentUserID)
-    }
+    userStore.currentUser
   }
 
   // MARK: - Tasks

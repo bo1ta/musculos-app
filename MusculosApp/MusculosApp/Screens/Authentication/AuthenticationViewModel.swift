@@ -21,7 +21,7 @@ class AuthenticationViewModel {
   @Injected(\DataRepositoryContainer.userRepository) private var repository: UserRepositoryProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
+  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
 
   @ObservationIgnored
   @Injected(\.toastManager) private var toastManager: ToastManagerProtocol

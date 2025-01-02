@@ -20,10 +20,10 @@ final class AddGoalSheetViewModel {
   // MARK: - Dependency
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
+  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
 
   // MARK: - Observed properties
 

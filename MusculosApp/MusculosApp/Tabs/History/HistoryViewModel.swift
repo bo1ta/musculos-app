@@ -17,7 +17,9 @@ import Utility
 @MainActor
 final class HistoryViewModel {
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepository
+  @Injected(
+    \DataRepositoryContainer
+      .exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepositoryProtocol
 
   private var exerciseSessions: [ExerciseSession] = [] {
     didSet {

@@ -33,7 +33,7 @@ final class AppModel {
   @Injected(\NetworkContainer.networkMonitor) private var networkMonitor: NetworkMonitorProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStore
+  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
 
   @ObservationIgnored
   @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
@@ -78,24 +78,24 @@ final class AppModel {
       guard toast?.style == .warning else {
         return
       }
-      toast = .success("Connected to the internet!")
+      toastManager.showSuccess("Connected to the internet!")
 
     case .unsatisfied:
-      toast = .warning("Lost internet connection. Trying to reconnect...")
+      toastManager.showWarning("Logged out")
 
     default:
       break
     }
   }
 
-  private func didChangeUserState(_ event: UserStore.Event) {
+  private func didChangeUserState(_ event: UserStoreEvent) {
     switch event {
     case .didLogin:
       appState = userStore.isOnboarded ? .loggedIn : .onboarding
 
     case .didLogout:
       appState = .loggedOut
-      toast = .info("Logged out")
+      toastManager.showInfo("Logged out")
 
     case .didFinishOnboarding:
       appState = .loggedIn

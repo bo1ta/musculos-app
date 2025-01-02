@@ -30,6 +30,9 @@ final class AddWorkoutSheetViewModel {
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore: CoreDataStore
 
   @ObservationIgnored
+  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
+
+  @ObservationIgnored
   @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
 
   // MARK: Properties
@@ -141,10 +144,7 @@ extension AddWorkoutSheetViewModel {
         return
       }
 
-      guard
-        let currentUserID = userManager.currentUserID,
-        let currentUserProfile = await coreDataStore.userProfile(for: currentUserID)
-      else {
+      guard let currentUserProfile = userStore.currentUser else {
         handleError(MusculosError.unexpectedNil, message: "Invalid user")
         return
       }

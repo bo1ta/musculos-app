@@ -62,6 +62,7 @@ struct RootTabView: View {
   }
 
   private func updateButtonVisibility(_ showButton: Bool) {
+    print("a intrat: \(showButton)")
     showAddButton = showButton
   }
 }

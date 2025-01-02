@@ -12,9 +12,37 @@ import Models
 import Storage
 import Utility
 
+// MARK: - UserStoreEvent
+
+public enum UserStoreEvent {
+  case didLogin
+  case didLogout
+  case didFinishOnboarding
+}
+
+// MARK: - UserStoreProtocol
+
+public protocol UserStoreProtocol {
+  var currentUser: UserProfile? { get set }
+  var eventPublisher: AnyPublisher<UserStoreEvent, Never> { get }
+  func loadCurrentUser() async -> UserProfile?
+  func authenticateSession(_ session: UserSession) async
+  func updateOnboardingStatus(_ onboardingData: OnboardingData) async
+}
+
+extension UserStoreProtocol {
+  public var isOnboarded: Bool {
+    currentUser?.isOnboarded ?? false
+  }
+
+  public var isLoggedIn: Bool {
+    currentUser != nil
+  }
+}
+
 // MARK: - UserStore
 
-public final class UserStore: @unchecked Sendable {
+public final class UserStore: @unchecked Sendable, UserStoreProtocol {
 
   // MARK: Private
 
@@ -22,24 +50,16 @@ public final class UserStore: @unchecked Sendable {
   @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
 
   private var cancellables = Set<AnyCancellable>()
-  private let eventSubject = PassthroughSubject<Event, Never>()
+  private let eventSubject = PassthroughSubject<UserStoreEvent, Never>()
 
   // MARK: Public
 
-  @Atomic public private(set) var currentUser: UserProfile?
+  @Atomic public var currentUser: UserProfile?
 
-  public var eventPublisher: AnyPublisher<Event, Never> {
+  public var eventPublisher: AnyPublisher<UserStoreEvent, Never> {
     eventSubject
       .receive(on: DispatchQueue.main)
       .eraseToAnyPublisher()
-  }
-
-  public var isOnboarded: Bool {
-    currentUser?.isOnboarded ?? false
-  }
-
-  public var isLoggedIn: Bool {
-    currentUser != nil
   }
 
   init() {
@@ -88,17 +108,7 @@ public final class UserStore: @unchecked Sendable {
     }
   }
 
-  private func sendEvent(_ event: Event) {
+  private func sendEvent(_ event: UserStoreEvent) {
     eventSubject.send(event)
-  }
-}
-
-// MARK: UserStore.Event
-
-extension UserStore {
-  public enum Event {
-    case didLogin
-    case didLogout
-    case didFinishOnboarding
   }
 }
