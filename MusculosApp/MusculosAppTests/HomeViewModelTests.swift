@@ -15,8 +15,8 @@ import XCTest
 
 @testable import Components
 @testable import DataRepository
-@testable import Storage
 @testable import MusculosApp
+@testable import Storage
 
 // MARK: - HomeViewModelTests
 
@@ -26,10 +26,10 @@ class HomeViewModelTests: XCTest {
     let currentUser = setupCurrentUser()
 
     let stubExerciseRepository = ExerciseRepositoryStub(expectedExercises: [
-      ExerciseFactory.createExercise()
+      ExerciseFactory.createExercise(),
     ])
     let stubGoalRepository = GoalRepositoryStub(expectedGoals: [
-      GoalFactory.createGoal(user: currentUser)
+      GoalFactory.createGoal(user: currentUser),
     ])
 
     DataRepositoryContainer.shared.exerciseRepository.register { stubExerciseRepository }
@@ -50,7 +50,9 @@ class HomeViewModelTests: XCTest {
 
   private func setupCurrentUser() -> UserProfile {
     let userProfile = UserProfileFactory.createUser()
-    StorageContainer.shared.userManager.register { StubUserSessionManager(expectedTokenValue: "value", expectedUser: .init(id: userProfile.userId)) }
+    StorageContainer.shared.userManager.register { StubUserSessionManager(
+      expectedTokenValue: "value",
+      expectedUser: .init(id: userProfile.userId)) }
     return userProfile
   }
 
