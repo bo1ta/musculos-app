@@ -23,7 +23,7 @@ protocol BaseFactory: Sendable {
 extension BaseFactory {
   var faker: Faker { Faker() }
 
-  var storage: StorageType { StorageContainer.shared.storageManager().writerDerivedStorage }
+  var storage: StorageType { StorageContainer.shared.storageManager().viewStorage }
 
   func syncObject<T: EntitySyncable>(_ model: T.ModelType, of type: T.Type) {
     guard isPersistent else {

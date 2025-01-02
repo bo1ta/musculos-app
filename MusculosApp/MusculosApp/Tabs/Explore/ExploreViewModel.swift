@@ -15,6 +15,19 @@ import Storage
 import SwiftUI
 import Utility
 
+// MARK: - ExerciseRatingState
+
+private struct ExerciseRatingState {
+  var showDialog = false
+  var userRating = 0
+  var allRatings: [ExerciseRating] = []
+
+  var average: Double {
+    guard !allRatings.isEmpty else { return 0.0 }
+    return allRatings.reduce(0) { $0 + $1.rating } / Double(allRatings.count)
+  }
+}
+
 // MARK: - ExploreViewModel
 
 @Observable
@@ -33,19 +46,13 @@ final class ExploreViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
 
-  @ObservationIgnored
-  @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
-
-  private var cancellables = Set<AnyCancellable>()
   private(set) var searchQueryTask: Task<Void, Never>?
-  private(set) var notificationUpdateTask: Task<Void, Never>?
 
   // MARK: - Observed properties
 
   var exercisesCompletedToday: [ExerciseSession] = []
   var progress: Float = 0.0
   var goals: [Goal] = []
-  var errorMessage = ""
   var showFilterView = false
 
   private(set) var isLoading = false
@@ -75,9 +82,7 @@ final class ExploreViewModel {
   }
 
   func cleanUp() {
-    cancellables.removeAll()
     searchQueryTask?.cancel()
-    notificationUpdateTask?.cancel()
   }
 }
 
@@ -156,27 +161,6 @@ extension ExploreViewModel {
         featuredExercises = try await exerciseRepository.searchByQuery(query)
       } catch {
         Logger.error(error, message: "Could not search by muscle query", properties: ["query": query])
-      }
-    }
-  }
-}
-
-// MARK: - Model Event Handling
-
-extension ExploreViewModel {
-  func handleUpdate(_ event: CoreModelNotificationHandler.Event) {
-    notificationUpdateTask?.cancel()
-
-    notificationUpdateTask = Task {
-      Logger.info(message: "Did notify someone: \(event)")
-      switch event {
-      case .didUpdateGoal:
-        await loadGoals()
-      case .didUpdateExercise:
-        await loadFavoriteExercises()
-      case .didUpdateExerciseSession:
-        await loadRecommendationsByPastSessions()
-        await refreshExercisesCompletedToday()
       }
     }
   }

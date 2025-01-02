@@ -25,9 +25,6 @@ final class ExerciseDetailsViewModel {
   @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   @ObservationIgnored
-  @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
-
-  @ObservationIgnored
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore: CoreDataStore
 
   @ObservationIgnored
@@ -80,7 +77,7 @@ final class ExerciseDetailsViewModel {
   }
 
   private var currentUserID: UUID? {
-    userManager.currentUserID
+    userStore.currentUser?.userId
   }
 
   private var currentUserProfile: UserProfile? {
@@ -124,12 +121,14 @@ final class ExerciseDetailsViewModel {
     do {
       exerciseRatings = try await ratingRepository.getRatingsForExercise(exercise.id)
 
-      if
-        let currentUserID = userManager.currentUserID,
+      guard
+        let currentUserID,
         let userRating = exerciseRatings.first(where: { $0.userID == currentUserID })?.rating
-      {
-        self.userRating = Int(userRating)
+      else {
+        return
       }
+      self.userRating = Int(userRating)
+
     } catch {
       showErrorToast()
       Logger.error(error, message: "Could not load exercise ratings")
@@ -204,7 +203,7 @@ final class ExerciseDetailsViewModel {
 
   private func saveExerciseSession() {
     saveExerciseSessionTask = Task { [weak self] in
-      guard let self, let currentUserProfile = await currentUserProfile else {
+      guard let self, let currentUserProfile = userStore.currentUser else {
         return
       }
 
@@ -214,10 +213,12 @@ final class ExerciseDetailsViewModel {
           exercise: exercise,
           duration: Double(elapsedTime),
           weight: inputWeight)
-        let userExperience = try await exerciseSessionRepository.addSession(exerciseSession)
-        await showUserExperience(userExperience)
 
+        let userExperience = try await exerciseSessionRepository.addSession(exerciseSession)
+
+        await showUserExperience(userExperience)
         await maybeUpdateGoals(for: exerciseSession)
+
       } catch {
         showErrorToast()
         Logger.error(error, message: "Could not save exercise session")
@@ -240,7 +241,7 @@ final class ExerciseDetailsViewModel {
   }
 
   private func maybeUpdateGoals(for exerciseSession: ExerciseSession) async {
-    guard let currentUserID = userManager.currentUserID else {
+    guard let currentUserID else {
       return
     }
 

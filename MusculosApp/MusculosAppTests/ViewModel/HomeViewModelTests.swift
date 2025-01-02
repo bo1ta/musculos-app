@@ -21,7 +21,7 @@ import XCTest
 // MARK: - HomeViewModelTests
 
 @MainActor
-class HomeViewModelTests: XCTest {
+class HomeViewModelTests: XCTestCase {
   func testFetchData() async throws {
     let currentUser = setupCurrentUser()
 
@@ -50,9 +50,11 @@ class HomeViewModelTests: XCTest {
 
   private func setupCurrentUser() -> UserProfile {
     let userProfile = UserProfileFactory.createUser()
-    StorageContainer.shared.userManager.register { StubUserSessionManager(
-      expectedTokenValue: "value",
-      expectedUser: .init(id: userProfile.userId)) }
+    StorageContainer.shared.userManager.register {
+      StubUserSessionManager(
+        expectedTokenValue: "value",
+        expectedUser: .init(id: userProfile.userId))
+    }
     return userProfile
   }
 

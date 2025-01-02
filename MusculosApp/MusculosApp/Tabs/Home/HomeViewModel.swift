@@ -26,7 +26,6 @@ final class HomeViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
 
-  private var cancellables = Set<AnyCancellable>()
   private(set) var isLoading = false
   private(set) var challenges: [Challenge] = []
   private(set) var goals: [Goal] = []
@@ -36,36 +35,6 @@ final class HomeViewModel {
 
   var currentUser: UserProfile? {
     userStore.currentUser
-  }
-
-  private let coreNotificationHandler: CoreModelNotificationHandler
-
-  init() {
-    coreNotificationHandler = CoreModelNotificationHandler(
-      storageType: StorageContainer.shared.storageManager()
-        .writerDerivedStorage)
-    coreNotificationHandler.eventPublisher
-      .debounce(for: .milliseconds(700), scheduler: DispatchQueue.main)
-      .sink { [weak self] event in
-        self?.handleNotificationEvent(event)
-      }
-      .store(in: &cancellables)
-  }
-
-  func onDisappear() {
-    notificationTask?.cancel()
-    notificationTask = nil
-  }
-
-  private func handleNotificationEvent(_ event: CoreModelNotificationHandler.Event) {
-    notificationTask = Task {
-      switch event {
-      case .didUpdateGoal:
-        await fetchGoals()
-      default:
-        break
-      }
-    }
   }
 
   func fetchData() async {
