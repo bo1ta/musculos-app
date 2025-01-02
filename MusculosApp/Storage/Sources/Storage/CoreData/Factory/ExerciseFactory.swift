@@ -22,8 +22,9 @@ public class ExerciseFactory: BaseFactory, @unchecked Sendable {
   public var instructions: [String]?
   public var imageUrls: [String]?
   public var isFavorite: Bool?
+  public var isPersistent: Bool = true
 
-  public func create(populateDataStore: Bool = true) -> Exercise {
+  public func create() -> Exercise {
     let exercise = Exercise(
       category: category ?? Constants.CategoryType.cardio.rawValue,
       equipment: equipment ?? Constants.EquipmentType.bands.rawValue,
@@ -38,16 +39,15 @@ public class ExerciseFactory: BaseFactory, @unchecked Sendable {
       isFavorite: isFavorite ?? false,
       updatedAt: Date())
 
-    if populateDataStore {
-      syncObject(exercise, of: ExerciseEntity.self)
-    }
+    syncObject(exercise, of: ExerciseEntity.self)
 
     return exercise
   }
 
-  public static func createExercise(isFavorite: Bool = false, populateDataStore: Bool = true) -> Exercise {
+  public static func createExercise(isFavorite: Bool = false, isPersistent: Bool = true) -> Exercise {
     let factory = ExerciseFactory()
     factory.isFavorite = isFavorite
-    return factory.create(populateDataStore: populateDataStore)
+    factory.isPersistent = isPersistent
+    return factory.create()
   }
 }

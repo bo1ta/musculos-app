@@ -20,7 +20,7 @@ public protocol UserRepositoryProtocol: Actor {
 }
 
 public actor UserRepository: BaseRepository, UserRepositoryProtocol {
-  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepository
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
   @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
 
   public func register(email: String, password: String, username: String) async throws -> UserSession {
@@ -40,7 +40,7 @@ public actor UserRepository: BaseRepository, UserRepositoryProtocol {
       try await self?.syncCurrentUser()
     }
 
-    if let profile = await coreDataStore.userProfile(for: currentUserID) {
+    if let profile = await coreDataStore.userProfileByID(currentUserID) {
       return profile
     }
 
@@ -50,7 +50,7 @@ public actor UserRepository: BaseRepository, UserRepositoryProtocol {
   public func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws {
     guard
       let currentUserID,
-      let currentProfile = await coreDataStore.userProfile(for: currentUserID)
+      let currentProfile = await coreDataStore.userProfileByID(currentUserID)
     else {
       throw MusculosError.unexpectedNil
     }
@@ -68,7 +68,7 @@ public actor UserRepository: BaseRepository, UserRepositoryProtocol {
       level: onboardingData.level,
       isOnboarded: true)
 
-    try await service.updateUser(
+    _ = try await service.updateUser(
       weight: onboardingData.weight,
       height: onboardingData.height,
       primaryGoalID: goal?.id,

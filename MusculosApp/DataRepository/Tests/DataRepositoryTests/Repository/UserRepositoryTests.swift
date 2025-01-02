@@ -1,0 +1,144 @@
+//
+//  UserRepositoryTests.swift
+//  DataRepository
+//
+//  Created by Solomon Alexandru on 02.01.2025.
+//
+
+import Testing
+import Factory
+import Combine
+import Foundation
+import XCTest
+import Network
+
+@testable import DataRepository
+@testable import Storage
+@testable import NetworkClient
+@testable import Models
+@testable import Utility
+
+class UserRepositoryTests: XCTestCase {
+  @Injected(\StorageContainer.coreDataStore) private var coreDataStore
+
+  func testRegister() async throws {
+    let expectation = self.expectation(description: "should call register")
+    let expectedUserSession = mockUserSession
+    let mockUserService = MockUserService(expectation: expectation, expectedUserSession: expectedUserSession)
+    NetworkContainer.shared.userService.register { mockUserService }
+    defer { NetworkContainer.shared.userService.reset() }
+
+    let userSession = try await UserRepository().register(email: "test@test.com", password: "password", username: "username")
+
+    XCTAssertEqual(userSession.token.value, expectedUserSession.token.value)
+    await fulfillment(of: [expectation])
+  }
+
+  func testLogin() async throws {
+    let expectation = self.expectation(description: "should call login")
+    let expectedUserSession = mockUserSession
+    let mockUserService = MockUserService(expectation: expectation, expectedUserSession: expectedUserSession)
+    NetworkContainer.shared.userService.register { mockUserService }
+    defer { NetworkContainer.shared.userService.reset() }
+
+    let userSession = try await UserRepository().login(email: "test@test.com", password: "password")
+
+    XCTAssertEqual(userSession.token.value, expectedUserSession.token.value)
+    await fulfillment(of: [expectation])
+  }
+
+  func testGetCurrentUser() async throws {
+    let expectedProfile = UserProfileFactory.createUser()
+    let expectation = self.expectation(description: "should call service")
+    let mockUserService = MockUserService(expectation: expectation)
+    NetworkContainer.shared.userService.register { mockUserService }
+    StorageContainer.shared.userManager.register {
+      StubUserSessionManager(expectedUser: UserSession.User(id: expectedProfile.userId))
+    }
+    defer {
+      NetworkContainer.shared.userService.reset()
+      StorageContainer.shared.userManager.reset()
+    }
+
+    let userProfile = try #require(try await UserRepository().getCurrentUser())
+    #expect(userProfile == expectedProfile)
+    await fulfillment(of: [expectation], timeout: 0.1)
+  }
+
+  func testUpdateOnboardingData() async throws {
+    let currentUser = UserProfileFactory.createUser()
+    let expectation = self.expectation(description: "should call service")
+    let mockUserService = MockUserService(expectation: expectation, expectedProfile: currentUser)
+    NetworkContainer.shared.userService.register { mockUserService }
+    StorageContainer.shared.userManager.register {
+      StubUserSessionManager(expectedUser: .init(id: currentUser.userId))
+    }
+    defer {
+      NetworkContainer.shared.userService.reset()
+      StorageContainer.shared.userManager.reset()
+    }
+
+    let repository = UserRepository()
+    let onboardingData = OnboardingData(weight: 10, height: 10, level: OnboardingConstants.Level.advanced.description, goal: nil)
+    try await repository.updateProfileUsingOnboardingData(onboardingData)
+
+    let currentProfile = try await repository.getCurrentUser()
+    XCTAssertEqual(Int(currentProfile?.weight ?? 0), onboardingData.weight)
+    XCTAssertEqual(Int(currentProfile?.height ?? 0), onboardingData.height)
+    XCTAssertEqual(currentProfile?.level, onboardingData.level)
+    await fulfillment(of: [expectation])
+  }
+}
+
+extension UserRepositoryTests {
+  private var mockUserSession: UserSession {
+    UserSession(token: .init(value: "token"), user: .init(id: UUID()))
+  }
+
+  private struct MockUserService: UserServiceProtocol {
+    var expectation: XCTestExpectation?
+    var expectedUserSession: UserSession?
+    var expectedProfile: UserProfile?
+
+    init(expectation: XCTestExpectation? = nil, expectedUserSession: UserSession? = nil, expectedProfile: UserProfile? = nil) {
+      self.expectation = expectation
+      self.expectedUserSession = expectedUserSession
+      self.expectedProfile = expectedProfile
+    }
+
+    func register(email: String, password: String, username: String) async throws -> UserSession {
+      expectation?.fulfill()
+
+      if let expectedUserSession {
+        return expectedUserSession
+      }
+      throw MusculosError.unexpectedNil
+    }
+
+    func login(email: String, password: String) async throws -> UserSession {
+      expectation?.fulfill()
+
+      if let expectedUserSession {
+        return expectedUserSession
+      }
+      throw MusculosError.unexpectedNil
+    }
+    
+    func currentUser() async throws -> UserProfile {
+      expectation?.fulfill()
+
+      if let expectedProfile {
+        return expectedProfile
+      }
+      throw MusculosError.unexpectedNil
+    }
+    
+    func updateUser(weight: Int?, height: Int?, primaryGoalID: UUID?, level: String?, isOnboarded: Bool) async throws -> UserProfile {
+      expectation?.fulfill()
+      if let expectedProfile {
+        return expectedProfile
+      }
+      throw MusculosError.unexpectedNil
+    }
+  }
+}

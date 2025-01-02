@@ -33,7 +33,7 @@ public enum PredicateProvider {
     NSPredicate(
       format: "%K == %@",
       #keyPath(UserExperienceEntity.modelID),
-      id.uuidString)
+      id as NSUUID)
   }
 
   public static func exerciseByGoals(_ goals: [Goal]) -> NSPredicate? {
@@ -97,6 +97,14 @@ public enum PredicateProvider {
 
   public static func exerciseSessionsForUser(_ userID: UUID) -> NSPredicate {
     NSPredicate(format: "user.userId == %@", userID.uuidString)
+  }
+
+  public static func exerciseSessionByID(_ id: UUID) -> NSPredicate {
+    NSPredicate(format: "%K == %@", #keyPath(ExerciseSessionEntity.sessionId), id as NSUUID)
+  }
+
+  public static func userExperienceEntryByID(_ id: UUID) -> NSPredicate {
+    NSPredicate(format: "%K == %@", #keyPath(UserExperienceEntryEntity.modelID), id as NSUUID)
   }
 
   public static func goalByID(_ id: UUID) -> NSPredicate {

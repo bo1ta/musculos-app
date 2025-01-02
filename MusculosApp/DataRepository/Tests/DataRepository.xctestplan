@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "61FA49DF-CEE6-4430-9D02-94BBBF81E076",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "DataRepositoryTests",
+        "name" : "DataRepositoryTests"
+      }
+    }
+  ],
+  "version" : 1
+}

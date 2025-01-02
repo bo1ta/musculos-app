@@ -55,12 +55,16 @@ extension ExerciseRatingEntity: EntitySyncable {
       return
     }
 
-    exercise = exerciseEntity
-    user = userProfileEntity
     ratingID = model.ratingID
     rating = model.rating as NSNumber
     isPublic = model.isPublic ?? true
     comment = model.comment
+
+    exercise = exerciseEntity
+    exerciseEntity.ratings.insert(self)
+
+    user = userProfileEntity
+    userProfileEntity.ratings.insert(self)
   }
 
   public func updateEntityFrom(_ model: ExerciseRating, using _: any StorageType) {

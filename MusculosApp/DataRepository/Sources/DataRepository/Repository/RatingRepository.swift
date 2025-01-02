@@ -12,7 +12,14 @@ import NetworkClient
 import Storage
 import Utility
 
-public actor RatingRepository: BaseRepository {
+public protocol RatingRepositoryProtocol: Actor {
+  func getExerciseRatingsForCurrentUser() async throws -> [ExerciseRating]
+  func getUserRatingForExercise(_ exerciseID: UUID) async throws -> Double
+  func getRatingsForExercise(_ exerciseID: UUID) async throws -> [ExerciseRating]
+  func addRating(rating: Double, for exerciseID: UUID) async throws
+}
+
+public actor RatingRepository: BaseRepository, RatingRepositoryProtocol {
   @Injected(\NetworkContainer.ratingService) private var service: RatingServiceProtocol
 
   public func getExerciseRatingsForCurrentUser() async throws -> [ExerciseRating] {
@@ -21,7 +28,7 @@ public actor RatingRepository: BaseRepository {
     }
 
     guard isConnectedToInternet else {
-      return await coreDataStore.userProfile(for: currentUserID)?.ratings ?? []
+      return await coreDataStore.userProfileByID(currentUserID)?.ratings ?? []
     }
 
     let ratings = try await service.getExerciseRatingsForCurrentUser()

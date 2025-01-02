@@ -12,7 +12,15 @@ import NetworkClient
 import Storage
 import Utility
 
-public actor GoalRepository: BaseRepository {
+public protocol GoalRepositoryProtocol: Actor {
+  func getOnboardingGoals() async throws -> [OnboardingGoal]
+  func addGoal(_ goal: Goal) async throws
+  func getGoalDetails(_ goalID: UUID) async throws -> Goal?
+  func getGoals() async throws -> [Goal]
+  func addFromOnboardingGoal(_ onboardingGoal: OnboardingGoal, for user: UserProfile) async throws -> Goal
+}
+
+public actor GoalRepository: BaseRepository, GoalRepositoryProtocol {
   @Injected(\NetworkContainer.goalService) private var service: GoalServiceProtocol
 
   public init() { }
@@ -30,7 +38,7 @@ public actor GoalRepository: BaseRepository {
   }
 
   public func getGoalDetails(_ goalID: UUID) async throws -> Goal? {
-    let goal = await coreDataStore.goal(by: goalID)
+    let goal = await coreDataStore.goalByID(goalID)
 
     let backgroundTask = backgroundWorker.queueOperation { [weak self] in
       return try await self?.service.getGoalByID(goalID)
@@ -49,7 +57,7 @@ public actor GoalRepository: BaseRepository {
     }
 
     guard !shouldUseLocalStorageForEntity(GoalEntity.self) else {
-      return await coreDataStore.userProfile(for: currentUserID)?.goals ?? []
+      return await coreDataStore.userProfileByID(currentUserID)?.goals ?? []
     }
 
     let goals = try await service.getUserGoals()
@@ -59,6 +67,7 @@ public actor GoalRepository: BaseRepository {
 
   public func addFromOnboardingGoal(_ onboardingGoal: OnboardingGoal, for user: UserProfile) async throws -> Goal {
     let goal = Goal(
+      id: onboardingGoal.id,
       name: onboardingGoal.title,
       category: onboardingGoal.description,
       frequency: .daily,
@@ -67,8 +76,8 @@ public actor GoalRepository: BaseRepository {
       dateAdded: Date(),
       user: user)
 
-    async let localTask = coreDataStore.importModel(goal, of: GoalEntity.self)
-    async let remoteTask = service.addGoal(goal)
+    async let localTask: Void = coreDataStore.importModel(goal, of: GoalEntity.self)
+    async let remoteTask: Void = service.addGoal(goal)
     _ = try await (localTask, remoteTask)
 
     return goal

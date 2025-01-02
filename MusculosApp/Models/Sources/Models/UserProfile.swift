@@ -26,6 +26,7 @@ public struct UserProfile: Codable, Sendable {
   public var xp: Int? = 0 // swiftlint:disable:this identifier_name
   public var goals: [Goal]?
   public var ratings: [ExerciseRating]?
+  public var userExperience: UserExperience?
 
   public init(
     userId: UUID,
@@ -42,7 +43,9 @@ public struct UserProfile: Codable, Sendable {
     isOnboarded: Bool? = false,
     xp: Int? = 0, // swiftlint:disable:this identifier_name
     goals: [Goal]? = nil,
-    ratings: [ExerciseRating]? = nil)
+    ratings: [ExerciseRating]? = nil,
+    userExperience: UserExperience? = nil
+  )
   {
     self.userId = userId
     self.email = email
@@ -59,6 +62,7 @@ public struct UserProfile: Codable, Sendable {
     self.xp = xp
     self.goals = goals
     self.ratings = ratings
+    self.userExperience = userExperience
   }
 
   enum CodingKeys: String, CodingKey {

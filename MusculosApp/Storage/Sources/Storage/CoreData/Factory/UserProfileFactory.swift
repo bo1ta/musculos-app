@@ -24,6 +24,8 @@ public class UserProfileFactory: BaseFactory, @unchecked Sendable {
   public var xp: Int? = 0 // swiftlint:disable:this identifier_name
   public var goals: [Goal]?
   public var ratings: [ExerciseRating]?
+  public var userExperience: UserExperience?
+  public var isPersistent: Bool = true
 
   public func create() -> UserProfile {
     let model = UserProfile(
@@ -41,7 +43,8 @@ public class UserProfileFactory: BaseFactory, @unchecked Sendable {
       isOnboarded: isOnboarded ?? true,
       xp: xp,
       goals: goals,
-      ratings: ratings)
+      ratings: ratings,
+      userExperience: userExperience ?? UserExperienceFactory.createUserExperience())
     syncObject(model, of: UserProfileEntity.self)
     return model
   }

@@ -30,7 +30,7 @@ class ExerciseRepositoryTests: XCTestCase {
     }
     defer { NetworkContainer.shared.exerciseService.reset() }
 
-    let exercise = ExerciseFactory.createExercise(populateDataStore: false)
+    let exercise = ExerciseFactory.createExercise(isPersistent: false)
     let repository = ExerciseRepository()
     try await repository.addExercise(exercise)
 
@@ -47,7 +47,7 @@ class ExerciseRepositoryTests: XCTestCase {
     NetworkContainer.shared.exerciseService.register { [stubService] in stubService }
     defer { NetworkContainer.shared.exerciseService.reset() }
 
-    let exercise = ExerciseFactory.createExercise(populateDataStore: false)
+    let exercise = ExerciseFactory.createExercise(isPersistent: false)
     let repository = ExerciseRepository()
     try await repository.addExercise(exercise)
 
@@ -99,7 +99,7 @@ class ExerciseRepositoryTests: XCTestCase {
 
   func testGetExerciseDetailsUsesServiceIfLocalExerciseDoesNotExist() async throws {
     let serviceExpectation = self.expectation(description: "should call the service")
-    let expectedExercise = ExerciseFactory.createExercise(populateDataStore: false)
+    let expectedExercise = ExerciseFactory.createExercise(isPersistent: false)
 
     NetworkContainer.shared.exerciseService.register { ExerciseServiceStub(expectation: serviceExpectation, expectedResult: [expectedExercise]) }
     NetworkContainer.shared.networkMonitor.register { StubNetworkMonitor(isConnected: true) }
@@ -199,7 +199,7 @@ class ExerciseRepositoryTests: XCTestCase {
 
   func testSearchByQueryUsesRemoteAsFallback() async throws {
     let serviceExpectation = self.expectation(description: "should call service")
-    let expectedResult = [ExerciseFactory.createExercise(populateDataStore: false)]
+    let expectedResult = [ExerciseFactory.createExercise(isPersistent: false)]
     NetworkContainer.shared.exerciseService.register { ExerciseServiceStub(expectation: serviceExpectation, expectedResult: expectedResult) }
     defer { NetworkContainer.shared.exerciseService.reset() }
 

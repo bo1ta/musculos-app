@@ -27,7 +27,7 @@ public final class ExerciseEntity: NSManagedObject {
   @NSManaged public var primaryMuscles: Set<PrimaryMuscleEntity>
   @NSManaged public var secondaryMuscles: Set<SecondaryMuscleEntity>
   @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
-  @NSManaged public var exerciseRatings: Set<ExerciseRatingEntity>
+  @NSManaged public var ratings: Set<ExerciseRatingEntity>
   @NSManaged public var updatedAt: Date?
 
   @nonobjc
@@ -146,7 +146,9 @@ extension ExerciseEntity: ReadOnlyConvertible {
       instructions: instructions ?? [],
       imageUrls: imageUrls ?? [],
       isFavorite: isFavorite,
-      updatedAt: updatedAt)
+      updatedAt: updatedAt,
+      ratings: ratings.map { $0.toReadOnly() }
+    )
   }
 }
 

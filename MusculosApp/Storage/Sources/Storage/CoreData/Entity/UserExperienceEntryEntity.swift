@@ -40,20 +40,10 @@ extension UserExperienceEntryEntity: ReadOnlyConvertible {
 extension UserExperienceEntryEntity: EntitySyncable {
   public func populateEntityFrom(_ model: UserExperienceEntry, using storage: any StorageType) {
     modelID = model.id
-    xpGained = .init(integerLiteral: model.xpGained)
+    xpGained = model.xpGained as NSNumber
 
-    let userExperienceEntity = storage.findOrInsert(
-      of: UserExperienceEntity.self,
-      using: PredicateProvider.userExperienceByID(model.userExperience.id))
-    userExperienceEntity.populateEntityFrom(model.userExperience, using: storage)
-
-    if
-      let currentUserID = StorageContainer.shared.userManager().currentUserID,
-      let userEntity = storage.firstObject(
-        of: UserProfileEntity.self,
-        matching: PredicateProvider.userProfileById(currentUserID))
-    {
-      userExperienceEntity.user = userEntity
+    if let userExperienceEntity = storage.firstObject(of: UserExperienceEntity.self, matching: PredicateProvider.userExperienceByID(model.userExperience.id)) {
+      userExperience = userExperienceEntity
     }
   }
 

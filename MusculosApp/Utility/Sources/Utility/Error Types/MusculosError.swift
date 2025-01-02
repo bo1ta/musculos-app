@@ -11,6 +11,7 @@ import Foundation
 
 public enum MusculosError: LocalizedError, CustomStringConvertible {
   case networkError(NetworkError)
+  case storageError(StorageError)
   case decodingError
   case unknownError
   case cancelled
@@ -19,7 +20,8 @@ public enum MusculosError: LocalizedError, CustomStringConvertible {
 
   public var description: String {
     switch self {
-    case .networkError(let networkError): networkError.description
+    case .networkError(let error): "Network error: \(error.description)"
+    case .storageError(let error): "Storage error: \(error.description)"
     case .decodingError: "Decoding error"
     case .unknownError: "Unknown error"
     case .cancelled: "Cancelled"
@@ -94,6 +96,28 @@ extension MusculosError {
       default:
         .unknownError
       }
+    }
+  }
+}
+
+// MARK: MusculosError.StorageError
+
+extension MusculosError {
+  public enum StorageError: LocalizedError, CustomStringConvertible, Equatable {
+    case invalidUser
+    case syncingFailed(String)
+
+    public var description: String {
+      switch self {
+      case .invalidUser:
+        return "Invalid user"
+      case .syncingFailed(let message):
+        return "Syncing failed: \(message)"
+      }
+    }
+
+    public static func ==(lhs: StorageError, rhs: StorageError) -> Bool {
+      lhs.description == rhs.description
     }
   }
 }

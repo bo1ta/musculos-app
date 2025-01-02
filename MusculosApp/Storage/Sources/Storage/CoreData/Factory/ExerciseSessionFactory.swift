@@ -15,8 +15,9 @@ public class ExerciseSessionFactory: BaseFactory, @unchecked Sendable {
   public var exercise: Exercise?
   public var duration: Double?
   public var weight: Double?
+  public var isPersistent: Bool = true
 
-  override public init() { }
+  public init() { }
 
   public func create() -> ExerciseSession {
     let model = ExerciseSession(

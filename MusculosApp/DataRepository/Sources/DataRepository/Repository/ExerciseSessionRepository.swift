@@ -12,7 +12,15 @@ import NetworkClient
 import Storage
 import Utility
 
-public actor ExerciseSessionRepository: BaseRepository {
+public protocol ExerciseSessionRepositoryProtocol: Actor {
+  func getExerciseSessions() async throws -> [ExerciseSession]
+  func getRecommendationsForLeastWorkedMuscles() async throws -> [Exercise]
+  func getCompletedSinceLastWeek() async throws -> [ExerciseSession]
+  func getCompletedToday() async throws -> [ExerciseSession]
+  func addSession(_ exerciseSession: ExerciseSession) async throws -> UserExperienceEntry
+}
+
+public actor ExerciseSessionRepository: BaseRepository, ExerciseSessionRepositoryProtocol {
   @Injected(\NetworkContainer.exerciseSessionService) private var service: ExerciseSessionServiceProtocol
 
   public func getExerciseSessions() async throws -> [ExerciseSession] {
@@ -20,7 +28,7 @@ public actor ExerciseSessionRepository: BaseRepository {
       throw MusculosError.unexpectedNil
     }
 
-    guard await !shouldUseLocalStorageForEntity(ExerciseSessionEntity.self) else {
+    guard !shouldUseLocalStorageForEntity(ExerciseSessionEntity.self) else {
       return await coreDataStore.exerciseSessionsForUser(currentUserID)
     }
 
@@ -55,6 +63,7 @@ public actor ExerciseSessionRepository: BaseRepository {
 
     backgroundWorker.queueOperation(priority: .high) { [weak self] in
       try await self?.coreDataStore.importModel(exerciseSession, of: ExerciseSessionEntity.self)
+      print("adding userexperienceentry")
       try await self?.coreDataStore.importModel(userExperienceEntry, of: UserExperienceEntryEntity.self)
     }
 

@@ -38,15 +38,15 @@ extension DataRepositoryContainer {
     self { ExerciseRepository() }
   }
 
-  public var exerciseSessionRepository: Factory<ExerciseSessionRepository> {
+  public var exerciseSessionRepository: Factory<ExerciseSessionRepositoryProtocol> {
     self { ExerciseSessionRepository() }
   }
 
-  public var goalRepository: Factory<GoalRepository> {
+  public var goalRepository: Factory<GoalRepositoryProtocol> {
     self { GoalRepository() }
   }
 
-  public var ratingRepository: Factory<RatingRepository> {
+  public var ratingRepository: Factory<RatingRepositoryProtocol> {
     self { RatingRepository() }
   }
 

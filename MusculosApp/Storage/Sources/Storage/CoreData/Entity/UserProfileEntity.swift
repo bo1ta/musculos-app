@@ -31,7 +31,7 @@ public class UserProfileEntity: NSManagedObject {
   @NSManaged public var xp: NSNumber // swiftlint:disable:this identifier_name
   @NSManaged public var goals: Set<GoalEntity>
   @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
-  @NSManaged public var exerciseRatings: Set<ExerciseRatingEntity>
+  @NSManaged public var ratings: Set<ExerciseRatingEntity>
   @NSManaged public var userExperience: UserExperienceEntity?
 
   @nonobjc
@@ -116,22 +116,24 @@ extension UserProfileEntity: ReadOnlyConvertible {
       availableEquipment: availableEquipment,
       primaryGoalID: primaryGoalID,
       isOnboarded: isOnboarded,
-      xp: xp.intValue)
+      xp: xp.intValue,
+      ratings: ratings.map { $0.toReadOnly() })
   }
 }
 
 // MARK: - Common predicate
 
 extension UserProfileEntity {
-  static func userFromID(_ userID: UUID, on storage: StorageType) -> UserProfileEntity? {
-    storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(userID))
-  }
-
-  static func currentUser() -> UserProfileEntity? {
+  static func getCurrentUser(on storage: StorageType) -> UserProfileEntity? {
     guard let currentUserID = StorageContainer.shared.userManager().currentUserID else {
       return nil
     }
-    return userFromID(currentUserID, on: StorageContainer.shared.storageManager().viewStorage)
+
+    return storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(currentUserID))
+  }
+
+  static func userFromID(_ userID: UUID, on storage: StorageType) -> UserProfileEntity? {
+    storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(userID))
   }
 
   static func entityFrom(_ model: UserProfile, using storage: StorageType) -> UserProfileEntity {
@@ -148,7 +150,7 @@ extension UserProfileEntity {
 // MARK: EntitySyncable
 
 extension UserProfileEntity: EntitySyncable {
-  public func populateEntityFrom(_ model: UserProfile, using _: StorageType) {
+  public func populateEntityFrom(_ model: UserProfile, using storage: StorageType) {
     userId = model.userId
     availableEquipment = model.availableEquipment
     avatarUrl = model.avatar
@@ -159,6 +161,7 @@ extension UserProfileEntity: EntitySyncable {
     username = model.username
     isOnboarded = model.isOnboarded ?? false
     xp = (model.xp ?? 0) as NSNumber
+    ratings = Set<ExerciseRatingEntity>()
 
     if let weight = model.weight {
       self.weight = weight as NSNumber
@@ -168,6 +171,12 @@ extension UserProfileEntity: EntitySyncable {
     }
     if let primaryGoalID = model.primaryGoalID {
       self.primaryGoalID = primaryGoalID
+    }
+    if let userExperience = model.userExperience {
+      let userExperienceEntity = storage.findOrInsert(of: UserExperienceEntity.self, using: PredicateProvider.userExperienceByID(userExperience.id))
+      userExperienceEntity.populateEntityFrom(userExperience, using: storage)
+      userExperienceEntity.user = self
+      self.userExperience = userExperienceEntity
     }
 
     synchronized = SynchronizationState.synchronized.asNSNumber()
