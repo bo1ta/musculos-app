@@ -15,19 +15,6 @@ import Storage
 import SwiftUI
 import Utility
 
-// MARK: - ExerciseRatingState
-
-private struct ExerciseRatingState {
-  var showDialog = false
-  var userRating = 0
-  var allRatings: [ExerciseRating] = []
-
-  var average: Double {
-    guard !allRatings.isEmpty else { return 0.0 }
-    return allRatings.reduce(0) { $0 + $1.rating } / Double(allRatings.count)
-  }
-}
-
 // MARK: - ExploreViewModel
 
 @Observable
