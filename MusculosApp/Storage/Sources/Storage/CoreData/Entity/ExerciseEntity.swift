@@ -147,8 +147,7 @@ extension ExerciseEntity: ReadOnlyConvertible {
       imageUrls: imageUrls ?? [],
       isFavorite: isFavorite,
       updatedAt: updatedAt,
-      ratings: ratings.map { $0.toReadOnly() }
-    )
+      ratings: ratings.map { $0.toReadOnly() })
   }
 }
 

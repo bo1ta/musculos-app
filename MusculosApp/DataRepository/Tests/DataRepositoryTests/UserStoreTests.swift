@@ -5,18 +5,20 @@
 //  Created by Solomon Alexandru on 02.01.2025.
 //
 
-import Testing
-import Factory
 import Combine
+import Factory
 import Foundation
-import XCTest
 import Network
+import Testing
+import XCTest
 
 @testable import DataRepository
-@testable import Storage
-@testable import NetworkClient
 @testable import Models
+@testable import NetworkClient
+@testable import Storage
 @testable import Utility
+
+// MARK: - UserStoreTests
 
 class UserStoreTests: XCTestCase {
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore
@@ -41,7 +43,6 @@ class UserStoreTests: XCTestCase {
       expectedUserProfile: expectedUser)
     DataRepositoryContainer.shared.userRepository.register { mockRepository }
     defer { DataRepositoryContainer.shared.userRepository.reset() }
-
 
     let userStore = UserStore()
 
@@ -98,7 +99,12 @@ extension UserStoreTests {
     var expectedUserSessionState: UserSessionState?
     var expectedSession: UserSession?
 
-    init(updateExpectation: XCTestExpectation? = nil, clearExpectation: XCTestExpectation? = nil, expectedUserSessionState: UserSessionState? = nil, expectedSession: UserSession? = nil) {
+    init(
+      updateExpectation: XCTestExpectation? = nil,
+      clearExpectation: XCTestExpectation? = nil,
+      expectedUserSessionState: UserSessionState? = nil,
+      expectedSession: UserSession? = nil)
+    {
       self.updateExpectation = updateExpectation
       self.clearExpectation = clearExpectation
       self.expectedUserSessionState = expectedUserSessionState
@@ -106,7 +112,7 @@ extension UserStoreTests {
     }
 
     func getCurrentState() -> UserSessionState {
-      return expectedUserSessionState ?? .unauthenticated
+      expectedUserSessionState ?? .unauthenticated
     }
 
     func updateSession(_ session: UserSession) {
@@ -127,13 +133,17 @@ extension UserStoreTests {
     var expectedUserSession: UserSession?
     var expectedUserProfile: UserProfile?
 
-    init(expectation: XCTestExpectation? = nil, expectedUserSession: UserSession? = nil, expectedUserProfile: UserProfile? = nil) {
+    init(
+      expectation: XCTestExpectation? = nil,
+      expectedUserSession: UserSession? = nil,
+      expectedUserProfile: UserProfile? = nil)
+    {
       self.expectation = expectation
       self.expectedUserSession = expectedUserSession
       self.expectedUserProfile = expectedUserProfile
     }
 
-    func register(email: String, password: String, username: String) async throws -> UserSession {
+    func register(email _: String, password _: String, username _: String) async throws -> UserSession {
       expectation?.fulfill()
 
       guard let expectedUserSession else {
@@ -142,7 +152,7 @@ extension UserStoreTests {
       return expectedUserSession
     }
 
-    func login(email: String, password: String) async throws -> UserSession {
+    func login(email _: String, password _: String) async throws -> UserSession {
       expectation?.fulfill()
 
       guard let expectedUserSession else {
@@ -160,7 +170,7 @@ extension UserStoreTests {
       return expectedUserProfile
     }
 
-    func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws {
+    func updateProfileUsingOnboardingData(_: OnboardingData) async throws {
       expectation?.fulfill()
     }
   }

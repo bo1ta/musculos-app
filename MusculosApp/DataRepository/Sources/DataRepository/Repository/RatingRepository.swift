@@ -12,12 +12,16 @@ import NetworkClient
 import Storage
 import Utility
 
+// MARK: - RatingRepositoryProtocol
+
 public protocol RatingRepositoryProtocol: Actor {
   func getExerciseRatingsForCurrentUser() async throws -> [ExerciseRating]
   func getUserRatingForExercise(_ exerciseID: UUID) async throws -> Double
   func getRatingsForExercise(_ exerciseID: UUID) async throws -> [ExerciseRating]
   func addRating(rating: Double, for exerciseID: UUID) async throws
 }
+
+// MARK: - RatingRepository
 
 public actor RatingRepository: BaseRepository, RatingRepositoryProtocol {
   @Injected(\NetworkContainer.ratingService) private var service: RatingServiceProtocol

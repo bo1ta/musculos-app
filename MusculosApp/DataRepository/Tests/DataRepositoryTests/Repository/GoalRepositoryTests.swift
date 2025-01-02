@@ -5,16 +5,18 @@
 //  Created by Solomon Alexandru on 02.01.2025.
 //
 
-import Testing
 import Factory
 import Foundation
+import Testing
 import XCTest
 
 @testable import DataRepository
-@testable import Storage
-@testable import NetworkClient
 @testable import Models
+@testable import NetworkClient
+@testable import Storage
 @testable import Utility
+
+// MARK: - GoalRepositoryTests
 
 class GoalRepositoryTests: XCTestCase {
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore
@@ -65,6 +67,8 @@ class GoalRepositoryTests: XCTestCase {
   }
 }
 
+// MARK: GoalRepositoryTests.MockGoalService
+
 extension GoalRepositoryTests {
   private struct MockGoalService: GoalServiceProtocol {
     var expectation: XCTestExpectation?
@@ -73,20 +77,20 @@ extension GoalRepositoryTests {
     func getOnboardingGoals() async throws -> [OnboardingGoal] {
       expectation?.fulfill()
       return [
-        OnboardingGoal(id: UUID(), title: "Title 1", description: "description 1", iconName: "icon name")
+        OnboardingGoal(id: UUID(), title: "Title 1", description: "description 1", iconName: "icon name"),
       ]
     }
-    
+
     func getUserGoals() async throws -> [Goal] {
       expectation?.fulfill()
       return expectedGoals
     }
-    
-    func addGoal(_ goal: Goal) async throws {
+
+    func addGoal(_: Goal) async throws {
       expectation?.fulfill()
     }
 
-    func getGoalByID(_ goalID: UUID) async throws -> Goal {
+    func getGoalByID(_: UUID) async throws -> Goal {
       expectation?.fulfill()
 
       if let first = expectedGoals.first {
@@ -94,8 +98,8 @@ extension GoalRepositoryTests {
       }
       throw MusculosError.unexpectedNil
     }
-    
-    func addProgressEntry(_ entry: Models.ProgressEntry) async throws {
+
+    func addProgressEntry(_: Models.ProgressEntry) async throws {
       expectation?.fulfill()
     }
   }

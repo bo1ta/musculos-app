@@ -20,7 +20,7 @@ public class GoalFactory: BaseFactory, @unchecked Sendable {
   public var isCompleted: Bool?
   public var updatedAt: Date?
   public var user: UserProfile?
-  public var isPersistent: Bool = true
+  public var isPersistent = true
 
   public func create() -> Goal {
     let goal = Goal(

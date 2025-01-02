@@ -25,7 +25,7 @@ public class UserProfileFactory: BaseFactory, @unchecked Sendable {
   public var goals: [Goal]?
   public var ratings: [ExerciseRating]?
   public var userExperience: UserExperience?
-  public var isPersistent: Bool = true
+  public var isPersistent = true
 
   public func create() -> UserProfile {
     let model = UserProfile(

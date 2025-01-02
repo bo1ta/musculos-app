@@ -15,7 +15,7 @@ public class ExerciseSessionFactory: BaseFactory, @unchecked Sendable {
   public var exercise: Exercise?
   public var duration: Double?
   public var weight: Double?
-  public var isPersistent: Bool = true
+  public var isPersistent = true
 
   public init() { }
 

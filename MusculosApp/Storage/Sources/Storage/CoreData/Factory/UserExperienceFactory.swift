@@ -12,19 +12,18 @@ public class UserExperienceFactory: BaseFactory, @unchecked Sendable {
   public var id: UUID?
   public var totalExperience: Int?
   public var experienceEntries: [UserExperienceEntry]?
-  public var isPersistent: Bool = true
+  public var isPersistent = true
 
   public func create() -> UserExperience {
     let userExperience = UserExperience(
       id: id ?? UUID(),
       totalExperience: totalExperience ?? 100,
-      experienceEntries: experienceEntries
-    )
+      experienceEntries: experienceEntries)
     syncObject(userExperience, of: UserExperienceEntity.self)
     return userExperience
   }
 
   public static func createUserExperience() -> UserExperience {
-    return UserExperienceFactory().create()
+    UserExperienceFactory().create()
   }
 }

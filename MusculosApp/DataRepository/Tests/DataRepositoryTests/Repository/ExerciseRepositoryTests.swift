@@ -5,18 +5,20 @@
 //  Created by Solomon Alexandru on 01.01.2025.
 //
 
-import Testing
-import Factory
 import Combine
+import Factory
 import Foundation
-import XCTest
 import Network
+import Testing
+import XCTest
 
 @testable import DataRepository
-@testable import Storage
-@testable import NetworkClient
 @testable import Models
+@testable import NetworkClient
+@testable import Storage
 @testable import Utility
+
+// MARK: - ExerciseRepositoryTests
 
 class ExerciseRepositoryTests: XCTestCase {
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore
@@ -101,7 +103,9 @@ class ExerciseRepositoryTests: XCTestCase {
     let serviceExpectation = self.expectation(description: "should call the service")
     let expectedExercise = ExerciseFactory.createExercise(isPersistent: false)
 
-    NetworkContainer.shared.exerciseService.register { ExerciseServiceStub(expectation: serviceExpectation, expectedResult: [expectedExercise]) }
+    NetworkContainer.shared.exerciseService.register { ExerciseServiceStub(
+      expectation: serviceExpectation,
+      expectedResult: [expectedExercise]) }
     NetworkContainer.shared.networkMonitor.register { StubNetworkMonitor(isConnected: true) }
     defer {
       NetworkContainer.shared.exerciseService.reset()
@@ -200,7 +204,9 @@ class ExerciseRepositoryTests: XCTestCase {
   func testSearchByQueryUsesRemoteAsFallback() async throws {
     let serviceExpectation = self.expectation(description: "should call service")
     let expectedResult = [ExerciseFactory.createExercise(isPersistent: false)]
-    NetworkContainer.shared.exerciseService.register { ExerciseServiceStub(expectation: serviceExpectation, expectedResult: expectedResult) }
+    NetworkContainer.shared.exerciseService.register { ExerciseServiceStub(
+      expectation: serviceExpectation,
+      expectedResult: expectedResult) }
     defer { NetworkContainer.shared.exerciseService.reset() }
 
     let exercises = try await ExerciseRepository().searchByQuery("Peanut")
@@ -208,6 +214,8 @@ class ExerciseRepositoryTests: XCTestCase {
     await fulfillment(of: [serviceExpectation], timeout: 1)
   }
 }
+
+// MARK: ExerciseRepositoryTests.ExerciseServiceStub
 
 extension ExerciseRepositoryTests {
   struct ExerciseServiceStub: ExerciseServiceProtocol {
@@ -233,22 +241,22 @@ extension ExerciseRepositoryTests {
       return try getOrThrow()
     }
 
-    func searchByQuery(_ query: String) async throws -> [Exercise] {
+    func searchByQuery(_: String) async throws -> [Exercise] {
       expectation?.fulfill()
       return try getOrThrow()
     }
 
-    func getByMuscle(_ muscle: Models.MuscleType) async throws -> [Exercise] {
+    func getByMuscle(_: Models.MuscleType) async throws -> [Exercise] {
       expectation?.fulfill()
       return try getOrThrow()
     }
 
-    func getByMuscleGroup(_ muscleGroup: Models.MuscleGroup) async throws -> [Exercise] {
+    func getByMuscleGroup(_: Models.MuscleGroup) async throws -> [Exercise] {
       expectation?.fulfill()
       return try getOrThrow()
     }
 
-    func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise {
+    func getExerciseDetails(for _: UUID) async throws -> Exercise {
       expectation?.fulfill()
 
       if let firstExercise = try getOrThrow().first {
@@ -262,17 +270,17 @@ extension ExerciseRepositoryTests {
       return try getOrThrow()
     }
 
-    func setFavoriteExercise(_ exercise: Models.Exercise, isFavorite: Bool) async throws {
+    func setFavoriteExercise(_: Models.Exercise, isFavorite _: Bool) async throws {
       _ = try getOrThrow()
       expectation?.fulfill()
     }
 
-    func getByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise] {
+    func getByWorkoutGoal(_: WorkoutGoal) async throws -> [Exercise] {
       expectation?.fulfill()
       return try getOrThrow()
     }
 
-    func addExercise(_ exercise: Exercise) async throws {
+    func addExercise(_: Exercise) async throws {
       expectation?.fulfill()
       _ = try getOrThrow()
     }

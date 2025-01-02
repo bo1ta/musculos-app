@@ -12,6 +12,8 @@ import NetworkClient
 import Storage
 import Utility
 
+// MARK: - GoalRepositoryProtocol
+
 public protocol GoalRepositoryProtocol: Actor {
   func getOnboardingGoals() async throws -> [OnboardingGoal]
   func addGoal(_ goal: Goal) async throws
@@ -19,6 +21,8 @@ public protocol GoalRepositoryProtocol: Actor {
   func getGoals() async throws -> [Goal]
   func addFromOnboardingGoal(_ onboardingGoal: OnboardingGoal, for user: UserProfile) async throws -> Goal
 }
+
+// MARK: - GoalRepository
 
 public actor GoalRepository: BaseRepository, GoalRepositoryProtocol {
   @Injected(\NetworkContainer.goalService) private var service: GoalServiceProtocol

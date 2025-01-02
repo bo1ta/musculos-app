@@ -12,6 +12,8 @@ import NetworkClient
 import Storage
 import Utility
 
+// MARK: - ExerciseRepositoryProtocol
+
 public protocol ExerciseRepositoryProtocol: Actor {
   func addExercise(_ exercise: Exercise) async throws
   func getExercises() async throws -> [Exercise]
@@ -26,6 +28,8 @@ public protocol ExerciseRepositoryProtocol: Actor {
   func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise]
   func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws
 }
+
+// MARK: - ExerciseRepository
 
 public actor ExerciseRepository: BaseRepository, ExerciseRepositoryProtocol {
   @Injected(\NetworkContainer.exerciseService) private var service: ExerciseServiceProtocol

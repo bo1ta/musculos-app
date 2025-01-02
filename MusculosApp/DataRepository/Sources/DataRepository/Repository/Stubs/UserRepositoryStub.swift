@@ -17,21 +17,21 @@ public actor UserRepositoryStub: UserRepositoryProtocol {
   public init(
     expectedSession: UserSession? = nil,
     expectedProfile: UserProfile? = nil,
-    shouldFail: Bool = false
-  ) {
+    shouldFail: Bool = false)
+  {
     self.expectedSession = expectedSession
     self.expectedProfile = expectedProfile
     self.shouldFail = shouldFail
   }
 
-  public func register(email: String, password: String, username: String) async throws -> UserSession {
+  public func register(email _: String, password _: String, username _: String) async throws -> UserSession {
     if let expectedSession {
       return expectedSession
     }
     throw MusculosError.unexpectedNil
   }
 
-  public func login(email: String, password: String) async throws -> UserSession {
+  public func login(email _: String, password _: String) async throws -> UserSession {
     if let expectedSession {
       return expectedSession
     }
@@ -39,8 +39,8 @@ public actor UserRepositoryStub: UserRepositoryProtocol {
   }
 
   public func getCurrentUser() async throws -> UserProfile? {
-    return expectedProfile
+    expectedProfile
   }
 
-  public func updateProfileUsingOnboardingData(_ onboardingData: Models.OnboardingData) async throws { }
+  public func updateProfileUsingOnboardingData(_: Models.OnboardingData) async throws { }
 }

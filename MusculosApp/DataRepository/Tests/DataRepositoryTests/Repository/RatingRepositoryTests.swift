@@ -5,18 +5,20 @@
 //  Created by Solomon Alexandru on 02.01.2025.
 //
 
-import Testing
-import Factory
 import Combine
+import Factory
 import Foundation
-import XCTest
 import Network
+import Testing
+import XCTest
 
 @testable import DataRepository
-@testable import Storage
-@testable import NetworkClient
 @testable import Models
+@testable import NetworkClient
+@testable import Storage
 @testable import Utility
+
+// MARK: - RatingRepositoryTests
 
 class RatingRepositoryTests: XCTestCase {
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore
@@ -115,14 +117,16 @@ class RatingRepositoryTests: XCTestCase {
   }
 }
 
+// MARK: RatingRepositoryTests.MockRatingService
+
 extension RatingRepositoryTests {
   private struct MockRatingService: RatingServiceProtocol {
     var expectation: XCTestExpectation?
     var expectedResult: [ExerciseRating]
 
-    func addExerciseRating(_ exerciseRating: ExerciseRating) async throws { }
+    func addExerciseRating(_: ExerciseRating) async throws { }
 
-    func getRatingsByExerciseID(_ exerciseID: UUID) async throws -> [ExerciseRating] {
+    func getRatingsByExerciseID(_: UUID) async throws -> [ExerciseRating] {
       expectation?.fulfill()
       return expectedResult
     }

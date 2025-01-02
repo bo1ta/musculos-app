@@ -12,6 +12,8 @@ import NetworkClient
 import Storage
 import Utility
 
+// MARK: - ExerciseSessionRepositoryProtocol
+
 public protocol ExerciseSessionRepositoryProtocol: Actor {
   func getExerciseSessions() async throws -> [ExerciseSession]
   func getRecommendationsForLeastWorkedMuscles() async throws -> [Exercise]
@@ -19,6 +21,8 @@ public protocol ExerciseSessionRepositoryProtocol: Actor {
   func getCompletedToday() async throws -> [ExerciseSession]
   func addSession(_ exerciseSession: ExerciseSession) async throws -> UserExperienceEntry
 }
+
+// MARK: - ExerciseSessionRepository
 
 public actor ExerciseSessionRepository: BaseRepository, ExerciseSessionRepositoryProtocol {
   @Injected(\NetworkContainer.exerciseSessionService) private var service: ExerciseSessionServiceProtocol

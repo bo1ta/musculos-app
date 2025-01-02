@@ -5,23 +5,23 @@
 //  Created by Solomon Alexandru on 02.01.2025.
 //
 
-import Foundation
-import Testing
 import Combine
 import Factory
-import XCTest
-import Models
 import Fakery
+import Foundation
+import Models
+import Testing
+import XCTest
 
-@testable import MusculosApp
-@testable import DataRepository
 @testable import Components
+@testable import DataRepository
+@testable import MusculosApp
+
+// MARK: - AuthenticationViewModelTests
 
 @MainActor
 class AuthenticationViewModelTests: XCTestCase {
   private let faker = Faker()
-  private let cancellables: Set<AnyCancellable> = []
-
   func testLoginFormIsValid() async throws {
     let viewModel = AuthenticationViewModel(initialStep: .login)
     #expect(viewModel.isLoginFormValid == false)
@@ -154,12 +154,12 @@ extension AuthenticationViewModelTests {
     var showExpectation: XCTestExpectation?
 
     var toastPublisher: AnyPublisher<Toast?, Never> {
-      return toastSubject.eraseToAnyPublisher()
+      toastSubject.eraseToAnyPublisher()
     }
 
     private let toastSubject = CurrentValueSubject<Toast?, Never>(nil)
 
-    func show(_ toast: Components.Toast, autoDismissAfter seconds: TimeInterval) {
+    func show(_: Components.Toast, autoDismissAfter _: TimeInterval) {
       showExpectation?.fulfill()
     }
   }

@@ -5,18 +5,20 @@
 //  Created by Solomon Alexandru on 02.01.2025.
 //
 
-import Testing
-import Factory
 import Combine
+import Factory
 import Foundation
-import XCTest
 import Network
+import Testing
+import XCTest
 
 @testable import DataRepository
-@testable import Storage
-@testable import NetworkClient
 @testable import Models
+@testable import NetworkClient
+@testable import Storage
 @testable import Utility
+
+// MARK: - UserRepositoryTests
 
 class UserRepositoryTests: XCTestCase {
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore
@@ -106,7 +108,7 @@ extension UserRepositoryTests {
       self.expectedProfile = expectedProfile
     }
 
-    func register(email: String, password: String, username: String) async throws -> UserSession {
+    func register(email _: String, password _: String, username _: String) async throws -> UserSession {
       expectation?.fulfill()
 
       if let expectedUserSession {
@@ -115,7 +117,7 @@ extension UserRepositoryTests {
       throw MusculosError.unexpectedNil
     }
 
-    func login(email: String, password: String) async throws -> UserSession {
+    func login(email _: String, password _: String) async throws -> UserSession {
       expectation?.fulfill()
 
       if let expectedUserSession {
@@ -123,7 +125,7 @@ extension UserRepositoryTests {
       }
       throw MusculosError.unexpectedNil
     }
-    
+
     func currentUser() async throws -> UserProfile {
       expectation?.fulfill()
 
@@ -132,8 +134,15 @@ extension UserRepositoryTests {
       }
       throw MusculosError.unexpectedNil
     }
-    
-    func updateUser(weight: Int?, height: Int?, primaryGoalID: UUID?, level: String?, isOnboarded: Bool) async throws -> UserProfile {
+
+    func updateUser(
+      weight _: Int?,
+      height _: Int?,
+      primaryGoalID _: UUID?,
+      level _: String?,
+      isOnboarded _: Bool)
+      async throws -> UserProfile
+    {
       expectation?.fulfill()
       if let expectedProfile {
         return expectedProfile

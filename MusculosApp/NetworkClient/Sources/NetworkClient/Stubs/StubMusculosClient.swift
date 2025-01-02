@@ -8,7 +8,7 @@
 import Foundation
 
 struct StubMusculosClient: MusculosClientProtocol {
-  func dispatch(_ request: APIRequest) async throws -> Data {
-    return Data()
+  func dispatch(_: APIRequest) async throws -> Data {
+    Data()
   }
 }

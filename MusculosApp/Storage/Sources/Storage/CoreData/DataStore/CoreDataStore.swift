@@ -152,7 +152,7 @@ extension CoreDataStore {
 
 extension CoreDataStore {
   public func userExperienceEntryByID(_ id: UUID) async -> UserExperienceEntry? {
-    return await getFirstObject(UserExperienceEntryEntity.self, predicate: PredicateProvider.userExperienceEntryByID(id))
+    await getFirstObject(UserExperienceEntryEntity.self, predicate: PredicateProvider.userExperienceEntryByID(id))
   }
 }
 
@@ -161,7 +161,12 @@ extension CoreDataStore {
 extension CoreDataStore {
   public func updateGoalProgress(userID: UUID, exerciseSession: ExerciseSession) async throws {
     try await storageManager.performWrite { storage in
-      guard let currentUser = storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(userID)), !currentUser.goals.isEmpty else {
+      guard
+        let currentUser = storage.firstObject(
+          of: UserProfileEntity.self,
+          matching: PredicateProvider.userProfileById(userID)),
+        !currentUser.goals.isEmpty
+      else {
         return
       }
 

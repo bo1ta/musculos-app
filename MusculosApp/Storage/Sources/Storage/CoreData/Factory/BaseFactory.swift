@@ -7,6 +7,8 @@
 
 import Fakery
 
+// MARK: - BaseFactory
+
 protocol BaseFactory: Sendable {
   associatedtype ReadOnlyType
 

@@ -12,7 +12,7 @@ public class UserExperienceEntryFactory: BaseFactory, @unchecked Sendable {
   public var id: UUID?
   public var userExperience: UserExperience?
   public var xpGained: Int?
-  public var isPersistent: Bool = true
+  public var isPersistent = true
 
   public func create() -> UserExperienceEntry {
     let userExperience = UserExperienceEntry(
@@ -24,6 +24,6 @@ public class UserExperienceEntryFactory: BaseFactory, @unchecked Sendable {
   }
 
   public static func createUserExperienceEntry() -> UserExperienceEntry {
-    return UserExperienceEntryFactory().create()
+    UserExperienceEntryFactory().create()
   }
 }

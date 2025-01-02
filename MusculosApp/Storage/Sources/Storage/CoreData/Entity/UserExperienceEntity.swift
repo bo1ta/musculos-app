@@ -47,7 +47,7 @@ extension UserExperienceEntity {
 
 extension UserExperienceEntity: ReadOnlyConvertible {
   public func toReadOnly() -> UserExperience {
-    return UserExperience(
+    UserExperience(
       id: modelID as UUID,
       totalExperience: totalExperience.intValue)
   }
@@ -67,7 +67,9 @@ extension UserExperienceEntity: EntitySyncable {
     }
 
     let entities = experienceEntries.map { experienceEntry in
-      let entity = storage.findOrInsert(of: UserExperienceEntryEntity.self, using: PredicateProvider.userExperienceEntryByID(experienceEntry.id))
+      let entity = storage.findOrInsert(
+        of: UserExperienceEntryEntity.self,
+        using: PredicateProvider.userExperienceEntryByID(experienceEntry.id))
       entity.populateEntityFrom(experienceEntry, using: storage)
       entity.userExperience = self
       return entity
@@ -83,7 +85,9 @@ extension UserExperienceEntity: EntitySyncable {
     }
 
     let entities = experienceEntries.map { experienceEntry in
-      let entity = storage.findOrInsert(of: UserExperienceEntryEntity.self, using: PredicateProvider.userExperienceEntryByID(experienceEntry.id))
+      let entity = storage.findOrInsert(
+        of: UserExperienceEntryEntity.self,
+        using: PredicateProvider.userExperienceEntryByID(experienceEntry.id))
       entity.populateEntityFrom(experienceEntry, using: storage)
       entity.userExperience = self
       return entity

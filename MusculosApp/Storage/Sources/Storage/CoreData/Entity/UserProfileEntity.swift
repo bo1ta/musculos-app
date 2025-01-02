@@ -173,7 +173,9 @@ extension UserProfileEntity: EntitySyncable {
       self.primaryGoalID = primaryGoalID
     }
     if let userExperience = model.userExperience {
-      let userExperienceEntity = storage.findOrInsert(of: UserExperienceEntity.self, using: PredicateProvider.userExperienceByID(userExperience.id))
+      let userExperienceEntity = storage.findOrInsert(
+        of: UserExperienceEntity.self,
+        using: PredicateProvider.userExperienceByID(userExperience.id))
       userExperienceEntity.populateEntityFrom(userExperience, using: storage)
       userExperienceEntity.user = self
       self.userExperience = userExperienceEntity

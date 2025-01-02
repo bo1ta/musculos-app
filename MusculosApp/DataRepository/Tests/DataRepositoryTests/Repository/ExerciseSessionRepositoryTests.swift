@@ -5,16 +5,18 @@
 //  Created by Solomon Alexandru on 02.01.2025.
 //
 
-import Testing
 import Factory
 import Foundation
+import Testing
 import XCTest
 
 @testable import DataRepository
-@testable import Storage
-@testable import NetworkClient
 @testable import Models
+@testable import NetworkClient
+@testable import Storage
 @testable import Utility
+
+// MARK: - ExerciseSessionRepositoryTests
 
 class ExerciseSessionRepositoryTests: XCTestCase {
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore
@@ -99,13 +101,19 @@ class ExerciseSessionRepositoryTests: XCTestCase {
   }
 }
 
+// MARK: ExerciseSessionRepositoryTests.MockExerciseSessionService
+
 extension ExerciseSessionRepositoryTests {
   private struct MockExerciseSessionService: ExerciseSessionServiceProtocol {
     var expectation: XCTestExpectation?
     var expectedUserExperienceEntry: UserExperienceEntry?
     var expectedExerciseSessions: [ExerciseSession]
 
-    init(expectation: XCTestExpectation? = nil, expectedExerciseSessions: [ExerciseSession] = [], expectedUserExperienceEntry: UserExperienceEntry? = nil) {
+    init(
+      expectation: XCTestExpectation? = nil,
+      expectedExerciseSessions: [ExerciseSession] = [],
+      expectedUserExperienceEntry: UserExperienceEntry? = nil)
+    {
       self.expectation = expectation
       self.expectedExerciseSessions = expectedExerciseSessions
       self.expectedUserExperienceEntry = expectedUserExperienceEntry
@@ -115,8 +123,8 @@ extension ExerciseSessionRepositoryTests {
       expectation?.fulfill()
       return expectedExerciseSessions
     }
-    
-    func add(_ exerciseSession: ExerciseSession) async throws -> UserExperienceEntry {
+
+    func add(_: ExerciseSession) async throws -> UserExperienceEntry {
       expectation?.fulfill()
 
       if let expectedUserExperienceEntry {

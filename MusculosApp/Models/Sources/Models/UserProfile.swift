@@ -44,8 +44,7 @@ public struct UserProfile: Codable, Sendable {
     xp: Int? = 0, // swiftlint:disable:this identifier_name
     goals: [Goal]? = nil,
     ratings: [ExerciseRating]? = nil,
-    userExperience: UserExperience? = nil
-  )
+    userExperience: UserExperience? = nil)
   {
     self.userId = userId
     self.email = email

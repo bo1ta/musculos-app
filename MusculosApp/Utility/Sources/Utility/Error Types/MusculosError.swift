@@ -110,9 +110,9 @@ extension MusculosError {
     public var description: String {
       switch self {
       case .invalidUser:
-        return "Invalid user"
+        "Invalid user"
       case .syncingFailed(let message):
-        return "Syncing failed: \(message)"
+        "Syncing failed: \(message)"
       }
     }
 

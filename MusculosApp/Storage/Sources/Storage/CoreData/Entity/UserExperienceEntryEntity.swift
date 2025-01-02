@@ -42,7 +42,11 @@ extension UserExperienceEntryEntity: EntitySyncable {
     modelID = model.id
     xpGained = model.xpGained as NSNumber
 
-    if let userExperienceEntity = storage.firstObject(of: UserExperienceEntity.self, matching: PredicateProvider.userExperienceByID(model.userExperience.id)) {
+    if
+      let userExperienceEntity = storage.firstObject(
+        of: UserExperienceEntity.self,
+        matching: PredicateProvider.userExperienceByID(model.userExperience.id))
+    {
       userExperience = userExperienceEntity
     }
   }

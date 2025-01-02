@@ -15,7 +15,7 @@ public class ExerciseRatingFactory: BaseFactory, @unchecked Sendable {
   public var isPublic: Bool?
   public var rating: Double?
   public var comment: String?
-  public var isPersistent: Bool = true
+  public var isPersistent = true
 
   public func create() -> ExerciseRating {
     let exerciseRating = ExerciseRating(

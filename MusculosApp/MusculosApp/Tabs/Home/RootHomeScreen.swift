@@ -22,5 +22,5 @@ struct RootHomeScreen: View {
 }
 
 extension NavigationCheckpoint {
- static let home: NavigationCheckpoint = "home"
+  static let home: NavigationCheckpoint = "home"
 }

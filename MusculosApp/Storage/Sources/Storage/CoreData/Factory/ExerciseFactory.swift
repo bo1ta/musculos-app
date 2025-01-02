@@ -22,7 +22,7 @@ public class ExerciseFactory: BaseFactory, @unchecked Sendable {
   public var instructions: [String]?
   public var imageUrls: [String]?
   public var isFavorite: Bool?
-  public var isPersistent: Bool = true
+  public var isPersistent = true
 
   public func create() -> Exercise {
     let exercise = Exercise(

@@ -9,31 +9,35 @@ import Combine
 import SwiftUI
 import Utility
 
+// MARK: - ToastManagerProtocol
+
 public protocol ToastManagerProtocol {
   var toastPublisher: AnyPublisher<Toast?, Never> { get }
 
   func show(_ toast: Toast, autoDismissAfter seconds: TimeInterval)
 }
 
-public extension ToastManagerProtocol {
+extension ToastManagerProtocol {
   private static var standardDuration: TimeInterval { UIConstant.toastStandardDuration }
 
-  func showInfo(_ message: String) {
+  public func showInfo(_ message: String) {
     show(.info(message), autoDismissAfter: Self.standardDuration)
   }
 
-  func showWarning(_ message: String) {
+  public func showWarning(_ message: String) {
     show(.warning(message), autoDismissAfter: Self.standardDuration)
   }
 
-  func showSuccess(_ message: String) {
+  public func showSuccess(_ message: String) {
     show(.success(message), autoDismissAfter: Self.standardDuration)
   }
 
-  func showError(_ message: String) {
+  public func showError(_ message: String) {
     show(.error(message), autoDismissAfter: Self.standardDuration)
   }
 }
+
+// MARK: - ToastManager
 
 public class ToastManager: @unchecked Sendable, ToastManagerProtocol {
   private let toastSubject = CurrentValueSubject<Toast?, Never>(nil)
