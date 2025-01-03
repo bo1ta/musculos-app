@@ -5,11 +5,11 @@
 //  Created by Solomon Alexandru on 03.01.2025.
 //
 
-import Observation
-import CoreLocation
 import Combine
-import MapKit
+import CoreLocation
 import Foundation
+import MapKit
+import Observation
 import Utility
 
 @MainActor
@@ -23,8 +23,9 @@ final class RoutePlannerViewModel {
       currentQuerySubject.send(endLocation)
     }
   }
+
   var currentLocation: CLLocation?
-  var resultsMapItems: [MKMapItem] = []
+  var mapItemResults: [MapItemResult] = []
 
   private let currentQuerySubject = PassthroughSubject<String, Never>()
   private var searchTask: Task<Void, Never>?
@@ -57,9 +58,13 @@ final class RoutePlannerViewModel {
       }
 
       do {
-        let coordinateRegion = MKCoordinateRegion(center: currentLocation.coordinate, span: .init(latitudeDelta: 0.1, longitudeDelta: 0.1))
+        let coordinateRegion = MKCoordinateRegion(
+          center: currentLocation.coordinate,
+          span: .init(latitudeDelta: 0.1, longitudeDelta: 0.1))
         let result = try await client.getLocationsByQuery(endLocation, on: coordinateRegion)
         Logger.info(message: "Found results: \(result)")
+        mapItemResults = result
+
       } catch {
         Logger.error(error, message: "Could not perform search using MapKitClient")
       }

@@ -1,17 +1,18 @@
 //
-//  RouteViewController.swift
+//  RouteMapViewController.swift
 //  RouteKit
 //
 //  Created by Solomon Alexandru on 04.01.2025.
 //
 
-import UIKit
-import MapKit
 import CoreLocation
-import SwiftUI
+import MapKit
+import UIKit
 import Utility
 
-public final class RouteViewController: UIViewController {
+// MARK: - RouteMapViewController
+
+public final class RouteMapViewController: UIViewController {
   private let locationManager = LocationManager()
   private let mapView = MKMapView()
 
@@ -53,7 +54,7 @@ public final class RouteViewController: UIViewController {
       mapView.topAnchor.constraint(equalTo: view.topAnchor),
       mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
       mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+      mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
     ])
   }
 
@@ -91,6 +92,7 @@ public final class RouteViewController: UIViewController {
     annotation.title = title ?? "Custom Pin"
     annotation.subtitle = "Long press to add another pin"
     mapView.addAnnotation(annotation)
+
     pinnedLocations.append(coordinate)
     updatePolyline(pinnedLocations)
   }
@@ -158,7 +160,9 @@ public final class RouteViewController: UIViewController {
   }
 }
 
-extension RouteViewController: MKMapViewDelegate {
+// MARK: MKMapViewDelegate
+
+extension RouteMapViewController: MKMapViewDelegate {
   public func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
     guard !annotation.isKind(of: MKUserLocation.self) else {
       return nil

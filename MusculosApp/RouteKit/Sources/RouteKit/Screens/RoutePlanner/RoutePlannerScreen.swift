@@ -17,7 +17,10 @@ public struct RoutePlannerScreen: View {
 
   public var body: some View {
     ZStack(alignment: .bottom) {
-      RouteView(currentLocation: $viewModel.currentLocation, averagePace: $viewModel.averagePace)
+      RouteMap(
+        currentLocation: $viewModel.currentLocation,
+        averagePace: $viewModel.averagePace,
+        mapItemResults: $viewModel.mapItemResults)
     }
     .sheet(isPresented: .constant(true)) {
       VStack(spacing: 20) {
@@ -34,7 +37,6 @@ public struct RoutePlannerScreen: View {
     .onDisappear(perform: viewModel.onDisappear)
   }
 
-  private func planRoute() { }
 }
 
 #Preview {

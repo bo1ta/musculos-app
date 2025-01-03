@@ -5,13 +5,15 @@
 //  Created by Solomon Alexandru on 03.01.2025.
 //
 
-import MapKit
 import Foundation
+import MapKit
 import Utility
+
+// MARK: - MapKitClient
 
 public class MapKitClient {
   @MainActor
-  public func getLocationsByQuery(_ query: String, on region: MKCoordinateRegion) async throws -> [MapResultItem] {
+  public func getLocationsByQuery(_: String, on region: MKCoordinateRegion) async throws -> [MapItemResult] {
     let request = MKLocalPointsOfInterestRequest(coordinateRegion: region)
     let localSearch = MKLocalSearch(request: request)
 
@@ -32,17 +34,23 @@ public class MapKitClient {
     }
   }
 
-  private func mapItemsToResults(_ items: [MKMapItem]) -> [MapResultItem] {
+  private func mapItemsToResults(_ items: [MKMapItem]) -> [MapItemResult] {
     items.compactMap { item in
       guard let name = item.name else {
         return nil
       }
-      return MapResultItem(identifier: UUID(), name: name, placemark: item.placemark, pointOfInterestCategory: item.pointOfInterestCategory)
+      return MapItemResult(
+        identifier: UUID(),
+        name: name,
+        placemark: item.placemark,
+        pointOfInterestCategory: item.pointOfInterestCategory)
     }
   }
 }
 
-public struct MapResultItem: Sendable {
+// MARK: - MapItemResult
+
+public struct MapItemResult: Sendable {
   var identifier: UUID
   var name: String
   var placemark: MKPlacemark

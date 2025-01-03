@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  RouteLiveScreen.swift
 //  RouteKit
 //
 //  Created by Solomon Alexandru on 30.12.2024.
@@ -10,7 +10,7 @@ import RouteKit
 import SwiftUI
 import Utility
 
-public struct LiveRouteScreen: View {
+public struct RouteLiveScreen: View {
   @State private var averagePace: Double = 0
 
   public init() { }
@@ -18,7 +18,7 @@ public struct LiveRouteScreen: View {
   public var body: some View {
     GeometryReader { proxy in
       VStack {
-        RouteView(averagePace: $averagePace)
+        RouteMap(averagePace: $averagePace)
         Spacer()
       }
       .ignoresSafeArea()
@@ -48,5 +48,5 @@ public struct LiveRouteScreen: View {
 }
 
 #Preview {
-  LiveRouteScreen()
+  RouteLiveScreen()
 }
