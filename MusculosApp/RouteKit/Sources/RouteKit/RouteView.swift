@@ -107,8 +107,8 @@ extension RouteView {
         for await location in locationManager.locationStream {
           await MainActor.run {
             updateMapLocation(location)
-            averagePace = .constant(calculateAveragePace(from: location))
-            currentLocation = .constant(location)
+            averagePace.wrappedValue = calculateAveragePace(from: location)
+            currentLocation.wrappedValue = location
           }
         }
       }

@@ -18,13 +18,13 @@ import Utility
 @MainActor
 class AuthenticationViewModel {
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userRepository) private var repository: UserRepositoryProtocol
+  @LazyInjected(\DataRepositoryContainer.userRepository) private var repository: UserRepositoryProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
+  @LazyInjected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
 
   @ObservationIgnored
-  @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
+  @LazyInjected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   // MARK: - Auth step
 
