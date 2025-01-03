@@ -34,7 +34,6 @@ public final class RouteMapViewController: UIViewController {
     super.viewDidLoad()
 
     setupMapView()
-    setupGestureRecognizer()
     startListeningForLocationUpdates()
   }
 
@@ -42,6 +41,30 @@ public final class RouteMapViewController: UIViewController {
     stopListeningForLocationUpdates()
 
     super.viewWillDisappear(animated)
+  }
+
+  func startListeningForLocationUpdates() {
+    locationsTask?.cancel()
+    locationsTask = Task { [weak self] in
+      guard let self else {
+        return
+      }
+
+      startTime = Date()
+
+      for await location in locationManager.locationStream {
+        await MainActor.run {
+          updateMapLocation(location)
+          onUpdatePace?(calculateAveragePace(from: location))
+          onUpdateLocation?(location)
+        }
+      }
+    }
+  }
+
+  func stopListeningForLocationUpdates() {
+    locationsTask?.cancel()
+    locationManager.closeLocationStream()
   }
 
   private func setupMapView() {
@@ -56,9 +79,7 @@ public final class RouteMapViewController: UIViewController {
       mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
     ])
-  }
 
-  private func setupGestureRecognizer() {
     let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
     longPressGesture.minimumPressDuration = 0.5
     mapView.addGestureRecognizer(longPressGesture)
@@ -75,17 +96,6 @@ public final class RouteMapViewController: UIViewController {
     addMarker(at: coordinate)
   }
 
-  func updateMapWithResults(_ mapResults: [MapItemResult]) {
-    guard !mapResults.isEmpty else {
-      return
-    }
-
-    for result in mapResults {
-      addMarker(at: result.placemark.coordinate, with: result.name)
-      Logger.info(message: "Added map placemark from results")
-    }
-  }
-
   private func addMarker(at coordinate: CLLocationCoordinate2D, with title: String? = nil) {
     let annotation = MKPointAnnotation()
     annotation.coordinate = coordinate
@@ -97,22 +107,14 @@ public final class RouteMapViewController: UIViewController {
     updatePolyline(pinnedLocations)
   }
 
-  private func startListeningForLocationUpdates() {
-    locationsTask?.cancel()
-    locationsTask = Task { [weak self] in
-      guard let self else {
-        return
-      }
+  private func updatePolyline(_ locations: [CLLocationCoordinate2D]) {
+    let polyline = MKPolyline(coordinates: locations, count: locations.count)
+    mapView.removeOverlays(mapView.overlays)
+    mapView.addOverlay(polyline)
 
-      startTime = Date()
-
-      for await location in locationManager.locationStream {
-        await MainActor.run {
-          updateMapLocation(location)
-          onUpdatePace?(calculateAveragePace(from: location))
-          onUpdateLocation?(location)
-        }
-      }
+    if let lastLocation = locations.last {
+      let region = MKCoordinateRegion(center: lastLocation, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+      mapView.setRegion(region, animated: true)
     }
   }
 
@@ -135,9 +137,15 @@ public final class RouteMapViewController: UIViewController {
     return averagePace
   }
 
-  func stopListeningForLocationUpdates() {
-    locationsTask?.cancel()
-    locationManager.closeLocationStream()
+  private func updateMapWithResults(_ mapResults: [MapItemResult]) {
+    guard !mapResults.isEmpty else {
+      return
+    }
+
+    for result in mapResults {
+      addMarker(at: result.placemark.coordinate, with: result.name)
+      Logger.info(message: "Added map placemark from results")
+    }
   }
 
   private func updateMapLocation(_ location: CLLocation) {
@@ -147,43 +155,28 @@ public final class RouteMapViewController: UIViewController {
       span: MKCoordinateSpan(latitudeDelta: zoomLevel, longitudeDelta: zoomLevel))
     mapView.setRegion(region, animated: true)
   }
-
-  public func updatePolyline(_ locations: [CLLocationCoordinate2D]) {
-    let polyline = MKPolyline(coordinates: locations, count: locations.count)
-    mapView.removeOverlays(mapView.overlays)
-    mapView.addOverlay(polyline)
-
-    if let lastLocation = locations.last {
-      let region = MKCoordinateRegion(center: lastLocation, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-      mapView.setRegion(region, animated: true)
-    }
-  }
 }
 
 // MARK: MKMapViewDelegate
 
 extension RouteMapViewController: MKMapViewDelegate {
+  private static var pinIdentifier: String { "RouteMapPin" }
+
   public func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
     guard !annotation.isKind(of: MKUserLocation.self) else {
       return nil
     }
 
-    let identifier = "CustomPin"
-    var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-
-    if annotationView == nil {
-      annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-      annotationView?.canShowCallout = true
-
-      // Customize pin appearance
-      if let markerView = annotationView as? MKMarkerAnnotationView {
-        markerView.markerTintColor = .systemPurple
-        markerView.glyphImage = UIImage(systemName: "mappin")
-      }
+    if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: RouteMapViewController.pinIdentifier) {
+      annotationView.annotation = annotation
+      return annotationView
     } else {
-      annotationView?.annotation = annotation
+      let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: RouteMapViewController.pinIdentifier)
+      annotationView.annotation = annotation
+      annotationView.canShowCallout = true
+      annotationView.markerTintColor = .systemPurple
+      annotationView.glyphImage = UIImage(systemName: "mappin")
+      return annotationView
     }
-
-    return annotationView
   }
 }

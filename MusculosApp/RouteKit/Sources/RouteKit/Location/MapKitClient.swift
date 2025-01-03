@@ -11,15 +11,15 @@ import Utility
 
 // MARK: - MapKitClient
 
-public class MapKitClient {
-  @MainActor
+@MainActor
+public struct MapKitClient {
   public func getLocationsByQuery(_: String, on region: MKCoordinateRegion) async throws -> [MapItemResult] {
     let request = MKLocalPointsOfInterestRequest(coordinateRegion: region)
     let localSearch = MKLocalSearch(request: request)
 
     return try await withCheckedThrowingContinuation { continuation in
-      localSearch.start { [weak self] response, error in
-        guard let self, error == nil else {
+      localSearch.start { response, error in
+        guard error == nil else {
           continuation.resume(throwing: error ?? MusculosError.unknownError)
           return
         }
@@ -29,7 +29,7 @@ public class MapKitClient {
           return
         }
 
-        continuation.resume(returning: mapItemsToResults(response.mapItems))
+        continuation.resume(returning: self.mapItemsToResults(response.mapItems))
       }
     }
   }
@@ -46,13 +46,4 @@ public class MapKitClient {
         pointOfInterestCategory: item.pointOfInterestCategory)
     }
   }
-}
-
-// MARK: - MapItemResult
-
-public struct MapItemResult: Sendable {
-  var identifier: UUID
-  var name: String
-  var placemark: MKPlacemark
-  var pointOfInterestCategory: MKPointOfInterestCategory?
 }
