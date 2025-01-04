@@ -13,4 +13,5 @@ public struct MapItemResult: Sendable {
   var name: String
   var placemark: MKPlacemark
   var pointOfInterestCategory: MKPointOfInterestCategory?
+  var isCurrentLocation: Bool
 }

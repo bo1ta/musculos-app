@@ -71,6 +71,17 @@ final class RoutePlannerViewModel {
     }
   }
 
+  func getDistanceDisplay(_ item: MapItemResult) -> String {
+    guard let currentLocation else {
+      return ""
+    }
+
+    let distanceInKM = currentLocation
+      .distance(from: item.placemark.coordinate.toCLLocation())
+      .inKilometers()
+    return String(format: "%.2f km", distanceInKM)
+  }
+
   func onDisappear() {
     searchTask?.cancel()
   }

@@ -17,16 +17,18 @@ public final class LocationManager: NSObject, @unchecked Sendable {
   }
 
   private(set) var isTracking = false
-  private var locationContinuation: AsyncStream<CLLocation>.Continuation?
-
-  public lazy var locationStream: AsyncStream<CLLocation> = AsyncStream { (continuation: AsyncStream<CLLocation>.Continuation) in
-    self.locationContinuation = continuation
-    self.locationContinuation?.onTermination = { [weak self] _ in
-      self?.stopTracking()
-    }
-  }
 
   private let locationManager: CLLocationManager
+  private let currentLocationSubject = CurrentValueSubject<CLLocation?, Never>(nil)
+  private let locationHeadingSubject = PassthroughSubject<CLHeading, Never>()
+
+  public var currentLocationPublisher: AnyPublisher<CLLocation?, Never> {
+    currentLocationSubject.eraseToAnyPublisher()
+  }
+
+  public var locationHeadingPublisher: AnyPublisher<CLHeading, Never> {
+    locationHeadingSubject.eraseToAnyPublisher()
+  }
 
   override public init() {
     locationManager = CLLocationManager()
@@ -43,9 +45,6 @@ public final class LocationManager: NSObject, @unchecked Sendable {
     }
     defer { isTracking = true }
 
-    // Force initialization of locationStream
-    _ = locationStream
-
     locationManager.startUpdatingLocation()
     Logger.info(message: "Started tracking location")
   }
@@ -58,10 +57,6 @@ public final class LocationManager: NSObject, @unchecked Sendable {
 
     locationManager.stopUpdatingLocation()
     Logger.info(message: "Stopped tracking location")
-  }
-
-  public func closeLocationStream() {
-    locationContinuation?.finish()
   }
 
   public func checkAuthorizationStatus() {
@@ -92,12 +87,15 @@ extension LocationManager: CLLocationManagerDelegate {
     guard isTracking, let newLocation = locations.last else {
       return
     }
-    locationContinuation?.yield(newLocation)
+    currentLocationSubject.send(newLocation)
+  }
+
+  public func locationManager(_: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+    locationHeadingSubject.send(newHeading)
   }
 
   public func locationManager(_: CLLocationManager, didFailWithError error: any Error) {
     Logger.error(error, message: "Location manager failed with error")
-    closeLocationStream()
   }
 
   public func locationManagerDidChangeAuthorization(_: CLLocationManager) {

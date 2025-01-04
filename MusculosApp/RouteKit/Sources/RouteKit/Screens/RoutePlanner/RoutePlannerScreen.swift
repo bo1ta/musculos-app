@@ -26,6 +26,12 @@ public struct RoutePlannerScreen: View {
       VStack(spacing: 20) {
         FormField(text: $viewModel.endLocation, textHint: "Search for location", imageIcon: Image("search-icon"))
           .padding(.top)
+
+        if !viewModel.mapItemResults.isEmpty {
+          ForEach(viewModel.mapItemResults, id: \.identifier) { item in
+            DetailCard(text: item.name, content: { Text(viewModel.getDistanceDisplay(item)) })
+          }
+        }
       }
       .padding(.horizontal)
       .presentationDetents([.fraction(0.1), .fraction(0.5)])
@@ -36,7 +42,6 @@ public struct RoutePlannerScreen: View {
     .ignoresSafeArea()
     .onDisappear(perform: viewModel.onDisappear)
   }
-
 }
 
 #Preview {
