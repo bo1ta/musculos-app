@@ -47,12 +47,11 @@ public struct MapKitClient {
   }
 
   private func getPointOfInterestCategories() -> [MKPointOfInterestCategory] {
-    var types: [MKPointOfInterestCategory] = [.park, .beach, .campground]
+    var types: [MKPointOfInterestCategory] = [.park, .beach, .campground, .school, .fitnessCenter]
 
     if #available(iOS 18.0, *) {
       types.append(.tennis)
       types.append(.golf)
-      types.append(.beach)
     }
     return types
   }

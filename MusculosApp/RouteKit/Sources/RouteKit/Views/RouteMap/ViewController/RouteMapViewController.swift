@@ -48,7 +48,7 @@ public final class RouteMapViewController: UIViewController {
   // MARK: Setup
 
   private func setupMapView() {
-    mapView.register(RouteMapAnnotationView.self, forAnnotationViewWithReuseIdentifier: RouteMapAnnotationView.reuseIdentifier)
+    mapView.register(MarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MarkerAnnotationView.reuseIdentifier)
     mapView.register(UserLocationAnnotationView.self, forAnnotationViewWithReuseIdentifier: UserLocationAnnotationView.identifier)
 
     let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
@@ -173,6 +173,14 @@ extension RouteMapViewController {
       Logger.info(message: "Added map placemark from results")
     }
   }
+
+  private func findCategoryForCoordinate(_ coordinate: CLLocationCoordinate2D) -> MapItemResult.Category? {
+    mapItemResults
+      .first(where: {
+        $0.placemark.coordinate.latitude == coordinate.latitude && $0.placemark.coordinate.longitude == coordinate.longitude
+      })?
+      .category
+  }
 }
 
 // MARK: MKMapViewDelegate
@@ -189,11 +197,21 @@ extension RouteMapViewController: MKMapViewDelegate {
       }
 
     default:
-      if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: RouteMapAnnotationView.reuseIdentifier) {
+      if
+        let annotationView = mapView
+          .dequeueReusableAnnotationView(withIdentifier: MarkerAnnotationView.reuseIdentifier) as? MarkerAnnotationView
+      {
         annotationView.annotation = annotation
+        if let category = findCategoryForCoordinate(annotation.coordinate) {
+          annotationView.configure(for: category)
+        }
         return annotationView
       } else {
-        return RouteMapAnnotationView(annotation: annotation, reuseIdentifier: RouteMapAnnotationView.reuseIdentifier)
+        let annotationView = MarkerAnnotationView(annotation: annotation, reuseIdentifier: MarkerAnnotationView.reuseIdentifier)
+        if let category = findCategoryForCoordinate(annotation.coordinate) {
+          annotationView.configure(for: category)
+        }
+        return annotationView
       }
     }
   }

@@ -46,6 +46,7 @@ public final class LocationManager: NSObject, @unchecked Sendable {
     defer { isTracking = true }
 
     locationManager.startUpdatingLocation()
+    locationManager.startUpdatingHeading()
     Logger.info(message: "Started tracking location")
   }
 

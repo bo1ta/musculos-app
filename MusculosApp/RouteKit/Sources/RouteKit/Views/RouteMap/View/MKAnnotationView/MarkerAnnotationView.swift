@@ -1,5 +1,5 @@
 //
-//  RouteMapAnnotationView.swift
+//  MarkerAnnotationView.swift
 //  RouteKit
 //
 //  Created by Solomon Alexandru on 04.01.2025.
