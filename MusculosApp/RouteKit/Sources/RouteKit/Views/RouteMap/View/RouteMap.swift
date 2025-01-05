@@ -14,15 +14,18 @@ public struct RouteMap: UIViewControllerRepresentable {
   @Binding var currentLocation: CLLocation?
   @Binding var averagePace: Double
   @Binding var mapItemResults: [MapItemResult]
+  @Binding var currentRoute: MKRoute?
 
   init(
     currentLocation: Binding<CLLocation?> = .constant(nil),
     averagePace: Binding<Double>,
-    mapItemResults: Binding<[MapItemResult]> = .constant([]))
+    mapItemResults: Binding<[MapItemResult]> = .constant([]),
+    currentRoute: Binding<MKRoute?> = .constant(nil))
   {
     _currentLocation = currentLocation
     _averagePace = averagePace
     _mapItemResults = mapItemResults
+    _currentRoute = currentRoute
   }
 
   public func makeUIViewController(context _: Context) -> RouteMapViewController {
@@ -34,5 +37,6 @@ public struct RouteMap: UIViewControllerRepresentable {
 
   public func updateUIViewController(_ uiViewController: RouteMapViewController, context _: Context) {
     uiViewController.mapItemResults = mapItemResults
+    uiViewController.currentRoute = currentRoute
   }
 }

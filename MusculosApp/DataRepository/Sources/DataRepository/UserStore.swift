@@ -25,6 +25,7 @@ public enum UserStoreEvent {
 public protocol UserStoreProtocol {
   var currentUser: UserProfile? { get set }
   var eventPublisher: AnyPublisher<UserStoreEvent, Never> { get }
+
   func loadCurrentUser() async -> UserProfile?
   func authenticateSession(_ session: UserSession) async
   func updateOnboardingStatus(_ onboardingData: OnboardingData) async

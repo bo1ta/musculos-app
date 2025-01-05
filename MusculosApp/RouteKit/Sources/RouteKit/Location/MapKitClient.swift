@@ -13,10 +13,20 @@ import Utility
 
 @MainActor
 public struct MapKitClient {
-  public func getLocationsByQuery(_ query: String, on region: MKCoordinateRegion) async throws -> [MapItemResult] {
-    let request = createSearchRequest(query, region: region)
-    let localSearch = MKLocalSearch(request: request)
 
+  // MARK: Public
+
+  public func getLocationsByQuery(_ query: String, on region: MKCoordinateRegion) async throws -> [MapItemResult] {
+    let request = MKLocalSearch.Request()
+    request.naturalLanguageQuery = query
+    request.region = region
+    request.pointOfInterestFilter = MKPointOfInterestFilter(including: getPointOfInterestCategories())
+
+    if #available(iOS 18.0, *) {
+      request.regionPriority = .required
+    }
+
+    let localSearch = MKLocalSearch(request: request)
     return try await withCheckedThrowingContinuation { continuation in
       localSearch.start { response, error in
         guard error == nil else {
@@ -34,17 +44,21 @@ public struct MapKitClient {
     }
   }
 
-  private func createSearchRequest(_ query: String, region: MKCoordinateRegion) -> MKLocalSearch.Request {
-    var request = MKLocalSearch.Request()
-    request.naturalLanguageQuery = query
-    request.region = region
-    request.pointOfInterestFilter = MKPointOfInterestFilter(including: getPointOfInterestCategories())
+  public func getDirections(
+    from source: CLLocationCoordinate2D,
+    to destination: CLLocationCoordinate2D)
+    async throws -> MKDirections.Response
+  {
+    let request = MKDirections.Request()
+    request.source = MKMapItem(placemark: MKPlacemark(coordinate: source))
+    request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
+    request.transportType = .walking
 
-    if #available(iOS 18.0, *) {
-      request.regionPriority = .required
-    }
-    return request
+    let directions = MKDirections(request: request)
+    return try await directions.calculate()
   }
+
+  // MARK: Private
 
   private func getPointOfInterestCategories() -> [MKPointOfInterestCategory] {
     var types: [MKPointOfInterestCategory] = [.park, .beach, .campground, .school, .fitnessCenter]
@@ -70,3 +84,7 @@ public struct MapKitClient {
     }
   }
 }
+
+// MARK: - MKDirections.Response + @unchecked Sendable
+
+extension MKDirections.Response: @unchecked Sendable { }

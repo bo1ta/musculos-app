@@ -20,7 +20,8 @@ public struct RoutePlannerScreen: View {
       RouteMap(
         currentLocation: $viewModel.currentLocation,
         averagePace: $viewModel.averagePace,
-        mapItemResults: $viewModel.mapItemResults)
+        mapItemResults: $viewModel.mapItemResults,
+        currentRoute: $viewModel.currentRoute)
     }
     .sheet(isPresented: .constant(true)) {
       VStack(spacing: 20) {
@@ -29,7 +30,11 @@ public struct RoutePlannerScreen: View {
 
         if !viewModel.mapItemResults.isEmpty {
           ForEach(viewModel.mapItemResults, id: \.identifier) { item in
-            DetailCard(text: item.name, content: { Text(viewModel.getDistanceDisplay(item)) })
+            Button(
+              action: { viewModel.setRouteForItem(item) },
+              label: {
+                DetailCard(text: item.name, content: { Text(viewModel.getDistanceDisplay(item)) })
+              })
           }
         }
       }

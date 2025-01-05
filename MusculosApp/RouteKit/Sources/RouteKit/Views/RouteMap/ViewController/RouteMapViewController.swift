@@ -16,6 +16,7 @@ import Utility
 public final class RouteMapViewController: UIViewController {
   private let locationManager = LocationManager()
   private let mapView = MKMapView()
+  private var routeOverlay: MKPolyline?
 
   private var cancellables: Set<AnyCancellable> = []
   private var totalDistance: CLLocationDistance = 0
@@ -24,9 +25,16 @@ public final class RouteMapViewController: UIViewController {
 
   var onUpdatePace: ((Double) -> Void)?
   var onUpdateLocation: ((CLLocation?) -> Void)?
+
   var mapItemResults: [MapItemResult] = [] {
     didSet {
       updateMapWithResults(mapItemResults)
+    }
+  }
+
+  var currentRoute: MKRoute? {
+    didSet {
+      updateMapWithRoute(currentRoute)
     }
   }
 
@@ -58,6 +66,7 @@ public final class RouteMapViewController: UIViewController {
     mapView.delegate = self
     mapView.showsUserLocation = true
     mapView.translatesAutoresizingMaskIntoConstraints = false
+    mapView.overrideUserInterfaceStyle = .dark
     view.addSubview(mapView)
 
     NSLayoutConstraint.activate([
@@ -161,6 +170,22 @@ extension RouteMapViewController {
     return averagePace
   }
 
+  private func updateMapWithRoute(_ route: MKRoute?) {
+    guard let route else {
+      return
+    }
+
+    if let routeOverlay {
+      mapView.removeOverlay(routeOverlay)
+    }
+
+    routeOverlay = route.polyline
+    if let routeOverlay {
+      mapView.addOverlay(routeOverlay, level: .aboveRoads)
+      mapView.setVisibleMapRect(routeOverlay.boundingMapRect, animated: true)
+    }
+  }
+
   private func updateMapWithResults(_ mapResults: [MapItemResult]) {
     guard !mapResults.isEmpty else {
       return
@@ -214,5 +239,18 @@ extension RouteMapViewController: MKMapViewDelegate {
         return annotationView
       }
     }
+  }
+
+  public func mapView(_: MKMapView, rendererFor overlay: any MKOverlay) -> MKOverlayRenderer {
+    let renderer = MKGradientPolylineRenderer(overlay: overlay)
+    renderer.setColors([
+      UIColor(red: 0.02, green: 0.91, blue: 0.05, alpha: 1.00),
+      UIColor(red: 1.00, green: 0.48, blue: 0.00, alpha: 1.00),
+      UIColor(red: 1.00, green: 0.00, blue: 0.00, alpha: 1.00),
+    ], locations: [])
+    renderer.lineCap = .round
+    renderer.lineWidth = 3.0
+
+    return renderer
   }
 }

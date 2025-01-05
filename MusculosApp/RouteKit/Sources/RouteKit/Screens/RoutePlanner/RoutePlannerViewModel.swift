@@ -26,11 +26,14 @@ final class RoutePlannerViewModel {
 
   var currentLocation: CLLocation?
   var mapItemResults: [MapItemResult] = []
+  var currentRoute: MKRoute?
 
   private let currentQuerySubject = PassthroughSubject<String, Never>()
-  private var searchTask: Task<Void, Never>?
   private var cancellables: Set<AnyCancellable> = []
   private var client: MapKitClient
+
+  private var searchTask: Task<Void, Never>?
+  private var routeTask: Task<Void, Never>?
 
   init() {
     client = MapKitClient()
@@ -63,10 +66,29 @@ final class RoutePlannerViewModel {
           span: .init(latitudeDelta: 0.1, longitudeDelta: 0.1))
         let result = try await client.getLocationsByQuery(endLocation, on: coordinateRegion)
         Logger.info(message: "Found results: \(result)")
-        mapItemResults = result
+        mapItemResults = Array(result.prefix(3))
 
       } catch {
         Logger.error(error, message: "Could not perform search using MapKitClient")
+      }
+    }
+  }
+
+  func setRouteForItem(_ item: MapItemResult) {
+    guard let currentLocation else {
+      return
+    }
+
+    routeTask = Task { [weak self] in
+      guard let self else {
+        return
+      }
+
+      do {
+        let response = try await client.getDirections(from: currentLocation.coordinate, to: item.placemark.coordinate)
+        currentRoute = response.routes.first
+      } catch {
+        Logger.error(error, message: "Could not retrieve route")
       }
     }
   }
