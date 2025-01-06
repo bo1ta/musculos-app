@@ -12,7 +12,7 @@ import Utility
 // MARK: - LocationManager
 
 public final class LocationManager: NSObject, @unchecked Sendable {
-  private enum LocationError: Error {
+  enum LocationError: Error {
     case authorizationDenied
   }
 
@@ -21,6 +21,7 @@ public final class LocationManager: NSObject, @unchecked Sendable {
   private let locationManager: CLLocationManager
   private let currentLocationSubject = CurrentValueSubject<CLLocation?, Never>(nil)
   private let locationHeadingSubject = PassthroughSubject<CLHeading, Never>()
+  private let errorSubject = PassthroughSubject<Error, Never>()
 
   public var currentLocationPublisher: AnyPublisher<CLLocation?, Never> {
     currentLocationSubject.eraseToAnyPublisher()
@@ -30,6 +31,14 @@ public final class LocationManager: NSObject, @unchecked Sendable {
     locationHeadingSubject.eraseToAnyPublisher()
   }
 
+  public var errorPublisher: AnyPublisher<Error, Never> {
+    errorSubject.eraseToAnyPublisher()
+  }
+
+  public var currentLocation: CLLocation? {
+    currentLocationSubject.value
+  }
+
   override public init() {
     locationManager = CLLocationManager()
 
@@ -37,6 +46,8 @@ public final class LocationManager: NSObject, @unchecked Sendable {
 
     locationManager.delegate = self
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    locationManager.activityType = .fitness
+    locationManager.pausesLocationUpdatesAutomatically = false
   }
 
   public func startTracking() {
@@ -69,11 +80,9 @@ public final class LocationManager: NSObject, @unchecked Sendable {
     case .notDetermined:
       locationManager.requestWhenInUseAuthorization()
 
-    case .restricted:
+    case .restricted, .denied:
       Logger.error(LocationError.authorizationDenied, message: "Location authorization restricted")
-
-    case .denied:
-      Logger.error(LocationError.authorizationDenied, message: "Location authorization denied")
+      errorSubject.send(LocationError.authorizationDenied)
 
     @unknown default:
       Logger.error(MusculosError.unknownError, message: "Unknown authorization status")
@@ -97,6 +106,7 @@ extension LocationManager: CLLocationManagerDelegate {
 
   public func locationManager(_: CLLocationManager, didFailWithError error: any Error) {
     Logger.error(error, message: "Location manager failed with error")
+    errorSubject.send(error)
   }
 
   public func locationManagerDidChangeAuthorization(_: CLLocationManager) {

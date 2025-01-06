@@ -67,6 +67,7 @@ public final class RouteMapViewController: UIViewController {
     mapView.showsUserLocation = true
     mapView.translatesAutoresizingMaskIntoConstraints = false
     mapView.overrideUserInterfaceStyle = .dark
+    mapView.userTrackingMode = .followWithHeading
     view.addSubview(mapView)
 
     NSLayoutConstraint.activate([
@@ -75,6 +76,14 @@ public final class RouteMapViewController: UIViewController {
       mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
     ])
+
+    if let userLocation = mapView.userLocation.location?.coordinate {
+      let mapCamera = mapView.camera
+      mapCamera.centerCoordinate = userLocation
+      mapCamera.centerCoordinateDistance = 500
+      mapCamera.pitch = 60
+      mapCamera.heading = 0
+    }
   }
 
   @objc
@@ -102,6 +111,13 @@ public final class RouteMapViewController: UIViewController {
         self?.locationHeadingDidUpdate(heading)
       }
       .store(in: &cancellables)
+
+    locationManager.errorPublisher
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] error in
+        self?.locationDidFailWithError(error)
+      }
+      .store(in: &cancellables)
   }
 }
 
@@ -125,22 +141,63 @@ extension RouteMapViewController {
     }
 
     let headingAngle = CGFloat(heading.trueHeading * .pi / 100)
+    mapView.camera.heading = headingAngle
 
     if let userLocationView = mapView.view(for: mapView.userLocation) as? UserLocationAnnotationView {
       userLocationView.transform = CGAffineTransform(rotationAngle: headingAngle)
     }
+  }
+
+  private func locationDidFailWithError(_ error: Error) {
+    switch error {
+    case LocationManager.LocationError.authorizationDenied:
+      showPermissionsDeniedAlert()
+    default:
+      // do nothing for now, since the error is already logged by the locationManager
+      break
+    }
+  }
+
+  private func showPermissionsDeniedAlert() {
+    let alert = UIAlertController(
+      title: "This device has restricted access to your location.",
+      message: "Open Settings to change access.",
+      preferredStyle: .alert)
+
+    let okAction = UIAlertAction(title: "OK", style: .cancel)
+    alert.addAction(okAction)
+
+    let openSettingsHandler: (UIAlertAction) -> Void = { _ in
+      guard
+        let url = URL(string: UIApplication.openSettingsURLString),
+        UIApplication.shared.canOpenURL(url)
+      else {
+        Logger.error(MusculosError.unknownError, message: "Could not open settings")
+        return
+      }
+
+      UIApplication.shared.open(url)
+    }
+    let settingsAction = UIAlertAction(title: "Settings", style: .default, handler: openSettingsHandler)
+    alert.addAction(settingsAction)
+
+    present(alert, animated: true)
   }
 }
 
 // MARK: - MapView handlers
 
 extension RouteMapViewController {
+
+  /// Re-center the map to the passed location
+  ///
   private func updateMapLocation(_ location: CLLocation) {
     let zoomLevel: CLLocationDistance = 0.01
     let region = MKCoordinateRegion(
       center: location.coordinate,
       span: MKCoordinateSpan(latitudeDelta: zoomLevel, longitudeDelta: zoomLevel))
     mapView.setRegion(region, animated: true)
+    mapView.camera.centerCoordinate = location.coordinate
   }
 
   private func addMarker(at coordinate: CLLocationCoordinate2D, with title: String? = nil) {
@@ -242,15 +299,10 @@ extension RouteMapViewController: MKMapViewDelegate {
   }
 
   public func mapView(_: MKMapView, rendererFor overlay: any MKOverlay) -> MKOverlayRenderer {
-    let renderer = MKGradientPolylineRenderer(overlay: overlay)
-    renderer.setColors([
-      UIColor(red: 0.02, green: 0.91, blue: 0.05, alpha: 1.00),
-      UIColor(red: 1.00, green: 0.48, blue: 0.00, alpha: 1.00),
-      UIColor(red: 1.00, green: 0.00, blue: 0.00, alpha: 1.00),
-    ], locations: [])
+    let renderer = MKPolylineRenderer(overlay: overlay)
+    renderer.strokeColor = .green
     renderer.lineCap = .round
     renderer.lineWidth = 3.0
-
     return renderer
   }
 }

@@ -64,10 +64,9 @@ final class RoutePlannerViewModel {
         let coordinateRegion = MKCoordinateRegion(
           center: currentLocation.coordinate,
           span: .init(latitudeDelta: 0.1, longitudeDelta: 0.1))
-        let result = try await client.getLocationsByQuery(endLocation, on: coordinateRegion)
-        Logger.info(message: "Found results: \(result)")
-        mapItemResults = Array(result.prefix(3))
 
+        let result = try await client.getLocationsByQuery(endLocation, on: coordinateRegion)
+        mapItemResults = Array(result.prefix(3))
       } catch {
         Logger.error(error, message: "Could not perform search using MapKitClient")
       }
