@@ -19,7 +19,7 @@ public struct ToastView: View {
       .frame(height: 40)
       .shadow(radius: 3)
       .padding(.horizontal, 16)
-      .foregroundStyle(.black.opacity(0.9))
+      .foregroundStyle(.white)
       .overlay {
         RoundedRectangle(cornerRadius: 8)
           .stroke(.white)
@@ -31,10 +31,10 @@ public struct ToastView: View {
         HStack(alignment: .center, spacing: 12) {
           Image(systemName: style.systemImageName)
             .renderingMode(.template)
-            .foregroundStyle(.white)
+            .foregroundStyle(style.backgroundColor)
           Text(message)
             .font(.body(.medium))
-            .foregroundStyle(.white)
+            .foregroundStyle(.black)
         }
       }
   }

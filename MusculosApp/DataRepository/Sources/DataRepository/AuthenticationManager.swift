@@ -59,6 +59,7 @@ public class AuthenticationManager: AuthenticationManagerProtocol {
   public func logOut() {
     storageManager.reset()
     userManager.clearSession()
+    DataRepositoryContainer.shared.reset()
     sendEvent(.didLogout)
   }
 

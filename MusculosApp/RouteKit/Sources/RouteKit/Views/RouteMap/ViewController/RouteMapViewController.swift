@@ -186,7 +186,7 @@ extension RouteMapViewController {
     let settingsAction = UIAlertAction(title: "Settings", style: .default, handler: openSettingsHandler)
     alert.addAction(settingsAction)
 
-    present(alert, animated: true)
+    self.presentedViewController?.present(alert, animated: true)
   }
 }
 
