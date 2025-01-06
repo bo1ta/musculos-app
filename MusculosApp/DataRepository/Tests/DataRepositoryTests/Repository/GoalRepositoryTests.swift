@@ -30,7 +30,7 @@ class GoalRepositoryTests: XCTestCase {
 
     let results = try await GoalRepository().getOnboardingGoals()
     XCTAssertFalse(results.isEmpty)
-    await fulfillment(of: [expectation])
+    await fulfillment(of: [expectation], timeout: 1)
   }
 
   func testGoalDetailsUsesService() async throws {
@@ -46,7 +46,7 @@ class GoalRepositoryTests: XCTestCase {
     let repository = GoalRepository()
     let result = try #require(try await repository.getGoalDetails(expectedGoal.id))
     XCTAssertEqual(result, expectedGoal)
-    await fulfillment(of: [expectation])
+    await fulfillment(of: [expectation], timeout: 1)
   }
 
   func testAddFromOnboardingGoal() async throws {
@@ -63,7 +63,7 @@ class GoalRepositoryTests: XCTestCase {
     _ = try await repository.addFromOnboardingGoal(onboardingGoal, for: user)
 
     _ = try #require(await coreDataStore.goalByID(onboardingGoal.id))
-    await fulfillment(of: [expectation])
+    await fulfillment(of: [expectation], timeout: 1)
   }
 }
 

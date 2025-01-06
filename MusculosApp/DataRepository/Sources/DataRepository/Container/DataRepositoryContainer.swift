@@ -34,6 +34,11 @@ extension DataRepositoryContainer {
       .cached
   }
 
+  public var authenticationManager: Factory<AuthenticationManagerProtocol> {
+    self { AuthenticationManager() }
+      .singleton
+  }
+
   public var exerciseRepository: Factory<ExerciseRepositoryProtocol> {
     self { ExerciseRepository() }
   }

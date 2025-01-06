@@ -36,7 +36,7 @@ struct MusculosApp: App {
       .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: appModel.appState)
       .toastView(toast: $appModel.toast)
       .task {
-        await appModel.loadInitialState()
+        await appModel.initialLoad()
       }
       .onChange(of: scenePhase) { _, newPhase in
         appModel.didChangeScenePhase(newPhase)

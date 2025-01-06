@@ -21,7 +21,7 @@ class AuthenticationViewModel {
   @LazyInjected(\DataRepositoryContainer.userRepository) private var repository: UserRepositoryProtocol
 
   @ObservationIgnored
-  @LazyInjected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
+  @LazyInjected(\DataRepositoryContainer.authenticationManager) private var authManager: AuthenticationManagerProtocol
 
   @ObservationIgnored
   @LazyInjected(\.toastManager) private var toastManager: ToastManagerProtocol
@@ -71,7 +71,7 @@ class AuthenticationViewModel {
 
       do {
         let session = try await repository.login(email: email, password: password)
-        await userStore.authenticateSession(session)
+        authManager.authenticateSession(session)
       } catch {
         toastManager.showError("An error occured while signing in")
         Logger.error(error, message: "Sign in failed")
@@ -92,7 +92,7 @@ class AuthenticationViewModel {
 
       do {
         let session = try await repository.register(email: email, password: password, username: username)
-        await userStore.authenticateSession(session)
+        authManager.authenticateSession(session)
       } catch {
         toastManager.showError("An error occured while signing up")
         Logger.error(error, message: "Sign Up failed")

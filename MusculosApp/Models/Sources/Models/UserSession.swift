@@ -36,4 +36,24 @@ public struct UserSession: Sendable, Codable, DecodableModel {
       self.id = id
     }
   }
+
+  /// Tests helper
+  ///
+  public static var mock: UserSession {
+    UserSession(
+      token: Token(
+        createdAt: Date().ISO8601Format(),
+        expiresAt: Date.distantFuture.ISO8601Format(),
+        value: "token"),
+      user: User(id: UUID()))
+  }
+
+  public static func mockWithUserID(_ userID: UUID) -> UserSession {
+    UserSession(
+      token: Token(
+        createdAt: Date().ISO8601Format(),
+        expiresAt: Date.distantFuture.ISO8601Format(),
+        value: "token"),
+      user: User(id: userID))
+  }
 }

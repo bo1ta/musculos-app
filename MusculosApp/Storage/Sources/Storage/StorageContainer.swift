@@ -29,9 +29,4 @@ extension StorageContainer {
       .onPreview { InMemoryStorageManager() }
       .singleton
   }
-
-  public var userManager: Factory<UserSessionManagerProtocol> {
-    self { UserSessionManager() }
-      .cached
-  }
 }

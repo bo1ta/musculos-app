@@ -24,25 +24,11 @@ public struct RoutePlannerScreen: View {
         currentRoute: $viewModel.currentRoute)
     }
     .sheet(isPresented: .constant(true)) {
-      VStack(spacing: 20) {
-        FormField(text: $viewModel.endLocation, textHint: "Search for location", imageIcon: Image("search-icon"))
-          .padding(.top)
-
-        if !viewModel.mapItemResults.isEmpty {
-          ForEach(viewModel.mapItemResults, id: \.identifier) { item in
-            Button(
-              action: { viewModel.setRouteForItem(item) },
-              label: {
-                DetailCard(text: item.name, content: { Text(viewModel.getDistanceDisplay(item)) })
-              })
-          }
-        }
-      }
-      .padding(.horizontal)
-      .presentationDetents([.fraction(0.1), .fraction(0.5)])
-      .presentationBackgroundInteraction(.enabled)
-      .presentationDragIndicator(.visible)
-      .interactiveDismissDisabled()
+      SearchLocationSheet(
+        destinationLocation: $viewModel.endLocation,
+        currentLocation: viewModel.currentLocation,
+        mapItemResults: viewModel.mapItemResults,
+        onSelectResult: viewModel.setRouteForItem(_:))
     }
     .ignoresSafeArea()
     .onDisappear(perform: viewModel.onDisappear)

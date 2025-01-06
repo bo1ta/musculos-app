@@ -22,7 +22,7 @@ class ExerciseSessionRepositoryTests: XCTestCase {
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore
 
   override class func tearDown() {
-    StorageContainer.shared.userManager.reset()
+    NetworkContainer.shared.userManager.reset()
     super.tearDown()
   }
 
@@ -38,7 +38,7 @@ class ExerciseSessionRepositoryTests: XCTestCase {
 
     let results = try await ExerciseSessionRepository().getExerciseSessions()
     XCTAssertFalse(results.isEmpty)
-    await fulfillment(of: [expectation])
+    await fulfillment(of: [expectation], timeout: 1)
 
     let firstResult = try #require(results.first)
     // data store is synced
@@ -51,7 +51,7 @@ class ExerciseSessionRepositoryTests: XCTestCase {
 
     let exerciseFactory = ExerciseFactory()
     exerciseFactory.primaryMuscles = [MuscleType.chest.rawValue]
-    let chestExercise = exerciseFactory.create()
+    let _ = exerciseFactory.create()
 
     exerciseFactory.primaryMuscles = [MuscleType.triceps.rawValue]
     let completedExercise = exerciseFactory.create()
@@ -68,8 +68,8 @@ class ExerciseSessionRepositoryTests: XCTestCase {
 
   func testAddSessionCallsServiceAndSyncsWithStorage() async throws {
     let user = UserProfileFactory.createUser()
-    StorageContainer.shared.userManager.register { StubUserSessionManager(expectedUser: .init(id: user.userId)) }
-    defer { StorageContainer.shared.userManager.reset() }
+    NetworkContainer.shared.userManager.register { StubUserSessionManager(expectedUser: .init(id: user.userId)) }
+    defer { NetworkContainer.shared.userManager.reset() }
 
     let userExperience = UserExperienceFactory.createUserExperience()
     let userExperienceEntry = UserExperienceEntry(
@@ -89,13 +89,13 @@ class ExerciseSessionRepositoryTests: XCTestCase {
 
     let localResult = await coreDataStore.userExperienceEntryByID(userExperienceEntry.id)
     XCTAssertEqual(result.xpGained, localResult?.xpGained)
-    await fulfillment(of: [expectation])
+    await fulfillment(of: [expectation], timeout: 1)
   }
 
   private func setupCurrentUser() {
     let user = UserProfileFactory.createUser()
 
-    StorageContainer.shared.userManager.register {
+    NetworkContainer.shared.userManager.register {
       StubUserSessionManager(expectedUser: .init(id: user.userId))
     }
   }

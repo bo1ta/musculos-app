@@ -55,12 +55,16 @@ final class RoutePlannerViewModel {
       return
     }
 
+    searchTask?.cancel()
+
     searchTask = Task { [weak self] in
       guard let self else {
         return
       }
 
       do {
+        try Task.checkCancellation()
+
         let coordinateRegion = MKCoordinateRegion(
           center: currentLocation.coordinate,
           span: .init(latitudeDelta: 0.1, longitudeDelta: 0.1))
@@ -78,29 +82,22 @@ final class RoutePlannerViewModel {
       return
     }
 
+    routeTask?.cancel()
+
     routeTask = Task { [weak self] in
       guard let self else {
         return
       }
 
       do {
+        try Task.checkCancellation()
+
         let response = try await client.getDirections(from: currentLocation.coordinate, to: item.placemark.coordinate)
         currentRoute = response.routes.first
       } catch {
         Logger.error(error, message: "Could not retrieve route")
       }
     }
-  }
-
-  func getDistanceDisplay(_ item: MapItemResult) -> String {
-    guard let currentLocation else {
-      return ""
-    }
-
-    let distanceInKM = currentLocation
-      .distance(from: item.placemark.coordinate.toCLLocation())
-      .inKilometers()
-    return String(format: "%.2f km", distanceInKM)
   }
 
   func onDisappear() {

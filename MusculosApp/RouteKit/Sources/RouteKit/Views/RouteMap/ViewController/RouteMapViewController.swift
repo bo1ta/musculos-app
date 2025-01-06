@@ -15,15 +15,11 @@ import Utility
 
 public final class RouteMapViewController: UIViewController {
   private let locationManager = LocationManager()
-  private let mapView = MKMapView()
-  private var routeOverlay: MKPolyline?
 
   private var cancellables: Set<AnyCancellable> = []
   private var totalDistance: CLLocationDistance = 0
   private var startTime: Date?
-
-  var onUpdatePace: ((Double) -> Void)?
-  var onUpdateLocation: ((CLLocation?) -> Void)?
+  private var routeOverlay: MKPolyline?
 
   private var currentLocation: CLLocation? {
     didSet {
@@ -32,6 +28,24 @@ public final class RouteMapViewController: UIViewController {
       }
     }
   }
+
+  private lazy var mapView: MKMapView = {
+    let mapView = MKMapView()
+    mapView.delegate = self
+    mapView.showsUserLocation = true
+    mapView.translatesAutoresizingMaskIntoConstraints = false
+    mapView.overrideUserInterfaceStyle = .dark
+    mapView.userTrackingMode = .followWithHeading
+
+    let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
+    longPressGesture.minimumPressDuration = 0.5
+    mapView.addGestureRecognizer(longPressGesture)
+
+    return mapView
+  }()
+
+  var onUpdatePace: ((Double) -> Void)?
+  var onUpdateLocation: ((CLLocation?) -> Void)?
 
   var mapItemResults: [MapItemResult] = [] {
     didSet {
@@ -70,15 +84,6 @@ public final class RouteMapViewController: UIViewController {
     mapView.register(MarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MarkerAnnotationView.reuseIdentifier)
     mapView.register(UserLocationAnnotationView.self, forAnnotationViewWithReuseIdentifier: UserLocationAnnotationView.identifier)
 
-    let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
-    longPressGesture.minimumPressDuration = 0.5
-
-    mapView.addGestureRecognizer(longPressGesture)
-    mapView.delegate = self
-    mapView.showsUserLocation = true
-    mapView.translatesAutoresizingMaskIntoConstraints = false
-    mapView.overrideUserInterfaceStyle = .dark
-    mapView.userTrackingMode = .followWithHeading
     view.addSubview(mapView)
 
     NSLayoutConstraint.activate([
@@ -95,17 +100,6 @@ public final class RouteMapViewController: UIViewController {
       mapCamera.pitch = 60
       mapCamera.heading = 0
     }
-  }
-
-  @objc
-  private func didLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
-    guard gestureRecognizer.state == .began else {
-      return
-    }
-
-    let touchPoint = gestureRecognizer.location(in: mapView)
-    let coordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
-    addMarker(at: coordinate)
   }
 
   private func setupLocationObservers() {
@@ -199,6 +193,16 @@ extension RouteMapViewController {
 // MARK: - MapView handlers
 
 extension RouteMapViewController {
+  @objc
+  private func didLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+    guard gestureRecognizer.state == .began else {
+      return
+    }
+
+    let touchPoint = gestureRecognizer.location(in: mapView)
+    let coordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
+    addMarker(at: coordinate)
+  }
 
   /// Re-center the map to the passed location
   ///

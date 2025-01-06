@@ -32,9 +32,6 @@ final class AddWorkoutSheetViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
 
-  @ObservationIgnored
-  @Injected(\StorageContainer.userManager) private var userManager: UserSessionManagerProtocol
-
   // MARK: Properties
 
   private(set) var submitWorkoutTask: Task<Void, Never>?

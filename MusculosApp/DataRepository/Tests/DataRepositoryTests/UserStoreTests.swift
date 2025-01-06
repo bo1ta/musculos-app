@@ -23,40 +23,6 @@ import XCTest
 class UserStoreTests: XCTestCase {
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore
 
-  func testAuthenticateSession() async throws {
-    let userFactory = UserProfileFactory()
-    userFactory.isPersistent = false
-    let expectedUser = userFactory.create()
-
-    let expectedSession = UserSession(
-      token: .init(value: "super-secret-token"),
-      user: .init(id: expectedUser.userId))
-
-    let updateSessionExpectation = self.expectation(description: "should call update session")
-    let mockUserSessionManager = MockUserSessionManager(updateExpectation: updateSessionExpectation)
-    StorageContainer.shared.userManager.register { mockUserSessionManager }
-    defer { StorageContainer.shared.userManager.reset() }
-
-    let repositoryExpectation = self.expectation(description: "should call add exercise")
-    let mockRepository = MockUserRepository(
-      expectation: repositoryExpectation,
-      expectedUserProfile: expectedUser)
-    DataRepositoryContainer.shared.userRepository.register { mockRepository }
-    defer { DataRepositoryContainer.shared.userRepository.reset() }
-
-    let userStore = UserStore()
-
-    let eventExpectation = self.expectation(description: "should publish didLogin event")
-    let cancellable = userStore.eventPublisher.sink { event in
-      XCTAssertEqual(event, .didLogin)
-      eventExpectation.fulfill()
-    }
-    defer { cancellable.cancel() }
-
-    await userStore.authenticateSession(expectedSession)
-    await fulfillment(of: [updateSessionExpectation, repositoryExpectation, eventExpectation])
-  }
-
   func testLoadCurrentUser() async throws {
     let expectedUser = UserProfileFactory.createUser()
     let repositoryExpectation = self.expectation(description: "should call add exercise")
@@ -69,12 +35,18 @@ class UserStoreTests: XCTestCase {
     let userStore = UserStore()
     let userProfile = await userStore.loadCurrentUser()
     XCTAssertEqual(userProfile, expectedUser)
-    await fulfillment(of: [repositoryExpectation])
+    await fulfillment(of: [repositoryExpectation], timeout: 1)
   }
 
   func testUpdateOnboardingStatus() async throws {
-    let repositoryExpectation = self.expectation(description: "should call add exercise")
-    let mockRepository = MockUserRepository(expectation: repositoryExpectation)
+    let userProfile = UserProfileFactory.createUser()
+
+    let repositoryExpectation = self.expectation(description: "should call methods")
+    repositoryExpectation.expectedFulfillmentCount = 2
+    let mockRepository = MockUserRepository(
+      expectation: repositoryExpectation,
+      expectedUserSession: UserSession.mockWithUserID(userProfile.userId),
+      expectedUserProfile: userProfile)
     DataRepositoryContainer.shared.userRepository.register { mockRepository }
     defer { DataRepositoryContainer.shared.userRepository.reset() }
 
@@ -88,7 +60,7 @@ class UserStoreTests: XCTestCase {
     defer { cancellable.cancel() }
 
     await userStore.updateOnboardingStatus(OnboardingData(weight: 20, height: 20, level: "level", goal: nil))
-    await fulfillment(of: [repositoryExpectation, eventExpectation])
+    await fulfillment(of: [repositoryExpectation, eventExpectation], timeout: 1)
   }
 }
 

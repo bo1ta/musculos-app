@@ -35,6 +35,11 @@ extension NetworkContainer {
     .cached
   }
 
+  public var userManager: Factory<UserSessionManagerProtocol> {
+    self { UserSessionManager() }
+      .cached
+  }
+
   public var networkMonitor: Factory<NetworkMonitorProtocol> {
     self { NetworkMonitor() }
       .cached

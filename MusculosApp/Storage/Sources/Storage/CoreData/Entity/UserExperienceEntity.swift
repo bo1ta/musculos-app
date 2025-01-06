@@ -60,7 +60,6 @@ extension UserExperienceEntity: EntitySyncable {
     modelID = model.id as NSUUID
     totalExperience = model.totalExperience as NSNumber
     experienceEntries = Set<UserExperienceEntryEntity>()
-    user = UserProfileEntity.getCurrentUser(on: storage)
 
     guard let experienceEntries = model.experienceEntries else {
       return

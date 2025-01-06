@@ -124,14 +124,6 @@ extension UserProfileEntity: ReadOnlyConvertible {
 // MARK: - Common predicate
 
 extension UserProfileEntity {
-  static func getCurrentUser(on storage: StorageType) -> UserProfileEntity? {
-    guard let currentUserID = StorageContainer.shared.userManager().currentUserID else {
-      return nil
-    }
-
-    return storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(currentUserID))
-  }
-
   static func userFromID(_ userID: UUID, on storage: StorageType) -> UserProfileEntity? {
     storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(userID))
   }

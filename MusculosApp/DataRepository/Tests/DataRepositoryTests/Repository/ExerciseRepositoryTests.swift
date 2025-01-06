@@ -38,7 +38,7 @@ class ExerciseRepositoryTests: XCTestCase {
 
     let localExercise = try #require(await coreDataStore.exerciseByID(exercise.id))
     XCTAssertEqual(localExercise, exercise)
-    await fulfillment(of: [serviceExpectation])
+    await fulfillment(of: [serviceExpectation], timeout: 1)
   }
 
   func testAddExerciseCompletesWhenServiceThrows() async throws {
@@ -55,7 +55,7 @@ class ExerciseRepositoryTests: XCTestCase {
 
     let localExercise = try #require(await coreDataStore.exerciseByID(exercise.id))
     XCTAssertEqual(localExercise, exercise)
-    await fulfillment(of: [serviceExpectation])
+    await fulfillment(of: [serviceExpectation], timeout: 1)
   }
 
   func testGetExercisesUsesLocalStoreIfNotConntectedToInternet() async throws {
@@ -103,9 +103,11 @@ class ExerciseRepositoryTests: XCTestCase {
     let serviceExpectation = self.expectation(description: "should call the service")
     let expectedExercise = ExerciseFactory.createExercise(isPersistent: false)
 
-    NetworkContainer.shared.exerciseService.register { ExerciseServiceStub(
-      expectation: serviceExpectation,
-      expectedResult: [expectedExercise]) }
+    NetworkContainer.shared.exerciseService.register {
+      ExerciseServiceStub(
+        expectation: serviceExpectation,
+        expectedResult: [expectedExercise])
+    }
     NetworkContainer.shared.networkMonitor.register { StubNetworkMonitor(isConnected: true) }
     defer {
       NetworkContainer.shared.exerciseService.reset()
@@ -116,17 +118,17 @@ class ExerciseRepositoryTests: XCTestCase {
     let remoteExercise = try await repository.getExerciseDetails(for: expectedExercise.id)
 
     XCTAssertEqual(remoteExercise, expectedExercise)
-    await fulfillment(of: [serviceExpectation])
+    await fulfillment(of: [serviceExpectation], timeout: 1)
   }
 
   func testGetRecommendedExercisesByMuscleGroupsForUserSessions() async throws {
     let user = UserProfileFactory.createUser()
 
-    StorageContainer.shared.userManager.register {
+    NetworkContainer.shared.userManager.register {
       StubUserSessionManager(expectedUser: UserSession.User(id: user.userId))
     }
     defer {
-      StorageContainer.shared.userManager.reset()
+      NetworkContainer.shared.userManager.reset()
     }
 
     // Populate data store with an exercise with the primary muscles unrelated to the user past session
@@ -149,11 +151,11 @@ class ExerciseRepositoryTests: XCTestCase {
   func testGetRecommendedExercisesByMuscleGroupsEmpty() async throws {
     let user = UserProfileFactory.createUser()
 
-    StorageContainer.shared.userManager.register {
+    NetworkContainer.shared.userManager.register {
       StubUserSessionManager(expectedUser: UserSession.User(id: user.userId))
     }
     defer {
-      StorageContainer.shared.userManager.reset()
+      NetworkContainer.shared.userManager.reset()
     }
 
     _ = ExerciseFactory.createExercise()
@@ -166,11 +168,11 @@ class ExerciseRepositoryTests: XCTestCase {
   func testGetRecommendedExercisesByGoals() async throws {
     let user = UserProfileFactory.createUser()
 
-    StorageContainer.shared.userManager.register {
+    NetworkContainer.shared.userManager.register {
       StubUserSessionManager(expectedUser: UserSession.User(id: user.userId))
     }
     defer {
-      StorageContainer.shared.userManager.reset()
+      NetworkContainer.shared.userManager.reset()
     }
 
     let exerciseFactory = ExerciseFactory()

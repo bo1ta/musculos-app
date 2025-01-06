@@ -14,7 +14,6 @@ let package = Package(
   dependencies: [
     .package(name: "Utility", path: "../Utility"),
     .package(name: "Models", path: "../Models"),
-    .package(name: "Storage", path: "../Storage"),
     .package(url: "https://github.com/hmlongco/Factory", exact: "2.4.3"),
     .package(url: "https://github.com/mattmassicotte/Queue", from: "0.1.4"),
   ],
@@ -24,7 +23,6 @@ let package = Package(
       dependencies: [
         .product(name: "Utility", package: "Utility"),
         .product(name: "Models", package: "Models"),
-        .product(name: "Storage", package: "Storage"),
         "Factory",
         "Queue",
       ]),
