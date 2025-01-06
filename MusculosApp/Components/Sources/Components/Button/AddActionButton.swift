@@ -26,5 +26,15 @@ public struct AddActionButton: View {
         }
         .shadow(radius: 4)
     }
+    .buttonStyle(AddActionButtonStyle())
+  }
+}
+
+private struct AddActionButtonStyle: ButtonStyle {
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .buttonStyle(.plain)
+      .scaleEffect(configuration.isPressed ? 0.90 : 1.0)
+      .shadow(radius: 1.0)
   }
 }
