@@ -11,11 +11,14 @@ import SwiftUI
 import Utility
 
 struct SearchLocationSheet: View {
-  @Binding var destinationLocation: String
+  private typealias PresentationState = UIConstant.PresentationDetentState
 
+  @State private var activeDetent: PresentationDetent = PresentationState.minimized
+
+  @Binding var destinationLocation: String
   var currentLocation: CLLocation?
-  var mapItemResults: [MapItemResult]
-  var onSelectResult: (MapItemResult) -> Void
+  var mapItemResults: [MapItemData]
+  var onSelectResult: (MapItemData) -> Void
 
   var body: some View {
     VStack(spacing: 20) {
@@ -31,15 +34,23 @@ struct SearchLocationSheet: View {
             })
         }
       }
+      Spacer()
     }
     .padding(.horizontal)
-    .presentationDetents([.fraction(0.1), .fraction(0.5)])
+    .onChange(of: mapItemResults, { _, newValue in
+      updateActiveDetentForResults(newValue)
+    })
+    .presentationDetents([.fraction(0.1), .fraction(0.5)], selection: $activeDetent)
     .presentationBackgroundInteraction(.enabled)
     .presentationDragIndicator(.visible)
     .interactiveDismissDisabled()
   }
 
-  func getDistanceDisplay(_ item: MapItemResult) -> String {
+  private func updateActiveDetentForResults(_ results: [MapItemData]) {
+    activeDetent = results.isEmpty ? PresentationState.minimized : PresentationState.expanded
+  }
+
+  func getDistanceDisplay(_ item: MapItemData) -> String {
     guard let currentLocation else {
       return ""
     }

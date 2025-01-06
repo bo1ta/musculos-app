@@ -32,7 +32,7 @@ struct ScoreCard: View {
   var body: some View {
     RoundedRectangle(cornerRadius: 12.0)
       .frame(maxWidth: .infinity)
-      .frame(height: UIConstant.Size.small.cardHeight)
+      .frame(height: UIConstant.CardSize.small)
       .foregroundStyle(AppColor.navyBlue)
       .shadow(radius: 1.2)
       .overlay {

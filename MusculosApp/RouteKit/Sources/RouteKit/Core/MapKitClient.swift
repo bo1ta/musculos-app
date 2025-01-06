@@ -16,7 +16,7 @@ public struct MapKitClient {
 
   // MARK: Public
 
-  public func getLocationsByQuery(_ query: String, on region: MKCoordinateRegion) async throws -> [MapItemResult] {
+  public func getLocationsByQuery(_ query: String, on region: MKCoordinateRegion) async throws -> [MapItemData] {
     let request = MKLocalSearch.Request()
     request.naturalLanguageQuery = query
     request.region = region
@@ -70,12 +70,12 @@ public struct MapKitClient {
     return types
   }
 
-  private func mapItemsToResults(_ items: [MKMapItem]) -> [MapItemResult] {
+  private func mapItemsToResults(_ items: [MKMapItem]) -> [MapItemData] {
     items.compactMap { item in
       guard let name = item.name else {
         return nil
       }
-      return MapItemResult(
+      return MapItemData(
         identifier: UUID(),
         name: name,
         placemark: item.placemark,

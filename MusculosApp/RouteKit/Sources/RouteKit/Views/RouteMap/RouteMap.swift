@@ -13,13 +13,13 @@ import Utility
 public struct RouteMap: UIViewControllerRepresentable {
   @Binding var currentLocation: CLLocation?
   @Binding var averagePace: Double
-  @Binding var mapItemResults: [MapItemResult]
+  @Binding var mapItemResults: [MapItemData]
   @Binding var currentRoute: MKRoute?
 
   init(
     currentLocation: Binding<CLLocation?> = .constant(nil),
     averagePace: Binding<Double>,
-    mapItemResults: Binding<[MapItemResult]> = .constant([]),
+    mapItemResults: Binding<[MapItemData]> = .constant([]),
     currentRoute: Binding<MKRoute?> = .constant(nil))
   {
     _currentLocation = currentLocation

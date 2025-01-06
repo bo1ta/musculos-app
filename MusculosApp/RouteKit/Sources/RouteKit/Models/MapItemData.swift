@@ -1,5 +1,5 @@
 //
-//  MapItemResult.swift
+//  MapItemData.swift
 //  RouteKit
 //
 //  Created by Solomon Alexandru on 04.01.2025.
@@ -11,7 +11,7 @@ import UIKit
 
 // MARK: - MapItemResult
 
-public struct MapItemResult: Sendable {
+public struct MapItemData: Sendable {
   var identifier: UUID
   var name: String
   var placemark: MKPlacemark
@@ -35,7 +35,7 @@ public struct MapItemResult: Sendable {
 
 // MARK: MapItemResult.Category
 
-extension MapItemResult {
+extension MapItemData {
   enum Category {
     case general
     case park
@@ -110,5 +110,11 @@ extension MapItemResult {
         return .general
       }
     }
+  }
+}
+
+extension MapItemData: Equatable {
+  public static func ==(_ lhs: MapItemData, rhs: MapItemData) -> Bool {
+    lhs.identifier == rhs.identifier
   }
 }

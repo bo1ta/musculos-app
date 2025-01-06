@@ -46,7 +46,7 @@ struct AuthenticationScreen: View {
             .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
         }
       }
-      .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: viewModel.step)
+      .animation(.smooth(duration: UIConstant.AnimationDuration.medium), value: viewModel.step)
     }
     .onDisappear(perform: viewModel.cleanUp)
     .onChange(of: viewModel.step) { _, step in

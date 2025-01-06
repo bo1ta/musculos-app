@@ -33,7 +33,7 @@ struct MusculosApp: App {
             .transition(.asymmetric(insertion: .opacity, removal: .push(from: .top)))
         }
       }
-      .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: appModel.appState)
+      .animation(.smooth(duration: UIConstant.AnimationDuration.medium), value: appModel.appState)
       .toastView(toast: $appModel.toast)
       .task {
         await appModel.initialLoad()

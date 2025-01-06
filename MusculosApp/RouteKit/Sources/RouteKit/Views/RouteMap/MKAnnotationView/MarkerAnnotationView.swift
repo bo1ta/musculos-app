@@ -20,7 +20,7 @@ class MarkerAnnotationView: MKMarkerAnnotationView {
     super.init(coder: aDecoder)
   }
 
-  func configure(for category: MapItemResult.Category) {
+  func configure(for category: MapItemData.Category) {
     glyphImage = UIImage(systemName: category.systemImageName)
 
     markerTintColor = category.colorRepresentation

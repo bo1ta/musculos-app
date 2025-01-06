@@ -17,7 +17,7 @@ public struct AchievementCard: View {
     RoundedRectangle(cornerRadius: 10)
       .foregroundStyle(backgroundColor)
       .frame(maxWidth: .infinity)
-      .frame(height: UIConstant.Size.small.cardHeight)
+      .frame(height: UIConstant.CardSize.small)
       .shadow(radius: 1.0)
       .overlay {
         HStack {

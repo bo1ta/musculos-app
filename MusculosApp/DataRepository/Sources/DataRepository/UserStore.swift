@@ -44,6 +44,7 @@ extension UserStoreProtocol {
 
 public final class UserStore: @unchecked Sendable, UserStoreProtocol {
   @LazyInjected(\DataRepositoryContainer.userRepository) private var userRepository: UserRepositoryProtocol
+
   @Atomic public private(set) var currentUser: UserProfile?
 
   private let eventSubject = PassthroughSubject<UserStoreEvent, Never>()

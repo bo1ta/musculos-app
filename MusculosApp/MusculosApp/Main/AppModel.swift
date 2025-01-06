@@ -51,6 +51,7 @@ final class AppModel {
     setupObservers()
   }
 
+  ///
   func initialLoad() async {
     progress = 0.3
 
@@ -58,15 +59,14 @@ final class AppModel {
 
     progress = 1.0
 
-    if userStore.isLoggedIn {
-      if !userStore.isOnboarded {
-        appState = .onboarding
-      } else {
-        appState = .loggedIn
-      }
-    } else {
-      appState = .loggedOut
+    appState = determineAppState()
+  }
+
+  private func determineAppState() -> AppState {
+    guard userStore.isLoggedIn else {
+      return .loggedOut
     }
+    return userStore.isOnboarded ? .loggedIn : .onboarding
   }
 
   private func setupObservers() {

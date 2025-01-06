@@ -7,6 +7,7 @@
 
 import Combine
 import CoreLocation
+import Factory
 import MapKit
 import UIKit
 import Utility
@@ -14,7 +15,7 @@ import Utility
 // MARK: - RouteMapViewController
 
 public final class RouteMapViewController: UIViewController {
-  private let locationManager = LocationManager()
+  @LazyInjected(\RouteKitContainer.locationManager) private var locationManager: LocationManager
 
   private var cancellables: Set<AnyCancellable> = []
   private var totalDistance: CLLocationDistance = 0
@@ -47,7 +48,7 @@ public final class RouteMapViewController: UIViewController {
   var onUpdatePace: ((Double) -> Void)?
   var onUpdateLocation: ((CLLocation?) -> Void)?
 
-  var mapItemResults: [MapItemResult] = [] {
+  var mapItemResults: [MapItemData] = [] {
     didSet {
       updateMapWithResults(mapItemResults)
     }
@@ -264,7 +265,7 @@ extension RouteMapViewController {
 
   /// Populates the map with marker annotations for the given results
   ///
-  private func updateMapWithResults(_ mapResults: [MapItemResult]) {
+  private func updateMapWithResults(_ mapResults: [MapItemData]) {
     guard !mapResults.isEmpty else {
       return
     }
@@ -322,7 +323,7 @@ extension RouteMapViewController: MKMapViewDelegate {
   /// Pulls the result category for the given coordinates.
   /// This should never return a nil value since the passed annotation was created populated at some point from the `mapItemResults`
   ///
-  private func findCategoryForAnnotation(_ annotation: MKAnnotation) -> MapItemResult.Category? {
+  private func findCategoryForAnnotation(_ annotation: MKAnnotation) -> MapItemData.Category? {
     mapItemResults.first(where: {
       $0.placemark.coordinate.latitude == annotation.coordinate.latitude &&
         $0.placemark.coordinate.longitude == annotation.coordinate.longitude

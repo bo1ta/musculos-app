@@ -28,7 +28,7 @@ struct SplashScreen: View {
       }
     }
     .background(AppColor.navyBlue)
-    .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: showLoginScreen)
+    .animation(.smooth(duration: UIConstant.AnimationDuration.medium), value: showLoginScreen)
   }
 
   private var splashScreen: some View {
