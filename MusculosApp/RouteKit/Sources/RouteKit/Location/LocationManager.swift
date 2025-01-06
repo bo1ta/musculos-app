@@ -50,6 +50,24 @@ public final class LocationManager: NSObject, @unchecked Sendable {
     locationManager.pausesLocationUpdatesAutomatically = false
   }
 
+  public func checkAuthorizationStatus() {
+    switch locationManager.authorizationStatus {
+    case .authorizedAlways, .authorizedWhenInUse:
+      Logger.info(message: "Location authorization granted")
+      startTracking()
+
+    case .notDetermined:
+      locationManager.requestWhenInUseAuthorization()
+
+    case .restricted, .denied:
+      Logger.error(LocationError.authorizationDenied, message: "Location authorization restricted")
+      errorSubject.send(LocationError.authorizationDenied)
+
+    @unknown default:
+      Logger.error(MusculosError.unknownError, message: "Unknown authorization status")
+    }
+  }
+
   public func startTracking() {
     guard !isTracking else {
       return
@@ -68,25 +86,8 @@ public final class LocationManager: NSObject, @unchecked Sendable {
     defer { isTracking = false }
 
     locationManager.stopUpdatingLocation()
+    locationManager.stopUpdatingHeading()
     Logger.info(message: "Stopped tracking location")
-  }
-
-  public func checkAuthorizationStatus() {
-    switch locationManager.authorizationStatus {
-    case .authorizedAlways, .authorizedWhenInUse:
-      Logger.info(message: "Location authorization granted")
-      startTracking()
-
-    case .notDetermined:
-      locationManager.requestWhenInUseAuthorization()
-
-    case .restricted, .denied:
-      Logger.error(LocationError.authorizationDenied, message: "Location authorization restricted")
-      errorSubject.send(LocationError.authorizationDenied)
-
-    @unknown default:
-      Logger.error(MusculosError.unknownError, message: "Unknown authorization status")
-    }
   }
 }
 

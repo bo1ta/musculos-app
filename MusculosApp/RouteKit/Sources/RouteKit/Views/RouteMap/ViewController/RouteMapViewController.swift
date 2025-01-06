@@ -21,10 +21,17 @@ public final class RouteMapViewController: UIViewController {
   private var cancellables: Set<AnyCancellable> = []
   private var totalDistance: CLLocationDistance = 0
   private var startTime: Date?
-  private var currentLocation: CLLocation?
 
   var onUpdatePace: ((Double) -> Void)?
   var onUpdateLocation: ((CLLocation?) -> Void)?
+
+  private var currentLocation: CLLocation? {
+    didSet {
+      if let currentLocation {
+        updateMapLocation(currentLocation)
+      }
+    }
+  }
 
   var mapItemResults: [MapItemResult] = [] {
     didSet {
@@ -34,7 +41,11 @@ public final class RouteMapViewController: UIViewController {
 
   var currentRoute: MKRoute? {
     didSet {
-      updateMapWithRoute(currentRoute)
+      if let currentRoute {
+        updateMapWithRoute(currentRoute)
+      } else {
+        removeRouteOverlay()
+      }
     }
   }
 
@@ -129,10 +140,10 @@ extension RouteMapViewController {
       return
     }
 
-    currentLocation = location
-    updateMapLocation(location)
     onUpdatePace?(calculateAveragePace(from: location))
     onUpdateLocation?(location)
+
+    currentLocation = location
   }
 
   private func locationHeadingDidUpdate(_ heading: CLHeading) {
@@ -208,6 +219,10 @@ extension RouteMapViewController {
     mapView.addAnnotation(annotation)
   }
 
+  /// Calculates the average pace by comparing the new location to the previous location
+  /// where Pace = Time / Distance
+  /// Returns the Double representation in min/km format
+  ///
   private func calculateAveragePace(from location: CLLocation) -> Double {
     guard let lastLocation = currentLocation, let startTime else {
       return 0.0
@@ -215,34 +230,36 @@ extension RouteMapViewController {
 
     totalDistance += location.distance(from: lastLocation)
 
-    let elapsedTime = location.timestamp.timeIntervalSince(startTime)
-    let elapsedTimeMinutes = elapsedTime / 60.0
-
     guard totalDistance > 0 else {
       return 0.0
     }
 
-    let averagePace = elapsedTimeMinutes / (totalDistance / 1000.0)
+    let elapsedMinutes = location.timestamp.timeIntervalSince(startTime) / 60
+    let averagePace = elapsedMinutes / totalDistance.inKilometers()
     Logger.info(message: "Average pace: \(String(format: "%.2f min/km", averagePace))")
     return averagePace
   }
 
-  private func updateMapWithRoute(_ route: MKRoute?) {
-    guard let route else {
-      return
-    }
-
-    if let routeOverlay {
-      mapView.removeOverlay(routeOverlay)
-    }
-
+  private func updateMapWithRoute(_ route: MKRoute) {
+    removeRouteOverlay()
     routeOverlay = route.polyline
+
     if let routeOverlay {
       mapView.addOverlay(routeOverlay, level: .aboveRoads)
       mapView.setVisibleMapRect(routeOverlay.boundingMapRect, animated: true)
     }
   }
 
+  private func removeRouteOverlay() {
+    guard let routeOverlay else {
+      return
+    }
+    mapView.removeOverlay(routeOverlay)
+    self.routeOverlay = nil
+  }
+
+  /// Populates the map with marker annotations for the given results
+  ///
   private func updateMapWithResults(_ mapResults: [MapItemResult]) {
     guard !mapResults.isEmpty else {
       return
@@ -254,14 +271,6 @@ extension RouteMapViewController {
       addMarker(at: result.placemark.coordinate, with: result.name)
       Logger.info(message: "Added map placemark from results")
     }
-  }
-
-  private func findCategoryForCoordinate(_ coordinate: CLLocationCoordinate2D) -> MapItemResult.Category? {
-    mapItemResults
-      .first(where: {
-        $0.placemark.coordinate.latitude == coordinate.latitude && $0.placemark.coordinate.longitude == coordinate.longitude
-      })?
-      .category
   }
 }
 
@@ -284,13 +293,13 @@ extension RouteMapViewController: MKMapViewDelegate {
           .dequeueReusableAnnotationView(withIdentifier: MarkerAnnotationView.reuseIdentifier) as? MarkerAnnotationView
       {
         annotationView.annotation = annotation
-        if let category = findCategoryForCoordinate(annotation.coordinate) {
+        if let category = findCategoryForAnnotation(annotation) {
           annotationView.configure(for: category)
         }
         return annotationView
       } else {
         let annotationView = MarkerAnnotationView(annotation: annotation, reuseIdentifier: MarkerAnnotationView.reuseIdentifier)
-        if let category = findCategoryForCoordinate(annotation.coordinate) {
+        if let category = findCategoryForAnnotation(annotation) {
           annotationView.configure(for: category)
         }
         return annotationView
@@ -304,5 +313,15 @@ extension RouteMapViewController: MKMapViewDelegate {
     renderer.lineCap = .round
     renderer.lineWidth = 3.0
     return renderer
+  }
+
+  /// Pulls the result category for the given coordinates.
+  /// This should never return a nil value since the passed annotation was created populated at some point from the `mapItemResults`
+  ///
+  private func findCategoryForAnnotation(_ annotation: MKAnnotation) -> MapItemResult.Category? {
+    mapItemResults.first(where: {
+      $0.placemark.coordinate.latitude == annotation.coordinate.latitude &&
+        $0.placemark.coordinate.longitude == annotation.coordinate.longitude
+    })?.category
   }
 }
