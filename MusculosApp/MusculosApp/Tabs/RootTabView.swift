@@ -50,12 +50,14 @@ struct RootTabView: View {
         selectedTab = tab
         return .auto
       }
+      .onPreferenceChange(ShowTabPreferenceKey.self) { [$showAddButton] showButton in
+        $showAddButton.wrappedValue = showButton
+      }
 
       AddActionButton(action: { showActionSheet = true })
         .offset(y: -30)
         .opacity(showAddButton ? 1 : 0)
     }
-    .onPreferenceChange(ShowTabPreferenceKey.self, perform: updateButtonVisibility(_:))
     .sheet(isPresented: $showActionSheet) {
       AddActionSheetContainer()
     }

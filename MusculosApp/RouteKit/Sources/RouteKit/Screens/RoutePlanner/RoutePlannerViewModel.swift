@@ -23,7 +23,11 @@ final class RoutePlannerViewModel {
   var showRouteForm = false
   var currentLocation: CLLocation?
   var mapItemResults: [MapItemData] = []
+  var selectedMapItem: MapItemData?
+  var currentPlacemark: CLPlacemark?
   var currentRoute: MKRoute?
+  var currentWizardStep = RoutePlannerWizardStep.search
+
   var startLocation = ""
 
   var endLocation = "" {
@@ -46,7 +50,7 @@ final class RoutePlannerViewModel {
       .store(in: &cancellables)
   }
 
-  func searchQuery(_ query: String) {
+  func searchQuery(_: String) {
     guard let currentLocation, !endLocation.isEmpty else {
       mapItemResults.removeAll()
       return
@@ -89,8 +93,15 @@ final class RoutePlannerViewModel {
       do {
         try Task.checkCancellation()
 
-        let response = try await client.getDirections(from: currentLocation.coordinate, to: item.placemark.coordinate)
-        currentRoute = response.routes.first
+        selectedMapItem = item
+
+        let directions = try await client.getDirections(from: currentLocation.coordinate, to: item.placemark.coordinate)
+        currentRoute = directions.routes.first
+
+        let currentLocationDetails = try await client.getLocationDetails(currentLocation)
+        currentPlacemark = currentLocationDetails.first
+        startLocation = currentPlacemark?.name ?? ""
+        currentWizardStep = .confirm
       } catch {
         Logger.error(error, message: "Could not retrieve route")
       }

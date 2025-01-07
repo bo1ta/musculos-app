@@ -28,6 +28,6 @@ public struct ToastViewModifier: ViewModifier {
             .transition(.asymmetric(insertion: .push(from: .bottom), removal: .move(edge: .bottom)))
           }
         }
-          .animation(.smooth(duration: UIConstant.AnimationDuration.medium), value: toast))
+        .animation(.smooth(duration: UIConstant.AnimationDuration.medium), value: toast))
   }
 }

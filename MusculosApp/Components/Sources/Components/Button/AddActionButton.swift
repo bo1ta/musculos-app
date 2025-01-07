@@ -8,6 +8,8 @@
 import SwiftUI
 import Utility
 
+// MARK: - AddActionButton
+
 public struct AddActionButton: View {
   let action: () -> Void
 
@@ -29,6 +31,8 @@ public struct AddActionButton: View {
     .buttonStyle(AddActionButtonStyle())
   }
 }
+
+// MARK: - AddActionButtonStyle
 
 private struct AddActionButtonStyle: ButtonStyle {
   func makeBody(configuration: Configuration) -> some View {

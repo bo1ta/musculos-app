@@ -14,7 +14,7 @@ struct AddActionSheetContainer: View {
   }
 
   @State private var currentStep = Step.createItem
-  @State private var presentationDetentState: PresentationDetent = .fraction(0.3)
+  @State private var presentationDetentState = PresentationDetent.fraction(0.3)
   @Namespace private var animationNamespace
 
   var body: some View {
@@ -40,13 +40,13 @@ struct AddActionSheetContainer: View {
           .transition(.move(edge: .bottom).combined(with: .scale(scale: 0.5)))
       }
     }
-    .onChange(of: currentStep, { _, newValue in
+    .onChange(of: currentStep) { _, newValue in
       if newValue == .createItem {
         presentationDetentState = .fraction(0.3)
       } else {
         presentationDetentState = .large
       }
-    })
+    }
     .presentationDetents([.fraction(0.3), .large], selection: $presentationDetentState)
     .animation(.easeInOut(duration: 0.2), value: currentStep)
   }

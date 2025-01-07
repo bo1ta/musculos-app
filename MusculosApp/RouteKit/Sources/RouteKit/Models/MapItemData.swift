@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 import UIKit
 
-// MARK: - MapItemResult
+// MARK: - MapItemData
 
 public struct MapItemData: Sendable {
   var identifier: UUID
@@ -33,7 +33,7 @@ public struct MapItemData: Sendable {
   }
 }
 
-// MARK: MapItemResult.Category
+// MARK: MapItemData.Category
 
 extension MapItemData {
   enum Category {
@@ -112,6 +112,8 @@ extension MapItemData {
     }
   }
 }
+
+// MARK: Equatable
 
 extension MapItemData: Equatable {
   public static func ==(_ lhs: MapItemData, rhs: MapItemData) -> Bool {

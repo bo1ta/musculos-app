@@ -58,6 +58,11 @@ public struct MapKitClient {
     return try await directions.calculate()
   }
 
+  public func getLocationDetails(_ location: CLLocation) async throws -> [CLPlacemark] {
+    let geocoder = CLGeocoder()
+    return try await geocoder.reverseGeocodeLocation(location)
+  }
+
   // MARK: Private
 
   private func getPointOfInterestCategories() -> [MKPointOfInterestCategory] {
