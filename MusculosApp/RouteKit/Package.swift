@@ -14,6 +14,7 @@ let package = Package(
   dependencies: [
     .package(name: "Utility", path: "../Utility"),
     .package(name: "Components", path: "../Components"),
+    .package(url: "https://github.com/hmlongco/Factory", exact: "2.4.3"),
   ],
   targets: [
     .target(
@@ -21,6 +22,7 @@ let package = Package(
       dependencies: [
         .product(name: "Utility", package: "Utility"),
         .product(name: "Components", package: "Components"),
+        "Factory",
       ]),
     .testTarget(
       name: "RouteKitTests",

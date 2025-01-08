@@ -19,10 +19,10 @@ public struct ProgressButton: View {
 
   public var body: some View {
     HStack {
-      RoundedRectangle(cornerRadius: UIConstant.Size.small.cornerRadius)
+      RoundedRectangle(cornerRadius: UIConstant.CornerRadius.small)
         .foregroundStyle(.white)
         .shadow(color: Color.red, radius: 1.0)
-        .frame(height: UIConstant.Size.small.cardHeight - 10)
+        .frame(height: UIConstant.CardSize.small - 10)
         .frame(maxWidth: .infinity)
         .overlay {
           Text(DateHelper.formatTimeFromSeconds(Double(elapsedTime)))

@@ -33,6 +33,9 @@ final class AppModel {
   @Injected(\NetworkContainer.networkMonitor) private var networkMonitor: NetworkMonitorProtocol
 
   @ObservationIgnored
+  @Injected(\DataRepositoryContainer.authenticationManager) private var authenticationManager: AuthenticationManagerProtocol
+
+  @ObservationIgnored
   @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
 
   @ObservationIgnored
@@ -44,12 +47,26 @@ final class AppModel {
   var progress = 0.0
   var toast: Toast?
 
-  var currentUser: UserProfile? {
-    userStore.currentUser
-  }
-
   init() {
     setupObservers()
+  }
+
+  ///
+  func initialLoad() async {
+    progress = 0.3
+
+    await userStore.loadCurrentUser()
+
+    progress = 1.0
+
+    appState = determineAppState()
+  }
+
+  private func determineAppState() -> AppState {
+    guard userStore.isLoggedIn else {
+      return .loggedOut
+    }
+    return userStore.isOnboarded ? .loggedIn : .onboarding
   }
 
   private func setupObservers() {
@@ -59,9 +76,15 @@ final class AppModel {
       }
       .store(in: &cancellables)
 
+    authenticationManager.eventPublisher
+      .sink { [weak self] event in
+        self?.didReceiveAuthenticationEvent(event)
+      }
+      .store(in: &cancellables)
+
     userStore.eventPublisher
       .sink { [weak self] event in
-        self?.didChangeUserState(event)
+        self?.didReceiveUserStoreEvent(event)
       }
       .store(in: &cancellables)
 
@@ -70,6 +93,21 @@ final class AppModel {
         self?.toast = toast
       }
       .store(in: &cancellables)
+  }
+}
+
+// MARK: - Observers handling
+
+extension AppModel {
+  func didChangeScenePhase(_ phase: ScenePhase) {
+    switch phase {
+    case .active:
+      networkMonitor.startMonitoring()
+    case .background:
+      networkMonitor.stopMonitoring()
+    default:
+      break
+    }
   }
 
   private func didChangeConnectionStatus(_ connectionStatus: NWPath.Status) {
@@ -88,7 +126,7 @@ final class AppModel {
     }
   }
 
-  private func didChangeUserState(_ event: UserStoreEvent) {
+  private func didReceiveAuthenticationEvent(_ event: AuthenticationEvent) {
     switch event {
     case .didLogin:
       appState = userStore.isOnboarded ? .loggedIn : .onboarding
@@ -96,38 +134,13 @@ final class AppModel {
     case .didLogout:
       appState = .loggedOut
       toastManager.showInfo("Logged out")
+    }
+  }
 
+  private func didReceiveUserStoreEvent(_ event: UserStoreEvent) {
+    switch event {
     case .didFinishOnboarding:
       appState = .loggedIn
-    }
-  }
-
-  func loadInitialState() async {
-    progress = 0.3
-
-    await userStore.loadCurrentUser()
-
-    progress = 1.0
-
-    if userStore.isLoggedIn {
-      if !userStore.isOnboarded {
-        appState = .onboarding
-      } else {
-        appState = .loggedIn
-      }
-    } else {
-      appState = .loggedOut
-    }
-  }
-
-  func didChangeScenePhase(_ phase: ScenePhase) {
-    switch phase {
-    case .active:
-      networkMonitor.startMonitoring()
-    case .background:
-      networkMonitor.stopMonitoring()
-    default:
-      break
     }
   }
 }

@@ -6,8 +6,6 @@
 //
 
 import Factory
-import UIKit
-import Utility
 
 // MARK: - StorageContainer
 
@@ -28,10 +26,5 @@ extension StorageContainer {
       .onTest { InMemoryStorageManager() }
       .onPreview { InMemoryStorageManager() }
       .singleton
-  }
-
-  public var userManager: Factory<UserSessionManagerProtocol> {
-    self { UserSessionManager() }
-      .cached
   }
 }

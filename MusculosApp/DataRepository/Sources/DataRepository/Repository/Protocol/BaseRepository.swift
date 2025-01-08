@@ -26,7 +26,7 @@ extension BaseRepository {
   var localStorageUpdateThreshold: TimeInterval { .oneHour }
 
   var currentUserID: UUID? {
-    StorageContainer.shared.userManager().currentUserID
+    NetworkContainer.shared.userManager().currentUserID
   }
 
   var coreDataStore: CoreDataStore {

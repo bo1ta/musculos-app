@@ -29,10 +29,6 @@ public class UserStoreStub: UserStoreProtocol, @unchecked Sendable {
     expectedLoadResult
   }
 
-  public func authenticateSession(_: Models.UserSession) async {
-    eventSubject.send(.didLogin)
-  }
-
   public func updateOnboardingStatus(_: Models.OnboardingData) async {
     eventSubject.send(.didFinishOnboarding)
   }

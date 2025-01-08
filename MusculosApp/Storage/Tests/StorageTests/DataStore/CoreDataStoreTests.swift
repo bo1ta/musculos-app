@@ -26,7 +26,7 @@ public class CoreDataStoreTests: MusculosTestBase {
     let exercise = ExerciseFactory.createExercise()
 
     let dataStore = CoreDataStore()
-    let local = await dataStore.firstObject(ExerciseEntity.self, predicate: PredicateProvider.exerciseById(exercise.id))
+    let local = await dataStore.getFirstObject(ExerciseEntity.self, predicate: PredicateProvider.exerciseById(exercise.id))
     #expect(local?.name == exercise.name)
   }
 

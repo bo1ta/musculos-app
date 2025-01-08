@@ -16,6 +16,7 @@ import XCTest
 @testable import Components
 @testable import DataRepository
 @testable import MusculosApp
+@testable import NetworkClient
 @testable import Storage
 
 // MARK: - HomeViewModelTests
@@ -50,7 +51,7 @@ class HomeViewModelTests: XCTestCase {
 
   private func setupCurrentUser() -> UserProfile {
     let userProfile = UserProfileFactory.createUser()
-    StorageContainer.shared.userManager.register {
+    NetworkContainer.shared.userManager.register {
       StubUserSessionManager(
         expectedTokenValue: "value",
         expectedUser: .init(id: userProfile.userId))

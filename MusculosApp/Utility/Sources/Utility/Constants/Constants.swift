@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 // MARK: - HTTPMethod
 
@@ -30,43 +31,36 @@ public enum UIConstant {
 
   public static let toastStandardDuration = 3.0
 
-  public static let shortAnimationDuration = 0.1
-  public static let mediumAnimationDuration = 0.25
-  public static let longAnimationDuration = 0.5
+  public enum AnimationDuration {
+    public static let short = 0.1
+    public static let medium = 0.25
+    public static let long = 0.5
+  }
 
-  public static let smallIconSize = 16.0
-  public static let mediumIconSize = 23.0
-  public static let largeIconSize = 25.0
+  public enum CardSize {
+    public static let extraSmall = 45.0
+    public static let small = 75.0
+    public static let medium = 150.0
+    public static let large = 200.0
+  }
 
-  public enum Size {
-    case extraSmall, small, medium, large
+  public enum IconSize {
+    public static let extraSmall = 10.0
+    public static let small = 16.0
+    public static let medium = 23.0
+    public static let large = 30.0
+  }
 
-    public var cardHeight: Double {
-      switch self {
-      case .extraSmall: 45.0
-      case .small: 75.0
-      case .medium: 150.0
-      case .large: 200.0
-      }
-    }
+  public enum CornerRadius {
+    public static let extraSmall = 5.0
+    public static let small = 10.0
+    public static let medium = 15.0
+    public static let large = 20.0
+  }
 
-    public var iconHeight: Double {
-      switch self {
-      case .extraSmall: 10.0
-      case .small: 16.0
-      case .medium: 23.0
-      case .large: 30.0
-      }
-    }
-
-    public var cornerRadius: Double {
-      switch self {
-      case .extraSmall: 5.0
-      case .small: 10.0
-      case .medium: 15.0
-      case .large: 20.0
-      }
-    }
+  public enum PresentationDetentState {
+    public static let minimized = PresentationDetent.fraction(0.1)
+    public static let expanded = PresentationDetent.fraction(0.5)
   }
 }
 
@@ -76,7 +70,6 @@ public enum UserDefaultsKey {
   public static let userSession = "user_session"
   public static let healthKitAnchor = "health_kit_anchor"
   public static let coreDataModelVersion = "core_data_model_version"
-
   public static let goalsLastUpdated = "goals_last_updated"
   public static let exercisesLastUpdated = "exercises_last_updated"
   public static let exerciseSessionsLastUpdated = "exercise_sessions_last_updated"

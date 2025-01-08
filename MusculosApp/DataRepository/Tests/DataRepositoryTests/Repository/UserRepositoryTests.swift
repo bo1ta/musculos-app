@@ -33,7 +33,7 @@ class UserRepositoryTests: XCTestCase {
     let userSession = try await UserRepository().register(email: "test@test.com", password: "password", username: "username")
 
     XCTAssertEqual(userSession.token.value, expectedUserSession.token.value)
-    await fulfillment(of: [expectation])
+    await fulfillment(of: [expectation], timeout: 1)
   }
 
   func testLogin() async throws {
@@ -46,7 +46,7 @@ class UserRepositoryTests: XCTestCase {
     let userSession = try await UserRepository().login(email: "test@test.com", password: "password")
 
     XCTAssertEqual(userSession.token.value, expectedUserSession.token.value)
-    await fulfillment(of: [expectation])
+    await fulfillment(of: [expectation], timeout: 1)
   }
 
   func testGetCurrentUser() async throws {
@@ -54,12 +54,12 @@ class UserRepositoryTests: XCTestCase {
     let expectation = self.expectation(description: "should call service")
     let mockUserService = MockUserService(expectation: expectation)
     NetworkContainer.shared.userService.register { mockUserService }
-    StorageContainer.shared.userManager.register {
+    NetworkContainer.shared.userManager.register {
       StubUserSessionManager(expectedUser: UserSession.User(id: expectedProfile.userId))
     }
     defer {
       NetworkContainer.shared.userService.reset()
-      StorageContainer.shared.userManager.reset()
+      NetworkContainer.shared.userManager.reset()
     }
 
     let userProfile = try #require(try await UserRepository().getCurrentUser())
@@ -72,12 +72,12 @@ class UserRepositoryTests: XCTestCase {
     let expectation = self.expectation(description: "should call service")
     let mockUserService = MockUserService(expectation: expectation, expectedProfile: currentUser)
     NetworkContainer.shared.userService.register { mockUserService }
-    StorageContainer.shared.userManager.register {
+    NetworkContainer.shared.userManager.register {
       StubUserSessionManager(expectedUser: .init(id: currentUser.userId))
     }
     defer {
       NetworkContainer.shared.userService.reset()
-      StorageContainer.shared.userManager.reset()
+      NetworkContainer.shared.userManager.reset()
     }
 
     let repository = UserRepository()
@@ -88,7 +88,7 @@ class UserRepositoryTests: XCTestCase {
     XCTAssertEqual(Int(currentProfile?.weight ?? 0), onboardingData.weight)
     XCTAssertEqual(Int(currentProfile?.height ?? 0), onboardingData.height)
     XCTAssertEqual(currentProfile?.level, onboardingData.level)
-    await fulfillment(of: [expectation])
+    await fulfillment(of: [expectation], timeout: 1)
   }
 }
 

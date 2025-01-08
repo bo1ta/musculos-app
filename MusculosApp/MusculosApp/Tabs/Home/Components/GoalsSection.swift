@@ -60,7 +60,7 @@ private struct AddGoalCard: View {
     Button(action: onTap) {
       RoundedRectangle(cornerRadius: 12.0)
         .frame(maxWidth: .infinity)
-        .frame(height: UIConstant.Size.extraSmall.cardHeight)
+        .frame(height: UIConstant.CardSize.extraSmall)
         .foregroundStyle(gradientColor)
         .shadow(radius: 1.2)
         .overlay {

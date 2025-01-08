@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Storage
 
 struct AuthorizationMiddleware: RequestMiddleware {
   var priority: MiddlewarePriority { .authorizationMiddleware }
@@ -26,6 +25,6 @@ struct AuthorizationMiddleware: RequestMiddleware {
   }
 
   private var authToken: String? {
-    StorageContainer.shared.userManager().currentUserSession?.token.value
+    NetworkContainer.shared.userManager().currentUserSession?.token.value
   }
 }

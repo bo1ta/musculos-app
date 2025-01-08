@@ -27,11 +27,12 @@ extension HomeDestinations: NavigationDestination {
       AddGoalSheet(onBack: { })
 
     case .notifications:
-      LiveRouteScreen()
+      RoutePlannerScreen()
         .tabBarHidden()
 
     case .liveRoute:
-      LiveRouteScreen()
+      RoutePlannerScreen()
+        .tabBarHidden()
     }
   }
 

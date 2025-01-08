@@ -18,7 +18,7 @@ struct HighlightCard: View {
 
   var body: some View {
     RoundedRectangle(cornerRadius: 12.0)
-      .frame(height: UIConstant.Size.small.cardHeight)
+      .frame(height: UIConstant.CardSize.small)
       .frame(maxWidth: .infinity)
       .foregroundStyle(profileHighlight.highlightType.color)
       .overlay {

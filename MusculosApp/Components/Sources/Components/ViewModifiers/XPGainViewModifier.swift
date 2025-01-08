@@ -28,7 +28,7 @@ public struct XPGainViewModifier: ViewModifier {
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
             .transition(.scale(scale: 0.5).combined(with: .move(edge: .trailing)))
-            .animation(.smooth(duration: UIConstant.mediumAnimationDuration), value: showView)
+            .animation(.smooth(duration: UIConstant.AnimationDuration.medium), value: showView)
           }
         }
       }

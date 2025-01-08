@@ -25,11 +25,11 @@ class RatingRepositoryTests: XCTestCase {
 
   func testGetExerciseRatingsForCurrentUserWhenConnectedToTheInternet() async throws {
     let currentUser = UserProfileFactory.createUser()
-    StorageContainer.shared.userManager.register {
+    NetworkContainer.shared.userManager.register {
       StubUserSessionManager(expectedUser: .init(id: currentUser.userId))
     }
     defer {
-      StorageContainer.shared.userManager.reset()
+      NetworkContainer.shared.userManager.reset()
     }
 
     let expectation = self.expectation(description: "should call getExercisesRatings")
@@ -44,7 +44,7 @@ class RatingRepositoryTests: XCTestCase {
     let ratings = try await RatingRepository().getExerciseRatingsForCurrentUser()
 
     XCTAssertFalse(ratings.isEmpty)
-    await fulfillment(of: [expectation])
+    await fulfillment(of: [expectation], timeout: 1)
   }
 
   func testGetRatingsForExerciseWhenNotConnectedToTheInternet() async throws {
@@ -91,7 +91,7 @@ class RatingRepositoryTests: XCTestCase {
     let mockService = MockRatingService(expectation: expectation, expectedResult: [])
 
     NetworkContainer.shared.ratingService.register { mockService }
-    StorageContainer.shared.userManager.register {
+    NetworkContainer.shared.userManager.register {
       StubUserSessionManager(expectedUser: .init(id: userProfile.userId))
     }
     NetworkContainer.shared.networkMonitor.register {
@@ -99,7 +99,7 @@ class RatingRepositoryTests: XCTestCase {
     }
     defer {
       NetworkContainer.shared.ratingService.reset()
-      StorageContainer.shared.userManager.reset()
+      NetworkContainer.shared.userManager.reset()
       NetworkContainer.shared.networkMonitor.reset()
     }
 

@@ -29,7 +29,7 @@ struct ExerciseDetailsButton: View {
           .matchedGeometryEffect(id: timerActionAnimationID, in: animationNamespace)
       }
     }
-    .animation(.easeInOut(duration: UIConstant.shortAnimationDuration), value: isTimerActive)
+    .animation(.easeInOut(duration: UIConstant.AnimationDuration.short), value: isTimerActive)
     .padding(.horizontal)
   }
 }

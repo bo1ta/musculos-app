@@ -32,7 +32,7 @@ public struct SmallCardWithContent<Content: View>: View {
   public var body: some View {
     RoundedRectangle(cornerRadius: 12.0)
       .frame(maxWidth: .infinity)
-      .frame(height: UIConstant.Size.small.cardHeight)
+      .frame(height: UIConstant.CardSize.small)
       .foregroundStyle(gradient)
       .shadow(radius: 2)
       .overlay {
@@ -43,7 +43,7 @@ public struct SmallCardWithContent<Content: View>: View {
               .renderingMode(.template)
               .aspectRatio(contentMode: .fit)
               .foregroundStyle(.white)
-              .frame(width: UIConstant.Size.large.iconHeight, height: UIConstant.Size.large.iconHeight)
+              .frame(width: UIConstant.IconSize.large, height: UIConstant.IconSize.large)
               .padding(.leading, 3)
           }
 
