@@ -6,12 +6,16 @@
 //
 
 import Foundation
+import Factory
 import SwiftUI
+import Utility
 
 /// Pulls Image from cache if exists
 /// or uses AsyncImage to download it and cache it
 ///
 public struct AsyncCachedImage<Content>: View where Content: View {
+  @Injected(\NetworkContainer.imageDownloader) private var downloader: ImageDownloader
+
   private let url: URL?
   private let scale: CGFloat
   private let contentPhase: (AsyncImagePhase) -> Content
@@ -43,11 +47,17 @@ public struct AsyncCachedImage<Content>: View where Content: View {
   }
 
   private func loadImage() async {
-    if let url {
-      defer { isLoading = false }
+    guard let url else {
+      return
+    }
 
-      let image = await ImageCacheManager.shared.imageForURL(url)
-      loadedImage = image
+    isLoading = true
+    defer { isLoading = false }
+
+    do {
+      loadedImage = try await downloader.imageFromURL(url)
+    } catch {
+//      Logger.error(MusculosError.unexpectedNil, message: "Unexpected nil for image")
     }
   }
 }

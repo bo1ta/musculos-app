@@ -6,13 +6,14 @@
 //
 
 import Factory
-import SwiftUI
 import Utility
+import SwiftUI
 
 // MARK: - ImageServiceProtocol
 
 public protocol ImageServiceProtocol: Sendable {
   func uploadImage(image: UIImage) async throws -> URL
+  func downloadImage(url: URL) async throws -> Image
 }
 
 // MARK: - ImageService
@@ -21,12 +22,12 @@ public struct ImageService: APIService, ImageServiceProtocol, @unchecked Sendabl
   @Injected(\NetworkContainer.client) var client: MusculosClientProtocol
 
   public func uploadImage(image: UIImage) async throws -> URL {
-    guard let encodedImage = encodedImage(image) else {
-      throw MusculosError.networkError(.badRequest)
+    guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+      throw MusculosError.unexpectedNil
     }
 
     var request = APIRequest(method: .post, endpoint: .images(.upload))
-    request.body = ["picture": encodedImage as Any]
+    request.body = ["picture": imageData.base64EncodedString() as Any]
 
     let response = try await client.dispatch(request)
     let imageSource = try ImageSource.createFrom(response)
@@ -38,11 +39,13 @@ public struct ImageService: APIService, ImageServiceProtocol, @unchecked Sendabl
     return imageURL
   }
 
-  private func encodedImage(_ image: UIImage) -> String? {
-    guard let imageData = image.jpegData(compressionQuality: 0.5) else {
-      return nil
+  public func downloadImage(url: URL) async throws -> Image {
+    let data = try await client.dataFromURL(url)
+
+    guard let uiImage = UIImage(data: data) else {
+      throw MusculosError.unexpectedNil
     }
-    return imageData.base64EncodedString()
+    return Image(uiImage: uiImage)
   }
 }
 

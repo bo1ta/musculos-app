@@ -42,10 +42,10 @@ final class RoutePlannerViewModel {
     }
   }
 
-  private let currentQuerySubject = PassthroughSubject<String, Never>()
-  private var cancellables: Set<AnyCancellable> = []
   private var searchTask: Task<Void, Never>?
   private var routeTask: Task<Void, Never>?
+  private let currentQuerySubject = PassthroughSubject<String, Never>()
+  private var cancellables: Set<AnyCancellable> = []
 
   init() {
     currentQuerySubject.eraseToAnyPublisher()
@@ -61,6 +61,8 @@ final class RoutePlannerViewModel {
     routeTask?.cancel()
   }
 
+  // MARK: Search query
+
   func searchQuery(_ query: String) {
     guard let currentLocation, !endLocation.isEmpty else {
       mapItemResults.removeAll()
@@ -69,19 +71,21 @@ final class RoutePlannerViewModel {
 
     searchTask = Task {
       do {
-        mapItemResults = try await getMapItemsForQuery(query, for: currentLocation)
+        mapItemResults = try await getMapItemsForQuery(query, on: currentLocation)
       } catch {
         Logger.error(error, message: "Could not perform search using MapKitClient")
       }
     }
   }
 
-  nonisolated private func getMapItemsForQuery(_ query: String, for location: CLLocation) async throws -> [MapItemData] {
+  nonisolated private func getMapItemsForQuery(_ query: String, on location: CLLocation) async throws -> [MapItemData] {
     let coordinateSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     let coordinateRegion = MKCoordinateRegion(center: location.coordinate, span: coordinateSpan)
     let mapItems = try await client.getLocationsByQuery(query, on: coordinateRegion)
     return Array(mapItems.prefix(4))
   }
+
+  // MARK: Update route
 
   func setRouteForItem(_ item: MapItemData) {
     guard let currentLocation else {
@@ -98,6 +102,7 @@ final class RoutePlannerViewModel {
         currentRoute = directions.routes.first
         currentPlacemark = currentLocationDetails.first
         currentWizardStep = .confirm
+
       } catch {
         Logger.error(error, message: "Could not retrieve route")
       }

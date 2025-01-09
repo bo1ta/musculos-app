@@ -59,13 +59,7 @@ class AuthenticationViewModel {
   }
 
   func signIn() {
-    authTask?.cancel()
-
-    authTask = Task { [weak self] in
-      guard let self else {
-        return
-      }
-
+    authTask = Task {
       isLoading = true
       defer { isLoading = false }
 

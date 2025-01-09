@@ -12,8 +12,8 @@ import Utility
 // MARK: - MusculosClientProtocol
 
 public protocol MusculosClientProtocol: Sendable {
-  @discardableResult
-  func dispatch(_ request: APIRequest) async throws -> Data
+  @discardableResult func dispatch(_ request: APIRequest) async throws -> Data
+  @discardableResult func dataFromURL(_ url: URL) async throws -> Data
 }
 
 // MARK: - MusculosClient
@@ -37,6 +37,14 @@ public struct MusculosClient: MusculosClientProtocol {
   @discardableResult
   public func dispatch(_ request: APIRequest) async throws -> Data {
     let (data, _) = try await pipeline.execute(request: request, using: urlSession)
+    return data
+  }
+
+  /// Useful for operations that shouldn't go through the middlewares...like image downloads
+  ///
+  @discardableResult
+  public func dataFromURL(_ url: URL) async throws -> Data {
+    let (data, _) = try await urlSession.data(from: url)
     return data
   }
 }

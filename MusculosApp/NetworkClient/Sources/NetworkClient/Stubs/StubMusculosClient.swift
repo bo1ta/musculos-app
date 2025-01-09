@@ -11,4 +11,8 @@ struct StubMusculosClient: MusculosClientProtocol {
   func dispatch(_: APIRequest) async throws -> Data {
     Data()
   }
+
+  func dataFromURL(_ url: URL) async throws -> Data {
+    Data()
+  }
 }

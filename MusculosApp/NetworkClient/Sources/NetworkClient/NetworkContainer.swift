@@ -73,4 +73,9 @@ extension NetworkContainer {
   public var imageService: Factory<ImageServiceProtocol> {
     self { ImageService() }
   }
+
+  public var imageDownloader: Factory<ImageDownloader> {
+    self { ImageDownloader() }
+      .cached
+  }
 }

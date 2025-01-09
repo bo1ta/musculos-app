@@ -80,8 +80,7 @@ public struct MapKitClient: Sendable {
   }
 
   public func getLocationDetails(_ location: CLLocation) async throws -> [CLPlacemark] {
-    let geocoder = CLGeocoder()
-    return try await geocoder.reverseGeocodeLocation(location)
+    return try await CLGeocoder().reverseGeocodeLocation(location)
   }
 }
 
