@@ -24,11 +24,17 @@ final class RoutePlannerViewModel {
   var currentLocation: CLLocation?
   var mapItemResults: [MapItemData] = []
   var selectedMapItem: MapItemData?
-  var currentPlacemark: CLPlacemark?
   var currentRoute: MKRoute?
   var currentWizardStep = RoutePlannerWizardStep.search
-
   var startLocation = ""
+
+  var currentPlacemark: CLPlacemark? {
+    didSet {
+      if let name = currentPlacemark?.name {
+        startLocation = name
+      }
+    }
+  }
 
   var endLocation = "" {
     didSet {
@@ -50,32 +56,31 @@ final class RoutePlannerViewModel {
       .store(in: &cancellables)
   }
 
-  func searchQuery(_: String) {
+  func onDisappear() {
+    searchTask?.cancel()
+    routeTask?.cancel()
+  }
+
+  func searchQuery(_ query: String) {
     guard let currentLocation, !endLocation.isEmpty else {
       mapItemResults.removeAll()
       return
     }
 
-    searchTask?.cancel()
-
-    searchTask = Task { [weak self] in
-      guard let self else {
-        return
-      }
-
+    searchTask = Task {
       do {
-        try Task.checkCancellation()
-
-        let coordinateRegion = MKCoordinateRegion(
-          center: currentLocation.coordinate,
-          span: .init(latitudeDelta: 0.1, longitudeDelta: 0.1))
-
-        let result = try await client.getLocationsByQuery(endLocation, on: coordinateRegion)
-        mapItemResults = Array(result.prefix(3))
+        mapItemResults = try await getMapItemsForQuery(query, for: currentLocation)
       } catch {
         Logger.error(error, message: "Could not perform search using MapKitClient")
       }
     }
+  }
+
+  nonisolated private func getMapItemsForQuery(_ query: String, for location: CLLocation) async throws -> [MapItemData] {
+    let coordinateSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+    let coordinateRegion = MKCoordinateRegion(center: location.coordinate, span: coordinateSpan)
+    let mapItems = try await client.getLocationsByQuery(query, on: coordinateRegion)
+    return Array(mapItems.prefix(4))
   }
 
   func setRouteForItem(_ item: MapItemData) {
@@ -83,24 +88,15 @@ final class RoutePlannerViewModel {
       return
     }
 
-    routeTask?.cancel()
-
-    routeTask = Task { [weak self] in
-      guard let self else {
-        return
-      }
-
+    routeTask = Task {
       do {
-        try Task.checkCancellation()
+        async let directionsTask = getDirections(from: currentLocation.coordinate, to: item.placemark.coordinate)
+        async let locationDetailsTask = getLocationDetails(currentLocation)
 
+        let (directions, currentLocationDetails) = try await (directionsTask, locationDetailsTask)
         selectedMapItem = item
-
-        let directions = try await client.getDirections(from: currentLocation.coordinate, to: item.placemark.coordinate)
         currentRoute = directions.routes.first
-
-        let currentLocationDetails = try await client.getLocationDetails(currentLocation)
         currentPlacemark = currentLocationDetails.first
-        startLocation = currentPlacemark?.name ?? ""
         currentWizardStep = .confirm
       } catch {
         Logger.error(error, message: "Could not retrieve route")
@@ -108,7 +104,15 @@ final class RoutePlannerViewModel {
     }
   }
 
-  func onDisappear() {
-    searchTask?.cancel()
+  nonisolated private func getDirections(
+    from startLocation: CLLocationCoordinate2D,
+    to endLocation: CLLocationCoordinate2D)
+    async throws -> MKDirections.Response
+  {
+    try await client.getDirections(from: startLocation, to: endLocation)
+  }
+
+  nonisolated private func getLocationDetails(_ location: CLLocation) async throws -> [CLPlacemark] {
+    try await client.getLocationDetails(location)
   }
 }

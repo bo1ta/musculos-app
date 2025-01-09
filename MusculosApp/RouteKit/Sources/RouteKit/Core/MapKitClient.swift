@@ -11,8 +11,18 @@ import Utility
 
 // MARK: - MapKitClient
 
-@MainActor
-public struct MapKitClient {
+public struct MapKitClient: Sendable {
+
+  // MARK: Private
+
+  private static let supportedInterestCategories: [MKPointOfInterestCategory] = {
+    var categories: [MKPointOfInterestCategory] = [.park, .beach, .campground, .school, .fitnessCenter]
+    if #available(iOS 18.0, *) {
+      categories.append(.tennis)
+      categories.append(.golf)
+    }
+    return categories
+  }()
 
   // MARK: Public
 
@@ -20,7 +30,7 @@ public struct MapKitClient {
     let request = MKLocalSearch.Request()
     request.naturalLanguageQuery = query
     request.region = region
-    request.pointOfInterestFilter = MKPointOfInterestFilter(including: getPointOfInterestCategories())
+    request.pointOfInterestFilter = MKPointOfInterestFilter(including: Self.supportedInterestCategories)
 
     if #available(iOS 18.0, *) {
       request.regionPriority = .required
@@ -39,7 +49,18 @@ public struct MapKitClient {
           return
         }
 
-        continuation.resume(returning: self.mapItemsToResults(response.mapItems))
+        let results = response.mapItems.compactMap { item -> MapItemData? in
+          guard let name = item.name else {
+            return nil
+          }
+          return MapItemData(
+            identifier: UUID(),
+            name: name,
+            placemark: item.placemark,
+            pointOfInterestCategory: item.pointOfInterestCategory,
+            isCurrentLocation: item.isCurrentLocation)
+        }
+        continuation.resume(returning: results)
       }
     }
   }
@@ -61,32 +82,6 @@ public struct MapKitClient {
   public func getLocationDetails(_ location: CLLocation) async throws -> [CLPlacemark] {
     let geocoder = CLGeocoder()
     return try await geocoder.reverseGeocodeLocation(location)
-  }
-
-  // MARK: Private
-
-  private func getPointOfInterestCategories() -> [MKPointOfInterestCategory] {
-    var types: [MKPointOfInterestCategory] = [.park, .beach, .campground, .school, .fitnessCenter]
-
-    if #available(iOS 18.0, *) {
-      types.append(.tennis)
-      types.append(.golf)
-    }
-    return types
-  }
-
-  private func mapItemsToResults(_ items: [MKMapItem]) -> [MapItemData] {
-    items.compactMap { item in
-      guard let name = item.name else {
-        return nil
-      }
-      return MapItemData(
-        identifier: UUID(),
-        name: name,
-        placemark: item.placemark,
-        pointOfInterestCategory: item.pointOfInterestCategory,
-        isCurrentLocation: item.isCurrentLocation)
-    }
   }
 }
 

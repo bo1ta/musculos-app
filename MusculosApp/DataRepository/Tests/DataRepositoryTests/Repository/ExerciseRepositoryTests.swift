@@ -206,9 +206,11 @@ class ExerciseRepositoryTests: XCTestCase {
   func testSearchByQueryUsesRemoteAsFallback() async throws {
     let serviceExpectation = self.expectation(description: "should call service")
     let expectedResult = [ExerciseFactory.createExercise(isPersistent: false)]
-    NetworkContainer.shared.exerciseService.register { ExerciseServiceStub(
-      expectation: serviceExpectation,
-      expectedResult: expectedResult) }
+    NetworkContainer.shared.exerciseService.register {
+      ExerciseServiceStub(
+        expectation: serviceExpectation,
+        expectedResult: expectedResult)
+    }
     defer { NetworkContainer.shared.exerciseService.reset() }
 
     let exercises = try await ExerciseRepository().searchByQuery("Peanut")
