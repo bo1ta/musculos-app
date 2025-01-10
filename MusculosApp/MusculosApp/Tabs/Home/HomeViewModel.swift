@@ -24,7 +24,7 @@ final class HomeViewModel {
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
+  @Injected(\.currentUser) var currentUser: UserProfile?
 
   private(set) var isLoading = false
   private(set) var challenges: [Challenge] = []
@@ -32,10 +32,6 @@ final class HomeViewModel {
   private(set) var quickExercises: [Exercise]?
   private(set) var errorMessage: String?
   private(set) var notificationTask: Task<Void, Never>?
-
-  var currentUser: UserProfile? {
-    userStore.currentUser
-  }
 
   func fetchData() async {
     isLoading = true

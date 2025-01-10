@@ -27,7 +27,7 @@ struct ExerciseDetailsScreen: View {
     .task {
       await viewModel.initialLoad()
     }
-    .onDisappear(perform: viewModel.cleanUp)
+    .onDisappear(perform: viewModel.cancelAllTasks)
     .frame(alignment: .top)
     .safeAreaInset(edge: .bottom) {
       ExerciseDetailsButton(

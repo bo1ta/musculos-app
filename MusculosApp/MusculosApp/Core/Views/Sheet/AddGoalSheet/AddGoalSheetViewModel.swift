@@ -17,15 +17,19 @@ import Utility
 @Observable
 @MainActor
 final class AddGoalSheetViewModel {
-  // MARK: - Dependency
+
+  // MARK: Dependencies
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
+  @Injected(\.currentUser) private var currentUser: UserProfile?
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
 
-  // MARK: - Observed properties
+  // MARK: Public
+
+  private(set) var saveTask: Task<Void, Never>?
+  private(set) var didSavePublisher = PassthroughSubject<Void, Never>()
 
   var name = ""
   var category = ""
@@ -43,19 +47,9 @@ final class AddGoalSheetViewModel {
     }
   }
 
-  private(set) var didSavePublisher = PassthroughSubject<Void, Never>()
-
-  // MARK: - Tasks
-
-  @ObservationIgnored private(set) var saveTask: Task<Void, Never>?
-
   func saveGoal() {
-    saveTask = Task { [weak self] in
-      guard let self else {
-        return
-      }
-
-      guard let currentUser = userStore.currentUser else {
+    saveTask = Task {
+      guard let currentUser else {
         return
       }
 
@@ -77,9 +71,7 @@ final class AddGoalSheetViewModel {
     }
   }
 
-  // MARK: - Clean up
-
-  func cleanUp() {
+  func cancelTask() {
     saveTask?.cancel()
     saveTask = nil
   }

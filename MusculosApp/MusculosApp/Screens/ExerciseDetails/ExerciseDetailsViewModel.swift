@@ -28,9 +28,6 @@ final class ExerciseDetailsViewModel {
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore: CoreDataStore
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
-
-  @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
 
   @ObservationIgnored
@@ -40,11 +37,19 @@ final class ExerciseDetailsViewModel {
   @Injected(\DataRepositoryContainer.ratingRepository) private var ratingRepository: RatingRepositoryProtocol
 
   @ObservationIgnored
+  @LazyInjected(\.currentUser) var currentUser: UserProfile?
+
+  @ObservationIgnored
   @Injected(
     \DataRepositoryContainer
       .exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepositoryProtocol
 
-  // MARK: - Observed properties
+  // MARK: Public
+
+  private(set) var markFavoriteTask: Task<Void, Never>?
+  private(set) var saveExerciseSessionTask: Task<Void, Never>?
+  private(set) var saveRatingTask: Task<Void, Never>?
+  private(set) var timerTask: Task<Void, Never>?
 
   private(set) var showChallengeExercise = false
   private(set) var isTimerActive = false
@@ -77,19 +82,8 @@ final class ExerciseDetailsViewModel {
   }
 
   private var currentUserID: UUID? {
-    userStore.currentUser?.userId
+    currentUser?.userId
   }
-
-  private var currentUserProfile: UserProfile? {
-    userStore.currentUser
-  }
-
-  // MARK: - Tasks
-
-  private(set) var markFavoriteTask: Task<Void, Never>?
-  private(set) var saveExerciseSessionTask: Task<Void, Never>?
-  private(set) var saveRatingTask: Task<Void, Never>?
-  private(set) var timerTask: Task<Void, Never>?
 
   // MARK: - Init and Setup
 
@@ -106,6 +100,13 @@ final class ExerciseDetailsViewModel {
     async let exerciseRatingsTask: Void = loadExerciseRatings()
 
     _ = await (exerciseDetailsTask, exerciseRatingsTask)
+  }
+
+  func cancelAllTasks() {
+    markFavoriteTask?.cancel()
+    saveExerciseSessionTask?.cancel()
+    saveRatingTask?.cancel()
+    timerTask?.cancel()
   }
 
   private func loadExerciseDetails() async {
@@ -167,13 +168,7 @@ final class ExerciseDetailsViewModel {
   }
 
   func saveRating(_ rating: Int) {
-    showRatingDialog = false
-
-    saveRatingTask = Task { [weak self] in
-      guard let self else {
-        return
-      }
-
+    saveRatingTask = Task {
       do {
         try await ratingRepository.addRating(rating: Double(rating), for: exercise.id)
         await loadExerciseRatings()
@@ -202,14 +197,14 @@ final class ExerciseDetailsViewModel {
   }
 
   private func saveExerciseSession() {
-    saveExerciseSessionTask = Task { [weak self] in
-      guard let self, let currentUserProfile = userStore.currentUser else {
+    saveExerciseSessionTask = Task {
+      guard let currentUser else {
         return
       }
 
       do {
         let exerciseSession = ExerciseSession(
-          user: currentUserProfile,
+          user: currentUser,
           exercise: exercise,
           duration: Double(elapsedTime),
           weight: inputWeight)
@@ -250,14 +245,5 @@ final class ExerciseDetailsViewModel {
     } catch {
       Logger.error(error, message: "Cannot update goal progress")
     }
-  }
-
-  // MARK: - Clean up
-
-  func cleanUp() {
-    markFavoriteTask?.cancel()
-    saveExerciseSessionTask?.cancel()
-    saveRatingTask?.cancel()
-    timerTask?.cancel()
   }
 }

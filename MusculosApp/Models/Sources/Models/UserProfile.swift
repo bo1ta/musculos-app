@@ -22,7 +22,7 @@ public struct UserProfile: Codable, Sendable {
   public let level: String?
   public let availableEquipment: [String]?
   public let primaryGoalID: UUID?
-  public var isOnboarded: Bool?
+  public var isOnboarded: Bool
   public var xp: Int? = 0 // swiftlint:disable:this identifier_name
   public var goals: [Goal]?
   public var ratings: [ExerciseRating]?
@@ -40,7 +40,7 @@ public struct UserProfile: Codable, Sendable {
     level: String? = nil,
     availableEquipment: [String]? = nil,
     primaryGoalID: UUID? = nil,
-    isOnboarded: Bool? = false,
+    isOnboarded: Bool = false,
     xp: Int? = 0, // swiftlint:disable:this identifier_name
     goals: [Goal]? = nil,
     ratings: [ExerciseRating]? = nil,

@@ -6,6 +6,7 @@
 //
 
 import Components
+import Models
 import Factory
 
 extension Container {

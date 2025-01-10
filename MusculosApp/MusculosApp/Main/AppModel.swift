@@ -51,24 +51,6 @@ final class AppModel {
     setupObservers()
   }
 
-  ///
-  func initialLoad() async {
-    progress = 0.3
-
-    await userStore.loadCurrentUser()
-
-    progress = 1.0
-
-    appState = determineAppState()
-  }
-
-  private func determineAppState() -> AppState {
-    guard userStore.isLoggedIn else {
-      return .loggedOut
-    }
-    return userStore.isOnboarded ? .loggedIn : .onboarding
-  }
-
   private func setupObservers() {
     networkMonitor.connectionStatusPublisher
       .sink { [weak self] connectionStatus in
@@ -93,6 +75,22 @@ final class AppModel {
         self?.toast = toast
       }
       .store(in: &cancellables)
+  }
+
+  func initialLoad() async {
+    progress = 0.3
+    defer { progress = 1.0 }
+
+    await determineState()
+  }
+
+  private func determineState() async {
+    guard let currentUser = await userStore.loadCurrentUser() else {
+      appState = .loggedOut
+      return
+    }
+
+    appState = currentUser.isOnboarded ? .loggedIn : .onboarding
   }
 }
 
@@ -129,7 +127,9 @@ extension AppModel {
   private func didReceiveAuthenticationEvent(_ event: AuthenticationEvent) {
     switch event {
     case .didLogin:
-      appState = userStore.isOnboarded ? .loggedIn : .onboarding
+      Task { [weak self] in
+        await self?.determineState()
+      }
 
     case .didLogout:
       appState = .loggedOut

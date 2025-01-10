@@ -22,7 +22,6 @@ public enum UserStoreEvent {
 // MARK: - UserStoreProtocol
 
 public protocol UserStoreProtocol: Sendable {
-  var currentUser: UserProfile? { get }
   var eventPublisher: AnyPublisher<UserStoreEvent, Never> { get }
 
   @discardableResult
@@ -30,22 +29,10 @@ public protocol UserStoreProtocol: Sendable {
   func updateOnboardingStatus(_ onboardingData: OnboardingData) async
 }
 
-extension UserStoreProtocol {
-  public var isOnboarded: Bool {
-    currentUser?.isOnboarded ?? false
-  }
-
-  public var isLoggedIn: Bool {
-    currentUser != nil
-  }
-}
-
 // MARK: - UserStore
 
 public final class UserStore: @unchecked Sendable, UserStoreProtocol {
-  @LazyInjected(\DataRepositoryContainer.userRepository) private var userRepository: UserRepositoryProtocol
-
-  @Atomic public private(set) var currentUser: UserProfile?
+  @LazyInjected(\DataRepositoryContainer.userRepository) private var repository: UserRepositoryProtocol
 
   private let eventSubject = PassthroughSubject<UserStoreEvent, Never>()
 
@@ -55,18 +42,20 @@ public final class UserStore: @unchecked Sendable, UserStoreProtocol {
 
   @discardableResult
   public func loadCurrentUser() async -> UserProfile? {
-    guard let currentUser = try? await userRepository.getCurrentUser() else {
+    guard let currentUser = try? await repository.getCurrentUser() else {
       return nil
     }
-
-    self.currentUser = currentUser
+    registerCurrentUser(currentUser)
     return currentUser
+  }
+
+  private func registerCurrentUser(_ user: UserProfile) {
+    Container.shared.currentUser.register { user }
   }
 
   public func updateOnboardingStatus(_ onboardingData: OnboardingData) async {
     do {
-      try await userRepository.updateProfileUsingOnboardingData(onboardingData)
-      currentUser = try await userRepository.getCurrentUser()
+      try await repository.updateProfileUsingOnboardingData(onboardingData)
       eventSubject.send(.didFinishOnboarding)
     } catch {
       Logger.error(error, message: "Could not update profile with onboarding data")

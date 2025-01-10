@@ -67,6 +67,7 @@ public struct FormField: View {
                   Text(textHint)
                 }
               })
+              .textContentType(.none)
             } else {
               TextField(text: text, label: {
                 if let textHint {

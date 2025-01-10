@@ -30,7 +30,7 @@ final class AddWorkoutSheetViewModel {
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore: CoreDataStore
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
+  @Injected(\.currentUser) private var currentUser: UserProfile?
 
   // MARK: Properties
 
@@ -141,7 +141,7 @@ extension AddWorkoutSheetViewModel {
         return
       }
 
-      guard let currentUserProfile = userStore.currentUser else {
+      guard let currentUser else {
         handleError(MusculosError.unexpectedNil, message: "Invalid user")
         return
       }
@@ -151,7 +151,7 @@ extension AddWorkoutSheetViewModel {
           name: workoutName,
           targetMuscles: selectedMuscles,
           workoutType: workoutType,
-          createdBy: currentUserProfile,
+          createdBy: currentUser,
           workoutExercises: selectedWorkoutExercise)
         try await coreDataStore.insertWorkout(workout)
         didSaveSubject.send(())

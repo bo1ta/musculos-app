@@ -16,11 +16,7 @@ import Utility
 @MainActor
 final class ProfileViewModel {
 
-  @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
-
-  @ObservationIgnored
-  @LazyInjected(\.toastManager) private var toastManager: ToastManagerProtocol
+  // MARK: Depedencies
 
   @ObservationIgnored
   @LazyInjected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
@@ -28,14 +24,19 @@ final class ProfileViewModel {
   @ObservationIgnored
   @LazyInjected(\DataRepositoryContainer.healthKitClient) private var healthKitClient: HealthKitClient
 
+  @ObservationIgnored
+  @LazyInjected(\.toastManager) private var toastManager: ToastManagerProtocol
+
+  @ObservationIgnored
+  @LazyInjected(\.currentUser) var currentUser: UserProfile?
+
+  // MARK: Public
+
   private(set) var exercises: [Exercise] = []
   private(set) var userTotalSteps = 0.0
   private(set) var userTotalSleep = 0
-  var selectedWorkout: String?
 
-  var currentUser: UserProfile? {
-    userStore.currentUser
-  }
+  var selectedWorkout: String?
 
   func initialLoad() async {
     async let exerciseTask: Void = loadFavoriteExercises()
@@ -43,6 +44,8 @@ final class ProfileViewModel {
 
     _ = await (exerciseTask, healthKitTask)
   }
+
+  // MARK: Private
 
   private func loadFavoriteExercises() async {
     do {
@@ -55,7 +58,7 @@ final class ProfileViewModel {
   private func loadHealthKitData() async {
     do {
       guard try await healthKitClient.requestPermissions() else {
-        toastManager.showWarning("Not showing HealthKit data")
+        toastManager.showInfo("Not showing HealthKit data")
         return
       }
 
@@ -63,18 +66,10 @@ final class ProfileViewModel {
       async let totalStepsTask = healthKitClient.getTotalStepsSinceLastWeek()
 
       (userTotalSleep, userTotalSteps) = try await (totalSleepTask, totalStepsTask)
+
     } catch {
       toastManager.showError("Unable to load HealthKit data")
       Logger.error(error, message: "Error loading HealthKit data")
     }
-  }
-
-  func getHighlights() -> [ProfileHighlight] {
-    [
-      ProfileHighlight(highlightType: .steps, value: "5432", description: "updated 10 mins ago"),
-      ProfileHighlight(highlightType: .sleep, value: "7 hr 31 min", description: "updated 10 mins ago"),
-      ProfileHighlight(highlightType: .waterIntake, value: "4.2 ltr", description: "updated now"),
-      ProfileHighlight(highlightType: .workoutTracking, value: "1 day since last workout", description: "updated a day ago"),
-    ]
   }
 }

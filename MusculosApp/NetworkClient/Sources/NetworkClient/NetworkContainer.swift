@@ -17,7 +17,7 @@ public final class NetworkContainer: SharedContainer {
 }
 
 extension NetworkContainer {
-  public var client: Factory<MusculosClientProtocol> {
+  internal var client: Factory<MusculosClientProtocol> {
     self {
       MusculosClient(
         requestMiddlewares: [
@@ -35,6 +35,16 @@ extension NetworkContainer {
     .cached
   }
 
+  internal var imageDownloader: Factory<ImageDownloader> {
+    self { ImageDownloader() }
+      .cached
+  }
+
+  internal var offlineRequestManager: Factory<OfflineRequestManager> {
+    self { OfflineRequestManager() }
+      .singleton
+  }
+
   public var userManager: Factory<UserSessionManagerProtocol> {
     self { UserSessionManager() }
       .cached
@@ -43,11 +53,6 @@ extension NetworkContainer {
   public var networkMonitor: Factory<NetworkMonitorProtocol> {
     self { NetworkMonitor() }
       .cached
-  }
-
-  var offlineRequestManager: Factory<OfflineRequestManager> {
-    self { OfflineRequestManager() }
-      .singleton
   }
 
   public var userService: Factory<UserServiceProtocol> {
@@ -72,10 +77,5 @@ extension NetworkContainer {
 
   public var imageService: Factory<ImageServiceProtocol> {
     self { ImageService() }
-  }
-
-  public var imageDownloader: Factory<ImageDownloader> {
-    self { ImageDownloader() }
-      .cached
   }
 }

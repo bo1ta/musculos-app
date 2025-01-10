@@ -6,7 +6,15 @@
 //
 
 import Factory
+import Models
 import Foundation
+
+extension Container {
+  public var currentUser: Factory<UserProfile?> {
+    self { nil }
+      .cached
+  }
+}
 
 // MARK: - DataRepositoryContainer
 
