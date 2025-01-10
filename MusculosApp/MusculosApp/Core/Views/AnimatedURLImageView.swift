@@ -39,12 +39,16 @@ struct AnimatedURLImageView: View {
               .frame(maxWidth: .infinity)
               .frame(minHeight: 300)
 
-          case .empty, .failure:
+          case .empty:
             Color.white
               .frame(maxWidth: .infinity)
               .frame(minHeight: 300)
               .ignoresSafeArea()
               .shimmering()
+          case .failure(let error):
+            Color.red
+              .frame(maxWidth: .infinity)
+              .frame(minHeight: 300)
 
           @unknown default:
             fatalError("AsyncCachedImage fatal error")

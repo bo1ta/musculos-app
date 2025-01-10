@@ -12,11 +12,11 @@ import Utility
 
 // MARK: - BaseRepository
 
-protocol BaseRepository: Actor {
+protocol BaseRepository: Sendable {
   var localStorageUpdateThreshold: TimeInterval { get }
 
-  func syncStorage<T: EntitySyncable>(_ model: T.ModelType, of type: T.Type)
-  func syncStorage<T: EntitySyncable>(_ models: [T.ModelType], of type: T.Type)
+  func syncStorage<T: EntitySyncable>(_ model: T.ModelType, ofType type: T.Type)
+  func syncStorage<T: EntitySyncable>(_ models: [T.ModelType], ofType type: T.Type)
   func getSyncDateForEntity<T: EntitySyncable>(_ entity: T.Type) -> Date?
   func setSyncDateForEntity<T: EntitySyncable>(_ entity: T.Type, date: Date)
   func shouldUseLocalStorageForEntity<T: EntitySyncable>(_ entity: T.Type) -> Bool
@@ -41,16 +41,16 @@ extension BaseRepository {
     DataRepositoryContainer.shared.backgroundWorker()
   }
 
-  func syncStorage<T: EntitySyncable>(_ models: [T.ModelType], of type: T.Type) {
-    backgroundWorker.queueOperation { [weak self] in
-      try await self?.coreDataStore.importModels(models, of: type)
-      await self?.setSyncDateForEntity(type, date: Date())
+  func syncStorage<T: EntitySyncable>(_ models: [T.ModelType], ofType type: T.Type) {
+    backgroundWorker.queueOperation {
+      try await coreDataStore.importModels(models, of: type)
+      await setSyncDateForEntity(type, date: Date())
     }
   }
 
-  func syncStorage<T: EntitySyncable>(_ model: T.ModelType, of type: T.Type) {
-    backgroundWorker.queueOperation { [weak self] in
-      try await self?.coreDataStore.importModel(model, of: type)
+  func syncStorage<T: EntitySyncable>(_ model: T.ModelType, ofType type: T.Type) {
+    backgroundWorker.queueOperation {
+      try await coreDataStore.importModel(model, of: type)
       // sync date not updated for single models since it doesn't represent a "full update"
     }
   }

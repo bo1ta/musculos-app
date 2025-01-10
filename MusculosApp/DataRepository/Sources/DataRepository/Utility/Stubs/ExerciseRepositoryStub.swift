@@ -9,7 +9,7 @@ import Foundation
 import Models
 import Utility
 
-public actor ExerciseRepositoryStub: ExerciseRepositoryProtocol {
+public struct ExerciseRepositoryStub: ExerciseRepositoryProtocol {
   var expectedExercises: [Exercise]
 
   public init(expectedExercises: [Exercise] = []) {

@@ -14,7 +14,7 @@ import Utility
 
 // MARK: - RatingRepositoryProtocol
 
-public protocol RatingRepositoryProtocol: Actor {
+public protocol RatingRepositoryProtocol: Sendable {
   func getExerciseRatingsForCurrentUser() async throws -> [ExerciseRating]
   func getUserRatingForExercise(_ exerciseID: UUID) async throws -> Double
   func getRatingsForExercise(_ exerciseID: UUID) async throws -> [ExerciseRating]
@@ -23,7 +23,7 @@ public protocol RatingRepositoryProtocol: Actor {
 
 // MARK: - RatingRepository
 
-public actor RatingRepository: BaseRepository, RatingRepositoryProtocol {
+public struct RatingRepository: @unchecked Sendable, BaseRepository, RatingRepositoryProtocol {
   @Injected(\NetworkContainer.ratingService) private var service: RatingServiceProtocol
 
   public func getExerciseRatingsForCurrentUser() async throws -> [ExerciseRating] {
@@ -36,7 +36,7 @@ public actor RatingRepository: BaseRepository, RatingRepositoryProtocol {
     }
 
     let ratings = try await service.getExerciseRatingsForCurrentUser()
-    syncStorage(ratings, of: ExerciseRatingEntity.self)
+    syncStorage(ratings, ofType: ExerciseRatingEntity.self)
     return ratings
   }
 
@@ -51,7 +51,7 @@ public actor RatingRepository: BaseRepository, RatingRepositoryProtocol {
     }
 
     let ratings = try await service.getRatingsByExerciseID(exerciseID)
-    syncStorage(ratings, of: ExerciseRatingEntity.self)
+    syncStorage(ratings, ofType: ExerciseRatingEntity.self)
     return ratings
   }
 
@@ -62,6 +62,6 @@ public actor RatingRepository: BaseRepository, RatingRepositoryProtocol {
 
     let exerciseRating = ExerciseRating(exerciseID: exerciseID, userID: currentUserID, isPublic: true, rating: rating)
     try await service.addExerciseRating(exerciseRating)
-    syncStorage(exerciseRating, of: ExerciseRatingEntity.self)
+    syncStorage(exerciseRating, ofType: ExerciseRatingEntity.self)
   }
 }

@@ -14,7 +14,7 @@ import Utility
 
 // MARK: - UserRepositoryProtocol
 
-public protocol UserRepositoryProtocol: Actor {
+public protocol UserRepositoryProtocol: Sendable {
   func register(email: String, password: String, username: String) async throws -> UserSession
   func login(email: String, password: String) async throws -> UserSession
   func getCurrentUser() async throws -> UserProfile?
@@ -23,7 +23,7 @@ public protocol UserRepositoryProtocol: Actor {
 
 // MARK: - UserRepository
 
-public actor UserRepository: BaseRepository, UserRepositoryProtocol {
+public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositoryProtocol {
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
   @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
 
@@ -40,8 +40,8 @@ public actor UserRepository: BaseRepository, UserRepositoryProtocol {
       throw MusculosError.unexpectedNil
     }
 
-    let backgroundTask = backgroundWorker.queueOperation(priority: .high) { [weak self] in
-      try await self?.syncCurrentUser()
+    let backgroundTask = backgroundWorker.queueOperation(priority: .high) {
+      try await syncCurrentUser()
     }
 
     if let profile = await coreDataStore.userProfileByID(currentUserID) {

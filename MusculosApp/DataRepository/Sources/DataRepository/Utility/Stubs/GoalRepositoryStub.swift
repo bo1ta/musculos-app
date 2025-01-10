@@ -9,11 +9,11 @@ import Foundation
 import Models
 import Utility
 
-public actor GoalRepositoryStub: GoalRepositoryProtocol {
+public struct GoalRepositoryStub: GoalRepositoryProtocol {
   var expectedOnboardingGoals: [OnboardingGoal] = []
   var expectedGoals: [Goal] = []
 
-  init(expectedOnboardingGoals: [OnboardingGoal] = [], expectedGoals: [Goal] = []) {
+  public init(expectedOnboardingGoals: [OnboardingGoal] = [], expectedGoals: [Goal] = []) {
     self.expectedOnboardingGoals = expectedOnboardingGoals
     self.expectedGoals = expectedGoals
   }

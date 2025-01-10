@@ -14,7 +14,7 @@ import Utility
 
 // MARK: - ExerciseRepositoryProtocol
 
-public protocol ExerciseRepositoryProtocol: Actor {
+public protocol ExerciseRepositoryProtocol: Sendable {
   func addExercise(_ exercise: Exercise) async throws
   func getExercises() async throws -> [Exercise]
   func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise
@@ -31,7 +31,7 @@ public protocol ExerciseRepositoryProtocol: Actor {
 
 // MARK: - ExerciseRepository
 
-public actor ExerciseRepository: BaseRepository, ExerciseRepositoryProtocol {
+public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseRepositoryProtocol {
   @Injected(\NetworkContainer.exerciseService) private var service: ExerciseServiceProtocol
 
   public init() { }
@@ -39,9 +39,7 @@ public actor ExerciseRepository: BaseRepository, ExerciseRepositoryProtocol {
   public func addExercise(_ exercise: Exercise) async throws {
     try await coreDataStore.importModel(exercise, of: ExerciseEntity.self)
 
-    backgroundWorker.queueOperation { [weak self] in
-      try await self?.service.addExercise(exercise)
-    }
+    syncStorage(exercise, ofType: ExerciseEntity.self)
   }
 
   public func getExercises() async throws -> [Exercise] {
@@ -50,7 +48,7 @@ public actor ExerciseRepository: BaseRepository, ExerciseRepositoryProtocol {
     }
 
     let exercises = try await service.getExercises()
-    syncStorage(exercises, of: ExerciseEntity.self)
+    syncStorage(exercises, ofType: ExerciseEntity.self)
     return exercises
   }
 
@@ -60,7 +58,7 @@ public actor ExerciseRepository: BaseRepository, ExerciseRepositoryProtocol {
     }
 
     let exercise = try await service.getExerciseDetails(for: exerciseID)
-    syncStorage(exercise, of: ExerciseEntity.self)
+    syncStorage(exercise, ofType: ExerciseEntity.self)
     return exercise
   }
 
@@ -81,15 +79,15 @@ public actor ExerciseRepository: BaseRepository, ExerciseRepositoryProtocol {
     }
 
     let exercises = try await service.getFavoriteExercises()
-    syncStorage(exercises, of: ExerciseEntity.self)
+    syncStorage(exercises, ofType: ExerciseEntity.self)
     return exercises
   }
 
   public func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
     try await coreDataStore.favoriteExercise(exercise, isFavorite: isFavorite)
 
-    backgroundWorker.queueOperation(priority: .medium) { [weak self] in
-      try await self?.service.setFavoriteExercise(exercise, isFavorite: isFavorite)
+    backgroundWorker.queueOperation(priority: .medium) {
+      try await service.setFavoriteExercise(exercise, isFavorite: isFavorite)
     }
   }
 
@@ -99,7 +97,7 @@ public actor ExerciseRepository: BaseRepository, ExerciseRepositoryProtocol {
     }
 
     let exercises = try await service.getByWorkoutGoal(workoutGoal)
-    syncStorage(exercises, of: ExerciseEntity.self)
+    syncStorage(exercises, ofType: ExerciseEntity.self)
     return exercises
   }
 
@@ -137,7 +135,7 @@ public actor ExerciseRepository: BaseRepository, ExerciseRepositoryProtocol {
       return exercises
     } else {
       let remoteExercises = try await service.searchByQuery(query)
-      syncStorage(remoteExercises, of: ExerciseEntity.self)
+      syncStorage(remoteExercises, ofType: ExerciseEntity.self)
       return remoteExercises
     }
   }
@@ -149,7 +147,7 @@ public actor ExerciseRepository: BaseRepository, ExerciseRepositoryProtocol {
     }
 
     let remoteExercises = try await service.getByMuscleGroup(muscleGroup)
-    syncStorage(remoteExercises, of: ExerciseEntity.self)
+    syncStorage(remoteExercises, ofType: ExerciseEntity.self)
     return remoteExercises
   }
 

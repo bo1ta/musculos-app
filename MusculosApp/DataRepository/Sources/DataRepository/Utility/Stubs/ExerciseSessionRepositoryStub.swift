@@ -9,7 +9,7 @@ import Foundation
 import Models
 import Utility
 
-public actor ExerciseSessionRepositoryStub: ExerciseSessionRepositoryProtocol {
+public struct ExerciseSessionRepositoryStub: ExerciseSessionRepositoryProtocol {
   var expectedSessions: [ExerciseSession]
   var expectedExercises: [Exercise]
   var expectedUserExperienceEntry: UserExperienceEntry?

@@ -14,7 +14,7 @@ import Utility
 
 // MARK: - GoalRepositoryProtocol
 
-public protocol GoalRepositoryProtocol: Actor {
+public protocol GoalRepositoryProtocol: Sendable {
   func getOnboardingGoals() async throws -> [OnboardingGoal]
   func addGoal(_ goal: Goal) async throws
   func getGoalDetails(_ goalID: UUID) async throws -> Goal?
@@ -24,7 +24,7 @@ public protocol GoalRepositoryProtocol: Actor {
 
 // MARK: - GoalRepository
 
-public actor GoalRepository: BaseRepository, GoalRepositoryProtocol {
+public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositoryProtocol {
   @Injected(\NetworkContainer.goalService) private var service: GoalServiceProtocol
 
   public init() { }
@@ -36,16 +36,16 @@ public actor GoalRepository: BaseRepository, GoalRepositoryProtocol {
   public func addGoal(_ goal: Goal) async throws {
     try await coreDataStore.importModel(goal, of: GoalEntity.self)
 
-    backgroundWorker.queueOperation { [weak self] in
-      try await self?.service.addGoal(goal)
+    backgroundWorker.queueOperation {
+      try await service.addGoal(goal)
     }
   }
 
   public func getGoalDetails(_ goalID: UUID) async throws -> Goal? {
     let goal = await coreDataStore.goalByID(goalID)
 
-    let backgroundTask = backgroundWorker.queueOperation { [weak self] in
-      return try await self?.service.getGoalByID(goalID)
+    let backgroundTask = backgroundWorker.queueOperation {
+      return try await service.getGoalByID(goalID)
     }
 
     if let goal {
@@ -65,7 +65,7 @@ public actor GoalRepository: BaseRepository, GoalRepositoryProtocol {
     }
 
     let goals = try await service.getUserGoals()
-    syncStorage(goals, of: GoalEntity.self)
+    syncStorage(goals, ofType: GoalEntity.self)
     return goals
   }
 

@@ -9,7 +9,7 @@ import Foundation
 import Models
 import Utility
 
-public actor RatingRepositoryStub: RatingRepositoryProtocol {
+public struct RatingRepositoryStub: RatingRepositoryProtocol {
   var expectedRatings: [ExerciseRating]
   var expectedUserRating: Double?
 

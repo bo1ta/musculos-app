@@ -14,7 +14,7 @@ import Utility
 
 // MARK: - ExerciseSessionRepositoryProtocol
 
-public protocol ExerciseSessionRepositoryProtocol: Actor {
+public protocol ExerciseSessionRepositoryProtocol: Sendable {
   func getExerciseSessions() async throws -> [ExerciseSession]
   func getRecommendationsForLeastWorkedMuscles() async throws -> [Exercise]
   func getCompletedSinceLastWeek() async throws -> [ExerciseSession]
@@ -24,7 +24,7 @@ public protocol ExerciseSessionRepositoryProtocol: Actor {
 
 // MARK: - ExerciseSessionRepository
 
-public actor ExerciseSessionRepository: BaseRepository, ExerciseSessionRepositoryProtocol {
+public struct ExerciseSessionRepository: @unchecked Sendable, BaseRepository, ExerciseSessionRepositoryProtocol {
   @Injected(\NetworkContainer.exerciseSessionService) private var service: ExerciseSessionServiceProtocol
 
   public func getExerciseSessions() async throws -> [ExerciseSession] {
@@ -37,7 +37,7 @@ public actor ExerciseSessionRepository: BaseRepository, ExerciseSessionRepositor
     }
 
     let exerciseSessions = try await service.getAll()
-    syncStorage(exerciseSessions, of: ExerciseSessionEntity.self)
+    syncStorage(exerciseSessions, ofType: ExerciseSessionEntity.self)
     return exerciseSessions
   }
 
@@ -65,10 +65,9 @@ public actor ExerciseSessionRepository: BaseRepository, ExerciseSessionRepositor
   public func addSession(_ exerciseSession: ExerciseSession) async throws -> UserExperienceEntry {
     let userExperienceEntry = try await service.add(exerciseSession)
 
-    backgroundWorker.queueOperation(priority: .high) { [weak self] in
-      try await self?.coreDataStore.importModel(exerciseSession, of: ExerciseSessionEntity.self)
-      print("adding userexperienceentry")
-      try await self?.coreDataStore.importModel(userExperienceEntry, of: UserExperienceEntryEntity.self)
+    backgroundWorker.queueOperation(priority: .high) {
+      try await coreDataStore.importModel(exerciseSession, of: ExerciseSessionEntity.self)
+      try await coreDataStore.importModel(userExperienceEntry, of: UserExperienceEntryEntity.self)
     }
 
     return userExperienceEntry

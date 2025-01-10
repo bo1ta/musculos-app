@@ -9,7 +9,7 @@ import Foundation
 import Models
 import Utility
 
-public actor UserRepositoryStub: UserRepositoryProtocol {
+public struct UserRepositoryStub: UserRepositoryProtocol {
   let expectedSession: UserSession?
   let expectedProfile: UserProfile?
   let shouldFail: Bool
