@@ -17,7 +17,7 @@ public final class NetworkContainer: SharedContainer {
 }
 
 extension NetworkContainer {
-  internal var client: Factory<MusculosClientProtocol> {
+  var client: Factory<MusculosClientProtocol> {
     self {
       MusculosClient(
         requestMiddlewares: [
@@ -35,12 +35,12 @@ extension NetworkContainer {
     .cached
   }
 
-  internal var imageDownloader: Factory<ImageDownloader> {
+  var imageDownloader: Factory<ImageDownloader> {
     self { ImageDownloader() }
       .cached
   }
 
-  internal var offlineRequestManager: Factory<OfflineRequestManager> {
+  var offlineRequestManager: Factory<OfflineRequestManager> {
     self { OfflineRequestManager() }
       .singleton
   }

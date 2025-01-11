@@ -15,11 +15,11 @@ struct ProfileScreen: View {
   @State private var viewModel = ProfileViewModel()
 
   private static let highlights: [ProfileHighlight] = [
-      ProfileHighlight(highlightType: .steps, value: "5432", description: "updated 10 mins ago"),
-      ProfileHighlight(highlightType: .sleep, value: "7 hr 31 min", description: "updated 10 mins ago"),
-      ProfileHighlight(highlightType: .waterIntake, value: "4.2 ltr", description: "updated now"),
-      ProfileHighlight(highlightType: .workoutTracking, value: "1 day since last workout", description: "updated a day ago"),
-    ]
+    ProfileHighlight(highlightType: .steps, value: "5432", description: "updated 10 mins ago"),
+    ProfileHighlight(highlightType: .sleep, value: "7 hr 31 min", description: "updated 10 mins ago"),
+    ProfileHighlight(highlightType: .waterIntake, value: "4.2 ltr", description: "updated now"),
+    ProfileHighlight(highlightType: .workoutTracking, value: "1 day since last workout", description: "updated a day ago"),
+  ]
 
   var body: some View {
     ScrollView {

@@ -12,7 +12,7 @@ struct StubMusculosClient: MusculosClientProtocol {
     Data()
   }
 
-  func dataFromURL(_ url: URL) async throws -> Data {
+  func dataFromURL(_: URL) async throws -> Data {
     Data()
   }
 }

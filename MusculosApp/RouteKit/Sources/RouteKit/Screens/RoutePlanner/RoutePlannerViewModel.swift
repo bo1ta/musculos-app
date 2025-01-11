@@ -120,7 +120,9 @@ final class RoutePlannerViewModel {
 
   nonisolated private func getDirections(
     from origin: CLLocationCoordinate2D,
-    to destination: CLLocationCoordinate2D) async throws -> DirectionData {
+    to destination: CLLocationCoordinate2D)
+    async throws -> DirectionData
+  {
     try await client.getDirections(from: origin, to: destination)
   }
 

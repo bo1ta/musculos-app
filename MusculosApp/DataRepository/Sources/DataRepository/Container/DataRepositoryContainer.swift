@@ -6,8 +6,8 @@
 //
 
 import Factory
-import Models
 import Foundation
+import Models
 
 extension Container {
   public var currentUser: Factory<UserProfile?> {

@@ -28,7 +28,7 @@ let package = Package(
         "Factory",
         "Fakery",
         "Queue",
-        "Principle"
+        "Principle",
       ]),
     .testTarget(
       name: "StorageTests",

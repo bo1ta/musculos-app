@@ -6,8 +6,8 @@
 //
 
 import Factory
-import Utility
 import SwiftUI
+import Utility
 
 // MARK: - ImageServiceProtocol
 

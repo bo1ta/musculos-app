@@ -8,9 +8,8 @@
 
 import CoreData
 import Foundation
-import Principle
-import Principle
 import Models
+import Principle
 
 // MARK: - UserProfileEntity
 

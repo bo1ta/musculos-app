@@ -68,7 +68,11 @@ public struct MapKitClient: Sendable {
     return try MapItemData(firstPlacemark)
   }
 
-  public func getDirections(from source: CLLocationCoordinate2D, to destination: CLLocationCoordinate2D) async throws -> DirectionData {
+  public func getDirections(
+    from source: CLLocationCoordinate2D,
+    to destination: CLLocationCoordinate2D)
+    async throws -> DirectionData
+  {
     let request = MKDirections.Request()
     request.source = MKMapItem(placemark: MKPlacemark(coordinate: source))
     request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
@@ -84,8 +88,7 @@ public struct MapKitClient: Sendable {
       expectedTravelTime: etaResponse.expectedTravelTime,
       distance: etaResponse.distance,
       originCoordinates: etaResponse.source.placemark.coordinate,
-      destinationCoordinates: etaResponse.destination.placemark.coordinate
-    )
+      destinationCoordinates: etaResponse.destination.placemark.coordinate)
   }
 }
 
@@ -93,7 +96,11 @@ public struct MapKitClient: Sendable {
 
 extension MKDirections.Response: @unchecked Sendable { }
 
+// MARK: - MKDirections.ETAResponse + @unchecked Sendable
+
 extension MKDirections.ETAResponse: @unchecked Sendable { }
+
+// MARK: - DirectionData
 
 public struct DirectionData: @unchecked Sendable {
   var routes: [MKRoute]

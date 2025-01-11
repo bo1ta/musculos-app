@@ -45,6 +45,7 @@ struct AnimatedURLImageView: View {
               .frame(minHeight: 300)
               .ignoresSafeArea()
               .shimmering()
+
           case .failure(let error):
             Color.red
               .frame(maxWidth: .infinity)

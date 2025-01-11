@@ -45,7 +45,7 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
     let goal = await coreDataStore.goalByID(goalID)
 
     let backgroundTask = backgroundWorker.queueOperation {
-      return try await service.getGoalByID(goalID)
+      try await service.getGoalByID(goalID)
     }
 
     if let goal {

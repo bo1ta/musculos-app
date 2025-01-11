@@ -6,8 +6,8 @@
 //
 
 import Components
-import Models
 import Factory
+import Models
 
 extension Container {
   var toastManager: Factory<ToastManagerProtocol> {

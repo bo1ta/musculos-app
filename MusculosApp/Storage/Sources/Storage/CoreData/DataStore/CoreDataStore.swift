@@ -6,9 +6,9 @@
 //
 
 import Factory
-import Principle
 import Foundation
 import Models
+import Principle
 import Utility
 
 public typealias EntityType = Object & ReadOnlyConvertible
@@ -164,7 +164,7 @@ extension CoreDataStore {
     try await storageManager.performWrite { storage in
       let predicate: NSPredicate = \UserProfileEntity.userId == userID
       guard
-        let currentUser = storage.firstObject(of: UserProfileEntity.self,  matching: predicate),
+        let currentUser = storage.firstObject(of: UserProfileEntity.self, matching: predicate),
         !currentUser.goals.isEmpty
       else {
         return
@@ -234,7 +234,7 @@ extension CoreDataStore {
     }
 
     let predicate: NSPredicate = \ExerciseSessionEntity.user.userId == userID && \.dateAdded >= startDay && \.dateAdded <= endDay
-       return await getAll(ExerciseSessionEntity.self, predicate: predicate)
+    return await getAll(ExerciseSessionEntity.self, predicate: predicate)
   }
 
   public func exerciseSessionByID(_ id: UUID) async -> ExerciseSession? {
@@ -275,7 +275,7 @@ extension CoreDataStore {
   }
 
   public func exercisesByQuery(_ nameQuery: String) async -> [Exercise] {
-    let predicate: NSPredicate = \ExerciseEntity.name|contains(nameQuery)
+    let predicate: NSPredicate = \ExerciseEntity.name | contains(nameQuery)
     return await getAll(ExerciseEntity.self, predicate: predicate)
   }
 
@@ -307,14 +307,14 @@ extension CoreDataStore {
           categories)
 
         predicate =
-        if predicate == nil {
-          categoryPredicate
-        } else {
-          NSCompoundPredicate(orPredicateWithSubpredicates: [
-            predicate!, // swiftlint:disable:this force_unwrapping
-            categoryPredicate,
-          ])
-        }
+          if predicate == nil {
+            categoryPredicate
+          } else {
+            NSCompoundPredicate(orPredicateWithSubpredicates: [
+              predicate!, // swiftlint:disable:this force_unwrapping
+              categoryPredicate,
+            ])
+          }
       }
     }
 

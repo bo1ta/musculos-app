@@ -7,9 +7,11 @@
 
 import DataRepository
 import Factory
-import Observation
 import Models
+import Observation
 import Utility
+
+// MARK: - ExerciseResultCategory
 
 enum ExerciseResultCategory: CaseIterable {
   case favorites
@@ -34,7 +36,6 @@ final class ExploreViewModel {
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository
-
 
   // MARK: Public
 
@@ -85,12 +86,11 @@ extension ExploreViewModel {
     results[.featured] = await getExercises()
     results[.recommendedByGoals] = await loadRecommendationsByGoals()
 
-
     async let favoritesTask = loadFavoriteExercises()
     async let recommendationsTask = loadRecommendationsByPastSessions()
     async let recentSessionsTask = getSessionsCompletedToday()
     let (favorites, recommendations, recentSessions) = await (favoritesTask, recommendationsTask, recentSessionsTask)
-   
+
     results[.favorites] = favorites
     results[.recommendedByPastSessions] = recommendations
     self.recentSessions = recentSessions
@@ -108,7 +108,7 @@ extension ExploreViewModel {
   }
 
   nonisolated private func loadRecommendationsByGoals() async -> [Exercise] {
-    return await exerciseRepository.getRecommendedExercisesByGoals()
+    await exerciseRepository.getRecommendedExercisesByGoals()
   }
 
   nonisolated private func loadRecommendationsByPastSessions() async -> [Exercise] {

@@ -8,8 +8,8 @@
 
 import CoreData
 import Foundation
-import Principle
 import Models
+import Principle
 
 // MARK: - ExerciseSessionEntity
 
@@ -53,7 +53,7 @@ extension ExerciseSessionEntity: EntitySyncable {
   public func populateEntityFrom(_ model: ExerciseSession, using storage: StorageType) {
     guard
       let user = storage.firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.userId == model.user.userId)
- else {
+    else {
       return
     }
 

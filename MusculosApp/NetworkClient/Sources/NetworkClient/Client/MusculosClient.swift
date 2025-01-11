@@ -12,8 +12,10 @@ import Utility
 // MARK: - MusculosClientProtocol
 
 public protocol MusculosClientProtocol: Sendable {
-  @discardableResult func dispatch(_ request: APIRequest) async throws -> Data
-  @discardableResult func dataFromURL(_ url: URL) async throws -> Data
+  @discardableResult
+  func dispatch(_ request: APIRequest) async throws -> Data
+  @discardableResult
+  func dataFromURL(_ url: URL) async throws -> Data
 }
 
 // MARK: - MusculosClient
