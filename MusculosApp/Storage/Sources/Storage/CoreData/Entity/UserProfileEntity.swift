@@ -150,7 +150,7 @@ extension UserProfileEntity: EntitySyncable {
     gender = model.gender
     level = model.level
     username = model.username
-    isOnboarded = model.isOnboarded ?? false
+    isOnboarded = model.isOnboarded
     xp = (model.xp ?? 0) as NSNumber
     ratings = Set<ExerciseRatingEntity>()
 
@@ -180,7 +180,7 @@ extension UserProfileEntity: EntitySyncable {
 
   public func updateEntityFrom(_ model: UserProfile, using storage: any StorageType) {
     avatarUrl = model.avatar
-    isOnboarded = model.isOnboarded ?? false
+    isOnboarded = model.isOnboarded
 
     if let weight = model.weight {
       self.weight = weight as NSNumber

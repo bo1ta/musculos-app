@@ -21,17 +21,17 @@ public enum UserStoreEvent {
 
 // MARK: - UserStoreProtocol
 
-public protocol UserStoreProtocol: Sendable {
+public protocol UserHandling: Sendable {
   var eventPublisher: AnyPublisher<UserStoreEvent, Never> { get }
 
   @discardableResult
-  func loadCurrentUser() async -> UserProfile?
+  func loadUser() async -> UserProfile?
   func updateOnboardingStatus(_ onboardingData: OnboardingData) async
 }
 
 // MARK: - UserStore
 
-public final class UserStore: @unchecked Sendable, UserStoreProtocol {
+public final class CurrentUserHandler: @unchecked Sendable, UserHandling {
   @LazyInjected(\DataRepositoryContainer.userRepository) private var repository: UserRepositoryProtocol
 
   private let eventSubject = PassthroughSubject<UserStoreEvent, Never>()
@@ -41,7 +41,7 @@ public final class UserStore: @unchecked Sendable, UserStoreProtocol {
   }
 
   @discardableResult
-  public func loadCurrentUser() async -> UserProfile? {
+  public func loadUser() async -> UserProfile? {
     guard let currentUser = try? await repository.getCurrentUser() else {
       return nil
     }

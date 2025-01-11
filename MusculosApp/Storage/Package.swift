@@ -16,7 +16,6 @@ let package = Package(
     .package(name: "Models", path: "../Models"),
     .package(url: "https://github.com/hmlongco/Factory", exact: "2.4.3"),
     .package(url: "https://github.com/vadymmarkov/Fakery", from: "5.0.0"),
-    .package(url: "https://github.com/mattmassicotte/Queue", from: "0.1.4"),
     .package(url: "https://bitbucket.org/iam_apps/principle/src/master/Principle/", .upToNextMajor(from: "1.5.0")),
   ],
   targets: [
@@ -27,7 +26,6 @@ let package = Package(
         .product(name: "Models", package: "Models"),
         "Factory",
         "Fakery",
-        "Queue",
         "Principle",
       ]),
     .testTarget(

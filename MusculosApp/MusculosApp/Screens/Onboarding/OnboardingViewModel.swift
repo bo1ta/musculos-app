@@ -27,7 +27,7 @@ final class OnboardingViewModel {
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
+  @Injected(\DataRepositoryContainer.currentUserHandler) private var currentUserHandler: UserHandling
 
   // MARK: - Observed properties
 
@@ -85,7 +85,7 @@ final class OnboardingViewModel {
         level: selectedLevel?.title,
         goal: selectedGoal)
 
-      await userStore.updateOnboardingStatus(onboardingData)
+      await currentUserHandler.updateOnboardingStatus(onboardingData)
       sendHaptic(.notifySuccess)
     }
   }

@@ -55,11 +55,11 @@ extension BaseRepository {
     }
   }
 
-  func getSyncDateForEntity(_ entity: (some EntitySyncable).Type) -> Date? {
+  func getSyncDateForEntity<T: EntitySyncable>(_ entity: T.Type) -> Date? {
     UserDefaults.standard.object(forKey: getUserDefaultsKey(entity.entityName)) as? Date
   }
 
-  func setSyncDateForEntity(_ entity: (some EntitySyncable).Type, date: Date) {
+  func setSyncDateForEntity<T: EntitySyncable>(_ entity: T.Type, date: Date) {
     UserDefaults.standard.set(date, forKey: getUserDefaultsKey(entity.entityName))
   }
 

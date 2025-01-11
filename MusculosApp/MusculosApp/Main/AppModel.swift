@@ -36,7 +36,7 @@ final class AppModel {
   @Injected(\DataRepositoryContainer.authenticationManager) private var authenticationManager: AuthenticationManagerProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.userStore) private var userStore: UserStoreProtocol
+  @Injected(\DataRepositoryContainer.currentUserHandler) private var currentUserHandler: UserHandling
 
   @ObservationIgnored
   @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
@@ -64,7 +64,7 @@ final class AppModel {
       }
       .store(in: &cancellables)
 
-    userStore.eventPublisher
+    currentUserHandler.eventPublisher
       .sink { [weak self] event in
         self?.didReceiveUserStoreEvent(event)
       }
@@ -85,7 +85,7 @@ final class AppModel {
   }
 
   private func determineState() async {
-    guard let currentUser = await userStore.loadCurrentUser() else {
+    guard let currentUser = await currentUserHandler.loadUser() else {
       appState = .loggedOut
       return
     }

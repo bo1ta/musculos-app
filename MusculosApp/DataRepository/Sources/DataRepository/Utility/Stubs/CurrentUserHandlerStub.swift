@@ -10,22 +10,15 @@ import Foundation
 import Models
 import Utility
 
-public class UserStoreStub: UserStoreProtocol, @unchecked Sendable {
-
-  public var currentUser: UserProfile?
+public class CurrentUserHandlerStub: UserHandling, @unchecked Sendable {
   public var expectedLoadResult: UserProfile?
+  private let eventSubject = PassthroughSubject<UserStoreEvent, Never>()
 
   public var eventPublisher: AnyPublisher<UserStoreEvent, Never> {
     eventSubject.eraseToAnyPublisher()
   }
 
-  private let eventSubject = PassthroughSubject<UserStoreEvent, Never>()
-
-  public init(currentUser: Models.UserProfile? = nil) {
-    self.currentUser = currentUser
-  }
-
-  public func loadCurrentUser() async -> UserProfile? {
+  public func loadUser() async -> UserProfile? {
     expectedLoadResult
   }
 

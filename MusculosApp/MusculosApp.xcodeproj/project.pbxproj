@@ -365,6 +365,7 @@
 				BC5834252B1CE34500BD7690 /* Main */,
 				BC1B7E292D1355190002158C /* Tabs */,
 				BC6F365B2BB4E205000F6CFA /* Screens */,
+				BCAF7BEB2CED47B500DCEDD6 /* Sheets */,
 				BC352AE32A326D6C00DAA3AB /* Core */,
 				BC0D76A32B6525B700917680 /* Assets */,
 				BC1160D52A2CFB830028D8FC /* Preview Content */,
@@ -483,7 +484,6 @@
 				BC44CDB12CA77C85007421C4 /* ExerciseList */,
 				BC74C1B22C01079D0021B932 /* WorkoutFlow */,
 				BCE558652D1785C9000EA1C1 /* User */,
-				BCAF7BEB2CED47B500DCEDD6 /* Sheet */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -725,7 +725,7 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		BCAF7BEB2CED47B500DCEDD6 /* Sheet */ = {
+		BCAF7BEB2CED47B500DCEDD6 /* Sheets */ = {
 			isa = PBXGroup;
 			children = (
 				BC777EFF2BA111EA001669C8 /* AddActionSheet */,
@@ -734,7 +734,7 @@
 				BC81E5D42BD305F50005891D /* AddWorkoutSheet */,
 				BC43D3392B6EAD77008C1062 /* ExerciseFilterSheet */,
 			);
-			path = Sheet;
+			path = Sheets;
 			sourceTree = "<group>";
 		};
 		BCD59A7C2BB627CE0039F662 /* Card */ = {

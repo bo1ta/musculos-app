@@ -37,8 +37,8 @@ extension DataRepositoryContainer {
     self { UserRepository() }
   }
 
-  public var userStore: Factory<UserStoreProtocol> {
-    self { UserStore() }
+  public var currentUserHandler: Factory<UserHandling> {
+    self { CurrentUserHandler() }
       .cached
   }
 

@@ -41,17 +41,17 @@ class OnboardingViewModelTests: XCTestCase {
 
   func testHandleNextStep() async throws {
     let user = UserProfileFactory.createUser()
-    let userStoreStub = UserStoreStub(currentUser: user)
+    let userHandlerStub = CurrentUserHandlerStub()
 
     let eventExpectation = self.expectation(description: "should publish didOnboarding event")
-    let cancellable = userStoreStub.eventPublisher.sink { event in
+    let cancellable = userHandlerStub.eventPublisher.sink { event in
       XCTAssertEqual(event, .didFinishOnboarding)
       eventExpectation.fulfill()
     }
     defer { cancellable.cancel() }
 
-    DataRepositoryContainer.shared.userStore.register { userStoreStub }
-    defer { DataRepositoryContainer.shared.userStore.reset() }
+    DataRepositoryContainer.shared.currentUserHandler.register { userHandlerStub }
+    defer { DataRepositoryContainer.shared.currentUserHandler.reset() }
 
     let viewModel = OnboardingViewModel()
     XCTAssertEqual(viewModel.wizardStep, .heightAndWeight)
@@ -73,10 +73,4 @@ class OnboardingViewModelTests: XCTestCase {
 
     await fulfillment(of: [eventExpectation], timeout: 0.1)
   }
-}
-
-public func setupCurrentUser() {
-  let user = UserProfileFactory.createUser()
-  let userStoreStub = UserStoreStub(currentUser: user)
-  DataRepositoryContainer.shared.userStore.register { userStoreStub }
 }
