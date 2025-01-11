@@ -9,6 +9,7 @@
 import CoreData
 import Foundation
 import Models
+import Principle
 
 // MARK: - ExerciseRatingEntity
 
@@ -47,10 +48,10 @@ extension ExerciseRatingEntity: EntitySyncable {
     guard
       let exerciseEntity = storage.firstObject(
         of: ExerciseEntity.self,
-        matching: PredicateProvider.exerciseById(model.exerciseID)),
+        matching: \ExerciseEntity.exerciseId == model.exerciseID),
       let userProfileEntity = storage.firstObject(
         of: UserProfileEntity.self,
-        matching: PredicateProvider.userProfileById(model.userID))
+        matching: \UserProfileEntity.userId == model.userID)
     else {
       return
     }

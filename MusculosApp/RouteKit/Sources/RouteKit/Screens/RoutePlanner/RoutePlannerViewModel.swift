@@ -16,14 +16,22 @@ import Utility
 @MainActor
 @Observable
 final class RoutePlannerViewModel {
+  struct RouteState {
+    var originItem: MapItemData?
+    var destinationItem: MapItemData?
+    var route: MKRoute?
+  }
+
   @ObservationIgnored
   @LazyInjected(\RouteKitContainer.mapKitClient) private var client: MapKitClient
+
+  private(set) var routeState: RouteState?
 
   var averagePace: Double = 0
   var showRouteForm = false
   var currentLocation: CLLocation?
-  var mapItemResults: [MapItemData] = []
-  var selectedMapItem: MapItemData?
+  var queryResults: [MapItemData] = []
+  var destinationMapItem: MapItemData?
   var currentRoute: MKRoute?
   var currentWizardStep = RoutePlannerWizardStep.search
   var startLocation = ""
@@ -65,13 +73,13 @@ final class RoutePlannerViewModel {
 
   func searchQuery(_ query: String) {
     guard let currentLocation, !endLocation.isEmpty else {
-      mapItemResults.removeAll()
+      queryResults.removeAll()
       return
     }
 
     searchTask = Task {
       do {
-        mapItemResults = try await getMapItemsForQuery(query, on: currentLocation)
+        queryResults = try await getMapItemsForQuery(query, on: currentLocation)
       } catch {
         Logger.error(error, message: "Could not perform search using MapKitClient")
       }
@@ -94,13 +102,14 @@ final class RoutePlannerViewModel {
 
     routeTask = Task {
       do {
-        async let directionsTask = getDirections(from: currentLocation.coordinate, to: item.placemark.coordinate)
-        async let locationDetailsTask = getLocationDetails(currentLocation)
+        currentPlacemark = try await getLocationDetails(currentLocation)?.placemark
 
-        let (directions, currentLocationDetails) = try await (directionsTask, locationDetailsTask)
-        selectedMapItem = item
+        let origin = currentLocation.coordinate
+        let destination = item.placemark.coordinate
+        let directions = try await getDirections(from: origin, to: destination)
+
         currentRoute = directions.routes.first
-        currentPlacemark = currentLocationDetails.first
+        destinationMapItem = item
         currentWizardStep = .confirm
 
       } catch {
@@ -110,14 +119,12 @@ final class RoutePlannerViewModel {
   }
 
   nonisolated private func getDirections(
-    from startLocation: CLLocationCoordinate2D,
-    to endLocation: CLLocationCoordinate2D)
-    async throws -> MKDirections.Response
-  {
-    try await client.getDirections(from: startLocation, to: endLocation)
+    from origin: CLLocationCoordinate2D,
+    to destination: CLLocationCoordinate2D) async throws -> DirectionData {
+    try await client.getDirections(from: origin, to: destination)
   }
 
-  nonisolated private func getLocationDetails(_ location: CLLocation) async throws -> [CLPlacemark] {
+  nonisolated private func getLocationDetails(_ location: CLLocation) async throws -> MapItemData? {
     try await client.getLocationDetails(location)
   }
 }

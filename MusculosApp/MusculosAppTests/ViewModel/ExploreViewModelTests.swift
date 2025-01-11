@@ -48,7 +48,7 @@ class ExploreViewModelTests: XCTestCase {
     XCTAssertEqual(viewModel.favoriteExercises.count, 1)
     XCTAssertEqual(viewModel.featuredExercises.count, 1)
     XCTAssertEqual(viewModel.recommendedExercisesByGoals.count, 1)
-    XCTAssertEqual(viewModel.exercisesCompletedToday.count, 1)
+    XCTAssertEqual(viewModel.recentSessions.count, 1)
   }
 
   func testSearchQuery() async throws {

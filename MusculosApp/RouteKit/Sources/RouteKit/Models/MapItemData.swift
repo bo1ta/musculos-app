@@ -8,6 +8,7 @@
 import Foundation
 import MapKit
 import UIKit
+import Utility
 
 // MARK: - MapItemData
 
@@ -16,20 +17,42 @@ public struct MapItemData: Sendable {
   var name: String
   var placemark: MKPlacemark
   var category: Category
-  var isCurrentLocation: Bool
+  var isCurrentLocation: Bool?
 
   init(
     identifier: UUID,
     name: String,
     placemark: MKPlacemark,
     pointOfInterestCategory: MKPointOfInterestCategory? = nil,
-    isCurrentLocation: Bool)
+    isCurrentLocation: Bool? = nil)
   {
     self.identifier = identifier
     self.name = name
     self.placemark = placemark
     self.category = Category.categoryFromPointOfInterest(pointOfInterestCategory)
     self.isCurrentLocation = isCurrentLocation
+  }
+
+  init?(_ mapItem: MKMapItem) {
+    guard let name = mapItem.name else {
+      return nil
+    }
+    self.name = name
+    identifier = UUID()
+    placemark = mapItem.placemark
+    category = Category.categoryFromPointOfInterest(mapItem.pointOfInterestCategory)
+    isCurrentLocation = mapItem.isCurrentLocation
+  }
+
+  init(_ clPlacemark: CLPlacemark) throws {
+    identifier = UUID()
+    category = .general
+    name = clPlacemark.name ?? ""
+
+    guard let coordinate = clPlacemark.location?.coordinate else {
+      throw MusculosError.unexpectedNil
+    }
+    placemark = MKPlacemark(coordinate: coordinate)
   }
 }
 

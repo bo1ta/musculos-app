@@ -32,10 +32,16 @@ struct RootTabView: View {
         RootHomeScreen()
           .tabItem { Label("Home", systemImage: "house") }
           .tag(RootTabs.home)
+          .onPreferenceChange(ShowTabPreferenceKey.self) { [$showAddButton] showTabBar in
+            $showAddButton.wrappedValue = showTabBar
+          }
 
         RootExploreScreen()
           .tabItem { Label("Explore", systemImage: "newspaper") }
           .tag(RootTabs.explore)
+          .onPreferenceChange(ShowTabPreferenceKey.self) { [$showAddButton] showTabBar in
+            $showAddButton.wrappedValue = showTabBar
+          }
 
         RootHistoryScreen()
           .tabItem { Label("History", systemImage: "calendar.badge.clock") }
@@ -44,14 +50,14 @@ struct RootTabView: View {
         RootProfileScreen()
           .tabItem { Label("Profile", systemImage: "person") }
           .tag(RootTabs.profile)
+          .onPreferenceChange(ShowTabPreferenceKey.self) { [$showAddButton] showTabBar in
+            $showAddButton.wrappedValue = showTabBar
+          }
       }
       .onNavigationReceive { (tab: RootTabs, navigator) in
         navigator.dismissAll()
         selectedTab = tab
         return .auto
-      }
-      .onPreferenceChange(ShowTabPreferenceKey.self) { [$showAddButton] showButton in
-        $showAddButton.wrappedValue = showButton
       }
 
       AddActionButton(action: { showActionSheet = true })

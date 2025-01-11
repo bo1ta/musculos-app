@@ -12,9 +12,8 @@ import SwiftUI
 import Utility
 
 struct QuickWorkoutSection: View {
-  @Environment(\.navigator) private var navigator: Navigator
-
   let exercises: [Exercise]
+  let onSelect: (Exercise) -> Void
 
   private var cardGradient: LinearGradient {
     LinearGradient(colors: [Color(hex: "0EA5E9"), Color(hex: "3B82F6")], startPoint: .leading, endPoint: .trailing)
@@ -33,7 +32,7 @@ struct QuickWorkoutSection: View {
               gradient: cardGradient,
               rightContent: {
                 IconButton(systemImageName: "chevron.right", action: {
-                  navigator.navigate(to: CommonDestinations.exerciseDetails(exercise))
+                  onSelect(exercise)
                 })
               })
           }

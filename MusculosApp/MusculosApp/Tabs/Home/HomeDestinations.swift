@@ -28,11 +28,9 @@ extension HomeDestinations: NavigationDestination {
 
     case .notifications:
       RoutePlannerScreen()
-        .tabBarHidden()
 
     case .liveRoute:
       RoutePlannerScreen()
-        .tabBarHidden()
     }
   }
 

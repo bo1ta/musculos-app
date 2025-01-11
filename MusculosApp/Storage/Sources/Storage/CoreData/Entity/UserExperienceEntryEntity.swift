@@ -9,6 +9,7 @@
 import CoreData
 import Foundation
 import Models
+import Principle
 
 // MARK: - UserExperienceEntryEntity
 
@@ -45,7 +46,7 @@ extension UserExperienceEntryEntity: EntitySyncable {
     if
       let userExperienceEntity = storage.firstObject(
         of: UserExperienceEntity.self,
-        matching: PredicateProvider.userExperienceByID(model.userExperience.id))
+        matching: \UserExperienceEntryEntity.modelID == model.userExperience.id)
     {
       userExperience = userExperienceEntity
     }

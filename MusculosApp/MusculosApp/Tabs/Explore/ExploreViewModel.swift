@@ -5,71 +5,67 @@
 //  Created by Solomon Alexandru on 17.04.2024.
 //
 
-import Combine
-import CoreData
 import DataRepository
 import Factory
-import Foundation
+import Observation
 import Models
-import Storage
-import SwiftUI
 import Utility
+
+enum ExerciseResultCategory: CaseIterable {
+  case favorites
+  case featured
+  case recommendedByGoals
+  case recommendedByPastSessions
+}
 
 // MARK: - ExploreViewModel
 
 @Observable
 @MainActor
 final class ExploreViewModel {
-  // MARK: - Dependencies
+
+  // MARK: Dependencies
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository
 
   @ObservationIgnored
-  @Injected(
-    \DataRepositoryContainer
-      .exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepositoryProtocol
+  @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository
 
+
+  // MARK: Public
+
+  private(set) var isLoading = false
+  private(set) var isLoaded = false
+  private(set) var results: [ExerciseResultCategory: [Exercise]] = [:]
   private(set) var searchQueryTask: Task<Void, Never>?
 
-  // MARK: - Observed properties
-
-  var exercisesCompletedToday: [ExerciseSession] = []
+  var recentSessions: [ExerciseSession] = []
   var progress: Float = 0.0
   var goals: [Goal] = []
   var showFilterView = false
 
-  private(set) var isLoading = false
-  private(set) var featuredExercises: [Exercise] = []
-  private(set) var favoriteExercises: [Exercise] = []
-  private(set) var recommendedExercisesByPastSessions: [Exercise] = []
-  private(set) var recommendedExercisesByGoals: [Exercise] = []
+  var recommendedExercisesByPastSessions: [Exercise] {
+    results[.recommendedByPastSessions] ?? []
+  }
 
-  var displayGoal: Goal? {
+  var recommendedExercisesByGoals: [Exercise] {
+    results[.recommendedByGoals] ?? []
+  }
+
+  var favoriteExercises: [Exercise] {
+    results[.favorites] ?? []
+  }
+
+  var featuredExercises: [Exercise] {
+    results[.featured] ?? []
+  }
+
+  var goalDisplay: Goal? {
     goals.first
-  }
-
-  var showRecommendationsByPastSessions: Bool {
-    !recommendedExercisesByPastSessions.isEmpty
-  }
-
-  var showRecomendationsByGoals: Bool {
-    !recommendedExercisesByGoals.isEmpty
-  }
-
-  var showFavoriteExercises: Bool {
-    !favoriteExercises.isEmpty
-  }
-
-  func setFeaturedExercises(_ exercises: [Exercise]) {
-    featuredExercises = exercises
-  }
-
-  func cleanUp() {
-    searchQueryTask?.cancel()
   }
 }
 
@@ -77,66 +73,77 @@ final class ExploreViewModel {
 
 extension ExploreViewModel {
   func initialLoad() async {
+    guard !isLoaded else {
+      return
+    }
+
     isLoading = true
     defer { isLoading = false }
 
-    async let exercisesTask: Void = loadExercises()
-    async let favoriteExercisesTask: Void = loadFavoriteExercises()
-    async let recommendedExercisesByGoalsTask: Void = loadRecommendationsByGoals()
-    async let recommendedExercisesByPastSessionsTask: Void = loadRecommendationsByPastSessions()
-    async let completedTodayExercisesTask: Void = refreshExercisesCompletedToday()
-    async let goalsTask: Void = loadGoals()
+    goals = await getGoals()
 
-    _ = await (
-      exercisesTask,
-      favoriteExercisesTask,
-      recommendedExercisesByGoalsTask,
-      recommendedExercisesByPastSessionsTask,
-      completedTodayExercisesTask,
-      goalsTask)
+    results[.featured] = await getExercises()
+    results[.recommendedByGoals] = await loadRecommendationsByGoals()
+
+
+    async let favoritesTask = loadFavoriteExercises()
+    async let recommendationsTask = loadRecommendationsByPastSessions()
+    async let recentSessionsTask = getSessionsCompletedToday()
+    let (favorites, recommendations, recentSessions) = await (favoritesTask, recommendationsTask, recentSessionsTask)
+   
+    results[.favorites] = favorites
+    results[.recommendedByPastSessions] = recommendations
+    self.recentSessions = recentSessions
+
+    isLoaded = true
   }
 
-  private func loadExercises() async {
+  nonisolated private func getExercises() async -> [Exercise] {
     do {
-      featuredExercises = try await exerciseRepository.getExercises()
+      return try await exerciseRepository.getExercises()
     } catch {
       Logger.error(error, message: "Could not load exercises")
+      return []
     }
   }
 
-  private func loadRecommendationsByGoals() async {
-    recommendedExercisesByGoals = await exerciseRepository.getRecommendedExercisesByGoals()
+  nonisolated private func loadRecommendationsByGoals() async -> [Exercise] {
+    return await exerciseRepository.getRecommendedExercisesByGoals()
   }
 
-  private func loadRecommendationsByPastSessions() async {
+  nonisolated private func loadRecommendationsByPastSessions() async -> [Exercise] {
     do {
-      recommendedExercisesByPastSessions = try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
+      return try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
     } catch {
       Logger.error(error, message: "Could not load recommendations by past sessions")
+      return []
     }
   }
 
-  private func loadFavoriteExercises() async {
+  nonisolated private func loadFavoriteExercises() async -> [Exercise] {
     do {
-      favoriteExercises = try await exerciseRepository.getFavoriteExercises()
+      return try await exerciseRepository.getFavoriteExercises()
     } catch {
       Logger.error(error, message: "Data controller failed to get exercises")
+      return []
     }
   }
 
-  func refreshExercisesCompletedToday() async {
+  nonisolated private func getSessionsCompletedToday() async -> [ExerciseSession] {
     do {
-      exercisesCompletedToday = try await exerciseSessionRepository.getCompletedToday()
+      return try await exerciseSessionRepository.getCompletedToday()
     } catch {
       Logger.error(error, message: "Data controller failed to get exercises completed today")
+      return []
     }
   }
 
-  private func loadGoals() async {
+  nonisolated private func getGoals() async -> [Goal] {
     do {
-      goals = try await goalRepository.getGoals()
+      return try await goalRepository.getGoals()
     } catch {
       Logger.error(error, message: "Could not get goals")
+      return []
     }
   }
 
@@ -145,10 +152,14 @@ extension ExploreViewModel {
 
     searchQueryTask = Task {
       do {
-        featuredExercises = try await exerciseRepository.searchByQuery(query)
+        results[.featured] = try await exerciseRepository.searchByQuery(query)
       } catch {
         Logger.error(error, message: "Could not search by muscle query", properties: ["query": query])
       }
     }
+  }
+
+  func cleanUp() {
+    searchQueryTask?.cancel()
   }
 }

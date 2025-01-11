@@ -38,6 +38,15 @@
       }
     },
     {
+      "identity" : "principle",
+      "kind" : "remoteSourceControl",
+      "location" : "https://bitbucket.org/iam_apps/principle/src/master/Principle/",
+      "state" : {
+        "revision" : "bd1e0aebbb7214b0ef80d51e3ef8a0247fad760a",
+        "version" : "1.5.0"
+      }
+    },
+    {
       "identity" : "queue",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mattmassicotte/Queue",

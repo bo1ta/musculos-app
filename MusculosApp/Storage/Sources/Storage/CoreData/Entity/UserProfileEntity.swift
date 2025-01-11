@@ -8,6 +8,8 @@
 
 import CoreData
 import Foundation
+import Principle
+import Principle
 import Models
 
 // MARK: - UserProfileEntity
@@ -124,12 +126,10 @@ extension UserProfileEntity: ReadOnlyConvertible {
 // MARK: - Common predicate
 
 extension UserProfileEntity {
-  static func userFromID(_ userID: UUID, on storage: StorageType) -> UserProfileEntity? {
-    storage.firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(userID))
-  }
-
   static func entityFrom(_ model: UserProfile, using storage: StorageType) -> UserProfileEntity {
-    if let userProfile = userFromID(model.userId, on: storage) {
+    let predicate: NSPredicate = \UserProfileEntity.userId == model.userId
+
+    if let userProfile = storage.firstObject(of: UserProfileEntity.self, matching: predicate) {
       return userProfile
     } else {
       let userProfile = storage.insertNewObject(ofType: UserProfileEntity.self)
@@ -158,16 +158,19 @@ extension UserProfileEntity: EntitySyncable {
     if let weight = model.weight {
       self.weight = weight as NSNumber
     }
+
     if let height = model.height {
       self.height = height as NSNumber
     }
+
     if let primaryGoalID = model.primaryGoalID {
       self.primaryGoalID = primaryGoalID
     }
+
     if let userExperience = model.userExperience {
-      let userExperienceEntity = storage.findOrInsert(
-        of: UserExperienceEntity.self,
-        using: PredicateProvider.userExperienceByID(userExperience.id))
+      let predicate: NSPredicate = \UserExperienceEntity.modelID == userExperience.id
+      let userExperienceEntity = storage.findOrInsert(of: UserExperienceEntity.self, using: predicate)
+
       userExperienceEntity.populateEntityFrom(userExperience, using: storage)
       userExperienceEntity.user = self
       self.userExperience = userExperienceEntity
@@ -203,9 +206,8 @@ extension UserProfileEntity: EntitySyncable {
       var goalsSet = Set<GoalEntity>()
 
       for goal in goals {
-        let goalEntity = storage.findOrInsert(
-          of: GoalEntity.self,
-          using: PredicateProvider.goalByID(goal.id))
+        let predicate: NSPredicate = \GoalEntity.goalID == goal.id
+        let goalEntity = storage.findOrInsert(of: GoalEntity.self, using: predicate)
         goalEntity.updateEntityFrom(goal, using: storage)
         goalsSet.insert(goalEntity)
       }

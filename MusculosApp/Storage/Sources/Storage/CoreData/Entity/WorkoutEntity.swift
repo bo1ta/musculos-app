@@ -9,6 +9,7 @@
 import CoreData
 import Foundation
 import Models
+import Principle
 
 // MARK: - WorkoutEntity
 
@@ -93,7 +94,9 @@ extension WorkoutEntity: EntitySyncable {
   }
 
   static func findOrCreate(_ workout: Workout, from storage: StorageType) -> WorkoutEntity {
-    if let entity = storage.firstObject(of: WorkoutEntity.self, matching: PredicateProvider.workoutByID(workout.id)) {
+    let predicate: NSPredicate = \WorkoutEntity.modelID == workout.id
+
+    if let entity = storage.firstObject(of: WorkoutEntity.self, matching: predicate) {
       return entity
     }
 

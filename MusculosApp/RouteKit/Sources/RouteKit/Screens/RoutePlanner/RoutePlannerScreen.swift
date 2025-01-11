@@ -20,7 +20,7 @@ public struct RoutePlannerScreen: View {
       RouteMap(
         currentLocation: $viewModel.currentLocation,
         averagePace: $viewModel.averagePace,
-        mapItemResults: $viewModel.mapItemResults,
+        mapItemResults: $viewModel.queryResults,
         currentRoute: $viewModel.currentRoute)
     }
     .sheet(isPresented: .constant(true)) {
@@ -29,8 +29,8 @@ public struct RoutePlannerScreen: View {
         destinationLocation: $viewModel.endLocation,
         startLocation: $viewModel.startLocation,
         currentLocation: viewModel.currentLocation,
-        mapItemResults: viewModel.mapItemResults,
-        selectedMapITem: viewModel.selectedMapItem,
+        mapItemResults: viewModel.queryResults,
+        selectedMapITem: viewModel.destinationMapItem,
         onSelectResult: viewModel.setRouteForItem(_:),
         onStart: { })
     }

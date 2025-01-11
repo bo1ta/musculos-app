@@ -22,9 +22,7 @@ struct HomeScreen: View {
       VStack(alignment: .leading, spacing: 15) {
         UserHeader(
           profile: viewModel.currentUser,
-          onNotificationsTap: {
-            navigator.navigate(to: HomeDestinations.liveRoute)
-          })
+          onNotificationsTap: navigateToLiveRoute)
 
         AchievementCard()
           .defaultShimmering(active: viewModel.isLoading)
@@ -34,7 +32,7 @@ struct HomeScreen: View {
         })
 
         if let exercises = viewModel.quickExercises {
-          QuickWorkoutSection(exercises: exercises)
+          QuickWorkoutSection(exercises: exercises, onSelect: navigateToExerciseDetails(_:))
         }
 
         ChallengesSection()
@@ -47,6 +45,14 @@ struct HomeScreen: View {
       await viewModel.fetchData()
     }
     .scrollIndicators(.hidden)
+  }
+
+  private func navigateToLiveRoute() {
+    navigator.navigate(to: HomeDestinations.liveRoute)
+  }
+
+  private func navigateToExerciseDetails(_ exercise: Exercise) {
+    navigator.navigate(to: CommonDestinations.exerciseDetails(exercise))
   }
 }
 

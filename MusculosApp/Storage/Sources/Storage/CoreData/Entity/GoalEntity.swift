@@ -7,6 +7,7 @@
 
 import CoreData
 import Models
+import Principle
 
 // MARK: - GoalEntity
 
@@ -84,7 +85,7 @@ extension GoalEntity: EntitySyncable {
 
     if
       let user = storage
-        .firstObject(of: UserProfileEntity.self, matching: PredicateProvider.userProfileById(model.user.userId))
+        .firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.userId == model.user.userId)
     {
       self.user = user
     }
@@ -121,9 +122,8 @@ extension GoalEntity: EntitySyncable {
       }
 
       for entry in history {
-        let progressEntity = storage.findOrInsert(
-          of: ProgressEntryEntity.self,
-          using: PredicateProvider.userProfileById(entry.progressID))
+        let predicate: NSPredicate = \ProgressEntryEntity.progressID == entry.progressID
+        let progressEntity = storage.findOrInsert(of: ProgressEntryEntity.self, using: predicate)
         progressEntity.populateEntityFrom(entry, using: storage)
 
         addToProgressHistory(progressEntity)

@@ -50,40 +50,56 @@ public struct MapKitClient: Sendable {
         }
 
         let results = response.mapItems.compactMap { item -> MapItemData? in
-          guard let name = item.name else {
-            return nil
-          }
-          return MapItemData(
-            identifier: UUID(),
-            name: name,
-            placemark: item.placemark,
-            pointOfInterestCategory: item.pointOfInterestCategory,
-            isCurrentLocation: item.isCurrentLocation)
+          return MapItemData(item)
         }
         continuation.resume(returning: results)
       }
     }
   }
 
-  public func getDirections(
-    from source: CLLocationCoordinate2D,
-    to destination: CLLocationCoordinate2D)
-    async throws -> MKDirections.Response
-  {
+  public func getLocationDetails(_ location: CLLocation) async throws -> MapItemData? {
+    let geocoder = CLGeocoder()
+    let placemarks = try await geocoder.reverseGeocodeLocation(location)
+
+    guard let firstPlacemark = placemarks.first else {
+      return nil
+    }
+
+    return try MapItemData(firstPlacemark)
+  }
+
+  public func getDirections(from source: CLLocationCoordinate2D, to destination: CLLocationCoordinate2D) async throws -> DirectionData {
     let request = MKDirections.Request()
     request.source = MKMapItem(placemark: MKPlacemark(coordinate: source))
     request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
     request.transportType = .walking
 
     let directions = MKDirections(request: request)
-    return try await directions.calculate()
-  }
+    let response = try await directions.calculate()
+    let etaResponse = try await directions.calculateETA()
 
-  public func getLocationDetails(_ location: CLLocation) async throws -> [CLPlacemark] {
-    return try await CLGeocoder().reverseGeocodeLocation(location)
+    return DirectionData(
+      routes: response.routes,
+      expectedArrivalDate: etaResponse.expectedArrivalDate,
+      expectedTravelTime: etaResponse.expectedTravelTime,
+      distance: etaResponse.distance,
+      originCoordinates: etaResponse.source.placemark.coordinate,
+      destinationCoordinates: etaResponse.destination.placemark.coordinate
+    )
   }
 }
 
 // MARK: - MKDirections.Response + @unchecked Sendable
 
 extension MKDirections.Response: @unchecked Sendable { }
+
+extension MKDirections.ETAResponse: @unchecked Sendable { }
+
+public struct DirectionData: @unchecked Sendable {
+  var routes: [MKRoute]
+  var expectedArrivalDate: Date
+  var expectedTravelTime: TimeInterval
+  var distance: CLLocationDistance
+  var originCoordinates: CLLocationCoordinate2D
+  var destinationCoordinates: CLLocationCoordinate2D
+}

@@ -1,5 +1,5 @@
 {
-  "originHash" : "9aa8392e85d4e5b1e9a2f4d718057b73a4ed6d2d363da9d4439c18e75d7753ae",
+  "originHash" : "7505da122a7cc4fa9f0bdc1d85c4db59b121c5e56753f4178c9c912122683e26",
   "pins" : [
     {
       "identity" : "factory",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "71cb3bf36a808534659d1248780c2bf3c4c4fc91",
         "version" : "5.1.0"
+      }
+    },
+    {
+      "identity" : "principle",
+      "kind" : "remoteSourceControl",
+      "location" : "https://bitbucket.org/iam_apps/principle/src/master/Principle/",
+      "state" : {
+        "revision" : "bd1e0aebbb7214b0ef80d51e3ef8a0247fad760a",
+        "version" : "1.5.0"
       }
     },
     {

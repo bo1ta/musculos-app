@@ -8,6 +8,7 @@
 
 import CoreData
 import Foundation
+import Principle
 import Models
 
 // MARK: - ExerciseSessionEntity
@@ -51,10 +52,8 @@ extension ExerciseSessionEntity: ReadOnlyConvertible {
 extension ExerciseSessionEntity: EntitySyncable {
   public func populateEntityFrom(_ model: ExerciseSession, using storage: StorageType) {
     guard
-      let user = storage.firstObject(
-        of: UserProfileEntity.self,
-        matching: PredicateProvider.userProfileById(model.user.userId))
-    else {
+      let user = storage.firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.userId == model.user.userId)
+ else {
       return
     }
 

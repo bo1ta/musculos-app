@@ -25,7 +25,7 @@ struct ExploreScreen: View {
         FeaturedWorkoutsSection(onWorkoutGoalSelected: { navigator.navigate(to: ExploreDestinations.exerciseListByGoal($0)) })
         MusclesSection(onSelectedMuscle: { navigator.navigate(to: ExploreDestinations.exerciseListByMuscleGroup($0)) })
 
-        if viewModel.showRecomendationsByGoals {
+        if !viewModel.recommendedExercisesByGoals.isEmpty {
           RecommendationSection(
             exercises: viewModel.recommendedExercisesByGoals,
             onSelectExercise: navigateToExerciseDetails(_:),
@@ -33,14 +33,14 @@ struct ExploreScreen: View {
             .fixedSize(horizontal: false, vertical: true)
         }
 
-        if viewModel.showRecommendationsByPastSessions {
+        if !viewModel.recommendedExercisesByPastSessions.isEmpty {
           ExerciseSectionView(
             title: "Recommendations from past sessions",
             exercises: viewModel.recommendedExercisesByGoals,
             onExerciseTap: navigateToExerciseDetails(_:))
         }
 
-        if viewModel.showFavoriteExercises {
+        if !viewModel.favoriteExercises.isEmpty {
           ExerciseSectionView(
             title: "My favorites",
             exercises: viewModel.favoriteExercises,
