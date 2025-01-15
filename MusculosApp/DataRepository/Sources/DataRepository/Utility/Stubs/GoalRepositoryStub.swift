@@ -22,8 +22,6 @@ public struct GoalRepositoryStub: GoalRepositoryProtocol {
     expectedOnboardingGoals
   }
 
-  public func addGoal(_: Models.Goal) async throws { }
-
   public func getGoalDetails(_: UUID) async throws -> Goal? {
     expectedGoals.first
   }
@@ -38,4 +36,8 @@ public struct GoalRepositoryStub: GoalRepositoryProtocol {
     }
     throw MusculosError.unexpectedNil
   }
+
+  public func addGoal(_: Models.Goal) async throws { }
+
+  public func updateGoalProgress(exerciseSession: ExerciseSession) async throws { }
 }

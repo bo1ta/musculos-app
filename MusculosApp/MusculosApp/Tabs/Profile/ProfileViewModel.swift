@@ -28,7 +28,7 @@ final class ProfileViewModel {
   @LazyInjected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   @ObservationIgnored
-  @LazyInjected(\.currentUser) var currentUser: UserProfile?
+  @LazyInjected(\.userStore) var userStore: UserStoreProtocol
 
   // MARK: Public
 
@@ -37,6 +37,10 @@ final class ProfileViewModel {
   private(set) var userTotalSleep = 0
 
   var selectedWorkout: String?
+
+  var currentUser: UserProfile? {
+    userStore.currentUser
+  }
 
   func initialLoad() async {
     async let exerciseTask: Void = loadFavoriteExercises()

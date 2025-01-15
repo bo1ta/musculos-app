@@ -41,17 +41,17 @@ class OnboardingViewModelTests: XCTestCase {
 
   func testHandleNextStep() async throws {
     let user = UserProfileFactory.createUser()
-    let userHandlerStub = CurrentUserHandlerStub()
+    let userStoreStub = UserStoreStub()
 
     let eventExpectation = self.expectation(description: "should publish didOnboarding event")
-    let cancellable = userHandlerStub.eventPublisher.sink { event in
+    let cancellable = userStoreStub.eventPublisher.sink { event in
       XCTAssertEqual(event, .didFinishOnboarding)
       eventExpectation.fulfill()
     }
     defer { cancellable.cancel() }
 
-    DataRepositoryContainer.shared.currentUserHandler.register { userHandlerStub }
-    defer { DataRepositoryContainer.shared.currentUserHandler.reset() }
+    Container.shared.userStore.register { userStoreStub }
+    defer { Container.shared.userStore.reset() }
 
     let viewModel = OnboardingViewModel()
     XCTAssertEqual(viewModel.wizardStep, .heightAndWeight)

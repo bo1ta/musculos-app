@@ -27,10 +27,13 @@ final class AddWorkoutSheetViewModel {
   @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   @ObservationIgnored
-  @Injected(\StorageContainer.coreDataStore) private var coreDataStore: CoreDataStore
+  @Injected(\.userStore) private var userStore: UserStoreProtocol
 
   @ObservationIgnored
-  @Injected(\.currentUser) private var currentUser: UserProfile?
+  @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
+
+  @ObservationIgnored
+  @Injected(\DataRepositoryContainer.workoutRepository) private var workoutRepository: WorkoutRepositoryProtocol
 
   // MARK: Properties
 
@@ -44,6 +47,10 @@ final class AddWorkoutSheetViewModel {
   var selectedWorkoutExercise: [WorkoutExercise] = []
   var showRepsDialog = false
   var showSelectMuscles = true
+
+  var currentUser: UserProfile? {
+    userStore.currentUser
+  }
 
   var didSavePublisher: AnyPublisher<Void, Never> {
     didSaveSubject.eraseToAnyPublisher()
@@ -84,7 +91,7 @@ final class AddWorkoutSheetViewModel {
     }
 
     updateTask = Task {
-      exercises = await coreDataStore.exercisesForMuscles(selectedMuscleTypes)
+      exercises = await exerciseRepository.getExercisesForMuscleTypes(selectedMuscleTypes)
     }
   }
 
@@ -127,7 +134,7 @@ final class AddWorkoutSheetViewModel {
   }
 }
 
-// MARK: - Data Store methods
+// MARK: - Task
 
 extension AddWorkoutSheetViewModel {
   func submitWorkout() {
@@ -153,7 +160,7 @@ extension AddWorkoutSheetViewModel {
           workoutType: workoutType,
           createdBy: currentUser,
           workoutExercises: selectedWorkoutExercise)
-        try await coreDataStore.insertWorkout(workout)
+        try await workoutRepository.addWorkout(workout)
         didSaveSubject.send(())
       } catch {
         handleError(error, message: "Error adding workout")

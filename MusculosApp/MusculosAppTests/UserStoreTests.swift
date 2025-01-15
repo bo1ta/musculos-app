@@ -14,6 +14,7 @@ import XCTest
 
 @testable import DataRepository
 @testable import Models
+@testable import MusculosApp
 @testable import NetworkClient
 @testable import Storage
 @testable import Utility
@@ -33,7 +34,7 @@ class UserStoreTests: XCTestCase {
     defer { DataRepositoryContainer.shared.userRepository.reset() }
 
     let userStore = UserStore()
-    let userProfile = await userStore.loadCurrentUser()
+    let userProfile = await userStore.refreshUser()
     XCTAssertEqual(userProfile, expectedUser)
     await fulfillment(of: [repositoryExpectation], timeout: 1)
   }
@@ -42,7 +43,6 @@ class UserStoreTests: XCTestCase {
     let userProfile = UserProfileFactory.createUser()
 
     let repositoryExpectation = self.expectation(description: "should call methods")
-    repositoryExpectation.expectedFulfillmentCount = 2
     let mockRepository = MockUserRepository(
       expectation: repositoryExpectation,
       expectedUserSession: UserSession.mockWithUserID(userProfile.userId),
@@ -100,10 +100,19 @@ extension UserStoreTests {
     }
   }
 
-  private actor MockUserRepository: UserRepositoryProtocol {
+  private struct MockUserRepository: UserRepositoryProtocol {
+    func getUserByID(_ userID: UUID) async -> Models.UserProfile? {
+      expectedUserProfile
+    }
+    
+    func observeUserChanges(forUserID userID: UUID) -> EntityListener<UserProfileEntity> {
+      expectedUserListener ?? EntityListener(storage: StorageContainer.shared.storageManager().viewStorage, predicate: NSPredicate(format: "%K == %@", #keyPath(UserProfileEntity.userId), userID as NSUUID))
+    }
+    
     var expectation: XCTestExpectation?
     var expectedUserSession: UserSession?
     var expectedUserProfile: UserProfile?
+    var expectedUserListener: EntityListener<UserProfileEntity>?
 
     init(
       expectation: XCTestExpectation? = nil,

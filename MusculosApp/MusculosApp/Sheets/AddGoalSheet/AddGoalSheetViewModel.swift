@@ -21,7 +21,7 @@ final class AddGoalSheetViewModel {
   // MARK: Dependencies
 
   @ObservationIgnored
-  @Injected(\.currentUser) private var currentUser: UserProfile?
+  @Injected(\.userStore) private var userStore: UserStoreProtocol
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
@@ -38,6 +38,10 @@ final class AddGoalSheetViewModel {
   var showEndDate = true
   var showFrequencyOptions = true
   var endDate = Date()
+
+  private var currentUser: UserProfile? {
+    userStore.currentUser
+  }
 
   var frequency = "" {
     didSet {
@@ -60,7 +64,7 @@ final class AddGoalSheetViewModel {
         targetValue: Int(targetValue) ?? 5,
         endDate: endDate,
         dateAdded: Date(),
-        user: currentUser)
+        userID: currentUser.userId)
 
       do {
         try await goalRepository.addGoal(goal)

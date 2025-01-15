@@ -48,9 +48,9 @@ class AuthenticationViewModelTests: XCTestCase {
     DataRepositoryContainer.shared.userRepository.register { stubRepository }
     defer { DataRepositoryContainer.shared.userRepository.reset() }
 
+    let userStoreStub = UserStoreStub()
     let eventExpectation = self.expectation(description: "Should send didLogin event")
-    let stubAuthManager = AuthenticationManagerStub()
-    let cancellable = stubAuthManager.eventPublisher
+    let cancellable = userStoreStub.eventPublisher
       .sink { event in
         guard event == .didLogin else {
           XCTFail("Invalid event")
@@ -58,12 +58,8 @@ class AuthenticationViewModelTests: XCTestCase {
         }
         eventExpectation.fulfill()
       }
-    DataRepositoryContainer.shared.authenticationManager.register { stubAuthManager }
-
-    defer {
-      cancellable.cancel()
-      DataRepositoryContainer.shared.authenticationManager.reset()
-    }
+    Container.shared.userStore.register { userStoreStub }
+    defer { Container.shared.userStore.reset() }
 
     let viewModel = AuthenticationViewModel(initialStep: .login)
     viewModel.email = faker.internet.email()
@@ -81,8 +77,8 @@ class AuthenticationViewModelTests: XCTestCase {
     Container.shared.toastManager.register { mockToastManager }
     defer { Container.shared.toastManager.reset() }
 
-    DataRepositoryContainer.shared.authenticationManager.register { AuthenticationManagerStub() }
-    defer { DataRepositoryContainer.shared.authenticationManager.reset() }
+    Container.shared.userStore.register { UserStoreStub() }
+    defer { Container.shared.userStore.reset() }
 
     let viewModel = AuthenticationViewModel(initialStep: .login)
     viewModel.email = faker.internet.email()
@@ -98,9 +94,9 @@ class AuthenticationViewModelTests: XCTestCase {
     DataRepositoryContainer.shared.userRepository.register { stubRepository }
     defer { DataRepositoryContainer.shared.userRepository.reset() }
 
+    let userStoreStub = UserStoreStub()
     let eventExpectation = self.expectation(description: "Should send didLogin event")
-    let stubAuthManager = AuthenticationManagerStub()
-    let cancellable = stubAuthManager.eventPublisher
+    let cancellable = userStoreStub.eventPublisher
       .sink { event in
         guard event == .didLogin else {
           XCTFail("Invalid event")
@@ -108,12 +104,8 @@ class AuthenticationViewModelTests: XCTestCase {
         }
         eventExpectation.fulfill()
       }
-    DataRepositoryContainer.shared.authenticationManager.register { stubAuthManager }
-
-    defer {
-      cancellable.cancel()
-      DataRepositoryContainer.shared.authenticationManager.reset()
-    }
+    Container.shared.userStore.register { userStoreStub }
+    defer { Container.shared.userStore.reset() }
 
     let viewModel = AuthenticationViewModel(initialStep: .register)
     viewModel.username = faker.internet.username()
@@ -133,8 +125,8 @@ class AuthenticationViewModelTests: XCTestCase {
     Container.shared.toastManager.register { mockToastManager }
     defer { Container.shared.toastManager.reset() }
 
-    DataRepositoryContainer.shared.authenticationManager.register { AuthenticationManagerStub() }
-    defer { DataRepositoryContainer.shared.authenticationManager.reset() }
+    Container.shared.userStore.register { UserStoreStub() }
+    defer { Container.shared.userStore.reset() }
 
     let viewModel = AuthenticationViewModel(initialStep: .register)
     viewModel.username = faker.internet.username()

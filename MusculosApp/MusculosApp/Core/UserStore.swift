@@ -1,0 +1,144 @@
+//
+//  UserStore.swift
+//  DataRepository
+//
+//  Created by Solomon Alexandru on 01.01.2025.
+//
+
+import Combine
+import DataRepository
+import Factory
+import Foundation
+import Models
+import NetworkClient
+import Storage
+import Utility
+
+// MARK: - UserStoreEvent
+
+public enum UserStoreEvent {
+  case didFinishOnboarding
+  case didLogin
+  case didLogout
+}
+
+// MARK: - UserStoreProtocol
+
+public protocol UserStoreProtocol: Sendable {
+  var eventPublisher: AnyPublisher<UserStoreEvent, Never> { get }
+  var currentUser: UserProfile? { get }
+
+  func refreshUser() async -> UserProfile?
+  func authenticateSession(_ session: UserSession) async
+  func updateOnboardingStatus(_ onboardingData: OnboardingData) async
+  func startObservingUser()
+  func stopObservingUser()
+  func logOut()
+}
+
+// MARK: - UserStore
+
+public final class UserStore: @unchecked Sendable, UserStoreProtocol {
+
+  // MARK: Dependencies
+
+  @LazyInjected(\NetworkContainer.userManager) private var userManager: UserSessionManagerProtocol
+  @LazyInjected(\DataRepositoryContainer.userRepository) private var repository: UserRepositoryProtocol
+  @LazyInjected(\StorageContainer.coreDataStore) private var coreDataStore: CoreDataStore
+  @LazyInjected(\StorageContainer.storageManager) private var storageManager: StorageManagerType
+
+  // MARK: Private properties
+
+  private var currentUserListener: EntityListener<UserProfileEntity>?
+  private var userListenerCancellable: AnyCancellable?
+  private var logoutNotificationCancellable: AnyCancellable?
+  private let eventSubject = PassthroughSubject<UserStoreEvent, Never>()
+
+  // MARK: Public
+
+  @Atomic public var currentUser: UserProfile?
+
+  public var eventPublisher: AnyPublisher<UserStoreEvent, Never> {
+    eventSubject.eraseToAnyPublisher()
+  }
+
+  init() {
+    logoutNotificationCancellable = NotificationCenter.default.publisher(for: .authTokenDidFail)
+      .throttle(for: 1, scheduler: RunLoop.main, latest: false)
+      .sink { [weak self] _ in
+        self?.logOut()
+      }
+  }
+
+  @discardableResult
+  public func refreshUser() async -> UserProfile? {
+    guard let currentUser = try? await repository.getCurrentUser() else {
+      return nil
+    }
+
+    self.currentUser = currentUser
+    return currentUser
+  }
+
+  public func authenticateSession(_ session: UserSession) async {
+    userManager.updateSession(session)
+
+    if let user = await repository.getUserByID(session.user.id) {
+      currentUser = user
+      sendEvent(.didLogin)
+    }
+  }
+
+  public func updateOnboardingStatus(_ onboardingData: OnboardingData) async {
+    do {
+      try await repository.updateProfileUsingOnboardingData(onboardingData)
+      sendEvent(.didFinishOnboarding)
+    } catch {
+      Logger.error(error, message: "Could not update profile with onboarding data")
+    }
+  }
+
+  public func logOut() {
+    currentUser = nil
+    stopObservingUser()
+    storageManager.reset()
+    userManager.clearSession()
+    DataRepositoryContainer.shared.reset()
+    sendEvent(.didLogout)
+  }
+
+  private func sendEvent(_ event: UserStoreEvent) {
+    eventSubject.send(event)
+  }
+}
+
+// MARK: CurrentUser Observing
+
+extension UserStore {
+  public func startObservingUser() {
+    guard let userID = currentUser?.userId else {
+      Logger.error(MusculosError.unexpectedNil, message: "Cannot observe user, current user is nil!")
+      return
+    }
+
+    let isAlreadyObserving = userListenerCancellable != nil && currentUserListener != nil
+    guard !isAlreadyObserving else {
+      Logger.warning(message: "Already observing current user")
+      return
+    }
+
+    let userEntityListener = repository.observeUserChanges(forUserID: userID)
+    userListenerCancellable = userEntityListener.publisher
+      .sink { [weak self] currentUser in
+        self?.currentUser = currentUser
+      }
+
+    currentUserListener = userEntityListener
+  }
+
+  public func stopObservingUser() {
+    userListenerCancellable?.cancel()
+    userListenerCancellable = nil
+    currentUserListener = nil
+  }
+}

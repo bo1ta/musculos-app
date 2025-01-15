@@ -14,4 +14,9 @@ extension Container {
     self { ToastManager() }
       .cached
   }
+
+  var userStore: Factory<UserStoreProtocol> {
+    self { UserStore() }
+      .cached
+  }
 }

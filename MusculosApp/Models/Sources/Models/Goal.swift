@@ -21,7 +21,8 @@ public struct Goal: Sendable, Codable {
   public let endDate: Date?
   public let isCompleted: Bool
   public let dateAdded: Date
-  public let user: UserProfile
+  public let user: UserProfile?
+  public var userID: UUID?
   public let updatedAt: Date?
 
   public init(
@@ -34,10 +35,12 @@ public struct Goal: Sendable, Codable {
     endDate: Date?,
     isCompleted: Bool = false,
     dateAdded: Date,
-    user: UserProfile,
+    user: UserProfile? = nil,
+    userID: UUID? = nil,
     updatedAt: Date? = Date())
   {
     self.id = id
+    self.userID = userID
     self.name = name
     self.category = category
     self.frequency = frequency

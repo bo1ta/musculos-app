@@ -35,7 +35,7 @@ final class ExploreViewModel {
   @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository
+  @Injected(\.userStore) private var userStore: UserStoreProtocol
 
   // MARK: Public
 
@@ -46,7 +46,6 @@ final class ExploreViewModel {
 
   var recentSessions: [ExerciseSession] = []
   var progress: Float = 0.0
-  var goals: [Goal] = []
   var showFilterView = false
 
   var recommendedExercisesByPastSessions: [Exercise] {
@@ -65,6 +64,10 @@ final class ExploreViewModel {
     results[.featured] ?? []
   }
 
+  var goals: [Goal] {
+    userStore.currentUser?.goals ?? []
+  }
+
   var goalDisplay: Goal? {
     goals.first
   }
@@ -80,8 +83,6 @@ extension ExploreViewModel {
 
     isLoading = true
     defer { isLoading = false }
-
-    goals = await getGoals()
 
     results[.featured] = await getExercises()
     results[.recommendedByGoals] = await loadRecommendationsByGoals()
@@ -134,15 +135,6 @@ extension ExploreViewModel {
       return try await exerciseSessionRepository.getCompletedToday()
     } catch {
       Logger.error(error, message: "Data controller failed to get exercises completed today")
-      return []
-    }
-  }
-
-  nonisolated private func getGoals() async -> [Goal] {
-    do {
-      return try await goalRepository.getGoals()
-    } catch {
-      Logger.error(error, message: "Could not get goals")
       return []
     }
   }

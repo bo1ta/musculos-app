@@ -7,7 +7,9 @@
 
 import Foundation
 import Models
+import Storage
 import Utility
+import Storage
 
 public struct UserRepositoryStub: UserRepositoryProtocol {
   let expectedSession: UserSession?
@@ -42,5 +44,13 @@ public struct UserRepositoryStub: UserRepositoryProtocol {
     expectedProfile
   }
 
+  public func getUserByID(_ userID: UUID) async -> UserProfile? {
+    expectedProfile
+  }
+
   public func updateProfileUsingOnboardingData(_: Models.OnboardingData) async throws { }
+
+  public func observeUserChanges(forUserID userID: UUID) -> EntityListener<UserProfileEntity> {
+    StorageContainer.shared.coreDataStore().userEntityListener(forID: userID)
+  }
 }

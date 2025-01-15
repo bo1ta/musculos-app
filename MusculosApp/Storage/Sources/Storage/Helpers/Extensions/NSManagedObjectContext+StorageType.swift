@@ -202,7 +202,7 @@ extension NSManagedObjectContext: StorageType {
         return
       }
 
-      performAndWait {
+      perform {
         do {
           try block()
           continuation.resume()
@@ -223,14 +223,14 @@ extension NSManagedObjectContext: StorageType {
     }
   }
 
-  public func createFetchedResultsController<ResultType>(
-    fetchRequest: NSFetchRequest<ResultType>,
+  public func createFetchedResultsController<T: Object>(
+    for type: T.Type,
     sectionNameKeyPath: String?,
     cacheName: String?)
-    -> NSFetchedResultsController<ResultType>
+  -> NSFetchedResultsController<NSFetchRequestResult>
   {
     NSFetchedResultsController(
-      fetchRequest: fetchRequest,
+      fetchRequest: fetchRequest(forType: type),
       managedObjectContext: self,
       sectionNameKeyPath: sectionNameKeyPath,
       cacheName: cacheName)

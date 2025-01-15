@@ -25,10 +25,7 @@ final class ExerciseDetailsViewModel {
   @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   @ObservationIgnored
-  @Injected(\StorageContainer.coreDataStore) private var coreDataStore: CoreDataStore
-
-  @ObservationIgnored
-  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
+  @Injected(\.userStore) var userStore: UserStoreProtocol
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
@@ -37,7 +34,7 @@ final class ExerciseDetailsViewModel {
   @Injected(\DataRepositoryContainer.ratingRepository) private var ratingRepository: RatingRepositoryProtocol
 
   @ObservationIgnored
-  @LazyInjected(\.currentUser) var currentUser: UserProfile?
+  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
 
   @ObservationIgnored
   @Injected(
@@ -63,6 +60,10 @@ final class ExerciseDetailsViewModel {
   var exerciseRatings: [ExerciseRating] = []
   var inputWeight: Double = 0
 
+  var currentUser: UserProfile? {
+    userStore.currentUser
+  }
+
   var ratingAverage: Double {
     guard !exerciseRatings.isEmpty else {
       return 0.0
@@ -81,8 +82,8 @@ final class ExerciseDetailsViewModel {
     exercise.isFavorite ?? false
   }
 
-  private var currentUserID: UUID? {
-    currentUser?.userId
+  var goals: [Goal] {
+    currentUser?.goals ?? []
   }
 
   // MARK: - Init and Setup
@@ -123,8 +124,8 @@ final class ExerciseDetailsViewModel {
       exerciseRatings = try await ratingRepository.getRatingsForExercise(exercise.id)
 
       guard
-        let currentUserID,
-        let userRating = exerciseRatings.first(where: { $0.userID == currentUserID })?.rating
+        let currentUserID = currentUser?.userId,
+        let userRating = exerciseRatings.last(where: { $0.userID == currentUserID })?.rating
       else {
         return
       }
@@ -171,7 +172,7 @@ final class ExerciseDetailsViewModel {
     saveRatingTask = Task {
       do {
         try await ratingRepository.addRating(rating: Double(rating), for: exercise.id)
-        await loadExerciseRatings()
+        showRatingDialog = false
       } catch {
         Logger.error(error, message: "Could not save rating")
       }
@@ -236,12 +237,8 @@ final class ExerciseDetailsViewModel {
   }
 
   private func maybeUpdateGoals(for exerciseSession: ExerciseSession) async {
-    guard let currentUserID else {
-      return
-    }
-
     do {
-      try await coreDataStore.updateGoalProgress(userID: currentUserID, exerciseSession: exerciseSession)
+      try await goalRepository.updateGoalProgress(exerciseSession: exerciseSession)
     } catch {
       Logger.error(error, message: "Cannot update goal progress")
     }

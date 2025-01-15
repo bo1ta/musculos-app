@@ -8,6 +8,7 @@
 import Factory
 import Foundation
 import Models
+import Utility
 
 // MARK: - GoalServiceProtocol
 
@@ -37,11 +38,15 @@ public struct GoalService: APIService, GoalServiceProtocol, @unchecked Sendable 
   }
 
   public func addGoal(_ goal: Goal) async throws {
+    guard let userID = goal.userID else {
+      throw MusculosError.unexpectedNil
+    }
+
     var request = APIRequest(method: .post, endpoint: .goals(.index))
     request.body = [
       "goalID": goal.id.uuidString,
       "name": goal.name,
-      "userID": goal.user.userId.uuidString,
+      "userID": userID.uuidString,
       "frequency": goal.frequency.rawValue,
       "dateAdded": goal.dateAdded.ISO8601Format(),
       "endDate": goal.endDate?.ISO8601Format() as Any,

@@ -9,13 +9,6 @@ import Factory
 import Foundation
 import Models
 
-extension Container {
-  public var currentUser: Factory<UserProfile?> {
-    self { nil }
-      .cached
-  }
-}
-
 // MARK: - DataRepositoryContainer
 
 public final class DataRepositoryContainer: SharedContainer {
@@ -37,16 +30,6 @@ extension DataRepositoryContainer {
     self { UserRepository() }
   }
 
-  public var currentUserHandler: Factory<UserHandling> {
-    self { CurrentUserHandler() }
-      .cached
-  }
-
-  public var authenticationManager: Factory<AuthenticationManagerProtocol> {
-    self { AuthenticationManager() }
-      .singleton
-  }
-
   public var exerciseRepository: Factory<ExerciseRepositoryProtocol> {
     self { ExerciseRepository() }
   }
@@ -61,6 +44,10 @@ extension DataRepositoryContainer {
 
   public var ratingRepository: Factory<RatingRepositoryProtocol> {
     self { RatingRepository() }
+  }
+
+  public var workoutRepository: Factory<WorkoutRepositoryProtocol> {
+    self { WorkoutRepository() }
   }
 
   public var healthKitClient: Factory<HealthKitClient> {

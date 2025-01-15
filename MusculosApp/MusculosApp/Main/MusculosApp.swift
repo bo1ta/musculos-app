@@ -11,12 +11,12 @@ import Utility
 
 struct MusculosApp: App {
   @Environment(\.scenePhase) private var scenePhase
-  @State private var appModel = AppModel()
+  @State private var appState = AppState()
 
   var body: some Scene {
     WindowGroup {
       Group {
-        switch appModel.appState {
+        switch appState.state {
         case .loggedIn:
           RootTabView()
 
@@ -29,17 +29,17 @@ struct MusculosApp: App {
             .transition(.asymmetric(insertion: .push(from: .bottom), removal: .scale))
 
         case .loading:
-          LoadingOverlayView(progress: $appModel.progress)
+          LoadingOverlayView(progress: $appState.progress)
             .transition(.asymmetric(insertion: .opacity, removal: .push(from: .top)))
         }
       }
-      .animation(.smooth(duration: UIConstant.AnimationDuration.medium), value: appModel.appState)
-      .toastView(toast: $appModel.toast)
+      .animation(.smooth(duration: UIConstant.AnimationDuration.medium), value: appState.state)
+      .toastView(toast: $appState.toast)
       .task {
-        await appModel.initialLoad()
+        await appState.initialLoad()
       }
       .onChange(of: scenePhase) { _, newPhase in
-        appModel.didChangeScenePhase(newPhase)
+        appState.didChangeScenePhase(newPhase)
       }
     }
   }

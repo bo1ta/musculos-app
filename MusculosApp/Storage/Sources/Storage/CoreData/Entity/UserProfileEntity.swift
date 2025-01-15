@@ -118,6 +118,7 @@ extension UserProfileEntity: ReadOnlyConvertible {
       primaryGoalID: primaryGoalID,
       isOnboarded: isOnboarded,
       xp: xp.intValue,
+      goals: goals.map { $0.toReadOnly() },
       ratings: ratings.map { $0.toReadOnly() })
   }
 }

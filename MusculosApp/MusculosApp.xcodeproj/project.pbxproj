@@ -45,12 +45,15 @@
 		BC1B7E2D2D1358A10002158C /* ExploreDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E2C2D13589E0002158C /* ExploreDestinations.swift */; };
 		BC1B7E312D1359060002158C /* HomeDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E302D1359030002158C /* HomeDestinations.swift */; };
 		BC1B7E372D136F660002158C /* CommonDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E362D136F5E0002158C /* CommonDestinations.swift */; };
-		BC1B7E392D137B2A0002158C /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E382D137B230002158C /* AppModel.swift */; };
+		BC1B7E392D137B2A0002158C /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E382D137B230002158C /* AppState.swift */; };
 		BC261AB82B6DA0EF0018E21F /* ExerciseFilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC261AB72B6DA0EF0018E21F /* ExerciseFilterSheet.swift */; };
 		BC29B40D2CE4F624005C641F /* MusclesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29B40C2CE4F624005C641F /* MusclesSection.swift */; };
 		BC32A54B2D0A486B005896D2 /* SelectWeightSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC32A54A2D0A486B005896D2 /* SelectWeightSheet.swift */; };
 		BC3760E72D1F5F19000A92F3 /* ShowTabPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3760E62D1F5F03000A92F3 /* ShowTabPreferenceKey.swift */; };
 		BC39FB782D217836004EB5D0 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC39FB772D217833004EB5D0 /* ProfileViewModel.swift */; };
+		BC3A30642D37104C00232F86 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A30632D37104C00232F86 /* UserStore.swift */; };
+		BC3A30662D37113800232F86 /* UserStoreStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A30652D37113800232F86 /* UserStoreStub.swift */; };
+		BC3A30682D37136A00232F86 /* UserStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A30672D37136A00232F86 /* UserStoreTests.swift */; };
 		BC3C0C622D1774640039B367 /* ExerciseDetailsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0C612D1774610039B367 /* ExerciseDetailsButton.swift */; };
 		BC3C0C642D17759F0039B367 /* ExerciseDetailsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0C632D1775890039B367 /* ExerciseDetailsHeader.swift */; };
 		BC3C0C662D1777750039B367 /* ExerciseDetailsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0C652D1777720039B367 /* ExerciseDetailsContent.swift */; };
@@ -186,12 +189,15 @@
 		BC1B7E2C2D13589E0002158C /* ExploreDestinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreDestinations.swift; sourceTree = "<group>"; };
 		BC1B7E302D1359030002158C /* HomeDestinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDestinations.swift; sourceTree = "<group>"; };
 		BC1B7E362D136F5E0002158C /* CommonDestinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDestinations.swift; sourceTree = "<group>"; };
-		BC1B7E382D137B230002158C /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		BC1B7E382D137B230002158C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		BC261AB72B6DA0EF0018E21F /* ExerciseFilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFilterSheet.swift; sourceTree = "<group>"; };
 		BC29B40C2CE4F624005C641F /* MusclesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusclesSection.swift; sourceTree = "<group>"; };
 		BC32A54A2D0A486B005896D2 /* SelectWeightSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectWeightSheet.swift; sourceTree = "<group>"; };
 		BC3760E62D1F5F03000A92F3 /* ShowTabPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTabPreferenceKey.swift; sourceTree = "<group>"; };
 		BC39FB772D217833004EB5D0 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		BC3A30632D37104C00232F86 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
+		BC3A30652D37113800232F86 /* UserStoreStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStoreStub.swift; sourceTree = "<group>"; };
+		BC3A30672D37136A00232F86 /* UserStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStoreTests.swift; sourceTree = "<group>"; };
 		BC3C0C5A2D175D370039B367 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		BC3C0C612D1774610039B367 /* ExerciseDetailsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsButton.swift; sourceTree = "<group>"; };
 		BC3C0C632D1775890039B367 /* ExerciseDetailsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsHeader.swift; sourceTree = "<group>"; };
@@ -387,6 +393,7 @@
 		BC1160E52A2CFB840028D8FC /* MusculosAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				BC3A30672D37136A00232F86 /* UserStoreTests.swift */,
 				BC18EA082D27212300AB6B01 /* ViewModel */,
 				BC18EA012D26E9CB00AB6B01 /* Mocks */,
 			);
@@ -396,6 +403,7 @@
 		BC18EA012D26E9CB00AB6B01 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				BC3A30652D37113800232F86 /* UserStoreStub.swift */,
 				BC18EA022D26E9DE00AB6B01 /* MockToastManager.swift */,
 			);
 			path = Mocks;
@@ -461,6 +469,7 @@
 		BC352AE32A326D6C00DAA3AB /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				BC3A30632D37104C00232F86 /* UserStore.swift */,
 				BC1B7E362D136F5E0002158C /* CommonDestinations.swift */,
 				BC3C0C672D177D360039B367 /* Views */,
 				BCAE95A62C447E9600AD91BE /* Extension */,
@@ -521,7 +530,7 @@
 			isa = PBXGroup;
 			children = (
 				BC1160CF2A2CFB830028D8FC /* MusculosApp.swift */,
-				BC1B7E382D137B230002158C /* AppModel.swift */,
+				BC1B7E382D137B230002158C /* AppState.swift */,
 				BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */,
 			);
 			path = Main;
@@ -973,7 +982,7 @@
 				BC781FFF2B9B6061009F9FB5 /* ScoreCard.swift in Sources */,
 				BC828CE52C02924200AB9D1D /* WorkoutFlowViewModel.swift in Sources */,
 				BC3C0C662D1777750039B367 /* ExerciseDetailsContent.swift in Sources */,
-				BC1B7E392D137B2A0002158C /* AppModel.swift in Sources */,
+				BC1B7E392D137B2A0002158C /* AppState.swift in Sources */,
 				BC781FFC2B9B5E3E009F9FB5 /* ProfileScreen.swift in Sources */,
 				BC81E5D32BD2FC730005891D /* SingleOptionSelectView.swift in Sources */,
 				BC7827642B9D1D1000DFC02C /* AuthenticationViewModel.swift in Sources */,
@@ -1016,6 +1025,7 @@
 				BCD59AB02BB628700039F662 /* AnimatedURLImageView.swift in Sources */,
 				BC4E5D532CAB601F0046ABEE /* ExerciseSummarySection.swift in Sources */,
 				BC1674B12BE26EBB0012048D /* AddDetailOptionCardView.swift in Sources */,
+				BC3A30642D37104C00232F86 /* UserStore.swift in Sources */,
 				BC32A54B2D0A486B005896D2 /* SelectWeightSheet.swift in Sources */,
 				BC606A6E2C221CBD00154781 /* SelectLevelView.swift in Sources */,
 				BC811F742CA03AA600C3CC01 /* HomeViewModel.swift in Sources */,
@@ -1060,6 +1070,8 @@
 				BC18EA002D26E6CC00AB6B01 /* HomeViewModelTests.swift in Sources */,
 				BC18EA0A2D27213300AB6B01 /* ExerciseDetailsViewModelTests.swift in Sources */,
 				BC18EA032D26E9E100AB6B01 /* MockToastManager.swift in Sources */,
+				BC3A30662D37113800232F86 /* UserStoreStub.swift in Sources */,
+				BC3A30682D37136A00232F86 /* UserStoreTests.swift in Sources */,
 				BC18EA052D2710C000AB6B01 /* OnboardingViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1244,7 +1256,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MusculosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 8JV792LAQ5;
+				DEVELOPMENT_TEAM = 6W68M7KUG5;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;

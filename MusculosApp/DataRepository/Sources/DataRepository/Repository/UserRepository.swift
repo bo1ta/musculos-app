@@ -7,6 +7,7 @@
 
 import Factory
 import Foundation
+import Combine
 import Models
 import NetworkClient
 import Storage
@@ -18,7 +19,9 @@ public protocol UserRepositoryProtocol: Sendable {
   func register(email: String, password: String, username: String) async throws -> UserSession
   func login(email: String, password: String) async throws -> UserSession
   func getCurrentUser() async throws -> UserProfile?
+  func getUserByID(_ userID: UUID) async -> UserProfile?
   func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws
+  func observeUserChanges(forUserID userID: UUID) -> EntityListener<UserProfileEntity>
 }
 
 // MARK: - UserRepository
@@ -28,7 +31,12 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
   @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
 
   public func register(email: String, password: String, username: String) async throws -> UserSession {
-    try await service.register(email: email, password: password, username: username)
+    let session = try await service.register(email: email, password: password, username: username)
+
+    let userProfile = UserProfile(userId: session.user.id, email: email, username: username)
+    try await coreDataStore.importModel(userProfile, of: UserProfileEntity.self)
+
+    return session
   }
 
   public func login(email: String, password: String) async throws -> UserSession {
@@ -51,6 +59,11 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
     return try? await backgroundTask.value
   }
 
+  public func getUserByID(_ userID: UUID) async -> UserProfile? {
+    return await coreDataStore.userProfileByID(userID)
+  }
+
+  @discardableResult
   public func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws {
     guard
       let currentUserID,
@@ -78,6 +91,10 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
       primaryGoalID: goal?.id,
       level: onboardingData.level,
       isOnboarded: true)
+  }
+
+  public func observeUserChanges(forUserID userID: UUID) -> EntityListener<UserProfileEntity> {
+    coreDataStore.userEntityListener(forID: userID)
   }
 
   @discardableResult

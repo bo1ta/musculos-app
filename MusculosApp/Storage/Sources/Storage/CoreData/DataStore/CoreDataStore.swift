@@ -5,6 +5,7 @@
 //  Created by Solomon Alexandru on 16.12.2024.
 //
 
+import CoreData
 import Factory
 import Foundation
 import Models
@@ -87,6 +88,10 @@ public final class CoreDataStore: @unchecked Sendable {
       }
     }
   }
+
+  public func entityListener<T: EntityType>(matching predicate: NSPredicate) -> EntityListener<T> {
+    EntityListener(storage: storageManager.writerDerivedStorage, predicate: predicate)
+  }
 }
 
 // MARK: - UserProfile
@@ -111,9 +116,9 @@ extension CoreDataStore {
     isOnboarded: Bool = false)
     async throws
   {
-    try await storageManager.performWrite { writerDerivedStorage in
+    try await storageManager.performWrite { storage in
       let predicate: NSPredicate = \UserProfileEntity.userId == userId
-      guard let userProfile = writerDerivedStorage.firstObject(of: UserProfileEntity.self, matching: predicate) else {
+      guard let userProfile = storage.firstObject(of: UserProfileEntity.self, matching: predicate) else {
         throw MusculosError.unexpectedNil
       }
 
@@ -134,6 +139,19 @@ extension CoreDataStore {
     }
   }
 
+  public func userEntityListener(forID userID: UUID) -> EntityListener<UserProfileEntity> {
+    entityListener(matching: \UserProfileEntity.userId == userID)
+  }
+}
+
+// MARK: - User Experience
+
+extension CoreDataStore {
+  public func userExperienceEntryByID(_ id: UUID) async -> UserExperienceEntry? {
+    let predicate: NSPredicate = \UserExperienceEntryEntity.modelID == id
+    return await getFirstObject(UserExperienceEntryEntity.self, predicate: predicate)
+  }
+
   public func userExperienceForUserID(_ userID: UUID) async -> UserExperience? {
     await storageManager.performRead { storage in
       guard
@@ -145,15 +163,6 @@ extension CoreDataStore {
 
       return experience.toReadOnly()
     }
-  }
-}
-
-// MARK: - User Experience
-
-extension CoreDataStore {
-  public func userExperienceEntryByID(_ id: UUID) async -> UserExperienceEntry? {
-    let predicate: NSPredicate = \UserExperienceEntryEntity.modelID == id
-    return await getFirstObject(UserExperienceEntryEntity.self, predicate: predicate)
   }
 }
 

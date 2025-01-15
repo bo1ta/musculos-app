@@ -1,5 +1,5 @@
 //
-//  AppModel.swift
+//  AppState.swift
 //  MusculosApp
 //
 //  Created by Solomon Alexandru on 18.12.2024.
@@ -16,33 +16,32 @@ import SwiftUI
 
 // MARK: - AppState
 
-enum AppState {
-  case loggedIn
-  case loggedOut
-  case onboarding
-  case loading
-}
-
-// MARK: - AppModel
-
 @Observable
 @MainActor
-final class AppModel {
+final class AppState {
+
+  // MARK: State
+
+  enum State {
+    case loggedIn
+    case loggedOut
+    case onboarding
+    case loading
+  }
+
+  // MARK: Dependencies
 
   @ObservationIgnored
   @Injected(\NetworkContainer.networkMonitor) private var networkMonitor: NetworkMonitorProtocol
 
   @ObservationIgnored
-  @Injected(\DataRepositoryContainer.authenticationManager) private var authenticationManager: AuthenticationManagerProtocol
-
-  @ObservationIgnored
-  @Injected(\DataRepositoryContainer.currentUserHandler) private var currentUserHandler: UserHandling
+  @Injected(\.userStore) private var userStore: UserStoreProtocol
 
   @ObservationIgnored
   @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   private var cancellables = Set<AnyCancellable>()
-  private(set) var appState = AppState.loading
+  private(set) var state = State.loading
 
   var progress = 0.0
   var toast: Toast?
@@ -58,13 +57,7 @@ final class AppModel {
       }
       .store(in: &cancellables)
 
-    authenticationManager.eventPublisher
-      .sink { [weak self] event in
-        self?.didReceiveAuthenticationEvent(event)
-      }
-      .store(in: &cancellables)
-
-    currentUserHandler.eventPublisher
+    userStore.eventPublisher
       .sink { [weak self] event in
         self?.didReceiveUserStoreEvent(event)
       }
@@ -81,22 +74,23 @@ final class AppModel {
     progress = 0.3
     defer { progress = 1.0 }
 
-    await determineState()
+    await determineUserState()
   }
 
-  private func determineState() async {
-    guard let currentUser = await currentUserHandler.loadUser() else {
-      appState = .loggedOut
+  private func determineUserState() async {
+    guard let currentUser = await userStore.refreshUser() else {
+      state = .loggedOut
       return
     }
 
-    appState = currentUser.isOnboarded ? .loggedIn : .onboarding
+    userStore.startObservingUser()
+    state = currentUser.isOnboarded ? .loggedIn : .onboarding
   }
 }
 
 // MARK: - Observers handling
 
-extension AppModel {
+extension AppState {
   func didChangeScenePhase(_ phase: ScenePhase) {
     switch phase {
     case .active:
@@ -124,23 +118,19 @@ extension AppModel {
     }
   }
 
-  private func didReceiveAuthenticationEvent(_ event: AuthenticationEvent) {
+  private func didReceiveUserStoreEvent(_ event: UserStoreEvent) {
     switch event {
     case .didLogin:
       Task { [weak self] in
-        await self?.determineState()
+        await self?.determineUserState()
       }
 
-    case .didLogout:
-      appState = .loggedOut
-      toastManager.showInfo("Logged out")
-    }
-  }
-
-  private func didReceiveUserStoreEvent(_ event: UserStoreEvent) {
-    switch event {
     case .didFinishOnboarding:
-      appState = .loggedIn
+      state = .loggedIn
+
+    case .didLogout:
+      state = .loggedOut
+      toastManager.showInfo("Logged out")
     }
   }
 }

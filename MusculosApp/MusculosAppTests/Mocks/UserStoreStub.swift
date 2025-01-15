@@ -10,7 +10,11 @@ import Foundation
 import Models
 import Utility
 
-public class CurrentUserHandlerStub: UserHandling, @unchecked Sendable {
+@testable import MusculosApp
+
+public class UserStoreStub: UserStoreProtocol, @unchecked Sendable {
+  public var currentUser: Models.UserProfile?
+
   public var expectedLoadResult: UserProfile?
   private let eventSubject = PassthroughSubject<UserStoreEvent, Never>()
 
@@ -18,11 +22,23 @@ public class CurrentUserHandlerStub: UserHandling, @unchecked Sendable {
     eventSubject.eraseToAnyPublisher()
   }
 
-  public func loadUser() async -> UserProfile? {
+  public func refreshUser() async -> UserProfile? {
     expectedLoadResult
+  }
+
+  public func logOut() {
+    eventSubject.send(.didLogout)
+  }
+
+  public func authenticateSession(_: UserSession) {
+    eventSubject.send(.didLogin)
   }
 
   public func updateOnboardingStatus(_: Models.OnboardingData) async {
     eventSubject.send(.didFinishOnboarding)
   }
+
+  public func startObservingUser() { }
+
+  public func stopObservingUser() { }
 }

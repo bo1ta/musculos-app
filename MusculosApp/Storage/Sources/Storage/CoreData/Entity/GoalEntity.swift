@@ -64,8 +64,7 @@ extension GoalEntity: ReadOnlyConvertible {
       targetValue: targetValue?.intValue ?? 0,
       endDate: endDate,
       isCompleted: isCompleted,
-      dateAdded: dateAdded,
-      user: user.toReadOnly())
+      dateAdded: dateAdded)
   }
 }
 
@@ -84,8 +83,9 @@ extension GoalEntity: EntitySyncable {
     updatedAt = model.updatedAt
 
     if
-      let user = storage
-        .firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.userId == model.user.userId)
+      let userID = model.userID,
+      let userProfile = storage
+        .firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.userId == userID)
     {
       self.user = user
     }

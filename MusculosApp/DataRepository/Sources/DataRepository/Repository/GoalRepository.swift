@@ -20,6 +20,7 @@ public protocol GoalRepositoryProtocol: Sendable {
   func getGoalDetails(_ goalID: UUID) async throws -> Goal?
   func getGoals() async throws -> [Goal]
   func addFromOnboardingGoal(_ onboardingGoal: OnboardingGoal, for user: UserProfile) async throws -> Goal
+  func updateGoalProgress(exerciseSession: ExerciseSession) async throws
 }
 
 // MARK: - GoalRepository
@@ -85,5 +86,12 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
     _ = try await (localTask, remoteTask)
 
     return goal
+  }
+
+  public func updateGoalProgress(exerciseSession: ExerciseSession) async throws {
+    guard let currentUserID else {
+      throw MusculosError.unexpectedNil
+    }
+    try await coreDataStore.updateGoalProgress(userID: currentUserID, exerciseSession: exerciseSession)
   }
 }

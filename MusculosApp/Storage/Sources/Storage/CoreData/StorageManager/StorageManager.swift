@@ -31,7 +31,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   }
 
   public var coalesceSaveInterval: Double {
-    0.5
+    0.3
   }
 
   // MARK: - Migration
