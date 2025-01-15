@@ -22,7 +22,7 @@ public class EntityListener<T: EntityType> {
     publisher = NotificationCenter.default.publisher(
       for: .NSManagedObjectContextObjectsDidChange,
       object: storage as? NSManagedObjectContext)
-    .compactMap { notification -> T.ReadOnlyType? in
+      .compactMap { notification -> T.ReadOnlyType? in
         let changedObjects = (notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject>) ?? []
         let insertedObjects = (notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject>) ?? []
 

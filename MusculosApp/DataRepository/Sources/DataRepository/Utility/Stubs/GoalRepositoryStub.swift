@@ -39,5 +39,5 @@ public struct GoalRepositoryStub: GoalRepositoryProtocol {
 
   public func addGoal(_: Models.Goal) async throws { }
 
-  public func updateGoalProgress(exerciseSession: ExerciseSession) async throws { }
+  public func updateGoalProgress(exerciseSession _: ExerciseSession) async throws { }
 }

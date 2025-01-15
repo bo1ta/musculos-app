@@ -223,11 +223,11 @@ extension NSManagedObjectContext: StorageType {
     }
   }
 
-  public func createFetchedResultsController<T: Object>(
-    for type: T.Type,
+  public func createFetchedResultsController(
+    for type: (some Object).Type,
     sectionNameKeyPath: String?,
     cacheName: String?)
-  -> NSFetchedResultsController<NSFetchRequestResult>
+    -> NSFetchedResultsController<NSFetchRequestResult>
   {
     NSFetchedResultsController(
       fetchRequest: fetchRequest(forType: type),

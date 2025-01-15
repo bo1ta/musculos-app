@@ -9,7 +9,6 @@ import Foundation
 import Models
 import Storage
 import Utility
-import Storage
 
 public struct UserRepositoryStub: UserRepositoryProtocol {
   let expectedSession: UserSession?
@@ -44,7 +43,7 @@ public struct UserRepositoryStub: UserRepositoryProtocol {
     expectedProfile
   }
 
-  public func getUserByID(_ userID: UUID) async -> UserProfile? {
+  public func getUserByID(_: UUID) async -> UserProfile? {
     expectedProfile
   }
 

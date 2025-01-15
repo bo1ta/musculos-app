@@ -12,9 +12,13 @@ import NetworkClient
 import Storage
 import Utility
 
+// MARK: - WorkoutRepositoryProtocol
+
 public protocol WorkoutRepositoryProtocol: Sendable {
   func addWorkout(_ workout: Workout) async throws
 }
+
+// MARK: - WorkoutRepository
 
 public struct WorkoutRepository: @unchecked Sendable, BaseRepository, WorkoutRepositoryProtocol {
   public func addWorkout(_ workout: Workout) async throws {

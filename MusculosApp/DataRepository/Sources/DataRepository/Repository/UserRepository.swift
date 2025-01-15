@@ -5,9 +5,9 @@
 //  Created by Solomon Alexandru on 17.10.2024.
 //
 
+import Combine
 import Factory
 import Foundation
-import Combine
 import Models
 import NetworkClient
 import Storage
@@ -60,7 +60,7 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
   }
 
   public func getUserByID(_ userID: UUID) async -> UserProfile? {
-    return await coreDataStore.userProfileByID(userID)
+    await coreDataStore.userProfileByID(userID)
   }
 
   @discardableResult
