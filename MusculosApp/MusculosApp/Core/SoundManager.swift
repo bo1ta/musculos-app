@@ -9,41 +9,41 @@ import AVFoundation
 
 public class SoundManager {
   public enum SoundEffect: String, CaseIterable {
-    case toast
-    case tabSelection
-    case favorite
-    case xpGained
-    case newLevel
-    case exerciseSessionInProgress
-    case exerciseSessionFinished
+    case errorToast = "error_toast"
+    case tabSelection = "tab_selection"
+    case levelUp = "level_up"
+    case gainedExperience = "gained_experience"
+    case favoriteExercise = "favorite_exercise"
+    case unfavoriteExercise = "unfavorite_exercise"
+    case exerciseSessionInProgress = "exercise_session_in_progress"
     case selection
   }
 
-  private var systemSoundIDs: [SoundEffect: SystemSoundID] = [:]
-
-  public init() {
-    registerSounds()
-  }
-
-  private func registerSounds() {
-    SoundEffect.allCases.forEach { effect in
-      guard let url = Bundle.main.url(forResource: effect.rawValue, withExtension: "wav") else {
-        return
-      }
-      registerURL(url, forEffect: effect)
-    }
-  }
-
-  private func registerURL(_ url: URL, forEffect effect: SoundEffect) {
-    var soundID: SystemSoundID = 0
-    AudioServicesCreateSystemSoundID(url as CFURL, &soundID)
-    systemSoundIDs[effect] = soundID
-  }
+  private var audioPlayer: AVAudioPlayer?
 
   public func playSound(_ effect: SoundEffect) {
-    guard let soundID = systemSoundIDs[effect] else {
+    guard let url = Bundle.main.url(forResource: effect.rawValue, withExtension: "mp3") else {
+      print("Sound file for \(effect.rawValue) not found")
       return
     }
-    AudioServicesPlaySystemSound(soundID)
+
+    guard audioPlayer?.url != url else {
+      audioPlayer?.play()
+      return
+    }
+
+    do {
+      audioPlayer?.stop()
+
+      audioPlayer = try AVAudioPlayer(contentsOf: url)
+      audioPlayer?.prepareToPlay()
+      audioPlayer?.play()
+    } catch {
+      print("Error initializing AVAudioPlayer for \(effect.rawValue): \(error)")
+    }
+  }
+
+  public func stopSound() {
+    audioPlayer?.stop()
   }
 }

@@ -36,7 +36,7 @@ struct ExerciseDetailsScreen: View {
         onClick: viewModel.handleSubmit)
     }
     .sheet(isPresented: $viewModel.showInputDialog, content: {
-      SelectWeightSheet(weight: $viewModel.inputWeight, onSubmit: viewModel.startTimer)
+      SelectWeightSheet(weight: $viewModel.inputWeight, onSubmit: viewModel.startSession)
         .presentationDetents([.height(300)])
     })
     .ratingDialog(

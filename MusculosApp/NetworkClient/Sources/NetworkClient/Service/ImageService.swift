@@ -12,7 +12,8 @@ import Utility
 // MARK: - ImageServiceProtocol
 
 public protocol ImageServiceProtocol: Sendable {
-  func uploadImage(image: UIImage) async throws -> URL
+  func uploadImage(_ image: UIImage) async throws -> URL
+  func uploadImages(_ images: [UIImage]) async -> AsyncStream<Result<URL, Error>>
   func downloadImage(url: URL) async throws -> Image
 }
 
@@ -21,7 +22,7 @@ public protocol ImageServiceProtocol: Sendable {
 public struct ImageService: APIService, ImageServiceProtocol, @unchecked Sendable {
   @Injected(\NetworkContainer.client) var client: MusculosClientProtocol
 
-  public func uploadImage(image: UIImage) async throws -> URL {
+  public func uploadImage(_ image: UIImage) async throws -> URL {
     guard let imageData = image.jpegData(compressionQuality: 0.5) else {
       throw MusculosError.unexpectedNil
     }
@@ -37,6 +38,36 @@ public struct ImageService: APIService, ImageServiceProtocol, @unchecked Sendabl
     }
 
     return imageURL
+  }
+
+  public func uploadImages(_ images: [UIImage]) async -> AsyncStream<Result<URL, Error>> {
+    AsyncStream { continuation in
+      let task = Task {
+        defer { continuation.finish() }
+
+        await withTaskGroup(of: Result<URL, Error>.self) { group in
+          for image in images {
+            group.addTask {
+              do {
+                let imageURL = try await uploadImage(image)
+                return .success(imageURL)
+              } catch {
+                Logger.error(error, message: "Error uploading image")
+                return .failure(error)
+              }
+            }
+          }
+
+          for await result in group {
+            continuation.yield(result)
+          }
+        }
+      }
+
+      continuation.onTermination = { _ in
+        task.cancel()
+      }
+    }
   }
 
   public func downloadImage(url: URL) async throws -> Image {

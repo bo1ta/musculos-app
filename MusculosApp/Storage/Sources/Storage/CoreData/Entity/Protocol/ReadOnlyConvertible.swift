@@ -14,7 +14,7 @@ import Foundation
 public protocol ReadOnlyConvertible: TypeErasedReadOnlyConvertible {
   /// Represents the ReadOnly Type (mirroring the receiver).
   ///
-  associatedtype ReadOnlyType
+  associatedtype ReadOnlyType: Sendable
 
   /// Returns a ReadOnly version of the receiver.
   ///

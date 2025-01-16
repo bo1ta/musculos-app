@@ -28,6 +28,9 @@ final class ExerciseDetailsViewModel {
   @Injected(\.userStore) var userStore: UserStoreProtocol
 
   @ObservationIgnored
+  @Injected(\.soundManager) var soundManager: SoundManager
+
+  @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
 
   @ObservationIgnored
@@ -143,13 +146,15 @@ final class ExerciseDetailsViewModel {
 
   func handleSubmit() {
     if isTimerActive {
-      stopTimer()
+      stopSession()
     } else {
       showInputDialog.toggle()
     }
   }
 
-  func startTimer() {
+  func startSession() {
+    soundManager.playSound(.exerciseSessionInProgress)
+
     isTimerActive = true
     elapsedTime = 0
 
@@ -161,7 +166,9 @@ final class ExerciseDetailsViewModel {
     }
   }
 
-  func stopTimer() {
+  func stopSession() {
+    soundManager.stopSound()
+
     isTimerActive = false
     timerTask?.cancel()
 
@@ -182,18 +189,26 @@ final class ExerciseDetailsViewModel {
   func toggleIsFavorite() {
     markFavoriteTask?.cancel()
 
-    markFavoriteTask = Task { [weak self] in
-      guard let self else {
-        return
-      }
-
+    markFavoriteTask = Task {
       do {
+        try Task.checkCancellation()
+
         try await exerciseRepository.setFavoriteExercise(exercise, isFavorite: !isFavorite)
         await loadExerciseDetails()
+
+        playFavoriteExerciseActionSound()
       } catch {
         showErrorToast()
         Logger.error(error, message: "Could not update exercise.isFavorite")
       }
+    }
+  }
+
+  private func playFavoriteExerciseActionSound() {
+    if isFavorite {
+      soundManager.playSound(.favoriteExercise)
+    } else {
+      soundManager.playSound(.unfavoriteExercise)
     }
   }
 
@@ -228,6 +243,9 @@ final class ExerciseDetailsViewModel {
     withAnimation {
       showXPGainDialog = true
     }
+
+    try? await Task.sleep(for: .milliseconds(500))
+    soundManager.playSound(.gainedExperience)
 
     try? await Task.sleep(for: .seconds(2))
 

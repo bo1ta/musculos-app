@@ -24,10 +24,16 @@ final class AddExerciseSheetViewModel {
   @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   @ObservationIgnored
+  @Injected(\.soundManager) private var soundManager: SoundManager
+
+  @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
 
   @ObservationIgnored
   @Injected(\NetworkContainer.imageService) private var imageService: ImageServiceProtocol
+
+  private(set) var saveExerciseTask: Task<Void, Never>?
+  private let didSaveSubject = PassthroughSubject<Void, Never>()
 
   // MARK: Public
 
@@ -46,13 +52,9 @@ final class AddExerciseSheetViewModel {
   var pickedPhotos: [PhotoModel] = []
   var showPhotoPicker = false
 
-  private(set) var saveExerciseTask: Task<Void, Never>?
-
   var didSavePublisher: AnyPublisher<Void, Never> {
     didSaveSubject.eraseToAnyPublisher()
   }
-
-  private let didSaveSubject = PassthroughSubject<Void, Never>()
 
   private var isExerciseValid: Bool {
     !exerciseName.isEmpty &&
@@ -98,15 +100,19 @@ final class AddExerciseSheetViewModel {
   }
 
   private func uploadImages() async -> [String] {
-    var results = [String]()
+    guard !pickedPhotos.isEmpty else {
+      return []
+    }
+
+    var results: [String] = []
 
     let images = pickedPhotos.map { $0.image }
-    for image in images {
-      do {
-        let imageURL = try await imageService.uploadImage(image: image)
-        results.append(imageURL.absoluteString)
-      } catch {
-        Logger.error(error, message: "Error uploading image.")
+    for await result in await imageService.uploadImages(images) {
+      switch result {
+      case .success(let url):
+        results.append(url.absoluteString)
+      case .failure(let error):
+        Logger.error(error, message: "Something went wrong while trying to upload exercise images.")
       }
     }
 

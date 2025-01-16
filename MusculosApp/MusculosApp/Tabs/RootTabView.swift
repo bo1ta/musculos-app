@@ -5,6 +5,7 @@
 //  Created by Solomon Alexandru on 04.06.2023.
 //
 
+import Factory
 import Components
 import Navigator
 import SwiftUI
@@ -23,6 +24,7 @@ enum RootTabs: String {
 
 struct RootTabView: View {
   @SceneStorage("selectedTab") var selectedTab = RootTabs.home
+
   @State private var showActionSheet = false
   @State private var showAddButton = true
 
@@ -66,6 +68,9 @@ struct RootTabView: View {
     }
     .sheet(isPresented: $showActionSheet) {
       AddActionSheetContainer()
+    }
+    .onChange(of: selectedTab) { _, _ in
+      Container.shared.soundManager().playSound(.tabSelection)
     }
   }
 

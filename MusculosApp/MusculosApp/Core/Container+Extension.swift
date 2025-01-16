@@ -19,4 +19,9 @@ extension Container {
     self { UserStore() }
       .cached
   }
+
+  var soundManager: Factory<SoundManager> {
+    self { SoundManager() }
+      .singleton
+  }
 }

@@ -111,6 +111,14 @@
 		BC8FCDDF2D260919009CF61E /* AuthenticationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8FCDDE2D260305009CF61E /* AuthenticationViewModelTests.swift */; };
 		BC97C9322BA0D5D500AA07C4 /* AddActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC97C9312BA0D5D500AA07C4 /* AddActionSheet.swift */; };
 		BC9A020E2C593ED5003C83A8 /* AuthenticationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A020D2C593ED5003C83A8 /* AuthenticationScreen.swift */; };
+		BC9B97212D39891A00BF6245 /* tab_selection.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BC9B97202D39891A00BF6245 /* tab_selection.mp3 */; };
+		BC9B97232D39894B00BF6245 /* error_toast.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BC9B97222D39894B00BF6245 /* error_toast.mp3 */; };
+		BC9B97252D39895B00BF6245 /* level_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BC9B97242D39895B00BF6245 /* level_up.mp3 */; };
+		BC9B97272D39897A00BF6245 /* gained_experience.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BC9B97262D39897A00BF6245 /* gained_experience.mp3 */; };
+		BC9B97292D398AA400BF6245 /* exercise_session_in_progress.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BC9B97282D398AA400BF6245 /* exercise_session_in_progress.mp3 */; };
+		BC9B972B2D398AE800BF6245 /* selection.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BC9B972A2D398AE800BF6245 /* selection.mp3 */; };
+		BC9B972D2D398CAC00BF6245 /* favorite_exercise.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BC9B972C2D398CAC00BF6245 /* favorite_exercise.mp3 */; };
+		BC9B972F2D398CBF00BF6245 /* unfavorite_exercise.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BC9B972E2D398CBF00BF6245 /* unfavorite_exercise.mp3 */; };
 		BCA24BEF2B69D3AE00124EC3 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BEE2B69D3AE00124EC3 /* SplashScreen.swift */; };
 		BCA24BFC2B6AB9AF00124EC3 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BFB2B6AB9AF00124EC3 /* SignInView.swift */; };
 		BCA24C002B6AE68500124EC3 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA24BFF2B6AE68500124EC3 /* SignUpView.swift */; };
@@ -253,6 +261,14 @@
 		BC8FCDDE2D260305009CF61E /* AuthenticationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModelTests.swift; sourceTree = "<group>"; };
 		BC97C9312BA0D5D500AA07C4 /* AddActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddActionSheet.swift; sourceTree = "<group>"; };
 		BC9A020D2C593ED5003C83A8 /* AuthenticationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationScreen.swift; sourceTree = "<group>"; };
+		BC9B97202D39891A00BF6245 /* tab_selection.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tab_selection.mp3; sourceTree = "<group>"; };
+		BC9B97222D39894B00BF6245 /* error_toast.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = error_toast.mp3; sourceTree = "<group>"; };
+		BC9B97242D39895B00BF6245 /* level_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = level_up.mp3; sourceTree = "<group>"; };
+		BC9B97262D39897A00BF6245 /* gained_experience.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gained_experience.mp3; sourceTree = "<group>"; };
+		BC9B97282D398AA400BF6245 /* exercise_session_in_progress.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = exercise_session_in_progress.mp3; sourceTree = "<group>"; };
+		BC9B972A2D398AE800BF6245 /* selection.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = selection.mp3; sourceTree = "<group>"; };
+		BC9B972C2D398CAC00BF6245 /* favorite_exercise.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = favorite_exercise.mp3; sourceTree = "<group>"; };
+		BC9B972E2D398CBF00BF6245 /* unfavorite_exercise.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = unfavorite_exercise.mp3; sourceTree = "<group>"; };
 		BCA24BEE2B69D3AE00124EC3 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
 		BCA24BFB2B6AB9AF00124EC3 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		BCA24BFF2B6AE68500124EC3 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -475,8 +491,9 @@
 				BC3A306B2D389A0000232F86 /* SoundManager.swift */,
 				BC3A30632D37104C00232F86 /* UserStore.swift */,
 				BC1B7E362D136F5E0002158C /* CommonDestinations.swift */,
+				BC8FCDDC2D25B594009CF61E /* Container+Extension.swift */,
 				BC3C0C672D177D360039B367 /* Views */,
-				BCAE95A62C447E9600AD91BE /* Extension */,
+				BC3760E52D1F5EF6000A92F3 /* PreferenceKeys */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -492,6 +509,14 @@
 		BC3A306D2D389F6A00232F86 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				BC9B97262D39897A00BF6245 /* gained_experience.mp3 */,
+				BC9B97282D398AA400BF6245 /* exercise_session_in_progress.mp3 */,
+				BC9B972C2D398CAC00BF6245 /* favorite_exercise.mp3 */,
+				BC9B972E2D398CBF00BF6245 /* unfavorite_exercise.mp3 */,
+				BC9B972A2D398AE800BF6245 /* selection.mp3 */,
+				BC9B97202D39891A00BF6245 /* tab_selection.mp3 */,
+				BC9B97242D39895B00BF6245 /* level_up.mp3 */,
+				BC9B97222D39894B00BF6245 /* error_toast.mp3 */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -736,15 +761,6 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
-		BCAE95A62C447E9600AD91BE /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				BC8FCDDC2D25B594009CF61E /* Container+Extension.swift */,
-				BC3760E52D1F5EF6000A92F3 /* PreferenceKeys */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
 		BCAF7BEB2CED47B500DCEDD6 /* Sheets */ = {
 			isa = PBXGroup;
 			children = (
@@ -921,6 +937,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC1160D72A2CFB830028D8FC /* Preview Assets.xcassets in Resources */,
+				BC9B97252D39895B00BF6245 /* level_up.mp3 in Resources */,
 				BC7827592B9CF1BE00DFC02C /* Inter-Bold.ttf in Resources */,
 				BC78275D2B9CF1BE00DFC02C /* Inter-SemiBold.ttf in Resources */,
 				BCBFBC3C2C70088D0022FE88 /* Poppins-Medium.ttf in Resources */,
@@ -928,21 +945,28 @@
 				BCBFBC3E2C70088D0022FE88 /* Poppins-Regular.ttf in Resources */,
 				BCBFBC3F2C70088D0022FE88 /* Poppins-SemiBold.ttf in Resources */,
 				BCBFBC402C70088D0022FE88 /* Poppins-Bold.ttf in Resources */,
+				BC9B97232D39894B00BF6245 /* error_toast.mp3 in Resources */,
 				BC7827602B9CF1F400DFC02C /* Epilogue-Bold.ttf in Resources */,
+				BC9B97272D39897A00BF6245 /* gained_experience.mp3 in Resources */,
 				BC78275C2B9CF1BE00DFC02C /* Inter-Regular.ttf in Resources */,
 				BC78275E2B9CF1C200DFC02C /* Epilogue-Regular.ttf in Resources */,
 				BC7827572B9CF1B100DFC02C /* Epilogue-Medium.ttf in Resources */,
 				BC7827582B9CF1BE00DFC02C /* Inter-Thin.ttf in Resources */,
 				BC78275B2B9CF1BE00DFC02C /* Inter-Medium.ttf in Resources */,
 				BC0DA8942CA396FF0011EC63 /* LeagueSpartan-ExtraBold.ttf in Resources */,
+				BC9B972D2D398CAC00BF6245 /* favorite_exercise.mp3 in Resources */,
 				BC0DA8952CA396FF0011EC63 /* LeagueSpartan-Light.ttf in Resources */,
 				BC0DA8962CA396FF0011EC63 /* LeagueSpartan-SemiBold.ttf in Resources */,
+				BC9B97292D398AA400BF6245 /* exercise_session_in_progress.mp3 in Resources */,
 				BC0DA8972CA396FF0011EC63 /* LeagueSpartan-ExtraLight.ttf in Resources */,
 				BC0DA8982CA396FF0011EC63 /* LeagueSpartan-Black.ttf in Resources */,
 				BC0DA8992CA396FF0011EC63 /* LeagueSpartan-Medium.ttf in Resources */,
 				BC0DA89A2CA396FF0011EC63 /* LeagueSpartan-Bold.ttf in Resources */,
+				BC9B97212D39891A00BF6245 /* tab_selection.mp3 in Resources */,
 				BC0DA89B2CA396FF0011EC63 /* LeagueSpartan-Regular.ttf in Resources */,
 				BC78275A2B9CF1BE00DFC02C /* Inter-Light.ttf in Resources */,
+				BC9B972B2D398AE800BF6245 /* selection.mp3 in Resources */,
+				BC9B972F2D398CBF00BF6245 /* unfavorite_exercise.mp3 in Resources */,
 				BC1160D42A2CFB830028D8FC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
