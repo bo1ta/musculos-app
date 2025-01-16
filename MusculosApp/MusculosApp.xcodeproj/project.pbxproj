@@ -54,6 +54,7 @@
 		BC3A30642D37104C00232F86 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A30632D37104C00232F86 /* UserStore.swift */; };
 		BC3A30662D37113800232F86 /* UserStoreStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A30652D37113800232F86 /* UserStoreStub.swift */; };
 		BC3A30682D37136A00232F86 /* UserStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A30672D37136A00232F86 /* UserStoreTests.swift */; };
+		BC3A306C2D389A0300232F86 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A306B2D389A0000232F86 /* SoundManager.swift */; };
 		BC3C0C622D1774640039B367 /* ExerciseDetailsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0C612D1774610039B367 /* ExerciseDetailsButton.swift */; };
 		BC3C0C642D17759F0039B367 /* ExerciseDetailsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0C632D1775890039B367 /* ExerciseDetailsHeader.swift */; };
 		BC3C0C662D1777750039B367 /* ExerciseDetailsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0C652D1777720039B367 /* ExerciseDetailsContent.swift */; };
@@ -198,6 +199,7 @@
 		BC3A30632D37104C00232F86 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 		BC3A30652D37113800232F86 /* UserStoreStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStoreStub.swift; sourceTree = "<group>"; };
 		BC3A30672D37136A00232F86 /* UserStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStoreTests.swift; sourceTree = "<group>"; };
+		BC3A306B2D389A0000232F86 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		BC3C0C5A2D175D370039B367 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		BC3C0C612D1774610039B367 /* ExerciseDetailsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsButton.swift; sourceTree = "<group>"; };
 		BC3C0C632D1775890039B367 /* ExerciseDetailsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsHeader.swift; sourceTree = "<group>"; };
@@ -317,13 +319,14 @@
 			path = TestPlans;
 			sourceTree = "<group>";
 		};
-		BC0D76A32B6525B700917680 /* Assets */ = {
+		BC0D76A32B6525B700917680 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				BC1160D32A2CFB830028D8FC /* Assets.xcassets */,
 				BCA24BF02B69D44600124EC3 /* Fonts */,
+				BC3A306D2D389F6A00232F86 /* Sounds */,
 			);
-			path = Assets;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		BC0DA89E2CA5EA9E0011EC63 /* RecommendationSection */ = {
@@ -373,7 +376,7 @@
 				BC6F365B2BB4E205000F6CFA /* Screens */,
 				BCAF7BEB2CED47B500DCEDD6 /* Sheets */,
 				BC352AE32A326D6C00DAA3AB /* Core */,
-				BC0D76A32B6525B700917680 /* Assets */,
+				BC0D76A32B6525B700917680 /* Resources */,
 				BC1160D52A2CFB830028D8FC /* Preview Content */,
 				BCC33E682BAE005E00488123 /* MusculosApp.entitlements */,
 				BC82446E2BAE6AE700CFA645 /* MusculosAppDebug.entitlements */,
@@ -469,6 +472,7 @@
 		BC352AE32A326D6C00DAA3AB /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				BC3A306B2D389A0000232F86 /* SoundManager.swift */,
 				BC3A30632D37104C00232F86 /* UserStore.swift */,
 				BC1B7E362D136F5E0002158C /* CommonDestinations.swift */,
 				BC3C0C672D177D360039B367 /* Views */,
@@ -483,6 +487,13 @@
 				BC3760E62D1F5F03000A92F3 /* ShowTabPreferenceKey.swift */,
 			);
 			path = PreferenceKeys;
+			sourceTree = "<group>";
+		};
+		BC3A306D2D389F6A00232F86 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 		BC3C0C672D177D360039B367 /* Views */ = {
@@ -980,6 +991,7 @@
 				BC583B0D2BA8C76500236C0D /* OnboardingViewModel.swift in Sources */,
 				BC8FCDDD2D25B598009CF61E /* Container+Extension.swift in Sources */,
 				BC781FFF2B9B6061009F9FB5 /* ScoreCard.swift in Sources */,
+				BC3A306C2D389A0300232F86 /* SoundManager.swift in Sources */,
 				BC828CE52C02924200AB9D1D /* WorkoutFlowViewModel.swift in Sources */,
 				BC3C0C662D1777750039B367 /* ExerciseDetailsContent.swift in Sources */,
 				BC1B7E392D137B2A0002158C /* AppState.swift in Sources */,

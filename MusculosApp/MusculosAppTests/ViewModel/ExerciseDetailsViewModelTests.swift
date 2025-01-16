@@ -23,6 +23,14 @@ import XCTest
 @MainActor
 class ExerciseDetailsViewModelTests: XCTestCase {
   func testInitialLoad() async throws {
+    let userFactory = UserProfileFactory()
+    userFactory.goals = [GoalFactory.createGoal()]
+    let currentUser = userFactory.create()
+
+    let stubUserStore = UserStoreStub()
+    stubUserStore.currentUser = currentUser
+    Container.shared.userStore.register { stubUserStore }
+
     let expectedGoals = [GoalFactory.createGoal()]
     let goalRepositoryStub = GoalRepositoryStub(expectedGoals: expectedGoals)
     DataRepositoryContainer.shared.goalRepository.register { goalRepositoryStub }
@@ -36,7 +44,7 @@ class ExerciseDetailsViewModelTests: XCTestCase {
     DataRepositoryContainer.shared.exerciseSessionRepository.register { exerciseSessionRepositoryStub }
 
     defer {
-      DataRepositoryContainer.shared.goalRepository.reset()
+      Container.shared.userStore.reset()
       DataRepositoryContainer.shared.exerciseRepository.reset()
       DataRepositoryContainer.shared.exerciseSessionRepository.reset()
     }

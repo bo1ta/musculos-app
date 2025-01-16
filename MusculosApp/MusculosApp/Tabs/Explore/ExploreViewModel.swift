@@ -135,6 +135,8 @@ extension ExploreViewModel {
 
     searchQueryTask = Task {
       do {
+        try Task.checkCancellation()
+
         results[.featured] = try await exerciseRepository.searchByQuery(query)
       } catch {
         Logger.error(error, message: "Could not search by muscle query", properties: ["query": query])
