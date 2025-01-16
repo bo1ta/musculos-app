@@ -22,47 +22,48 @@ enum RoutePlannerWizardStep {
 struct RoutePlannerSheetContainer: View {
   @State private var activeDetent = PresentationDetent.minimized
 
-  @Binding var wizardStep: RoutePlannerWizardStep
-  @Binding var destinationLocation: String
-  @Binding var startLocation: String
-
-  var currentLocation: CLLocation?
-  var mapItemResults: [MapItemData]
-  var selectedMapITem: MapItemData?
-  var onSelectResult: (MapItemData) -> Void
+  var viewModel: RoutePlannerViewModel
   var onStart: () -> Void
 
   var body: some View {
+    @Bindable var viewModel = viewModel
+
     VStack {
-      switch wizardStep {
+      switch viewModel.wizardStep {
       case .search:
         SearchLocationSheet(
-          destinationLocation: $destinationLocation,
-          currentLocation: currentLocation,
-          mapItemResults: mapItemResults,
-          selectedMapItem: selectedMapITem,
-          onSelectResult: onSelectResult)
+          destinationLocation: $viewModel.queryLocation,
+          currentLocation: viewModel.currentLocation,
+          mapItemResults: viewModel.queryResults,
+          selectedMapItem: viewModel.destinationMapItem,
+          onSelectResult: viewModel.setRouteForItem(_:))
           .transition(.move(edge: .trailing))
 
       case .confirm:
-        ConfirmRouteSheet(startLocation: $startLocation, endLocation: $destinationLocation, onStart: onStart)
+        ConfirmRouteSheet(
+          startLocation: $viewModel.startLocation,
+          endLocation: $viewModel.endLocation,
+          onStart: onStart)
           .transition(.move(edge: .leading).combined(with: .opacity))
+          .task {
+            await viewModel.loadCurrentLocationData()
+          }
       }
       Spacer()
     }
     .padding()
     .padding(.top, 10)
-    .onChange(of: mapItemResults) { _, newValue in
+    .onChange(of: viewModel.queryResults) { _, newValue in
       updateActiveDetentForResults(newValue)
     }
-    .onChange(of: wizardStep) { _, newValue in
+    .onChange(of: viewModel.wizardStep) { _, newValue in
       updateActiveDetentForWizardStep(newValue)
     }
     .presentationDetents([.expanded, .middle, .minimized], selection: $activeDetent)
     .presentationBackgroundInteraction(.enabled)
     .presentationDragIndicator(.visible)
     .interactiveDismissDisabled()
-    .animation(.easeInOut(duration: UIConstant.AnimationDuration.medium), value: wizardStep)
+    .animation(.easeInOut(duration: UIConstant.AnimationDuration.medium), value: viewModel.wizardStep)
   }
 
   private func updateActiveDetentForResults(_ results: [MapItemData]) {
@@ -74,7 +75,7 @@ struct RoutePlannerSheetContainer: View {
   }
 
   func getDistanceDisplay(_ item: MapItemData) -> String {
-    guard let currentLocation else {
+    guard let currentLocation = viewModel.currentLocation else {
       return ""
     }
 

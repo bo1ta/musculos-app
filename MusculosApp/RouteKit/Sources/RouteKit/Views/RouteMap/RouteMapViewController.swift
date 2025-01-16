@@ -64,6 +64,23 @@ public final class RouteMapViewController: UIViewController {
     }
   }
 
+  var zoomLevel: CLLocationDistance = 0.01 {
+    didSet {
+      guard let currentLocation else {
+        return
+      }
+      updateMapLocation(currentLocation, withZoomLevel: zoomLevel)
+      updateUserAnnotationSize()
+    }
+  }
+
+  private func updateUserAnnotationSize() {
+    guard let userAnnotationView = mapView.annotations.first(where: { $0 is MKUserLocation }) as? UserLocationAnnotationView else {
+      return
+    }
+    userAnnotationView.updateArrowSize(15)
+  }
+
   // MARK: Lifecycle
 
   override public func viewDidLoad() {
@@ -207,8 +224,7 @@ extension RouteMapViewController {
 
   /// Re-center the map to the passed location
   ///
-  private func updateMapLocation(_ location: CLLocation) {
-    let zoomLevel: CLLocationDistance = 0.01
+  private func updateMapLocation(_ location: CLLocation, withZoomLevel zoomLevel: CLLocationDistance = 0.01) {
     let region = MKCoordinateRegion(
       center: location.coordinate,
       span: MKCoordinateSpan(latitudeDelta: zoomLevel, longitudeDelta: zoomLevel))
@@ -251,7 +267,11 @@ extension RouteMapViewController {
 
     if let routeOverlay {
       mapView.addOverlay(routeOverlay, level: .aboveRoads)
-      mapView.setVisibleMapRect(routeOverlay.boundingMapRect, animated: true)
+
+      let routeRect = routeOverlay.boundingMapRect
+      let padding: CGFloat = 100.0
+      let paddedRect = routeRect.insetBy(dx: -padding, dy: -padding)
+      mapView.setVisibleMapRect(paddedRect, edgePadding: UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding), animated: true)
     }
   }
 

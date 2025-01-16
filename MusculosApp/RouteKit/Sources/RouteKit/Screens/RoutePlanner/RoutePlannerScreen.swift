@@ -25,13 +25,7 @@ public struct RoutePlannerScreen: View {
     }
     .sheet(isPresented: .constant(true)) {
       RoutePlannerSheetContainer(
-        wizardStep: $viewModel.currentWizardStep,
-        destinationLocation: $viewModel.endLocation,
-        startLocation: $viewModel.startLocation,
-        currentLocation: viewModel.currentLocation,
-        mapItemResults: viewModel.queryResults,
-        selectedMapITem: viewModel.destinationMapItem,
-        onSelectResult: viewModel.setRouteForItem(_:),
+        viewModel: viewModel,
         onStart: { })
     }
     .ignoresSafeArea()

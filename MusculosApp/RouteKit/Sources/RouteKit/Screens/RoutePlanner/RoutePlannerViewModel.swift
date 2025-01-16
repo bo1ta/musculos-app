@@ -31,10 +31,11 @@ final class RoutePlannerViewModel {
   var showRouteForm = false
   var currentLocation: CLLocation?
   var queryResults: [MapItemData] = []
-  var destinationMapItem: MapItemData?
   var currentRoute: MKRoute?
-  var currentWizardStep = RoutePlannerWizardStep.search
+  var wizardStep = RoutePlannerWizardStep.search
   var startLocation = ""
+  var endLocation = ""
+  var currentZoomLevel: CLLocationDistance = 0.01
 
   var currentPlacemark: CLPlacemark? {
     didSet {
@@ -44,9 +45,17 @@ final class RoutePlannerViewModel {
     }
   }
 
-  var endLocation = "" {
+  var destinationMapItem: MapItemData? {
     didSet {
-      currentQuerySubject.send(endLocation)
+      if let destinationMapItem  {
+        endLocation = destinationMapItem.name
+      }
+    }
+  }
+
+  var queryLocation = "" {
+    didSet {
+      currentQuerySubject.send(queryLocation)
     }
   }
 
@@ -64,6 +73,20 @@ final class RoutePlannerViewModel {
       .store(in: &cancellables)
   }
 
+  func loadCurrentLocationData() async {
+    guard let currentLocation else {
+      return
+    }
+    do {
+      let data = try await client.getLocationDetails(currentLocation)
+      if let data {
+        startLocation = data.name
+      }
+    } catch {
+      Logger.error(error, message: "Error loading current location details")
+    }
+  }
+
   func onDisappear() {
     searchTask?.cancel()
     routeTask?.cancel()
@@ -72,7 +95,7 @@ final class RoutePlannerViewModel {
   // MARK: Search query
 
   func searchQuery(_ query: String) {
-    guard let currentLocation, !endLocation.isEmpty else {
+    guard let currentLocation, !query.isEmpty else {
       queryResults.removeAll()
       return
     }
@@ -80,6 +103,9 @@ final class RoutePlannerViewModel {
     searchTask = Task {
       do {
         queryResults = try await getMapItemsForQuery(query, on: currentLocation)
+        if !queryResults.isEmpty {
+          currentZoomLevel = 0.10
+        }
       } catch {
         Logger.error(error, message: "Could not perform search using MapKitClient")
       }
@@ -110,7 +136,7 @@ final class RoutePlannerViewModel {
 
         currentRoute = directions.routes.first
         destinationMapItem = item
-        currentWizardStep = .confirm
+        wizardStep = .confirm
 
       } catch {
         Logger.error(error, message: "Could not retrieve route")

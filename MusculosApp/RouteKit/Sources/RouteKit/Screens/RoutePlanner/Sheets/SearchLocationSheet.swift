@@ -27,7 +27,11 @@ struct SearchLocationSheet: View {
           Button(
             action: { onSelectResult(item) },
             label: {
-              DetailCard(text: item.name, isSelected: item == selectedMapItem, content: { Text(getDistanceDisplay(item)) })
+              DetailCard(
+                text: item.name,
+                font: AppFont.body(.regular, size: 14.0),
+                isSelected: item == selectedMapItem,
+                content: { Text(getDistanceDisplay(item)) })
             })
         }
       }
