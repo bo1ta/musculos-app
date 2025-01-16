@@ -18,6 +18,13 @@ public struct ExerciseRepositoryStub: ExerciseRepositoryProtocol {
 
   public func addExercise(_: Exercise) async throws { }
 
+  public func getExercisesStream() async -> AsyncStream<Result<[Exercise], any Error>> {
+    AsyncStream { continuation in
+      continuation.yield(.success(expectedExercises))
+      continuation.finish()
+    }
+  }
+
   public func getExercises() async throws -> [Exercise] {
     expectedExercises
   }

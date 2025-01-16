@@ -12,6 +12,10 @@ public struct UserSession: Sendable, Codable, DecodableModel {
   public var token: Token
   public var user: User
 
+  public var userID: UUID {
+    user.id
+  }
+
   public init(token: Token, user: User) {
     self.token = token
     self.user = user

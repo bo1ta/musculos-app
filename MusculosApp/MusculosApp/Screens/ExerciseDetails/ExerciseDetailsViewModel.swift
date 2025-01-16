@@ -236,7 +236,7 @@ final class ExerciseDetailsViewModel {
     }
   }
 
-  private func maybeUpdateGoals(for exerciseSession: ExerciseSession) async {
+  nonisolated private func maybeUpdateGoals(for exerciseSession: ExerciseSession) async {
     do {
       try await goalRepository.updateGoalProgress(exerciseSession: exerciseSession)
     } catch {

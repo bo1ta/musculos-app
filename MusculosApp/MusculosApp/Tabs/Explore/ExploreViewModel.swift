@@ -84,58 +84,49 @@ extension ExploreViewModel {
     isLoading = true
     defer { isLoading = false }
 
-    results[.featured] = await getExercises()
-    results[.recommendedByGoals] = await loadRecommendationsByGoals()
-
-    async let favoritesTask = loadFavoriteExercises()
-    async let recommendationsTask = loadRecommendationsByPastSessions()
-    async let recentSessionsTask = getSessionsCompletedToday()
-    let (favorites, recommendations, recentSessions) = await (favoritesTask, recommendationsTask, recentSessionsTask)
-
-    results[.favorites] = favorites
-    results[.recommendedByPastSessions] = recommendations
-    self.recentSessions = recentSessions
+    async let recommendations: Void = loadRecommandations()
+    async let exercises: Void = loadExercises()
+    async let sessions: Void = loadRecentSessions()
+    _ = await (recommendations, exercises, sessions)
 
     isLoaded = true
   }
 
-  nonisolated private func getExercises() async -> [Exercise] {
-    do {
-      return try await exerciseRepository.getExercises()
-    } catch {
-      Logger.error(error, message: "Could not load exercises")
-      return []
+  private func loadExercises() async {
+    await loadFavoriteExercises()
+
+    for await result in await exerciseRepository.getExercisesStream() {
+      switch result {
+      case .success(let success):
+        results[.featured] = success
+      case .failure(let failure):
+        Logger.error(failure, message: "Something went wrong!")
+      }
     }
   }
 
-  nonisolated private func loadRecommendationsByGoals() async -> [Exercise] {
-    await exerciseRepository.getRecommendedExercisesByGoals()
-  }
-
-  nonisolated private func loadRecommendationsByPastSessions() async -> [Exercise] {
+  private func loadRecommandations() async {
     do {
-      return try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
+      results[.recommendedByGoals] = await exerciseRepository.getRecommendedExercisesByGoals()
+      results[.recommendedByPastSessions] = try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
     } catch {
       Logger.error(error, message: "Could not load recommendations by past sessions")
-      return []
     }
   }
 
-  nonisolated private func loadFavoriteExercises() async -> [Exercise] {
+  private func loadFavoriteExercises() async {
     do {
-      return try await exerciseRepository.getFavoriteExercises()
+      results[.favorites] = try await exerciseRepository.getFavoriteExercises()
     } catch {
       Logger.error(error, message: "Data controller failed to get exercises")
-      return []
     }
   }
 
-  nonisolated private func getSessionsCompletedToday() async -> [ExerciseSession] {
+  private func loadRecentSessions() async {
     do {
-      return try await exerciseSessionRepository.getCompletedToday()
+      recentSessions = try await exerciseSessionRepository.getCompletedToday()
     } catch {
       Logger.error(error, message: "Data controller failed to get exercises completed today")
-      return []
     }
   }
 

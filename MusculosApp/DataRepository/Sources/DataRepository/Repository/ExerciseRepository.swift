@@ -17,6 +17,7 @@ import Utility
 public protocol ExerciseRepositoryProtocol: Sendable {
   func addExercise(_ exercise: Exercise) async throws
   func getExercises() async throws -> [Exercise]
+  func getExercisesStream() async -> AsyncStream<Result<[Exercise], Error>>
   func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise
   func getExercisesCompletedSinceLastWeek() async throws -> [Exercise]
   func getFavoriteExercises() async throws -> [Exercise]
@@ -38,27 +39,24 @@ public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseR
 
   public func addExercise(_ exercise: Exercise) async throws {
     try await coreDataStore.importModel(exercise, of: ExerciseEntity.self)
-
-    syncStorage(exercise, ofType: ExerciseEntity.self)
   }
 
   public func getExercises() async throws -> [Exercise] {
-    guard isConnectedToInternet else {
-      return await coreDataStore.getAll(ExerciseEntity.self, fetchLimit: 20)
-    }
-
-    let exercises = try await service.getExercises()
-    syncStorage(exercises, ofType: ExerciseEntity.self)
-    return exercises
+    try await fetch(
+      forType: ExerciseEntity.self,
+      localTask: { await coreDataStore.getAll(ExerciseEntity.self, fetchLimit: 40) },
+      remoteTask: { try await service.getExercises() })
   }
 
   public func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise {
-    if let localExercise = await coreDataStore.exerciseByID(exerciseID), shouldUseLocalExercise(localExercise) {
-      return localExercise
+    guard
+      let exercise = try await fetch(
+        forType: ExerciseEntity.self,
+        localTask: { await coreDataStore.exerciseByID(exerciseID) },
+        remoteTask: { try await service.getExerciseDetails(for: exerciseID) })
+    else {
+      throw MusculosError.unexpectedNil
     }
-
-    let exercise = try await service.getExerciseDetails(for: exerciseID)
-    syncStorage(exercise, ofType: ExerciseEntity.self)
     return exercise
   }
 
@@ -69,36 +67,33 @@ public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseR
     return await coreDataStore.exerciseSessionsCompletedSinceLastWeek(for: currentUserID).map { $0.exercise }
   }
 
+  public func getExercisesStream() async -> AsyncStream<Result<[Exercise], Error>> {
+    makeAsyncStream(
+      localFetch: { await coreDataStore.getAll(ExerciseEntity.self) },
+      remoteFetch: { try await service.getExercises() })
+  }
+
   public func getFavoriteExercises() async throws -> [Exercise] {
     guard let currentUserID else {
       throw MusculosError.unexpectedNil
     }
-
-    guard !shouldUseLocalStorageForEntity(ExerciseEntity.self) else {
-      return await coreDataStore.favoriteExercises(for: currentUserID)
-    }
-
-    let exercises = try await service.getFavoriteExercises()
-    syncStorage(exercises, ofType: ExerciseEntity.self)
-    return exercises
+    return try await fetch(
+      forType: ExerciseEntity.self,
+      localTask: { await coreDataStore.favoriteExercises(for: currentUserID) },
+      remoteTask: { try await service.getFavoriteExercises() })
   }
 
   public func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
-    try await coreDataStore.favoriteExercise(exercise, isFavorite: isFavorite)
-
-    backgroundWorker.queueOperation(priority: .medium) {
-      try await service.setFavoriteExercise(exercise, isFavorite: isFavorite)
-    }
+    try await update(
+      localTask: { try await coreDataStore.favoriteExercise(exercise, isFavorite: isFavorite) },
+      remoteTask: { try await service.setFavoriteExercise(exercise, isFavorite: isFavorite) })
   }
 
   public func getExercisesByWorkoutGoal(_ workoutGoal: WorkoutGoal) async throws -> [Exercise] {
-    guard !shouldUseLocalStorageForEntity(ExerciseEntity.self) else {
-      return await coreDataStore.exercisesForWorkoutGoal(workoutGoal)
-    }
-
-    let exercises = try await service.getByWorkoutGoal(workoutGoal)
-    syncStorage(exercises, ofType: ExerciseEntity.self)
-    return exercises
+    try await fetch(
+      forType: ExerciseEntity.self,
+      localTask: { await coreDataStore.exercisesForWorkoutGoal(workoutGoal) },
+      remoteTask: { try await service.getByWorkoutGoal(workoutGoal) })
   }
 
   public func getExercisesForMuscleTypes(_ muscleTypes: [MuscleType]) async -> [Exercise] {
@@ -129,32 +124,16 @@ public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseR
   }
 
   public func searchByQuery(_ query: String) async throws -> [Exercise] {
-    let exercises = await coreDataStore.exercisesByQuery(query)
-
-    if !exercises.isEmpty {
-      return exercises
-    } else {
-      let remoteExercises = try await service.searchByQuery(query)
-      syncStorage(remoteExercises, ofType: ExerciseEntity.self)
-      return remoteExercises
-    }
+    try await fetch(
+      forType: ExerciseEntity.self,
+      localTask: { await coreDataStore.exercisesByQuery(query) },
+      remoteTask: { try await service.searchByQuery(query) })
   }
 
   public func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise] {
-    let localExercises = await coreDataStore.exercisesForMuscles(muscleGroup.muscles)
-    guard localExercises.isEmpty else {
-      return localExercises
-    }
-
-    let remoteExercises = try await service.getByMuscleGroup(muscleGroup)
-    syncStorage(remoteExercises, ofType: ExerciseEntity.self)
-    return remoteExercises
-  }
-
-  private func shouldUseLocalExercise(_ exercise: Exercise) -> Bool {
-    if let updatedAt = exercise.updatedAt, Date().timeIntervalSince(updatedAt) < localStorageUpdateThreshold {
-      return true
-    }
-    return false
+    try await fetch(
+      forType: ExerciseEntity.self,
+      localTask: { await coreDataStore.exercisesForMuscles(muscleGroup.muscles) },
+      remoteTask: { try await service.getByMuscleGroup(muscleGroup) })
   }
 }

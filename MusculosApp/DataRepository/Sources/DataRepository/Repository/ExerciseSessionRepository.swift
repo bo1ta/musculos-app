@@ -31,14 +31,10 @@ public struct ExerciseSessionRepository: @unchecked Sendable, BaseRepository, Ex
     guard let currentUserID else {
       throw MusculosError.unexpectedNil
     }
-
-    guard !shouldUseLocalStorageForEntity(ExerciseSessionEntity.self) else {
-      return await coreDataStore.exerciseSessionsForUser(currentUserID)
-    }
-
-    let exerciseSessions = try await service.getAll()
-    syncStorage(exerciseSessions, ofType: ExerciseSessionEntity.self)
-    return exerciseSessions
+    return try await fetch(
+      forType: ExerciseSessionEntity.self,
+      localTask: { await coreDataStore.exerciseSessionsForUser(currentUserID) },
+      remoteTask: { try await service.getAll() })
   }
 
   public func getRecommendationsForLeastWorkedMuscles() async throws -> [Exercise] {

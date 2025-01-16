@@ -47,6 +47,10 @@ public final class CoreDataStore: @unchecked Sendable {
     }
   }
 
+  public func entityListener<T: EntityType>(matching predicate: NSPredicate) -> EntityListener<T> {
+    EntityListener(storage: storageManager.writerDerivedStorage, predicate: predicate)
+  }
+
   public func update<T: EntitySyncable>(_ model: T.ModelType, of type: T.Type) async throws {
     try await storageManager.performWrite { storage in
       guard let firstObject = storage.firstObject(of: type, matching: model.matchingPredicate()) else {
@@ -89,8 +93,8 @@ public final class CoreDataStore: @unchecked Sendable {
     }
   }
 
-  public func entityListener<T: EntityType>(matching predicate: NSPredicate) -> EntityListener<T> {
-    EntityListener(storage: storageManager.writerDerivedStorage, predicate: predicate)
+  private static func userProfileEntity(byID userID: UUID, on storage: StorageType) -> UserProfileEntity? {
+    storage.firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.userId == userID)
   }
 }
 
@@ -117,8 +121,7 @@ extension CoreDataStore {
     async throws
   {
     try await storageManager.performWrite { storage in
-      let predicate: NSPredicate = \UserProfileEntity.userId == userId
-      guard let userProfile = storage.firstObject(of: UserProfileEntity.self, matching: predicate) else {
+      guard let userProfile = Self.userProfileEntity(byID: userId, on: storage) else {
         throw MusculosError.unexpectedNil
       }
 
@@ -148,14 +151,13 @@ extension CoreDataStore {
 
 extension CoreDataStore {
   public func userExperienceEntryByID(_ id: UUID) async -> UserExperienceEntry? {
-    let predicate: NSPredicate = \UserExperienceEntryEntity.modelID == id
-    return await getFirstObject(UserExperienceEntryEntity.self, predicate: predicate)
+    await getFirstObject(UserExperienceEntryEntity.self, predicate: \UserExperienceEntryEntity.modelID == id)
   }
 
   public func userExperienceForUserID(_ userID: UUID) async -> UserExperience? {
     await storageManager.performRead { storage in
       guard
-        let userProfile = storage.firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.userId == userID),
+        let userProfile = Self.userProfileEntity(byID: userID, on: storage),
         let experience = userProfile.userExperience
       else {
         return nil
@@ -166,35 +168,46 @@ extension CoreDataStore {
   }
 }
 
+// MARK: - ExerciseHelper
+
+enum ExerciseHelper {
+  static func exerciseMatchesGoal(_ exercise: Exercise, goal: Goal) -> Bool {
+    guard
+      let category = goal.category,
+      let mappedCategories = ExerciseConstants.goalToExerciseCategories[category]
+    else {
+      return false
+    }
+    return mappedCategories.contains(exercise.category)
+  }
+}
+
 // MARK: - Goal
 
 extension CoreDataStore {
   public func updateGoalProgress(userID: UUID, exerciseSession: ExerciseSession) async throws {
     try await storageManager.performWrite { storage in
-      let predicate: NSPredicate = \UserProfileEntity.userId == userID
-      guard
-        let currentUser = storage.firstObject(of: UserProfileEntity.self, matching: predicate),
-        !currentUser.goals.isEmpty
-      else {
+      guard let currentUser = Self.userProfileEntity(byID: userID, on: storage), !currentUser.goals.isEmpty else {
         return
       }
 
-      for goal in currentUser.goals {
-        guard let category = goal.category else {
-          continue
+      currentUser.goals
+        .filter { goal in
+          guard
+            let category = goal.category,
+            let mappedCategories = ExerciseConstants.goalToExerciseCategories[category]
+          else {
+            return false
+          }
+          return mappedCategories.contains(exerciseSession.exercise.category)
         }
-
-        if
-          let mappedCategories = ExerciseConstants.goalToExerciseCategories[category],
-          mappedCategories.contains(exerciseSession.exercise.category)
-        {
+        .forEach { goal in
           let progressEntry = storage.insertNewObject(ofType: ProgressEntryEntity.self)
           progressEntry.progressID = UUID()
           progressEntry.dateAdded = Date()
           progressEntry.goal = goal
           progressEntry.value = 1 as NSNumber
         }
-      }
     }
   }
 

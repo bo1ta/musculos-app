@@ -101,16 +101,6 @@ extension UserStoreTests {
   }
 
   private struct MockUserRepository: UserRepositoryProtocol {
-    func getUserByID(_: UUID) async -> Models.UserProfile? {
-      expectedUserProfile
-    }
-
-    func observeUserChanges(forUserID userID: UUID) -> EntityListener<UserProfileEntity> {
-      expectedUserListener ?? EntityListener(
-        storage: StorageContainer.shared.storageManager().viewStorage,
-        predicate: NSPredicate(format: "%K == %@", #keyPath(UserProfileEntity.userId), userID as NSUUID))
-    }
-
     var expectation: XCTestExpectation?
     var expectedUserSession: UserSession?
     var expectedUserProfile: UserProfile?
@@ -124,6 +114,16 @@ extension UserStoreTests {
       self.expectation = expectation
       self.expectedUserSession = expectedUserSession
       self.expectedUserProfile = expectedUserProfile
+    }
+
+    func getUserByID(_: UUID) async -> Models.UserProfile? {
+      expectedUserProfile
+    }
+
+    func observeUserChanges(forUserID userID: UUID) -> EntityListener<UserProfileEntity> {
+      expectedUserListener ?? EntityListener(
+        storage: StorageContainer.shared.storageManager().viewStorage,
+        predicate: NSPredicate(format: "%K == %@", #keyPath(UserProfileEntity.userId), userID as NSUUID))
     }
 
     func register(email _: String, password _: String, username _: String) async throws -> UserSession {

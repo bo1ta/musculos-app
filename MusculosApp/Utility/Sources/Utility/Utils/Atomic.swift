@@ -18,8 +18,8 @@ public final class Atomic<Value: Sendable> {
   /// - Parameters:
   ///   - initialValue: The initial value of the property
   ///
-  public init(initialValue: Value) {
-    lock = OSAllocatedUnfairLock(initialState: initialValue)
+  public init(wrappedValue: Value) {
+    lock = OSAllocatedUnfairLock(initialState: wrappedValue)
   }
 
   /// Accessor to the wrapped value.

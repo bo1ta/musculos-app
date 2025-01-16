@@ -44,8 +44,6 @@ public final class UserStore: @unchecked Sendable, UserStoreProtocol {
 
   @LazyInjected(\NetworkContainer.userManager) private var userManager: UserSessionManagerProtocol
   @LazyInjected(\DataRepositoryContainer.userRepository) private var repository: UserRepositoryProtocol
-  @LazyInjected(\StorageContainer.coreDataStore) private var coreDataStore: CoreDataStore
-  @LazyInjected(\StorageContainer.storageManager) private var storageManager: StorageManagerType
 
   // MARK: Private properties
 
@@ -83,7 +81,7 @@ public final class UserStore: @unchecked Sendable, UserStoreProtocol {
   public func authenticateSession(_ session: UserSession) async {
     userManager.updateSession(session)
 
-    if let user = await repository.getUserByID(session.user.id) {
+    if let user = await repository.getUserByID(session.userID) {
       currentUser = user
       sendEvent(.didLogin)
     }
@@ -101,8 +99,8 @@ public final class UserStore: @unchecked Sendable, UserStoreProtocol {
   public func logOut() {
     currentUser = nil
     stopObservingUser()
-    storageManager.reset()
     userManager.clearSession()
+    StorageContainer.shared.storageManager().reset()
     DataRepositoryContainer.shared.reset()
     sendEvent(.didLogout)
   }

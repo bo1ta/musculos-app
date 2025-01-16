@@ -35,39 +35,26 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
   }
 
   public func addGoal(_ goal: Goal) async throws {
-    try await coreDataStore.importModel(goal, of: GoalEntity.self)
-
-    backgroundWorker.queueOperation {
-      try await service.addGoal(goal)
-    }
+    try await update(
+      localTask: { try await coreDataStore.importModel(goal, of: GoalEntity.self) },
+      remoteTask: { try await service.addGoal(goal) })
   }
 
   public func getGoalDetails(_ goalID: UUID) async throws -> Goal? {
-    let goal = await coreDataStore.goalByID(goalID)
-
-    let backgroundTask = backgroundWorker.queueOperation {
-      try await service.getGoalByID(goalID)
-    }
-
-    if let goal {
-      return goal
-    } else {
-      return try await backgroundTask.value
-    }
+    try await fetch(
+      forType: GoalEntity.self,
+      localTask: { await coreDataStore.goalByID(goalID) },
+      remoteTask: { try await service.getGoalByID(goalID) })
   }
 
   public func getGoals() async throws -> [Goal] {
     guard let currentUserID else {
       throw MusculosError.unexpectedNil
     }
-
-    guard !shouldUseLocalStorageForEntity(GoalEntity.self) else {
-      return await coreDataStore.userProfileByID(currentUserID)?.goals ?? []
-    }
-
-    let goals = try await service.getUserGoals()
-    syncStorage(goals, ofType: GoalEntity.self)
-    return goals
+    return try await fetch(
+      forType: GoalEntity.self,
+      localTask: { await coreDataStore.userProfileByID(currentUserID)?.goals ?? [] },
+      remoteTask: { try await service.getUserGoals() })
   }
 
   public func addFromOnboardingGoal(_ onboardingGoal: OnboardingGoal, for user: UserProfile) async throws -> Goal {
@@ -81,9 +68,9 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
       dateAdded: Date(),
       user: user)
 
-    async let localTask: Void = coreDataStore.importModel(goal, of: GoalEntity.self)
-    async let remoteTask: Void = service.addGoal(goal)
-    _ = try await (localTask, remoteTask)
+    try await update(
+      localTask: { try await coreDataStore.importModel(goal, of: GoalEntity.self) },
+      remoteTask: { try await service.addGoal(goal) })
 
     return goal
   }

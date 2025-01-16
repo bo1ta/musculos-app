@@ -35,9 +35,9 @@ public struct RatingRepository: @unchecked Sendable, BaseRepository, RatingRepos
       return await coreDataStore.userProfileByID(currentUserID)?.ratings ?? []
     }
 
-    let ratings = try await service.getExerciseRatingsForCurrentUser()
-    syncStorage(ratings, ofType: ExerciseRatingEntity.self)
-    return ratings
+    return try await fetchAndSync(
+      remoteTask: { try await service.getExerciseRatingsForCurrentUser() },
+      syncType: ExerciseRatingEntity.self)
   }
 
   public func getUserRatingForExercise(_ exerciseID: UUID) async throws -> Double {
@@ -49,17 +49,15 @@ public struct RatingRepository: @unchecked Sendable, BaseRepository, RatingRepos
     guard isConnectedToInternet else {
       return await coreDataStore.exerciseByID(exerciseID)?.ratings ?? []
     }
-
-    let ratings = try await service.getRatingsByExerciseID(exerciseID)
-    syncStorage(ratings, ofType: ExerciseRatingEntity.self)
-    return ratings
+    return try await fetchAndSync(
+      remoteTask: { try await service.getRatingsByExerciseID(exerciseID) },
+      syncType: ExerciseRatingEntity.self)
   }
 
   public func addRating(rating: Double, for exerciseID: UUID) async throws {
     guard let currentUserID else {
       throw MusculosError.unexpectedNil
     }
-
     let exerciseRating = ExerciseRating(exerciseID: exerciseID, userID: currentUserID, isPublic: true, rating: rating)
     try await service.addExerciseRating(exerciseRating)
     syncStorage(exerciseRating, ofType: ExerciseRatingEntity.self)

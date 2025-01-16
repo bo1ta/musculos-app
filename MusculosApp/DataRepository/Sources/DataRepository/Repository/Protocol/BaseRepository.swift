@@ -14,17 +14,17 @@ import Utility
 
 protocol BaseRepository: Sendable {
   var localStorageUpdateThreshold: TimeInterval { get }
-
-  func syncStorage<T: EntitySyncable>(_ model: T.ModelType, ofType type: T.Type)
-  func syncStorage<T: EntitySyncable>(_ models: [T.ModelType], ofType type: T.Type)
-  func getSyncDateForEntity<T: EntitySyncable>(_ entity: T.Type) -> Date?
-  func setSyncDateForEntity<T: EntitySyncable>(_ entity: T.Type, date: Date)
-  func shouldUseLocalStorageForEntity<T: EntitySyncable>(_ entity: T.Type) -> Bool
 }
+
+// MARK: Default
 
 extension BaseRepository {
   var localStorageUpdateThreshold: TimeInterval { .oneHour }
+}
 
+// MARK: Common dependencies
+
+extension BaseRepository {
   var currentUserID: UUID? {
     NetworkContainer.shared.userManager().currentUserID
   }
@@ -40,7 +40,11 @@ extension BaseRepository {
   var backgroundWorker: BackgroundWorker {
     DataRepositoryContainer.shared.backgroundWorker()
   }
+}
 
+// MARK: Synchronization
+
+extension BaseRepository {
   func syncStorage<T: EntitySyncable>(_ models: [T.ModelType], ofType type: T.Type) {
     backgroundWorker.queueOperation {
       try await coreDataStore.importModels(models, of: type)
@@ -72,5 +76,101 @@ extension BaseRepository {
       return false
     }
     return Date().timeIntervalSince(lastUpdated) < localStorageUpdateThreshold
+  }
+}
+
+// MARK: Fetch functionalities
+
+extension BaseRepository {
+  func fetchAndSync<T: EntitySyncable>(
+    remoteTask: @escaping @Sendable () async throws -> [T.ModelType],
+    syncType type: T.Type)
+    async throws -> [T.ModelType]
+  {
+    let results = try await remoteTask()
+    syncStorage(results, ofType: type)
+    return results
+  }
+
+  func fetch<T: EntitySyncable>(
+    forType type: T.Type,
+    localTask: @escaping @Sendable () async -> T.ModelType?,
+    remoteTask: @escaping @Sendable () async throws -> T.ModelType?)
+    async throws -> T.ModelType?
+  {
+    if shouldUseLocalStorageForEntity(type) || !isConnectedToInternet, let localResult = await localTask() {
+      return localResult
+    }
+
+    if let results = try await remoteTask() {
+      syncStorage(results, ofType: type)
+      return results
+    }
+    return nil
+  }
+
+  func fetch<T: EntitySyncable>(
+    forType type: T.Type,
+    localTask: @escaping @Sendable () async -> [T.ModelType],
+    remoteTask: @escaping @Sendable () async throws -> [T.ModelType])
+    async throws -> [T.ModelType]
+  {
+    var localResults: [T.ModelType] = []
+    if shouldUseLocalStorageForEntity(type) || !isConnectedToInternet {
+      localResults = await localTask()
+    }
+    guard localResults.isEmpty else {
+      return localResults
+    }
+
+    let results = try await remoteTask()
+    syncStorage(results, ofType: type)
+    return results
+  }
+
+  func makeAsyncStream<T>(
+    localFetch: @escaping @Sendable () async -> T,
+    remoteFetch: @escaping @Sendable () async throws -> T)
+    -> AsyncStream<Result<T, Error>>
+  {
+    AsyncStream { continuation in
+      let task = Task {
+        do {
+          try Task.checkCancellation()
+
+          let localResults = await localFetch()
+          continuation.yield(.success(localResults))
+
+          try Task.checkCancellation()
+
+          let remoteResults = try await remoteFetch()
+          continuation.yield(.success(remoteResults))
+
+          continuation.finish()
+        } catch {
+          continuation.yield(.failure(error))
+        }
+        continuation.finish()
+      }
+
+      continuation.onTermination = { _ in
+        task.cancel()
+      }
+    }
+  }
+}
+
+// MARK: Update functionalities
+
+extension BaseRepository {
+  func update(
+    localTask: @escaping @Sendable () async throws -> Void,
+    remoteTask: @escaping @Sendable () async throws -> Void)
+    async throws
+  {
+    try await localTask()
+    backgroundWorker.queueOperation {
+      try await remoteTask()
+    }
   }
 }
