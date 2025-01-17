@@ -74,11 +74,12 @@ public final class RouteMapViewController: UIViewController {
     }
   }
 
-  private func updateUserAnnotationSize() {
-    guard let userAnnotationView = mapView.annotations.first(where: { $0 is MKUserLocation }) as? UserLocationAnnotationView else {
-      return
+  var mapCameraType: MapCameraType = .planning {
+    didSet {
+      if mapCameraType == .walking {
+        enableWalkingMode()
+      }
     }
-    userAnnotationView.updateArrowSize(15)
   }
 
   // MARK: Lifecycle
@@ -232,6 +233,13 @@ extension RouteMapViewController {
     mapView.camera.centerCoordinate = location.coordinate
   }
 
+  private func updateUserAnnotationSize(_ size: Double = 15) {
+    guard let userAnnotationView = mapView.annotations.first(where: { $0 is MKUserLocation }) as? UserLocationAnnotationView else {
+      return
+    }
+    userAnnotationView.updateArrowSize(size)
+  }
+
   private func addMarker(at coordinate: CLLocationCoordinate2D, with title: String? = nil) {
     let annotation = MKPointAnnotation()
     annotation.coordinate = coordinate
@@ -296,6 +304,20 @@ extension RouteMapViewController {
       addMarker(at: result.placemark.coordinate, with: result.name)
       Logger.info(message: "Added map placemark from results")
     }
+  }
+
+  public func enableWalkingMode() {
+    guard let userLocation = mapView.userLocation.location else {
+      return
+    }
+
+    let camera = MKMapCamera()
+    camera.centerCoordinate = userLocation.coordinate
+    camera.centerCoordinateDistance = 300
+    camera.pitch = 60
+    camera.heading = mapView.camera.heading
+    mapView.mapType = .standard
+    mapView.setCamera(camera, animated: true)
   }
 }
 

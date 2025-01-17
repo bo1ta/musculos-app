@@ -21,12 +21,13 @@ public struct RoutePlannerScreen: View {
         currentLocation: $viewModel.currentLocation,
         averagePace: $viewModel.averagePace,
         mapItemResults: $viewModel.queryResults,
-        currentRoute: $viewModel.currentRoute)
+        currentRoute: $viewModel.currentRoute,
+        mapCameraType: $viewModel.mapCameraType)
     }
     .sheet(isPresented: .constant(true)) {
       RoutePlannerSheetContainer(
         viewModel: viewModel,
-        onStart: { })
+        onStart: { viewModel.mapCameraType = .walking })
     }
     .ignoresSafeArea()
     .onDisappear(perform: viewModel.onDisappear)

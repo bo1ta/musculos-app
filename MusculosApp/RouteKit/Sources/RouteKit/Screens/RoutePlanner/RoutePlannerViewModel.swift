@@ -13,19 +13,17 @@ import MapKit
 import Observation
 import Utility
 
+enum MapCameraType {
+  case walking
+  case planning
+}
+
 @MainActor
 @Observable
 final class RoutePlannerViewModel {
-  struct RouteState {
-    var originItem: MapItemData?
-    var destinationItem: MapItemData?
-    var route: MKRoute?
-  }
 
   @ObservationIgnored
   @LazyInjected(\RouteKitContainer.mapKitClient) private var client: MapKitClient
-
-  private(set) var routeState: RouteState?
 
   var averagePace: Double = 0
   var showRouteForm = false
@@ -36,6 +34,9 @@ final class RoutePlannerViewModel {
   var startLocation = ""
   var endLocation = ""
   var currentZoomLevel: CLLocationDistance = 0.01
+  var mapCameraType: MapCameraType = .planning
+  var elapsedTime = 0
+  var isTimerActive = false
 
   var currentPlacemark: CLPlacemark? {
     didSet {
@@ -61,6 +62,7 @@ final class RoutePlannerViewModel {
 
   private var searchTask: Task<Void, Never>?
   private var routeTask: Task<Void, Never>?
+  private var timerTask: Task<Void, Never>?
   private let currentQuerySubject = PassthroughSubject<String, Never>()
   private var cancellables: Set<AnyCancellable> = []
 
@@ -85,11 +87,6 @@ final class RoutePlannerViewModel {
     } catch {
       Logger.error(error, message: "Error loading current location details")
     }
-  }
-
-  func onDisappear() {
-    searchTask?.cancel()
-    routeTask?.cancel()
   }
 
   // MARK: Search query
@@ -154,5 +151,56 @@ final class RoutePlannerViewModel {
 
   nonisolated private func getLocationDetails(_ location: CLLocation) async throws -> MapItemData? {
     try await client.getLocationDetails(location)
+  }
+
+  // MARK: Running + timer
+
+  func startRunning() {
+    guard wizardStep == .confirm else {
+      return
+    }
+
+    wizardStep = .inProgress
+    mapCameraType = .walking
+    startTimer()
+  }
+
+  func stopRunning() {
+    guard wizardStep == .inProgress else {
+      return
+    }
+
+    resetQuery()
+    stopTimer()
+    wizardStep = .search
+    mapCameraType = .planning
+  }
+
+  private func resetQuery() {
+    queryResults.removeAll()
+    queryLocation = ""
+    endLocation = ""
+  }
+
+  func startTimer() {
+    guard !isTimerActive else {
+      Logger.warning(message: "Timer already running!")
+      return
+    }
+
+    isTimerActive = true
+
+    timerTask = Task { [weak self] in
+      repeat {
+        try? await Task.sleep(for: .seconds(1))
+        self?.elapsedTime += 1
+      } while !Task.isCancelled && self?.isTimerActive == true
+    }
+  }
+
+  func stopTimer() {
+    timerTask?.cancel()
+    timerTask = nil
+    isTimerActive = false
   }
 }

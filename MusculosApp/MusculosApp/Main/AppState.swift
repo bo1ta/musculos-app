@@ -40,6 +40,7 @@ final class AppState {
   @ObservationIgnored
   @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
 
+
   private var cancellables = Set<AnyCancellable>()
   private(set) var state = State.loading
 

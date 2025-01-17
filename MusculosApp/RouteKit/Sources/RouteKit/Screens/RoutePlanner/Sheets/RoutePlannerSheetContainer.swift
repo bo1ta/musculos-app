@@ -15,6 +15,7 @@ import Utility
 enum RoutePlannerWizardStep {
   case search
   case confirm
+  case inProgress
 }
 
 // MARK: - RoutePlannerSheetContainer
@@ -43,11 +44,15 @@ struct RoutePlannerSheetContainer: View {
         ConfirmRouteSheet(
           startLocation: $viewModel.startLocation,
           endLocation: $viewModel.endLocation,
-          onStart: onStart)
+          onStart: viewModel.startRunning)
           .transition(.move(edge: .leading).combined(with: .opacity))
           .task {
             await viewModel.loadCurrentLocationData()
           }
+
+      case .inProgress:
+        ProgressButton(elapsedTime: viewModel.elapsedTime, onClick: viewModel.stopRunning)
+          .padding(.top)
       }
       Spacer()
     }
