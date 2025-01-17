@@ -7,23 +7,39 @@
 
 import Combine
 import CoreLocation
+import DataRepository
 import Factory
 import Foundation
 import MapKit
+import Models
 import Observation
 import Utility
+
+// MARK: - MapCameraType
 
 enum MapCameraType {
   case walking
   case planning
 }
 
+// MARK: - RoutePlannerViewModel
+
 @MainActor
 @Observable
 final class RoutePlannerViewModel {
 
+  // MARK: Dependencies
+
   @ObservationIgnored
   @LazyInjected(\RouteKitContainer.mapKitClient) private var client: MapKitClient
+
+  @ObservationIgnored
+  @LazyInjected(\DataRepositoryContainer.routeExerciseSessionRepository) private var repository: RouteExerciseSessionRepositoryProtocol
+
+  // MARK: Observed properties
+
+  private var originCoordinates: CLLocationCoordinate2D?
+  private var destinationCoordinates: CLLocationCoordinate2D?
 
   var averagePace: Double = 0
   var showRouteForm = false
@@ -34,7 +50,7 @@ final class RoutePlannerViewModel {
   var startLocation = ""
   var endLocation = ""
   var currentZoomLevel: CLLocationDistance = 0.01
-  var mapCameraType: MapCameraType = .planning
+  var mapCameraType = MapCameraType.planning
   var elapsedTime = 0
   var isTimerActive = false
 
@@ -48,7 +64,7 @@ final class RoutePlannerViewModel {
 
   var destinationMapItem: MapItemData? {
     didSet {
-      if let destinationMapItem  {
+      if let destinationMapItem {
         endLocation = destinationMapItem.name
       }
     }
@@ -60,11 +76,14 @@ final class RoutePlannerViewModel {
     }
   }
 
-  private var searchTask: Task<Void, Never>?
-  private var routeTask: Task<Void, Never>?
-  private var timerTask: Task<Void, Never>?
+  private(set) var searchTask: Task<Void, Never>?
+  private(set) var routeTask: Task<Void, Never>?
+  private(set) var timerTask: Task<Void, Never>?
+  private(set) var saveSessionTask: Task<Void, Never>?
   private let currentQuerySubject = PassthroughSubject<String, Never>()
   private var cancellables: Set<AnyCancellable> = []
+
+  // MARK: Lifecycle
 
   init() {
     currentQuerySubject.eraseToAnyPublisher()
@@ -75,6 +94,16 @@ final class RoutePlannerViewModel {
       .store(in: &cancellables)
   }
 
+  func onDisappear() {
+    searchTask?.cancel()
+    routeTask?.cancel()
+    timerTask?.cancel()
+  }
+}
+
+// MARK: - Tasks
+
+extension RoutePlannerViewModel {
   func loadCurrentLocationData() async {
     guard let currentLocation else {
       return
@@ -202,5 +231,17 @@ final class RoutePlannerViewModel {
     timerTask?.cancel()
     timerTask = nil
     isTimerActive = false
+  }
+
+  // MARK: Save session
+
+  private func saveRouteSession() {
+    saveSessionTask = Task {
+      guard let originCoordinates, let destinationCoordinates else {
+        Logger.warning(message: "Cannot save route session as origin or destination coordinates are nil.")
+        return
+      }
+      // TODO: Save session
+    }
   }
 }

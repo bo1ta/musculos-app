@@ -14,6 +14,7 @@ let package = Package(
   dependencies: [
     .package(name: "Utility", path: "../Utility"),
     .package(name: "Components", path: "../Components"),
+    .package(name: "DataRepository", path: "../DataRepository"),
     .package(url: "https://github.com/hmlongco/Factory", exact: "2.4.3"),
   ],
   targets: [
@@ -22,6 +23,7 @@ let package = Package(
       dependencies: [
         .product(name: "Utility", package: "Utility"),
         .product(name: "Components", package: "Components"),
+        .product(name: "DataRepository", package: "DataRepository"),
         "Factory",
       ]),
     .testTarget(

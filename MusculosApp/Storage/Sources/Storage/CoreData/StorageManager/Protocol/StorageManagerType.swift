@@ -9,6 +9,7 @@ import CoreData
 import Foundation
 
 public typealias ReadStorageClosure<ResultType> = (StorageType) -> ResultType
+
 public typealias WriteStorageClosure = (StorageType) throws -> Void
 
 // MARK: - StorageManagerType
@@ -24,7 +25,6 @@ public protocol StorageManagerType {
 
   /// The time interval to save, after the last write
   ///
-
   var coalesceSaveInterval: Double { get }
 
   /// Save core data changes

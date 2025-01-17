@@ -30,23 +30,21 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
       .store(in: &cancellables)
   }
 
-  public var coalesceSaveInterval: Double {
-    0.3
-  }
+  public var coalesceSaveInterval: Double { 0.3 }
 
   // MARK: - Migration
 
-  private let dataModelVersion = "0.008"
+  private static let dataModelVersion = "0.009"
 
   private func shouldRecreateDataStore() -> Bool {
     guard let version = UserDefaults.standard.string(forKey: UserDefaultsKey.coreDataModelVersion) else {
       return false
     }
-    return version != dataModelVersion
+    return version != Self.dataModelVersion
   }
 
   private func updateDataModelVersion() {
-    UserDefaults.standard.setValue(dataModelVersion, forKey: UserDefaultsKey.coreDataModelVersion)
+    UserDefaults.standard.setValue(Self.dataModelVersion, forKey: UserDefaultsKey.coreDataModelVersion)
   }
 
   // MARK: - Core Data Stack
@@ -189,14 +187,21 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
     let viewContext = persistentContainer.viewContext
 
     for entity in persistentContainer.persistentStoreCoordinator.managedObjectModel.entities {
-      let request = NSBatchDeleteRequest(
-        fetchRequest: NSFetchRequest(entityName: entity.name ?? ""))
+      guard let entityName = entity.name else {
+        continue
+      }
+
+      let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: entityName)
+
       do {
-        try viewContext.execute(request)
+        let objects = try viewContext.fetch(fetchRequest)
+        for object in objects {
+          viewContext.delete(object)
+        }
+        viewContext.saveIfNeeded()
       } catch {
-        Logger.error(error, message: "Could not delete stored objects")
+        print("Failed to fetch objects for entity \(entityName): \(error)")
       }
     }
-    viewContext.saveIfNeeded()
   }
 }

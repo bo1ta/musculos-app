@@ -10,10 +10,6 @@ import Foundation
 import Utility
 
 public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
-  override public var coalesceSaveInterval: Double {
-    0.0
-  }
-
   private var _persistentContainer: NSPersistentContainer?
 
   override public init() { }
@@ -49,29 +45,6 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
 
   override public func performWrite(_ writeClosure: @escaping WriteStorageClosure) async throws {
     try await super.performWrite(writeClosure)
-
     await saveChanges()
-  }
-
-  override public func deleteAllStoredObjects() {
-    let viewContext = persistentContainer.viewContext
-
-    for entity in persistentContainer.persistentStoreCoordinator.managedObjectModel.entities {
-      guard let entityName = entity.name else {
-        continue
-      }
-
-      let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: entityName)
-
-      do {
-        let objects = try viewContext.fetch(fetchRequest)
-        for object in objects {
-          viewContext.delete(object)
-        }
-        viewContext.saveIfNeeded()
-      } catch {
-        print("Failed to fetch objects for entity \(entityName): \(error)")
-      }
-    }
   }
 }

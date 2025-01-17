@@ -9,11 +9,9 @@ import Combine
 import Network
 
 public class StubNetworkMonitor: NetworkMonitorProtocol, @unchecked Sendable {
-  public lazy var connectionStatusStream: AsyncStream<NWPath.Status> = {
-    AsyncStream { continuation in
-      self.continuation = continuation
-    }
-  }()
+  public lazy var connectionStatusStream: AsyncStream<NWPath.Status> = AsyncStream { continuation in
+    self.continuation = continuation
+  }
 
   private var continuation: AsyncStream<NWPath.Status>.Continuation?
 

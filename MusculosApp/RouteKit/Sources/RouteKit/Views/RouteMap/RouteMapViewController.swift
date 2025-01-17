@@ -74,7 +74,7 @@ public final class RouteMapViewController: UIViewController {
     }
   }
 
-  var mapCameraType: MapCameraType = .planning {
+  var mapCameraType = MapCameraType.planning {
     didSet {
       if mapCameraType == .walking {
         enableWalkingMode()
@@ -234,7 +234,8 @@ extension RouteMapViewController {
   }
 
   private func updateUserAnnotationSize(_ size: Double = 15) {
-    guard let userAnnotationView = mapView.annotations.first(where: { $0 is MKUserLocation }) as? UserLocationAnnotationView else {
+    guard let userAnnotationView = mapView.annotations.first(where: { $0 is MKUserLocation }) as? UserLocationAnnotationView
+    else {
       return
     }
     userAnnotationView.updateArrowSize(size)
@@ -279,7 +280,10 @@ extension RouteMapViewController {
       let routeRect = routeOverlay.boundingMapRect
       let padding: CGFloat = 100.0
       let paddedRect = routeRect.insetBy(dx: -padding, dy: -padding)
-      mapView.setVisibleMapRect(paddedRect, edgePadding: UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding), animated: true)
+      mapView.setVisibleMapRect(
+        paddedRect,
+        edgePadding: UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding),
+        animated: true)
     }
   }
 
