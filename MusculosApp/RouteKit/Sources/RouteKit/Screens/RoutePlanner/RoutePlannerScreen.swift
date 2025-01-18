@@ -25,9 +25,7 @@ public struct RoutePlannerScreen: View {
         mapCameraType: $viewModel.mapCameraType)
     }
     .sheet(isPresented: .constant(true)) {
-      RoutePlannerSheetContainer(
-        viewModel: viewModel,
-        onStart: { viewModel.mapCameraType = .walking })
+      RoutePlannerSheet(viewModel: viewModel)
     }
     .ignoresSafeArea()
     .onDisappear(perform: viewModel.onDisappear)

@@ -6,52 +6,52 @@
 //
 
 import Components
+import Factory
 import CoreLocation
 import SwiftUI
 import Utility
 
-// MARK: - RoutePlannerWizardStep
-
-enum RoutePlannerWizardStep {
-  case search
-  case confirm
-  case inProgress
-}
-
 // MARK: - RoutePlannerSheetContainer
 
-struct RoutePlannerSheetContainer: View {
+struct RoutePlannerSheet: View {
+
+  enum WizardStep {
+    case search
+    case confirm
+    case inProgress
+  }
+
   @State private var activeDetent = PresentationDetent.minimized
+  @State private var currentStep: WizardStep = .search
 
   var viewModel: RoutePlannerViewModel
-  var onStart: () -> Void
 
   var body: some View {
     @Bindable var viewModel = viewModel
 
     VStack {
-      switch viewModel.wizardStep {
+      switch currentStep {
       case .search:
-        SearchLocationSheet(
+        SearchLocationSheetView(
           destinationLocation: $viewModel.queryLocation,
           currentLocation: viewModel.currentLocation,
           mapItemResults: viewModel.queryResults,
           selectedMapItem: viewModel.destinationMapItem,
-          onSelectResult: viewModel.setRouteForItem(_:))
+          onSelectResult: handleSelectSearchResult(_:))
           .transition(.move(edge: .trailing))
 
       case .confirm:
-        ConfirmRouteSheet(
+        ConfirmRouteSheetView(
           startLocation: $viewModel.startLocation,
           endLocation: $viewModel.endLocation,
-          onStart: viewModel.startRunning)
+          onStart: handleConfirmRoute)
           .transition(.move(edge: .leading).combined(with: .opacity))
           .task {
             await viewModel.loadCurrentLocationData()
           }
 
       case .inProgress:
-        ProgressButton(elapsedTime: viewModel.elapsedTime, onClick: viewModel.stopRunning)
+        ProgressButton(elapsedTime: viewModel.elapsedTime, onClick: handleStopRunning)
           .padding(.top)
       }
       Spacer()
@@ -61,22 +61,37 @@ struct RoutePlannerSheetContainer: View {
     .onChange(of: viewModel.queryResults) { _, newValue in
       updateActiveDetentForResults(newValue)
     }
-    .onChange(of: viewModel.wizardStep) { _, newValue in
-      updateActiveDetentForWizardStep(newValue)
-    }
     .presentationDetents([.expanded, .middle, .minimized], selection: $activeDetent)
     .presentationBackgroundInteraction(.enabled)
     .presentationDragIndicator(.visible)
     .interactiveDismissDisabled()
-    .animation(.easeInOut(duration: UIConstant.AnimationDuration.medium), value: viewModel.wizardStep)
+    .animation(.easeInOut(duration: UIConstant.AnimationDuration.medium), value: currentStep)
   }
 
   private func updateActiveDetentForResults(_ results: [MapItemData]) {
     activeDetent = results.isEmpty ? .minimized : .expanded
   }
 
-  private func updateActiveDetentForWizardStep(_ step: RoutePlannerWizardStep) {
+  private func updateActiveDetentForWizardStep(_ step: WizardStep) {
     activeDetent = step == .confirm ? .middle : .minimized
+  }
+
+  private func handleSelectSearchResult(_ result: MapItemData) {
+    currentStep = .confirm
+    updateActiveDetentForWizardStep(.confirm)
+    viewModel.setRouteForItem(result)
+  }
+
+  private func handleConfirmRoute() {
+    currentStep = .inProgress
+    updateActiveDetentForWizardStep(.inProgress)
+    viewModel.startRunning()
+  }
+
+  private func handleStopRunning() {
+    currentStep = .search
+    updateActiveDetentForWizardStep(.search)
+    viewModel.stopRunning()
   }
 
   func getDistanceDisplay(_ item: MapItemData) -> String {

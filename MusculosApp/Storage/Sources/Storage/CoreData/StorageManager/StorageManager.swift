@@ -200,7 +200,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
         }
         viewContext.saveIfNeeded()
       } catch {
-        print("Failed to fetch objects for entity \(entityName): \(error)")
+        Logger.error(error, message: "Failed to fetch objects for entity \(entityName): \(error)")
       }
     }
   }

@@ -46,7 +46,6 @@ final class RoutePlannerViewModel {
   var currentLocation: CLLocation?
   var queryResults: [MapItemData] = []
   var currentRoute: MKRoute?
-  var wizardStep = RoutePlannerWizardStep.search
   var startLocation = ""
   var endLocation = ""
   var currentZoomLevel: CLLocationDistance = 0.01
@@ -162,7 +161,6 @@ extension RoutePlannerViewModel {
 
         currentRoute = directions.routes.first
         destinationMapItem = item
-        wizardStep = .confirm
 
       } catch {
         Logger.error(error, message: "Could not retrieve route")
@@ -185,23 +183,13 @@ extension RoutePlannerViewModel {
   // MARK: Running + timer
 
   func startRunning() {
-    guard wizardStep == .confirm else {
-      return
-    }
-
-    wizardStep = .inProgress
     mapCameraType = .walking
     startTimer()
   }
 
   func stopRunning() {
-    guard wizardStep == .inProgress else {
-      return
-    }
-
     resetQuery()
     stopTimer()
-    wizardStep = .search
     mapCameraType = .planning
   }
 

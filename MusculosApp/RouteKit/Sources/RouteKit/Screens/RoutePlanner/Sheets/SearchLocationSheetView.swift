@@ -10,7 +10,7 @@ import CoreLocation
 import SwiftUI
 import Utility
 
-struct SearchLocationSheet: View {
+struct SearchLocationSheetView: View {
   @Binding var destinationLocation: String
   var currentLocation: CLLocation?
   var mapItemResults: [MapItemData]
