@@ -158,11 +158,11 @@ final class ExerciseDetailsViewModel {
     isTimerActive = true
     elapsedTime = 0
 
-    timerTask = Task { [weak self, isTimerActive] in
+    timerTask = Task { [weak self] in
       repeat {
         try? await Task.sleep(for: .seconds(1))
         self?.elapsedTime += 1
-      } while !Task.isCancelled && isTimerActive
+      } while !Task.isCancelled && self?.isTimerActive == true
     }
   }
 
