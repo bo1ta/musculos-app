@@ -5,8 +5,8 @@
 //  Created by Solomon Alexandru on 04.06.2023.
 //
 
-import Factory
 import Components
+import Factory
 import Navigator
 import SwiftUI
 import Utility
@@ -57,7 +57,7 @@ struct RootTabView: View {
           }
       }
       .onNavigationReceive { (tab: RootTabs, navigator) in
-        navigator.dismissAll()
+        _ = try? navigator.dismissAll()
         selectedTab = tab
         return .auto
       }

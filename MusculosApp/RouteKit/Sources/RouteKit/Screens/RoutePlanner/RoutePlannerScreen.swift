@@ -21,18 +21,11 @@ public struct RoutePlannerScreen: View {
         currentLocation: $viewModel.currentLocation,
         averagePace: $viewModel.averagePace,
         mapItemResults: $viewModel.queryResults,
-        currentRoute: $viewModel.currentRoute)
+        currentRoute: $viewModel.currentRoute,
+        mapCameraType: $viewModel.mapCameraType)
     }
     .sheet(isPresented: .constant(true)) {
-      RoutePlannerSheetContainer(
-        wizardStep: $viewModel.currentWizardStep,
-        destinationLocation: $viewModel.endLocation,
-        startLocation: $viewModel.startLocation,
-        currentLocation: viewModel.currentLocation,
-        mapItemResults: viewModel.queryResults,
-        selectedMapITem: viewModel.destinationMapItem,
-        onSelectResult: viewModel.setRouteForItem(_:),
-        onStart: { })
+      RoutePlannerSheet(viewModel: viewModel)
     }
     .ignoresSafeArea()
     .onDisappear(perform: viewModel.onDisappear)

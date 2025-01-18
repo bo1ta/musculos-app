@@ -15,17 +15,23 @@ public struct RouteMap: UIViewControllerRepresentable {
   @Binding var averagePace: Double
   @Binding var mapItemResults: [MapItemData]
   @Binding var currentRoute: MKRoute?
+  @Binding var zoomLevel: CLLocationDistance
+  @Binding var mapCameraType: MapCameraType
 
   init(
     currentLocation: Binding<CLLocation?> = .constant(nil),
     averagePace: Binding<Double>,
     mapItemResults: Binding<[MapItemData]> = .constant([]),
-    currentRoute: Binding<MKRoute?> = .constant(nil))
+    currentRoute: Binding<MKRoute?> = .constant(nil),
+    zoomLevel: Binding<CLLocationDistance> = .constant(0.01),
+    mapCameraType: Binding<MapCameraType> = .constant(.planning))
   {
     _currentLocation = currentLocation
     _averagePace = averagePace
     _mapItemResults = mapItemResults
     _currentRoute = currentRoute
+    _zoomLevel = zoomLevel
+    _mapCameraType = mapCameraType
   }
 
   public func makeUIViewController(context _: Context) -> RouteMapViewController {
@@ -38,5 +44,7 @@ public struct RouteMap: UIViewControllerRepresentable {
   public func updateUIViewController(_ uiViewController: RouteMapViewController, context _: Context) {
     uiViewController.mapItemResults = mapItemResults
     uiViewController.currentRoute = currentRoute
+    uiViewController.zoomLevel = zoomLevel
+    uiViewController.mapCameraType = mapCameraType
   }
 }

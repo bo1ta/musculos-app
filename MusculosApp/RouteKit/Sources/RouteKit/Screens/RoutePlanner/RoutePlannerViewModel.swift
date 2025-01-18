@@ -7,34 +7,51 @@
 
 import Combine
 import CoreLocation
+import DataRepository
 import Factory
 import Foundation
 import MapKit
+import Models
 import Observation
 import Utility
+
+// MARK: - MapCameraType
+
+enum MapCameraType {
+  case walking
+  case planning
+}
+
+// MARK: - RoutePlannerViewModel
 
 @MainActor
 @Observable
 final class RoutePlannerViewModel {
-  struct RouteState {
-    var originItem: MapItemData?
-    var destinationItem: MapItemData?
-    var route: MKRoute?
-  }
+
+  // MARK: Dependencies
 
   @ObservationIgnored
   @LazyInjected(\RouteKitContainer.mapKitClient) private var client: MapKitClient
 
-  private(set) var routeState: RouteState?
+  @ObservationIgnored
+  @LazyInjected(\DataRepositoryContainer.routeExerciseSessionRepository) private var repository: RouteExerciseSessionRepositoryProtocol
+
+  // MARK: Observed properties
+
+  private var originCoordinates: CLLocationCoordinate2D?
+  private var destinationCoordinates: CLLocationCoordinate2D?
 
   var averagePace: Double = 0
   var showRouteForm = false
   var currentLocation: CLLocation?
   var queryResults: [MapItemData] = []
-  var destinationMapItem: MapItemData?
   var currentRoute: MKRoute?
-  var currentWizardStep = RoutePlannerWizardStep.search
   var startLocation = ""
+  var endLocation = ""
+  var currentZoomLevel: CLLocationDistance = 0.01
+  var mapCameraType = MapCameraType.planning
+  var elapsedTime = 0
+  var isTimerActive = false
 
   var currentPlacemark: CLPlacemark? {
     didSet {
@@ -44,16 +61,28 @@ final class RoutePlannerViewModel {
     }
   }
 
-  var endLocation = "" {
+  var destinationMapItem: MapItemData? {
     didSet {
-      currentQuerySubject.send(endLocation)
+      if let destinationMapItem {
+        endLocation = destinationMapItem.name
+      }
     }
   }
 
-  private var searchTask: Task<Void, Never>?
-  private var routeTask: Task<Void, Never>?
+  var queryLocation = "" {
+    didSet {
+      currentQuerySubject.send(queryLocation)
+    }
+  }
+
+  private(set) var searchTask: Task<Void, Never>?
+  private(set) var routeTask: Task<Void, Never>?
+  private(set) var timerTask: Task<Void, Never>?
+  private(set) var saveSessionTask: Task<Void, Never>?
   private let currentQuerySubject = PassthroughSubject<String, Never>()
   private var cancellables: Set<AnyCancellable> = []
+
+  // MARK: Lifecycle
 
   init() {
     currentQuerySubject.eraseToAnyPublisher()
@@ -67,12 +96,31 @@ final class RoutePlannerViewModel {
   func onDisappear() {
     searchTask?.cancel()
     routeTask?.cancel()
+    timerTask?.cancel()
+  }
+}
+
+// MARK: - Tasks
+
+extension RoutePlannerViewModel {
+  func loadCurrentLocationData() async {
+    guard let currentLocation else {
+      return
+    }
+    do {
+      let data = try await client.getLocationDetails(currentLocation)
+      if let data {
+        startLocation = data.name
+      }
+    } catch {
+      Logger.error(error, message: "Error loading current location details")
+    }
   }
 
   // MARK: Search query
 
   func searchQuery(_ query: String) {
-    guard let currentLocation, !endLocation.isEmpty else {
+    guard let currentLocation, !query.isEmpty else {
       queryResults.removeAll()
       return
     }
@@ -80,6 +128,9 @@ final class RoutePlannerViewModel {
     searchTask = Task {
       do {
         queryResults = try await getMapItemsForQuery(query, on: currentLocation)
+        if !queryResults.isEmpty {
+          currentZoomLevel = 0.10
+        }
       } catch {
         Logger.error(error, message: "Could not perform search using MapKitClient")
       }
@@ -110,7 +161,6 @@ final class RoutePlannerViewModel {
 
         currentRoute = directions.routes.first
         destinationMapItem = item
-        currentWizardStep = .confirm
 
       } catch {
         Logger.error(error, message: "Could not retrieve route")
@@ -128,5 +178,58 @@ final class RoutePlannerViewModel {
 
   nonisolated private func getLocationDetails(_ location: CLLocation) async throws -> MapItemData? {
     try await client.getLocationDetails(location)
+  }
+
+  // MARK: Running + timer
+
+  func startRunning() {
+    mapCameraType = .walking
+    startTimer()
+  }
+
+  func stopRunning() {
+    resetQuery()
+    stopTimer()
+    mapCameraType = .planning
+  }
+
+  private func resetQuery() {
+    queryResults.removeAll()
+    queryLocation = ""
+    endLocation = ""
+  }
+
+  func startTimer() {
+    guard !isTimerActive else {
+      Logger.warning(message: "Timer already running!")
+      return
+    }
+
+    isTimerActive = true
+
+    timerTask = Task { [weak self] in
+      repeat {
+        try? await Task.sleep(for: .seconds(1))
+        self?.elapsedTime += 1
+      } while !Task.isCancelled && self?.isTimerActive == true
+    }
+  }
+
+  func stopTimer() {
+    timerTask?.cancel()
+    timerTask = nil
+    isTimerActive = false
+  }
+
+  // MARK: Save session
+
+  private func saveRouteSession() {
+    saveSessionTask = Task {
+      guard let originCoordinates, let destinationCoordinates else {
+        Logger.warning(message: "Cannot save route session as origin or destination coordinates are nil.")
+        return
+      }
+      // TODO: Save session
+    }
   }
 }

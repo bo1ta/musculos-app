@@ -13,42 +13,34 @@ import Queue
 import Utility
 
 actor OfflineRequestManager {
-  private let queue = AsyncQueue()
+  @Injected(\NetworkContainer.networkMonitor) private var networkMonitor: NetworkMonitorProtocol
 
   private var pendingRequests: [APIRequest] = []
+
   private var isInternetAvailable = false
-  private nonisolated(unsafe) var cancellable: Cancellable?
+  private var retryTask: Task<Void, Never>?
 
   init() {
-    cancellable = NetworkContainer.shared.networkMonitor().connectionStatusPublisher
-      .sink { [weak self] connectionStatus in
-        self?.queue.addOperation { [weak self] in
-          await self?.handleConnection(connectionStatus)
-        }
+    Task {
+      for await connectionStatus in await networkMonitor.connectionStatusPublisher.values {
+        await handleConnectionChange(connectionStatus)
       }
-  }
-
-  func addToPendingRequests(_ request: APIRequest) {
-    guard request.method == .post else {
-      return
     }
-    pendingRequests.append(request)
   }
 
-  func isConnectionError(_ error: Error) -> Bool {
-    (error as? URLError)?.code == .notConnectedToInternet
-  }
-
-  func cancelPendingRequests() async {
-    await queue.addBarrierOperation(operation: { }).value
-    pendingRequests.removeAll()
-  }
-
-  private func handleConnection(_ connectionStatus: NWPath.Status) async {
+  private func handleConnectionChange(_ connectionStatus: NWPath.Status) async {
     let wasOffline = !isInternetAvailable
     isInternetAvailable = connectionStatus == .satisfied
 
-    if isInternetAvailable, wasOffline {
+    guard isInternetAvailable, wasOffline else {
+      return
+    }
+
+    if let retryTask {
+      await retryTask.result
+    }
+
+    retryTask = Task {
       await retryPendingRequests()
     }
   }
@@ -75,5 +67,21 @@ actor OfflineRequestManager {
     }
 
     _ = try await URLSession.shared.data(for: request)
+  }
+
+  func addToPendingRequests(_ request: APIRequest) {
+    guard request.method == .post else {
+      return
+    }
+    pendingRequests.append(request)
+  }
+
+  func isConnectionError(_ error: Error) -> Bool {
+    (error as? URLError)?.code == .notConnectedToInternet
+  }
+
+  func cancelPendingRequests() async {
+    retryTask?.cancel()
+    pendingRequests.removeAll()
   }
 }

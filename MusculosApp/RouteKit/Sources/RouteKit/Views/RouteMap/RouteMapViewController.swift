@@ -64,6 +64,24 @@ public final class RouteMapViewController: UIViewController {
     }
   }
 
+  var zoomLevel: CLLocationDistance = 0.01 {
+    didSet {
+      guard let currentLocation else {
+        return
+      }
+      updateMapLocation(currentLocation, withZoomLevel: zoomLevel)
+      updateUserAnnotationSize()
+    }
+  }
+
+  var mapCameraType = MapCameraType.planning {
+    didSet {
+      if mapCameraType == .walking {
+        enableWalkingMode()
+      }
+    }
+  }
+
   // MARK: Lifecycle
 
   override public func viewDidLoad() {
@@ -207,13 +225,20 @@ extension RouteMapViewController {
 
   /// Re-center the map to the passed location
   ///
-  private func updateMapLocation(_ location: CLLocation) {
-    let zoomLevel: CLLocationDistance = 0.01
+  private func updateMapLocation(_ location: CLLocation, withZoomLevel zoomLevel: CLLocationDistance = 0.01) {
     let region = MKCoordinateRegion(
       center: location.coordinate,
       span: MKCoordinateSpan(latitudeDelta: zoomLevel, longitudeDelta: zoomLevel))
     mapView.setRegion(region, animated: true)
     mapView.camera.centerCoordinate = location.coordinate
+  }
+
+  private func updateUserAnnotationSize(_ size: Double = 15) {
+    guard let userAnnotationView = mapView.annotations.first(where: { $0 is MKUserLocation }) as? UserLocationAnnotationView
+    else {
+      return
+    }
+    userAnnotationView.updateArrowSize(size)
   }
 
   private func addMarker(at coordinate: CLLocationCoordinate2D, with title: String? = nil) {
@@ -251,7 +276,14 @@ extension RouteMapViewController {
 
     if let routeOverlay {
       mapView.addOverlay(routeOverlay, level: .aboveRoads)
-      mapView.setVisibleMapRect(routeOverlay.boundingMapRect, animated: true)
+
+      let routeRect = routeOverlay.boundingMapRect
+      let padding: CGFloat = 100.0
+      let paddedRect = routeRect.insetBy(dx: -padding, dy: -padding)
+      mapView.setVisibleMapRect(
+        paddedRect,
+        edgePadding: UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding),
+        animated: true)
     }
   }
 
@@ -276,6 +308,20 @@ extension RouteMapViewController {
       addMarker(at: result.placemark.coordinate, with: result.name)
       Logger.info(message: "Added map placemark from results")
     }
+  }
+
+  public func enableWalkingMode() {
+    guard let userLocation = mapView.userLocation.location else {
+      return
+    }
+
+    let camera = MKMapCamera()
+    camera.centerCoordinate = userLocation.coordinate
+    camera.centerCoordinateDistance = 300
+    camera.pitch = 60
+    camera.heading = mapView.camera.heading
+    mapView.mapType = .standard
+    mapView.setCamera(camera, animated: true)
   }
 }
 

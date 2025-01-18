@@ -9,7 +9,7 @@ import Components
 import SwiftUI
 import Utility
 
-struct ConfirmRouteSheet: View {
+struct ConfirmRouteSheetView: View {
   @Binding var startLocation: String
   @Binding var endLocation: String
 

@@ -20,6 +20,8 @@ class UserLocationAnnotationView: MKAnnotationView {
     return imageView
   }()
 
+  private var arrowWidthAnchorConstraint: NSLayoutConstraint?
+
   override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
     super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
 
@@ -35,11 +37,15 @@ class UserLocationAnnotationView: MKAnnotationView {
   private func setupView() {
     addSubview(arrowImageView)
 
-    NSLayoutConstraint.activate([
-      arrowImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-      arrowImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-      arrowImageView.widthAnchor.constraint(equalToConstant: 24),
-      arrowImageView.heightAnchor.constraint(equalTo: arrowImageView.widthAnchor),
-    ])
+    arrowImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    arrowImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    arrowImageView.heightAnchor.constraint(equalTo: arrowImageView.widthAnchor).isActive = true
+
+    arrowWidthAnchorConstraint = arrowImageView.widthAnchor.constraint(equalToConstant: 24)
+    arrowWidthAnchorConstraint?.isActive = true
+  }
+
+  func updateArrowSize(_ size: Double) {
+    arrowWidthAnchorConstraint = arrowImageView.widthAnchor.constraint(equalToConstant: size)
   }
 }

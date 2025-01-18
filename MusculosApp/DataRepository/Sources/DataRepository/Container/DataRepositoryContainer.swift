@@ -50,6 +50,10 @@ extension DataRepositoryContainer {
     self { WorkoutRepository() }
   }
 
+  public var routeExerciseSessionRepository: Factory<RouteExerciseSessionRepositoryProtocol> {
+    self { RouteExerciseSessionRepository() }
+  }
+
   public var healthKitClient: Factory<HealthKitClient> {
     self { HealthKitClient() }
   }

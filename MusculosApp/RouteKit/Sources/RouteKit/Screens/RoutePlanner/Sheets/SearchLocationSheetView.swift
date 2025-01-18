@@ -10,7 +10,7 @@ import CoreLocation
 import SwiftUI
 import Utility
 
-struct SearchLocationSheet: View {
+struct SearchLocationSheetView: View {
   @Binding var destinationLocation: String
   var currentLocation: CLLocation?
   var mapItemResults: [MapItemData]
@@ -27,7 +27,11 @@ struct SearchLocationSheet: View {
           Button(
             action: { onSelectResult(item) },
             label: {
-              DetailCard(text: item.name, isSelected: item == selectedMapItem, content: { Text(getDistanceDisplay(item)) })
+              DetailCard(
+                text: item.name,
+                font: AppFont.body(.regular, size: 14.0),
+                isSelected: item == selectedMapItem,
+                content: { Text(getDistanceDisplay(item)) })
             })
         }
       }

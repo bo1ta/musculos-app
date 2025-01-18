@@ -265,6 +265,20 @@ extension CoreDataStore {
   }
 }
 
+// MARK: - Route Exercise Session
+
+extension CoreDataStore {
+  public func routeExerciseSessionByID(_ id: UUID) async -> RouteExerciseSession? {
+    let predicate: NSPredicate = \RouteExerciseSessionEntity.uuid == id
+    return await getFirstObject(RouteExerciseSessionEntity.self, predicate: predicate)
+  }
+
+  public func routeExerciseSessionsForUserID(_ userID: UUID) async -> [RouteExerciseSession] {
+    let predicate: NSPredicate = \RouteExerciseSessionEntity.userID == userID
+    return await getAll(RouteExerciseSessionEntity.self, predicate: predicate)
+  }
+}
+
 // MARK: - Exercise
 
 extension CoreDataStore {
