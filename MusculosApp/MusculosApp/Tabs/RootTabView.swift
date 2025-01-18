@@ -57,7 +57,7 @@ struct RootTabView: View {
           }
       }
       .onNavigationReceive { (tab: RootTabs, navigator) in
-        navigator.dismissAll()
+        _ = try? navigator.dismissAll()
         selectedTab = tab
         return .auto
       }
