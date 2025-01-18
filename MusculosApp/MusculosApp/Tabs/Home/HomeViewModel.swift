@@ -16,12 +16,9 @@ import Utility
 
 @Observable
 @MainActor
-final class HomeViewModel {
+final class HomeViewModel: BaseViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
-
-  @ObservationIgnored
-  @Injected(\.userStore) var userStore: UserStoreProtocol
 
   @ObservationIgnored
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore
@@ -32,10 +29,6 @@ final class HomeViewModel {
   private(set) var isLoading = false
   private(set) var quickExercises: [Exercise]?
   private(set) var goals: [Goal] = []
-
-  var currentUser: UserProfile? {
-    userStore.currentUser
-  }
 
   func onAppear() async {
     setupGoalsListener()

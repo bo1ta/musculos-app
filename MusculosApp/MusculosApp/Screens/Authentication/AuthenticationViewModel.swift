@@ -16,15 +16,10 @@ import Utility
 
 @Observable
 @MainActor
-class AuthenticationViewModel {
+class AuthenticationViewModel: BaseViewModel {
+
   @ObservationIgnored
   @LazyInjected(\DataRepositoryContainer.userRepository) private var repository: UserRepositoryProtocol
-
-  @ObservationIgnored
-  @LazyInjected(\.userStore) private var userStore: UserStoreProtocol
-
-  @ObservationIgnored
-  @LazyInjected(\.toastManager) private var toastManager: ToastManagerProtocol
 
   // MARK: - Auth step
 

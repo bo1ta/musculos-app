@@ -17,18 +17,9 @@ import Utility
 
 @Observable
 @MainActor
-final class ExerciseDetailsViewModel {
+final class ExerciseDetailsViewModel: BaseViewModel {
 
   // MARK: Dependencies
-
-  @ObservationIgnored
-  @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
-
-  @ObservationIgnored
-  @Injected(\.userStore) var userStore: UserStoreProtocol
-
-  @ObservationIgnored
-  @Injected(\.soundManager) var soundManager: SoundManager
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
@@ -62,10 +53,6 @@ final class ExerciseDetailsViewModel {
   var userRating = 0
   var exerciseRatings: [ExerciseRating] = []
   var inputWeight: Double = 0
-
-  var currentUser: UserProfile? {
-    userStore.currentUser
-  }
 
   var ratingAverage: Double {
     guard !exerciseRatings.isEmpty else {

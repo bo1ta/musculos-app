@@ -14,7 +14,7 @@ import Utility
 
 @Observable
 @MainActor
-final class ProfileViewModel {
+final class ProfileViewModel: BaseViewModel {
 
   // MARK: Depedencies
 
@@ -24,12 +24,6 @@ final class ProfileViewModel {
   @ObservationIgnored
   @LazyInjected(\DataRepositoryContainer.healthKitClient) private var healthKitClient: HealthKitClient
 
-  @ObservationIgnored
-  @LazyInjected(\.toastManager) private var toastManager: ToastManagerProtocol
-
-  @ObservationIgnored
-  @LazyInjected(\.userStore) var userStore: UserStoreProtocol
-
   // MARK: Public
 
   private(set) var exercises: [Exercise] = []
@@ -37,10 +31,6 @@ final class ProfileViewModel {
   private(set) var userTotalSleep = 0
 
   var selectedWorkout: String?
-
-  var currentUser: UserProfile? {
-    userStore.currentUser
-  }
 
   func initialLoad() async {
     async let exerciseTask: Void = loadFavoriteExercises()

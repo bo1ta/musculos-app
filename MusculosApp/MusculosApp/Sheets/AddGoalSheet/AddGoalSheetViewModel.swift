@@ -16,12 +16,7 @@ import Utility
 
 @Observable
 @MainActor
-final class AddGoalSheetViewModel {
-
-  // MARK: Dependencies
-
-  @ObservationIgnored
-  @Injected(\.userStore) private var userStore: UserStoreProtocol
+final class AddGoalSheetViewModel: BaseViewModel {
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
@@ -38,10 +33,6 @@ final class AddGoalSheetViewModel {
   var showEndDate = true
   var showFrequencyOptions = true
   var endDate = Date()
-
-  private var currentUser: UserProfile? {
-    userStore.currentUser
-  }
 
   var frequency = "" {
     didSet {

@@ -18,16 +18,10 @@ import Utility
 
 @Observable
 @MainActor
-final class OnboardingViewModel {
-
-  @ObservationIgnored
-  @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
+final class OnboardingViewModel: BaseViewModel {
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
-
-  @ObservationIgnored
-  @Injected(\.userStore) private var userStore: UserStoreProtocol
 
   // MARK: - Observed properties
 

@@ -87,6 +87,8 @@ public class FetchedResultsPublisher<T: EntityType>: NSObject, NSFetchedResultsC
     subject.send(.didUpdateContent(readOnlyObjects))
   }
 
+  // MARK: NSFetchedResultsControllerDelegate methods
+
   public func controllerDidChangeContent(_: NSFetchedResultsController<any NSFetchRequestResult>) {
     sendFetchedObjects(fetchedResultsController.fetchedObjects)
   }

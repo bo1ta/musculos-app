@@ -19,15 +19,9 @@ import Utility
 
 @Observable
 @MainActor
-final class AddWorkoutSheetViewModel {
+final class AddWorkoutSheetViewModel: BaseViewModel {
 
   // MARK: Dependencies
-
-  @ObservationIgnored
-  @Injected(\.toastManager) private var toastManager: ToastManagerProtocol
-
-  @ObservationIgnored
-  @Injected(\.userStore) private var userStore: UserStoreProtocol
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
@@ -47,10 +41,6 @@ final class AddWorkoutSheetViewModel {
   var selectedWorkoutExercise: [WorkoutExercise] = []
   var showRepsDialog = false
   var showSelectMuscles = true
-
-  var currentUser: UserProfile? {
-    userStore.currentUser
-  }
 
   var didSavePublisher: AnyPublisher<Void, Never> {
     didSaveSubject.eraseToAnyPublisher()

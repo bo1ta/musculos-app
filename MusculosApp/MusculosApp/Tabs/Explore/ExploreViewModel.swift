@@ -26,7 +26,7 @@ enum ExerciseResultCategory: CaseIterable {
 
 @Observable
 @MainActor
-final class ExploreViewModel {
+final class ExploreViewModel: BaseViewModel {
 
   // MARK: Dependencies
 
@@ -35,12 +35,6 @@ final class ExploreViewModel {
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository
-
-  @ObservationIgnored
-  @Injected(\StorageContainer.coreDataStore) private var coreDataStore
-
-  @ObservationIgnored
-  @Injected(\.userStore) private var userStore: UserStoreProtocol
 
   // MARK: Public
 
@@ -67,14 +61,6 @@ final class ExploreViewModel {
 
   var featuredExercises: [Exercise] {
     results[.featured] ?? []
-  }
-
-  var goals: [Goal] {
-    userStore.currentUser?.goals ?? []
-  }
-
-  var goalDisplay: Goal? {
-    goals.first
   }
 }
 
