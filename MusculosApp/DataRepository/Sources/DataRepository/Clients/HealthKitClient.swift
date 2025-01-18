@@ -26,10 +26,10 @@ public final class HealthKitClient: @unchecked Sendable {
   ]
 
   private var queryAnchor: HKQueryAnchor?
-  private let healthStore: HKHealthStore
+
+  private lazy var healthStore = HKHealthStore()
 
   public init() {
-    healthStore = HKHealthStore()
     loadQueryAnchor()
   }
 

@@ -69,11 +69,7 @@ struct RootTabView: View {
     .sheet(isPresented: $showActionSheet) {
       AddActionSheetContainer()
     }
-    .onChange(of: selectedTab) { _, _ in
-      Container.shared.soundManager().playSound(.tabSelection)
-    }
   }
-
 }
 
 #Preview {

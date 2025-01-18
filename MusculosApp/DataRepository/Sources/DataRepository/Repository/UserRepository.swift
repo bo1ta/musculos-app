@@ -21,7 +21,7 @@ public protocol UserRepositoryProtocol: Sendable {
   func getCurrentUser() async throws -> UserProfile?
   func getUserByID(_ userID: UUID) async -> UserProfile?
   func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws
-  func observeUserChanges(forUserID userID: UUID) -> EntityListener<UserProfileEntity>
+  func observeUserChanges(forUserID userID: UUID) -> EntityPublisher<UserProfileEntity>
 }
 
 // MARK: - UserRepository
@@ -93,8 +93,8 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
       isOnboarded: true)
   }
 
-  public func observeUserChanges(forUserID userID: UUID) -> EntityListener<UserProfileEntity> {
-    coreDataStore.userEntityListener(forID: userID)
+  public func observeUserChanges(forUserID userID: UUID) -> EntityPublisher<UserProfileEntity> {
+    coreDataStore.userPublisherForID(userID)
   }
 
   @discardableResult

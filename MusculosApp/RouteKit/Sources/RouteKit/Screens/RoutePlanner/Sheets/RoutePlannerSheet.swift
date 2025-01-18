@@ -6,12 +6,12 @@
 //
 
 import Components
-import Factory
 import CoreLocation
+import Factory
 import SwiftUI
 import Utility
 
-// MARK: - RoutePlannerSheetContainer
+// MARK: - RoutePlannerSheet
 
 struct RoutePlannerSheet: View {
 
@@ -22,7 +22,7 @@ struct RoutePlannerSheet: View {
   }
 
   @State private var activeDetent = PresentationDetent.minimized
-  @State private var currentStep: WizardStep = .search
+  @State private var currentStep = WizardStep.search
 
   var viewModel: RoutePlannerViewModel
 

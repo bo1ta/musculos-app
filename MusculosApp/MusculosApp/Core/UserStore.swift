@@ -47,7 +47,7 @@ public final class UserStore: @unchecked Sendable, UserStoreProtocol {
 
   // MARK: Private properties
 
-  private var currentUserListener: EntityListener<UserProfileEntity>?
+  private var currentUserListener: EntityPublisher<UserProfileEntity>?
   private var userListenerCancellable: AnyCancellable?
   private var logoutNotificationCancellable: AnyCancellable?
   private let eventSubject = PassthroughSubject<UserStoreEvent, Never>()

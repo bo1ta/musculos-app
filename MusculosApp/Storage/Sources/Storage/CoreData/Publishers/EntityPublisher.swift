@@ -1,5 +1,5 @@
 //
-//  EntityListener.swift
+//  EntityPublisher.swift
 //  Storage
 //
 //  Created by Solomon Alexandru on 14.01.2025.
@@ -9,7 +9,7 @@ import Combine
 import CoreData
 import Foundation
 
-public class EntityListener<T: EntityType> {
+public class EntityPublisher<T: EntityType> {
   private let storage: StorageType
   private let predicate: NSPredicate
 

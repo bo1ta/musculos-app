@@ -33,14 +33,6 @@ final class RoutePlannerViewModel {
   @ObservationIgnored
   @LazyInjected(\RouteKitContainer.mapKitClient) private var client: MapKitClient
 
-  @ObservationIgnored
-  @LazyInjected(\DataRepositoryContainer.routeExerciseSessionRepository) private var repository: RouteExerciseSessionRepositoryProtocol
-
-  // MARK: Observed properties
-
-  private var originCoordinates: CLLocationCoordinate2D?
-  private var destinationCoordinates: CLLocationCoordinate2D?
-
   var averagePace: Double = 0
   var showRouteForm = false
   var currentLocation: CLLocation?
@@ -221,15 +213,4 @@ extension RoutePlannerViewModel {
     isTimerActive = false
   }
 
-  // MARK: Save session
-
-  private func saveRouteSession() {
-    saveSessionTask = Task {
-      guard let originCoordinates, let destinationCoordinates else {
-        Logger.warning(message: "Cannot save route session as origin or destination coordinates are nil.")
-        return
-      }
-      // TODO: Save session
-    }
-  }
 }

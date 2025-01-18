@@ -5,10 +5,12 @@
 //  Created by Solomon Alexandru on 17.04.2024.
 //
 
+import Combine
 import DataRepository
 import Factory
 import Models
 import Observation
+import Storage
 import Utility
 
 // MARK: - ExerciseResultCategory
@@ -33,6 +35,9 @@ final class ExploreViewModel {
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository
+
+  @ObservationIgnored
+  @Injected(\StorageContainer.coreDataStore) private var coreDataStore
 
   @ObservationIgnored
   @Injected(\.userStore) private var userStore: UserStoreProtocol

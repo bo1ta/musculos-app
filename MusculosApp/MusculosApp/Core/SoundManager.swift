@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import Utility
 
 public class SoundManager {
   public enum SoundEffect: String, CaseIterable {
@@ -23,7 +24,7 @@ public class SoundManager {
 
   public func playSound(_ effect: SoundEffect) {
     guard let url = Bundle.main.url(forResource: effect.rawValue, withExtension: "mp3") else {
-      print("Sound file for \(effect.rawValue) not found")
+      Logger.error(MusculosError.unexpectedNil, message: "Sound file for \(effect.rawValue) not found")
       return
     }
 
@@ -39,7 +40,7 @@ public class SoundManager {
       audioPlayer?.prepareToPlay()
       audioPlayer?.play()
     } catch {
-      print("Error initializing AVAudioPlayer for \(effect.rawValue): \(error)")
+      Logger.error(error, message: "Error initializing AVAudioPlayer for \(effect.rawValue)")
     }
   }
 

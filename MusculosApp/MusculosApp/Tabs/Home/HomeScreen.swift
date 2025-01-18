@@ -42,8 +42,9 @@ struct HomeScreen: View {
       .padding([.horizontal, .bottom], 10)
     }
     .task {
-      await viewModel.fetchData()
+      await viewModel.onAppear()
     }
+    .onDisappear(perform: viewModel.onDisappear)
     .scrollIndicators(.hidden)
   }
 

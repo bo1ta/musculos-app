@@ -225,12 +225,23 @@ extension NSManagedObjectContext: StorageType {
 
   public func createFetchedResultsController(
     for type: (some Object).Type,
+    predicate: NSPredicate?,
+    sortDescriptors: [NSSortDescriptor],
+    fetchLimit: Int?,
     sectionNameKeyPath: String?,
     cacheName: String?)
     -> NSFetchedResultsController<NSFetchRequestResult>
   {
-    NSFetchedResultsController(
-      fetchRequest: fetchRequest(forType: type),
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: type.entityName)
+    fetchRequest.sortDescriptors = sortDescriptors
+    fetchRequest.predicate = predicate
+
+    if let fetchLimit {
+      fetchRequest.fetchLimit = fetchLimit
+    }
+
+    return NSFetchedResultsController(
+      fetchRequest: fetchRequest,
       managedObjectContext: self,
       sectionNameKeyPath: sectionNameKeyPath,
       cacheName: cacheName)

@@ -23,18 +23,41 @@ final class HomeViewModel {
   @ObservationIgnored
   @Injected(\.userStore) var userStore: UserStoreProtocol
 
+  @ObservationIgnored
+  @Injected(\StorageContainer.coreDataStore) private var coreDataStore
+
+  private var cancellable: AnyCancellable?
+  private var goalsListener: FetchedResultsPublisher<GoalEntity>?
+
   private(set) var isLoading = false
-  private(set) var challenges: [Challenge] = []
   private(set) var quickExercises: [Exercise]?
-  private(set) var errorMessage: String?
-  private(set) var notificationTask: Task<Void, Never>?
+  private(set) var goals: [Goal] = []
 
   var currentUser: UserProfile? {
     userStore.currentUser
   }
 
-  var goals: [Goal] {
-    userStore.currentUser?.goals ?? []
+  func onAppear() async {
+    setupGoalsListener()
+    await fetchData()
+  }
+
+  func onDisappear() {
+    cancellable?.cancel()
+    goalsListener = nil
+  }
+
+  private func setupGoalsListener() {
+    goalsListener = coreDataStore.fetchedResultsPublisher()
+    cancellable = goalsListener?.publisher
+      .sink { [weak self] event in
+        switch event {
+        case .didUpdateContent(let goals):
+          self?.goals = goals
+        default:
+          break
+        }
+      }
   }
 
   func fetchData() async {
@@ -44,6 +67,8 @@ final class HomeViewModel {
     do {
       let exercises = try await exerciseRepository.getExercisesByWorkoutGoal(.improveEndurance)
       quickExercises = Array(exercises.prefix(2))
+
+      goals = goalsListener?.fetchedObjects ?? []
     } catch {
       Logger.error(error, message: "Error loading exercises for home view")
     }

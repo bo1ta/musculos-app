@@ -104,7 +104,7 @@ extension UserStoreTests {
     var expectation: XCTestExpectation?
     var expectedUserSession: UserSession?
     var expectedUserProfile: UserProfile?
-    var expectedUserListener: EntityListener<UserProfileEntity>?
+    var expectedUserListener: EntityPublisher<UserProfileEntity>?
 
     init(
       expectation: XCTestExpectation? = nil,
@@ -120,8 +120,8 @@ extension UserStoreTests {
       expectedUserProfile
     }
 
-    func observeUserChanges(forUserID userID: UUID) -> EntityListener<UserProfileEntity> {
-      expectedUserListener ?? EntityListener(
+    func observeUserChanges(forUserID userID: UUID) -> EntityPublisher<UserProfileEntity> {
+      expectedUserListener ?? EntityPublisher(
         storage: StorageContainer.shared.storageManager().viewStorage,
         predicate: NSPredicate(format: "%K == %@", #keyPath(UserProfileEntity.userId), userID as NSUUID))
     }

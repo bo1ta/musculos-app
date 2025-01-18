@@ -7,6 +7,7 @@
 
 import Foundation
 import Models
+import Storage
 import Utility
 
 public struct ExerciseRepositoryStub: ExerciseRepositoryProtocol {

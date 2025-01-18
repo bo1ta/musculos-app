@@ -47,8 +47,21 @@ public final class CoreDataStore: @unchecked Sendable {
     }
   }
 
-  public func entityListener<T: EntityType>(matching predicate: NSPredicate) -> EntityListener<T> {
-    EntityListener(storage: storageManager.writerDerivedStorage, predicate: predicate)
+  public func entityPublisher<T: EntityType>(matching predicate: NSPredicate) -> EntityPublisher<T> {
+    EntityPublisher(storage: storageManager.writerDerivedStorage, predicate: predicate)
+  }
+
+  public func fetchedResultsPublisher<T: EntityType>(
+    matching predicate: NSPredicate? = nil,
+    sortDescriptors: [NSSortDescriptor] = [],
+    fetchLimit: Int? = 10)
+    -> FetchedResultsPublisher<T>
+  {
+    FetchedResultsPublisher(
+      storage: storageManager.viewStorage,
+      sortDescriptors: sortDescriptors,
+      predicate: predicate,
+      fetchLimit: fetchLimit)
   }
 
   public func update<T: EntitySyncable>(_ model: T.ModelType, of type: T.Type) async throws {
@@ -91,10 +104,6 @@ public final class CoreDataStore: @unchecked Sendable {
         }
       }
     }
-  }
-
-  private static func userProfileEntity(byID userID: UUID, on storage: StorageType) -> UserProfileEntity? {
-    storage.firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.userId == userID)
   }
 }
 
@@ -142,8 +151,12 @@ extension CoreDataStore {
     }
   }
 
-  public func userEntityListener(forID userID: UUID) -> EntityListener<UserProfileEntity> {
-    entityListener(matching: \UserProfileEntity.userId == userID)
+  public func userPublisherForID(_ userID: UUID) -> EntityPublisher<UserProfileEntity> {
+    entityPublisher(matching: \UserProfileEntity.userId == userID)
+  }
+
+  private static func userProfileEntity(byID userID: UUID, on storage: StorageType) -> UserProfileEntity? {
+    storage.firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.userId == userID)
   }
 }
 
