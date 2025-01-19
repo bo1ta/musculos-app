@@ -78,9 +78,7 @@ final class ExerciseDetailsViewModel: BaseViewModel {
     entityPublisher
       .publisher
       .sink { [weak self] exercise in
-        if let exercise {
-          self?.exercise = exercise
-        }
+        self?.exercise = exercise
       }
       .store(in: &cancellables)
 

@@ -10,11 +10,13 @@ import CoreData
 import Foundation
 import Utility
 
+/// Utility class that listens to an `EntityType` predicate and publishes `ReadOnlyType` data when changes occur
+///
 public class EntityPublisher<T: EntityType> {
   private let storage: StorageType
   private let predicate: NSPredicate
 
-  public let publisher: AnyPublisher<T.ReadOnlyType?, Never>
+  public let publisher: AnyPublisher<T.ReadOnlyType, Never>
 
   public init(storage: StorageType, predicate: NSPredicate) {
     self.storage = storage
@@ -28,8 +30,11 @@ public class EntityPublisher<T: EntityType> {
         let inserted = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject> ?? []
         return updated.union(inserted)
       }
-      .compactMap { $0.first as? T }
-      .map { $0.toReadOnly() }
+      .map { objects -> [T] in
+        objects.compactMap { $0 as? T }
+          .filter { predicate.evaluate(with: $0) }
+      }
+      .compactMap { $0.first?.toReadOnly() }
       .eraseToAnyPublisher()
   }
 }

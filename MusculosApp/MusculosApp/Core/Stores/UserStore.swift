@@ -128,6 +128,7 @@ extension UserStore {
     let userEntityListener = repository.observeUserChanges(forUserID: userID)
     userListenerCancellable = userEntityListener.publisher
       .sink { [weak self] currentUser in
+        Logger.info(message: "user s-a schimbar")
         self?.currentUser = currentUser
       }
 
