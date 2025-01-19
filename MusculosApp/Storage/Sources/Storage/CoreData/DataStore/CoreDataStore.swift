@@ -48,7 +48,7 @@ public final class CoreDataStore: @unchecked Sendable {
   }
 
   public func entityPublisher<T: EntityType>(matching predicate: NSPredicate) -> EntityPublisher<T> {
-    EntityPublisher(storage: storageManager.writerDerivedStorage, predicate: predicate)
+    EntityPublisher(storage: storageManager.viewStorage, predicate: predicate)
   }
 
   public func fetchedResultsPublisher<T: EntityType>(

@@ -8,6 +8,7 @@
 import Combine
 import CoreData
 import Foundation
+import Utility
 
 public class EntityPublisher<T: EntityType> {
   private let storage: StorageType
@@ -22,14 +23,19 @@ public class EntityPublisher<T: EntityType> {
     publisher = NotificationCenter.default.publisher(
       for: .NSManagedObjectContextObjectsDidChange,
       object: storage as? NSManagedObjectContext)
-      .map { notification -> Set<NSManagedObject> in
-        let updatedObjects = (notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject>) ?? []
-        let insertedObjects = (notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject>) ?? []
-        return updatedObjects.union(insertedObjects)
+    .map { notification -> Set<NSManagedObject> in
+      let updated = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject> ?? []
+      let inserted = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject> ?? []
+      return updated.union(inserted)
+    }
+    .compactMap { objectSet -> T? in
+      guard let firstObject = objectSet.first as? T else {
+        Logger.info(message: "No valid objects found of type \(T.self)")
+        return nil
       }
-      .compactMap { $0 as? T }
-      .first { predicate.evaluate(with: $0) }
-      .map { $0.toReadOnly() }
-      .eraseToAnyPublisher()
+      return firstObject
+    }
+    .map { $0.toReadOnly() }
+    .eraseToAnyPublisher()
   }
 }
