@@ -49,6 +49,7 @@
         <attribute name="targetMuscles" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="targetValue" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="userID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="progressHistory" toMany="YES" deletionRule="Nullify" destinationEntity="ProgressEntryEntity" inverseName="goal" inverseEntity="ProgressEntryEntity"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfileEntity" inverseName="goals" inverseEntity="UserProfileEntity"/>
         <uniquenessConstraints>

@@ -66,10 +66,9 @@ public class FetchedResultsPublisher<T: EntityType>: NSObject, NSFetchedResultsC
     super.init()
 
     fetchedResultsController.delegate = self
-    performFetch()
   }
 
-  private func performFetch() {
+  public func performFetch() {
     do {
       try fetchedResultsController.performFetch()
       sendFetchedObjects(fetchedResultsController.fetchedObjects)

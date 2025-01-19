@@ -18,7 +18,6 @@ public final class StorageContainer: SharedContainer {
 extension StorageContainer {
   public var coreDataStore: Factory<CoreDataStore> {
     self { CoreDataStore() }
-      .shared
   }
 
   public var storageManager: Factory<StorageManagerType> {

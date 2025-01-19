@@ -16,7 +16,7 @@ public typealias EntityType = Object & ReadOnlyConvertible
 
 // MARK: - CoreDataStore
 
-public final class CoreDataStore: @unchecked Sendable {
+public struct CoreDataStore: @unchecked Sendable {
   @Injected(\StorageContainer.storageManager) private var storageManager: StorageManagerType
 
   public init() { }
@@ -243,6 +243,14 @@ extension CoreDataStore {
       let entity = storage.insertNewObject(ofType: ProgressEntryEntity.self)
       entity.populateEntityFrom(progressEntry, using: storage)
     }
+  }
+
+  public func goalsPublisherForUserID(_ userID: UUID) -> FetchedResultsPublisher<GoalEntity> {
+    fetchedResultsPublisher(matching: \GoalEntity.userID == userID)
+  }
+
+  public func goalsPublisher() -> FetchedResultsPublisher<GoalEntity> {
+    fetchedResultsPublisher()
   }
 }
 

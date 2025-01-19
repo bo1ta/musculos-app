@@ -28,13 +28,7 @@ public class EntityPublisher<T: EntityType> {
       let inserted = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject> ?? []
       return updated.union(inserted)
     }
-    .compactMap { objectSet -> T? in
-      guard let firstObject = objectSet.first as? T else {
-        Logger.info(message: "No valid objects found of type \(T.self)")
-        return nil
-      }
-      return firstObject
-    }
+    .compactMap { $0.first as? T }
     .map { $0.toReadOnly() }
     .eraseToAnyPublisher()
   }

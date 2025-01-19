@@ -23,35 +23,40 @@ final class HomeViewModel: BaseViewModel {
   @ObservationIgnored
   @Injected(\StorageContainer.coreDataStore) private var coreDataStore
 
+  @ObservationIgnored
+  @Injected(\.goalStore) private var goalStore: GoalStore
+
   private var cancellable: AnyCancellable?
-  private var goalsListener: FetchedResultsPublisher<GoalEntity>?
+//  private var goalsListener: FetchedResultsPublisher<GoalEntity>?
 
   private(set) var isLoading = false
   private(set) var quickExercises: [Exercise]?
-  private(set) var goals: [Goal] = []
+  var goals: [Goal] {
+    goalStore.goals
+  }
 
   func onAppear() async {
-    setupGoalsListener()
+//    setupGoalsListener()
     await fetchData()
   }
 
   func onDisappear() {
     cancellable?.cancel()
-    goalsListener = nil
+//    goalsListener = nil
   }
 
-  private func setupGoalsListener() {
-    goalsListener = coreDataStore.fetchedResultsPublisher()
-    cancellable = goalsListener?.publisher
-      .sink { [weak self] event in
-        switch event {
-        case .didUpdateContent(let goals):
-          self?.goals = goals
-        default:
-          break
-        }
-      }
-  }
+//  private func setupGoalsListener() {
+//    goalsListener = coreDataStore.fetchedResultsPublisher()
+//    cancellable = goalsListener?.publisher
+//      .sink { [weak self] event in
+//        switch event {
+//        case .didUpdateContent(let goals):
+//          self?.goals = goals
+//        default:
+//          break
+//        }
+//      }
+//  }
 
   func fetchData() async {
     isLoading = true
@@ -61,7 +66,7 @@ final class HomeViewModel: BaseViewModel {
       let exercises = try await exerciseRepository.getExercisesByWorkoutGoal(.improveEndurance)
       quickExercises = Array(exercises.prefix(2))
 
-      goals = goalsListener?.fetchedObjects ?? []
+//      goals = goalsListener?.fetchedObjects ?? []
     } catch {
       Logger.error(error, message: "Error loading exercises for home view")
     }

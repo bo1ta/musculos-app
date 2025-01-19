@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Factory
 import Models
 import Storage
 import Utility
@@ -21,12 +22,14 @@ public protocol RouteExerciseSessionRepositoryProtocol {
 // MARK: - RouteExerciseSessionRepository
 
 public struct RouteExerciseSessionRepository: @unchecked Sendable, BaseRepository, RouteExerciseSessionRepositoryProtocol {
+  @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
+
   public func addRouteSession(_ session: RouteExerciseSession) async throws {
-    try await coreDataStore.importModel(session, of: RouteExerciseSessionEntity.self)
+    try await dataStore.importModel(session, of: RouteExerciseSessionEntity.self)
   }
 
   public func getRouteSessionByID(_ uuid: UUID) async -> RouteExerciseSession? {
-    await coreDataStore.routeExerciseSessionByID(uuid)
+    await dataStore.routeExerciseSessionByID(uuid)
   }
 
   public func getAllRouteSessionsForCurrentUser() async -> [RouteExerciseSession] {
@@ -34,6 +37,6 @@ public struct RouteExerciseSessionRepository: @unchecked Sendable, BaseRepositor
       Logger.warning(message: "No current user ID found. Failing silently...")
       return []
     }
-    return await coreDataStore.routeExerciseSessionsForUserID(currentUserID)
+    return await dataStore.routeExerciseSessionsForUserID(currentUserID)
   }
 }

@@ -14,6 +14,7 @@ import Utility
 
 protocol BaseRepository: Sendable {
   var localStorageUpdateThreshold: TimeInterval { get }
+  var dataStore: CoreDataStore { get }
 }
 
 // MARK: Default
@@ -27,10 +28,6 @@ extension BaseRepository {
 extension BaseRepository {
   var currentUserID: UUID? {
     NetworkContainer.shared.userManager().currentUserID
-  }
-
-  var coreDataStore: CoreDataStore {
-    StorageContainer.shared.coreDataStore()
   }
 
   var isConnectedToInternet: Bool {
@@ -47,14 +44,14 @@ extension BaseRepository {
 extension BaseRepository {
   func syncStorage<T: EntitySyncable>(_ models: [T.ModelType], ofType type: T.Type) {
     backgroundWorker.queueOperation {
-      try await coreDataStore.importModels(models, of: type)
-      await setSyncDateForEntity(type, date: Date())
+      try await dataStore.importModels(models, of: type)
+      setSyncDateForEntity(type, date: Date())
     }
   }
 
   func syncStorage<T: EntitySyncable>(_ model: T.ModelType, ofType type: T.Type) {
     backgroundWorker.queueOperation {
-      try await coreDataStore.importModel(model, of: type)
+      try await dataStore.importModel(model, of: type)
       // sync date not updated for single models since it doesn't represent a "full update"
     }
   }

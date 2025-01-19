@@ -20,6 +20,11 @@ extension Container {
       .cached
   }
 
+  var goalStore: Factory<GoalStore> {
+    self { GoalStore() }
+      .cached
+  }
+
   var soundManager: Factory<SoundManager> {
     self { SoundManager() }
       .singleton

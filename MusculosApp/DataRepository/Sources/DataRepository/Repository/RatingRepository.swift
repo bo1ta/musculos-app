@@ -25,6 +25,7 @@ public protocol RatingRepositoryProtocol: Sendable {
 
 public struct RatingRepository: @unchecked Sendable, BaseRepository, RatingRepositoryProtocol {
   @Injected(\NetworkContainer.ratingService) private var service: RatingServiceProtocol
+  @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
 
   public func getExerciseRatingsForCurrentUser() async throws -> [ExerciseRating] {
     guard let currentUserID else {
@@ -32,7 +33,7 @@ public struct RatingRepository: @unchecked Sendable, BaseRepository, RatingRepos
     }
 
     guard isConnectedToInternet else {
-      return await coreDataStore.userProfileByID(currentUserID)?.ratings ?? []
+      return await dataStore.userProfileByID(currentUserID)?.ratings ?? []
     }
 
     return try await fetchAndSync(
@@ -47,7 +48,7 @@ public struct RatingRepository: @unchecked Sendable, BaseRepository, RatingRepos
 
   public func getRatingsForExercise(_ exerciseID: UUID) async throws -> [ExerciseRating] {
     guard isConnectedToInternet else {
-      return await coreDataStore.exerciseByID(exerciseID)?.ratings ?? []
+      return await dataStore.exerciseByID(exerciseID)?.ratings ?? []
     }
     return try await fetchAndSync(
       remoteTask: { try await service.getRatingsByExerciseID(exerciseID) },

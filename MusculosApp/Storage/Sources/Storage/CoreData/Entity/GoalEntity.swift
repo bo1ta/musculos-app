@@ -14,6 +14,7 @@ import Principle
 @objc(GoalEntity)
 public class GoalEntity: NSManagedObject {
   @NSManaged public var goalID: UUID
+  @NSManaged public var userID: UUID
   @NSManaged public var name: String
   @NSManaged public var endDate: Date?
   @NSManaged public var category: String?
@@ -23,7 +24,6 @@ public class GoalEntity: NSManagedObject {
   @NSManaged public var targetMuscles: [String]?
   @NSManaged public var dateAdded: Date
   @NSManaged public var progressHistory: Set<ProgressEntryEntity>
-  @NSManaged public var user: UserProfileEntity
   @NSManaged public var updatedAt: Date?
 
   @nonobjc
@@ -81,14 +81,7 @@ extension GoalEntity: EntitySyncable {
     name = model.name
     targetValue = model.targetValue as NSNumber
     updatedAt = model.updatedAt
-
-    if
-      let userID = model.userID,
-      let userProfile = storage
-        .firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.userId == userID)
-    {
-      self.user = user
-    }
+    userID = model.userID ?? UUID()
 
     guard let progressEntries = model.progressEntries else {
       return

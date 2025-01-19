@@ -8,6 +8,7 @@
 import Foundation
 import Models
 import Utility
+import Storage
 
 public struct GoalRepositoryStub: GoalRepositoryProtocol {
   var expectedOnboardingGoals: [OnboardingGoal] = []
@@ -40,4 +41,8 @@ public struct GoalRepositoryStub: GoalRepositoryProtocol {
   public func addGoal(_: Models.Goal) async throws { }
 
   public func updateGoalProgress(exerciseSession _: ExerciseSession) async throws { }
+
+  public func goalsPublisher() -> FetchedResultsPublisher<GoalEntity> {
+    StorageContainer.shared.coreDataStore().goalsPublisher()
+  }
 }

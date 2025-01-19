@@ -21,7 +21,9 @@ public protocol WorkoutRepositoryProtocol: Sendable {
 // MARK: - WorkoutRepository
 
 public struct WorkoutRepository: @unchecked Sendable, BaseRepository, WorkoutRepositoryProtocol {
+  @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
+
   public func addWorkout(_ workout: Workout) async throws {
-    try await coreDataStore.insertWorkout(workout)
+    try await dataStore.insertWorkout(workout)
   }
 }

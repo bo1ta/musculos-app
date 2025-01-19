@@ -21,12 +21,14 @@ public protocol GoalRepositoryProtocol: Sendable {
   func getGoals() async throws -> [Goal]
   func addFromOnboardingGoal(_ onboardingGoal: OnboardingGoal, for user: UserProfile) async throws -> Goal
   func updateGoalProgress(exerciseSession: ExerciseSession) async throws
+  func goalsPublisher() -> FetchedResultsPublisher<GoalEntity>
 }
 
 // MARK: - GoalRepository
 
 public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositoryProtocol {
   @Injected(\NetworkContainer.goalService) private var service: GoalServiceProtocol
+  @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
 
   public init() { }
 
@@ -36,14 +38,14 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
 
   public func addGoal(_ goal: Goal) async throws {
     try await update(
-      localTask: { try await coreDataStore.importModel(goal, of: GoalEntity.self) },
+      localTask: { try await dataStore.importModel(goal, of: GoalEntity.self) },
       remoteTask: { try await service.addGoal(goal) })
   }
 
   public func getGoalDetails(_ goalID: UUID) async throws -> Goal? {
     try await fetch(
       forType: GoalEntity.self,
-      localTask: { await coreDataStore.goalByID(goalID) },
+      localTask: { await dataStore.goalByID(goalID) },
       remoteTask: { try await service.getGoalByID(goalID) })
   }
 
@@ -53,7 +55,7 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
     }
     return try await fetch(
       forType: GoalEntity.self,
-      localTask: { await coreDataStore.userProfileByID(currentUserID)?.goals ?? [] },
+      localTask: { await dataStore.userProfileByID(currentUserID)?.goals ?? [] },
       remoteTask: { try await service.getUserGoals() })
   }
 
@@ -69,7 +71,7 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
       user: user)
 
     try await update(
-      localTask: { try await coreDataStore.importModel(goal, of: GoalEntity.self) },
+      localTask: { try await dataStore.importModel(goal, of: GoalEntity.self) },
       remoteTask: { try await service.addGoal(goal) })
 
     return goal
@@ -79,6 +81,13 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
     guard let currentUserID else {
       throw MusculosError.unexpectedNil
     }
-    try await coreDataStore.updateGoalProgress(userID: currentUserID, exerciseSession: exerciseSession)
+    try await dataStore.updateGoalProgress(userID: currentUserID, exerciseSession: exerciseSession)
+  }
+
+  public func goalsPublisher() -> FetchedResultsPublisher<GoalEntity> {
+    guard let currentUserID else {
+      return dataStore.goalsPublisher()
+    }
+    return dataStore.goalsPublisherForUserID(currentUserID)
   }
 }

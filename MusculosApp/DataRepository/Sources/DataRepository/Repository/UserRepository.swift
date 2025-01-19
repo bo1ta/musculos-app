@@ -29,12 +29,13 @@ public protocol UserRepositoryProtocol: Sendable {
 public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositoryProtocol {
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
   @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
+  @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
 
   public func register(email: String, password: String, username: String) async throws -> UserSession {
     let session = try await service.register(email: email, password: password, username: username)
 
     let userProfile = UserProfile(userId: session.user.id, email: email, username: username)
-    try await coreDataStore.importModel(userProfile, of: UserProfileEntity.self)
+    try await dataStore.importModel(userProfile, of: UserProfileEntity.self)
 
     return session
   }
@@ -52,7 +53,7 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
       try await syncCurrentUser()
     }
 
-    if let profile = await coreDataStore.userProfileByID(currentUserID) {
+    if let profile = await dataStore.userProfileByID(currentUserID) {
       return profile
     }
 
@@ -60,14 +61,14 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
   }
 
   public func getUserByID(_ userID: UUID) async -> UserProfile? {
-    await coreDataStore.userProfileByID(userID)
+    await dataStore.userProfileByID(userID)
   }
 
   @discardableResult
   public func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws {
     guard
       let currentUserID,
-      let currentProfile = await coreDataStore.userProfileByID(currentUserID)
+      let currentProfile = await dataStore.userProfileByID(currentUserID)
     else {
       throw MusculosError.unexpectedNil
     }
@@ -77,7 +78,7 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
       goal = try await goalRepository.addFromOnboardingGoal(onboardingGoal, for: currentProfile)
     }
 
-    try await coreDataStore.updateProfile(
+    try await dataStore.updateProfile(
       userId: currentUserID,
       weight: onboardingData.weight,
       height: onboardingData.height,
@@ -94,13 +95,13 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
   }
 
   public func observeUserChanges(forUserID userID: UUID) -> EntityPublisher<UserProfileEntity> {
-    coreDataStore.userPublisherForID(userID)
+    dataStore.userPublisherForID(userID)
   }
 
   @discardableResult
   private func syncCurrentUser() async throws -> UserProfile {
     let profile = try await service.currentUser()
-    try await coreDataStore.importModel(profile, of: UserProfileEntity.self)
+    try await dataStore.importModel(profile, of: UserProfileEntity.self)
     return profile
   }
 }

@@ -19,12 +19,6 @@ public final class DataRepositoryContainer: SharedContainer {
 
 // MARK: AutoRegistering
 
-extension DataRepositoryContainer: AutoRegistering {
-  public func autoRegister() {
-    manager.defaultScope = .shared
-  }
-}
-
 extension DataRepositoryContainer {
   public var userRepository: Factory<UserRepositoryProtocol> {
     self { UserRepository() }
@@ -60,6 +54,6 @@ extension DataRepositoryContainer {
 
   var backgroundWorker: Factory<BackgroundWorker> {
     self { BackgroundWorker() }
-      .singleton
+      .shared
   }
 }

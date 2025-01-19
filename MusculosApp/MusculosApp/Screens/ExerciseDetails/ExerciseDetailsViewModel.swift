@@ -6,7 +6,6 @@
 //
 
 import Combine
-import Components
 import DataRepository
 import Factory
 import Foundation
@@ -76,12 +75,12 @@ final class ExerciseDetailsViewModel: BaseViewModel {
   }
 
   private func setupPublishers() {
-    entityPublisher.publisher
+    entityPublisher
+      .publisher
       .sink { [weak self] exercise in
-        guard let exercise else {
-          return
+        if let exercise {
+          self?.exercise = exercise
         }
-        self?.exercise = exercise
       }
       .store(in: &cancellables)
 
