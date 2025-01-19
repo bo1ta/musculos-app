@@ -28,6 +28,7 @@ public protocol ExerciseRepositoryProtocol: Sendable {
   func searchByQuery(_ query: String) async throws -> [Exercise]
   func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise]
   func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws
+  func entityPublisherForID(_ exerciseID: UUID) -> EntityPublisher<ExerciseEntity>
 }
 
 // MARK: - ExerciseRepository
@@ -135,5 +136,9 @@ public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseR
       forType: ExerciseEntity.self,
       localTask: { await coreDataStore.exercisesForMuscles(muscleGroup.muscles) },
       remoteTask: { try await service.getByMuscleGroup(muscleGroup) })
+  }
+
+  public func entityPublisherForID(_ exerciseID: UUID) -> EntityPublisher<ExerciseEntity> {
+    coreDataStore.exercisePublisherForID(exerciseID)
   }
 }

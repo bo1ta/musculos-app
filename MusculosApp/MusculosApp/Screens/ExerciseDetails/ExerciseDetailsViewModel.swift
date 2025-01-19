@@ -27,31 +27,25 @@ final class ExerciseDetailsViewModel: BaseViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.ratingRepository) private var ratingRepository: RatingRepositoryProtocol
 
-  @ObservationIgnored
-  @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
+  private let exerciseSessionHandler: ExerciseSessionHandler
+  private let entityPublisher: EntityPublisher<ExerciseEntity>
 
-  @ObservationIgnored
-  @Injected(
-    \DataRepositoryContainer
-      .exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepositoryProtocol
+  // MARK: Properties
 
-  // MARK: Public
-
+  private var cancellables: Set<AnyCancellable> = []
   private(set) var markFavoriteTask: Task<Void, Never>?
-  private(set) var saveExerciseSessionTask: Task<Void, Never>?
   private(set) var saveRatingTask: Task<Void, Never>?
-  private(set) var timerTask: Task<Void, Never>?
 
-  private(set) var showChallengeExercise = false
-  private(set) var isTimerActive = false
   private(set) var elapsedTime = 0
+  private(set) var currentXPGain = 0
+  private(set) var exerciseRatings: [ExerciseRating] = []
+  private(set) var currentUserExperienceEntry: UserExperienceEntry?
 
   var showInputDialog = false
   var showRatingDialog = false
   var showXPGainDialog = false
-  var currentUserExperienceEntry: UserExperienceEntry?
   var userRating = 0
-  var exerciseRatings: [ExerciseRating] = []
+
   var inputWeight: Double = 0
 
   var ratingAverage: Double {
@@ -61,55 +55,59 @@ final class ExerciseDetailsViewModel: BaseViewModel {
     return exerciseRatings.reduce(0) { $0 + $1.rating } / Double(exerciseRatings.count)
   }
 
-  var currentXPGain: Int {
-    guard let currentUserExperienceEntry else {
-      return 0
-    }
-    return currentUserExperienceEntry.xpGained
+  var isTimerActive: Bool {
+    exerciseSessionHandler.isTimerActive
   }
 
   var isFavorite: Bool {
     exercise.isFavorite ?? false
   }
 
-  var goals: [Goal] {
-    currentUser?.goals ?? []
-  }
-
-  // MARK: - Init and Setup
+  // MARK: Init and Setup
 
   var exercise: Exercise
 
   init(exercise: Exercise) {
     self.exercise = exercise
+    self.exerciseSessionHandler = ExerciseSessionHandler(exercise: exercise)
+    self.entityPublisher = StorageContainer.shared.coreDataStore().exercisePublisherForID(exercise.id)
+
+    setupPublishers()
+  }
+
+  private func setupPublishers() {
+    entityPublisher.publisher
+      .sink { [weak self] exercise in
+        guard let exercise else {
+          return
+        }
+        self?.exercise = exercise
+      }
+      .store(in: &cancellables)
+
+    exerciseSessionHandler.eventPublisher
+      .sink { [weak self] event in
+        self?.handleSessionEvent(event)
+      }
+      .store(in: &cancellables)
+  }
+
+  private func handleSessionEvent(_ event: ExerciseSessionHandler.Event) {
+    switch event {
+    case .showXP(let userExperienceEntry):
+      showUserExperience(userExperienceEntry)
+    case .didReceiveError:
+      showGenericErrorToast()
+    case .timerDidChange(let elapsedTime):
+      self.elapsedTime = elapsedTime
+    case .timerDidReset:
+      elapsedTime = 0
+    }
   }
 
   // MARK: - Public methods
 
   func initialLoad() async {
-    async let exerciseDetailsTask: Void = loadExerciseDetails()
-    async let exerciseRatingsTask: Void = loadExerciseRatings()
-
-    _ = await (exerciseDetailsTask, exerciseRatingsTask)
-  }
-
-  func cancelAllTasks() {
-    markFavoriteTask?.cancel()
-    saveExerciseSessionTask?.cancel()
-    saveRatingTask?.cancel()
-    timerTask?.cancel()
-  }
-
-  private func loadExerciseDetails() async {
-    do {
-      exercise = try await exerciseRepository.getExerciseDetails(for: exercise.id)
-    } catch {
-      showErrorToast()
-      Logger.error(error, message: "Cannot load exercise details")
-    }
-  }
-
-  private func loadExerciseRatings() async {
     do {
       exerciseRatings = try await ratingRepository.getRatingsForExercise(exercise.id)
 
@@ -122,44 +120,24 @@ final class ExerciseDetailsViewModel: BaseViewModel {
       self.userRating = Int(userRating)
 
     } catch {
-      showErrorToast()
+      showGenericErrorToast()
       Logger.error(error, message: "Could not load exercise ratings")
     }
   }
 
-  private func showErrorToast() {
-    toastManager.showError("Oops! Something went wrong")
-  }
-
   func handleSubmit() {
-    if isTimerActive {
-      stopSession()
+    if exerciseSessionHandler.isTimerActive {
+      exerciseSessionHandler.stopSession()
     } else {
       showInputDialog.toggle()
     }
   }
 
   func startSession() {
-    soundManager.playSound(.exerciseSessionInProgress)
-
-    isTimerActive = true
-    elapsedTime = 0
-
-    timerTask = Task { [weak self] in
-      repeat {
-        try? await Task.sleep(for: .seconds(1))
-        self?.elapsedTime += 1
-      } while !Task.isCancelled && self?.isTimerActive == true
+    guard let currentUser else {
+      return
     }
-  }
-
-  func stopSession() {
-    soundManager.stopSound()
-
-    isTimerActive = false
-    timerTask?.cancel()
-
-    saveExerciseSession()
+    exerciseSessionHandler.startSession(forUser: currentUser, withInputWeight: inputWeight)
   }
 
   func saveRating(_ rating: Int) {
@@ -179,13 +157,11 @@ final class ExerciseDetailsViewModel: BaseViewModel {
     markFavoriteTask = Task {
       do {
         try Task.checkCancellation()
-
         try await exerciseRepository.setFavoriteExercise(exercise, isFavorite: !isFavorite)
-        await loadExerciseDetails()
 
         playFavoriteExerciseActionSound()
       } catch {
-        showErrorToast()
+        showGenericErrorToast()
         Logger.error(error, message: "Could not update exercise.isFavorite")
       }
     }
@@ -199,53 +175,31 @@ final class ExerciseDetailsViewModel: BaseViewModel {
     }
   }
 
-  private func saveExerciseSession() {
-    saveExerciseSessionTask = Task {
-      guard let currentUser else {
+  private func showUserExperience(_ userExperience: UserExperienceEntry) {
+    Task { [weak self] in
+      guard let self else {
         return
       }
 
-      do {
-        let exerciseSession = ExerciseSession(
-          user: currentUser,
-          exercise: exercise,
-          duration: Double(elapsedTime),
-          weight: inputWeight)
+      currentXPGain = userExperience.xpGained
 
-        let userExperience = try await exerciseSessionRepository.addSession(exerciseSession)
+      withAnimation {
+        self.showXPGainDialog = true
+      }
 
-        await showUserExperience(userExperience)
-        await maybeUpdateGoals(for: exerciseSession)
+      try? await Task.sleep(for: .milliseconds(500))
+      soundManager.playSound(.gainedExperience)
 
-      } catch {
-        showErrorToast()
-        Logger.error(error, message: "Could not save exercise session")
+      try? await Task.sleep(for: .seconds(2))
+
+      withAnimation {
+        self.showXPGainDialog = false
       }
     }
   }
 
-  private func showUserExperience(_ userExperience: UserExperienceEntry) async {
-    currentUserExperienceEntry = userExperience
-
-    withAnimation {
-      showXPGainDialog = true
-    }
-
-    try? await Task.sleep(for: .milliseconds(500))
-    soundManager.playSound(.gainedExperience)
-
-    try? await Task.sleep(for: .seconds(2))
-
-    withAnimation {
-      showXPGainDialog = false
-    }
-  }
-
-  nonisolated private func maybeUpdateGoals(for exerciseSession: ExerciseSession) async {
-    do {
-      try await goalRepository.updateGoalProgress(exerciseSession: exerciseSession)
-    } catch {
-      Logger.error(error, message: "Cannot update goal progress")
-    }
+  func cancelAllTasks() {
+    markFavoriteTask?.cancel()
+    exerciseSessionHandler.cancelTasks()
   }
 }

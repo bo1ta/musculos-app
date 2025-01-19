@@ -11,6 +11,10 @@ import Storage
 import Utility
 
 public struct ExerciseRepositoryStub: ExerciseRepositoryProtocol {
+  public func entityPublisherForID(_ exerciseID: UUID) -> Storage.EntityPublisher<Storage.ExerciseEntity> {
+    StorageContainer.shared.coreDataStore().exercisePublisherForID(exerciseID)
+  }
+
   var expectedExercises: [Exercise]
 
   public init(expectedExercises: [Exercise] = []) {

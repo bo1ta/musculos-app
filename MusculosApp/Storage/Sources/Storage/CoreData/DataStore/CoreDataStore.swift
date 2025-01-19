@@ -402,6 +402,10 @@ extension CoreDataStore {
       storage.saveIfNeeded()
     }
   }
+
+  public func exercisePublisherForID(_ exerciseID: UUID) -> EntityPublisher<ExerciseEntity> {
+    entityPublisher(matching: \ExerciseEntity.exerciseId == exerciseID)
+  }
 }
 
 // MARK: - Workout

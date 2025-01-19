@@ -31,4 +31,8 @@ extension BaseViewModel {
   var currentUser: UserProfile? {
     userStore.currentUser
   }
+
+  func showGenericErrorToast() {
+    toastManager.showError("Oops! Something went wrong")
+  }
 }
