@@ -52,7 +52,6 @@ class ExerciseDetailsViewModelTests: XCTestCase {
     let viewModel = ExploreViewModel()
     await viewModel.initialLoad()
 
-    XCTAssertEqual(viewModel.goals.count, 1)
     XCTAssertEqual(viewModel.favoriteExercises.count, 1)
     XCTAssertEqual(viewModel.featuredExercises.count, 1)
     XCTAssertEqual(viewModel.recommendedExercisesByGoals.count, 1)

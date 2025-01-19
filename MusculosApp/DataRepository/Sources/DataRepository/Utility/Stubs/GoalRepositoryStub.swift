@@ -7,8 +7,8 @@
 
 import Foundation
 import Models
-import Utility
 import Storage
+import Utility
 
 public struct GoalRepositoryStub: GoalRepositoryProtocol {
   var expectedOnboardingGoals: [OnboardingGoal] = []

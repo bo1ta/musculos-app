@@ -5,18 +5,15 @@
 //  Created by Solomon Alexandru on 19.01.2025.
 //
 
-import Factory
-import Foundation
-import Storage
-import Models
 import Combine
 import DataRepository
+import Factory
+import Foundation
+import Models
+import Storage
 
 @Observable
 final class GoalStore {
-  @ObservationIgnored
-  @Injected(\DataRepositoryContainer.goalRepository) private var repository: GoalRepositoryProtocol
-
   private var cancellable: AnyCancellable?
   private(set) var goals: [Goal] = []
   private let entityPublisher: FetchedResultsPublisher<GoalEntity>

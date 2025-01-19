@@ -44,7 +44,6 @@ struct HomeScreen: View {
     .task {
       await viewModel.onAppear()
     }
-    .onDisappear(perform: viewModel.onDisappear)
     .scrollIndicators(.hidden)
   }
 

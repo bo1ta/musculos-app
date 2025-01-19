@@ -88,8 +88,14 @@ class ExerciseSessionHandler: @unchecked Sendable {
       return
     }
 
+    saveTask?.cancel()
+
     saveTask = Task {
       do {
+        guard !Task.isCancelled else {
+          return
+        }
+
         let userExperience = try await saveSession(inputWeight: inputWeight, userProfile: user)
         eventSubject.send(.showXP(userExperience))
       } catch {

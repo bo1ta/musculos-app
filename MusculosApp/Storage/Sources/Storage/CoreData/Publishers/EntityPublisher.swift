@@ -23,13 +23,13 @@ public class EntityPublisher<T: EntityType> {
     publisher = NotificationCenter.default.publisher(
       for: .NSManagedObjectContextObjectsDidChange,
       object: storage as? NSManagedObjectContext)
-    .map { notification -> Set<NSManagedObject> in
-      let updated = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject> ?? []
-      let inserted = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject> ?? []
-      return updated.union(inserted)
-    }
-    .compactMap { $0.first as? T }
-    .map { $0.toReadOnly() }
-    .eraseToAnyPublisher()
+      .map { notification -> Set<NSManagedObject> in
+        let updated = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject> ?? []
+        let inserted = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject> ?? []
+        return updated.union(inserted)
+      }
+      .compactMap { $0.first as? T }
+      .map { $0.toReadOnly() }
+      .eraseToAnyPublisher()
   }
 }
