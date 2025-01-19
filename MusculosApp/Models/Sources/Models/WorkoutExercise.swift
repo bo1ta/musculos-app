@@ -13,11 +13,13 @@ public struct WorkoutExercise: Codable, Sendable {
   public let id: UUID
   public let numberOfReps: Int
   public let exercise: Exercise
+  public let isCompleted: Bool
 
-  public init(id: UUID = UUID(), numberOfReps: Int, exercise: Exercise) {
+  public init(id: UUID = UUID(), numberOfReps: Int, exercise: Exercise, isCompleted: Bool = false) {
     self.id = id
     self.numberOfReps = numberOfReps
     self.exercise = exercise
+    self.isCompleted = isCompleted
   }
 }
 

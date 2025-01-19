@@ -1,0 +1,31 @@
+//
+//  DailyWorkout.swift
+//  Models
+//
+//  Created by Solomon Alexandru on 19.01.2025.
+//
+
+import Foundation
+
+public struct DailyWorkout: Codable, Identifiable {
+  public let id: UUID
+  public let dayNumber: Int
+  public let exercises: [WorkoutExercise]
+  public var isRestDay: Bool
+  public var isCompleted: Bool {
+    guard !isRestDay else { return true }
+    return exercises.allSatisfy { $0.isCompleted }
+  }
+
+  public init(
+    id: UUID = UUID(),
+    dayNumber: Int,
+    exercises: [WorkoutExercise],
+    isRestDay: Bool = false
+  ) {
+    self.id = id
+    self.dayNumber = dayNumber
+    self.exercises = exercises
+    self.isRestDay = isRestDay
+  }
+}
