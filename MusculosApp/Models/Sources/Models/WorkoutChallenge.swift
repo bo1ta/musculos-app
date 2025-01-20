@@ -18,7 +18,7 @@ public enum ChallengeLevel: String, Codable, Sendable {
 
 // MARK: - WorkoutChallenge
 
-public struct WorkoutChallenge: Codable, Identifiable, Sendable {
+public struct WorkoutChallenge: Codable, Identifiable, Hashable, Sendable {
   public let id: UUID
   public let title: String
   public let description: String

@@ -9,6 +9,8 @@ import Combine
 import CoreData
 import Utility
 
+/// `NSFetchedResultsController` wrapper that publishes events when changes occur
+///
 public class FetchedResultsPublisher<T: EntityType>: NSObject, NSFetchedResultsControllerDelegate {
   public enum Event {
     case didUpdateContent([T.ReadOnlyType])

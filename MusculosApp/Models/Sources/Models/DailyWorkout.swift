@@ -44,6 +44,12 @@ public struct DailyWorkout: Codable, Identifiable, Sendable {
   }
 }
 
+extension DailyWorkout: Hashable {
+  public static func ==(lhs: DailyWorkout, rhs: DailyWorkout) -> Bool {
+    lhs.id == rhs.id
+  }
+}
+
 // MARK: DecodableModel
 
 extension DailyWorkout: DecodableModel { }

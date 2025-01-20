@@ -109,5 +109,6 @@ struct RoutePlannerSheet: View {
 extension PresentationDetent {
   public static let minimized = PresentationDetent.fraction(0.1)
   public static let expanded = PresentationDetent.fraction(0.5)
+  public static let expandedExtra = PresentationDetent.fraction(0.7)
   public static let middle = PresentationDetent.fraction(0.3)
 }

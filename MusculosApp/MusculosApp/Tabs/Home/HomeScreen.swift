@@ -27,26 +27,24 @@ struct HomeScreen: View {
         AchievementCard()
           .defaultShimmering(active: viewModel.isLoading)
 
-        GoalsSection(goals: viewModel.goals, onAddGoal: {
-          navigator.navigate(to: HomeDestinations.addGoal)
-        })
+        GoalsSection(goals: viewModel.goals, onAddGoal: showAddGoalSheet)
 
         if let exercises = viewModel.quickExercises {
           QuickWorkoutSection(exercises: exercises, onSelect: navigateToExerciseDetails(_:))
         }
 
         if let workoutChallenge = viewModel.workoutChallenge {
-          ChallengesSection(workoutChallenge: workoutChallenge)
+          ChallengesSection(workoutChallenge: workoutChallenge, onSelectDailyWorkout: showDailyWorkoutSheet(_:))
         }
       }
       .frame(alignment: .top)
       .padding(.bottom, 30)
       .padding([.horizontal, .bottom], 10)
     }
+    .scrollIndicators(.hidden)
     .task {
       await viewModel.initialLoad()
     }
-    .scrollIndicators(.hidden)
   }
 
   private func navigateToLiveRoute() {
@@ -55,6 +53,18 @@ struct HomeScreen: View {
 
   private func navigateToExerciseDetails(_ exercise: Exercise) {
     navigator.navigate(to: CommonDestinations.exerciseDetails(exercise))
+  }
+
+  private func showDailyWorkoutSheet(_ workout: DailyWorkout) {
+    guard let workoutChallenge = viewModel.workoutChallenge else {
+      Logger.error(MusculosError.unexpectedNil, message: "Trying to navigate to daily workout sheet without a workout challenge")
+      return
+    }
+    navigator.navigate(to: HomeDestinations.dailyWorkout(workoutChallenge: workoutChallenge, dailyWorkout: workout))
+  }
+
+  private func showAddGoalSheet() {
+    navigator.navigate(to: HomeDestinations.addGoal)
   }
 }
 

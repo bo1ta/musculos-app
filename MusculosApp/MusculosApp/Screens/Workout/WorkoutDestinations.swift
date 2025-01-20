@@ -1,0 +1,26 @@
+//
+//  WorkoutDestinations.swift
+//  MusculosApp
+//
+//  Created by Solomon Alexandru on 21.01.2025.
+//
+
+import Models
+import Navigator
+import RouteKit
+import SwiftUI
+
+// MARK: - WorkoutDestinations
+
+public enum WorkoutDestinations {
+  case exerciseDetails(Exercise)
+}
+
+extension WorkoutDestinations: NavigationDestination {
+  public var view: some View {
+    switch self {
+    case .exerciseDetails(let exercise):
+      ExerciseDetailsScreen(exercise: exercise)
+    }
+  }
+}

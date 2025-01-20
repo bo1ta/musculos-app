@@ -15,6 +15,7 @@ import Utility
 
 struct ChallengesSection: View {
   let workoutChallenge: WorkoutChallenge
+  let onSelectDailyWorkout: (DailyWorkout) -> Void
 
   var body: some View {
     ContentSectionWithHeader(
@@ -25,6 +26,9 @@ struct ChallengesSection: View {
             ChallengeCard(
               label: dailyWorkout.label,
               level: workoutChallenge.level.rawValue)
+            .onTapGesture {
+              onSelectDailyWorkout(dailyWorkout)
+            }
           }
           .padding([.horizontal], 5)
         }

@@ -23,6 +23,8 @@ public protocol IdentifiableEntity: Sendable {
 extension IdentifiableEntity {
   public static var identifierKey: String { "uniqueID" }
 
+  /// The matching predicate used for the Core Data operations
+  ///
   public func matchingPredicate() -> NSPredicate {
     NSPredicate(format: "%K == %@", Self.identifierKey, id as NSUUID)
   }

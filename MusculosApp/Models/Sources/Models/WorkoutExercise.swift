@@ -29,6 +29,14 @@ public struct WorkoutExercise: Codable, Sendable {
   public let isCompleted: Bool
   public let measurement: ExerciseMeasurement
 
+  public var name: String {
+    exercise.name
+  }
+
+  public var label: String {
+    "\(numberOfReps) \(measurement.rawValue)"
+  }
+
   public init(
     id: UUID = UUID(),
     numberOfReps: Int,

@@ -58,6 +58,9 @@
 		BC3C0C622D1774640039B367 /* ExerciseDetailsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0C612D1774610039B367 /* ExerciseDetailsButton.swift */; };
 		BC3C0C642D17759F0039B367 /* ExerciseDetailsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0C632D1775890039B367 /* ExerciseDetailsHeader.swift */; };
 		BC3C0C662D1777750039B367 /* ExerciseDetailsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0C652D1777720039B367 /* ExerciseDetailsContent.swift */; };
+		BC3E19E02D3F08260032E3CD /* DailyWorkoutScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3E19DF2D3F080E0032E3CD /* DailyWorkoutScreen.swift */; };
+		BC3E19E22D3F13020032E3CD /* RootWorkoutScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3E19E12D3F12FC0032E3CD /* RootWorkoutScreen.swift */; };
+		BC3E19E42D3F13870032E3CD /* WorkoutDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3E19E32D3F13840032E3CD /* WorkoutDestinations.swift */; };
 		BC4078D62C02402E000DE280 /* WorkoutFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4078D52C02402E000DE280 /* WorkoutFlowView.swift */; };
 		BC4368242CEBC5A8006E712F /* ExploreSearchSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4368232CEBC5A1006E712F /* ExploreSearchSection.swift */; };
 		BC4368262CEC08DE006E712F /* GoalsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4368252CEC08DE006E712F /* GoalsSection.swift */; };
@@ -215,6 +218,9 @@
 		BC3C0C612D1774610039B367 /* ExerciseDetailsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsButton.swift; sourceTree = "<group>"; };
 		BC3C0C632D1775890039B367 /* ExerciseDetailsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsHeader.swift; sourceTree = "<group>"; };
 		BC3C0C652D1777720039B367 /* ExerciseDetailsContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsContent.swift; sourceTree = "<group>"; };
+		BC3E19DF2D3F080E0032E3CD /* DailyWorkoutScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWorkoutScreen.swift; sourceTree = "<group>"; };
+		BC3E19E12D3F12FC0032E3CD /* RootWorkoutScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootWorkoutScreen.swift; sourceTree = "<group>"; };
+		BC3E19E32D3F13840032E3CD /* WorkoutDestinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDestinations.swift; sourceTree = "<group>"; };
 		BC4078D52C02402E000DE280 /* WorkoutFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFlowView.swift; sourceTree = "<group>"; };
 		BC4368232CEBC5A1006E712F /* ExploreSearchSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreSearchSection.swift; sourceTree = "<group>"; };
 		BC4368252CEC08DE006E712F /* GoalsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsSection.swift; sourceTree = "<group>"; };
@@ -550,6 +556,16 @@
 			path = Card;
 			sourceTree = "<group>";
 		};
+		BC3E19DE2D3F07FC0032E3CD /* Workout */ = {
+			isa = PBXGroup;
+			children = (
+				BC3E19E12D3F12FC0032E3CD /* RootWorkoutScreen.swift */,
+				BC3E19DF2D3F080E0032E3CD /* DailyWorkoutScreen.swift */,
+				BC3E19E32D3F13840032E3CD /* WorkoutDestinations.swift */,
+			);
+			path = Workout;
+			sourceTree = "<group>";
+		};
 		BC43D3392B6EAD77008C1062 /* ExerciseFilterSheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -609,6 +625,7 @@
 				BC10E42C2A3B8AB00008A72E /* Authentication */,
 				BC97C9342BA0EFFE00AA07C4 /* ExerciseDetails */,
 				BCA24C052B6AFF7000124EC3 /* Onboarding */,
+				BC3E19DE2D3F07FC0032E3CD /* Workout */,
 				BCA24BEE2B69D3AE00124EC3 /* SplashScreen.swift */,
 			);
 			path = Screens;
@@ -1072,6 +1089,7 @@
 				BC777F012BA127DC001669C8 /* AddActionSheetContainer.swift in Sources */,
 				BC97C9322BA0D5D500AA07C4 /* AddActionSheet.swift in Sources */,
 				BC811F722CA03A0E00C3CC01 /* UserHeader.swift in Sources */,
+				BC3E19E02D3F08260032E3CD /* DailyWorkoutScreen.swift in Sources */,
 				BCD59AA92BB628220039F662 /* ExerciseSectionView.swift in Sources */,
 				BCF9E5C22C9F4C0700841F2C /* HomeScreen.swift in Sources */,
 				BC3C0C642D17759F0039B367 /* ExerciseDetailsHeader.swift in Sources */,
@@ -1090,6 +1108,7 @@
 				BC3A30642D37104C00232F86 /* UserStore.swift in Sources */,
 				BC32A54B2D0A486B005896D2 /* SelectWeightSheet.swift in Sources */,
 				BC9B974A2D3C673800BF6245 /* BaseViewModel.swift in Sources */,
+				BC3E19E42D3F13870032E3CD /* WorkoutDestinations.swift in Sources */,
 				BC606A6E2C221CBD00154781 /* SelectLevelView.swift in Sources */,
 				BC811F742CA03AA600C3CC01 /* HomeViewModel.swift in Sources */,
 				BCC46FF42C0E2E97006D76E2 /* PermissionsView.swift in Sources */,
@@ -1117,6 +1136,7 @@
 				BC29B40D2CE4F624005C641F /* MusclesSection.swift in Sources */,
 				BCD59AAF2BB628700039F662 /* ExerciseInstructionRow.swift in Sources */,
 				BC81E5D12BD2F9D90005891D /* SheetNavBar.swift in Sources */,
+				BC3E19E22D3F13020032E3CD /* RootWorkoutScreen.swift in Sources */,
 				BC9B974D2D3C82FA00BF6245 /* ExerciseSessionHandler.swift in Sources */,
 				BC1B7E262D1352CF0002158C /* RootExploreScreen.swift in Sources */,
 				BC1191912C24DF18004ADF04 /* InformationCard.swift in Sources */,
