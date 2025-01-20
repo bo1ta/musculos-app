@@ -34,7 +34,7 @@ public class WorkoutChallengeFactory: BaseFactory, @unchecked Sendable {
       currentDay: faker.number.randomInt(min: 0, max: 30),
       startDate: startDate,
       completionDate: completionDate)
-    syncObject(model, of: dWorkoutChallengeEntity.self)
+    syncObject(model, of: WorkoutChallengeEntity.self)
     return model
   }
 
