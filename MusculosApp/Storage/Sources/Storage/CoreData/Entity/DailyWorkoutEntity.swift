@@ -55,6 +55,8 @@ extension DailyWorkoutEntity: ReadOnlyConvertible {
   }
 }
 
+// MARK: EntitySyncable
+
 extension DailyWorkoutEntity: EntitySyncable {
   public func populateEntityFrom(_ model: DailyWorkout, using storage: any StorageType) {
     uniqueID = model.id
@@ -67,5 +69,5 @@ extension DailyWorkoutEntity: EntitySyncable {
     }
   }
 
-  public func updateEntityFrom(_ model: DailyWorkout, using storage: any StorageType) { }
+  public func updateEntityFrom(_: DailyWorkout, using _: any StorageType) { }
 }

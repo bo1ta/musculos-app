@@ -100,7 +100,7 @@ final class AddWorkoutSheetViewModel: BaseViewModel {
     }
   }
 
-  func didSelectExercise(with numberOfReps: Int = 0) {
+  func didSelectExercise(with _: Int = 0) {
     guard let exercise = currentSelectedExercise else {
       return
     }

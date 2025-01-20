@@ -44,6 +44,8 @@ extension WorkoutExerciseEntity: ReadOnlyConvertible {
   }
 }
 
+// MARK: EntitySyncable
+
 extension WorkoutExerciseEntity: EntitySyncable {
   public func populateEntityFrom(_ model: WorkoutExercise, using storage: any StorageType) {
     uniqueID = model.id
@@ -55,7 +57,7 @@ extension WorkoutExerciseEntity: EntitySyncable {
     exercise = ExerciseEntity.findOrCreate(from: model.exercise, using: storage)
   }
 
-  public func updateEntityFrom(_ model: WorkoutExercise, using storage: any StorageType) {
+  public func updateEntityFrom(_ model: WorkoutExercise, using _: any StorageType) {
     isCompleted = model.isCompleted
   }
 }

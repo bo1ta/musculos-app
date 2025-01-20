@@ -9,6 +9,8 @@ import CoreData
 import Foundation
 import Utility
 
+// MARK: - EntitySyncable
+
 public protocol EntitySyncable: Object {
   associatedtype ModelType: IdentifiableEntity
 

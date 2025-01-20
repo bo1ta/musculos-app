@@ -68,16 +68,16 @@ private class JSONHelper {
   }()
 }
 
-private extension DecodingError {
-  var prettyDescription: String {
+extension DecodingError {
+  fileprivate var prettyDescription: String {
     switch self {
-    case let .typeMismatch(type, context):
+    case .typeMismatch(let type, let context):
       "DecodingError.typeMismatch \(type), value \(context.prettyDescription) @ ERROR: \(localizedDescription)"
-    case let .valueNotFound(type, context):
+    case .valueNotFound(let type, let context):
       "DecodingError.valueNotFound \(type), value \(context.prettyDescription) @ ERROR: \(localizedDescription)"
-    case let .keyNotFound(key, context):
+    case .keyNotFound(let key, let context):
       "DecodingError.keyNotFound \(key), value \(context.prettyDescription) @ ERROR: \(localizedDescription)"
-    case let .dataCorrupted(context):
+    case .dataCorrupted(let context):
       "DecodingError.dataCorrupted \(context.prettyDescription), @ ERROR: \(localizedDescription)"
     default:
       "DecodingError: \(localizedDescription)"
@@ -85,8 +85,8 @@ private extension DecodingError {
   }
 }
 
-private extension DecodingError.Context {
-  var prettyDescription: String {
+extension DecodingError.Context {
+  fileprivate var prettyDescription: String {
     var result = ""
     if !codingPath.isEmpty {
       result.append(codingPath.map(\.stringValue).joined(separator: "."))

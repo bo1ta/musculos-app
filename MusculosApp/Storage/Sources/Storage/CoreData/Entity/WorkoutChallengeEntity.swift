@@ -68,6 +68,8 @@ extension WorkoutChallengeEntity: ReadOnlyConvertible {
   }
 }
 
+// MARK: EntitySyncable
+
 extension WorkoutChallengeEntity: EntitySyncable {
   public func populateEntityFrom(_ model: WorkoutChallenge, using storage: any StorageType) {
     uniqueID = model.id
@@ -85,5 +87,5 @@ extension WorkoutChallengeEntity: EntitySyncable {
     }
   }
 
-  public func updateEntityFrom(_ model: WorkoutChallenge, using storage: any StorageType) { }
+  public func updateEntityFrom(_: WorkoutChallenge, using _: any StorageType) { }
 }
