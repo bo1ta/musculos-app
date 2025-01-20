@@ -17,6 +17,7 @@ public enum Endpoint {
   case templates(APIRoute.TemplatesRoute)
   case ratings(APIRoute.RatingsRoute)
   case images(APIRoute.ImagesRoute)
+  case workoutChallenges(APIRoute.WorkoutChallengesRoute)
 
   public var path: String {
     switch self {
@@ -34,6 +35,8 @@ public enum Endpoint {
       "/ratings/\(route.path)"
     case .images(let route):
       "/images/\(route.path)"
+    case .workoutChallenges(let route):
+      "/challenges/\(route.path)"
     }
   }
 

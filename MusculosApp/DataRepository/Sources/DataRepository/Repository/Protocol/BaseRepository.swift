@@ -89,6 +89,16 @@ extension BaseRepository {
     return results
   }
 
+  func fetchAndSync<T: EntitySyncable>(
+    remoteTask: @escaping @Sendable () async throws -> T.ModelType,
+    syncType type: T.Type)
+    async throws -> T.ModelType
+  {
+    let result = try await remoteTask()
+    syncStorage(result, ofType: type)
+    return result
+  }
+
   func fetch<T: EntitySyncable>(
     forType type: T.Type,
     localTask: @escaping @Sendable () async -> T.ModelType?,

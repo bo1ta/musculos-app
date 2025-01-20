@@ -78,4 +78,8 @@ extension NetworkContainer {
   public var imageService: Factory<ImageServiceProtocol> {
     self { ImageService() }
   }
+
+  public var workoutService: Factory<WorkoutServiceProtocol> {
+    self { WorkoutService() }
+  }
 }

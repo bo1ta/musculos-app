@@ -421,6 +421,14 @@ extension CoreDataStore {
 // MARK: - Workout
 
 extension CoreDataStore {
+  public func workoutExerciseByID(_ id: UUID) async -> WorkoutExercise? {
+    await getFirstObject(WorkoutExerciseEntity.self, predicate: \WorkoutExerciseEntity.uniqueID == id)
+  }
+
+  public func workoutChallengeByID(_ id: UUID) async -> WorkoutChallenge? {
+    await getFirstObject(WorkoutChallengeEntity.self, predicate: \WorkoutChallengeEntity.uniqueID == id)
+  }
+
   public func workout(by id: UUID) async -> Workout? {
     let predicate: NSPredicate = \WorkoutEntity.modelID == id
     return await getFirstObject(WorkoutEntity.self, predicate: predicate)

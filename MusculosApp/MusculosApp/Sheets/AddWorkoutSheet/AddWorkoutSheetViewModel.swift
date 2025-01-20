@@ -109,7 +109,7 @@ final class AddWorkoutSheetViewModel: BaseViewModel {
     if let index = selectedWorkoutExercise.firstIndex(where: { $0.exercise == exercise }) {
       selectedWorkoutExercise.remove(at: index)
     } else {
-      selectedWorkoutExercise.append(WorkoutExercise(numberOfReps: numberOfReps, exercise: exercise))
+//      selectedWorkoutExercise.append(WorkoutExercise(numberOfReps: numberOfReps, exercise: exercise))
     }
   }
 

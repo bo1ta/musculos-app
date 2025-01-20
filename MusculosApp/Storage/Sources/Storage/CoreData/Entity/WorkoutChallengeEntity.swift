@@ -67,3 +67,23 @@ extension WorkoutChallengeEntity: ReadOnlyConvertible {
       completionDate: completionDate)
   }
 }
+
+extension WorkoutChallengeEntity: EntitySyncable {
+  public func populateEntityFrom(_ model: WorkoutChallenge, using storage: any StorageType) {
+    uniqueID = model.id
+    title = model.title
+    challengeDescription = model.description
+    level = model.level.rawValue
+    durationInDays = model.durationInDays as NSNumber
+    currentDay = model.currentDay as NSNumber
+    startDate = model.startDate
+    completionDate = model.completionDate
+
+    for dailyWorkout in model.dailyWorkouts {
+      let dailyWorkoutEntity = DailyWorkoutEntity.findOrCreate(from: dailyWorkout, using: storage)
+      addToDailyWorkouts(dailyWorkoutEntity)
+    }
+  }
+
+  public func updateEntityFrom(_ model: WorkoutChallenge, using storage: any StorageType) { }
+}

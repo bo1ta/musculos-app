@@ -21,8 +21,8 @@ public enum ExerciseMeasurement: String, Codable, Sendable {
 public struct WorkoutExercise: Codable, Sendable {
   public let id: UUID
   public let numberOfReps: Int
-  public let minValue: Int?
-  public let maxValue: Int?
+  public let minValue: Int
+  public let maxValue: Int
   public let exercise: Exercise
   public let isCompleted: Bool
   public let measurement: ExerciseMeasurement
@@ -33,8 +33,8 @@ public struct WorkoutExercise: Codable, Sendable {
     exercise: Exercise,
     isCompleted: Bool = false,
     measurement: ExerciseMeasurement = .reps,
-    minValue: Int? = nil,
-    maxValue: Int? = nil)
+    minValue: Int,
+    maxValue: Int)
   {
     self.id = id
     self.numberOfReps = numberOfReps

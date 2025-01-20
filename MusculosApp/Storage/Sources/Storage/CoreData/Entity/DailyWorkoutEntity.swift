@@ -54,3 +54,18 @@ extension DailyWorkoutEntity: ReadOnlyConvertible {
     return DailyWorkout(id: uniqueID, dayNumber: dayNumber.intValue, exercises: workoutExercises, isRestDay: isRestDay)
   }
 }
+
+extension DailyWorkoutEntity: EntitySyncable {
+  public func populateEntityFrom(_ model: DailyWorkout, using storage: any StorageType) {
+    uniqueID = model.id
+    dayNumber = model.dayNumber as NSNumber
+    isRestDay = model.isRestDay
+
+    for workoutExercise in model.exercises {
+      let workoutExerciseEntity = WorkoutExerciseEntity.findOrCreate(from: workoutExercise, using: storage)
+      addToWorkoutExercises(workoutExerciseEntity)
+    }
+  }
+
+  public func updateEntityFrom(_ model: DailyWorkout, using storage: any StorageType) { }
+}

@@ -43,3 +43,19 @@ extension WorkoutExerciseEntity: ReadOnlyConvertible {
       maxValue: maxValue.intValue)
   }
 }
+
+extension WorkoutExerciseEntity: EntitySyncable {
+  public func populateEntityFrom(_ model: WorkoutExercise, using storage: any StorageType) {
+    uniqueID = model.id
+    numberOfReps = model.numberOfReps as NSNumber
+    isCompleted = model.isCompleted
+    measurement = model.measurement.rawValue
+    minValue = model.minValue as NSNumber
+    maxValue = model.maxValue as NSNumber
+    exercise = ExerciseEntity.findOrCreate(from: model.exercise, using: storage)
+  }
+
+  public func updateEntityFrom(_ model: WorkoutExercise, using storage: any StorageType) {
+    isCompleted = model.isCompleted
+  }
+}
