@@ -42,7 +42,7 @@ struct HomeScreen: View {
       .padding([.horizontal, .bottom], 10)
     }
     .task {
-      await viewModel.onAppear()
+      await viewModel.initialLoad()
     }
     .scrollIndicators(.hidden)
   }

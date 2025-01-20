@@ -18,10 +18,10 @@ extension DecodableModel where Self: Codable {
   public static func createFrom(_ data: Data) throws -> Self {
     do {
       return try JSONHelper.decoder.decode(Self.self, from: data)
-    } catch {
+    } catch let error as DecodingError {
       Logger.error(
         error,
-        message: "Could not decode object",
+        message: error.prettyDescription,
         properties: ["object": String(describing: Self.self)])
       throw error
     }
@@ -30,10 +30,10 @@ extension DecodableModel where Self: Codable {
   public static func createArrayFrom(_ data: Data) throws -> [Self] {
     do {
       return try JSONHelper.decoder.decode([Self].self, from: data)
-    } catch {
+    } catch let error as DecodingError {
       Logger.error(
         error,
-        message: "Could not decode object",
+        message: error.prettyDescription,
         properties: ["object": String(describing: Self.self)])
       throw error
     }
@@ -66,4 +66,39 @@ private class JSONHelper {
     encoder.dateEncodingStrategy = .iso8601
     return encoder
   }()
+}
+
+private extension DecodingError {
+  var prettyDescription: String {
+    switch self {
+    case let .typeMismatch(type, context):
+      "DecodingError.typeMismatch \(type), value \(context.prettyDescription) @ ERROR: \(localizedDescription)"
+    case let .valueNotFound(type, context):
+      "DecodingError.valueNotFound \(type), value \(context.prettyDescription) @ ERROR: \(localizedDescription)"
+    case let .keyNotFound(key, context):
+      "DecodingError.keyNotFound \(key), value \(context.prettyDescription) @ ERROR: \(localizedDescription)"
+    case let .dataCorrupted(context):
+      "DecodingError.dataCorrupted \(context.prettyDescription), @ ERROR: \(localizedDescription)"
+    default:
+      "DecodingError: \(localizedDescription)"
+    }
+  }
+}
+
+private extension DecodingError.Context {
+  var prettyDescription: String {
+    var result = ""
+    if !codingPath.isEmpty {
+      result.append(codingPath.map(\.stringValue).joined(separator: "."))
+      result.append(": ")
+    }
+    result.append(debugDescription)
+    if
+      let nsError = underlyingError as? NSError,
+      let description = nsError.userInfo["NSDebugDescription"] as? String
+    {
+      result.append(description)
+    }
+    return result
+  }
 }

@@ -13,11 +13,11 @@ import Utility
 public struct DailyWorkout: Codable, Identifiable, Sendable {
   public let id: UUID
   public let dayNumber: Int
-  public let exercises: [WorkoutExercise]
+  public let workoutExercises: [WorkoutExercise]
   public var isRestDay: Bool
   public var isCompleted: Bool {
     guard !isRestDay else { return true }
-    return exercises.allSatisfy { $0.isCompleted }
+    return workoutExercises.allSatisfy { $0.isCompleted }
   }
 
   public init(
@@ -28,7 +28,7 @@ public struct DailyWorkout: Codable, Identifiable, Sendable {
   {
     self.id = id
     self.dayNumber = dayNumber
-    self.exercises = exercises
+    self.workoutExercises = exercises
     self.isRestDay = isRestDay
   }
 }

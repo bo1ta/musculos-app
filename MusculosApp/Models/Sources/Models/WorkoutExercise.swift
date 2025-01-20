@@ -14,6 +14,8 @@ public enum ExerciseMeasurement: String, Codable, Sendable {
   case reps
   case duration // in seconds
   case distance // in meters
+  case lbs
+  case minutes
 }
 
 // MARK: - WorkoutExercise

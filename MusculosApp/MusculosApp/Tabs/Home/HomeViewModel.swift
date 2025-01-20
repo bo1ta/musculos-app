@@ -19,6 +19,9 @@ final class HomeViewModel: BaseViewModel {
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
 
   @ObservationIgnored
+  @Injected(\DataRepositoryContainer.workoutRepository) private var workoutRepository: WorkoutRepositoryProtocol
+
+  @ObservationIgnored
   @Injected(\.goalStore) private var goalStore: GoalStore
 
   var goals: [Goal] {
@@ -27,15 +30,26 @@ final class HomeViewModel: BaseViewModel {
 
   private(set) var isLoading = false
   private(set) var quickExercises: [Exercise]?
+  private(set) var workoutChallenge: WorkoutChallenge?
 
-  func onAppear() async {
-    await fetchData()
-  }
-
-  func fetchData() async {
+  func initialLoad() async {
     isLoading = true
     defer { isLoading = false }
 
+    async let exercisesTask: Void = loadExercises()
+    async let workoutTask: Void = loadWorkoutChallenge()
+    _ = await (exercisesTask, workoutTask)
+  }
+
+  func loadWorkoutChallenge() async {
+    do {
+      workoutChallenge = try await workoutRepository.generateWorkoutChallenge()
+    } catch {
+      Logger.error(error, message: "Error loading workout challenges")
+    }
+  }
+
+  func loadExercises() async {
     do {
       let exercises = try await exerciseRepository.getExercisesByWorkoutGoal(.improveEndurance)
       quickExercises = Array(exercises.prefix(2))

@@ -61,7 +61,7 @@ extension DailyWorkoutEntity: EntitySyncable {
     dayNumber = model.dayNumber as NSNumber
     isRestDay = model.isRestDay
 
-    for workoutExercise in model.exercises {
+    for workoutExercise in model.workoutExercises {
       let workoutExerciseEntity = WorkoutExerciseEntity.findOrCreate(from: workoutExercise, using: storage)
       addToWorkoutExercises(workoutExerciseEntity)
     }
