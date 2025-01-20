@@ -55,7 +55,7 @@ final class AddGoalSheetViewModel: BaseViewModel {
         targetValue: Int(targetValue) ?? 5,
         endDate: endDate,
         dateAdded: Date(),
-        userID: currentUser.userId)
+        userID: currentUser.id)
 
       do {
         try await goalRepository.addGoal(goal)

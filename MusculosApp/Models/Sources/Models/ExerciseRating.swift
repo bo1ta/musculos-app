@@ -11,7 +11,7 @@ import Utility
 // MARK: - ExerciseRating
 
 public struct ExerciseRating: Codable, Sendable {
-  public var ratingID: UUID
+  public var id: UUID
   public var exerciseID: UUID
   public var userID: UUID
   public var isPublic: Bool?
@@ -19,22 +19,35 @@ public struct ExerciseRating: Codable, Sendable {
   public var comment: String?
 
   public init(
-    ratingID: UUID = UUID(),
+    id: UUID = UUID(),
     exerciseID: UUID,
     userID: UUID,
     isPublic: Bool = true,
     rating: Double,
     comment: String? = nil)
   {
-    self.ratingID = ratingID
+    self.id = id
     self.exerciseID = exerciseID
     self.userID = userID
     self.isPublic = isPublic
     self.rating = rating
     self.comment = comment
   }
+
+  enum CodingKeys: String, CodingKey {
+    case id = "ratingID"
+    case exerciseID
+    case userID
+    case isPublic
+    case rating
+    case comment
+  }
 }
 
 // MARK: DecodableModel
 
 extension ExerciseRating: DecodableModel { }
+
+// MARK: IdentifiableEntity
+
+extension ExerciseRating: IdentifiableEntity { }

@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import Utility
 
-public struct DailyWorkout: Codable, Identifiable {
+// MARK: - DailyWorkout
+
+public struct DailyWorkout: Codable, Identifiable, Sendable {
   public let id: UUID
   public let dayNumber: Int
   public let exercises: [WorkoutExercise]
@@ -21,11 +24,19 @@ public struct DailyWorkout: Codable, Identifiable {
     id: UUID = UUID(),
     dayNumber: Int,
     exercises: [WorkoutExercise],
-    isRestDay: Bool = false
-  ) {
+    isRestDay: Bool = false)
+  {
     self.id = id
     self.dayNumber = dayNumber
     self.exercises = exercises
     self.isRestDay = isRestDay
   }
 }
+
+// MARK: DecodableModel
+
+extension DailyWorkout: DecodableModel { }
+
+// MARK: IdentifiableEntity
+
+extension DailyWorkout: IdentifiableEntity { }

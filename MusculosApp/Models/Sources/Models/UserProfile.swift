@@ -10,8 +10,8 @@ import Utility
 
 // MARK: - UserProfile
 
-public struct UserProfile: Codable, Sendable {
-  public var userId: UUID
+public struct UserProfile: Codable, Sendable, Identifiable {
+  public var id: UUID
   public let avatar: String?
   public let fullName: String?
   public let username: String
@@ -29,7 +29,7 @@ public struct UserProfile: Codable, Sendable {
   public var userExperience: UserExperience?
 
   public init(
-    userId: UUID,
+    id: UUID,
     email: String,
     fullName: String? = nil,
     username: String,
@@ -46,7 +46,7 @@ public struct UserProfile: Codable, Sendable {
     ratings: [ExerciseRating]? = nil,
     userExperience: UserExperience? = nil)
   {
-    self.userId = userId
+    self.id = id
     self.email = email
     self.fullName = fullName
     self.username = username
@@ -65,7 +65,7 @@ public struct UserProfile: Codable, Sendable {
   }
 
   enum CodingKeys: String, CodingKey {
-    case userId = "id"
+    case id
     case avatar
     case fullName
     case username
@@ -89,14 +89,10 @@ public struct UserProfile: Codable, Sendable {
   }
 }
 
-// MARK: Equatable
-
-extension UserProfile: Equatable {
-  public static func ==(_ lhs: UserProfile, rhs: UserProfile) -> Bool {
-    lhs.userId == rhs.userId
-  }
-}
-
 // MARK: DecodableModel
 
 extension UserProfile: DecodableModel { }
+
+// MARK: IdentifiableEntity
+
+extension UserProfile: IdentifiableEntity { }

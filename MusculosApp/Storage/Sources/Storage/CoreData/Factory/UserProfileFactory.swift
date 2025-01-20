@@ -9,7 +9,7 @@ import Foundation
 import Models
 
 public class UserProfileFactory: BaseFactory, @unchecked Sendable {
-  public var userId: UUID?
+  public var id: UUID?
   public var avatar: String?
   public var fullName: String?
   public var username: String?
@@ -29,7 +29,7 @@ public class UserProfileFactory: BaseFactory, @unchecked Sendable {
 
   public func create() -> UserProfile {
     let model = UserProfile(
-      userId: userId ?? UUID(),
+      id: id ?? UUID(),
       email: email ?? faker.internet.email(),
       fullName: fullName ?? faker.name.name(),
       username: username ?? faker.internet.username(),

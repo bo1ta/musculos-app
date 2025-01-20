@@ -19,9 +19,9 @@ public class ExerciseRatingFactory: BaseFactory, @unchecked Sendable {
 
   public func create() -> ExerciseRating {
     let exerciseRating = ExerciseRating(
-      ratingID: ratingID ?? UUID(),
+      id: ratingID ?? UUID(),
       exerciseID: exerciseID ?? ExerciseFactory.createExercise().id,
-      userID: userID ?? UserProfileFactory.createUser().userId,
+      userID: userID ?? UserProfileFactory.createUser().id,
       isPublic: isPublic ?? false,
       rating: rating ?? 4.0,
       comment: comment ?? "awesome")

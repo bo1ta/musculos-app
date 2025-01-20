@@ -34,7 +34,7 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
   public func register(email: String, password: String, username: String) async throws -> UserSession {
     let session = try await service.register(email: email, password: password, username: username)
 
-    let userProfile = UserProfile(userId: session.user.id, email: email, username: username)
+    let userProfile = UserProfile(id: session.user.id, email: email, username: username)
     try await dataStore.importModel(userProfile, of: UserProfileEntity.self)
 
     return session
@@ -61,7 +61,10 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
   }
 
   public func getUserByID(_ userID: UUID) async -> UserProfile? {
-    await dataStore.userProfileByID(userID)
+    try? await fetch(
+      forType: UserProfileEntity.self,
+      localTask: { await dataStore.userProfileByID(userID) },
+      remoteTask: { try await service.currentUser() })
   }
 
   @discardableResult

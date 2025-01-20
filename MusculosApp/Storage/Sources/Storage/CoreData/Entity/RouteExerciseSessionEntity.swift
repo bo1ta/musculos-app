@@ -38,7 +38,7 @@ public class RouteExerciseSessionEntity: NSManagedObject {
   @NSManaged public var notes: String?
   @NSManaged public var tags: [String]?
   @NSManaged public var userID: UUID
-  @NSManaged public var uuid: UUID
+  @NSManaged public var uniqueID: UUID
 
   @nonobjc
   public class func fetchRequest() -> NSFetchRequest<RouteExerciseSessionEntity> {
@@ -69,7 +69,7 @@ extension RouteExerciseSessionEntity: ReadOnlyConvertible {
     }
 
     return RouteExerciseSession(
-      uuid: uuid,
+      id: uniqueID,
       originCoordinate: originCoordinate,
       destinationCoordinate: destinationCoordinate,
       distance: distanceInMeters,
@@ -98,7 +98,7 @@ extension RouteExerciseSessionEntity: ReadOnlyConvertible {
 
 extension RouteExerciseSessionEntity: EntitySyncable {
   public func populateEntityFrom(_ model: RouteExerciseSession, using _: StorageType) {
-    uuid = model.uuid
+    uniqueID = model.id
     userID = model.userID
     originLatitude = model.originCoordinate.latitude
     originLongitude = model.originCoordinate.longitude

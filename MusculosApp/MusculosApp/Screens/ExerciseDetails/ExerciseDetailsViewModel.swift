@@ -109,7 +109,7 @@ final class ExerciseDetailsViewModel: BaseViewModel {
       exerciseRatings = try await ratingRepository.getRatingsForExercise(exercise.id)
 
       guard
-        let currentUserID = currentUser?.userId,
+        let currentUserID = currentUser?.id,
         let userRating = exerciseRatings.last(where: { $0.userID == currentUserID })?.rating
       else {
         return

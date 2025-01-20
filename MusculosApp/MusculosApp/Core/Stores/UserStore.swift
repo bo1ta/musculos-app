@@ -114,7 +114,7 @@ public final class UserStore: @unchecked Sendable, UserStoreProtocol {
 
 extension UserStore {
   public func startObservingUser() {
-    guard let userID = currentUser?.userId else {
+    guard let userID = currentUser?.id else {
       Logger.error(MusculosError.unexpectedNil, message: "Cannot observe user, current user is nil!")
       return
     }

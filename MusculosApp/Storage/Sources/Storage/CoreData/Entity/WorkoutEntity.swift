@@ -78,20 +78,9 @@ extension WorkoutEntity: EntitySyncable {
     targetMuscles = model.targetMuscles
     workoutType = model.workoutType
     createdBy = UserProfileEntity.entityFrom(model.createdBy, using: storage)
-    workoutExercises = getWorkoutExercisesFrom(model.workoutExercises, storage: storage)
   }
 
   func updateEntityFrom(_: Workout, using _: any StorageType) { }
-
-  private func getWorkoutExercisesFrom(
-    _ workoutExercises: [WorkoutExercise],
-    storage: StorageType)
-    -> Set<WorkoutExerciseEntity>
-  {
-    Set(workoutExercises.map {
-      WorkoutExerciseEntity.findOrCreate($0, using: storage)
-    })
-  }
 
   static func findOrCreate(_ workout: Workout, from storage: StorageType) -> WorkoutEntity {
     let predicate: NSPredicate = \WorkoutEntity.modelID == workout.id

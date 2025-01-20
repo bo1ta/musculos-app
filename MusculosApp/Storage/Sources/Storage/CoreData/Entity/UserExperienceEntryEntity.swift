@@ -15,7 +15,7 @@ import Principle
 
 @objc(UserExperienceEntryEntity)
 public class UserExperienceEntryEntity: NSManagedObject {
-  @NSManaged public var modelID: UUID
+  @NSManaged public var uniqueID: UUID
   @NSManaged public var xpGained: NSNumber
   @NSManaged public var userExperience: UserExperienceEntity
 
@@ -30,7 +30,7 @@ public class UserExperienceEntryEntity: NSManagedObject {
 extension UserExperienceEntryEntity: ReadOnlyConvertible {
   public func toReadOnly() -> UserExperienceEntry {
     UserExperienceEntry(
-      id: modelID,
+      id: uniqueID,
       userExperience: userExperience.toReadOnly(),
       xpGained: xpGained.intValue)
   }
@@ -40,13 +40,13 @@ extension UserExperienceEntryEntity: ReadOnlyConvertible {
 
 extension UserExperienceEntryEntity: EntitySyncable {
   public func populateEntityFrom(_ model: UserExperienceEntry, using storage: any StorageType) {
-    modelID = model.id
+    uniqueID = model.id
     xpGained = model.xpGained as NSNumber
 
     if
       let userExperienceEntity = storage.firstObject(
         of: UserExperienceEntity.self,
-        matching: \UserExperienceEntryEntity.modelID == model.userExperience.id)
+        matching: \UserExperienceEntryEntity.uniqueID == model.userExperience.id)
     {
       userExperience = userExperienceEntity
     }

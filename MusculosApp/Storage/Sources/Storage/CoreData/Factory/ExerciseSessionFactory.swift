@@ -22,7 +22,7 @@ public class ExerciseSessionFactory: BaseFactory, @unchecked Sendable {
   public func create() -> ExerciseSession {
     let model = ExerciseSession(
       dateAdded: dateAdded ?? Date(),
-      sessionId: sessionId ?? UUID(),
+      id: sessionId ?? UUID(),
       user: user ?? UserProfileFactory.createUser(),
       exercise: exercise ?? ExerciseFactory.createExercise(),
       duration: duration ?? faker.number.randomDouble(),
