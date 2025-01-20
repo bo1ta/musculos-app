@@ -15,9 +15,20 @@ public struct DailyWorkout: Codable, Identifiable, Sendable {
   public let dayNumber: Int
   public let workoutExercises: [WorkoutExercise]
   public var isRestDay: Bool
+
   public var isCompleted: Bool {
-    guard !isRestDay else { return true }
+    guard !isRestDay else {
+      return true
+    }
     return workoutExercises.allSatisfy { $0.isCompleted }
+  }
+
+  public var label: String {
+    "Day \(dayNumber)"
+  }
+
+  public var exercises: [Exercise] {
+    workoutExercises.map { $0.exercise }
   }
 
   public init(

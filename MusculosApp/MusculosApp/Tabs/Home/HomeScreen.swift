@@ -35,7 +35,9 @@ struct HomeScreen: View {
           QuickWorkoutSection(exercises: exercises, onSelect: navigateToExerciseDetails(_:))
         }
 
-        ChallengesSection()
+        if let workoutChallenge = viewModel.workoutChallenge {
+          ChallengesSection(workoutChallenge: workoutChallenge)
+        }
       }
       .frame(alignment: .top)
       .padding(.bottom, 30)
