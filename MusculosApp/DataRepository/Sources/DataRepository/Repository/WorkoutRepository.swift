@@ -25,6 +25,7 @@ public protocol WorkoutRepositoryProtocol: Sendable {
 public struct WorkoutRepository: @unchecked Sendable, BaseRepository, WorkoutRepositoryProtocol {
   @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
   @Injected(\NetworkContainer.workoutService) private var service: WorkoutServiceProtocol
+  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
   public func addWorkout(_ workout: Workout) async throws {
     try await dataStore.insertWorkout(workout)

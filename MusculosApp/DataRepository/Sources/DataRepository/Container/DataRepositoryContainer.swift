@@ -9,6 +9,13 @@ import Factory
 import Foundation
 import Models
 
+extension Container {
+  internal var backgroundWorker: Factory<BackgroundWorker> {
+    self { BackgroundWorker() }
+      .shared
+  }
+}
+
 // MARK: - DataRepositoryContainer
 
 public final class DataRepositoryContainer: SharedContainer {

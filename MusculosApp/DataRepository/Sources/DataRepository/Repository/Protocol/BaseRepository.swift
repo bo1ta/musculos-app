@@ -15,6 +15,7 @@ import Utility
 protocol BaseRepository: Sendable {
   var localStorageUpdateThreshold: TimeInterval { get }
   var dataStore: CoreDataStore { get }
+  var backgroundWorker: BackgroundWorker { get }
 }
 
 // MARK: Default
@@ -32,10 +33,6 @@ extension BaseRepository {
 
   var isConnectedToInternet: Bool {
     NetworkContainer.shared.networkMonitor().isConnected
-  }
-
-  var backgroundWorker: BackgroundWorker {
-    DataRepositoryContainer.shared.backgroundWorker()
   }
 }
 

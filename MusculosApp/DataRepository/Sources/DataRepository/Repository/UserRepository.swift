@@ -30,6 +30,7 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
   @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
   @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
+  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
   public func register(email: String, password: String, username: String) async throws -> UserSession {
     let session = try await service.register(email: email, password: password, username: username)

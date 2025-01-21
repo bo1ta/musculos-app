@@ -23,6 +23,7 @@ public protocol RouteExerciseSessionRepositoryProtocol {
 
 public struct RouteExerciseSessionRepository: @unchecked Sendable, BaseRepository, RouteExerciseSessionRepositoryProtocol {
   @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
+  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
   public func addRouteSession(_ session: RouteExerciseSession) async throws {
     try await dataStore.importModel(session, of: RouteExerciseSessionEntity.self)

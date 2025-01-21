@@ -36,11 +36,14 @@ public protocol ExerciseRepositoryProtocol: Sendable {
 public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseRepositoryProtocol {
   @Injected(\NetworkContainer.exerciseService) private var service: ExerciseServiceProtocol
   @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
+  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
   public init() { }
 
   public func addExercise(_ exercise: Exercise) async throws {
-    try await dataStore.importModel(exercise, of: ExerciseEntity.self)
+    try await update(
+      localTask: { try await dataStore.importModel(exercise, of: ExerciseEntity.self) },
+      remoteTask: { try await service.addExercise(exercise) })
   }
 
   public func getExercises() async throws -> [Exercise] {
