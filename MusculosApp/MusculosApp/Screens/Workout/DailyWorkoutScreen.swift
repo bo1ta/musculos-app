@@ -5,11 +5,11 @@
 //  Created by Solomon Alexandru on 21.01.2025.
 //
 
-import SwiftUI
-import Utility
 import Components
 import Models
 import Storage
+import SwiftUI
+import Utility
 
 struct DailyWorkoutScreen: View {
   @Environment(\.navigator) private var navigator
@@ -29,8 +29,8 @@ struct DailyWorkoutScreen: View {
           gradient: AppColor.orangeGradient,
           rightContent: {
             IconButton(systemImageName: "chevron.right", action: {
-              navigator.navigate(to: WorkoutDestinations.exerciseDetails(workoutExercise.exercise))
-              })
+              navigator.navigate(to: HomeDestinations.exerciseDetails(workoutExercise.exercise))
+            })
           })
       }
     }

@@ -5,9 +5,11 @@
 //  Created by Solomon Alexandru on 21.01.2025.
 //
 
+import Models
 import Navigator
 import SwiftUI
-import Models
+
+// MARK: - RootWorkoutScreen
 
 struct RootWorkoutScreen: View {
   let workoutChallenge: WorkoutChallenge

@@ -17,6 +17,7 @@ public enum HomeDestinations {
   case notifications
   case liveRoute
   case dailyWorkout(workoutChallenge: WorkoutChallenge, dailyWorkout: DailyWorkout)
+  case exerciseDetails(Exercise)
 }
 
 // MARK: NavigationDestination
@@ -36,19 +37,24 @@ extension HomeDestinations: NavigationDestination {
     case .dailyWorkout(let workoutChallenge, let dailyWorkout):
       RootWorkoutScreen(workoutChallenge: workoutChallenge, dailyWorkout: dailyWorkout)
         .presentationDetents([.medium, .expandedExtra])
+
+    case .exerciseDetails(let exercise):
+      ExerciseDetailsScreen(exercise: exercise)
     }
   }
 
   public var method: NavigationMethod {
     switch self {
     case .notifications:
-        .push
+      .push
     case .liveRoute:
-        .push
+      .push
     case .addGoal:
-        .sheet
+      .sheet
     case .dailyWorkout:
-        .sheet
+      .sheet
+    case .exerciseDetails:
+      .cover
     }
   }
 }

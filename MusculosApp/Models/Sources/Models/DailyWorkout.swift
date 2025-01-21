@@ -44,6 +44,8 @@ public struct DailyWorkout: Codable, Identifiable, Sendable {
   }
 }
 
+// MARK: Hashable
+
 extension DailyWorkout: Hashable {
   public static func ==(lhs: DailyWorkout, rhs: DailyWorkout) -> Bool {
     lhs.id == rhs.id

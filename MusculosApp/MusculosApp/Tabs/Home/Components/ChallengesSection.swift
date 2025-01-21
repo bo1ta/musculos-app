@@ -26,9 +26,9 @@ struct ChallengesSection: View {
             ChallengeCard(
               label: dailyWorkout.label,
               level: workoutChallenge.level.rawValue)
-            .onTapGesture {
-              onSelectDailyWorkout(dailyWorkout)
-            }
+              .onTapGesture {
+                onSelectDailyWorkout(dailyWorkout)
+              }
           }
           .padding([.horizontal], 5)
         }

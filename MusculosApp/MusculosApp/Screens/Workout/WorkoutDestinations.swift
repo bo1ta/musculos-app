@@ -16,6 +16,8 @@ public enum WorkoutDestinations {
   case exerciseDetails(Exercise)
 }
 
+// MARK: NavigationDestination
+
 extension WorkoutDestinations: NavigationDestination {
   public var view: some View {
     switch self {

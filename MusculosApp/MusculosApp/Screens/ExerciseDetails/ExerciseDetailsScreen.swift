@@ -7,6 +7,7 @@
 
 import Components
 import Models
+import Navigator
 import Storage
 import SwiftUI
 import Utility
@@ -21,7 +22,7 @@ struct ExerciseDetailsScreen: View {
 
   var body: some View {
     VStack(spacing: 10) {
-      ExerciseDetailsHeader(exercise: viewModel.exercise, onBack: { navigator.pop() })
+      ExerciseDetailsHeader(exercise: viewModel.exercise, onBack: { navigator.popOrDismiss() })
       ExerciseDetailsContent(viewModel: viewModel)
     }
     .task {
@@ -49,6 +50,7 @@ struct ExerciseDetailsScreen: View {
     .dismissingGesture(direction: .left, action: { navigator.pop() })
     .navigationBarBackButtonHidden()
     .tabBarHidden()
+    .navigationDismissible()
   }
 }
 

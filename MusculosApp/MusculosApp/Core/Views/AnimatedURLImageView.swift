@@ -50,6 +50,7 @@ struct AnimatedURLImageView: View {
             Color.red
               .frame(maxWidth: .infinity)
               .frame(minHeight: 300)
+              .overlay(Text("Error: \(error.localizedDescription)"))
 
           @unknown default:
             fatalError("AsyncCachedImage fatal error")
