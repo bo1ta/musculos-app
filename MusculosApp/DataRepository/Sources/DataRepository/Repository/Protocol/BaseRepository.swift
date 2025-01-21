@@ -15,6 +15,7 @@ import Utility
 protocol BaseRepository: Sendable {
   var localStorageUpdateThreshold: TimeInterval { get }
   var dataStore: CoreDataStore { get }
+  var backgroundWorker: BackgroundWorker { get }
 }
 
 // MARK: Default
@@ -32,10 +33,6 @@ extension BaseRepository {
 
   var isConnectedToInternet: Bool {
     NetworkContainer.shared.networkMonitor().isConnected
-  }
-
-  var backgroundWorker: BackgroundWorker {
-    DataRepositoryContainer.shared.backgroundWorker()
   }
 }
 
@@ -87,6 +84,16 @@ extension BaseRepository {
     let results = try await remoteTask()
     syncStorage(results, ofType: type)
     return results
+  }
+
+  func fetchAndSync<T: EntitySyncable>(
+    remoteTask: @escaping @Sendable () async throws -> T.ModelType,
+    syncType type: T.Type)
+    async throws -> T.ModelType
+  {
+    let result = try await remoteTask()
+    syncStorage(result, ofType: type)
+    return result
   }
 
   func fetch<T: EntitySyncable>(

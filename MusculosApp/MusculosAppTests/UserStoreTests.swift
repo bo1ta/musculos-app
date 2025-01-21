@@ -45,7 +45,7 @@ class UserStoreTests: XCTestCase {
     let repositoryExpectation = self.expectation(description: "should call methods")
     let mockRepository = MockUserRepository(
       expectation: repositoryExpectation,
-      expectedUserSession: UserSession.mockWithUserID(userProfile.userId),
+      expectedUserSession: UserSession.mockWithUserID(userProfile.id),
       expectedUserProfile: userProfile)
     DataRepositoryContainer.shared.userRepository.register { mockRepository }
     defer { DataRepositoryContainer.shared.userRepository.reset() }
@@ -123,7 +123,7 @@ extension UserStoreTests {
     func observeUserChanges(forUserID userID: UUID) -> EntityPublisher<UserProfileEntity> {
       expectedUserListener ?? EntityPublisher(
         storage: StorageContainer.shared.storageManager().viewStorage,
-        predicate: NSPredicate(format: "%K == %@", #keyPath(UserProfileEntity.userId), userID as NSUUID))
+        predicate: NSPredicate(format: "%K == %@", #keyPath(UserProfileEntity.uniqueID), userID as NSUUID))
     }
 
     func register(email _: String, password _: String, username _: String) async throws -> UserSession {

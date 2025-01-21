@@ -15,7 +15,7 @@ final class BackgroundWorker: Sendable {
   @discardableResult
   func queueOperation<Success: Sendable>(
     priority: TaskPriority? = .low,
-    @_inheritActorContext operation: @escaping @Sendable () async throws -> Success)
+    operation: @escaping @Sendable () async throws -> Success)
     -> Task<Success, Error>
   {
     backgroundQueue.addOperation(priority: priority) {

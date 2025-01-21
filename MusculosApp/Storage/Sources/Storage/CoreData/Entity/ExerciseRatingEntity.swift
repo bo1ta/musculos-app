@@ -20,7 +20,7 @@ public class ExerciseRatingEntity: NSManagedObject {
     NSFetchRequest<ExerciseRatingEntity>(entityName: "ExerciseRatingEntity")
   }
 
-  @NSManaged public var ratingID: UUID
+  @NSManaged public var uniqueID: UUID
   @NSManaged public var rating: NSNumber
   @NSManaged public var isPublic: Bool
   @NSManaged public var comment: String?
@@ -33,9 +33,9 @@ public class ExerciseRatingEntity: NSManagedObject {
 extension ExerciseRatingEntity: ReadOnlyConvertible {
   public func toReadOnly() -> ExerciseRating {
     ExerciseRating(
-      ratingID: ratingID,
-      exerciseID: exercise.exerciseId,
-      userID: user.userId,
+      id: uniqueID,
+      exerciseID: exercise.uniqueID,
+      userID: user.uniqueID,
       isPublic: isPublic,
       rating: rating.doubleValue)
   }
@@ -48,15 +48,15 @@ extension ExerciseRatingEntity: EntitySyncable {
     guard
       let exerciseEntity = storage.firstObject(
         of: ExerciseEntity.self,
-        matching: \ExerciseEntity.exerciseId == model.exerciseID),
+        matching: \ExerciseEntity.uniqueID == model.exerciseID),
       let userProfileEntity = storage.firstObject(
         of: UserProfileEntity.self,
-        matching: \UserProfileEntity.userId == model.userID)
+        matching: \UserProfileEntity.uniqueID == model.userID)
     else {
       return
     }
 
-    ratingID = model.ratingID
+    uniqueID = model.id
     rating = model.rating as NSNumber
     isPublic = model.isPublic ?? true
     comment = model.comment

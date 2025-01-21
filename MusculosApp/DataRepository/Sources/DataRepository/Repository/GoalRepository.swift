@@ -29,6 +29,7 @@ public protocol GoalRepositoryProtocol: Sendable {
 public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositoryProtocol {
   @Injected(\NetworkContainer.goalService) private var service: GoalServiceProtocol
   @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
+  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
   public init() { }
 
@@ -68,7 +69,7 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
       targetValue: 15,
       endDate: nil,
       dateAdded: Date(),
-      user: user)
+      userID: user.id)
 
     try await update(
       localTask: { try await dataStore.importModel(goal, of: GoalEntity.self) },

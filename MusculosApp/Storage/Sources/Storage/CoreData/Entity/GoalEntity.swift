@@ -13,7 +13,7 @@ import Principle
 
 @objc(GoalEntity)
 public class GoalEntity: NSManagedObject {
-  @NSManaged public var goalID: UUID
+  @NSManaged public var uniqueID: UUID
   @NSManaged public var userID: UUID
   @NSManaged public var name: String
   @NSManaged public var endDate: Date?
@@ -73,7 +73,7 @@ extension GoalEntity: ReadOnlyConvertible {
 
 extension GoalEntity: EntitySyncable {
   public func populateEntityFrom(_ model: Goal, using storage: StorageType) {
-    goalID = model.id
+    uniqueID = model.id
     category = model.category
     dateAdded = model.dateAdded
     endDate = model.endDate
@@ -87,11 +87,10 @@ extension GoalEntity: EntitySyncable {
     if let userID = model.userID {
       self.userID = userID
 
-      if let user = storage.firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.userId == model.userID) {
+      if let user = storage.firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.uniqueID == model.userID) {
         self.user = user
       }
     }
-
 
     guard let progressEntries = model.progressEntries else {
       return
@@ -118,14 +117,14 @@ extension GoalEntity: EntitySyncable {
     }
 
     if progressEntries.count > progressHistory.count {
-      let mappedProgress = progressHistory.map { $0.toReadOnly()?.progressID }
+      let mappedProgress = progressHistory.map { $0.toReadOnly()?.id }
 
       let history = progressEntries.filter { entry in
-        !mappedProgress.contains(entry.progressID)
+        !mappedProgress.contains(entry.id)
       }
 
       for entry in history {
-        let predicate: NSPredicate = \ProgressEntryEntity.progressID == entry.progressID
+        let predicate: NSPredicate = \ProgressEntryEntity.progressID == entry.id
         let progressEntity = storage.findOrInsert(of: ProgressEntryEntity.self, using: predicate)
         progressEntity.populateEntityFrom(entry, using: storage)
 

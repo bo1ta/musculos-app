@@ -55,7 +55,7 @@ class UserRepositoryTests: XCTestCase {
     let mockUserService = MockUserService(expectation: expectation)
     NetworkContainer.shared.userService.register { mockUserService }
     NetworkContainer.shared.userManager.register {
-      StubUserSessionManager(expectedUser: UserSession.User(id: expectedProfile.userId))
+      StubUserSessionManager(expectedUser: UserSession.User(id: expectedProfile.id))
     }
     defer {
       NetworkContainer.shared.userService.reset()
@@ -73,7 +73,7 @@ class UserRepositoryTests: XCTestCase {
     let mockUserService = MockUserService(expectation: expectation, expectedProfile: currentUser)
     NetworkContainer.shared.userService.register { mockUserService }
     NetworkContainer.shared.userManager.register {
-      StubUserSessionManager(expectedUser: .init(id: currentUser.userId))
+      StubUserSessionManager(expectedUser: .init(id: currentUser.id))
     }
     defer {
       NetworkContainer.shared.userService.reset()

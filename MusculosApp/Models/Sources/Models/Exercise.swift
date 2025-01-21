@@ -158,6 +158,10 @@ extension Exercise: Hashable {
 
 extension Exercise: DecodableModel { }
 
+// MARK: IdentifiableEntity
+
+extension Exercise: IdentifiableEntity { }
+
 // MARK: Identifiable
 
 extension Exercise: Identifiable {

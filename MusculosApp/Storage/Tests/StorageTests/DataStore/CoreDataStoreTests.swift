@@ -27,7 +27,7 @@ public class CoreDataStoreTests: MusculosTestBase {
     let exercise = ExerciseFactory.createExercise()
 
     let dataStore = CoreDataStore()
-    let local = await dataStore.getFirstObject(ExerciseEntity.self, predicate: \ExerciseEntity.exerciseId == exercise.id)
+    let local = await dataStore.getFirstObject(ExerciseEntity.self, predicate: \ExerciseEntity.uniqueID == exercise.id)
     #expect(local?.name == exercise.name)
   }
 
@@ -65,7 +65,7 @@ public class CoreDataStoreTests: MusculosTestBase {
     factory.exercise = exercise
     _ = factory.create()
 
-    let results = await dataStore.exerciseSessionsCompletedSinceLastWeek(for: profile.userId)
+    let results = await dataStore.exerciseSessionsCompletedSinceLastWeek(for: profile.id)
     #expect(results.count == 2)
   }
 }

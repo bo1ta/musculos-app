@@ -18,7 +18,7 @@ import Utility
 public final class ExerciseEntity: NSManagedObject {
   @NSManaged public var category: String?
   @NSManaged public var equipment: String?
-  @NSManaged public var exerciseId: UUID
+  @NSManaged public var uniqueID: UUID
   @NSManaged public var force: String?
   @NSManaged public var imageUrls: [String]?
   @NSManaged public var instructions: [String]?
@@ -139,7 +139,7 @@ extension ExerciseEntity: ReadOnlyConvertible {
     return Exercise(
       category: category ?? "",
       equipment: equipment,
-      id: exerciseId,
+      id: uniqueID,
       level: level ?? "",
       name: name ?? "",
       primaryMuscles: primaryMuscles,
@@ -156,7 +156,7 @@ extension ExerciseEntity: ReadOnlyConvertible {
 
 extension ExerciseEntity: EntitySyncable {
   public func populateEntityFrom(_ model: Exercise, using storage: StorageType) {
-    exerciseId = model.id
+    uniqueID = model.id
     category = model.category
     category = model.category
     equipment = model.equipment
@@ -180,7 +180,7 @@ extension ExerciseEntity: EntitySyncable {
   }
 
   static func findOrCreate(from model: Exercise, using storage: StorageType) -> ExerciseEntity {
-    let predicate: NSPredicate = \ExerciseEntity.exerciseId == model.id
+    let predicate: NSPredicate = \ExerciseEntity.uniqueID == model.id
     if let exerciseEntity = storage.firstObject(of: ExerciseEntity.self, matching: predicate) {
       return exerciseEntity
     }

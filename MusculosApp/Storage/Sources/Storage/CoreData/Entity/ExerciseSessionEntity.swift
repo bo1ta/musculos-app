@@ -22,7 +22,7 @@ public class ExerciseSessionEntity: NSManagedObject {
 
   @NSManaged public var dateAdded: Date
   @NSManaged public var duration: NSNumber
-  @NSManaged public var sessionId: UUID
+  @NSManaged public var uniqueID: UUID
   @NSManaged public var user: UserProfileEntity
   @NSManaged public var exercise: ExerciseEntity
   @NSManaged public var weight: NSNumber
@@ -41,7 +41,7 @@ extension ExerciseSessionEntity: ReadOnlyConvertible {
 
     return ExerciseSession(
       dateAdded: dateAdded,
-      sessionId: sessionId,
+      id: uniqueID,
       user: user,
       exercise: exercise)
   }
@@ -52,7 +52,7 @@ extension ExerciseSessionEntity: ReadOnlyConvertible {
 extension ExerciseSessionEntity: EntitySyncable {
   public func populateEntityFrom(_ model: ExerciseSession, using storage: StorageType) {
     guard
-      let user = storage.firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.userId == model.user.userId)
+      let user = storage.firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.uniqueID == model.user.id)
     else {
       return
     }
@@ -60,7 +60,7 @@ extension ExerciseSessionEntity: EntitySyncable {
     self.user = user
     dateAdded = model.dateAdded
     duration = model.duration as NSNumber
-    sessionId = model.sessionId
+    uniqueID = model.id
     exercise = ExerciseEntity.findOrCreate(from: model.exercise, using: storage)
     weight = NSNumber(floatLiteral: model.weight ?? 0) // swiftlint:disable:this compiler_protocol_init
   }

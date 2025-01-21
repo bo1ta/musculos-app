@@ -21,7 +21,6 @@ public struct Goal: Sendable, Codable {
   public let endDate: Date?
   public let isCompleted: Bool
   public let dateAdded: Date
-  public let user: UserProfile?
   public var userID: UUID?
   public let updatedAt: Date?
 
@@ -35,7 +34,6 @@ public struct Goal: Sendable, Codable {
     endDate: Date?,
     isCompleted: Bool = false,
     dateAdded: Date,
-    user: UserProfile? = nil,
     userID: UUID? = nil,
     updatedAt: Date? = Date())
   {
@@ -49,7 +47,6 @@ public struct Goal: Sendable, Codable {
     self.endDate = endDate
     self.isCompleted = isCompleted
     self.dateAdded = dateAdded
-    self.user = user
     self.updatedAt = updatedAt
   }
 
@@ -62,8 +59,8 @@ public struct Goal: Sendable, Codable {
     targetValue = 5
     endDate = DateHelper.getDateFromNextWeek()
     isCompleted = false
+    userID = user.id
     dateAdded = Date()
-    self.user = user
     updatedAt = Date()
   }
 
@@ -219,3 +216,7 @@ extension Goal: Hashable {
 // MARK: DecodableModel
 
 extension Goal: DecodableModel { }
+
+// MARK: IdentifiableEntity
+
+extension Goal: IdentifiableEntity { }

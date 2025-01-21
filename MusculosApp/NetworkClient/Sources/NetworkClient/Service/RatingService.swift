@@ -25,7 +25,7 @@ public struct RatingService: APIService, RatingServiceProtocol, @unchecked Senda
   public func addExerciseRating(_ exerciseRating: ExerciseRating) async throws {
     var request = APIRequest(method: .post, endpoint: .ratings(.index))
     request.body = [
-      "ratingID": exerciseRating.ratingID.uuidString as Any,
+      "ratingID": exerciseRating.id.uuidString as Any,
       "exerciseID": exerciseRating.exerciseID.uuidString as Any,
       "rating": exerciseRating.rating as Any,
       "isPublic": exerciseRating.isPublic as Any,

@@ -8,7 +8,7 @@
 import Foundation
 import Utility
 
-public struct UserExperienceEntry: Sendable, Codable, DecodableModel {
+public struct UserExperienceEntry: Sendable, Codable, DecodableModel, IdentifiableEntity {
   public var id: UUID
   public var userExperience: UserExperience
   public var xpGained: Int

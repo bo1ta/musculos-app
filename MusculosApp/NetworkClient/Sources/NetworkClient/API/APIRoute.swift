@@ -98,4 +98,16 @@ public enum APIRoute {
       }
     }
   }
+
+  public enum WorkoutChallengesRoute {
+    case index
+    case generate
+
+    public var path: String {
+      switch self {
+      case .index: ""
+      case .generate: "generate"
+      }
+    }
+  }
 }

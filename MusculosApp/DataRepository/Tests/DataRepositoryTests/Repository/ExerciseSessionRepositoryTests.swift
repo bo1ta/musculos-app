@@ -42,7 +42,7 @@ class ExerciseSessionRepositoryTests: XCTestCase {
 
     let firstResult = try #require(results.first)
     // data store is synced
-    let localExerciseSession = await coreDataStore.exerciseSessionByID(firstResult.sessionId)
+    let localExerciseSession = await coreDataStore.exerciseSessionByID(firstResult.id)
     XCTAssertEqual(firstResult.exercise, localExerciseSession?.exercise)
   }
 
@@ -68,7 +68,7 @@ class ExerciseSessionRepositoryTests: XCTestCase {
 
   func testAddSessionCallsServiceAndSyncsWithStorage() async throws {
     let user = UserProfileFactory.createUser()
-    NetworkContainer.shared.userManager.register { StubUserSessionManager(expectedUser: .init(id: user.userId)) }
+    NetworkContainer.shared.userManager.register { StubUserSessionManager(expectedUser: .init(id: user.id)) }
     defer { NetworkContainer.shared.userManager.reset() }
 
     let userExperience = UserExperienceFactory.createUserExperience()
@@ -96,7 +96,7 @@ class ExerciseSessionRepositoryTests: XCTestCase {
     let user = UserProfileFactory.createUser()
 
     NetworkContainer.shared.userManager.register {
-      StubUserSessionManager(expectedUser: .init(id: user.userId))
+      StubUserSessionManager(expectedUser: .init(id: user.id))
     }
   }
 }

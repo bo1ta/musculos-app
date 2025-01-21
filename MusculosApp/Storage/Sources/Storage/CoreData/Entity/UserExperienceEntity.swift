@@ -15,7 +15,7 @@ import Principle
 
 @objc(UserExperienceEntity)
 public class UserExperienceEntity: NSManagedObject {
-  @NSManaged public var modelID: UUID
+  @NSManaged public var uniqueID: UUID
   @NSManaged public var totalExperience: NSNumber
   @NSManaged public var user: UserProfileEntity?
   @NSManaged public var experienceEntries: Set<UserExperienceEntryEntity>
@@ -49,7 +49,7 @@ extension UserExperienceEntity {
 extension UserExperienceEntity: ReadOnlyConvertible {
   public func toReadOnly() -> UserExperience {
     UserExperience(
-      id: modelID,
+      id: uniqueID,
       totalExperience: totalExperience.intValue)
   }
 }
@@ -58,7 +58,7 @@ extension UserExperienceEntity: ReadOnlyConvertible {
 
 extension UserExperienceEntity: EntitySyncable {
   public func populateEntityFrom(_ model: UserExperience, using storage: any StorageType) {
-    modelID = model.id
+    uniqueID = model.id
     totalExperience = model.totalExperience as NSNumber
     experienceEntries = Set<UserExperienceEntryEntity>()
 
@@ -69,7 +69,7 @@ extension UserExperienceEntity: EntitySyncable {
     let entities = experienceEntries.map { experienceEntry in
       let entity = storage.findOrInsert(
         of: UserExperienceEntryEntity.self,
-        using: \UserExperienceEntryEntity.modelID == experienceEntry.id)
+        using: \UserExperienceEntryEntity.uniqueID == experienceEntry.id)
       entity.populateEntityFrom(experienceEntry, using: storage)
       entity.userExperience = self
       return entity
@@ -87,7 +87,7 @@ extension UserExperienceEntity: EntitySyncable {
     let entities = experienceEntries.map { experienceEntry in
       let entity = storage.findOrInsert(
         of: UserExperienceEntryEntity.self,
-        using: \UserExperienceEntryEntity.modelID == experienceEntry.id)
+        using: \UserExperienceEntryEntity.uniqueID == experienceEntry.id)
       entity.populateEntityFrom(experienceEntry, using: storage)
       entity.userExperience = self
       return entity

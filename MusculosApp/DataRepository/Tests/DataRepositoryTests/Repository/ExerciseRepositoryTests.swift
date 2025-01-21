@@ -35,6 +35,7 @@ class ExerciseRepositoryTests: XCTestCase {
     let exercise = ExerciseFactory.createExercise(isPersistent: false)
     let repository = ExerciseRepository()
     try await repository.addExercise(exercise)
+    await repository.backgroundWorker.waitForAll()
 
     let localExercise = try #require(await coreDataStore.exerciseByID(exercise.id))
     XCTAssertEqual(localExercise, exercise)
@@ -52,10 +53,32 @@ class ExerciseRepositoryTests: XCTestCase {
     let exercise = ExerciseFactory.createExercise(isPersistent: false)
     let repository = ExerciseRepository()
     try await repository.addExercise(exercise)
+    await repository.backgroundWorker.waitForAll()
 
     let localExercise = try #require(await coreDataStore.exerciseByID(exercise.id))
     XCTAssertEqual(localExercise, exercise)
     await fulfillment(of: [serviceExpectation], timeout: 1)
+  }
+
+  func testGetExercisesPopulatesDataStore() async throws {
+    StorageContainer.shared.storageManager().reset()
+
+    let factory = ExerciseFactory()
+    factory.isPersistent = false
+    let exercise = factory.create()
+
+    NetworkContainer.shared.exerciseService.register { ExerciseServiceStub(expectedResult: [exercise]) }
+    defer { NetworkContainer.shared.exerciseService.reset() }
+
+    let repository = ExerciseRepository()
+    let results = try await repository.getExercises()
+    await repository.backgroundWorker.waitForAll()
+
+    let firstResult = try #require(results.first)
+    XCTAssertEqual(firstResult.id, exercise.id)
+
+    let localExercise = await coreDataStore.exerciseByID(exercise.id)
+    XCTAssertEqual(localExercise?.name, exercise.name)
   }
 
   func testGetExercisesUsesLocalStoreIfNotConntectedToInternet() async throws {
@@ -125,7 +148,7 @@ class ExerciseRepositoryTests: XCTestCase {
     let user = UserProfileFactory.createUser()
 
     NetworkContainer.shared.userManager.register {
-      StubUserSessionManager(expectedUser: UserSession.User(id: user.userId))
+      StubUserSessionManager(expectedUser: UserSession.User(id: user.id))
     }
     defer {
       NetworkContainer.shared.userManager.reset()
@@ -152,7 +175,7 @@ class ExerciseRepositoryTests: XCTestCase {
     let user = UserProfileFactory.createUser()
 
     NetworkContainer.shared.userManager.register {
-      StubUserSessionManager(expectedUser: UserSession.User(id: user.userId))
+      StubUserSessionManager(expectedUser: UserSession.User(id: user.id))
     }
     defer {
       NetworkContainer.shared.userManager.reset()
@@ -169,7 +192,7 @@ class ExerciseRepositoryTests: XCTestCase {
     let user = UserProfileFactory.createUser()
 
     NetworkContainer.shared.userManager.register {
-      StubUserSessionManager(expectedUser: UserSession.User(id: user.userId))
+      StubUserSessionManager(expectedUser: UserSession.User(id: user.id))
     }
     defer {
       NetworkContainer.shared.userManager.reset()

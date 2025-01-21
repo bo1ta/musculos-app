@@ -15,7 +15,7 @@ import Principle
 
 @objc(UserProfileEntity)
 public class UserProfileEntity: NSManagedObject {
-  @NSManaged public var userId: UUID
+  @NSManaged public var uniqueID: UUID
   @NSManaged public var availableEquipment: [String]?
   @NSManaged public var avatarUrl: String?
   @NSManaged public var email: String
@@ -108,7 +108,7 @@ extension UserProfileEntity {
 extension UserProfileEntity: ReadOnlyConvertible {
   public func toReadOnly() -> UserProfile {
     UserProfile(
-      userId: userId,
+      id: uniqueID,
       email: email,
       username: username,
       weight: weight?.doubleValue,
@@ -127,7 +127,7 @@ extension UserProfileEntity: ReadOnlyConvertible {
 
 extension UserProfileEntity {
   static func entityFrom(_ model: UserProfile, using storage: StorageType) -> UserProfileEntity {
-    let predicate: NSPredicate = \UserProfileEntity.userId == model.userId
+    let predicate: NSPredicate = \UserProfileEntity.uniqueID == model.id
 
     if let userProfile = storage.firstObject(of: UserProfileEntity.self, matching: predicate) {
       return userProfile
@@ -143,7 +143,7 @@ extension UserProfileEntity {
 
 extension UserProfileEntity: EntitySyncable {
   public func populateEntityFrom(_ model: UserProfile, using storage: StorageType) {
-    userId = model.userId
+    uniqueID = model.id
     availableEquipment = model.availableEquipment
     avatarUrl = model.avatar
     email = model.email
@@ -168,7 +168,7 @@ extension UserProfileEntity: EntitySyncable {
     }
 
     if let userExperience = model.userExperience {
-      let predicate: NSPredicate = \UserExperienceEntity.modelID == userExperience.id
+      let predicate: NSPredicate = \UserExperienceEntity.uniqueID == userExperience.id
       let userExperienceEntity = storage.findOrInsert(of: UserExperienceEntity.self, using: predicate)
 
       userExperienceEntity.populateEntityFrom(userExperience, using: storage)
@@ -206,7 +206,7 @@ extension UserProfileEntity: EntitySyncable {
       var goalsSet = Set<GoalEntity>()
 
       for goal in goals {
-        let predicate: NSPredicate = \GoalEntity.goalID == goal.id
+        let predicate: NSPredicate = \GoalEntity.uniqueID == goal.id
         let goalEntity = storage.findOrInsert(of: GoalEntity.self, using: predicate)
         goalEntity.updateEntityFrom(goal, using: storage)
         goalsSet.insert(goalEntity)

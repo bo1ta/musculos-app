@@ -33,7 +33,7 @@ extension ProgressEntryEntity: ReadOnlyConvertible {
       return nil
     }
     return ProgressEntry(
-      progressID: progressID,
+      id: progressID,
       dateAdded: dateAdded,
       value: value.doubleValue,
       goal: goal.toReadOnly())
@@ -46,7 +46,7 @@ extension ProgressEntryEntity: EntitySyncable {
   public func populateEntityFrom(_ model: ProgressEntry, using _: StorageType) {
     value = model.value as NSNumber
     dateAdded = model.dateAdded
-    progressID = model.progressID
+    progressID = model.id
   }
 
   public func updateEntityFrom(_ model: ProgressEntry, using _: StorageType) {

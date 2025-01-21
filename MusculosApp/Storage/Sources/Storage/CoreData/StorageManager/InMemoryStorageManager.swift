@@ -27,8 +27,14 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
         }
 
         let description = NSPersistentStoreDescription(url: URL(filePath: "/dev/null"))
+        description.type = NSInMemoryStoreType
+        description.shouldMigrateStoreAutomatically = true
+        description.shouldInferMappingModelAutomatically = true
+
         let container = NSPersistentContainer(name: "MusculosDataStore", managedObjectModel: model)
         container.persistentStoreDescriptions = [description]
+        
+
         container.loadPersistentStores { _, error in
           if let error {
             Logger.error(error, message: "Failed to load persistent store")

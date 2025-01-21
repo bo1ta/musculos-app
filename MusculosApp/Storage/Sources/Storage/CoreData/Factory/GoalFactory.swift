@@ -33,7 +33,7 @@ public class GoalFactory: BaseFactory, @unchecked Sendable {
       endDate: endDate ?? faker.date.forward(4),
       isCompleted: isCompleted ?? false,
       dateAdded: dateAdded ?? Date(),
-      user: user ?? UserProfileFactory.createUser(),
+      userID: user?.id ?? UserProfileFactory.createUser().id,
       updatedAt: updatedAt ?? Date())
     syncObject(goal, of: GoalEntity.self)
     return goal

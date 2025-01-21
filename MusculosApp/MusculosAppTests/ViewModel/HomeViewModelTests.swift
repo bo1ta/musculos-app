@@ -41,7 +41,7 @@ class HomeViewModelTests: XCTestCase {
     }
 
     let viewModel = HomeViewModel()
-    await viewModel.fetchData()
+    await viewModel.initialLoad()
 
     #expect(!viewModel.goals.isEmpty)
 
@@ -54,7 +54,7 @@ class HomeViewModelTests: XCTestCase {
     NetworkContainer.shared.userManager.register {
       StubUserSessionManager(
         expectedTokenValue: "value",
-        expectedUser: .init(id: userProfile.userId))
+        expectedUser: .init(id: userProfile.id))
     }
     return userProfile
   }

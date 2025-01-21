@@ -7,9 +7,12 @@
 
 import CoreLocation
 import Foundation
+import Utility
+
+// MARK: - RouteExerciseSession
 
 public struct RouteExerciseSession: Sendable {
-  public var uuid: UUID
+  public var id: UUID
   public var originCoordinate: CLLocationCoordinate2D
   public var destinationCoordinate: CLLocationCoordinate2D
   public var distance: Double
@@ -41,7 +44,7 @@ public struct RouteExerciseSession: Sendable {
   }
 
   public init(
-    uuid: UUID = UUID(),
+    id: UUID = UUID(),
     originCoordinate: CLLocationCoordinate2D,
     destinationCoordinate: CLLocationCoordinate2D,
     distance: Double,
@@ -64,7 +67,7 @@ public struct RouteExerciseSession: Sendable {
     tags: [String],
     userID: UUID)
   {
-    self.uuid = uuid
+    self.id = id
     self.originCoordinate = originCoordinate
     self.destinationCoordinate = destinationCoordinate
     self.distance = distance
@@ -88,3 +91,7 @@ public struct RouteExerciseSession: Sendable {
     self.userID = userID
   }
 }
+
+// MARK: IdentifiableEntity
+
+extension RouteExerciseSession: IdentifiableEntity { }

@@ -7,23 +7,28 @@
 
 import Components
 import Models
+import Navigator
 import SwiftUI
 import Utility
 
 // MARK: - ChallengesSection
 
 struct ChallengesSection: View {
+  let workoutChallenge: WorkoutChallenge
+  let onSelectDailyWorkout: (DailyWorkout) -> Void
+
   var body: some View {
     ContentSectionWithHeader(
-      headerTitle: "Today's Challenge",
+      headerTitle: workoutChallenge.title,
       content: {
         HStack {
-          ForEach(ChallengeType.allCases, id: \.rawValue) { challengeType in
+          ForEach(workoutChallenge.dailyWorkouts, id: \.id) { dailyWorkout in
             ChallengeCard(
-              label: challengeType.title,
-              level: "expert",
-              icon: Image(challengeType.imageName),
-              cardColor: challengeType.color)
+              label: dailyWorkout.label,
+              level: workoutChallenge.level.rawValue)
+              .onTapGesture {
+                onSelectDailyWorkout(dailyWorkout)
+              }
           }
           .padding([.horizontal], 5)
         }
@@ -79,8 +84,4 @@ extension ChallengesSection {
       }
     }
   }
-}
-
-#Preview {
-  ChallengesSection()
 }

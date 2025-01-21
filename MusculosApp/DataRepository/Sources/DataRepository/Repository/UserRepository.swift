@@ -30,11 +30,12 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
   @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
   @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
+  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
   public func register(email: String, password: String, username: String) async throws -> UserSession {
     let session = try await service.register(email: email, password: password, username: username)
 
-    let userProfile = UserProfile(userId: session.user.id, email: email, username: username)
+    let userProfile = UserProfile(id: session.user.id, email: email, username: username)
     try await dataStore.importModel(userProfile, of: UserProfileEntity.self)
 
     return session
@@ -61,7 +62,10 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
   }
 
   public func getUserByID(_ userID: UUID) async -> UserProfile? {
-    await dataStore.userProfileByID(userID)
+    try? await fetch(
+      forType: UserProfileEntity.self,
+      localTask: { await dataStore.userProfileByID(userID) },
+      remoteTask: { try await service.currentUser() })
   }
 
   @discardableResult

@@ -111,7 +111,7 @@ public struct CoreDataStore: @unchecked Sendable {
 
 extension CoreDataStore {
   public func userProfileByID(_ userID: UUID) async -> UserProfile? {
-    let predicate: NSPredicate = \UserProfileEntity.userId == userID
+    let predicate: NSPredicate = \UserProfileEntity.uniqueID == userID
     return await getFirstObject(UserProfileEntity.self, predicate: predicate)
   }
 
@@ -152,11 +152,11 @@ extension CoreDataStore {
   }
 
   public func userPublisherForID(_ userID: UUID) -> EntityPublisher<UserProfileEntity> {
-    entityPublisher(matching: \UserProfileEntity.userId == userID)
+    entityPublisher(matching: \UserProfileEntity.uniqueID == userID)
   }
 
   private static func userProfileEntity(byID userID: UUID, on storage: StorageType) -> UserProfileEntity? {
-    storage.firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.userId == userID)
+    storage.firstObject(of: UserProfileEntity.self, matching: \UserProfileEntity.uniqueID == userID)
   }
 }
 
@@ -164,7 +164,7 @@ extension CoreDataStore {
 
 extension CoreDataStore {
   public func userExperienceEntryByID(_ id: UUID) async -> UserExperienceEntry? {
-    await getFirstObject(UserExperienceEntryEntity.self, predicate: \UserExperienceEntryEntity.modelID == id)
+    await getFirstObject(UserExperienceEntryEntity.self, predicate: \UserExperienceEntryEntity.uniqueID == id)
   }
 
   public func userExperienceForUserID(_ userID: UUID) async -> UserExperience? {
@@ -225,18 +225,18 @@ extension CoreDataStore {
   }
 
   public func goalByID(_ goalID: UUID) async -> Goal? {
-    let predicate: NSPredicate = \GoalEntity.goalID == goalID
+    let predicate: NSPredicate = \GoalEntity.uniqueID == goalID
     return await getFirstObject(GoalEntity.self, predicate: predicate)
   }
 
   public func insertProgressEntry(_ progressEntry: ProgressEntry, for goalID: UUID) async throws {
     try await storageManager.performWrite { storage in
-      let predicate: NSPredicate = \GoalEntity.goalID == goalID
+      let predicate: NSPredicate = \GoalEntity.uniqueID == goalID
       guard let goal = storage.firstObject(of: GoalEntity.self, matching: predicate) else {
         throw MusculosError.unexpectedNil
       }
 
-      guard !goal.progressHistory.contains(where: { $0.progressID == progressEntry.progressID }) else {
+      guard !goal.progressHistory.contains(where: { $0.progressID == progressEntry.id }) else {
         return
       }
 
@@ -258,7 +258,7 @@ extension CoreDataStore {
 
 extension CoreDataStore {
   public func exerciseSessionsForUser(_ userID: UUID) async -> [ExerciseSession] {
-    let predicate: NSPredicate = \ExerciseSessionEntity.user.userId == userID
+    let predicate: NSPredicate = \ExerciseSessionEntity.user.uniqueID == userID
     return await getAll(ExerciseSessionEntity.self, predicate: predicate)
   }
 
@@ -267,7 +267,8 @@ extension CoreDataStore {
       return []
     }
 
-    let predicate: NSPredicate = \ExerciseSessionEntity.user.userId == userID && \.dateAdded >= startDay && \.dateAdded <= endDay
+    let predicate: NSPredicate = \ExerciseSessionEntity.user
+      .uniqueID == userID && \.dateAdded >= startDay && \.dateAdded <= endDay
     return await getAll(ExerciseSessionEntity.self, predicate: predicate)
   }
 
@@ -276,12 +277,13 @@ extension CoreDataStore {
       return []
     }
 
-    let predicate: NSPredicate = \ExerciseSessionEntity.user.userId == userID && \.dateAdded >= startDay && \.dateAdded <= endDay
+    let predicate: NSPredicate = \ExerciseSessionEntity.user
+      .uniqueID == userID && \.dateAdded >= startDay && \.dateAdded <= endDay
     return await getAll(ExerciseSessionEntity.self, predicate: predicate)
   }
 
   public func exerciseSessionByID(_ id: UUID) async -> ExerciseSession? {
-    let predicate: NSPredicate = \ExerciseSessionEntity.sessionId == id
+    let predicate: NSPredicate = \ExerciseSessionEntity.uniqueID == id
     return await getFirstObject(ExerciseSessionEntity.self, predicate: predicate)
   }
 }
@@ -290,7 +292,7 @@ extension CoreDataStore {
 
 extension CoreDataStore {
   public func routeExerciseSessionByID(_ id: UUID) async -> RouteExerciseSession? {
-    let predicate: NSPredicate = \RouteExerciseSessionEntity.uuid == id
+    let predicate: NSPredicate = \RouteExerciseSessionEntity.uniqueID == id
     return await getFirstObject(RouteExerciseSessionEntity.self, predicate: predicate)
   }
 
@@ -304,7 +306,7 @@ extension CoreDataStore {
 
 extension CoreDataStore {
   public func exerciseByID(_ exerciseID: UUID) async -> Exercise? {
-    let predicate: NSPredicate = \ExerciseEntity.exerciseId == exerciseID
+    let predicate: NSPredicate = \ExerciseEntity.uniqueID == exerciseID
     return await getFirstObject(ExerciseEntity.self, predicate: predicate)
   }
 
@@ -401,7 +403,7 @@ extension CoreDataStore {
 
   public func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
     try await storageManager.performWrite { storage in
-      let predicate: NSPredicate = \ExerciseEntity.exerciseId == exercise.id
+      let predicate: NSPredicate = \ExerciseEntity.uniqueID == exercise.id
       guard let exercise = storage.firstObject(of: ExerciseEntity.self, matching: predicate) else {
         throw MusculosError.unexpectedNil
       }
@@ -412,13 +414,21 @@ extension CoreDataStore {
   }
 
   public func exercisePublisherForID(_ exerciseID: UUID) -> EntityPublisher<ExerciseEntity> {
-    entityPublisher(matching: \ExerciseEntity.exerciseId == exerciseID)
+    entityPublisher(matching: \ExerciseEntity.uniqueID == exerciseID)
   }
 }
 
 // MARK: - Workout
 
 extension CoreDataStore {
+  public func workoutExerciseByID(_ id: UUID) async -> WorkoutExercise? {
+    await getFirstObject(WorkoutExerciseEntity.self, predicate: \WorkoutExerciseEntity.uniqueID == id)
+  }
+
+  public func workoutChallengeByID(_ id: UUID) async -> WorkoutChallenge? {
+    await getFirstObject(WorkoutChallengeEntity.self, predicate: \WorkoutChallengeEntity.uniqueID == id)
+  }
+
   public func workout(by id: UUID) async -> Workout? {
     let predicate: NSPredicate = \WorkoutEntity.modelID == id
     return await getFirstObject(WorkoutEntity.self, predicate: predicate)

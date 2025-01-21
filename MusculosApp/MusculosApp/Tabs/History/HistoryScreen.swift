@@ -26,7 +26,7 @@ struct HistoryScreen: View {
       }
 
       if !viewModel.filteredSessions.isEmpty {
-        ForEach(viewModel.filteredSessions, id: \.sessionId) { exerciseSession in
+        ForEach(viewModel.filteredSessions, id: \.id) { exerciseSession in
           SmallCardWithContent(
             title: exerciseSession.exercise.name,
             description: exerciseSession.dateAdded.ISO8601Format(),

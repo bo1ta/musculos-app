@@ -34,7 +34,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
 
   // MARK: - Migration
 
-  private static let dataModelVersion = "0.010"
+  private static let dataModelVersion = "0.011"
 
   private func shouldRecreateDataStore() -> Bool {
     guard let version = UserDefaults.standard.string(forKey: UserDefaultsKey.coreDataModelVersion) else {
@@ -100,14 +100,14 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   /// Escapes a void completion block
   ///
   public func saveChanges(completion: @escaping () -> Void) {
-    writerDerivedStorage.performAndWait { [weak self] in
+    writerDerivedStorage.perform { [weak self] in
       guard let self else {
         return
       }
 
       writerDerivedStorage.saveIfNeeded()
 
-      viewStorage.performAndWait {
+      viewStorage.perform {
         self.viewStorage.saveIfNeeded()
         completion()
       }
@@ -118,13 +118,8 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   /// With `async` flavour
   ///
   public func saveChanges() async {
-    try? await writerDerivedStorage.perform {
-      self.writerDerivedStorage.saveIfNeeded()
-
-      self.viewStorage.performAndWait {
-        self.viewStorage.saveIfNeeded()
-      }
-    }
+    try? await writerDerivedStorage.perform { self.writerDerivedStorage.saveIfNeeded() }
+    try? await viewStorage.perform { self.viewStorage.saveIfNeeded() }
   }
 
   // MARK: - Read

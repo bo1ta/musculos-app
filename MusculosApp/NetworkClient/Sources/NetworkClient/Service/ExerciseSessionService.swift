@@ -34,7 +34,7 @@ public struct ExerciseSessionService: ExerciseSessionServiceProtocol, APIService
       "dateAdded": exerciseSession.dateAdded.ISO8601Format() as Any,
       "duration": exerciseSession.duration as Any,
       "exerciseID": exerciseSession.exercise.id.uuidString as Any,
-      "sessionID": exerciseSession.sessionId.uuidString as Any,
+      "sessionID": exerciseSession.id.uuidString as Any,
     ]
 
     let data = try await client.dispatch(request)

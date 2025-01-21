@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import Utility
 
 // MARK: - Workout
 
-public struct Workout: Sendable, Identifiable {
+public struct Workout: Sendable, Identifiable, IdentifiableEntity {
   public let id: UUID
   public let name: String
   public let targetMuscles: [String]

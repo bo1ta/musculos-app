@@ -27,6 +27,7 @@ public protocol ExerciseSessionRepositoryProtocol: Sendable {
 public struct ExerciseSessionRepository: @unchecked Sendable, BaseRepository, ExerciseSessionRepositoryProtocol {
   @Injected(\NetworkContainer.exerciseSessionService) private var service: ExerciseSessionServiceProtocol
   @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
+  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
   public func getExerciseSessions() async throws -> [ExerciseSession] {
     guard let currentUserID else {

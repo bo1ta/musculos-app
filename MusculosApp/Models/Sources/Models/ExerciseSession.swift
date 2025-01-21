@@ -12,7 +12,7 @@ import Utility
 
 public struct ExerciseSession: Codable, Sendable {
   public let dateAdded: Date
-  public let sessionId: UUID
+  public let id: UUID
   public let user: UserProfile
   public let exercise: Exercise
   public let duration: Double
@@ -20,21 +20,34 @@ public struct ExerciseSession: Codable, Sendable {
 
   public init(
     dateAdded: Date = Date(),
-    sessionId: UUID = UUID(),
+    id: UUID = UUID(),
     user: UserProfile,
     exercise: Exercise,
     duration: Double = 0,
     weight: Double = 0)
   {
     self.dateAdded = dateAdded
-    self.sessionId = sessionId
+    self.id = id
     self.user = user
     self.exercise = exercise
     self.duration = duration
     self.weight = weight
+  }
+
+  enum CodingKeys: String, CodingKey {
+    case dateAdded
+    case id = "sessionId"
+    case user
+    case exercise
+    case duration
+    case weight
   }
 }
 
 // MARK: DecodableModel
 
 extension ExerciseSession: DecodableModel { }
+
+// MARK: IdentifiableEntity
+
+extension ExerciseSession: IdentifiableEntity { }

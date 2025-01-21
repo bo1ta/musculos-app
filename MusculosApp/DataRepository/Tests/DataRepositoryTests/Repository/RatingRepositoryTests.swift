@@ -26,7 +26,7 @@ class RatingRepositoryTests: XCTestCase {
   func testGetExerciseRatingsForCurrentUserWhenConnectedToTheInternet() async throws {
     let currentUser = UserProfileFactory.createUser()
     NetworkContainer.shared.userManager.register {
-      StubUserSessionManager(expectedUser: .init(id: currentUser.userId))
+      StubUserSessionManager(expectedUser: .init(id: currentUser.id))
     }
     defer {
       NetworkContainer.shared.userManager.reset()
@@ -62,7 +62,7 @@ class RatingRepositoryTests: XCTestCase {
     }
 
     let ratings = try await RatingRepository().getRatingsForExercise(exerciseRating.exerciseID)
-    XCTAssertTrue(ratings.contains(where: { $0.ratingID == exerciseRating.ratingID }))
+    XCTAssertTrue(ratings.contains(where: { $0.id == exerciseRating.id }))
     await fulfillment(of: [expectation], timeout: 0.1)
   }
 
@@ -78,7 +78,7 @@ class RatingRepositoryTests: XCTestCase {
 
     let repository = RatingRepository()
     let ratings = try await repository.getRatingsForExercise(exerciseRating.exerciseID)
-    XCTAssertTrue(ratings.contains(where: { $0.ratingID == exerciseRating.ratingID }))
+    XCTAssertTrue(ratings.contains(where: { $0.id == exerciseRating.id }))
     await fulfillment(of: [expectation], timeout: 1)
   }
 
@@ -92,7 +92,7 @@ class RatingRepositoryTests: XCTestCase {
 
     NetworkContainer.shared.ratingService.register { mockService }
     NetworkContainer.shared.userManager.register {
-      StubUserSessionManager(expectedUser: .init(id: userProfile.userId))
+      StubUserSessionManager(expectedUser: .init(id: userProfile.id))
     }
     NetworkContainer.shared.networkMonitor.register {
       StubNetworkMonitor(isConnected: false)
@@ -105,7 +105,7 @@ class RatingRepositoryTests: XCTestCase {
 
     let exercise = ExerciseFactory.createExercise()
     let ratingFactory = ExerciseRatingFactory()
-    ratingFactory.userID = userProfile.userId
+    ratingFactory.userID = userProfile.id
     ratingFactory.exerciseID = exercise.id
     let rating = ratingFactory.create()
 

@@ -26,6 +26,7 @@ public protocol RatingRepositoryProtocol: Sendable {
 public struct RatingRepository: @unchecked Sendable, BaseRepository, RatingRepositoryProtocol {
   @Injected(\NetworkContainer.ratingService) private var service: RatingServiceProtocol
   @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
+  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
   public func getExerciseRatingsForCurrentUser() async throws -> [ExerciseRating] {
     guard let currentUserID else {

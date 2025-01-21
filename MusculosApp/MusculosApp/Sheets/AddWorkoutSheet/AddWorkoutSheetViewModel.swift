@@ -100,7 +100,7 @@ final class AddWorkoutSheetViewModel: BaseViewModel {
     }
   }
 
-  func didSelectExercise(with numberOfReps: Int = 0) {
+  func didSelectExercise(with _: Int = 0) {
     guard let exercise = currentSelectedExercise else {
       return
     }
@@ -109,7 +109,7 @@ final class AddWorkoutSheetViewModel: BaseViewModel {
     if let index = selectedWorkoutExercise.firstIndex(where: { $0.exercise == exercise }) {
       selectedWorkoutExercise.remove(at: index)
     } else {
-      selectedWorkoutExercise.append(WorkoutExercise(numberOfReps: numberOfReps, exercise: exercise))
+//      selectedWorkoutExercise.append(WorkoutExercise(numberOfReps: numberOfReps, exercise: exercise))
     }
   }
 
