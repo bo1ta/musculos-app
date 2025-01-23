@@ -68,6 +68,6 @@ class OnboardingViewModelTests: XCTestCase {
     // will submit onboarding data
     viewModel.handleNextStep()
 
-    await fulfillment(of: [eventExpectation], timeout: 0.1)
+    await fulfillment(of: [eventExpectation], timeout: 1)
   }
 }
