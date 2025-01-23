@@ -74,7 +74,6 @@ struct AddExerciseSheet: View {
       .padding(.horizontal, 10)
       .padding(.bottom)
     }
-    .onDisappear(perform: viewModel.onDisappear)
   }
 
   private var imageOptionView: some View {

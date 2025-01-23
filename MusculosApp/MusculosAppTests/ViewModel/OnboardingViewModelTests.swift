@@ -68,9 +68,6 @@ class OnboardingViewModelTests: XCTestCase {
     // will submit onboarding data
     viewModel.handleNextStep()
 
-    let onboardingTask = try XCTUnwrap(viewModel.onboardingTask)
-    await onboardingTask.value
-
-    await fulfillment(of: [eventExpectation], timeout: 0.1)
+    await fulfillment(of: [eventExpectation], timeout: 1)
   }
 }

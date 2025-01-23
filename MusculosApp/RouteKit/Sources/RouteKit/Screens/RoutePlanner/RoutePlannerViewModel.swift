@@ -67,12 +67,9 @@ final class RoutePlannerViewModel {
     }
   }
 
-  private(set) var searchTask: Task<Void, Never>?
-  private(set) var routeTask: Task<Void, Never>?
-  private(set) var timerTask: Task<Void, Never>?
-  private(set) var saveSessionTask: Task<Void, Never>?
   private let currentQuerySubject = PassthroughSubject<String, Never>()
   private var cancellables: Set<AnyCancellable> = []
+  private var timerTask: Task<Void, Never>?
 
   // MARK: Lifecycle
 
@@ -86,9 +83,7 @@ final class RoutePlannerViewModel {
   }
 
   func onDisappear() {
-    searchTask?.cancel()
-    routeTask?.cancel()
-    timerTask?.cancel()
+    stopTimer()
   }
 }
 
@@ -117,7 +112,7 @@ extension RoutePlannerViewModel {
       return
     }
 
-    searchTask = Task {
+    Task {
       do {
         queryResults = try await getMapItemsForQuery(query, on: currentLocation)
         if !queryResults.isEmpty {
@@ -143,7 +138,7 @@ extension RoutePlannerViewModel {
       return
     }
 
-    routeTask = Task {
+    Task {
       do {
         currentPlacemark = try await getLocationDetails(currentLocation)?.placemark
 
@@ -199,11 +194,11 @@ extension RoutePlannerViewModel {
 
     isTimerActive = true
 
-    timerTask = Task { [weak self] in
+    timerTask = Task {
       repeat {
         try? await Task.sleep(for: .seconds(1))
-        self?.elapsedTime += 1
-      } while !Task.isCancelled && self?.isTimerActive == true
+        elapsedTime += 1
+      } while !Task.isCancelled && isTimerActive == true
     }
   }
 
@@ -212,5 +207,4 @@ extension RoutePlannerViewModel {
     timerTask = nil
     isTimerActive = false
   }
-
 }

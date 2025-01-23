@@ -32,7 +32,6 @@ final class OnboardingViewModel: BaseViewModel {
   var onboardingGoals: [OnboardingGoal] = []
 
   private(set) var wizardStep = OnboardingWizardStep.heightAndWeight
-  private(set) var onboardingTask: Task<Void, Never>?
 
   private var previousStep: OnboardingWizardStep? {
     OnboardingWizardStep(rawValue: wizardStep.rawValue - 1)
@@ -68,11 +67,7 @@ final class OnboardingViewModel: BaseViewModel {
   }
 
   private func saveOnboardingData() {
-    onboardingTask = Task { [weak self] in
-      guard let self else {
-        return
-      }
-
+    Task {
       let onboardingData = OnboardingData(
         weight: Int(selectedWeight),
         height: Int(selectedHeight),
@@ -89,10 +84,6 @@ final class OnboardingViewModel: BaseViewModel {
       return
     }
     wizardStep = previousStep
-  }
-
-  func cleanUp() {
-    onboardingTask?.cancel()
   }
 
   private func sendHaptic(_ hapticStyle: HapticFeedbackProvider.HapticFeedbackStyle) {

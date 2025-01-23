@@ -49,7 +49,6 @@ struct SignUpView: View {
     }
     .dismissingGesture(direction: .left, action: { showLogin() })
     .padding(.horizontal, 20)
-    .onDisappear(perform: viewModel.cleanUp)
   }
 
   private func showLogin() {

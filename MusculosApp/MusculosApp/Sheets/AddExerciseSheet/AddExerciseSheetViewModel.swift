@@ -32,7 +32,6 @@ final class AddExerciseSheetViewModel {
   @ObservationIgnored
   @Injected(\NetworkContainer.imageService) private var imageService: ImageServiceProtocol
 
-  private(set) var saveExerciseTask: Task<Void, Never>?
   private let didSaveSubject = PassthroughSubject<Void, Never>()
 
   // MARK: Public
@@ -71,11 +70,7 @@ final class AddExerciseSheetViewModel {
       return
     }
 
-    saveExerciseTask = Task { [weak self] in
-      guard let self else {
-        return
-      }
-
+    Task {
       let imageUrls = await uploadImages()
       let instructionsString = instructions.map { $0.text }
 
@@ -117,9 +112,5 @@ final class AddExerciseSheetViewModel {
     }
 
     return results
-  }
-
-  func onDisappear() {
-    saveExerciseTask?.cancel()
   }
 }

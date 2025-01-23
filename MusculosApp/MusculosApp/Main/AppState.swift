@@ -121,8 +121,8 @@ extension AppState {
   private func didReceiveUserStoreEvent(_ event: UserStoreEvent) {
     switch event {
     case .didLogin:
-      Task { [weak self] in
-        await self?.determineUserState()
+      Task {
+        await determineUserState()
       }
 
     case .didFinishOnboarding:

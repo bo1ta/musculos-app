@@ -33,7 +33,6 @@ public class InMemoryStorageManager: StorageManager, @unchecked Sendable {
 
         let container = NSPersistentContainer(name: "MusculosDataStore", managedObjectModel: model)
         container.persistentStoreDescriptions = [description]
-        
 
         container.loadPersistentStores { _, error in
           if let error {

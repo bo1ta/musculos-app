@@ -59,6 +59,9 @@ struct ExploreScreen: View {
     .task {
       await viewModel.initialLoad()
     }
+    .navigationCheckpoint(.explore) { (result: [Exercise]) in
+      viewModel.setFilteredExercises(result)
+    }
     .onDisappear(perform: viewModel.cleanUp)
   }
 

@@ -74,7 +74,6 @@ struct AddWorkoutSheet: View {
     .onReceive(viewModel.didSavePublisher, perform: { _ in
       dismiss()
     })
-    .onDisappear(perform: viewModel.cleanUp)
   }
 }
 

@@ -48,7 +48,6 @@ struct AuthenticationScreen: View {
       }
       .animation(.smooth(duration: UIConstant.AnimationDuration.medium), value: viewModel.step)
     }
-    .onDisappear(perform: viewModel.cleanUp)
     .onChange(of: viewModel.step) { _, step in
       handleStepUpdate(step)
     }

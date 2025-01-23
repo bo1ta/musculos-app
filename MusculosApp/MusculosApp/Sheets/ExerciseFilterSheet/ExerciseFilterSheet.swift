@@ -11,8 +11,8 @@ import SwiftUI
 import Utility
 
 struct ExerciseFilterSheet: View {
+  @Environment(\.navigator) private var navigator
   @Environment(\.dismiss) private var dismiss
-  let onFiltered: ([Exercise]) -> Void
 
   @State private var viewModel = ExerciseFilterSheetViewModel()
 
@@ -113,11 +113,11 @@ struct ExerciseFilterSheet: View {
   }
 
   private func handleSearch() {
-    onFiltered(viewModel.results)
+    navigator.returnToCheckpoint(.explore, value: viewModel.results)
     dismiss()
   }
 }
 
 #Preview {
-  ExerciseFilterSheet(onFiltered: { _ in })
+  ExerciseFilterSheet()
 }

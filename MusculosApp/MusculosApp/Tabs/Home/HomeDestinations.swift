@@ -54,7 +54,7 @@ extension HomeDestinations: NavigationDestination {
     case .dailyWorkout:
       .sheet
     case .exerciseDetails:
-      .cover
+      .sheet
     }
   }
 }

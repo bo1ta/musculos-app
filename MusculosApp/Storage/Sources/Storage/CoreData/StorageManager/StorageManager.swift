@@ -115,7 +115,6 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   }
 
   /// Saves changes from `writerDerivedStorage`, followed by `viewStorage`
-  /// With `async` flavour
   ///
   public func saveChanges() async {
     try? await writerDerivedStorage.perform { self.writerDerivedStorage.saveIfNeeded() }
@@ -140,10 +139,8 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
     try await writerDerivedStorage.perform {
       try writeClosure(self.writerDerivedStorage)
 
-      /// need to call proccess changes on the writer storage
-      /// otherwise it doesn't trigger the `NSManagedObjectContextObjectsDidChange` notification
-      /// which is used for saving
-
+      /// need to call proccess changes on the writer storage otherwise it doesn't trigger the `NSManagedObjectContextObjectsDidChange` notification
+      ///
       (self.writerDerivedStorage as? NSManagedObjectContext)?.processPendingChanges()
     }
   }

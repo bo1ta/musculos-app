@@ -27,7 +27,7 @@ extension ExploreDestinations: NavigationDestination {
     case .exerciseListByMuscleGroup(let muscleGroup):
       ExerciseListView(filterType: .filteredByMuscleGroup(muscleGroup))
     case .exerciseFilters:
-      ExerciseFilterSheet(onFiltered: { _ in })
+      ExerciseFilterSheet()
     }
   }
 
