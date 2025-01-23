@@ -60,7 +60,6 @@ struct AddGoalSheet: View {
     .onReceive(viewModel.didSavePublisher, perform: { _ in
       dismiss()
     })
-    .onDisappear(perform: viewModel.cancelTask)
   }
 }
 

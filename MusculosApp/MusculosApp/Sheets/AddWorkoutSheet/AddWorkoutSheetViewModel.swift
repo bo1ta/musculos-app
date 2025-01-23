@@ -31,8 +31,6 @@ final class AddWorkoutSheetViewModel: BaseViewModel {
 
   // MARK: Properties
 
-  private(set) var submitWorkoutTask: Task<Void, Never>?
-  private(set) var updateTask: Task<Void, Never>?
   private var exercises: [Exercise] = []
   private let didSaveSubject = PassthroughSubject<Void, Never>()
 
@@ -80,7 +78,7 @@ final class AddWorkoutSheetViewModel: BaseViewModel {
       return
     }
 
-    updateTask = Task {
+    Task {
       exercises = await exerciseRepository.getExercisesForMuscleTypes(selectedMuscleTypes)
     }
   }
@@ -112,16 +110,6 @@ final class AddWorkoutSheetViewModel: BaseViewModel {
 //      selectedWorkoutExercise.append(WorkoutExercise(numberOfReps: numberOfReps, exercise: exercise))
     }
   }
-
-  // MARK: - Clean up
-
-  func cleanUp() {
-    submitWorkoutTask?.cancel()
-    submitWorkoutTask = nil
-
-    updateTask?.cancel()
-    updateTask = nil
-  }
 }
 
 // MARK: - Task
@@ -133,16 +121,12 @@ extension AddWorkoutSheetViewModel {
       return
     }
 
-    submitWorkoutTask = Task { [weak self] in
-      guard let self else {
-        return
-      }
+    guard let currentUser else {
+      assertionFailure("Current user shouldn't be nil")
+      return
+    }
 
-      guard let currentUser else {
-        handleError(MusculosError.unexpectedNil, message: "Invalid user")
-        return
-      }
-
+    Task {
       do {
         let workout = Workout(
           name: workoutName,

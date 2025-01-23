@@ -173,11 +173,7 @@ final class ExerciseDetailsViewModel: BaseViewModel {
   }
 
   private func showUserExperience(_ userExperience: UserExperienceEntry) {
-    Task { [weak self] in
-      guard let self else {
-        return
-      }
-
+    Task {
       currentXPGain = userExperience.xpGained
 
       withAnimation {

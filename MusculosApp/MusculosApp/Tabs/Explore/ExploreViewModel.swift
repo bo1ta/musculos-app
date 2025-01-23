@@ -122,17 +122,17 @@ extension ExploreViewModel {
   }
 
   func searchByMuscleQuery(_ query: String) {
-    searchQueryTask?.cancel()
-
     searchQueryTask = Task {
       do {
-        try Task.checkCancellation()
-
         results[.featured] = try await exerciseRepository.searchByQuery(query)
       } catch {
         Logger.error(error, message: "Could not search by muscle query", properties: ["query": query])
       }
     }
+  }
+
+  func setFilteredExercises(_ exercises: [Exercise]) {
+    results[.featured] = exercises
   }
 
   func cleanUp() {

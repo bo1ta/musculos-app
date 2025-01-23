@@ -100,7 +100,7 @@ extension UserStoreTests {
     }
   }
 
-  private struct MockUserRepository: UserRepositoryProtocol {
+  private struct MockUserRepository: UserRepositoryProtocol, @unchecked Sendable {
     var expectation: XCTestExpectation?
     var expectedUserSession: UserSession?
     var expectedUserProfile: UserProfile?

@@ -17,18 +17,12 @@ import Utility
 @MainActor
 final class HistoryViewModel {
   @ObservationIgnored
-  @Injected(
-    \DataRepositoryContainer
-      .exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepositoryProtocol
-
-  private var exerciseSessions: [ExerciseSession] = [] {
-    didSet {
-      calendarMarkers = exerciseSessions.map { .init(date: $0.dateAdded, color: .red) }
-    }
-  }
+  @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var repository
 
   private(set) var filteredSessions: [ExerciseSession] = []
   private(set) var calendarMarkers: [CalendarMarker] = []
+
+  private var exerciseSessions: [ExerciseSession] = []
 
   var selectedDate: Date? {
     didSet {
@@ -38,22 +32,23 @@ final class HistoryViewModel {
 
   func initialLoad() async {
     do {
-      exerciseSessions = try await exerciseSessionRepository.getExerciseSessions()
+      exerciseSessions = try await repository.getExerciseSessions()
       updateFilteredSessions()
+      updateCalendarMarkers(from: exerciseSessions)
     } catch {
       Logger.error(error, message: "Cannot fetch sessions for History screen")
     }
   }
 
+  private func updateCalendarMarkers(from exerciseSessions: [ExerciseSession]) {
+    calendarMarkers = exerciseSessions.map { .init(date: $0.dateAdded, color: .red) }
+  }
+
   private func updateFilteredSessions() {
     if let date = selectedDate {
-      filteredSessions = filterSessionByDay(date: date)
+      filteredSessions = exerciseSessions.filter { Calendar.current.isDate($0.dateAdded, equalTo: date, toGranularity: .day) }
     } else {
       filteredSessions = exerciseSessions
     }
-  }
-
-  private func filterSessionByDay(date: Date) -> [ExerciseSession] {
-    exerciseSessions.filter { Calendar.current.isDate($0.dateAdded, equalTo: date, toGranularity: .day) }
   }
 }

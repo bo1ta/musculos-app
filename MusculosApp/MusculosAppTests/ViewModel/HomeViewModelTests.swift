@@ -58,5 +58,4 @@ class HomeViewModelTests: XCTestCase {
     }
     return userProfile
   }
-
 }

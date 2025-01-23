@@ -25,7 +25,6 @@ struct OnboardingScreen: View {
     .task {
       await viewModel.initialLoad()
     }
-    .onDisappear(perform: viewModel.cleanUp)
     .withKeyboardDismissingOnTap()
   }
 }

@@ -45,8 +45,6 @@ class AuthenticationViewModel: BaseViewModel {
       .isValidPassword(password) && password == confirmPassword
   }
 
-  private(set) var authTask: Task<Void, Never>?
-
   var step: Step
 
   init(initialStep: Step) {
@@ -54,7 +52,7 @@ class AuthenticationViewModel: BaseViewModel {
   }
 
   func signIn() {
-    authTask = Task {
+    Task {
       isLoading = true
       defer { isLoading = false }
 
@@ -69,13 +67,7 @@ class AuthenticationViewModel: BaseViewModel {
   }
 
   func signUp() {
-    authTask?.cancel()
-
-    authTask = Task { [weak self] in
-      guard let self else {
-        return
-      }
-
+    Task {
       isLoading = true
       defer { isLoading = false }
 
@@ -87,10 +79,5 @@ class AuthenticationViewModel: BaseViewModel {
         Logger.error(error, message: "Sign Up failed")
       }
     }
-  }
-
-  func cleanUp() {
-    authTask?.cancel()
-    authTask = nil
   }
 }

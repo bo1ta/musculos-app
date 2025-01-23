@@ -30,20 +30,17 @@ class ExerciseSessionHandler: @unchecked Sendable {
 
   // MARK: Dependencies
 
-  @LazyInjected(
-    \DataRepositoryContainer
-      .exerciseSessionRepository) private var exerciseSessionRepository: ExerciseSessionRepositoryProtocol
+  @LazyInjected(\DataRepositoryContainer.exerciseSessionRepository) private var sessionRepository
 
-  @LazyInjected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
+  @LazyInjected(\DataRepositoryContainer.goalRepository) private var goalRepository
 
   // MARK: Properties
 
   private let exercise: Exercise
   private let eventSubject = PassthroughSubject<Event, Never>()
-
   private var state = State.idle
-  private(set) var timerTask: Task<Void, Never>?
-  private(set) var saveTask: Task<Void, Never>?
+  private var timerTask: Task<Void, Never>?
+
   private(set) var isTimerActive = false
 
   private(set) var elapsedTime = 0 {
@@ -71,11 +68,11 @@ class ExerciseSessionHandler: @unchecked Sendable {
     elapsedTime = 0
     state = .running(user: user, inputWeight: inputWeight)
 
-    timerTask = Task { [weak self] in
+    timerTask = Task {
       repeat {
         try? await Task.sleep(for: .seconds(1))
-        self?.elapsedTime += 1
-      } while !Task.isCancelled && self?.isTimerActive == true
+        elapsedTime += 1
+      } while !Task.isCancelled && isTimerActive == true
     }
   }
 
@@ -88,14 +85,8 @@ class ExerciseSessionHandler: @unchecked Sendable {
       return
     }
 
-    saveTask?.cancel()
-
-    saveTask = Task {
+    Task {
       do {
-        guard !Task.isCancelled else {
-          return
-        }
-
         let userExperience = try await saveSession(inputWeight: inputWeight, userProfile: user)
         eventSubject.send(.showXP(userExperience))
       } catch {
@@ -115,7 +106,7 @@ class ExerciseSessionHandler: @unchecked Sendable {
       exercise: exercise,
       duration: Double(elapsedTime),
       weight: inputWeight)
-    let userExperienceEntry = try await exerciseSessionRepository.addSession(exerciseSession)
+    let userExperienceEntry = try await sessionRepository.addSession(exerciseSession)
     await maybeUpdateGoals(for: exerciseSession)
     return userExperienceEntry
   }
@@ -130,6 +121,5 @@ class ExerciseSessionHandler: @unchecked Sendable {
 
   func cancelTasks() {
     timerTask?.cancel()
-    saveTask?.cancel()
   }
 }

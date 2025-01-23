@@ -23,7 +23,6 @@ final class AddGoalSheetViewModel: BaseViewModel {
 
   // MARK: Public
 
-  private(set) var saveTask: Task<Void, Never>?
   private(set) var didSavePublisher = PassthroughSubject<Void, Never>()
 
   var name = ""
@@ -43,11 +42,11 @@ final class AddGoalSheetViewModel: BaseViewModel {
   }
 
   func saveGoal() {
-    saveTask = Task {
-      guard let currentUser else {
-        return
-      }
+    guard let currentUserID = currentUser?.id else {
+      return
+    }
 
+    Task {
       let goal = Goal(
         name: name,
         category: category,
@@ -55,7 +54,7 @@ final class AddGoalSheetViewModel: BaseViewModel {
         targetValue: Int(targetValue) ?? 5,
         endDate: endDate,
         dateAdded: Date(),
-        userID: currentUser.id)
+        userID: currentUserID)
 
       do {
         try await goalRepository.addGoal(goal)
@@ -64,10 +63,5 @@ final class AddGoalSheetViewModel: BaseViewModel {
         Logger.error(error, message: "Could not save goal")
       }
     }
-  }
-
-  func cancelTask() {
-    saveTask?.cancel()
-    saveTask = nil
   }
 }

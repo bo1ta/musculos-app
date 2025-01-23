@@ -46,8 +46,6 @@ class ExerciseFilterSheetViewModel {
     .equipment: true,
   ]
 
-  private(set) var filterTask: Task<Void, Never>?
-
   init() {
     filtersChanged
       .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
@@ -80,13 +78,11 @@ class ExerciseFilterSheetViewModel {
   }
 
   func filterExercises() {
-    filterTask?.cancel()
+    guard let muscles = filters[.muscle] else {
+         return
+    }
 
-    filterTask = Task { @MainActor in
-      guard let muscles = filters[.muscle] else {
-        return
-      }
-
+    Task {
       let categories = filters[.category] ?? []
       let equipments = filters[.equipment] ?? []
 
@@ -115,10 +111,5 @@ class ExerciseFilterSheetViewModel {
         results = filteredExercises
       }
     }
-  }
-
-  func cleanUp() {
-    filterTask?.cancel()
-    filterTask = nil
   }
 }

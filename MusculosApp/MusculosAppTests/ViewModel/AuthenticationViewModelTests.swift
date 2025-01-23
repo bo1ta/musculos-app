@@ -66,8 +66,7 @@ class AuthenticationViewModelTests: XCTestCase {
     viewModel.password = faker.internet.password()
     viewModel.signIn()
 
-    await viewModel.authTask?.value
-    await fulfillment(of: [eventExpectation])
+    await fulfillment(of: [eventExpectation], timeout: 1)
   }
 
   func testSignInFailureShowsToast() async throws {
@@ -85,8 +84,7 @@ class AuthenticationViewModelTests: XCTestCase {
     viewModel.password = faker.internet.password()
     viewModel.signIn()
 
-    await viewModel.authTask?.value
-    await fulfillment(of: [showToastExpectation])
+    await fulfillment(of: [showToastExpectation], timeout: 1)
   }
 
   func testSignUpSucceeds() async throws {
@@ -114,8 +112,7 @@ class AuthenticationViewModelTests: XCTestCase {
     viewModel.confirmPassword = viewModel.password
     viewModel.signUp()
 
-    await viewModel.authTask?.value
-    await fulfillment(of: [eventExpectation])
+    await fulfillment(of: [eventExpectation], timeout: 1)
   }
 
   func testSignUpFailureShowsToast() async throws {
@@ -135,8 +132,7 @@ class AuthenticationViewModelTests: XCTestCase {
     viewModel.confirmPassword = viewModel.password
     viewModel.signUp()
 
-    await viewModel.authTask?.value
-    await fulfillment(of: [showToastExpectation])
+    await fulfillment(of: [showToastExpectation], timeout: 1)
   }
 }
 

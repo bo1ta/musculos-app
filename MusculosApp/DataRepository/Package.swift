@@ -18,7 +18,6 @@ let package = Package(
     .package(name: "NetworkClient", path: "../NetworkClient"),
     .package(url: "https://github.com/hmlongco/Factory", exact: "2.4.3"),
     .package(url: "https://github.com/mattmassicotte/Queue", from: "0.1.4"),
-    .package(url: "https://github.com/dfed/swift-async-queue", from: "0.6.0"),
   ],
   targets: [
     .target(
@@ -28,7 +27,6 @@ let package = Package(
         .product(name: "Models", package: "Models"),
         .product(name: "Storage", package: "Storage"),
         .product(name: "NetworkClient", package: "NetworkClient"),
-        .product(name: "AsyncQueue", package: "swift-async-queue"),
         "Factory",
         "Queue",
       ]),
