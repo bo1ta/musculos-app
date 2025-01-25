@@ -193,6 +193,5 @@ final class ExerciseDetailsViewModel: BaseViewModel {
 
   func cancelAllTasks() {
     markFavoriteTask?.cancel()
-    exerciseSessionHandler.cancelTasks()
   }
 }

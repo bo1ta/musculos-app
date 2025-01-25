@@ -63,8 +63,8 @@ public enum AppFont {
 }
 
 extension Font {
-  public static func header(_ headerType: AppFont.Header, size: CGFloat = 12.0) -> Font {
-    AppFont.header(headerType, size: size)
+  public static func header(_ headerType: AppFont.Poppins = .bold, size: CGFloat = 16.0) -> Font {
+    AppFont.poppins(headerType, size: size)
   }
 
   public static func body(_ bodyType: AppFont.Body, size: CGFloat = 12.0) -> Font {

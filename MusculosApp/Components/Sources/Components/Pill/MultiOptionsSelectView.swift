@@ -5,22 +5,28 @@
 //  Created by Solomon Alexandru on 03.02.2024.
 //
 
-import Components
 import SwiftUI
 import Utility
 
-struct MultiOptionsSelectView: View {
+public struct MultiOptionsSelectView: View {
   @Binding var showOptions: Bool
   @Binding var selectedOptions: [String]
 
   var title: String
   var options: [String]
 
-  let columns = [
+  public init(showOptions: Binding<Bool>, selectedOptions: Binding<[String]>, title: String, options: [String]) {
+    self._showOptions = showOptions
+    self._selectedOptions = selectedOptions
+    self.title = title
+    self.options = options
+  }
+
+  private let columns = [
     GridItem(.adaptive(minimum: 100)),
   ]
 
-  var body: some View {
+  public var body: some View {
     VStack {
       Button {
         withAnimation(.interpolatingSpring(stiffness: 120, damping: 15)) {

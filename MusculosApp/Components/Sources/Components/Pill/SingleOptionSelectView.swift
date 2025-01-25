@@ -1,26 +1,32 @@
 //
 //  SingleOptionSelectView.swift
-//  MusculosApp
+//  Components
 //
 //  Created by Solomon Alexandru on 19.04.2024.
 //
 
-import Components
 import SwiftUI
 import Utility
 
-struct SingleOptionSelectView: View {
+public struct SingleOptionSelectView: View {
   @Binding var showOptions: Bool
   @Binding var selectedOption: String
 
   var title: String
   var options: [String]
 
-  let columns = [
+  public init(showOptions: Binding<Bool>, selectedOption: Binding<String>, title: String, options: [String]) {
+    self._showOptions = showOptions
+    self._selectedOption = selectedOption
+    self.title = title
+    self.options = options
+  }
+
+  private let columns = [
     GridItem(.adaptive(minimum: 100)),
   ]
 
-  var body: some View {
+  public var body: some View {
     VStack {
       Button {
         showOptions.toggle()

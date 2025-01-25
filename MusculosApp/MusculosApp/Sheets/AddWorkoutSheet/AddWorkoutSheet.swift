@@ -32,7 +32,12 @@ struct AddWorkoutSheet: View {
 
       VStack(alignment: .leading, spacing: 15) {
         FormField(text: $viewModel.workoutName, label: "Name")
-        FormField(text: $viewModel.workoutType, label: "Type")
+
+        SingleOptionSelectView(
+          showOptions: $viewModel.showSelectMuscles,
+          selectedOption: $viewModel.workoutType,
+          title: "Workout Type",
+          options: ExerciseConstants.categoryOptions)
         MultiOptionsSelectView(
           showOptions: $viewModel.showSelectMuscles,
           selectedOptions: $viewModel.selectedMuscles,
@@ -75,8 +80,4 @@ struct AddWorkoutSheet: View {
       dismiss()
     })
   }
-}
-
-#Preview {
-  AddWorkoutSheet(onBack: { })
 }

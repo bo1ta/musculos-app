@@ -50,7 +50,7 @@ struct ExerciseDetailsScreen: View {
     .dismissingGesture(direction: .left, action: { navigator.pop() })
     .navigationBarBackButtonHidden()
     .tabBarHidden()
-    .navigationDismissible()
+    .managedPresentationView()
   }
 }
 

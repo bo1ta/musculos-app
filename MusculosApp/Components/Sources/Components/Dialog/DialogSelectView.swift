@@ -35,10 +35,8 @@ public struct DialogSelectView: View {
       .frame(width: 300, height: 180)
       .overlay {
         VStack(spacing: 5) {
-          Text(title)
-            .font(.header(.bold, size: 14))
-            .foregroundStyle(Color.AppColor.blue800)
-            .padding(.top, 20)
+          Heading(title, fontSize: 15.0, fontColor: Color.AppColor.blue800)
+            .padding(20)
 
           Slider(
             value: $selectedValue,

@@ -11,6 +11,7 @@ import Factory
 import Foundation
 import Models
 import Utility
+import SwiftUI
 
 class ExerciseSessionHandler: @unchecked Sendable {
 
@@ -39,7 +40,7 @@ class ExerciseSessionHandler: @unchecked Sendable {
   private let exercise: Exercise
   private let eventSubject = PassthroughSubject<Event, Never>()
   private var state = State.idle
-  private var timerTask: Task<Void, Never>?
+  private var timer: Timer?
 
   private(set) var isTimerActive = false
 
@@ -61,6 +62,10 @@ class ExerciseSessionHandler: @unchecked Sendable {
     self.exercise = exercise
   }
 
+  deinit {
+    timer?.invalidate()
+  }
+
   // MARK: Public methods
 
   func startSession(forUser user: UserProfile, withInputWeight inputWeight: Double) {
@@ -68,17 +73,19 @@ class ExerciseSessionHandler: @unchecked Sendable {
     elapsedTime = 0
     state = .running(user: user, inputWeight: inputWeight)
 
-    timerTask = Task {
-      repeat {
-        try? await Task.sleep(for: .seconds(1))
-        elapsedTime += 1
-      } while !Task.isCancelled && isTimerActive == true
+    timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementElapsedTime), userInfo: nil, repeats: true)
+    if let timer {
+      RunLoop.main.add(timer, forMode: .tracking)
     }
+  }
+
+  @objc private func incrementElapsedTime() {
+    elapsedTime += 1
   }
 
   func stopSession() {
     isTimerActive = false
-    timerTask?.cancel()
+    timer?.invalidate()
     eventSubject.send(.timerDidReset)
 
     guard case .running(let user, let inputWeight) = state else {
@@ -117,9 +124,5 @@ class ExerciseSessionHandler: @unchecked Sendable {
     } catch {
       Logger.error(error, message: "Cannot update goal progress")
     }
-  }
-
-  func cancelTasks() {
-    timerTask?.cancel()
   }
 }

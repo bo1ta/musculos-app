@@ -37,8 +37,10 @@ final class AddWorkoutSheetViewModel: BaseViewModel {
   var workoutName = ""
   var workoutType = ""
   var selectedWorkoutExercise: [WorkoutExercise] = []
-  var showRepsDialog = false
+
   var showSelectMuscles = true
+  var showWorkoutType = false
+  var showRepsDialog = false
 
   var didSavePublisher: AnyPublisher<Void, Never> {
     didSaveSubject.eraseToAnyPublisher()
@@ -128,6 +130,7 @@ extension AddWorkoutSheetViewModel {
 
     Task {
       do {
+        
         let workout = Workout(
           name: workoutName,
           targetMuscles: selectedMuscles,

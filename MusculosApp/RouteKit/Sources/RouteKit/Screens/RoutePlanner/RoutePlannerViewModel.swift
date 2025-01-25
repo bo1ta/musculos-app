@@ -69,7 +69,7 @@ final class RoutePlannerViewModel {
 
   private let currentQuerySubject = PassthroughSubject<String, Never>()
   private var cancellables: Set<AnyCancellable> = []
-  private var timerTask: Task<Void, Never>?
+  private var timer: Timer?
 
   // MARK: Lifecycle
 
@@ -194,17 +194,16 @@ extension RoutePlannerViewModel {
 
     isTimerActive = true
 
-    timerTask = Task {
-      repeat {
-        try? await Task.sleep(for: .seconds(1))
-        elapsedTime += 1
-      } while !Task.isCancelled && isTimerActive == true
-    }
+    timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementElapsedTime), userInfo: nil, repeats: true)
+  }
+
+  @objc private func incrementElapsedTime() {
+    elapsedTime += 1
   }
 
   func stopTimer() {
-    timerTask?.cancel()
-    timerTask = nil
+    timer?.invalidate()
+    timer = nil
     isTimerActive = false
   }
 }
