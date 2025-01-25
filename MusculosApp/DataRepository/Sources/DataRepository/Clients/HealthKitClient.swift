@@ -35,7 +35,7 @@ public final class HealthKitClient: @unchecked Sendable {
 
   public func requestPermissions() async throws -> Bool {
     guard HKHealthStore.isHealthDataAvailable() else {
-      throw HealthKitError.dataNotAvailable
+      return false
     }
 
     try await healthStore.requestAuthorization(
