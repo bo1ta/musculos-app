@@ -89,6 +89,8 @@ public struct UserProfile: Codable, Sendable, Identifiable {
   }
 }
 
+// MARK: Equatable
+
 extension UserProfile: Equatable {
   public static func ==(_ lhs: UserProfile, rhs: UserProfile) -> Bool {
     lhs.id == rhs.id

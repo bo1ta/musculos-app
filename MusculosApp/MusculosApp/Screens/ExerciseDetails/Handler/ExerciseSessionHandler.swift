@@ -10,8 +10,8 @@ import DataRepository
 import Factory
 import Foundation
 import Models
-import Utility
 import SwiftUI
+import Utility
 
 class ExerciseSessionHandler: @unchecked Sendable {
 
@@ -73,13 +73,19 @@ class ExerciseSessionHandler: @unchecked Sendable {
     elapsedTime = 0
     state = .running(user: user, inputWeight: inputWeight)
 
-    timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementElapsedTime), userInfo: nil, repeats: true)
+    timer = Timer.scheduledTimer(
+      timeInterval: 1.0,
+      target: self,
+      selector: #selector(incrementElapsedTime),
+      userInfo: nil,
+      repeats: true)
     if let timer {
       RunLoop.main.add(timer, forMode: .tracking)
     }
   }
 
-  @objc private func incrementElapsedTime() {
+  @objc
+  private func incrementElapsedTime() {
     elapsedTime += 1
   }
 

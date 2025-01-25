@@ -130,7 +130,6 @@ extension AddWorkoutSheetViewModel {
 
     Task {
       do {
-        
         let workout = Workout(
           name: workoutName,
           targetMuscles: selectedMuscles,

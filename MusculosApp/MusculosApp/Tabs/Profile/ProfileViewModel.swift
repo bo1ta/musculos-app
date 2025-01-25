@@ -12,6 +12,8 @@ import Models
 import SwiftUI
 import Utility
 
+// MARK: - ProfileViewModel
+
 @Observable
 @MainActor
 final class ProfileViewModel: BaseViewModel {
@@ -75,10 +77,10 @@ final class ProfileViewModel: BaseViewModel {
       .map { MuscleChartData(muscle: $0.key, count: $0.value) }
 
     sessionsChartData = sessions
-      .reduce(into: [:], { result, session in
+      .reduce(into: [:]) { result, session in
         let day = session.dateAdded.dayName()
         result[day, default: 0] += 1
-      })
+      }
       .map { SessionChartData(dayName: $0.key, count: $0.value) }
   }
 
@@ -99,6 +101,8 @@ final class ProfileViewModel: BaseViewModel {
   }
 }
 
+// MARK: - MuscleChartData
+
 struct MuscleChartData: Identifiable {
   var id: UUID
   var muscleName: String
@@ -110,6 +114,8 @@ struct MuscleChartData: Identifiable {
     self.count = count
   }
 }
+
+// MARK: - SessionChartData
 
 struct SessionChartData: Identifiable {
   var id: UUID

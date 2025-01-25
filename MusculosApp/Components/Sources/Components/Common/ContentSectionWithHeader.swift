@@ -14,7 +14,12 @@ public struct ContentSectionWithHeader<Content: View>: View {
   private let withScroll: Bool
   private let content: Content
 
-  public init(headerTitle: String, scrollDirection: Axis.Set = .horizontal, withScroll: Bool = true, @ViewBuilder content: () -> Content) {
+  public init(
+    headerTitle: String,
+    scrollDirection: Axis.Set = .horizontal,
+    withScroll: Bool = true,
+    @ViewBuilder content: () -> Content)
+  {
     self.headerTitle = headerTitle
     self.scrollDirection = scrollDirection
     self.withScroll = withScroll

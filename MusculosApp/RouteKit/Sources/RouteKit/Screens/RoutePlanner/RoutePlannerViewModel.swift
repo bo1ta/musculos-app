@@ -194,10 +194,16 @@ extension RoutePlannerViewModel {
 
     isTimerActive = true
 
-    timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementElapsedTime), userInfo: nil, repeats: true)
+    timer = Timer.scheduledTimer(
+      timeInterval: 1.0,
+      target: self,
+      selector: #selector(incrementElapsedTime),
+      userInfo: nil,
+      repeats: true)
   }
 
-  @objc private func incrementElapsedTime() {
+  @objc
+  private func incrementElapsedTime() {
     elapsedTime += 1
   }
 
