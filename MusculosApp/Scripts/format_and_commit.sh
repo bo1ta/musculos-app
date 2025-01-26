@@ -30,10 +30,12 @@ if [ -z "$changed_files" ]; then
   exit 0
 fi
 
+config_path="MusculosApp/.swiftformat"
+
 # Run SwiftFormat on each changed file
 echo "Running SwiftFormat on changed files..."
 for file in $changed_files; do
-  swiftformat "$file" --config .swiftformat --swiftversion 6
+  swiftformat "$file" --config "$config_path" --swiftversion 6
 done
 
 # Optionally, add the formatted files to the commit
