@@ -25,10 +25,10 @@ public enum ProfileHighlightType: CaseIterable, Hashable {
 
   public var color: Color {
     switch self {
-    case .steps: .yellow
+    case .steps: .brown
     case .sleep: AppColor.navyBlue
-    case .waterIntake: .orange.opacity(0.6)
-    case .workoutTracking: .red
+    case .waterIntake: .blue
+    case .workoutTracking: .green
     }
   }
 
