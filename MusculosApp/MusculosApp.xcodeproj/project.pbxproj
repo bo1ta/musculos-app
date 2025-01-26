@@ -49,6 +49,13 @@
 		BC261AB82B6DA0EF0018E21F /* ExerciseFilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC261AB72B6DA0EF0018E21F /* ExerciseFilterSheet.swift */; };
 		BC29B40D2CE4F624005C641F /* MusclesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29B40C2CE4F624005C641F /* MusclesSection.swift */; };
 		BC32A54B2D0A486B005896D2 /* SelectWeightSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC32A54A2D0A486B005896D2 /* SelectWeightSheet.swift */; };
+		BC36E5EA2D45BA9700293180 /* Components in Frameworks */ = {isa = PBXBuildFile; productRef = BC36E5E92D45BA9700293180 /* Components */; };
+		BC36E5ED2D45BAA800293180 /* DataRepository in Frameworks */ = {isa = PBXBuildFile; productRef = BC36E5EC2D45BAA800293180 /* DataRepository */; };
+		BC36E5F02D45BAB400293180 /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = BC36E5EF2D45BAB400293180 /* Models */; };
+		BC36E5F32D45BAC300293180 /* NetworkClient in Frameworks */ = {isa = PBXBuildFile; productRef = BC36E5F22D45BAC300293180 /* NetworkClient */; };
+		BC36E5F62D45BAD300293180 /* RouteKit in Frameworks */ = {isa = PBXBuildFile; productRef = BC36E5F52D45BAD300293180 /* RouteKit */; };
+		BC36E5F92D45BADF00293180 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = BC36E5F82D45BADF00293180 /* Storage */; };
+		BC36E5FC2D45BAF700293180 /* Utility in Frameworks */ = {isa = PBXBuildFile; productRef = BC36E5FB2D45BAF700293180 /* Utility */; };
 		BC3760E72D1F5F19000A92F3 /* ShowTabPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3760E62D1F5F03000A92F3 /* ShowTabPreferenceKey.swift */; };
 		BC39FB782D217836004EB5D0 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC39FB772D217833004EB5D0 /* ProfileViewModel.swift */; };
 		BC3A30642D37104C00232F86 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A30632D37104C00232F86 /* UserStore.swift */; };
@@ -312,16 +319,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC36E5F02D45BAB400293180 /* Models in Frameworks */,
 				BCD0119C2CC174150012CEA0 /* DataRepository in Frameworks */,
 				BC0E327C2D21D863009B5E4A /* Utility in Frameworks */,
 				BC6249752BEC20BB00393915 /* Shimmer in Frameworks */,
+				BC36E5FC2D45BAF700293180 /* Utility in Frameworks */,
+				BC36E5F62D45BAD300293180 /* RouteKit in Frameworks */,
 				BCF6487B2C3C36CC00D1C46F /* Models in Frameworks */,
+				BC36E5F92D45BADF00293180 /* Storage in Frameworks */,
 				BC569FDB2C45965900F9C918 /* Components in Frameworks */,
+				BC36E5F32D45BAC300293180 /* NetworkClient in Frameworks */,
 				BC545E482C3C730E00713B86 /* Storage in Frameworks */,
 				BC0E32792D21D80B009B5E4A /* Navigator in Frameworks */,
 				BC5A73452D21E25F00E0D61A /* Components in Frameworks */,
 				BC08E99C2CA628B60082EDF8 /* Utility in Frameworks */,
 				BCFC24C32C98FB9A00F28D7A /* NetworkClient in Frameworks */,
+				BC36E5ED2D45BAA800293180 /* DataRepository in Frameworks */,
+				BC36E5EA2D45BA9700293180 /* Components in Frameworks */,
 				BC0E32762D21D7F3009B5E4A /* Factory in Frameworks */,
 				BC5A73482D21E3A600E0D61A /* RouteKit in Frameworks */,
 			);
@@ -897,6 +911,13 @@
 				BC0E327B2D21D863009B5E4A /* Utility */,
 				BC5A73442D21E25F00E0D61A /* Components */,
 				BC5A73472D21E3A600E0D61A /* RouteKit */,
+				BC36E5E92D45BA9700293180 /* Components */,
+				BC36E5EC2D45BAA800293180 /* DataRepository */,
+				BC36E5EF2D45BAB400293180 /* Models */,
+				BC36E5F22D45BAC300293180 /* NetworkClient */,
+				BC36E5F52D45BAD300293180 /* RouteKit */,
+				BC36E5F82D45BADF00293180 /* Storage */,
+				BC36E5FB2D45BAF700293180 /* Utility */,
 			);
 			productName = MusculosApp;
 			productReference = BC1160CC2A2CFB830028D8FC /* MusculosApp.app */;
@@ -953,12 +974,13 @@
 				BC6249732BEC20AC00393915 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				BC0E32742D21D7F3009B5E4A /* XCRemoteSwiftPackageReference "Factory" */,
 				BC0E32772D21D80B009B5E4A /* XCRemoteSwiftPackageReference "Navigator" */,
-				BC0E327A2D21D863009B5E4A /* XCLocalSwiftPackageReference "Utility" */,
-				BC0E327D2D21D898009B5E4A /* XCLocalSwiftPackageReference "Models" */,
-				BC1050A72D21D8FD00D5ADCE /* XCLocalSwiftPackageReference "Storage" */,
-				BC1050A82D21D93C00D5ADCE /* XCLocalSwiftPackageReference "DataRepository" */,
-				BC5A73432D21E25F00E0D61A /* XCLocalSwiftPackageReference "Components" */,
-				BC5A73462D21E3A600E0D61A /* XCLocalSwiftPackageReference "RouteKit" */,
+				BC36E5E82D45BA9700293180 /* XCLocalSwiftPackageReference "Modules/Components" */,
+				BC36E5EB2D45BAA800293180 /* XCLocalSwiftPackageReference "Modules/DataRepository" */,
+				BC36E5EE2D45BAB400293180 /* XCLocalSwiftPackageReference "Modules/Models" */,
+				BC36E5F12D45BAC300293180 /* XCLocalSwiftPackageReference "Modules/NetworkClient" */,
+				BC36E5F42D45BAD300293180 /* XCLocalSwiftPackageReference "Modules/RouteKit" */,
+				BC36E5F72D45BADF00293180 /* XCLocalSwiftPackageReference "Modules/Storage" */,
+				BC36E5FA2D45BAF700293180 /* XCLocalSwiftPackageReference "Modules/Utility" */,
 			);
 			productRefGroup = BC1160CD2A2CFB830028D8FC /* Products */;
 			projectDirPath = "";
@@ -1445,29 +1467,33 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		BC0E327A2D21D863009B5E4A /* XCLocalSwiftPackageReference "Utility" */ = {
+		BC36E5E82D45BA9700293180 /* XCLocalSwiftPackageReference "Modules/Components" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = Utility;
+			relativePath = Modules/Components;
 		};
-		BC0E327D2D21D898009B5E4A /* XCLocalSwiftPackageReference "Models" */ = {
+		BC36E5EB2D45BAA800293180 /* XCLocalSwiftPackageReference "Modules/DataRepository" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = Models;
+			relativePath = Modules/DataRepository;
 		};
-		BC1050A72D21D8FD00D5ADCE /* XCLocalSwiftPackageReference "Storage" */ = {
+		BC36E5EE2D45BAB400293180 /* XCLocalSwiftPackageReference "Modules/Models" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = Storage;
+			relativePath = Modules/Models;
 		};
-		BC1050A82D21D93C00D5ADCE /* XCLocalSwiftPackageReference "DataRepository" */ = {
+		BC36E5F12D45BAC300293180 /* XCLocalSwiftPackageReference "Modules/NetworkClient" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = DataRepository;
+			relativePath = Modules/NetworkClient;
 		};
-		BC5A73432D21E25F00E0D61A /* XCLocalSwiftPackageReference "Components" */ = {
+		BC36E5F42D45BAD300293180 /* XCLocalSwiftPackageReference "Modules/RouteKit" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = Components;
+			relativePath = Modules/RouteKit;
 		};
-		BC5A73462D21E3A600E0D61A /* XCLocalSwiftPackageReference "RouteKit" */ = {
+		BC36E5F72D45BADF00293180 /* XCLocalSwiftPackageReference "Modules/Storage" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = RouteKit;
+			relativePath = Modules/Storage;
+		};
+		BC36E5FA2D45BAF700293180 /* XCLocalSwiftPackageReference "Modules/Utility" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Modules/Utility;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -1514,6 +1540,34 @@
 			productName = Navigator;
 		};
 		BC0E327B2D21D863009B5E4A /* Utility */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Utility;
+		};
+		BC36E5E92D45BA9700293180 /* Components */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Components;
+		};
+		BC36E5EC2D45BAA800293180 /* DataRepository */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DataRepository;
+		};
+		BC36E5EF2D45BAB400293180 /* Models */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Models;
+		};
+		BC36E5F22D45BAC300293180 /* NetworkClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NetworkClient;
+		};
+		BC36E5F52D45BAD300293180 /* RouteKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RouteKit;
+		};
+		BC36E5F82D45BADF00293180 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Storage;
+		};
+		BC36E5FB2D45BAF700293180 /* Utility */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Utility;
 		};

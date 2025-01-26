@@ -5,12 +5,12 @@ excluded:
   - .build
   - SwiftPM
   - Tests
-  - Storage/.build
-  - DataRepository/.build
-  - Components/.build
-  - Models/.build
-  - NetworkClient/.build
-  - Utility/.build
+  - Modules/Storage/.build
+  - Modules/DataRepository/.build
+  - Modules/Components/.build
+  - Modules/Models/.build
+  - Modules/NetworkClient/.build
+  - Modules/Utility/.build
 
 # Enable rules which are not in the default set
 opt_in_rules:

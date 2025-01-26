@@ -79,7 +79,7 @@ class ExerciseFilterSheetViewModel {
 
   func filterExercises() {
     guard let muscles = filters[.muscle] else {
-         return
+      return
     }
 
     Task {

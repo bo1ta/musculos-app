@@ -10,7 +10,7 @@ import Foundation
 import Models
 
 extension Container {
-  internal var backgroundWorker: Factory<BackgroundWorker> {
+  var backgroundWorker: Factory<BackgroundWorker> {
     self { BackgroundWorker() }
       .shared
   }

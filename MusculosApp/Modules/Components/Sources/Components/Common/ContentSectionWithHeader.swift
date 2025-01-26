@@ -11,11 +11,18 @@ import Utility
 public struct ContentSectionWithHeader<Content: View>: View {
   private let headerTitle: String
   private let scrollDirection: Axis.Set
+  private let withScroll: Bool
   private let content: Content
 
-  public init(headerTitle: String, scrollDirection: Axis.Set = .horizontal, @ViewBuilder content: () -> Content) {
+  public init(
+    headerTitle: String,
+    scrollDirection: Axis.Set = .horizontal,
+    withScroll: Bool = true,
+    @ViewBuilder content: () -> Content)
+  {
     self.headerTitle = headerTitle
     self.scrollDirection = scrollDirection
+    self.withScroll = withScroll
     self.content = content()
   }
 
@@ -28,10 +35,14 @@ public struct ContentSectionWithHeader<Content: View>: View {
       }
       .padding(.vertical)
 
-      ScrollView(scrollDirection) {
+      if withScroll {
+        ScrollView(scrollDirection) {
+          content
+        }
+        .scrollIndicators(.hidden)
+      } else {
         content
       }
-      .scrollIndicators(.hidden)
     }
   }
 }
