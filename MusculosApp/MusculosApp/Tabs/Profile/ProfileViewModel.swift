@@ -61,7 +61,7 @@ final class ProfileViewModel: BaseViewModel {
 
   private func loadSessions() async {
     do {
-      sessions =   try await sessionRepository.getCompletedSinceLastWeek()
+      sessions = try await sessionRepository.getCompletedSinceLastWeek()
       updateChartDataForSessions(sessions)
     } catch {
       Logger.error(error, message: "Could not load past sessions")
