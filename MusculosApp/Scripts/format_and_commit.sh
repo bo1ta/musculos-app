@@ -9,8 +9,6 @@ check_swiftformat() {
       exit 1
     fi
     brew install swiftformat
-  else
-    echo "SwiftFormat is already installed."
   fi
 }
 
