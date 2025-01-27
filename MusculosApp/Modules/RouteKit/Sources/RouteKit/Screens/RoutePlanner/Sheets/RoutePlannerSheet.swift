@@ -21,6 +21,7 @@ struct RoutePlannerSheet: View {
     case inProgress
   }
 
+  @Namespace private var animationNamespace
   @State private var activeDetent = PresentationDetent.minimized
   @State private var currentStep = WizardStep.search
 
@@ -38,7 +39,9 @@ struct RoutePlannerSheet: View {
           mapItemResults: viewModel.queryResults,
           selectedMapItem: viewModel.destinationMapItem,
           onSelectResult: handleSelectSearchResult(_:))
-          .transition(.move(edge: .trailing))
+          .preference(
+            key: BottomSheetSizePreferenceKey.self,
+            value: viewModel.queryResults.isEmpty ? BottomSheetSizes.minimized : BottomSheetSizes.middle)
 
       case .confirm:
         ConfirmRouteSheetView(
@@ -46,13 +49,18 @@ struct RoutePlannerSheet: View {
           endLocation: $viewModel.endLocation,
           onStart: handleConfirmRoute)
           .transition(.move(edge: .leading).combined(with: .opacity))
+          .matchedGeometryEffect(id: "sheet", in: animationNamespace)
           .task {
             await viewModel.loadCurrentLocationData()
           }
+          .preference(key: BottomSheetSizePreferenceKey.self, value: BottomSheetSizes.expanded)
 
       case .inProgress:
         ProgressButton(elapsedTime: viewModel.elapsedTime, onClick: handleStopRunning)
           .padding(.top)
+          .matchedGeometryEffect(id: "sheet", in: animationNamespace)
+          .transition(.move(edge: .top).combined(with: .opacity))
+          .preference(key: BottomSheetSizePreferenceKey.self, value: BottomSheetSizes.minimized)
       }
       Spacer()
     }
@@ -61,11 +69,8 @@ struct RoutePlannerSheet: View {
     .onChange(of: viewModel.queryResults) { _, newValue in
       updateActiveDetentForResults(newValue)
     }
-    .presentationDetents([.expanded, .middle, .minimized], selection: $activeDetent)
-    .presentationBackgroundInteraction(.enabled)
-    .presentationDragIndicator(.visible)
-    .interactiveDismissDisabled()
-    .animation(.easeInOut(duration: UIConstant.AnimationDuration.medium), value: currentStep)
+
+    .animation(.easeInOut(duration: UIConstant.AnimationDuration.short), value: currentStep)
   }
 
   private func updateActiveDetentForResults(_ results: [MapItemData]) {

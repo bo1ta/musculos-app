@@ -5,13 +5,14 @@
 //  Created by Solomon Alexandru on 31.12.2024.
 //
 
+import BottomSheet
 import Components
-import CoreLocation
 import SwiftUI
-import Utility
 
 public struct RoutePlannerScreen: View {
+
   @State private var viewModel = RoutePlannerViewModel()
+  @State private var bottomSheetPosition = BottomSheetPosition.absolute(BottomSheetSizes.minimized)
 
   public init() { }
 
@@ -24,9 +25,19 @@ public struct RoutePlannerScreen: View {
         currentRoute: $viewModel.currentRoute,
         mapCameraType: $viewModel.mapCameraType)
     }
-    .sheet(isPresented: .constant(true)) {
-      RoutePlannerSheet(viewModel: viewModel)
-    }
+    .bottomSheet(
+      bottomSheetPosition: $bottomSheetPosition,
+      switchablePositions: [
+        .absolute(BottomSheetSizes.minimized),
+        .absolute(BottomSheetSizes.expanded),
+        .absolute(BottomSheetSizes.middle),
+      ],
+      content: {
+        RoutePlannerSheet(viewModel: viewModel)
+          .onPreferenceChange(BottomSheetSizePreferenceKey.self, perform: { [$bottomSheetPosition] bottomSheetPosition in
+            $bottomSheetPosition.wrappedValue = .absolute(bottomSheetPosition)
+          })
+      })
     .ignoresSafeArea()
     .onDisappear(perform: viewModel.onDisappear)
   }

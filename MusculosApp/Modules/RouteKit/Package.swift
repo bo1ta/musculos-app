@@ -16,6 +16,7 @@ let package = Package(
     .package(name: "Components", path: "../Components"),
     .package(name: "DataRepository", path: "../DataRepository"),
     .package(url: "https://github.com/hmlongco/Factory", exact: "2.4.3"),
+    .package(url: "https://github.com/lucaszischka/BottomSheet", exact: "3.1.1"),
   ],
   targets: [
     .target(
@@ -25,6 +26,7 @@ let package = Package(
         .product(name: "Components", package: "Components"),
         .product(name: "DataRepository", package: "DataRepository"),
         "Factory",
+        "BottomSheet",
       ]),
     .testTarget(
       name: "RouteKitTests",

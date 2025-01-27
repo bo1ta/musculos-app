@@ -16,7 +16,7 @@ import Utility
 enum RootTabs: String {
   case home
   case explore
-  case history
+  case routePlanner
   case profile
 }
 
@@ -34,6 +34,8 @@ struct RootTabView: View {
         RootHomeScreen()
           .tabItem { Label("Home", systemImage: "house") }
           .tag(RootTabs.home)
+          .toolbarBackground(.white, for: .tabBar)
+          .toolbarBackground(.visible, for: .tabBar)
           .onPreferenceChange(ShowTabPreferenceKey.self) { [$showAddButton] showTabBar in
             $showAddButton.wrappedValue = showTabBar
           }
@@ -41,17 +43,24 @@ struct RootTabView: View {
         RootExploreScreen()
           .tabItem { Label("Explore", systemImage: "newspaper") }
           .tag(RootTabs.explore)
+          .toolbarBackground(.white, for: .tabBar)
+          .toolbarBackground(.visible, for: .tabBar)
           .onPreferenceChange(ShowTabPreferenceKey.self) { [$showAddButton] showTabBar in
             $showAddButton.wrappedValue = showTabBar
           }
 
-        RootHistoryScreen()
-          .tabItem { Label("History", systemImage: "calendar.badge.clock") }
-          .tag(RootTabs.history)
+        RootRoutePlannerScreen()
+          .tabItem { Label("Run", systemImage: "figure.run") }
+          .tag(RootTabs.routePlanner)
+          .toolbarBackground(.white, for: .tabBar)
+          .toolbarBackground(.visible, for: .tabBar)
+          .preference(key: ShowTabPreferenceKey.self, value: false)
 
         RootProfileScreen()
           .tabItem { Label("Profile", systemImage: "person") }
           .tag(RootTabs.profile)
+          .toolbarBackground(.white, for: .tabBar)
+          .toolbarBackground(.visible, for: .tabBar)
           .onPreferenceChange(ShowTabPreferenceKey.self) { [$showAddButton] showTabBar in
             $showAddButton.wrappedValue = showTabBar
           }
