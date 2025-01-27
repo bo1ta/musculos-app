@@ -23,16 +23,7 @@ struct CalendarHeader: View {
 
   var body: some View {
     HStack {
-      Button(action: onPreviousMonth, label: {
-        RoundedRectangle(cornerRadius: 8)
-          .foregroundStyle(.white)
-          .frame(width: 30, height: 30)
-          .shadow(radius: 1.2)
-          .overlay {
-            Image(systemName: "chevron.left")
-              .foregroundStyle(.black)
-          }
-      })
+      BackRectButton(onBack: onPreviousMonth)
 
       Spacer()
 
@@ -47,16 +38,7 @@ struct CalendarHeader: View {
 
       Spacer()
 
-      Button(action: onNextMonth, label: {
-        RoundedRectangle(cornerRadius: 8)
-          .foregroundStyle(.white)
-          .frame(width: 30, height: 30)
-          .shadow(radius: 1.2)
-          .overlay {
-            Image(systemName: "chevron.right")
-              .foregroundStyle(.black)
-          }
-      })
+      BackRectButton(onBack: onNextMonth)
     }
   }
 }

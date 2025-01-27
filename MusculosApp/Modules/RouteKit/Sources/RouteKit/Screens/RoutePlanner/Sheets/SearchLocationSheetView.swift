@@ -31,21 +31,10 @@ struct SearchLocationSheetView: View {
                 text: item.name,
                 font: AppFont.body(.regular, size: 14.0),
                 isSelected: item == selectedMapItem,
-                content: { Text(getDistanceDisplay(item)) })
+                content: { Text(item.getDistanceDisplay()) })
             })
         }
       }
     }
-  }
-
-  func getDistanceDisplay(_ item: MapItemData) -> String {
-    guard let currentLocation else {
-      return ""
-    }
-
-    let distanceInKM = currentLocation
-      .distance(from: item.placemark.coordinate.toCLLocation())
-      .inKilometers()
-    return String(format: "%.2f km", distanceInKM)
   }
 }

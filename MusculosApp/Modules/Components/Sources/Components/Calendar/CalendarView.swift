@@ -68,7 +68,6 @@ public struct CalendarView: View {
       }
   }
 
-  @MainActor
   private func updateSelectedDate(day: DayComponents) {
     let date = calendar.date(from: day.components)
 
@@ -79,7 +78,6 @@ public struct CalendarView: View {
     }
   }
 
-  @MainActor
   private func showNextMonth() {
     guard let nextMonth = calendar.date(byAdding: .month, value: 1, to: currentDate), nextMonth < endDate else {
       return
@@ -89,7 +87,6 @@ public struct CalendarView: View {
     calendarProxy.scrollToMonth(containing: currentDate, scrollPosition: .centered, animated: false)
   }
 
-  @MainActor
   private func showPreviousMonth() {
     guard let previousMonth = calendar.date(byAdding: .month, value: -1, to: currentDate), previousMonth >= startDate else {
       return

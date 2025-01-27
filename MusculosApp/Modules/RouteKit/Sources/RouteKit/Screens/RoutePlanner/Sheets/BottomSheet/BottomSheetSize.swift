@@ -9,7 +9,7 @@ import Foundation
 
 enum BottomSheetSizes {
   static let minimized = CGFloat(250)
-  static let expanded = CGFloat(400)
+  static let expanded = CGFloat(450)
   static let expandedExtra = CGFloat(700)
-  static let middle = CGFloat(350)
+  static let middle = CGFloat(400)
 }

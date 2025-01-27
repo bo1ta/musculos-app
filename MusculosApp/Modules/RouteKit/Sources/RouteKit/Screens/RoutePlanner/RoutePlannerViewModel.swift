@@ -40,6 +40,7 @@ final class RoutePlannerViewModel {
   var currentRoute: MKRoute?
   var startLocation = ""
   var endLocation = ""
+  var routeDistanceLabel = ""
   var currentZoomLevel: CLLocationDistance = 0.01
   var mapCameraType = MapCameraType.planning
   var elapsedTime = 0
@@ -95,10 +96,11 @@ extension RoutePlannerViewModel {
       return
     }
     do {
-      let data = try await client.getLocationDetails(currentLocation)
-      if let data {
-        startLocation = data.name
+      guard let data = try await client.getLocationDetails(currentLocation) else {
+        Logger.error(MusculosError.unexpectedNil, message: "Current location details could not be loaded")
+        return
       }
+      startLocation = data.name
     } catch {
       Logger.error(error, message: "Error loading current location details")
     }

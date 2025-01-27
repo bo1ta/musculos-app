@@ -22,7 +22,6 @@ struct RoutePlannerSheet: View {
   }
 
   @Namespace private var animationNamespace
-  @State private var activeDetent = PresentationDetent.minimized
   @State private var currentStep = WizardStep.search
 
   var viewModel: RoutePlannerViewModel
@@ -47,7 +46,9 @@ struct RoutePlannerSheet: View {
         ConfirmRouteSheetView(
           startLocation: $viewModel.startLocation,
           endLocation: $viewModel.endLocation,
-          onStart: handleConfirmRoute)
+          destinationData: viewModel.destinationMapItem,
+          onStart: handleConfirmRoute,
+          onBack: { currentStep = .search })
           .transition(.move(edge: .leading).combined(with: .opacity))
           .matchedGeometryEffect(id: "sheet", in: animationNamespace)
           .task {
@@ -66,36 +67,21 @@ struct RoutePlannerSheet: View {
     }
     .padding()
     .padding(.top, 10)
-    .onChange(of: viewModel.queryResults) { _, newValue in
-      updateActiveDetentForResults(newValue)
-    }
-
     .animation(.easeInOut(duration: UIConstant.AnimationDuration.short), value: currentStep)
-  }
-
-  private func updateActiveDetentForResults(_ results: [MapItemData]) {
-    activeDetent = results.isEmpty ? .minimized : .expanded
-  }
-
-  private func updateActiveDetentForWizardStep(_ step: WizardStep) {
-    activeDetent = step == .confirm ? .middle : .minimized
   }
 
   private func handleSelectSearchResult(_ result: MapItemData) {
     currentStep = .confirm
-    updateActiveDetentForWizardStep(.confirm)
     viewModel.setRouteForItem(result)
   }
 
   private func handleConfirmRoute() {
     currentStep = .inProgress
-    updateActiveDetentForWizardStep(.inProgress)
     viewModel.startRunning()
   }
 
   private func handleStopRunning() {
     currentStep = .search
-    updateActiveDetentForWizardStep(.search)
     viewModel.stopRunning()
   }
 

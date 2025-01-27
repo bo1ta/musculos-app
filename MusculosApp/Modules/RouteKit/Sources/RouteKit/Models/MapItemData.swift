@@ -54,6 +54,20 @@ public struct MapItemData: Sendable {
     }
     placemark = MKPlacemark(coordinate: coordinate)
   }
+
+  /// Returns the distance display in km. E.g `1.2 km`.
+  /// Uses the shared instance of the `LocationManager` for the currentLocation
+  /// Kinda hacky...but also kinda convenient
+  ///
+  func getDistanceDisplay() -> String {
+    guard let currentLocation = RouteKitContainer.shared.locationManager().currentLocation else {
+      return "0 km"
+    }
+    let distanceInKM = currentLocation
+      .distance(from: placemark.coordinate.toCLLocation())
+      .inKilometers()
+    return String(format: "%.2f km", distanceInKM)
+  }
 }
 
 // MARK: MapItemData.Category
