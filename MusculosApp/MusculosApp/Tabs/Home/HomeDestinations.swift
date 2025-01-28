@@ -7,7 +7,6 @@
 
 import Models
 import Navigator
-import RouteKit
 import SwiftUI
 
 // MARK: - HomeDestinations
@@ -15,7 +14,6 @@ import SwiftUI
 public enum HomeDestinations {
   case addGoal
   case notifications
-  case liveRoute
   case dailyWorkout(workoutChallenge: WorkoutChallenge, dailyWorkout: DailyWorkout)
   case exerciseDetails(Exercise)
 }
@@ -29,14 +27,11 @@ extension HomeDestinations: NavigationDestination {
       AddGoalSheet(onBack: { })
 
     case .notifications:
-      RoutePlannerScreen()
-
-    case .liveRoute:
-      RoutePlannerScreen()
+      EmptyView()
 
     case .dailyWorkout(let workoutChallenge, let dailyWorkout):
       RootWorkoutScreen(workoutChallenge: workoutChallenge, dailyWorkout: dailyWorkout)
-        .presentationDetents([.medium, .expandedExtra])
+        .presentationDetents([.medium])
 
     case .exerciseDetails(let exercise):
       ExerciseDetailsScreen(exercise: exercise)
@@ -46,8 +41,6 @@ extension HomeDestinations: NavigationDestination {
   public var method: NavigationMethod {
     switch self {
     case .notifications:
-      .push
-    case .liveRoute:
       .push
     case .addGoal:
       .sheet

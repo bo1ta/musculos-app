@@ -16,7 +16,7 @@ import Utility
 enum RootTabs: String {
   case home
   case explore
-  case routePlanner
+  case history
   case profile
 }
 
@@ -24,9 +24,6 @@ enum RootTabs: String {
 
 struct RootTabView: View {
   @SceneStorage("selectedTab") var selectedTab = RootTabs.home
-
-  @State private var showActionSheet = false
-  @State private var showAddButton = true
 
   var body: some View {
     ZStack(alignment: .bottom) {
@@ -36,47 +33,30 @@ struct RootTabView: View {
           .tag(RootTabs.home)
           .toolbarBackground(.white, for: .tabBar)
           .toolbarBackground(.visible, for: .tabBar)
-          .onPreferenceChange(ShowTabPreferenceKey.self) { [$showAddButton] showTabBar in
-            $showAddButton.wrappedValue = showTabBar
-          }
 
         RootExploreScreen()
           .tabItem { Label("Explore", systemImage: "newspaper") }
           .tag(RootTabs.explore)
           .toolbarBackground(.white, for: .tabBar)
           .toolbarBackground(.visible, for: .tabBar)
-          .onPreferenceChange(ShowTabPreferenceKey.self) { [$showAddButton] showTabBar in
-            $showAddButton.wrappedValue = showTabBar
-          }
 
-        RootRoutePlannerScreen()
-          .tabItem { Label("Run", systemImage: "figure.run") }
-          .tag(RootTabs.routePlanner)
+        RootHistoryScreen()
+          .tabItem { Label("History", systemImage: "calendar") }
+          .tag(RootTabs.history)
           .toolbarBackground(.white, for: .tabBar)
           .toolbarBackground(.visible, for: .tabBar)
-          .preference(key: ShowTabPreferenceKey.self, value: false)
 
         RootProfileScreen()
           .tabItem { Label("Profile", systemImage: "person") }
           .tag(RootTabs.profile)
           .toolbarBackground(.white, for: .tabBar)
           .toolbarBackground(.visible, for: .tabBar)
-          .onPreferenceChange(ShowTabPreferenceKey.self) { [$showAddButton] showTabBar in
-            $showAddButton.wrappedValue = showTabBar
-          }
       }
       .onNavigationReceive { (tab: RootTabs, navigator) in
         _ = try? navigator.dismissAll()
         selectedTab = tab
         return .auto
       }
-
-      AddActionButton(action: { showActionSheet = true })
-        .offset(y: -30)
-        .opacity(showAddButton ? 1 : 0)
-    }
-    .sheet(isPresented: $showActionSheet) {
-      AddActionSheetContainer()
     }
   }
 }

@@ -50,12 +50,10 @@ struct AddWorkoutSheet: View {
             .foregroundStyle(.black)
 
           ForEach(viewModel.displayExercises) { exercise in
-            CardItem(
+            SelectTitleCard(
               title: exercise.name,
               isSelected: viewModel.isExerciseSelected(exercise),
-              onSelect: {
-                viewModel.willSelectExercise(exercise)
-              })
+              onSelect: { viewModel.willSelectExercise(exercise) })
           }
         }
       }

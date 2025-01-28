@@ -1,18 +1,24 @@
 //
 //  SheetNavBar.swift
-//  MusculosApp
+//  Components
 //
-//  Created by Solomon Alexandru on 19.04.2024.
+//  Created by Solomon Alexandru on 28.01.2025.
 //
 
 import SwiftUI
 
-struct SheetNavBar: View {
+public struct SheetNavBar: View {
   let title: String
   let onBack: () -> Void
   let onDismiss: () -> Void
 
-  var body: some View {
+  public init(title: String, onBack: @escaping () -> Void, onDismiss: @escaping () -> Void) {
+    self.title = title
+    self.onBack = onBack
+    self.onDismiss = onDismiss
+  }
+
+  public var body: some View {
     HStack {
       Button(action: onBack, label: {
         Image(systemName: "chevron.left")

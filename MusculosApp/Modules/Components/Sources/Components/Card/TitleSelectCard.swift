@@ -1,21 +1,27 @@
 //
-//  CardItem.swift
-//  MusculosApp
+//  TitleSelectCard.swift
+//  Components
 //
-//  Created by Solomon Alexandru on 02.03.2024.
+//  Created by Solomon Alexandru on 28.01.2025.
 //
 
 import Shimmer
 import SwiftUI
 
-// MARK: - CardItem
+// MARK: - TitleSelectCard
 
-struct CardItem: View {
+public struct SelectTitleCard: View {
   let title: String
   let isSelected: Bool
   let onSelect: () -> Void
 
-  var body: some View {
+  public init(title: String, isSelected: Bool, onSelect: @escaping () -> Void) {
+    self.title = title
+    self.isSelected = isSelected
+    self.onSelect = onSelect
+  }
+
+  public var body: some View {
     RoundedRectangle(cornerRadius: 10)
       .foregroundStyle(.white)
       .frame(maxWidth: .infinity)
@@ -43,13 +49,13 @@ struct CardItem: View {
 }
 
 #Preview {
-  CardItem(title: "100 miles running", isSelected: true, onSelect: { })
+  SelectTitleCard(title: "100 miles running", isSelected: true, onSelect: { })
 }
 
-// MARK: - CardItemShimmering
+// MARK: - SelectTitleCardShimmering
 
-struct CardItemShimmering: View {
-  var body: some View {
+public struct SelectTitleCardShimmering: View {
+  public var body: some View {
     RoundedRectangle(cornerRadius: 10)
       .foregroundStyle(.white)
       .frame(maxWidth: .infinity)

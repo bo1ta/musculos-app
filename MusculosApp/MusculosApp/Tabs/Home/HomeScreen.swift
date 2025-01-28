@@ -22,7 +22,7 @@ struct HomeScreen: View {
       VStack(alignment: .leading, spacing: 15) {
         UserHeader(
           profile: viewModel.currentUser,
-          onNotificationsTap: navigateToLiveRoute)
+          onNotificationsTap: showNotificationsScreen)
 
         AchievementCard()
           .defaultShimmering(active: viewModel.isLoading)
@@ -47,9 +47,7 @@ struct HomeScreen: View {
     }
   }
 
-  private func navigateToLiveRoute() {
-    navigator.navigate(to: HomeDestinations.liveRoute)
-  }
+  private func showNotificationsScreen() { }
 
   private func navigateToExerciseDetails(_ exercise: Exercise) {
     navigator.navigate(to: CommonDestinations.exerciseDetails(exercise))

@@ -7,7 +7,6 @@
 
 import Models
 import Navigator
-import RouteKit
 import SwiftUI
 
 // MARK: - WorkoutDestinations
