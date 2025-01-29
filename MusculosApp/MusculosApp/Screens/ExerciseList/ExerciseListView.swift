@@ -106,6 +106,10 @@ struct ExerciseListView: View {
       let exercises = try await repository.getByMuscleGroup(muscleGroup)
       results = exercises
       state = .loaded(results)
+
+    case .all(let exercises):
+      results = exercises
+      state = .loaded(results)
     }
   }
 }
@@ -116,11 +120,13 @@ extension ExerciseListView {
   enum FilterType {
     case filteredByWorkoutGoal(WorkoutGoal)
     case filteredByMuscleGroup(MuscleGroup)
+    case all([Exercise])
 
     var navigationBarTitle: String {
       switch self {
       case .filteredByWorkoutGoal: "Filtered by workout goal"
       case .filteredByMuscleGroup: "Filtered by muscle group"
+      case .all: "All exercises"
       }
     }
   }

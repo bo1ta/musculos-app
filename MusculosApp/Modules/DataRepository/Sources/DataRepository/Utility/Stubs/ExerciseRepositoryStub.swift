@@ -78,4 +78,8 @@ public struct ExerciseRepositoryStub: ExerciseRepositoryProtocol {
     }
     throw MusculosError.unexpectedNil
   }
+
+  public func getExercisesForGoal(_: Goal) async -> [Exercise] {
+    expectedExercises
+  }
 }

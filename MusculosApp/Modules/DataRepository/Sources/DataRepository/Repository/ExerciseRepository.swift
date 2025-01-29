@@ -25,6 +25,7 @@ public protocol ExerciseRepositoryProtocol: Sendable {
   func getExercisesForMuscleTypes(_ muscleTypes: [MuscleType]) async -> [Exercise]
   func getRecommendedExercisesByMuscleGroups() async throws -> [Exercise]
   func getRecommendedExercisesByGoals() async -> [Exercise]
+  func getExercisesForGoal(_ goal: Goal) async -> [Exercise]
   func searchByQuery(_ query: String) async throws -> [Exercise]
   func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise]
   func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws
@@ -126,6 +127,10 @@ public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseR
     }
 
     return await dataStore.exercisesForGoals(goals, fetchLimit: 20)
+  }
+
+  public func getExercisesForGoal(_ goal: Goal) async -> [Exercise] {
+    await dataStore.exercisesForGoal(goal)
   }
 
   public func searchByQuery(_ query: String) async throws -> [Exercise] {

@@ -14,6 +14,7 @@ import SwiftUI
 public enum ExploreDestinations {
   case exerciseListByGoal(WorkoutGoal)
   case exerciseListByMuscleGroup(MuscleGroup)
+  case exerciseList([Exercise])
   case exerciseFilters
 }
 
@@ -26,6 +27,8 @@ extension ExploreDestinations: NavigationDestination {
       ExerciseListView(filterType: .filteredByWorkoutGoal(workoutGoal))
     case .exerciseListByMuscleGroup(let muscleGroup):
       ExerciseListView(filterType: .filteredByMuscleGroup(muscleGroup))
+    case .exerciseList(let exercises):
+      ExerciseListView(filterType: .all(exercises))
     case .exerciseFilters:
       ExerciseFilterSheet()
     }
@@ -39,6 +42,8 @@ extension ExploreDestinations: NavigationDestination {
       .push
     case .exerciseFilters:
       .sheet
+    case .exerciseList:
+      .push
     }
   }
 }

@@ -16,25 +16,26 @@ struct RecommendationSection: View {
     GridItem(.flexible()),
   ]
 
+  let goal: Goal
   let exercises: [Exercise]
   let onSelectExercise: (Exercise) -> Void
   let onSeeMore: () -> Void
 
   init(
+    goal: Goal,
     exercises: [Exercise],
     onSelectExercise: @escaping (Exercise) -> Void,
     onSeeMore: @escaping () -> Void)
   {
+    self.goal = goal
     self.exercises = exercises
     self.onSelectExercise = onSelectExercise
     self.onSeeMore = onSeeMore
   }
 
   var body: some View {
-    ContentSectionWithHeaderAndButton(
-      headerTitle: "Best for you",
-      buttonTitle: "See more",
-      onAction: onSeeMore,
+    ContentSectionWithHeader(
+      headerTitle: "Recommendations for your \(goal.name) goal",
       content: {
         ScrollView(.horizontal) {
           LazyHGrid(rows: gridRows, spacing: 20) {

@@ -99,13 +99,13 @@ public enum ExerciseConstants {
   public static let categoryOptions = CategoryType.allCases.map { $0.rawValue }
 
   public static let goalToExerciseCategories: [String: [String]] = [
-    Goal.Category.growMuscle.rawValue: [
+    Goal.Category.growMuscle.label: [
       ExerciseConstants.CategoryType.strength.rawValue,
       ExerciseConstants.CategoryType.powerlifting.rawValue,
       ExerciseConstants.CategoryType.strongman.rawValue,
       ExerciseConstants.CategoryType.olympicWeightlifting.rawValue,
     ],
-    Goal.Category.loseWeight.rawValue: [
+    Goal.Category.loseWeight.label: [
       ExerciseConstants.CategoryType.cardio.rawValue,
       ExerciseConstants.CategoryType.stretching.rawValue,
     ],

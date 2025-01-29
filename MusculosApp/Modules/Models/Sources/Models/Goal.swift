@@ -146,7 +146,7 @@ extension Goal {
       switch self {
       case .loseWeight: "Lose weight"
       case .gainWeight: "Gain mass"
-      case .growMuscle: "Grow muscles"
+      case .growMuscle: "Gain muscles"
       case .drinkWater: "Drink water"
       case .general: "General"
       case .buildMass: "Build mass & strength"

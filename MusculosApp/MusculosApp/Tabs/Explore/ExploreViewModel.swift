@@ -36,6 +36,9 @@ final class ExploreViewModel: BaseViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository
 
+  @ObservationIgnored
+  @Injected(\.goalStore) private var goalStore: GoalStore
+
   // MARK: Public
 
   private(set) var isLoading = false
@@ -62,16 +65,16 @@ final class ExploreViewModel: BaseViewModel {
   var featuredExercises: [Exercise] {
     results[.featured] ?? []
   }
+
+  var displayGoal: Goal? {
+    goalStore.goals.first
+  }
 }
 
 // MARK: - Tasks
 
 extension ExploreViewModel {
   func initialLoad() async {
-    guard !isLoaded else {
-      return
-    }
-
     isLoading = true
     defer { isLoading = false }
 
@@ -79,8 +82,6 @@ extension ExploreViewModel {
     async let exercises: Void = loadExercises()
     async let sessions: Void = loadRecentSessions()
     _ = await (recommendations, exercises, sessions)
-
-    isLoaded = true
   }
 
   private func loadExercises() async {
@@ -98,8 +99,10 @@ extension ExploreViewModel {
 
   private func loadRecommandations() async {
     do {
-      results[.recommendedByGoals] = await exerciseRepository.getRecommendedExercisesByGoals()
       results[.recommendedByPastSessions] = try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
+      if let goal = displayGoal {
+        results[.recommendedByGoals] = await exerciseRepository.getExercisesForGoal(goal)
+      }
     } catch {
       Logger.error(error, message: "Could not load recommendations by past sessions")
     }

@@ -22,35 +22,37 @@ struct ExploreScreen: View {
         ExploreSearchSection(
           onFiltersTap: { navigator.navigate(to: ExploreDestinations.exerciseFilters) },
           onSearchQuery: { viewModel.searchByMuscleQuery($0) })
+
         FeaturedWorkoutsSection(onWorkoutGoalSelected: { navigator.navigate(to: ExploreDestinations.exerciseListByGoal($0)) })
         MusclesSection(onSelectedMuscle: { navigator.navigate(to: ExploreDestinations.exerciseListByMuscleGroup($0)) })
 
-        if !viewModel.recommendedExercisesByGoals.isEmpty {
-          RecommendationSection(
+        if let goal = viewModel.displayGoal, !viewModel.recommendedExercisesByGoals.isEmpty {
+          ExerciseSectionView(
+            title: "Recommendations for your \(goal.name) goal",
             exercises: viewModel.recommendedExercisesByGoals,
-            onSelectExercise: navigateToExerciseDetails(_:),
-            onSeeMore: { })
-            .fixedSize(horizontal: false, vertical: true)
+            onExerciseTap: navigateToExerciseDetails(_:),
+            onSeeMore: {
+              navigateToExerciseList(viewModel.recommendedExercisesByPastSessions)
+            })
         }
 
         if !viewModel.recommendedExercisesByPastSessions.isEmpty {
           ExerciseSectionView(
             title: "Recommendations from past sessions",
-            exercises: viewModel.recommendedExercisesByGoals,
-            onExerciseTap: navigateToExerciseDetails(_:))
-        }
-
-        if !viewModel.favoriteExercises.isEmpty {
-          ExerciseSectionView(
-            title: "My favorites",
-            exercises: viewModel.favoriteExercises,
-            onExerciseTap: navigateToExerciseDetails(_:))
+            exercises: viewModel.recommendedExercisesByPastSessions,
+            onExerciseTap: navigateToExerciseDetails(_:),
+            onSeeMore: {
+              navigateToExerciseList(viewModel.recommendedExercisesByPastSessions)
+            })
         }
 
         ExerciseSectionView(
           title: "Featured exercises",
           exercises: viewModel.featuredExercises,
-          onExerciseTap: navigateToExerciseDetails(_:))
+          onExerciseTap: navigateToExerciseDetails(_:),
+          onSeeMore: {
+            navigateToExerciseList(viewModel.featuredExercises)
+          })
       }
       .padding()
       .padding(.bottom, 30)
@@ -67,6 +69,10 @@ struct ExploreScreen: View {
 
   private func navigateToExerciseDetails(_ exercise: Exercise) {
     navigator.navigate(to: CommonDestinations.exerciseDetails(exercise))
+  }
+
+  private func navigateToExerciseList(_ exercises: [Exercise]) {
+    navigator.navigate(to: ExploreDestinations.exerciseList(exercises))
   }
 }
 

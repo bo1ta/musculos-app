@@ -246,7 +246,9 @@ extension CoreDataStore {
   }
 
   public func goalsPublisherForUserID(_ userID: UUID) -> FetchedResultsPublisher<GoalEntity> {
-    fetchedResultsPublisher(matching: \GoalEntity.userID == userID)
+    let predicate: NSPredicate = \GoalEntity.userID == userID
+    let sortDescriptor = NSSortDescriptor(keyPath: \GoalEntity.dateAdded, ascending: false)
+    return fetchedResultsPublisher(matching: predicate, sortDescriptors: [sortDescriptor])
   }
 
   public func goalsPublisher() -> FetchedResultsPublisher<GoalEntity> {
@@ -353,6 +355,21 @@ extension CoreDataStore {
         .flatMap(\.exercises)
         .map { $0.toReadOnly() }
     }
+  }
+
+  public func exercisesForGoal(_ goal: Goal) async -> [Exercise] {
+    guard
+      let goalCategory = goal.category,
+      let exerciseCategories = ExerciseConstants.goalToExerciseCategories[goalCategory]
+    else {
+      return []
+    }
+
+    let predicate = NSPredicate(
+      format: "%K IN %@",
+      #keyPath(ExerciseEntity.category),
+      exerciseCategories)
+    return await getAll(ExerciseEntity.self, predicate: predicate)
   }
 
   public func exercisesForGoals(_ goals: [Goal], fetchLimit: Int = 50) async -> [Exercise] {
