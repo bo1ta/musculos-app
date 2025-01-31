@@ -7,14 +7,13 @@ This repository contains the iOS frontend of the app, while the backend, built w
 - Features:
   - Personalized Workouts: Create custom workouts tailored to your fitness goals.
   - Goal Tracking: Set and monitor fitness objectives.
-  - Route Planning: Plan custom map routes and start running!
+  - Recommendations: Get workout recommendations based on your past sessions, goals, user level, etc
   - Offline-first approach: Rely on the local data store first, fallback to network when needed
 
 - Modules:
   - Storage - provides a thread-safe Core Data integration. `CoreDataStore` is the main entry point for storage operations.
   - DataRepository - acts as a coordinator between `Storage` and `NetworkClient` modules. Coordinates the data synchronization / fetch policy
   - NetworkClient - provides the network layer that interacts with the Vapor API
-  - RouteKit - provides the Route screens like `RoutePlannerScreen`, and also MapKit wrappers like `RouteMapView`
   - Components - A library of reusable UI components used throughout the app
   - Utility - Common utility functions, extensions, and helpers to simplify development tasks
   - Models - Core data models used in the app
