@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-public class ExerciseRatingFactory: BaseFactory, @unchecked Sendable {
+public final class ExerciseRatingFactory: BaseFactory, @unchecked Sendable {
   public var ratingID: UUID?
   public var exerciseID: UUID?
   public var userID: UUID?

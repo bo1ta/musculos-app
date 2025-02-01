@@ -37,7 +37,6 @@
 		BC18EA032D26E9E100AB6B01 /* MockToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18EA022D26E9DE00AB6B01 /* MockToastManager.swift */; };
 		BC18EA052D2710C000AB6B01 /* OnboardingViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18EA042D2710BC00AB6B01 /* OnboardingViewModelTests.swift */; };
 		BC18EA072D271EB600AB6B01 /* ExploreViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18EA062D271EB200AB6B01 /* ExploreViewModelTests.swift */; };
-		BC18EA0A2D27213300AB6B01 /* ExerciseDetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18EA092D27212C00AB6B01 /* ExerciseDetailsViewModelTests.swift */; };
 		BC1B7E242D12502E0002158C /* RootHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E232D12502B0002158C /* RootHomeScreen.swift */; };
 		BC1B7E262D1352CF0002158C /* RootExploreScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E252D1352C70002158C /* RootExploreScreen.swift */; };
 		BC1B7E2B2D13560F0002158C /* RootProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B7E2A2D1356090002158C /* RootProfileScreen.swift */; };
@@ -194,7 +193,6 @@
 		BC18EA022D26E9DE00AB6B01 /* MockToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockToastManager.swift; sourceTree = "<group>"; };
 		BC18EA042D2710BC00AB6B01 /* OnboardingViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModelTests.swift; sourceTree = "<group>"; };
 		BC18EA062D271EB200AB6B01 /* ExploreViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewModelTests.swift; sourceTree = "<group>"; };
-		BC18EA092D27212C00AB6B01 /* ExerciseDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailsViewModelTests.swift; sourceTree = "<group>"; };
 		BC1B7E232D12502B0002158C /* RootHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootHomeScreen.swift; sourceTree = "<group>"; };
 		BC1B7E252D1352C70002158C /* RootExploreScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootExploreScreen.swift; sourceTree = "<group>"; };
 		BC1B7E2A2D1356090002158C /* RootProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootProfileScreen.swift; sourceTree = "<group>"; };
@@ -439,7 +437,6 @@
 		BC18EA082D27212300AB6B01 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				BC18EA092D27212C00AB6B01 /* ExerciseDetailsViewModelTests.swift */,
 				BC18EA062D271EB200AB6B01 /* ExploreViewModelTests.swift */,
 				BC18EA042D2710BC00AB6B01 /* OnboardingViewModelTests.swift */,
 				BC18E9FF2D26E6C700AB6B01 /* HomeViewModelTests.swift */,
@@ -1123,7 +1120,6 @@
 				BC18EA072D271EB600AB6B01 /* ExploreViewModelTests.swift in Sources */,
 				BC8FCDDF2D260919009CF61E /* AuthenticationViewModelTests.swift in Sources */,
 				BC18EA002D26E6CC00AB6B01 /* HomeViewModelTests.swift in Sources */,
-				BC18EA0A2D27213300AB6B01 /* ExerciseDetailsViewModelTests.swift in Sources */,
 				BC18EA032D26E9E100AB6B01 /* MockToastManager.swift in Sources */,
 				BC3A30662D37113800232F86 /* UserStoreStub.swift in Sources */,
 				BC3A30682D37136A00232F86 /* UserStoreTests.swift in Sources */,

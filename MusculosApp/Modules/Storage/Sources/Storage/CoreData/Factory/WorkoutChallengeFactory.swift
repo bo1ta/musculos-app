@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-public class WorkoutChallengeFactory: BaseFactory, @unchecked Sendable {
+public final class WorkoutChallengeFactory: BaseFactory, @unchecked Sendable {
   public var isPersistent = true
 
   public var id: UUID?

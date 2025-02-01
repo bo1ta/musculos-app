@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-public class ExerciseFactory: BaseFactory, @unchecked Sendable {
+public final class ExerciseFactory: BaseFactory, @unchecked Sendable {
   typealias Constants = ExerciseConstants
 
   public var id: UUID?

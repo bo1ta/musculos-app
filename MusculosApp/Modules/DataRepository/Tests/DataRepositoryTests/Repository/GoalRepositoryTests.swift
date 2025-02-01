@@ -19,7 +19,7 @@ import XCTest
 // MARK: - GoalRepositoryTests
 
 class GoalRepositoryTests: XCTestCase {
-  @Injected(\StorageContainer.coreDataStore) private var coreDataStore
+  @Injected(\StorageContainer.goalDataStore) private var dataStore
 
   func testGetOnboardingGoals() async throws {
     let expectation = self.expectation(description: "should get onboarding goals")
@@ -34,9 +34,7 @@ class GoalRepositoryTests: XCTestCase {
   }
 
   func testGoalDetailsUsesService() async throws {
-    let factory = GoalFactory()
-    factory.isPersistent = false
-    let expectedGoal = factory.create()
+    let expectedGoal = GoalFactory.createGoal(isPersistent: false)
     let expectation = self.expectation(description: "should get goal details")
     let mockService = MockGoalService(expectation: expectation, expectedGoals: [expectedGoal])
 
@@ -62,7 +60,7 @@ class GoalRepositoryTests: XCTestCase {
     let repository = GoalRepository()
     _ = try await repository.addFromOnboardingGoal(onboardingGoal, for: user)
 
-    _ = try #require(await coreDataStore.goalByID(onboardingGoal.id))
+    _ = try #require(await dataStore.goalByID(onboardingGoal.id))
     await fulfillment(of: [expectation], timeout: 1)
   }
 }

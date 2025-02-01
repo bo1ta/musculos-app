@@ -14,7 +14,6 @@ import Utility
 
 protocol BaseRepository: Sendable {
   var localStorageUpdateThreshold: TimeInterval { get }
-  var dataStore: CoreDataStore { get }
   var backgroundWorker: BackgroundWorker { get }
 }
 
@@ -22,6 +21,7 @@ protocol BaseRepository: Sendable {
 
 extension BaseRepository {
   var localStorageUpdateThreshold: TimeInterval { .oneHour }
+  var storageManager: StorageManagerType { StorageContainer.shared.storageManager() }
 }
 
 // MARK: Common dependencies
@@ -41,14 +41,14 @@ extension BaseRepository {
 extension BaseRepository {
   func syncStorage<T: EntitySyncable>(_ models: [T.ModelType], ofType type: T.Type) {
     backgroundWorker.queueOperation {
-      try await dataStore.importModels(models, of: type)
+      try await storageManager.importEntities(models, of: type)
       setSyncDateForEntity(type, date: Date())
     }
   }
 
   func syncStorage<T: EntitySyncable>(_ model: T.ModelType, ofType type: T.Type) {
     backgroundWorker.queueOperation {
-      try await dataStore.importModel(model, of: type)
+      try await storageManager.importEntity(model, of: type)
       // sync date not updated for single models since it doesn't represent a "full update"
     }
   }

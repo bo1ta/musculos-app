@@ -7,10 +7,10 @@
 
 import Combine
 @preconcurrency import CoreData
-import Factory
 import Foundation
-import Models
 import Utility
+
+// MARK: - StorageManager
 
 public class StorageManager: StorageManagerType, @unchecked Sendable {
   private var cancellables = Set<AnyCancellable>()
@@ -87,6 +87,12 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
     persistentContainer.viewContext
   }
 
+  public func performRead<ResultType>(_ readClosure: @escaping ReadStorageClosure<ResultType>) async -> ResultType {
+    await viewStorage.perform {
+      readClosure(self.viewStorage)
+    }
+  }
+
   public lazy var writerDerivedStorage: StorageType = {
     let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     managedObjectContext.parent = persistentContainer.viewContext
@@ -94,11 +100,16 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
     return managedObjectContext
   }()
 
-  // MARK: - Save methods
+  public func performWrite(_ writeClosure: @escaping WriteStorageClosure) async throws {
+    try await writerDerivedStorage.perform {
+      try writeClosure(self.writerDerivedStorage)
 
-  /// Saves changes from `writerDerivedStorage`, followed by `viewStorage`
-  /// Escapes a void completion block
-  ///
+      /// need to call proccess changes on the writer storage otherwise it doesn't trigger the `NSManagedObjectContextObjectsDidChange` notification
+      ///
+      (self.writerDerivedStorage as? NSManagedObjectContext)?.processPendingChanges()
+    }
+  }
+
   public func saveChanges(completion: @escaping () -> Void) {
     writerDerivedStorage.perform { [weak self] in
       guard let self else {
@@ -114,41 +125,11 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
     }
   }
 
-  /// Saves changes from `writerDerivedStorage`, followed by `viewStorage`
-  ///
   public func saveChanges() async {
     try? await writerDerivedStorage.perform { self.writerDerivedStorage.saveIfNeeded() }
     try? await viewStorage.perform { self.viewStorage.saveIfNeeded() }
   }
 
-  // MARK: - Read
-
-  /// Performs the closure in the `viewStorage` context
-  ///
-  public func performRead<ResultType>(_ readClosure: @escaping ReadStorageClosure<ResultType>) async -> ResultType {
-    await viewStorage.perform {
-      readClosure(self.viewStorage)
-    }
-  }
-
-  // MARK: - Write
-
-  /// Performs the closure in the `writerDerivedStorage` context
-  ///
-  public func performWrite(_ writeClosure: @escaping WriteStorageClosure) async throws {
-    try await writerDerivedStorage.perform {
-      try writeClosure(self.writerDerivedStorage)
-
-      /// need to call proccess changes on the writer storage otherwise it doesn't trigger the `NSManagedObjectContextObjectsDidChange` notification
-      ///
-      (self.writerDerivedStorage as? NSManagedObjectContext)?.processPendingChanges()
-    }
-  }
-
-  // MARK: - Reset/Delete methods
-
-  /// Resets the core data store
-  ///
   public func reset() {
     let viewContext = persistentContainer.viewContext
     viewContext.performAndWait {
@@ -193,6 +174,100 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
         viewContext.saveIfNeeded()
       } catch {
         Logger.error(error, message: "Failed to fetch objects for entity \(entityName): \(error)")
+      }
+    }
+  }
+}
+
+// MARK: - StorageOperations
+
+extension StorageManager {
+  public func getObjectCount(_ type: (some Object).Type, predicate: NSPredicate? = nil) async -> Int {
+    await performRead { storage in
+      storage.countObjects(ofType: type, matching: predicate)
+    }
+  }
+
+  public func getAllEntities<T: EntityType>(_ type: T.Type, predicate: NSPredicate? = nil) async -> [T.ReadOnlyType] {
+    await performRead { storage in
+      storage.allObjects(ofType: type, matching: predicate, sortedBy: nil)
+        .map { $0.toReadOnly() }
+    }
+  }
+
+  public func getAllEntities<T: EntityType>(
+    _ type: T.Type,
+    fetchLimit: Int,
+    predicate: NSPredicate? = nil)
+    async -> [T.ReadOnlyType]
+  {
+    await performRead { storage in
+      storage.allObjects(ofType: type, fetchLimit: fetchLimit, matching: predicate, sortedBy: nil)
+        .map { $0.toReadOnly() }
+    }
+  }
+
+  public func getFirstEntity<T: EntityType>(_ type: T.Type, predicate: NSPredicate? = nil) async -> T.ReadOnlyType? {
+    await performRead { storage in
+      storage.firstObject(of: type, matching: predicate)?.toReadOnly()
+    }
+  }
+
+  public func createEntityPublisher<T: EntityType>(matching predicate: NSPredicate) -> EntityPublisher<T> {
+    EntityPublisher(storage: viewStorage, predicate: predicate)
+  }
+
+  public func createFetchedResultsPublisher<T: EntityType>(
+    matching predicate: NSPredicate? = nil,
+    sortDescriptors: [NSSortDescriptor] = [],
+    fetchLimit: Int? = 10)
+    -> FetchedResultsPublisher<T>
+  {
+    FetchedResultsPublisher(
+      storage: viewStorage,
+      sortDescriptors: sortDescriptors,
+      predicate: predicate,
+      fetchLimit: fetchLimit)
+  }
+
+  public func updateEntity<T: EntitySyncable>(_ model: T.ModelType, of type: T.Type) async throws {
+    try await performWrite { storage in
+      guard let firstObject = storage.firstObject(of: type, matching: model.matchingPredicate()) else {
+        return
+      }
+      firstObject.updateEntityFrom(model, using: storage)
+    }
+  }
+
+  public func deleteEntity<T: EntitySyncable>(_ model: T.ModelType, of type: T.Type) async throws {
+    try await performWrite { storage in
+      guard let firstObject = storage.firstObject(of: type, matching: model.matchingPredicate()) else {
+        return
+      }
+      storage.deleteObject(firstObject)
+    }
+  }
+
+  public func importEntity<T: EntitySyncable>(_ model: T.ModelType, of type: T.Type) async throws {
+    try await performWrite { storage in
+      if let firstObject = storage.firstObject(of: type, matching: model.matchingPredicate()) {
+        firstObject.updateEntityFrom(model, using: storage)
+      } else {
+        let newObject = storage.insertNewObject(ofType: type)
+        newObject.populateEntityFrom(model, using: storage)
+      }
+    }
+  }
+
+  public func importEntities<T: EntitySyncable>(_ models: [T.ModelType], of type: T.Type) async throws {
+    try await performWrite { storage in
+      for model in models {
+        if let firstObject = storage.firstObject(of: type, matching: model.matchingPredicate()) {
+          firstObject.updateEntityFrom(model, using: storage)
+        } else {
+          let newObject = storage.insertNewObject(ofType: type)
+          newObject.populateEntityFrom(model, using: storage)
+        }
       }
     }
   }

@@ -16,8 +16,24 @@ public final class StorageContainer: SharedContainer {
 }
 
 extension StorageContainer {
-  public var coreDataStore: Factory<CoreDataStore> {
-    self { CoreDataStore() }
+  public var exerciseDataStore: Factory<ExerciseDataStoreProtocol> {
+    self { ExerciseDataStore() }
+  }
+
+  public var exerciseSessionDataStore: Factory<ExerciseSessionDataStoreProtocol> {
+    self { ExerciseSessionDataStore() }
+  }
+
+  public var goalDataStore: Factory<GoalDataStoreProtocol> {
+    self { GoalDataStore() }
+  }
+
+  public var userDataStore: Factory<UserDataStoreProtocol> {
+    self { UserDataStore() }
+  }
+
+  public var workoutDataStore: Factory<WorkoutDataStoreProtocol> {
+    self { WorkoutDataStore() }
   }
 
   public var storageManager: Factory<StorageManagerType> {

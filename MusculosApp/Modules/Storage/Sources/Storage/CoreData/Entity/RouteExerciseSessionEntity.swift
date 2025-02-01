@@ -106,8 +106,8 @@ extension RouteExerciseSessionEntity: EntitySyncable {
     destinationLongitude = model.destinationCoordinate.longitude
     distanceInMeters = model.distance
     duration = model.duration
-    averagePace = model.averagePace as? NSNumber
-    averageSpeed = model.averageSpeed as? NSNumber
+    averagePace = model.averagePace as NSNumber
+    averageSpeed = model.averageSpeed as NSNumber
     caloriesBurned = model.caloriesBurned as? NSNumber
     elevationGain = model.elevationGain as? NSNumber
     originLocationName = model.originLocationName

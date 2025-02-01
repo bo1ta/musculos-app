@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-public class UserProfileFactory: BaseFactory, @unchecked Sendable {
+public final class UserProfileFactory: BaseFactory, @unchecked Sendable {
   public var id: UUID?
   public var avatar: String?
   public var fullName: String?

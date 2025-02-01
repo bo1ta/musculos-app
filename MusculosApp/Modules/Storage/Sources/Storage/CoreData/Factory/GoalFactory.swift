@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-public class GoalFactory: BaseFactory, @unchecked Sendable {
+public final class GoalFactory: BaseFactory, @unchecked Sendable {
   public var id: UUID?
   public var name: String?
   public var category: String?
@@ -21,6 +21,7 @@ public class GoalFactory: BaseFactory, @unchecked Sendable {
   public var updatedAt: Date?
   public var user: UserProfile?
   public var isPersistent = true
+  public var userID: UUID?
 
   public func create() -> Goal {
     let goal = Goal(
@@ -33,15 +34,16 @@ public class GoalFactory: BaseFactory, @unchecked Sendable {
       endDate: endDate ?? faker.date.forward(4),
       isCompleted: isCompleted ?? false,
       dateAdded: dateAdded ?? Date(),
-      userID: user?.id ?? UserProfileFactory.createUser().id,
+      userID: userID ?? user?.id ?? UserProfileFactory.createUser().id,
       updatedAt: updatedAt ?? Date())
     syncObject(goal, of: GoalEntity.self)
     return goal
   }
 
-  public static func createGoal(user: UserProfile? = nil) -> Goal {
+  public static func createGoal(user: UserProfile? = nil, isPersistent: Bool = true) -> Goal {
     let factory = GoalFactory()
     factory.user = user
+    factory.isPersistent = isPersistent
     return factory.create()
   }
 }

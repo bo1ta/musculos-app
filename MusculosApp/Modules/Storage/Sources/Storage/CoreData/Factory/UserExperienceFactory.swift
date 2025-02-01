@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-public class UserExperienceFactory: BaseFactory, @unchecked Sendable {
+public final class UserExperienceFactory: BaseFactory, @unchecked Sendable {
   public var id: UUID?
   public var totalExperience: Int?
   public var experienceEntries: [UserExperienceEntry]?

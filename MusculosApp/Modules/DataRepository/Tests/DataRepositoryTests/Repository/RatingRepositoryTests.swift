@@ -21,8 +21,6 @@ import XCTest
 // MARK: - RatingRepositoryTests
 
 class RatingRepositoryTests: XCTestCase {
-  @Injected(\StorageContainer.coreDataStore) private var coreDataStore
-
   func testGetExerciseRatingsForCurrentUserWhenConnectedToTheInternet() async throws {
     let currentUser = UserProfileFactory.createUser()
     NetworkContainer.shared.userManager.register {
@@ -83,7 +81,7 @@ class RatingRepositoryTests: XCTestCase {
   }
 
   func testGetExericseRatingsForCurrentUserWhenNotConnectedToTheInternet() async throws {
-    throw XCTSkip("Causes other tests to fail. Something with the expectation")
+    throw XCTSkip("Causes other tests to fail. The NetworkMonitor instance is not cleared, no idea why")
 
     let userProfile = UserProfileFactory.createUser()
     let expectation = self.expectation(description: "should call getExercisesRatings")
@@ -104,10 +102,11 @@ class RatingRepositoryTests: XCTestCase {
     }
 
     let exercise = ExerciseFactory.createExercise()
-    let ratingFactory = ExerciseRatingFactory()
-    ratingFactory.userID = userProfile.id
-    ratingFactory.exerciseID = exercise.id
-    let rating = ratingFactory.create()
+
+    let rating = ExerciseRatingFactory.make { factory in
+      factory.userID = userProfile.id
+      factory.exerciseID = exercise.id
+    }
 
     let repository = RatingRepository()
     let ratings = try await repository.getExerciseRatingsForCurrentUser()

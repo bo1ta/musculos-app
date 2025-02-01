@@ -50,6 +50,6 @@ public struct UserRepositoryStub: UserRepositoryProtocol {
   public func updateProfileUsingOnboardingData(_: Models.OnboardingData) async throws { }
 
   public func observeUserChanges(forUserID userID: UUID) -> EntityPublisher<UserProfileEntity> {
-    StorageContainer.shared.coreDataStore().userPublisherForID(userID)
+    UserDataStore().userPublisherForID(userID)
   }
 }

@@ -23,7 +23,7 @@ public protocol WorkoutRepositoryProtocol: Sendable {
 // MARK: - WorkoutRepository
 
 public struct WorkoutRepository: @unchecked Sendable, BaseRepository, WorkoutRepositoryProtocol {
-  @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
+  @Injected(\StorageContainer.workoutDataStore) var dataStore: WorkoutDataStoreProtocol
   @Injected(\NetworkContainer.workoutService) private var service: WorkoutServiceProtocol
   @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
@@ -40,7 +40,7 @@ public struct WorkoutRepository: @unchecked Sendable, BaseRepository, WorkoutRep
   public func getAllWorkoutChallenges() async throws -> [WorkoutChallenge] {
     try await fetch(
       forType: WorkoutChallengeEntity.self,
-      localTask: { await dataStore.getAll(WorkoutChallengeEntity.self) },
+      localTask: { await dataStore.getAllWorkoutChallenges() },
       remoteTask: { try await service.getAllWorkoutChallenges() })
   }
 }

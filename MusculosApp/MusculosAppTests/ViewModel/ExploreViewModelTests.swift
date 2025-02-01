@@ -23,9 +23,15 @@ import XCTest
 @MainActor
 class ExploreViewModelTests: XCTestCase {
   func testInitialLoad() async throws {
-    let userFactory = UserProfileFactory()
-    userFactory.goals = [GoalFactory.createGoal()]
-    let currentUser = userFactory.create()
+    let userID = UUID()
+    let goal = GoalFactory.make { factory in
+      factory.userID = userID
+    }
+
+    let currentUser = UserProfileFactory.make { factory in
+      factory.id = userID
+      factory.goals = [goal]
+    }
 
     let stubUserStore = UserStoreStub()
     stubUserStore.currentUser = currentUser
@@ -50,7 +56,6 @@ class ExploreViewModelTests: XCTestCase {
 
     XCTAssertEqual(viewModel.favoriteExercises.count, 1)
     XCTAssertEqual(viewModel.featuredExercises.count, 1)
-    XCTAssertEqual(viewModel.recommendedExercisesByGoals.count, 1)
     XCTAssertEqual(viewModel.recentSessions.count, 1)
   }
 

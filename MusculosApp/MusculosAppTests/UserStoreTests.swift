@@ -22,8 +22,6 @@ import XCTest
 // MARK: - UserStoreTests
 
 class UserStoreTests: XCTestCase {
-  @Injected(\StorageContainer.coreDataStore) private var coreDataStore
-
   func testLoadCurrentUser() async throws {
     let expectedUser = UserProfileFactory.createUser()
     let repositoryExpectation = self.expectation(description: "should call add exercise")
