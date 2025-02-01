@@ -163,7 +163,7 @@
         <attribute name="targetMuscles" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
         <attribute name="workoutType" attributeType="String"/>
         <relationship name="createdBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfileEntity" inverseName="workouts" inverseEntity="UserProfileEntity"/>
-        <relationship name="workoutExercises" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutExerciseEntity"/>
+        <relationship name="workoutExercises" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutExerciseEntity" inverseName="workout" inverseEntity="WorkoutExerciseEntity"/>
     </entity>
     <entity name="WorkoutExerciseEntity" representedClassName="WorkoutExerciseEntity" syncable="YES">
         <attribute name="isCompleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -174,5 +174,6 @@
         <attribute name="uniqueID" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="dailyWorkout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DailyWorkoutEntity" inverseName="workoutExercises" inverseEntity="DailyWorkoutEntity"/>
         <relationship name="exercise" maxCount="1" deletionRule="Nullify" destinationEntity="ExerciseEntity" inverseName="workoutExercises" inverseEntity="ExerciseEntity"/>
+        <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutEntity" inverseName="workoutExercises" inverseEntity="WorkoutEntity"/>
     </entity>
 </model>

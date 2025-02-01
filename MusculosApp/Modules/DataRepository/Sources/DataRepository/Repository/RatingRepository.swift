@@ -30,17 +30,11 @@ public struct RatingRepository: @unchecked Sendable, BaseRepository, RatingRepos
   @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
   public func getExerciseRatingsForCurrentUser() async throws -> [ExerciseRating] {
-    guard let currentUserID else {
-      throw MusculosError.unexpectedNil
-    }
-
-    guard isConnectedToInternet else {
-      return await userDataStore.userProfileByID(currentUserID)?.ratings ?? []
-    }
-
-    return try await fetchAndSync(
-      remoteTask: { try await service.getExerciseRatingsForCurrentUser() },
-      syncType: ExerciseRatingEntity.self)
+    let userID = try requireCurrentUser()
+    return try await fetch(
+      forType: ExerciseRatingEntity.self,
+      localTask: { await userDataStore.userProfileByID(userID)?.ratings ?? [] },
+      remoteTask: { try await service.getExerciseRatingsForCurrentUser() })
   }
 
   public func getUserRatingForExercise(_ exerciseID: UUID) async throws -> Double {
@@ -49,20 +43,18 @@ public struct RatingRepository: @unchecked Sendable, BaseRepository, RatingRepos
   }
 
   public func getRatingsForExercise(_ exerciseID: UUID) async throws -> [ExerciseRating] {
-    guard isConnectedToInternet else {
-      return await exerciseDataStore.exerciseByID(exerciseID)?.ratings ?? []
-    }
-    return try await fetchAndSync(
-      remoteTask: { try await service.getRatingsByExerciseID(exerciseID) },
-      syncType: ExerciseRatingEntity.self)
+    try await fetch(
+      forType: ExerciseRatingEntity.self,
+      localTask: { await exerciseDataStore.exerciseByID(exerciseID)?.ratings ?? [] },
+      remoteTask: { try await service.getRatingsByExerciseID(exerciseID) })
   }
 
   public func addRating(rating: Double, for exerciseID: UUID) async throws {
-    guard let currentUserID else {
-      throw MusculosError.unexpectedNil
-    }
-    let exerciseRating = ExerciseRating(exerciseID: exerciseID, userID: currentUserID, isPublic: true, rating: rating)
-    try await service.addExerciseRating(exerciseRating)
-    syncStorage(exerciseRating, ofType: ExerciseRatingEntity.self)
+    let userID = try requireCurrentUser()
+    let exerciseRating = ExerciseRating(exerciseID: exerciseID, userID: userID, isPublic: true, rating: rating)
+
+    try await update(
+      localTask: { try await exerciseDataStore.addRating(exerciseRating) },
+      remoteTask: { try await service.addExerciseRating(exerciseRating) })
   }
 }

@@ -79,10 +79,8 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
   }
 
   public func updateGoalProgress(exerciseSession: ExerciseSession) async throws {
-    guard let currentUserID else {
-      throw MusculosError.unexpectedNil
-    }
-    try await dataStore.updateGoalProgress(userID: currentUserID, exerciseSession: exerciseSession)
+    let userID = try requireCurrentUser()
+    try await dataStore.updateGoalProgress(userID: userID, exerciseSession: exerciseSession)
   }
 
   public func goalsPublisher() -> FetchedResultsPublisher<GoalEntity> {

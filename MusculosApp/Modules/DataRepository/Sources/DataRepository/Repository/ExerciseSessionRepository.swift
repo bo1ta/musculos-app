@@ -29,26 +29,20 @@ public struct ExerciseSessionRepository: @unchecked Sendable, BaseRepository, Ex
   @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
   public func getExerciseSessions() async throws -> [ExerciseSession] {
-    guard let currentUserID else {
-      throw MusculosError.unexpectedNil
-    }
+    let userID = try requireCurrentUser()
     return try await fetch(
       forType: ExerciseSessionEntity.self,
-      localTask: { await dataStore.exerciseSessionsForUser(currentUserID) },
+      localTask: { await dataStore.exerciseSessionsForUser(userID) },
       remoteTask: { try await service.getAll() })
   }
 
   public func getCompletedSinceLastWeek() async throws -> [ExerciseSession] {
-    guard let userID = currentUserID else {
-      throw MusculosError.unexpectedNil
-    }
+    let userID = try requireCurrentUser()
     return await dataStore.exerciseSessionsCompletedSinceLastWeek(for: userID)
   }
 
   public func getCompletedToday() async throws -> [ExerciseSession] {
-    guard let userID = currentUserID else {
-      throw MusculosError.unexpectedNil
-    }
+    let userID = try requireCurrentUser()
     return await dataStore.exerciseSessionCompletedToday(for: userID)
   }
 

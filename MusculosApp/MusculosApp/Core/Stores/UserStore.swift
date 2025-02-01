@@ -125,7 +125,7 @@ extension UserStore {
       return
     }
 
-    let userEntityListener = repository.observeUserChanges(forUserID: userID)
+    let userEntityListener = repository.entityPublisherForUserID(userID)
     userListenerCancellable = userEntityListener.publisher
       .sink { [weak self] currentUser in
         self?.currentUser = currentUser

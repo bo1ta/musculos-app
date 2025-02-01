@@ -118,7 +118,7 @@ extension UserStoreTests {
       expectedUserProfile
     }
 
-    func observeUserChanges(forUserID userID: UUID) -> EntityPublisher<UserProfileEntity> {
+    func entityPublisherForUserID(_ userID: UUID) -> EntityPublisher<UserProfileEntity> {
       expectedUserListener ?? EntityPublisher(
         storage: StorageContainer.shared.storageManager().viewStorage,
         predicate: NSPredicate(format: "%K == %@", #keyPath(UserProfileEntity.uniqueID), userID as NSUUID))

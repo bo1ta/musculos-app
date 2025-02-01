@@ -49,7 +49,7 @@ public struct UserRepositoryStub: UserRepositoryProtocol {
 
   public func updateProfileUsingOnboardingData(_: Models.OnboardingData) async throws { }
 
-  public func observeUserChanges(forUserID userID: UUID) -> EntityPublisher<UserProfileEntity> {
+  public func entityPublisherForUserID(_ userID: UUID) -> EntityPublisher<UserProfileEntity> {
     UserDataStore().userPublisherForID(userID)
   }
 }
