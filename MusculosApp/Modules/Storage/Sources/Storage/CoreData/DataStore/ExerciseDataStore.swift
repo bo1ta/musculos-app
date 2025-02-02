@@ -20,7 +20,7 @@ public protocol ExerciseDataStoreProtocol: Sendable {
   func getExercises() async -> [Exercise]
   func exerciseByID(_ exerciseID: UUID) async -> Exercise?
   func exerciseRecommendationsByHistory(for _: UUID) async -> [Exercise]
-  func favoriteExercises(for _: UUID) async -> [Exercise]
+  func favoriteExercises() async -> [Exercise]
   func exercisesByQuery(_ nameQuery: String) async -> [Exercise]
   func exercisesForMuscles(_ muscles: [MuscleType]) async -> [Exercise]
   func exercisesForGoal(_ goal: Goal) async -> [Exercise]
@@ -70,7 +70,7 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol, @unchecked Sendable 
     }
   }
 
-  public func favoriteExercises(for _: UUID) async -> [Exercise] {
+  public func favoriteExercises() async -> [Exercise] {
     let predicate: NSPredicate = \ExerciseEntity.isFavorite == true
     return await storageManager.getAllEntities(ExerciseEntity.self, predicate: predicate)
   }
@@ -160,8 +160,11 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol, @unchecked Sendable 
 
   public func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws {
     try await storageManager.performWrite { storage in
-      let predicate: NSPredicate = \ExerciseEntity.uniqueID == exercise.id
-      guard let exercise = storage.firstObject(of: ExerciseEntity.self, matching: predicate) else {
+      guard
+        let exercise = storage.firstObject(
+          of: ExerciseEntity.self,
+          matching: \ExerciseEntity.uniqueID == exercise.id)
+      else {
         throw MusculosError.unexpectedNil
       }
 

@@ -19,6 +19,7 @@ public protocol GoalDataStoreProtocol: Sendable {
   func goalByID(_ goalID: UUID) async -> Goal?
   func insertProgressEntry(_ progressEntry: ProgressEntry, for goalID: UUID) async throws
   func goalsPublisherForUserID(_ userID: UUID) -> FetchedResultsPublisher<GoalEntity>
+  func progressEntriesForGoalID(_ goalID: UUID) async -> [ProgressEntry]
 }
 
 // MARK: - GoalDataStore
@@ -83,5 +84,11 @@ public struct GoalDataStore: GoalDataStoreProtocol, @unchecked Sendable {
     let predicate: NSPredicate = \GoalEntity.userID == userID
     let sortDescriptor = NSSortDescriptor(keyPath: \GoalEntity.dateAdded, ascending: false)
     return storageManager.createFetchedResultsPublisher(matching: predicate, sortDescriptors: [sortDescriptor], fetchLimit: nil)
+  }
+
+  public func progressEntriesForGoalID(_ goalID: UUID) async -> [ProgressEntry] {
+    await storageManager.getAllEntities(ProgressEntryEntity.self, predicate: nil)
+      .compactMap { $0 }
+      .filter { $0.goal.id == goalID }
   }
 }

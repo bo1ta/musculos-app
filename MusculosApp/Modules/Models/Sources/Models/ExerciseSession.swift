@@ -44,6 +44,18 @@ public struct ExerciseSession: Codable, Sendable {
   }
 }
 
+// MARK: Hashable
+
+extension ExerciseSession: Hashable {
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+  }
+
+  public static func ==(_ lhs: ExerciseSession, rhs: ExerciseSession) -> Bool {
+    lhs.id == rhs.id
+  }
+}
+
 // MARK: DecodableModel
 
 extension ExerciseSession: DecodableModel { }

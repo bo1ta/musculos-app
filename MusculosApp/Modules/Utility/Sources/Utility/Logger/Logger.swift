@@ -17,6 +17,8 @@ public struct ConsoleLogger: Loggable, @unchecked Sendable {
 
   private let console: ConsoleDestination
 
+  private var isRunningTest: Bool = NSClassFromString("XCTest") != nil
+
   public init() {
     console = ConsoleDestination()
     console.logPrintWay = .logger(subsystem: "MusculosApp", category: "UI")
@@ -29,6 +31,9 @@ public struct ConsoleLogger: Loggable, @unchecked Sendable {
     function: String = #function,
     line: Int = #line)
   {
+    guard !isRunningTest else {
+      return
+    }
     console.send(
       .info,
       msg: message,

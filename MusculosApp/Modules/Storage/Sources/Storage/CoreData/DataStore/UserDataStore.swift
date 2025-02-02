@@ -19,8 +19,8 @@ public protocol UserDataStoreProtocol: Sendable {
   func userProfileByEmail(_ email: String) async -> UserProfile?
   func updateProfile(
     userId: UUID,
-    weight: Int?,
-    height: Int?,
+    weight: Double?,
+    height: Double?,
     primaryGoalID: UUID?,
     level: String?,
     isOnboarded: Bool) async throws
@@ -48,10 +48,10 @@ public struct UserDataStore: UserDataStoreProtocol, @unchecked Sendable {
 
   public func updateProfile(
     userId: UUID,
-    weight: Int?,
-    height: Int?,
-    primaryGoalID: UUID?,
-    level: String?,
+    weight: Double? = nil,
+    height: Double? = nil,
+    primaryGoalID: UUID? = nil,
+    level: String? = nil,
     isOnboarded: Bool = false)
     async throws
   {

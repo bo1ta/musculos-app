@@ -157,6 +157,8 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
   }
 
   func deleteAllStoredObjects() {
+    NotificationCenter.default.post(name: .willResetCoreData, object: nil)
+
     let viewContext = persistentContainer.viewContext
 
     for entity in persistentContainer.persistentStoreCoordinator.managedObjectModel.entities {

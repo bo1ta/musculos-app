@@ -9,4 +9,5 @@ import Foundation
 
 extension NSNotification.Name {
   public static let authTokenDidFail = NSNotification.Name("authTokenDidFail")
+  public static let willResetCoreData = NSNotification.Name("willResetCoreData")
 }
