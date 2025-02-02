@@ -19,11 +19,6 @@ This repository contains the iOS frontend of the app, while the backend, built w
   - Models - Core data models used in the app
 
 
-Backend Integration
-
-The backend for Musculos is powered by Vapor, a lightweight and performant Swift server-side framework. See more about the backend [here](https://github.com/bo1ta/musculos-api)
-
-
 ##
 ##
 
