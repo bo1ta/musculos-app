@@ -1,78 +1,21 @@
 //
-//  BaseRepository.swift
+//  BaseRepository+Operations.swift
 //  DataRepository
 //
-//  Created by Solomon Alexandru on 17.10.2024.
+//  Created by Solomon Alexandru on 02.02.2025.
 //
 
 import Factory
-import Foundation
-import NetworkClient
 import Storage
-import Utility
-
-// MARK: - BaseRepository
-
-/// Protocol defining the base requirements for a repository
-///
-protocol BaseRepository: Sendable {
-
-  /// The sync manager responsible for handling data synchronization between local and remote storage
-  ///
-  var syncManager: SyncManagerProtocol { get }
-
-  /// The network monitor responsible for tracking the device's internet connectivity status
-  ///
-  var networkMonitor: NetworkMonitorProtocol { get }
-
-  /// The user sesion manager responsible for managing the current user's session and ID
-  ///
-  var userManager: UserSessionManagerProtocol { get }
-}
-
-// MARK: - Default Dependencies
-
-extension BaseRepository {
-
-  /// The container shared instance of `NetworkMonitor`
-  ///
-  var networkMonitor: NetworkMonitorProtocol {
-    NetworkContainer.shared.networkMonitor()
-  }
-
-  /// The container shared instance of the `UserManager`
-  ///
-  var userManager: UserSessionManagerProtocol {
-    NetworkContainer.shared.userManager()
-  }
-
-  /// The current user ID, if exists
-  ///
-  var currentUserID: UUID? {
-    userManager.currentUserID
-  }
-
-  /// Ensures that a current user ID is available and returns it.
-  /// - Throws: `MusculosError.unexpectedNil` if no user ID is found
-  /// - Returns: The current user's ID
-  ///
-  func requireCurrentUser() throws -> UUID {
-    guard let userID = currentUserID else {
-      throw MusculosError.unexpectedNil
-    }
-    return userID
-  }
-
-  /// Indicates whether the device is currently connected to the internet
-  ///
-  var isConnectedToInternet: Bool {
-    networkMonitor.isConnected
-  }
-}
 
 // MARK: Repository Operations
 
 extension BaseRepository {
+  /// Determines whether local storage should be used for a given entity type
+  ///
+  private func shouldUseLocalStorage(forType type: (some EntitySyncable).Type) -> Bool {
+    syncManager.shouldUseLocalStorage(for: type) || !networkMonitor.isConnected
+  }
 
   /// Fetches data of a specific type, first attempting to retrieve it from local storage,
   /// and falling back to remote storage if necessary.
@@ -121,12 +64,6 @@ extension BaseRepository {
     let remoteResult = try await remoteTask()
     syncManager.syncStorage(remoteResult, ofType: type)
     return remoteResult
-  }
-
-  /// Determines whether local storage should be used for a given entity type
-  ///
-  private func shouldUseLocalStorage(forType type: (some EntitySyncable).Type) -> Bool {
-    syncManager.shouldUseLocalStorage(for: type) || !networkMonitor.isConnected
   }
 
   /// Creates an `AsyncStream` that yields results from both local and remote fetches, in order
