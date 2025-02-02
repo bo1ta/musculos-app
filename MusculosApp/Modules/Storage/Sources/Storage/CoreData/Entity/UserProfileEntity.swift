@@ -29,7 +29,7 @@ public class UserProfileEntity: NSManagedObject {
   @NSManaged public var username: String
   @NSManaged public var weight: NSNumber?
   @NSManaged public var isOnboarded: Bool
-  @NSManaged public var xp: NSNumber // swiftlint:disable:this identifier_name
+  @NSManaged public var totalExperience: NSNumber
   @NSManaged public var goals: Set<GoalEntity>
   @NSManaged public var exerciseSessions: Set<ExerciseSessionEntity>
   @NSManaged public var ratings: Set<ExerciseRatingEntity>
@@ -117,9 +117,10 @@ extension UserProfileEntity: ReadOnlyConvertible {
       availableEquipment: availableEquipment,
       primaryGoalID: primaryGoalID,
       isOnboarded: isOnboarded,
-      xp: xp.intValue,
+      totalExperience: totalExperience.intValue,
       goals: goals.map { $0.toReadOnly() },
-      ratings: ratings.map { $0.toReadOnly() })
+      ratings: ratings.map { $0.toReadOnly() },
+      userExperience: userExperience?.toReadOnly())
   }
 }
 
@@ -152,7 +153,7 @@ extension UserProfileEntity: EntitySyncable {
     level = model.level
     username = model.username
     isOnboarded = model.isOnboarded
-    xp = (model.xp ?? 0) as NSNumber
+    totalExperience = (model.totalExperience ?? 0) as NSNumber
     ratings = Set<ExerciseRatingEntity>()
 
     if let weight = model.weight {
@@ -195,9 +196,8 @@ extension UserProfileEntity: EntitySyncable {
       self.primaryGoalID = primaryGoalID
     }
 
-    // swiftlint:disable:next identifier_name
-    if let xp = model.xp, xp > self.xp.intValue {
-      self.xp = xp as NSNumber
+    if let totalExperience = model.totalExperience, totalExperience > self.totalExperience.intValue {
+      self.totalExperience = totalExperience as NSNumber
     }
 
     synchronized = SynchronizationState.synchronized.asNSNumber()

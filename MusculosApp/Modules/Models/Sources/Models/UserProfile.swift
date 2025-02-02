@@ -23,7 +23,7 @@ public struct UserProfile: Codable, Sendable, Identifiable {
   public let availableEquipment: [String]?
   public let primaryGoalID: UUID?
   public var isOnboarded: Bool
-  public var xp: Int? = 0 // swiftlint:disable:this identifier_name
+  public var totalExperience: Int?
   public var goals: [Goal]?
   public var ratings: [ExerciseRating]?
   public var userExperience: UserExperience?
@@ -41,7 +41,7 @@ public struct UserProfile: Codable, Sendable, Identifiable {
     availableEquipment: [String]? = nil,
     primaryGoalID: UUID? = nil,
     isOnboarded: Bool = false,
-    xp: Int? = 0, // swiftlint:disable:this identifier_name
+    totalExperience: Int? = 0,
     goals: [Goal]? = nil,
     ratings: [ExerciseRating]? = nil,
     userExperience: UserExperience? = nil)
@@ -58,7 +58,7 @@ public struct UserProfile: Codable, Sendable, Identifiable {
     self.availableEquipment = availableEquipment
     self.primaryGoalID = primaryGoalID
     self.isOnboarded = isOnboarded
-    self.xp = xp
+    self.totalExperience = totalExperience
     self.goals = goals
     self.ratings = ratings
     self.userExperience = userExperience
@@ -77,7 +77,7 @@ public struct UserProfile: Codable, Sendable, Identifiable {
     case availableEquipment = "equipment"
     case primaryGoalID
     case isOnboarded
-    case xp // swiftlint:disable:this identifier_name
+    case totalExperience
     case goals
   }
 
@@ -86,6 +86,18 @@ public struct UserProfile: Codable, Sendable, Identifiable {
       return nil
     }
     return URL(string: avatar)
+  }
+
+  public var currentLevel: Int {
+    LevelCalculator.calculateLevel(totalExperience ?? 0)
+  }
+
+  public var currentLevelXPRange: (min: Int, max: Int) {
+    LevelCalculator.xpRangeForLevel(currentLevel)
+  }
+
+  public var remainingXPToNextLevel: Int {
+    LevelCalculator.remainingXPToNextLevel(totalXP: totalExperience ?? 0)
   }
 }
 

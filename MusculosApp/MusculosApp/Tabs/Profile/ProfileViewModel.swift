@@ -29,6 +29,9 @@ final class ProfileViewModel: BaseViewModel {
   @ObservationIgnored
   @LazyInjected(\DataRepositoryContainer.exerciseSessionRepository) private var sessionRepository
 
+  @ObservationIgnored
+  @LazyInjected(\.userStore) private var userStore: UserStoreProtocol
+
   // MARK: Public
 
   private(set) var favoriteExercises: [Exercise] = []
