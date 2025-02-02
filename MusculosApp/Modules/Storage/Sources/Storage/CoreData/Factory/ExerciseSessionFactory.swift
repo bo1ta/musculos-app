@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-public class ExerciseSessionFactory: BaseFactory, @unchecked Sendable {
+public final class ExerciseSessionFactory: BaseFactory, @unchecked Sendable {
   public var dateAdded: Date?
   public var sessionId: UUID?
   public var user: UserProfile?
@@ -16,8 +16,6 @@ public class ExerciseSessionFactory: BaseFactory, @unchecked Sendable {
   public var duration: Double?
   public var weight: Double?
   public var isPersistent = true
-
-  public init() { }
 
   public func create() -> ExerciseSession {
     let model = ExerciseSession(

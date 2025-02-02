@@ -11,10 +11,6 @@ import Storage
 import Utility
 
 public struct ExerciseRepositoryStub: ExerciseRepositoryProtocol {
-  public func entityPublisherForID(_ exerciseID: UUID) -> Storage.EntityPublisher<Storage.ExerciseEntity> {
-    StorageContainer.shared.coreDataStore().exercisePublisherForID(exerciseID)
-  }
-
   var expectedExercises: [Exercise]
 
   public init(expectedExercises: [Exercise] = []) {
@@ -81,5 +77,13 @@ public struct ExerciseRepositoryStub: ExerciseRepositoryProtocol {
 
   public func getExercisesForGoal(_: Goal) async -> [Exercise] {
     expectedExercises
+  }
+
+  public func getRecommendationsForLeastWorkedMuscles() async throws -> [Models.Exercise] {
+    expectedExercises
+  }
+
+  public func entityPublisherForID(_ exerciseID: UUID) -> Storage.EntityPublisher<Storage.ExerciseEntity> {
+    ExerciseDataStore().exercisePublisherForID(exerciseID)
   }
 }

@@ -58,6 +58,7 @@ extension GoalEntity: ReadOnlyConvertible {
     }
 
     return Goal(
+      id: uniqueID,
       name: name,
       category: category,
       frequency: goalFrequency,
@@ -65,7 +66,8 @@ extension GoalEntity: ReadOnlyConvertible {
       targetValue: targetValue?.intValue ?? 0,
       endDate: endDate,
       isCompleted: isCompleted,
-      dateAdded: dateAdded)
+      dateAdded: dateAdded,
+      userID: userID)
   }
 }
 
@@ -82,7 +84,6 @@ extension GoalEntity: EntitySyncable {
     name = model.name
     targetValue = model.targetValue as NSNumber
     updatedAt = model.updatedAt
-    userID = model.userID ?? UUID()
 
     if let userID = model.userID {
       self.userID = userID

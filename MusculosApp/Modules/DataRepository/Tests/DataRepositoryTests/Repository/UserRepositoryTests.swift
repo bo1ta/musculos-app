@@ -21,8 +21,6 @@ import XCTest
 // MARK: - UserRepositoryTests
 
 class UserRepositoryTests: XCTestCase {
-  @Injected(\StorageContainer.coreDataStore) private var coreDataStore
-
   func testRegister() async throws {
     let expectation = self.expectation(description: "should call register")
     let expectedUserSession = mockUserSession

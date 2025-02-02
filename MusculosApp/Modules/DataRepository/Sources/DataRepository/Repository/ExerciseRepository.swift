@@ -25,6 +25,7 @@ public protocol ExerciseRepositoryProtocol: Sendable {
   func getExercisesForMuscleTypes(_ muscleTypes: [MuscleType]) async -> [Exercise]
   func getRecommendedExercisesByMuscleGroups() async throws -> [Exercise]
   func getRecommendedExercisesByGoals() async -> [Exercise]
+  func getRecommendationsForLeastWorkedMuscles() async throws -> [Exercise]
   func getExercisesForGoal(_ goal: Goal) async -> [Exercise]
   func searchByQuery(_ query: String) async throws -> [Exercise]
   func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise]
@@ -36,56 +37,51 @@ public protocol ExerciseRepositoryProtocol: Sendable {
 
 public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseRepositoryProtocol {
   @Injected(\NetworkContainer.exerciseService) private var service: ExerciseServiceProtocol
-  @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
+  @Injected(\StorageContainer.exerciseDataStore) var dataStore: ExerciseDataStoreProtocol
+  @Injected(\StorageContainer.exerciseSessionDataStore) var sessionsDataStore: ExerciseSessionDataStoreProtocol
+  @Injected(\StorageContainer.goalDataStore) var goalDataStore: GoalDataStoreProtocol
   @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
   public init() { }
 
   public func addExercise(_ exercise: Exercise) async throws {
-    try await update(
-      localTask: { try await dataStore.importModel(exercise, of: ExerciseEntity.self) },
-      remoteTask: { try await service.addExercise(exercise) })
+    try await storageManager.importEntity(exercise, of: ExerciseEntity.self)
+    backgroundWorker.queueOperation {
+      try await service.addExercise(exercise)
+    }
   }
 
   public func getExercises() async throws -> [Exercise] {
     try await fetch(
       forType: ExerciseEntity.self,
-      localTask: { await dataStore.getAll(ExerciseEntity.self, fetchLimit: 40) },
+      localTask: { await dataStore.getExercises(fetchLimit: 40) },
       remoteTask: { try await service.getExercises() })
   }
 
   public func getExerciseDetails(for exerciseID: UUID) async throws -> Exercise {
-    guard
-      let exercise = try await fetch(
-        forType: ExerciseEntity.self,
-        localTask: { await dataStore.exerciseByID(exerciseID) },
-        remoteTask: { try await service.getExerciseDetails(for: exerciseID) })
-    else {
-      throw MusculosError.unexpectedNil
-    }
-    return exercise
+    try await fetch(
+      forType: ExerciseEntity.self,
+      localTask: { await dataStore.exerciseByID(exerciseID) },
+      remoteTask: { try await service.getExerciseDetails(for: exerciseID) })
   }
 
   public func getExercisesCompletedSinceLastWeek() async throws -> [Exercise] {
-    guard let currentUserID else {
-      throw MusculosError.unexpectedNil
-    }
-    return await dataStore.exerciseSessionsCompletedSinceLastWeek(for: currentUserID).map { $0.exercise }
+    let userID = try requireCurrentUser()
+    return await sessionsDataStore.exerciseSessionsCompletedSinceLastWeek(for: userID)
+      .map { $0.exercise }
   }
 
   public func getExercisesStream() async -> AsyncStream<Result<[Exercise], Error>> {
     makeAsyncStream(
-      localFetch: { await dataStore.getAll(ExerciseEntity.self) },
+      localFetch: { await dataStore.getExercises() },
       remoteFetch: { try await service.getExercises() })
   }
 
   public func getFavoriteExercises() async throws -> [Exercise] {
-    guard let currentUserID else {
-      throw MusculosError.unexpectedNil
-    }
+    let userID = try requireCurrentUser()
     return try await fetch(
       forType: ExerciseEntity.self,
-      localTask: { await dataStore.favoriteExercises(for: currentUserID) },
+      localTask: { await dataStore.favoriteExercises() },
       remoteTask: { try await service.getFavoriteExercises() })
   }
 
@@ -107,11 +103,9 @@ public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseR
   }
 
   public func getRecommendedExercisesByMuscleGroups() async throws -> [Exercise] {
-    guard let currentUserID else {
-      throw MusculosError.unexpectedNil
-    }
+    let userID = try requireCurrentUser()
 
-    let exerciseSessions = await dataStore.exerciseSessionsForUser(currentUserID)
+    let exerciseSessions = await sessionsDataStore.exerciseSessionsForUser(userID)
     guard !exerciseSessions.isEmpty else {
       return []
     }
@@ -121,12 +115,22 @@ public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseR
   }
 
   public func getRecommendedExercisesByGoals() async -> [Exercise] {
-    let goals = await dataStore.getAll(GoalEntity.self)
+    guard let currentUserID else {
+      return []
+    }
+
+    let goals = await goalDataStore.getGoalsForUserID(currentUserID)
     guard !goals.isEmpty else {
       return []
     }
 
     return await dataStore.exercisesForGoals(goals, fetchLimit: 20)
+  }
+
+  public func getRecommendationsForLeastWorkedMuscles() async throws -> [Exercise] {
+    let userID = try requireCurrentUser()
+    return await sessionsDataStore.exerciseSessionsCompletedSinceLastWeek(for: userID)
+      .map { $0.exercise }
   }
 
   public func getExercisesForGoal(_ goal: Goal) async -> [Exercise] {

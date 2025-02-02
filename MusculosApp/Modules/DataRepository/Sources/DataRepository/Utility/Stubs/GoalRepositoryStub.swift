@@ -13,6 +13,7 @@ import Utility
 public struct GoalRepositoryStub: GoalRepositoryProtocol {
   var expectedOnboardingGoals: [OnboardingGoal] = []
   var expectedGoals: [Goal] = []
+  var expectedUserID: UUID?
 
   public init(expectedOnboardingGoals: [OnboardingGoal] = [], expectedGoals: [Goal] = []) {
     self.expectedOnboardingGoals = expectedOnboardingGoals
@@ -43,6 +44,6 @@ public struct GoalRepositoryStub: GoalRepositoryProtocol {
   public func updateGoalProgress(exerciseSession _: ExerciseSession) async throws { }
 
   public func goalsPublisher() -> FetchedResultsPublisher<GoalEntity> {
-    StorageContainer.shared.coreDataStore().goalsPublisher()
+    GoalDataStore().goalsPublisherForUserID(expectedUserID ?? UUID())
   }
 }

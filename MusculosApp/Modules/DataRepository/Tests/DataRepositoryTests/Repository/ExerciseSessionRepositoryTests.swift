@@ -19,7 +19,8 @@ import XCTest
 // MARK: - ExerciseSessionRepositoryTests
 
 class ExerciseSessionRepositoryTests: XCTestCase {
-  @Injected(\StorageContainer.coreDataStore) private var coreDataStore
+  @Injected(\StorageContainer.exerciseSessionDataStore) private var dataStore
+  @Injected(\StorageContainer.userDataStore) private var userDataStore
 
   override class func tearDown() {
     NetworkContainer.shared.userManager.reset()
@@ -42,26 +43,27 @@ class ExerciseSessionRepositoryTests: XCTestCase {
 
     let firstResult = try #require(results.first)
     // data store is synced
-    let localExerciseSession = await coreDataStore.exerciseSessionByID(firstResult.id)
+    let localExerciseSession = await dataStore.exerciseSessionByID(firstResult.id)
     XCTAssertEqual(firstResult.exercise, localExerciseSession?.exercise)
   }
 
   func testGetRecommendationsForLeastWorkedMuscles() async throws {
     setupCurrentUser()
 
-    let exerciseFactory = ExerciseFactory()
-    exerciseFactory.primaryMuscles = [MuscleType.chest.rawValue]
-    let _ = exerciseFactory.create()
+    let _ = ExerciseFactory.make { factory in
+      factory.primaryMuscles = [MuscleType.chest.rawValue]
+    }
 
-    exerciseFactory.primaryMuscles = [MuscleType.triceps.rawValue]
-    let completedExercise = exerciseFactory.create()
+    let completedExercise = ExerciseFactory.make { factory in
+      factory.primaryMuscles = [MuscleType.triceps.rawValue]
+    }
 
-    let exerciseSessionFactory = ExerciseSessionFactory()
-    exerciseSessionFactory.exercise = completedExercise
-    _ = exerciseSessionFactory.create()
+    let _ = ExerciseSessionFactory.make { factory in
+      factory.exercise = completedExercise
+    }
 
     // shouldn't return any "triceps" exercise
-    let results = try await ExerciseSessionRepository().getRecommendationsForLeastWorkedMuscles()
+    let results = try await ExerciseRepository().getRecommendationsForLeastWorkedMuscles()
     let count = results.filter { $0.primaryMuscles.contains(MuscleType.triceps.rawValue) }.count
     XCTAssertEqual(count, 0)
   }
@@ -87,7 +89,7 @@ class ExerciseSessionRepositoryTests: XCTestCase {
     let result = try await repository.addSession(exerciseSession)
     await repository.backgroundWorker.waitForAll()
 
-    let localResult = await coreDataStore.userExperienceEntryByID(userExperienceEntry.id)
+    let localResult = await userDataStore.userExperienceEntryByID(userExperienceEntry.id)
     XCTAssertEqual(result.xpGained, localResult?.xpGained)
     await fulfillment(of: [expectation], timeout: 1)
   }

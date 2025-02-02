@@ -28,7 +28,7 @@ public class FetchedResultsPublisher<T: EntityType>: NSObject, NSFetchedResultsC
 
   public var predicate: NSPredicate? {
     didSet {
-      if let predicate {
+      if let predicate, fetchedResultsController.delegate != nil {
         fetchedResultsController.fetchRequest.predicate = predicate
         performFetch()
       }
@@ -67,7 +67,29 @@ public class FetchedResultsPublisher<T: EntityType>: NSObject, NSFetchedResultsC
 
     super.init()
 
+    setupObserver()
+
     fetchedResultsController.delegate = self
+    performFetch()
+  }
+
+  deinit {
+    NotificationCenter.default.removeObserver(self)
+  }
+
+  private func setupObserver() {
+    // Hack: Workaround for FRC throwing an exception when linked to a context backed by in-memory store
+    // More info: https://stackoverflow.com/q/49052482/1161723
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(didReceiveCoreDataWillResetNotification),
+      name: .willResetCoreData,
+      object: nil)
+  }
+
+  @objc
+  private func didReceiveCoreDataWillResetNotification() {
+    fetchedResultsController.delegate = nil
   }
 
   public func performFetch() {
@@ -89,10 +111,6 @@ public class FetchedResultsPublisher<T: EntityType>: NSObject, NSFetchedResultsC
   }
 
   // MARK: NSFetchedResultsControllerDelegate methods
-
-  public func controllerDidChangeContent(_: NSFetchedResultsController<any NSFetchRequestResult>) {
-    sendFetchedObjects(fetchedResultsController.fetchedObjects)
-  }
 
   public func controller(
     _: NSFetchedResultsController<any NSFetchRequestResult>,

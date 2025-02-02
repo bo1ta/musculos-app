@@ -27,7 +27,7 @@ final class ExerciseDetailsViewModel: BaseViewModel {
   @Injected(\DataRepositoryContainer.ratingRepository) private var ratingRepository: RatingRepositoryProtocol
 
   private let exerciseSessionHandler: ExerciseSessionHandler
-  private let entityPublisher: EntityPublisher<ExerciseEntity>
+  private var entityPublisher: EntityPublisher<ExerciseEntity>?
 
   // MARK: Properties
 
@@ -69,14 +69,13 @@ final class ExerciseDetailsViewModel: BaseViewModel {
   init(exercise: Exercise) {
     self.exercise = exercise
     self.exerciseSessionHandler = ExerciseSessionHandler(exercise: exercise)
-    self.entityPublisher = StorageContainer.shared.coreDataStore().exercisePublisherForID(exercise.id)
 
     setupPublishers()
   }
 
   private func setupPublishers() {
-    entityPublisher
-      .publisher
+    entityPublisher = exerciseRepository.entityPublisherForID(exercise.id)
+    entityPublisher?.publisher
       .sink { [weak self] exercise in
         self?.exercise = exercise
       }
@@ -193,5 +192,6 @@ final class ExerciseDetailsViewModel: BaseViewModel {
 
   func cancelAllTasks() {
     markFavoriteTask?.cancel()
+    entityPublisher = nil
   }
 }

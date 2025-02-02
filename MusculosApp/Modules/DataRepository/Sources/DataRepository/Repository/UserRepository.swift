@@ -21,7 +21,7 @@ public protocol UserRepositoryProtocol: Sendable {
   func getCurrentUser() async throws -> UserProfile?
   func getUserByID(_ userID: UUID) async -> UserProfile?
   func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws
-  func observeUserChanges(forUserID userID: UUID) -> EntityPublisher<UserProfileEntity>
+  func entityPublisherForUserID(_ userID: UUID) -> EntityPublisher<UserProfileEntity>
 }
 
 // MARK: - UserRepository
@@ -29,14 +29,14 @@ public protocol UserRepositoryProtocol: Sendable {
 public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositoryProtocol {
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
   @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
-  @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
+  @Injected(\StorageContainer.userDataStore) var dataStore: UserDataStoreProtocol
   @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
   public func register(email: String, password: String, username: String) async throws -> UserSession {
     let session = try await service.register(email: email, password: password, username: username)
 
     let userProfile = UserProfile(id: session.user.id, email: email, username: username)
-    try await dataStore.importModel(userProfile, of: UserProfileEntity.self)
+    try await storageManager.importEntity(userProfile, of: UserProfileEntity.self)
 
     return session
   }
@@ -46,19 +46,11 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
   }
 
   public func getCurrentUser() async throws -> UserProfile? {
-    guard let currentUserID else {
-      throw MusculosError.unexpectedNil
-    }
-
-    let backgroundTask = backgroundWorker.queueOperation(priority: .high) {
-      try await syncCurrentUser()
-    }
-
-    if let profile = await dataStore.userProfileByID(currentUserID) {
-      return profile
-    }
-
-    return try? await backgroundTask.value
+    let userID = try requireCurrentUser()
+    return try await fetch(
+      forType: UserProfileEntity.self,
+      localTask: { await dataStore.userProfileByID(userID) },
+      remoteTask: { try await service.currentUser() })
   }
 
   public func getUserByID(_ userID: UUID) async -> UserProfile? {
@@ -84,8 +76,8 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
 
     try await dataStore.updateProfile(
       userId: currentUserID,
-      weight: onboardingData.weight,
-      height: onboardingData.height,
+      weight: Double(onboardingData.weight ?? 0),
+      height: Double(onboardingData.height ?? 0),
       primaryGoalID: goal?.id,
       level: onboardingData.level,
       isOnboarded: true)
@@ -98,14 +90,8 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
       isOnboarded: true)
   }
 
-  public func observeUserChanges(forUserID userID: UUID) -> EntityPublisher<UserProfileEntity> {
+  public func entityPublisherForUserID(_ userID: UUID) -> EntityPublisher<UserProfileEntity> {
     dataStore.userPublisherForID(userID)
   }
 
-  @discardableResult
-  private func syncCurrentUser() async throws -> UserProfile {
-    let profile = try await service.currentUser()
-    try await dataStore.importModel(profile, of: UserProfileEntity.self)
-    return profile
-  }
 }

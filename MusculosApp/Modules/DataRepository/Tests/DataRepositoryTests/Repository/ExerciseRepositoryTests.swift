@@ -21,7 +21,7 @@ import XCTest
 // MARK: - ExerciseRepositoryTests
 
 class ExerciseRepositoryTests: XCTestCase {
-  @Injected(\StorageContainer.coreDataStore) private var coreDataStore
+  @Injected(\StorageContainer.exerciseDataStore) private var dataStore
 
   func testAddExercisePopulatesDataStoreAndCallsService() async throws {
     let serviceExpectation = self.expectation(description: "should call add exercise")
@@ -37,7 +37,7 @@ class ExerciseRepositoryTests: XCTestCase {
     try await repository.addExercise(exercise)
     await repository.backgroundWorker.waitForAll()
 
-    let localExercise = try #require(await coreDataStore.exerciseByID(exercise.id))
+    let localExercise = try #require(await dataStore.exerciseByID(exercise.id))
     XCTAssertEqual(localExercise, exercise)
     await fulfillment(of: [serviceExpectation], timeout: 1)
   }
@@ -55,7 +55,7 @@ class ExerciseRepositoryTests: XCTestCase {
     try await repository.addExercise(exercise)
     await repository.backgroundWorker.waitForAll()
 
-    let localExercise = try #require(await coreDataStore.exerciseByID(exercise.id))
+    let localExercise = try #require(await dataStore.exerciseByID(exercise.id))
     XCTAssertEqual(localExercise, exercise)
     await fulfillment(of: [serviceExpectation], timeout: 1)
   }
@@ -63,9 +63,7 @@ class ExerciseRepositoryTests: XCTestCase {
   func testGetExercisesPopulatesDataStore() async throws {
     StorageContainer.shared.storageManager().reset()
 
-    let factory = ExerciseFactory()
-    factory.isPersistent = false
-    let exercise = factory.create()
+    let exercise = ExerciseFactory.createExercise(isPersistent: false)
 
     NetworkContainer.shared.exerciseService.register { ExerciseServiceStub(expectedResult: [exercise]) }
     defer { NetworkContainer.shared.exerciseService.reset() }
@@ -77,7 +75,7 @@ class ExerciseRepositoryTests: XCTestCase {
     let firstResult = try #require(results.first)
     XCTAssertEqual(firstResult.id, exercise.id)
 
-    let localExercise = await coreDataStore.exerciseByID(exercise.id)
+    let localExercise = await dataStore.exerciseByID(exercise.id)
     XCTAssertEqual(localExercise?.name, exercise.name)
   }
 
@@ -198,14 +196,14 @@ class ExerciseRepositoryTests: XCTestCase {
       NetworkContainer.shared.userManager.reset()
     }
 
-    let exerciseFactory = ExerciseFactory()
-    exerciseFactory.category = ExerciseConstants.CategoryType.cardio.rawValue
-    _ = exerciseFactory.create()
+    let _ = ExerciseFactory.make { factory in
+      factory.category = ExerciseConstants.CategoryType.cardio.rawValue
+    }
 
-    let goalFactory = GoalFactory()
-    goalFactory.category = Goal.Category.loseWeight.rawValue
-    goalFactory.user = user
-    _ = goalFactory.create()
+    let _ = GoalFactory.make { factory in
+      factory.category = Goal.Category.loseWeight.rawValue
+      factory.user = user
+    }
 
     let exercises = await ExerciseRepository().getRecommendedExercisesByGoals()
     XCTAssertFalse(exercises.isEmpty)

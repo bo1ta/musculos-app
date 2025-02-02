@@ -8,15 +8,13 @@
 import Foundation
 import Models
 
-public class DailyWorkoutFactory: BaseFactory, @unchecked Sendable {
+public final class DailyWorkoutFactory: BaseFactory, @unchecked Sendable {
   public var isPersistent = true
 
   public var id: UUID?
   public var dayNumber: Int?
   public var workoutExercises: [WorkoutExercise]?
   public var isRestDay: Bool?
-
-  public init() { }
 
   public func create() -> DailyWorkout {
     let model = DailyWorkout(

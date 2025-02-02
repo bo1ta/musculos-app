@@ -28,7 +28,7 @@ public protocol GoalRepositoryProtocol: Sendable {
 
 public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositoryProtocol {
   @Injected(\NetworkContainer.goalService) private var service: GoalServiceProtocol
-  @Injected(\StorageContainer.coreDataStore) var dataStore: CoreDataStore
+  @Injected(\StorageContainer.goalDataStore) var dataStore: GoalDataStoreProtocol
   @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
 
   public init() { }
@@ -39,7 +39,7 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
 
   public func addGoal(_ goal: Goal) async throws {
     try await update(
-      localTask: { try await dataStore.importModel(goal, of: GoalEntity.self) },
+      localTask: { try await storageManager.importEntity(goal, of: GoalEntity.self) },
       remoteTask: { try await service.addGoal(goal) })
   }
 
@@ -56,7 +56,7 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
     }
     return try await fetch(
       forType: GoalEntity.self,
-      localTask: { await dataStore.userProfileByID(currentUserID)?.goals ?? [] },
+      localTask: { await dataStore.getGoalsForUserID(currentUserID) },
       remoteTask: { try await service.getUserGoals() })
   }
 
@@ -72,22 +72,20 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
       userID: user.id)
 
     try await update(
-      localTask: { try await dataStore.importModel(goal, of: GoalEntity.self) },
+      localTask: { try await storageManager.importEntity(goal, of: GoalEntity.self) },
       remoteTask: { try await service.addGoal(goal) })
 
     return goal
   }
 
   public func updateGoalProgress(exerciseSession: ExerciseSession) async throws {
-    guard let currentUserID else {
-      throw MusculosError.unexpectedNil
-    }
-    try await dataStore.updateGoalProgress(userID: currentUserID, exerciseSession: exerciseSession)
+    let userID = try requireCurrentUser()
+    try await dataStore.updateGoalProgress(userID: userID, exerciseSession: exerciseSession)
   }
 
   public func goalsPublisher() -> FetchedResultsPublisher<GoalEntity> {
     guard let currentUserID else {
-      return dataStore.goalsPublisher()
+      fatalError("Current user cannot be nil")
     }
     return dataStore.goalsPublisherForUserID(currentUserID)
   }

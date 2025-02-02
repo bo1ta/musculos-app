@@ -208,8 +208,7 @@ extension Goal {
 
 extension Goal: Hashable {
   public func hash(into hasher: inout Hasher) {
-    hasher.combine(name)
-    hasher.combine(dateAdded)
+    hasher.combine(id)
   }
 }
 
