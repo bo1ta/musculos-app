@@ -81,7 +81,7 @@ public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseR
     let userID = try requireCurrentUser()
     return try await fetch(
       forType: ExerciseEntity.self,
-      localTask: { await dataStore.favoriteExercises(for: userID) },
+      localTask: { await dataStore.favoriteExercises() },
       remoteTask: { try await service.getFavoriteExercises() })
   }
 

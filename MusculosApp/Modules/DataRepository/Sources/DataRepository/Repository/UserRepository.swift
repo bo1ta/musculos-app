@@ -76,8 +76,8 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
 
     try await dataStore.updateProfile(
       userId: currentUserID,
-      weight: onboardingData.weight,
-      height: onboardingData.height,
+      weight: Double(onboardingData.weight ?? 0),
+      height: Double(onboardingData.height ?? 0),
       primaryGoalID: goal?.id,
       level: onboardingData.level,
       isOnboarded: true)
