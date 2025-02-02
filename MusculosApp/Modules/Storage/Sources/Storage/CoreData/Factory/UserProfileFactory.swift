@@ -49,7 +49,9 @@ public final class UserProfileFactory: BaseFactory, @unchecked Sendable {
     return model
   }
 
-  public static func createUser() -> UserProfile {
-    UserProfileFactory().create()
+  public static func createUser(isPersistent: Bool = true) -> UserProfile {
+    let factory = UserProfileFactory()
+    factory.isPersistent = isPersistent
+    return factory.create()
   }
 }

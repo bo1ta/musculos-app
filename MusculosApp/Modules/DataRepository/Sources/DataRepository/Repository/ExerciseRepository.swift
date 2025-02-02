@@ -40,15 +40,12 @@ public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseR
   @Injected(\StorageContainer.exerciseDataStore) var dataStore: ExerciseDataStoreProtocol
   @Injected(\StorageContainer.exerciseSessionDataStore) var sessionsDataStore: ExerciseSessionDataStoreProtocol
   @Injected(\StorageContainer.goalDataStore) var goalDataStore: GoalDataStoreProtocol
-  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
-
-  public init() { }
+  @Injected(\DataRepositoryContainer.syncManager) var syncManager: SyncManagerProtocol
 
   public func addExercise(_ exercise: Exercise) async throws {
-    try await storageManager.importEntity(exercise, of: ExerciseEntity.self)
-    backgroundWorker.queueOperation {
-      try await service.addExercise(exercise)
-    }
+    try await update(
+      localTask: { try await dataStore.addExercise(exercise) },
+      remoteTask: { try await service.addExercise(exercise) })
   }
 
   public func getExercises() async throws -> [Exercise] {
@@ -73,12 +70,13 @@ public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseR
 
   public func getExercisesStream() async -> AsyncStream<Result<[Exercise], Error>> {
     makeAsyncStream(
+      ofType: ExerciseEntity.self,
       localFetch: { await dataStore.getExercises() },
       remoteFetch: { try await service.getExercises() })
   }
 
   public func getFavoriteExercises() async throws -> [Exercise] {
-    let userID = try requireCurrentUser()
+    _ = try requireCurrentUser()
     return try await fetch(
       forType: ExerciseEntity.self,
       localTask: { await dataStore.favoriteExercises() },

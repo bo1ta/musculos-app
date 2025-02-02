@@ -26,7 +26,7 @@ public protocol ExerciseSessionRepositoryProtocol: Sendable {
 public struct ExerciseSessionRepository: @unchecked Sendable, BaseRepository, ExerciseSessionRepositoryProtocol {
   @Injected(\NetworkContainer.exerciseSessionService) private var service: ExerciseSessionServiceProtocol
   @Injected(\StorageContainer.exerciseSessionDataStore) var dataStore: ExerciseSessionDataStoreProtocol
-  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
+  @Injected(\DataRepositoryContainer.syncManager) var syncManager: SyncManagerProtocol
 
   public func getExerciseSessions() async throws -> [ExerciseSession] {
     let userID = try requireCurrentUser()
@@ -49,10 +49,8 @@ public struct ExerciseSessionRepository: @unchecked Sendable, BaseRepository, Ex
   public func addSession(_ exerciseSession: ExerciseSession) async throws -> UserExperienceEntry {
     let userExperienceEntry = try await service.add(exerciseSession)
 
-    backgroundWorker.queueOperation(priority: .high) {
-      try await storageManager.importEntity(exerciseSession, of: ExerciseSessionEntity.self)
-      try await storageManager.importEntity(userExperienceEntry, of: UserExperienceEntryEntity.self)
-    }
+    try await syncManager.insertToStorage(exerciseSession, ofType: ExerciseSessionEntity.self)
+    try await syncManager.insertToStorage(userExperienceEntry, ofType: UserExperienceEntryEntity.self)
 
     return userExperienceEntry
   }

@@ -29,9 +29,7 @@ public protocol GoalRepositoryProtocol: Sendable {
 public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositoryProtocol {
   @Injected(\NetworkContainer.goalService) private var service: GoalServiceProtocol
   @Injected(\StorageContainer.goalDataStore) var dataStore: GoalDataStoreProtocol
-  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
-
-  public init() { }
+  @Injected(\DataRepositoryContainer.syncManager) var syncManager: SyncManagerProtocol
 
   public func getOnboardingGoals() async throws -> [OnboardingGoal] {
     try await service.getOnboardingGoals()
@@ -39,7 +37,7 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
 
   public func addGoal(_ goal: Goal) async throws {
     try await update(
-      localTask: { try await storageManager.importEntity(goal, of: GoalEntity.self) },
+      localTask: { try await dataStore.addGoal(goal) },
       remoteTask: { try await service.addGoal(goal) })
   }
 
@@ -72,7 +70,7 @@ public struct GoalRepository: @unchecked Sendable, BaseRepository, GoalRepositor
       userID: user.id)
 
     try await update(
-      localTask: { try await storageManager.importEntity(goal, of: GoalEntity.self) },
+      localTask: { try await dataStore.addGoal(goal) },
       remoteTask: { try await service.addGoal(goal) })
 
     return goal

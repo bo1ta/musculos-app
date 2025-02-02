@@ -25,16 +25,17 @@ public protocol WorkoutRepositoryProtocol: Sendable {
 public struct WorkoutRepository: @unchecked Sendable, BaseRepository, WorkoutRepositoryProtocol {
   @Injected(\StorageContainer.workoutDataStore) var dataStore: WorkoutDataStoreProtocol
   @Injected(\NetworkContainer.workoutService) private var service: WorkoutServiceProtocol
-  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
+  @Injected(\DataRepositoryContainer.syncManager) var syncManager: SyncManagerProtocol
 
   public func addWorkout(_ workout: Workout) async throws {
     try await dataStore.insertWorkout(workout)
   }
 
   public func generateWorkoutChallenge() async throws -> WorkoutChallenge {
-    try await fetchAndSync(
-      remoteTask: { try await service.generateWorkoutChallenge() },
-      syncType: WorkoutChallengeEntity.self)
+    try await fetch(
+      forType: WorkoutChallengeEntity.self,
+      localTask: { await dataStore.getRandomWorkoutChallenge() },
+      remoteTask: { try await service.generateWorkoutChallenge() })
   }
 
   public func getAllWorkoutChallenges() async throws -> [WorkoutChallenge] {

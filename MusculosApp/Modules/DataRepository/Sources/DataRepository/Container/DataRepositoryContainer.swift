@@ -59,4 +59,8 @@ extension DataRepositoryContainer {
     self { BackgroundWorker() }
       .shared
   }
+
+  var syncManager: Factory<SyncManagerProtocol> {
+    self { SyncManager() }
+  }
 }

@@ -20,8 +20,9 @@ public protocol UserRepositoryProtocol: Sendable {
   func login(email: String, password: String) async throws -> UserSession
   func getCurrentUser() async throws -> UserProfile?
   func getUserByID(_ userID: UUID) async -> UserProfile?
-  func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws
   func entityPublisherForUserID(_ userID: UUID) -> EntityPublisher<UserProfileEntity>
+  @discardableResult
+  func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws -> UserProfile
 }
 
 // MARK: - UserRepository
@@ -30,13 +31,13 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
   @Injected(\DataRepositoryContainer.goalRepository) private var goalRepository: GoalRepositoryProtocol
   @Injected(\NetworkContainer.userService) private var service: UserServiceProtocol
   @Injected(\StorageContainer.userDataStore) var dataStore: UserDataStoreProtocol
-  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
+  @Injected(\DataRepositoryContainer.syncManager) var syncManager: SyncManagerProtocol
 
   public func register(email: String, password: String, username: String) async throws -> UserSession {
     let session = try await service.register(email: email, password: password, username: username)
 
     let userProfile = UserProfile(id: session.user.id, email: email, username: username)
-    try await storageManager.importEntity(userProfile, of: UserProfileEntity.self)
+    try await syncManager.insertToStorage(userProfile, ofType: UserProfileEntity.self)
 
     return session
   }
@@ -61,7 +62,7 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
   }
 
   @discardableResult
-  public func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws {
+  public func updateProfileUsingOnboardingData(_ onboardingData: OnboardingData) async throws -> UserProfile {
     guard
       let currentUserID,
       let currentProfile = await dataStore.userProfileByID(currentUserID)
@@ -82,7 +83,7 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
       level: onboardingData.level,
       isOnboarded: true)
 
-    _ = try await service.updateUser(
+    return try await service.updateUser(
       weight: onboardingData.weight,
       height: onboardingData.height,
       primaryGoalID: goal?.id,
@@ -93,5 +94,4 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
   public func entityPublisherForUserID(_ userID: UUID) -> EntityPublisher<UserProfileEntity> {
     dataStore.userPublisherForID(userID)
   }
-
 }

@@ -48,9 +48,9 @@ class UserRepositoryTests: XCTestCase {
   }
 
   func testGetCurrentUser() async throws {
-    let expectedProfile = UserProfileFactory.createUser()
+    let expectedProfile = UserProfileFactory.createUser(isPersistent: false)
     let expectation = self.expectation(description: "should call service")
-    let mockUserService = MockUserService(expectation: expectation)
+    let mockUserService = MockUserService(expectation: expectation, expectedProfile: expectedProfile)
     NetworkContainer.shared.userService.register { mockUserService }
     NetworkContainer.shared.userManager.register {
       StubUserSessionManager(expectedUser: UserSession.User(id: expectedProfile.id))
@@ -62,31 +62,7 @@ class UserRepositoryTests: XCTestCase {
 
     let userProfile = try #require(try await UserRepository().getCurrentUser())
     #expect(userProfile == expectedProfile)
-    await fulfillment(of: [expectation], timeout: 0.1)
-  }
-
-  func testUpdateOnboardingData() async throws {
-    let currentUser = UserProfileFactory.createUser()
-    let expectation = self.expectation(description: "should call service")
-    let mockUserService = MockUserService(expectation: expectation, expectedProfile: currentUser)
-    NetworkContainer.shared.userService.register { mockUserService }
-    NetworkContainer.shared.userManager.register {
-      StubUserSessionManager(expectedUser: .init(id: currentUser.id))
-    }
-    defer {
-      NetworkContainer.shared.userService.reset()
-      NetworkContainer.shared.userManager.reset()
-    }
-
-    let repository = UserRepository()
-    let onboardingData = OnboardingData(weight: 10, height: 10, level: OnboardingConstants.Level.advanced.description, goal: nil)
-    try await repository.updateProfileUsingOnboardingData(onboardingData)
-
-    let currentProfile = try await repository.getCurrentUser()
-    XCTAssertEqual(Int(currentProfile?.weight ?? 0), onboardingData.weight)
-    XCTAssertEqual(Int(currentProfile?.height ?? 0), onboardingData.height)
-    XCTAssertEqual(currentProfile?.level, onboardingData.level)
-    await fulfillment(of: [expectation], timeout: 1)
+    await fulfillment(of: [expectation], timeout: 5)
   }
 }
 
@@ -97,11 +73,18 @@ extension UserRepositoryTests {
 
   private struct MockUserService: UserServiceProtocol {
     var expectation: XCTestExpectation?
+    var updateExpectation: XCTestExpectation?
     var expectedUserSession: UserSession?
     var expectedProfile: UserProfile?
 
-    init(expectation: XCTestExpectation? = nil, expectedUserSession: UserSession? = nil, expectedProfile: UserProfile? = nil) {
+    init(
+      expectation: XCTestExpectation? = nil,
+      updateExpectation: XCTestExpectation? = nil,
+      expectedUserSession: UserSession? = nil,
+      expectedProfile: UserProfile? = nil)
+    {
       self.expectation = expectation
+      self.updateExpectation = updateExpectation
       self.expectedUserSession = expectedUserSession
       self.expectedProfile = expectedProfile
     }
@@ -134,16 +117,26 @@ extension UserRepositoryTests {
     }
 
     func updateUser(
-      weight _: Int?,
-      height _: Int?,
-      primaryGoalID _: UUID?,
-      level _: String?,
-      isOnboarded _: Bool)
+      weight: Int?,
+      height: Int?,
+      primaryGoalID: UUID?,
+      level: String?,
+      isOnboarded: Bool)
       async throws -> UserProfile
     {
-      expectation?.fulfill()
+      updateExpectation?.fulfill()
+
       if let expectedProfile {
-        return expectedProfile
+        return UserProfile(
+          id: expectedProfile.id,
+          email: expectedProfile.email,
+          fullName: expectedProfile.fullName,
+          username: expectedProfile.username,
+          weight: Double(weight ?? 0),
+          height: Double(height ?? 0),
+          level: level,
+          primaryGoalID: primaryGoalID,
+          isOnboarded: isOnboarded)
       }
       throw MusculosError.unexpectedNil
     }

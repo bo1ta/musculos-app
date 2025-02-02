@@ -14,6 +14,7 @@ import Utility
 // MARK: - GoalDataStoreProtocol
 
 public protocol GoalDataStoreProtocol: Sendable {
+  func addGoal(_ goal: Goal) async throws
   func getGoalsForUserID(_ userID: UUID) async -> [Goal]
   func updateGoalProgress(userID: UUID, exerciseSession: ExerciseSession) async throws
   func goalByID(_ goalID: UUID) async -> Goal?
@@ -28,6 +29,10 @@ public struct GoalDataStore: GoalDataStoreProtocol, @unchecked Sendable {
   @Injected(\StorageContainer.storageManager) public var storageManager: StorageManagerType
 
   public init() { }
+
+  public func addGoal(_ goal: Goal) async throws {
+    try await storageManager.importEntity(goal, of: GoalEntity.self)
+  }
 
   public func getGoalsForUserID(_ userID: UUID) async -> [Goal] {
     await storageManager.getAllEntities(GoalEntity.self, predicate: \GoalEntity.userID == userID)

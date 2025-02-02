@@ -65,7 +65,7 @@ class RatingRepositoryTests: XCTestCase {
   }
 
   func testGetRatingForExercise() async throws {
-    let exerciseRating = ExerciseRatingFactory.createExerciseRating()
+    let exerciseRating = ExerciseRatingFactory.createExerciseRating(isPersistent: false)
     let expectation = self.expectation(description: "should call getExercisesRatings")
 
     let mockService = MockRatingService(expectation: expectation, expectedResult: [exerciseRating])

@@ -47,7 +47,13 @@ public struct UserRepositoryStub: UserRepositoryProtocol {
     expectedProfile
   }
 
-  public func updateProfileUsingOnboardingData(_: Models.OnboardingData) async throws { }
+  @discardableResult
+  public func updateProfileUsingOnboardingData(_: Models.OnboardingData) async throws -> UserProfile {
+    guard let expectedProfile else {
+      throw MusculosError.unexpectedNil
+    }
+    return expectedProfile
+  }
 
   public func entityPublisherForUserID(_ userID: UUID) -> EntityPublisher<UserProfileEntity> {
     UserDataStore().userPublisherForID(userID)

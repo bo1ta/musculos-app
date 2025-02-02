@@ -19,6 +19,7 @@ public protocol WorkoutDataStoreProtocol: Sendable {
   func workout(by id: UUID) async -> Workout?
   func insertWorkout(_ workout: Workout) async throws
   func getAllWorkoutChallenges() async -> [WorkoutChallenge]
+  func getRandomWorkoutChallenge() async -> WorkoutChallenge?
 }
 
 // MARK: - WorkoutDataStore
@@ -45,5 +46,9 @@ public struct WorkoutDataStore: WorkoutDataStoreProtocol, @unchecked Sendable {
 
   public func getAllWorkoutChallenges() async -> [WorkoutChallenge] {
     await storageManager.getAllEntities(WorkoutChallengeEntity.self, predicate: nil)
+  }
+
+  public func getRandomWorkoutChallenge() async -> WorkoutChallenge? {
+    await storageManager.getFirstEntity(WorkoutChallengeEntity.self, predicate: nil)
   }
 }

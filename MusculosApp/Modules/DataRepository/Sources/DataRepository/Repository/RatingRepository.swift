@@ -27,7 +27,7 @@ public struct RatingRepository: @unchecked Sendable, BaseRepository, RatingRepos
   @Injected(\NetworkContainer.ratingService) private var service: RatingServiceProtocol
   @Injected(\StorageContainer.userDataStore) var userDataStore: UserDataStoreProtocol
   @Injected(\StorageContainer.exerciseDataStore) var exerciseDataStore: ExerciseDataStoreProtocol
-  @Injected(\.backgroundWorker) var backgroundWorker: BackgroundWorker
+  @Injected(\DataRepositoryContainer.syncManager) var syncManager: SyncManagerProtocol
 
   public func getExerciseRatingsForCurrentUser() async throws -> [ExerciseRating] {
     let userID = try requireCurrentUser()

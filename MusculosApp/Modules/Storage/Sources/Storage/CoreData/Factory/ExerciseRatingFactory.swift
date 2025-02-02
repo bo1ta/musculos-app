@@ -29,7 +29,9 @@ public final class ExerciseRatingFactory: BaseFactory, @unchecked Sendable {
     return exerciseRating
   }
 
-  public static func createExerciseRating() -> ExerciseRating {
-    ExerciseRatingFactory().create()
+  public static func createExerciseRating(isPersistent: Bool = true) -> ExerciseRating {
+    let factory = ExerciseRatingFactory()
+    factory.isPersistent = isPersistent
+    return factory.create()
   }
 }

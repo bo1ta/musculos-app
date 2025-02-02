@@ -30,6 +30,7 @@ public protocol ExerciseDataStoreProtocol: Sendable {
   func favoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws
   func exercisePublisherForID(_ exerciseID: UUID) -> EntityPublisher<ExerciseEntity>
   func addRating(_ exerciseRating: ExerciseRating) async throws
+  func addExercise(_ exercise: Exercise) async throws
 }
 
 // MARK: - ExerciseDataStore
@@ -179,5 +180,9 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol, @unchecked Sendable 
 
   public func addRating(_ exerciseRating: ExerciseRating) async throws {
     try await storageManager.importEntity(exerciseRating, of: ExerciseRatingEntity.self)
+  }
+
+  public func addExercise(_ exercise: Exercise) async throws {
+    try await storageManager.importEntity(exercise, of: ExerciseEntity.self)
   }
 }

@@ -87,7 +87,7 @@ class ExerciseSessionRepositoryTests: XCTestCase {
 
     let repository = ExerciseSessionRepository()
     let result = try await repository.addSession(exerciseSession)
-    await repository.backgroundWorker.waitForAll()
+    await repository.syncManager.waitForAllBackgroundTasks()
 
     let localResult = await userDataStore.userExperienceEntryByID(userExperienceEntry.id)
     XCTAssertEqual(result.xpGained, localResult?.xpGained)
