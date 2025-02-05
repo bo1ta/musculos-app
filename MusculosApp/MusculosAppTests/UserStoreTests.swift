@@ -154,5 +154,14 @@ extension UserStoreTests {
     func updateProfileUsingOnboardingData(_: OnboardingData) async throws {
       expectation?.fulfill()
     }
+
+    func updateProfileUsingOnboardingData(_: OnboardingData) async throws -> UserProfile {
+      expectation?.fulfill()
+
+      guard let expectedUserProfile else {
+        throw MusculosError.unexpectedNil
+      }
+      return expectedUserProfile
+    }
   }
 }
