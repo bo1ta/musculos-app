@@ -47,4 +47,9 @@ public enum AppColor {
     gradient: Gradient(colors: [.orange, .red]),
     startPoint: .topLeading,
     endPoint: .bottomTrailing)
+
+  public static let blueGradient = LinearGradient(
+    gradient: Gradient(colors: [.blue, .blue.opacity(0.6)]),
+    startPoint: .topLeading,
+    endPoint: .bottomTrailing)
 }

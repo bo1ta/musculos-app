@@ -23,6 +23,7 @@ struct ExerciseSecondaryCard: View {
   var body: some View {
     RoundedRectangle(cornerRadius: 20)
       .frame(width: 250, height: 260)
+      .shadow(radius: 1.0)
       .foregroundStyle(.white)
       .overlay {
         VStack(alignment: .leading) {
@@ -32,7 +33,7 @@ struct ExerciseSecondaryCard: View {
 
           Group {
             Text(exercise.name)
-              .font(AppFont.poppins(.bold, size: 18))
+              .font(AppFont.poppins(.semibold, size: 15))
               .foregroundStyle(.black)
             TextResizablePillsStack(options: Array(exercise.displayOptions.prefix(2)))
           }

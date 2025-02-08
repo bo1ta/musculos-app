@@ -43,13 +43,12 @@ extension UserExperienceEntryEntity: EntitySyncable {
     uniqueID = model.id
     xpGained = model.xpGained as NSNumber
 
-    if
-      let userExperienceEntity = storage.firstObject(
-        of: UserExperienceEntity.self,
-        matching: \UserExperienceEntryEntity.uniqueID == model.userExperience.id)
-    {
-      userExperience = userExperienceEntity
-    }
+    let userExperienceEntity = storage.findOrInsert(
+      of: UserExperienceEntity.self,
+      using: \UserExperienceEntity.uniqueID == model.userExperience.id)
+    userExperienceEntity.populateEntityFrom(model.userExperience, using: storage)
+
+    self.userExperience = userExperienceEntity
   }
 
   public func updateEntityFrom(_ model: UserExperienceEntry, using _: any StorageType) {

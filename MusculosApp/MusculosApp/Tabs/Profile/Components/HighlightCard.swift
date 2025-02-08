@@ -20,7 +20,7 @@ struct HighlightCard: View {
     RoundedRectangle(cornerRadius: 12.0)
       .frame(height: UIConstant.CardSize.small)
       .frame(maxWidth: .infinity)
-      .foregroundStyle(profileHighlight.highlightType.color)
+      .foregroundStyle(AppColor.blueGradient)
       .overlay {
         HStack(spacing: 0) {
           Image(systemName: profileHighlight.highlightType.systemImageName)

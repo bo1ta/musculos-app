@@ -15,7 +15,7 @@ public struct GoalRepositoryStub: GoalRepositoryProtocol {
   var expectedGoals: [Goal] = []
   var expectedUserID: UUID?
 
-  public init(expectedOnboardingGoals: [OnboardingGoal] = [], expectedGoals: [Goal] = []) {
+  public init(expectedOnboardingGoals: [OnboardingGoal] = [], expectedGoals: [Goal] = [], expectedUserID _: UUID? = nil) {
     self.expectedOnboardingGoals = expectedOnboardingGoals
     self.expectedGoals = expectedGoals
   }

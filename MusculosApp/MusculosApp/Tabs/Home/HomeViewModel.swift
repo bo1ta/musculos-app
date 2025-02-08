@@ -16,6 +16,9 @@ import Utility
 @MainActor
 final class HomeViewModel: BaseViewModel {
   @ObservationIgnored
+  @Injected(\.userStore) private var userStore: UserStoreProtocol
+
+  @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
 
   @ObservationIgnored

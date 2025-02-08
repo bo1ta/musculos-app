@@ -9,13 +9,17 @@ import SwiftUI
 import Utility
 
 public struct AchievementCard: View {
-  let backgroundColor = AppColor.navyBlue
+  private let title: String
+  private let progress: Double
 
-  public init() { }
+  public init(title: String, progress: Double) {
+    self.title = title
+    self.progress = progress
+  }
 
   public var body: some View {
     RoundedRectangle(cornerRadius: 10)
-      .foregroundStyle(backgroundColor)
+      .foregroundStyle(AppColor.navyBlue)
       .frame(maxWidth: .infinity)
       .frame(height: UIConstant.CardSize.small)
       .shadow(radius: 1.0)
@@ -31,14 +35,14 @@ public struct AchievementCard: View {
 
           VStack(alignment: .leading, spacing: 1) {
             Heading("Achievements & Progress", fontSize: 16, fontColor: .white)
-            Text("8 exercises left")
-              .font(AppFont.poppins(.regular, size: 13))
+            Text(title)
+              .font(AppFont.body(.regular, size: 13))
               .foregroundStyle(.white)
           }
 
           Spacer()
 
-          ProgressCircle(progress: 0.78, circleSize: 50)
+          ProgressCircle(progress: progress, circleSize: 50)
         }
         .padding()
       }
@@ -46,5 +50,5 @@ public struct AchievementCard: View {
 }
 
 #Preview {
-  AchievementCard()
+  AchievementCard(title: "7 exercises left", progress: 0.75)
 }

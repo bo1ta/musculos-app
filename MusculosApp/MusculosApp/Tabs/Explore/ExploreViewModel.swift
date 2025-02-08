@@ -97,6 +97,14 @@ extension ExploreViewModel {
     }
   }
 
+  private func loadFavoriteExercises() async {
+    do {
+      results[.favorites] = try await exerciseRepository.getFavoriteExercises()
+    } catch {
+      Logger.error(error, message: "Data controller failed to get exercises")
+    }
+  }
+
   private func loadRecommandations() async {
     do {
       results[.recommendedByPastSessions] = try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
@@ -105,14 +113,6 @@ extension ExploreViewModel {
       }
     } catch {
       Logger.error(error, message: "Could not load recommendations by past sessions")
-    }
-  }
-
-  private func loadFavoriteExercises() async {
-    do {
-      results[.favorites] = try await exerciseRepository.getFavoriteExercises()
-    } catch {
-      Logger.error(error, message: "Data controller failed to get exercises")
     }
   }
 

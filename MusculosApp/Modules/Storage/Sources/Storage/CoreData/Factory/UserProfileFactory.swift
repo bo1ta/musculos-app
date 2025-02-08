@@ -21,7 +21,7 @@ public final class UserProfileFactory: BaseFactory, @unchecked Sendable {
   public var availableEquipment: [String]?
   public var primaryGoalID: UUID?
   public var isOnboarded: Bool?
-  public var xp: Int? = 0 // swiftlint:disable:this identifier_name
+  public var totalExperience: Int?
   public var goals: [Goal]?
   public var ratings: [ExerciseRating]?
   public var userExperience: UserExperience?
@@ -41,7 +41,7 @@ public final class UserProfileFactory: BaseFactory, @unchecked Sendable {
       availableEquipment: availableEquipment ?? [ExerciseConstants.EquipmentType.bodyOnly.rawValue],
       primaryGoalID: primaryGoalID ?? UUID(),
       isOnboarded: isOnboarded ?? true,
-      xp: xp,
+      totalExperience: totalExperience,
       goals: goals,
       ratings: ratings,
       userExperience: userExperience ?? UserExperienceFactory.createUserExperience())

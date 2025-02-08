@@ -34,7 +34,7 @@ public class StorageManager: StorageManagerType, @unchecked Sendable {
 
   // MARK: - Migration
 
-  private static let dataModelVersion = "13"
+  private static let dataModelVersion = "15"
 
   private func shouldRecreateDataStore() -> Bool {
     guard let version = UserDefaults.standard.string(forKey: UserDefaultsKey.coreDataModelVersion) else {

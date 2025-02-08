@@ -16,6 +16,7 @@ import XCTest
 @testable import Components
 @testable import DataRepository
 @testable import MusculosApp
+@testable import NetworkClient
 @testable import Storage
 
 // MARK: - ExploreViewModelTests
@@ -23,19 +24,12 @@ import XCTest
 @MainActor
 class ExploreViewModelTests: XCTestCase {
   func testInitialLoad() async throws {
-    let userID = UUID()
+    let user = UserProfileFactory.createUser()
     let goal = GoalFactory.make { factory in
-      factory.userID = userID
+      factory.userID = user.id
     }
 
-    let currentUser = UserProfileFactory.make { factory in
-      factory.id = userID
-      factory.goals = [goal]
-    }
-
-    let stubUserStore = UserStoreStub()
-    stubUserStore.currentUser = currentUser
-    Container.shared.userStore.register { stubUserStore }
+    NetworkContainer.shared.userManager.register { StubUserSessionManager(expectedUserID: user.id) }
 
     let expectedExercises = [ExerciseFactory.createExercise()]
     let exerciseRepositoryStub = ExerciseRepositoryStub(expectedExercises: expectedExercises)
@@ -46,7 +40,7 @@ class ExploreViewModelTests: XCTestCase {
     DataRepositoryContainer.shared.exerciseSessionRepository.register { exerciseSessionRepositoryStub }
 
     defer {
-      Container.shared.userStore.reset()
+      NetworkContainer.shared.userManager.reset()
       DataRepositoryContainer.shared.exerciseRepository.reset()
       DataRepositoryContainer.shared.exerciseSessionRepository.reset()
     }
@@ -62,9 +56,15 @@ class ExploreViewModelTests: XCTestCase {
   func testSearchQuery() async throws {
     let expectedExercises = [ExerciseFactory.createExercise()]
     let exerciseRepositoryStub = ExerciseRepositoryStub(expectedExercises: expectedExercises)
-
     DataRepositoryContainer.shared.exerciseRepository.register { exerciseRepositoryStub }
-    defer { DataRepositoryContainer.shared.exerciseRepository.reset() }
+
+    let currentUser = UserProfileFactory.createUser()
+    NetworkContainer.shared.userManager.register { StubUserSessionManager(expectedUserID: currentUser.id) }
+
+    defer {
+      NetworkContainer.shared.userManager.reset()
+      DataRepositoryContainer.shared.exerciseRepository.reset()
+    }
 
     let viewModel = ExploreViewModel()
     viewModel.searchByMuscleQuery("query")

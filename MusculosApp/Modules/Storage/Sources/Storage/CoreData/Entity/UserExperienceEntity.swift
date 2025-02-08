@@ -57,24 +57,10 @@ extension UserExperienceEntity: ReadOnlyConvertible {
 // MARK: EntitySyncable
 
 extension UserExperienceEntity: EntitySyncable {
-  public func populateEntityFrom(_ model: UserExperience, using storage: any StorageType) {
+  public func populateEntityFrom(_ model: UserExperience, using _: any StorageType) {
     uniqueID = model.id
     totalExperience = model.totalExperience as NSNumber
     experienceEntries = Set<UserExperienceEntryEntity>()
-
-    guard let experienceEntries = model.experienceEntries else {
-      return
-    }
-
-    let entities = experienceEntries.map { experienceEntry in
-      let entity = storage.findOrInsert(
-        of: UserExperienceEntryEntity.self,
-        using: \UserExperienceEntryEntity.uniqueID == experienceEntry.id)
-      entity.populateEntityFrom(experienceEntry, using: storage)
-      entity.userExperience = self
-      return entity
-    }
-    addToExperienceEntries(Set(entities))
   }
 
   public func updateEntityFrom(_ model: UserExperience, using storage: any StorageType) {

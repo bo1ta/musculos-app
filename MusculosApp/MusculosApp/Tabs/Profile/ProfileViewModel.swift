@@ -29,6 +29,9 @@ final class ProfileViewModel: BaseViewModel {
   @ObservationIgnored
   @LazyInjected(\DataRepositoryContainer.exerciseSessionRepository) private var sessionRepository
 
+  @ObservationIgnored
+  @LazyInjected(\.userStore) private var userStore: UserStoreProtocol
+
   // MARK: Public
 
   private(set) var favoriteExercises: [Exercise] = []
@@ -37,6 +40,14 @@ final class ProfileViewModel: BaseViewModel {
   private(set) var sessions: [ExerciseSession] = []
   private(set) var muscleChartData: [MuscleChartData] = []
   private(set) var sessionsChartData: [SessionChartData] = []
+
+  var userLevel: Int {
+    currentUser?.currentLevel ?? 0
+  }
+
+  var userLevelProgress: Double {
+    currentUser?.currentLevelProgress ?? 0
+  }
 
   var selectedWorkout: String?
 
