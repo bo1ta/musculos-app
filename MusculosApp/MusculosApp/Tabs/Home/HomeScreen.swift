@@ -24,9 +24,6 @@ struct HomeScreen: View {
           profile: viewModel.currentUser,
           onNotificationsTap: showNotificationsScreen)
 
-        AchievementCard()
-          .defaultShimmering(active: viewModel.isLoading)
-
         GoalsSection(goals: viewModel.goals, onAddGoal: showAddGoalSheet)
 
         if let exercises = viewModel.quickExercises {

@@ -81,7 +81,7 @@ extension ExploreViewModel {
     async let recommendations: Void = loadRecommandations()
     async let exercises: Void = loadExercises()
     async let sessions: Void = loadRecentSessions()
-    _ = await (exercises, sessions)
+    _ = await (recommendations, exercises, sessions)
   }
 
   private func loadExercises() async {

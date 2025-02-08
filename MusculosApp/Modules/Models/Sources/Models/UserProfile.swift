@@ -99,6 +99,10 @@ public struct UserProfile: Codable, Sendable, Identifiable {
   public var remainingXPToNextLevel: Int {
     LevelCalculator.remainingXPToNextLevel(totalXP: totalExperience ?? 0)
   }
+
+  public var currentLevelProgress: Double {
+    LevelCalculator.progressTowardsNextLevel(totalXP: totalExperience ?? 0)
+  }
 }
 
 // MARK: Equatable

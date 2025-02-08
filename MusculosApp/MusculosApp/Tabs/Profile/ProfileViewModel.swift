@@ -41,6 +41,14 @@ final class ProfileViewModel: BaseViewModel {
   private(set) var muscleChartData: [MuscleChartData] = []
   private(set) var sessionsChartData: [SessionChartData] = []
 
+  var userLevel: Int {
+    currentUser?.currentLevel ?? 0
+  }
+
+  var userLevelProgress: Double {
+    currentUser?.currentLevelProgress ?? 0
+  }
+
   var selectedWorkout: String?
 
   func initialLoad() async {

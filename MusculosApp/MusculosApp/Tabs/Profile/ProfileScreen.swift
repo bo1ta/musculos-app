@@ -26,7 +26,7 @@ struct ProfileScreen: View {
   var body: some View {
     ScrollView {
       VStack(spacing: 10) {
-        UserHeader(profile: viewModel.currentUser, onNotificationsTap: { })
+        AchievementCard(title: "You are level: \(viewModel.userLevel)", progress: viewModel.userLevelProgress)
 
         ContentSectionWithHeader(headerTitle: "Highlights", withScroll: false) {
           VStack {

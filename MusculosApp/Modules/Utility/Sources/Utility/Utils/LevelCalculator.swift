@@ -56,4 +56,22 @@ public enum LevelCalculator {
     let requiredXPForCurrentLevel = xpRequiredForLevel(currentLevel)
     return max(0, requiredXPForCurrentLevel - totalXP)
   }
+
+  /// Calculated the progress towards the next level as a value between 0.0 and 1.0. Useful for circular progress views
+  /// - Parameter totalXP: The user's total experience
+  /// - Returns: The progress towards the next level (0.0 to 1.0)
+  ///
+  public static func progressTowardsNextLevel(totalXP: Int) -> Double {
+    let currentLevel = calculateLevel(totalXP)
+    let xpForCurrentLevel = xpRequiredForLevel(currentLevel)
+    let xpForNextLevel = xpRequiredForLevel(currentLevel + 1)
+
+    // Handle the case where the user is at level 1 and has not yet earned the base XP
+    if currentLevel == 1, totalXP < baseXP {
+      return Double(totalXP) / Double(baseXP)
+    }
+
+    let progress = Double(totalXP - xpForCurrentLevel) / Double(xpForNextLevel - xpForCurrentLevel)
+    return max(0.0, min(1.0, progress))
+  }
 }
