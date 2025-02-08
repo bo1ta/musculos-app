@@ -78,7 +78,7 @@ extension ExploreViewModel {
     isLoading = true
     defer { isLoading = false }
 
-//    async let recommendations: Void = loadRecommandations()
+    async let recommendations: Void = loadRecommandations()
     async let exercises: Void = loadExercises()
     async let sessions: Void = loadRecentSessions()
     _ = await (exercises, sessions)
@@ -102,6 +102,17 @@ extension ExploreViewModel {
       results[.favorites] = try await exerciseRepository.getFavoriteExercises()
     } catch {
       Logger.error(error, message: "Data controller failed to get exercises")
+    }
+  }
+
+  private func loadRecommandations() async {
+    do {
+      results[.recommendedByPastSessions] = try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
+      if let goal = displayGoal {
+        results[.recommendedByGoals] = await exerciseRepository.getExercisesForGoal(goal)
+      }
+    } catch {
+      Logger.error(error, message: "Could not load recommendations by past sessions")
     }
   }
 

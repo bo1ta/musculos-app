@@ -17,6 +17,11 @@ public struct StubUserSessionManager: UserSessionManagerProtocol, @unchecked Sen
     self.expectedUser = expectedUser
   }
 
+  public init(expectedTokenValue: String? = nil, expectedUserID: UUID) {
+    self.expectedTokenValue = expectedTokenValue
+    self.expectedUser = .init(id: expectedUserID)
+  }
+
   public func getCurrentState() -> UserSessionState {
     UserSessionState.authenticated(
       UserSession(
