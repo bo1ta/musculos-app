@@ -78,10 +78,10 @@ extension ExploreViewModel {
     isLoading = true
     defer { isLoading = false }
 
-    async let recommendations: Void = loadRecommandations()
+//    async let recommendations: Void = loadRecommandations()
     async let exercises: Void = loadExercises()
     async let sessions: Void = loadRecentSessions()
-    _ = await (recommendations, exercises, sessions)
+    _ = await (exercises, sessions)
   }
 
   private func loadExercises() async {
@@ -94,17 +94,6 @@ extension ExploreViewModel {
       case .failure(let failure):
         Logger.error(failure, message: "Something went wrong!")
       }
-    }
-  }
-
-  private func loadRecommandations() async {
-    do {
-      results[.recommendedByPastSessions] = try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
-      if let goal = displayGoal {
-        results[.recommendedByGoals] = await exerciseRepository.getExercisesForGoal(goal)
-      }
-    } catch {
-      Logger.error(error, message: "Could not load recommendations by past sessions")
     }
   }
 
