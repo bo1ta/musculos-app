@@ -81,6 +81,10 @@
 		BC5A73452D21E25F00E0D61A /* Components in Frameworks */ = {isa = PBXBuildFile; productRef = BC5A73442D21E25F00E0D61A /* Components */; };
 		BC606A6E2C221CBD00154781 /* SelectLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC606A6D2C221CBD00154781 /* SelectLevelView.swift */; };
 		BC6249752BEC20BB00393915 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = BC6249742BEC20BB00393915 /* Shimmer */; };
+		BC6496EF2D57E21E00156BE3 /* SessionsChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6496EE2D57E20500156BE3 /* SessionsChartView.swift */; };
+		BC6496F12D57E28400156BE3 /* MusclesChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6496F02D57E28000156BE3 /* MusclesChartView.swift */; };
+		BC6496F62D57E38400156BE3 /* MuscleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6496F52D57E38100156BE3 /* MuscleChartData.swift */; };
+		BC6496F82D57E39B00156BE3 /* SessionChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6496F72D57E39700156BE3 /* SessionChartData.swift */; };
 		BC655B012CB0497600C19E07 /* YourWorkoutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC655B002CB0497600C19E07 /* YourWorkoutSection.swift */; };
 		BC655B032CB055B300C19E07 /* ExerciseCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC655B022CB055B300C19E07 /* ExerciseCardStack.swift */; };
 		BC6F365A2BB4E14D000F6CFA /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */; };
@@ -228,6 +232,10 @@
 		BC4E5D562CAC61050046ABEE /* StarsRatingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarsRatingCard.swift; sourceTree = "<group>"; };
 		BC583B0C2BA8C76500236C0D /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		BC606A6D2C221CBD00154781 /* SelectLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLevelView.swift; sourceTree = "<group>"; };
+		BC6496EE2D57E20500156BE3 /* SessionsChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsChartView.swift; sourceTree = "<group>"; };
+		BC6496F02D57E28000156BE3 /* MusclesChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusclesChartView.swift; sourceTree = "<group>"; };
+		BC6496F52D57E38100156BE3 /* MuscleChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleChartData.swift; sourceTree = "<group>"; };
+		BC6496F72D57E39700156BE3 /* SessionChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionChartData.swift; sourceTree = "<group>"; };
 		BC655B002CB0497600C19E07 /* YourWorkoutSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourWorkoutSection.swift; sourceTree = "<group>"; };
 		BC655B022CB055B300C19E07 /* ExerciseCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCardStack.swift; sourceTree = "<group>"; };
 		BC6F36592BB4E14D000F6CFA /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
@@ -601,6 +609,25 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		BC6496ED2D57E20000156BE3 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BC6496F02D57E28000156BE3 /* MusclesChartView.swift */,
+				BC6496EE2D57E20500156BE3 /* SessionsChartView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		BC6496F42D57E37E00156BE3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BC0ECAE92CF3A45F00FC6367 /* HistoryViewModel.swift */,
+				BC6496F72D57E39700156BE3 /* SessionChartData.swift */,
+				BC6496F52D57E38100156BE3 /* MuscleChartData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		BC6F365B2BB4E205000F6CFA /* Screens */ = {
 			isa = PBXGroup;
 			children = (
@@ -771,7 +798,8 @@
 			children = (
 				BCAC7E412D46EF050088312E /* RootHistoryScreen.swift */,
 				BC75310C2CF3613500C85033 /* HistoryScreen.swift */,
-				BC0ECAE92CF3A45F00FC6367 /* HistoryViewModel.swift */,
+				BC6496F42D57E37E00156BE3 /* Models */,
+				BC6496ED2D57E20000156BE3 /* Components */,
 			);
 			path = History;
 			sourceTree = "<group>";
@@ -1024,6 +1052,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC1B7E242D12502E0002158C /* RootHomeScreen.swift in Sources */,
+				BC6496F12D57E28400156BE3 /* MusclesChartView.swift in Sources */,
 				BC81E5CF2BD2F9350005891D /* AddExerciseSheet.swift in Sources */,
 				BC0DA87B2CA392D00011EC63 /* ChallengesSection.swift in Sources */,
 				BC1B7E372D136F660002158C /* CommonDestinations.swift in Sources */,
@@ -1065,6 +1094,7 @@
 				BCF9E5C22C9F4C0700841F2C /* HomeScreen.swift in Sources */,
 				BC3C0C642D17759F0039B367 /* ExerciseDetailsHeader.swift in Sources */,
 				BCD59AAA2BB628220039F662 /* ExploreExerciseContentView.swift in Sources */,
+				BC6496F62D57E38400156BE3 /* MuscleChartData.swift in Sources */,
 				BC261AB82B6DA0EF0018E21F /* ExerciseFilterSheet.swift in Sources */,
 				BC1B7E312D1359060002158C /* HomeDestinations.swift in Sources */,
 				BC9A020E2C593ED5003C83A8 /* AuthenticationScreen.swift in Sources */,
@@ -1085,7 +1115,9 @@
 				BC8FCDDB2D24D9B1009CF61E /* OnboardingWizard.swift in Sources */,
 				BC828CE32C028E9200AB9D1D /* ExerciseDetailsViewModel.swift in Sources */,
 				BCA24C082B6AFF8200124EC3 /* OnboardingScreen.swift in Sources */,
+				BC6496EF2D57E21E00156BE3 /* SessionsChartView.swift in Sources */,
 				BC4368262CEC08DE006E712F /* GoalsSection.swift in Sources */,
+				BC6496F82D57E39B00156BE3 /* SessionChartData.swift in Sources */,
 				BC4E5D572CAC61050046ABEE /* StarsRatingCard.swift in Sources */,
 				BCA24C002B6AE68500124EC3 /* SignUpView.swift in Sources */,
 				BCD59AA42BB627E60039F662 /* ProgressCard.swift in Sources */,

@@ -8,7 +8,7 @@
 import Shimmer
 import SwiftUI
 
-// MARK: - TitleSelectCard
+// MARK: - SelectTitleCard
 
 public struct SelectTitleCard: View {
   let title: String

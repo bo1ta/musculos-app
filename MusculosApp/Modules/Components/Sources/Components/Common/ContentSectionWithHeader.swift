@@ -30,7 +30,7 @@ public struct ContentSectionWithHeader<Content: View>: View {
     VStack(alignment: .leading) {
       HStack {
         Text(headerTitle)
-          .font(AppFont.spartan(.semiBold, size: 23))
+          .font(AppFont.spartan(.semiBold, size: 20))
         Spacer()
       }
       .padding(.vertical)

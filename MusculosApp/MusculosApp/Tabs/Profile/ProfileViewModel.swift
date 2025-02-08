@@ -111,31 +111,3 @@ final class ProfileViewModel: BaseViewModel {
     }
   }
 }
-
-// MARK: - MuscleChartData
-
-struct MuscleChartData: Identifiable {
-  var id: UUID
-  var muscleName: String
-  var count: Int
-
-  init(id: UUID = UUID(), muscle: String, count: Int) {
-    self.id = id
-    self.muscleName = muscle
-    self.count = count
-  }
-}
-
-// MARK: - SessionChartData
-
-struct SessionChartData: Identifiable {
-  var id: UUID
-  var dayName: String
-  var count: Int
-
-  init(id: UUID = UUID(), dayName: String, count: Int) {
-    self.id = id
-    self.dayName = dayName
-    self.count = count
-  }
-}

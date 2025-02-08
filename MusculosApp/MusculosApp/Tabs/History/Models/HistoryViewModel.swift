@@ -13,6 +13,8 @@ import Models
 import Observation
 import Utility
 
+// MARK: - HistoryViewModel
+
 @Observable
 @MainActor
 final class HistoryViewModel {
@@ -21,6 +23,8 @@ final class HistoryViewModel {
 
   private(set) var filteredSessions: [ExerciseSession] = []
   private(set) var calendarMarkers: [CalendarMarker] = []
+  private(set) var muscleChartData: [MuscleChartData] = []
+  private(set) var sessionsChartData: [SessionChartData] = []
 
   private var exerciseSessions: [ExerciseSession] = []
 
@@ -34,13 +38,14 @@ final class HistoryViewModel {
     do {
       exerciseSessions = try await repository.getExerciseSessions()
       updateFilteredSessions()
-      updateCalendarMarkers(from: exerciseSessions)
+      updateCalendarMarkers()
+      updateChartData()
     } catch {
       Logger.error(error, message: "Cannot fetch sessions for History screen")
     }
   }
 
-  private func updateCalendarMarkers(from exerciseSessions: [ExerciseSession]) {
+  private func updateCalendarMarkers() {
     calendarMarkers = exerciseSessions.map { .init(date: $0.dateAdded, color: .red) }
   }
 
@@ -50,5 +55,21 @@ final class HistoryViewModel {
     } else {
       filteredSessions = exerciseSessions
     }
+  }
+
+  private func updateChartData() {
+    muscleChartData = exerciseSessions
+      .flatMap { $0.exercise.muscleTypes }
+      .reduce(into: [:]) { counts, muscle in
+        counts[muscle.rawValue, default: 0] += 1
+      }
+      .map { MuscleChartData(muscle: $0.key, count: $0.value) }
+
+    sessionsChartData = exerciseSessions
+      .reduce(into: [:]) { result, session in
+        let day = session.dateAdded.dayName()
+        result[day, default: 0] += 1
+      }
+      .map { SessionChartData(dayName: $0.key, count: $0.value) }
   }
 }
