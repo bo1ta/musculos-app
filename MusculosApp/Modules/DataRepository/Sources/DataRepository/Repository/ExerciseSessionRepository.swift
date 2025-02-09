@@ -19,6 +19,7 @@ public protocol ExerciseSessionRepositoryProtocol: Sendable {
   func getCompletedSinceLastWeek() async throws -> [ExerciseSession]
   func getCompletedToday() async throws -> [ExerciseSession]
   func addSession(_ exerciseSession: ExerciseSession) async throws -> UserExperienceEntry
+  func fetchedResultsPublisherForCurrentUser() throws -> FetchedResultsPublisher<ExerciseSessionEntity>
 }
 
 // MARK: - ExerciseSessionRepository
@@ -53,5 +54,10 @@ public struct ExerciseSessionRepository: @unchecked Sendable, BaseRepository, Ex
     try await syncManager.insertToStorage(userExperienceEntry, ofType: UserExperienceEntryEntity.self)
 
     return userExperienceEntry
+  }
+
+  public func fetchedResultsPublisherForCurrentUser() throws -> FetchedResultsPublisher<ExerciseSessionEntity> {
+    let userID = try requireCurrentUser()
+    return dataStore.fetchedResultsPublisherForUser(userID)
   }
 }

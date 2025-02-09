@@ -7,18 +7,22 @@
 
 import Foundation
 import Models
+import Storage
 import Utility
 
 public struct ExerciseSessionRepositoryStub: ExerciseSessionRepositoryProtocol {
+  var expectedUserID: UUID?
   var expectedSessions: [ExerciseSession]
   var expectedExercises: [Exercise]
   var expectedUserExperienceEntry: UserExperienceEntry?
 
   public init(
+    expectedUserID: UUID? = nil,
     expectedSessions: [ExerciseSession] = [],
     expectedExercises: [Exercise] = [],
     expectedUserExperienceEntry: UserExperienceEntry? = nil)
   {
+    self.expectedUserID = expectedUserID
     self.expectedSessions = expectedSessions
     self.expectedExercises = expectedExercises
     self.expectedUserExperienceEntry = expectedUserExperienceEntry
@@ -45,5 +49,12 @@ public struct ExerciseSessionRepositoryStub: ExerciseSessionRepositoryProtocol {
       return expectedUserExperienceEntry
     }
     throw MusculosError.unexpectedNil
+  }
+
+  public func fetchedResultsPublisherForCurrentUser() throws -> FetchedResultsPublisher<ExerciseSessionEntity> {
+    guard let expectedUserID else {
+      throw MusculosError.unexpectedNil
+    }
+    return StorageContainer.shared.exerciseSessionDataStore().fetchedResultsPublisherForUser(expectedUserID)
   }
 }

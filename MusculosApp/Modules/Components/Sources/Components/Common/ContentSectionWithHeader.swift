@@ -45,4 +45,25 @@ public struct ContentSectionWithHeader<Content: View>: View {
       }
     }
   }
+
+  public struct Skeleton: View {
+
+    private let scrollDirection: Axis.Set
+    private let content: Content
+
+    public init(
+      scrollDirection: Axis.Set = .horizontal,
+      @ViewBuilder content: () -> Content)
+    {
+      self.scrollDirection = scrollDirection
+      self.content = content()
+    }
+
+    public var body: some View {
+      ContentSectionWithHeader(headerTitle: "Some header title", scrollDirection: scrollDirection, content: {
+        content
+      })
+      .redacted(reason: .placeholder)
+    }
+  }
 }

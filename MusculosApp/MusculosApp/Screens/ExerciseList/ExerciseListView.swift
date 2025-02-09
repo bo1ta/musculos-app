@@ -58,8 +58,8 @@ struct ExerciseListView: View {
       case .empty:
         EmptyView()
 
-      case .error(let errorMessage):
-        Text(errorMessage)
+      case .error(let error):
+        Text(error.localizedDescription)
       }
     }
     .task {
@@ -69,7 +69,7 @@ struct ExerciseListView: View {
       do {
         try await initialLoad()
       } catch {
-        state = .error("Could not load data")
+        state = .error(error)
       }
     }
     .onChange(of: searchQuery) { _, newValue in

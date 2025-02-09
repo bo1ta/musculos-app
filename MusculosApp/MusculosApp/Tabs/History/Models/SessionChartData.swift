@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - SessionChartData
+
 struct SessionChartData: Identifiable {
   var id: UUID
   var dayName: String
@@ -16,5 +18,13 @@ struct SessionChartData: Identifiable {
     self.id = id
     self.dayName = dayName
     self.count = count
+  }
+}
+
+// MARK: Equatable
+
+extension SessionChartData: Equatable {
+  static func ==(_ lhs: SessionChartData, rhs: SessionChartData) -> Bool {
+    lhs.id == rhs.id
   }
 }

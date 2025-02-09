@@ -31,6 +31,7 @@ public protocol ExerciseRepositoryProtocol: Sendable {
   func getByMuscleGroup(_ muscleGroup: MuscleGroup) async throws -> [Exercise]
   func setFavoriteExercise(_ exercise: Exercise, isFavorite: Bool) async throws
   func entityPublisherForID(_ exerciseID: UUID) -> EntityPublisher<ExerciseEntity>
+  func fetchedResultsPublisherForFavoriteExercises() -> FetchedResultsPublisher<ExerciseEntity>
 }
 
 // MARK: - ExerciseRepository
@@ -151,5 +152,9 @@ public struct ExerciseRepository: @unchecked Sendable, BaseRepository, ExerciseR
 
   public func entityPublisherForID(_ exerciseID: UUID) -> EntityPublisher<ExerciseEntity> {
     dataStore.exercisePublisherForID(exerciseID)
+  }
+
+  public func fetchedResultsPublisherForFavoriteExercises() -> FetchedResultsPublisher<ExerciseEntity> {
+    dataStore.fetchedResultsPublisherForFavorites()
   }
 }

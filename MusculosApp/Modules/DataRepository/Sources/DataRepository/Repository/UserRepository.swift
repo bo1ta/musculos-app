@@ -48,10 +48,14 @@ public struct UserRepository: @unchecked Sendable, BaseRepository, UserRepositor
 
   public func getCurrentUser() async throws -> UserProfile? {
     let userID = try requireCurrentUser()
-    return try await fetch(
-      forType: UserProfileEntity.self,
-      localTask: { await dataStore.userProfileByID(userID) },
-      remoteTask: { try await service.currentUser() })
+
+    if let localUser = await dataStore.userProfileByID(userID) {
+      return localUser
+    } else {
+      let remoteUser = try await service.currentUser()
+      syncManager.syncStorage(remoteUser, ofType: UserProfileEntity.self)
+      return remoteUser
+    }
   }
 
   public func getUserByID(_ userID: UUID) async -> UserProfile? {

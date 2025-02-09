@@ -12,7 +12,7 @@ import SwiftUI
 import Utility
 
 struct QuickWorkoutSection: View {
-  let exercises: [Exercise]
+  let state: LoadingViewState<[Exercise]>
   let onSelect: (Exercise) -> Void
 
   private var cardGradient: LinearGradient {
@@ -20,23 +20,49 @@ struct QuickWorkoutSection: View {
   }
 
   var body: some View {
-    ContentSectionWithHeader(
-      headerTitle: "Quick workout",
-      scrollDirection: .vertical,
-      content: {
-        VStack {
-          ForEach(exercises, id: \.id) { exercise in
-            SmallCardWithContent(
-              title: exercise.name,
-              description: exercise.category,
-              gradient: cardGradient,
-              rightContent: {
-                IconButton(systemImageName: "chevron.right", action: {
-                  onSelect(exercise)
+    Group {
+      switch state {
+      case .loading:
+        ContentSectionWithHeader.Skeleton(scrollDirection: .vertical) {
+          VStack {
+            ForEach(0..<2, id: \.self) { _ in
+              SmallCardWithContent(
+                title: "Exercise title",
+                description: "description",
+                gradient: cardGradient,
+                rightContent: {
+                  IconButton(
+                    systemImageName: "chevron.right",
+                    action: { })
                 })
-              })
+                .redacted(reason: .placeholder)
+            }
           }
         }
-      })
+
+      case .loaded(let exercises):
+        ContentSectionWithHeader(
+          headerTitle: "Quick workout",
+          scrollDirection: .vertical,
+          content: {
+            VStack {
+              ForEach(exercises, id: \.id) { exercise in
+                SmallCardWithContent(
+                  title: exercise.name,
+                  description: exercise.category,
+                  gradient: cardGradient,
+                  rightContent: {
+                    IconButton(systemImageName: "chevron.right", action: {
+                      onSelect(exercise)
+                    })
+                  })
+              }
+            }
+          })
+
+      default:
+        EmptyView()
+      }
+    }
   }
 }

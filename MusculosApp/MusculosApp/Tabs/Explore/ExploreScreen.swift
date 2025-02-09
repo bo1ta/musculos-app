@@ -19,39 +19,32 @@ struct ExploreScreen: View {
   var body: some View {
     ScrollView {
       VStack(spacing: 20) {
-        ExploreSearchSection(
-          onFiltersTap: { navigator.navigate(to: ExploreDestinations.exerciseFilters) },
-          onSearchQuery: { viewModel.searchByMuscleQuery($0) })
+        ExploreSearchSection(onFiltersTap: navigateToFilters, onSearchQuery: viewModel.searchByMuscleQuery)
+        FeaturedWorkoutsSection(onWorkoutGoalSelected: navigateToExerciseListByGoal)
+        MusclesSection(onSelectedMuscle: navigateToExerciseListByMuscleGroup)
 
-        FeaturedWorkoutsSection(onWorkoutGoalSelected: { navigator.navigate(to: ExploreDestinations.exerciseListByGoal($0)) })
-        MusclesSection(onSelectedMuscle: { navigator.navigate(to: ExploreDestinations.exerciseListByMuscleGroup($0)) })
+        ExerciseSectionView(
+          title: "Recommendations for your goals",
+          state: viewModel.recommendedExercisesByGoals,
+          onExerciseTap: navigateToExerciseDetails(_:),
+          onSeeMore: {
+            navigateToExerciseList(viewModel.recommendedExercisesByGoals.resultsOrEmpty())
+          })
 
-        if let goal = viewModel.displayGoal, !viewModel.recommendedExercisesByGoals.isEmpty {
-          ExerciseSectionView(
-            title: "Recommendations for your \(goal.name) goal",
-            exercises: viewModel.recommendedExercisesByGoals,
-            onExerciseTap: navigateToExerciseDetails(_:),
-            onSeeMore: {
-              navigateToExerciseList(viewModel.recommendedExercisesByPastSessions)
-            })
-        }
-
-        if !viewModel.recommendedExercisesByPastSessions.isEmpty {
-          ExerciseSectionView(
-            title: "Recommendations from past sessions",
-            exercises: viewModel.recommendedExercisesByPastSessions,
-            onExerciseTap: navigateToExerciseDetails(_:),
-            onSeeMore: {
-              navigateToExerciseList(viewModel.recommendedExercisesByPastSessions)
-            })
-        }
+        ExerciseSectionView(
+          title: "Recommendations from past sessions",
+          state: viewModel.recommendedExercisesByPastSessions,
+          onExerciseTap: navigateToExerciseDetails(_:),
+          onSeeMore: {
+            navigateToExerciseList(viewModel.recommendedExercisesByPastSessions.resultsOrEmpty())
+          })
 
         ExerciseSectionView(
           title: "Featured exercises",
-          exercises: viewModel.featuredExercises,
+          state: viewModel.featuredExercises,
           onExerciseTap: navigateToExerciseDetails(_:),
           onSeeMore: {
-            navigateToExerciseList(viewModel.featuredExercises)
+            navigateToExerciseList(viewModel.featuredExercises.resultsOrEmpty())
           })
       }
       .padding()
@@ -65,6 +58,20 @@ struct ExploreScreen: View {
       viewModel.setFilteredExercises(result)
     }
     .onDisappear(perform: viewModel.cleanUp)
+  }
+
+  // MARK: Navigation methods
+
+  private func navigateToFilters() {
+    navigator.navigate(to: ExploreDestinations.exerciseFilters)
+  }
+
+  private func navigateToExerciseListByGoal(_ goal: WorkoutGoal) {
+    navigator.navigate(to: ExploreDestinations.exerciseListByGoal(goal))
+  }
+
+  private func navigateToExerciseListByMuscleGroup(_ muscleGroup: MuscleGroup) {
+    navigator.navigate(to: ExploreDestinations.exerciseListByMuscleGroup(muscleGroup))
   }
 
   private func navigateToExerciseDetails(_ exercise: Exercise) {

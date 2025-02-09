@@ -5,6 +5,7 @@
 //  Created by Solomon Alexandru on 22.09.2024.
 //
 
+import Combine
 import DataRepository
 import Factory
 import Foundation
@@ -14,9 +15,9 @@ import Utility
 
 @Observable
 @MainActor
-final class HomeViewModel: BaseViewModel {
-  @ObservationIgnored
-  @Injected(\.userStore) private var userStore: UserStoreProtocol
+final class HomeViewModel: BaseViewModel, TabViewModel {
+
+  // MARK: Dependencies
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
@@ -24,40 +25,83 @@ final class HomeViewModel: BaseViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.workoutRepository) private var workoutRepository: WorkoutRepositoryProtocol
 
-  @ObservationIgnored
-  @Injected(\.goalStore) private var goalStore: GoalStore
+  // MARK: Properties
 
-  var goals: [Goal] {
-    goalStore.goals
+  private var goalObserver: AnyCancellable?
+  private(set) var quickExercises = LoadingViewState<[Exercise]>.empty
+  private(set) var workoutChallenge = LoadingViewState<WorkoutChallenge>.empty
+  private(set) var goals: [Goal] = []
+
+  var shouldLoad: Bool {
+    quickExercises.isLoadable || workoutChallenge.isLoadable
   }
 
-  private(set) var isLoading = false
-  private(set) var quickExercises: [Exercise]?
-  private(set) var workoutChallenge: WorkoutChallenge?
+  // MARK: Methods
 
   func initialLoad() async {
-    isLoading = true
-    defer { isLoading = false }
+    setupGoalObserver()
+
+    guard shouldLoad else {
+      return
+    }
 
     async let exercisesTask: Void = loadExercises()
     async let workoutTask: Void = loadWorkoutChallenge()
+
     _ = await (exercisesTask, workoutTask)
   }
 
-  func loadWorkoutChallenge() async {
+  private func setupGoalObserver() {
+    goals = currentUser?.goals ?? []
+
+    goalObserver = userStore.eventPublisher
+      .sink { event in
+        guard
+          case .didUpdateUser(let userProfile) = event,
+          let goals = userProfile.goals,
+          goals.count != self.goals.count
+        else {
+          return
+        }
+        self.goals = goals
+      }
+  }
+
+  private func loadWorkoutChallenge() async {
+    guard workoutChallenge.isLoadable else {
+      return
+    }
+
+    workoutChallenge = .loading
+
     do {
-      workoutChallenge = try await workoutRepository.generateWorkoutChallenge()
+      let result = try await workoutRepository.generateWorkoutChallenge()
+      workoutChallenge = .loaded(result)
     } catch {
+      workoutChallenge = .error(error)
       Logger.error(error, message: "Error loading workout challenges")
     }
   }
 
-  func loadExercises() async {
+  private func loadExercises() async {
+    guard quickExercises.isLoadable else {
+      return
+    }
+
+    quickExercises = .loading
+
     do {
       let exercises = try await exerciseRepository.getExercisesByWorkoutGoal(.improveEndurance)
-      quickExercises = Array(exercises.prefix(2))
+      let firstTwoExercises = Array(exercises.prefix(2))
+      quickExercises.assignResult(firstTwoExercises)
     } catch {
+      quickExercises = .error(error)
       Logger.error(error, message: "Error loading exercises for home view")
     }
+  }
+
+  func onDisappear() {
+    goalObserver?.cancel()
+    goalObserver = nil
   }
 }

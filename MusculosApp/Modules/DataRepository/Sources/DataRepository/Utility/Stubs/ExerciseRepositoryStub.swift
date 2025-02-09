@@ -84,6 +84,10 @@ public struct ExerciseRepositoryStub: ExerciseRepositoryProtocol {
   }
 
   public func entityPublisherForID(_ exerciseID: UUID) -> Storage.EntityPublisher<Storage.ExerciseEntity> {
-    ExerciseDataStore().exercisePublisherForID(exerciseID)
+    StorageContainer.shared.exerciseDataStore().exercisePublisherForID(exerciseID)
+  }
+
+  public func fetchedResultsPublisherForFavoriteExercises() -> FetchedResultsPublisher<ExerciseEntity> {
+    StorageContainer.shared.exerciseDataStore().fetchedResultsPublisherForFavorites()
   }
 }

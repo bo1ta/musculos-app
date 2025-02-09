@@ -14,7 +14,12 @@ public struct ContentSectionWithHeaderAndButton<Content: View>: View {
   private let onAction: () -> Void
   private let content: Content
 
-  public init(headerTitle: String, buttonTitle: String, onAction: @escaping () -> Void, @ViewBuilder content: () -> Content) {
+  public init(
+    headerTitle: String,
+    buttonTitle: String,
+    onAction: @escaping () -> Void,
+    @ViewBuilder content: () -> Content)
+  {
     self.headerTitle = headerTitle
     self.buttonTitle = buttonTitle
     self.onAction = onAction
@@ -37,6 +42,24 @@ public struct ContentSectionWithHeaderAndButton<Content: View>: View {
       .padding(.vertical)
 
       content
+    }
+  }
+
+  public struct Skeleton: View {
+
+    private let content: Content
+
+    public init(
+      @ViewBuilder content: () -> Content)
+    {
+      self.content = content()
+    }
+
+    public var body: some View {
+      ContentSectionWithHeader(headerTitle: "Some header title", content: {
+        content
+      })
+      .redacted(reason: .placeholder)
     }
   }
 }

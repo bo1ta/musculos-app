@@ -13,121 +13,101 @@ import Observation
 import Storage
 import Utility
 
-// MARK: - ExerciseResultCategory
-
-enum ExerciseResultCategory: CaseIterable {
-  case favorites
-  case featured
-  case recommendedByGoals
-  case recommendedByPastSessions
-}
-
 // MARK: - ExploreViewModel
 
 @Observable
 @MainActor
-final class ExploreViewModel: BaseViewModel {
+final class ExploreViewModel: BaseViewModel, TabViewModel {
 
   // MARK: Dependencies
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository
 
-  @ObservationIgnored
-  @Injected(\DataRepositoryContainer.exerciseSessionRepository) private var exerciseSessionRepository
-
-  @ObservationIgnored
-  @Injected(\.goalStore) private var goalStore: GoalStore
-
   // MARK: Public
 
-  private(set) var isLoading = false
-  private(set) var isLoaded = false
-  private(set) var results: [ExerciseResultCategory: [Exercise]] = [:]
+  private(set) var featuredExercises = LoadingViewState<[Exercise]>.empty
+  private(set) var recommendedExercisesByGoals = LoadingViewState<[Exercise]>.empty
+  private(set) var recommendedExercisesByPastSessions = LoadingViewState<[Exercise]>.empty
+
   private(set) var searchQueryTask: Task<Void, Never>?
 
-  var recentSessions: [ExerciseSession] = []
-  var progress: Float = 0.0
-  var showFilterView = false
-
-  var recommendedExercisesByPastSessions: [Exercise] {
-    results[.recommendedByPastSessions] ?? []
+  var shouldLoad: Bool {
+    featuredExercises.isLoadable
+      || recommendedExercisesByGoals.isLoadable
+      || recommendedExercisesByPastSessions.isLoadable
   }
 
-  var recommendedExercisesByGoals: [Exercise] {
-    results[.recommendedByGoals] ?? []
-  }
+  // MARK: Tasks
 
-  var favoriteExercises: [Exercise] {
-    results[.favorites] ?? []
-  }
-
-  var featuredExercises: [Exercise] {
-    results[.featured] ?? []
-  }
-
-  var displayGoal: Goal? {
-    goalStore.goals.first
-  }
-}
-
-// MARK: - Tasks
-
-extension ExploreViewModel {
   func initialLoad() async {
-    isLoading = true
-    defer { isLoading = false }
+    guard shouldLoad else {
+      return
+    }
 
-    async let recommendations: Void = loadRecommandations()
-    async let exercises: Void = loadExercises()
-    async let sessions: Void = loadRecentSessions()
-    _ = await (recommendations, exercises, sessions)
+    await withTaskGroup(of: Void.self) { group in
+      group.addTask {
+        await self.loadFeaturedExercises()
+      }
+      group.addTask {
+        await self.loadRecommededByGoals()
+      }
+      group.addTask {
+        await self.loadRecommendedByPastSessions()
+      }
+    }
   }
 
-  private func loadExercises() async {
-    await loadFavoriteExercises()
+  private func loadFeaturedExercises() async {
+    guard featuredExercises.isLoadable else {
+      return
+    }
+
+    featuredExercises = .loading
 
     for await result in await exerciseRepository.getExercisesStream() {
       switch result {
-      case .success(let success):
-        results[.featured] = success
-      case .failure(let failure):
-        Logger.error(failure, message: "Something went wrong!")
+      case .success(let exercises):
+        featuredExercises.assignResult(exercises)
+      case .failure(let error):
+        featuredExercises.assignErrorIfNotLoaded(error)
+        Logger.error(error, message: "Something went wrong while loading featured exercises")
       }
     }
   }
 
-  private func loadFavoriteExercises() async {
-    do {
-      results[.favorites] = try await exerciseRepository.getFavoriteExercises()
-    } catch {
-      Logger.error(error, message: "Data controller failed to get exercises")
+  private func loadRecommededByGoals() async {
+    guard recommendedExercisesByGoals.isLoadable else {
+      return
     }
+
+    recommendedExercisesByGoals = .loading
+
+    let exercises = await exerciseRepository.getRecommendedExercisesByGoals()
+    recommendedExercisesByGoals.assignResult(exercises)
   }
 
-  private func loadRecommandations() async {
-    do {
-      results[.recommendedByPastSessions] = try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
-      if let goal = displayGoal {
-        results[.recommendedByGoals] = await exerciseRepository.getExercisesForGoal(goal)
-      }
-    } catch {
-      Logger.error(error, message: "Could not load recommendations by past sessions")
+  private func loadRecommendedByPastSessions() async {
+    guard recommendedExercisesByPastSessions.isLoadable else {
+      return
     }
-  }
 
-  private func loadRecentSessions() async {
+    recommendedExercisesByPastSessions = .loading
+
     do {
-      recentSessions = try await exerciseSessionRepository.getCompletedToday()
+      let exercises = try await exerciseRepository.getRecommendedExercisesByMuscleGroups()
+      recommendedExercisesByPastSessions.assignResult(exercises)
     } catch {
-      Logger.error(error, message: "Data controller failed to get exercises completed today")
+      recommendedExercisesByPastSessions = .error(error)
+      Logger.error(error, message: "Something went wrong while loading recommended exercises by muscle groups")
     }
   }
 
   func searchByMuscleQuery(_ query: String) {
     searchQueryTask = Task {
       do {
-        results[.featured] = try await exerciseRepository.searchByQuery(query)
+        let exercises = try await exerciseRepository.searchByQuery(query)
+        featuredExercises.assignResult(exercises)
       } catch {
         Logger.error(error, message: "Could not search by muscle query", properties: ["query": query])
       }
@@ -135,7 +115,7 @@ extension ExploreViewModel {
   }
 
   func setFilteredExercises(_ exercises: [Exercise]) {
-    results[.featured] = exercises
+    featuredExercises.assignResult(exercises)
   }
 
   func cleanUp() {

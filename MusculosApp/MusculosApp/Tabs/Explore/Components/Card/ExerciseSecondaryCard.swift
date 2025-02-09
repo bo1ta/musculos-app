@@ -44,6 +44,39 @@ struct ExerciseSecondaryCard: View {
       }
   }
 
+  // MARK: Skeleton
+
+  struct Skeleton: View {
+    var body: some View {
+      RoundedRectangle(cornerRadius: 20)
+        .frame(width: 250, height: 260)
+        .shadow(radius: 1.0)
+        .foregroundStyle(.white)
+        .overlay {
+          VStack(alignment: .leading) {
+            Color.gray
+              .frame(width: 250, height: 140)
+              .redacted(reason: .placeholder)
+              .defaultShimmering()
+
+            Spacer()
+
+            Group {
+              Text("Exercise name")
+                .font(AppFont.poppins(.semibold, size: 15))
+                .foregroundStyle(.black)
+                .redacted(reason: .placeholder)
+              TextResizablePillsStack(options: ["First option", "Second option"])
+                .redacted(reason: .placeholder)
+            }
+            .padding(.horizontal)
+
+            Spacer()
+          }
+        }
+    }
+  }
+
   // MARK: - Views
 
   @ViewBuilder

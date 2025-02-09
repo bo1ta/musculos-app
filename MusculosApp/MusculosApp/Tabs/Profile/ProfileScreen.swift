@@ -10,17 +10,12 @@ import Models
 import SwiftUI
 import Utility
 
+// MARK: - ProfileScreen
+
 struct ProfileScreen: View {
   @Environment(\.navigator) private var navigator
 
   @State private var viewModel = ProfileViewModel()
-
-  private static let highlights: [ProfileHighlight] = [
-    ProfileHighlight(highlightType: .steps, value: "5432", description: "updated 10 mins ago"),
-    ProfileHighlight(highlightType: .sleep, value: "7 hr 31 min", description: "updated 10 mins ago"),
-    ProfileHighlight(highlightType: .waterIntake, value: "4.2 ltr", description: "updated now"),
-    ProfileHighlight(highlightType: .workoutTracking, value: "1 day since last workout", description: "updated a day ago"),
-  ]
 
   var body: some View {
     ScrollView {
@@ -52,6 +47,19 @@ struct ProfileScreen: View {
     .scrollIndicators(.hidden)
   }
 }
+
+// MARK: - Constants
+
+extension ProfileScreen {
+  private static let highlights: [ProfileHighlight] = [
+    ProfileHighlight(highlightType: .steps, value: "5432", description: "updated 10 mins ago"),
+    ProfileHighlight(highlightType: .sleep, value: "7 hr 31 min", description: "updated 10 mins ago"),
+    ProfileHighlight(highlightType: .waterIntake, value: "4.2 ltr", description: "updated now"),
+    ProfileHighlight(highlightType: .workoutTracking, value: "1 day since last workout", description: "updated a day ago"),
+  ]
+}
+
+// MARK: - Preview
 
 #Preview {
   ProfileScreen()
