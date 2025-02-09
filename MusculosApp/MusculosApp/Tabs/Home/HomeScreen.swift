@@ -20,19 +20,11 @@ struct HomeScreen: View {
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: 15) {
-        UserHeader(
-          profile: viewModel.currentUser,
-          onNotificationsTap: showNotificationsScreen)
+        UserHeader(profile: viewModel.currentUser, onNotificationsTap: showNotificationsScreen)
 
         GoalsSection(goals: viewModel.goals, onAddGoal: showAddGoalSheet)
-
-        if let exercises = viewModel.quickExercises {
-          QuickWorkoutSection(exercises: exercises, onSelect: navigateToExerciseDetails(_:))
-        }
-
-        if let workoutChallenge = viewModel.workoutChallenge {
-          ChallengesSection(workoutChallenge: workoutChallenge, onSelectDailyWorkout: showDailyWorkoutSheet(_:))
-        }
+        QuickWorkoutSection(state: viewModel.quickExercises, onSelect: navigateToExerciseDetails(_:))
+        ChallengesSection(state: viewModel.workoutChallenge, onSelectDailyWorkout: showDailyWorkoutSheet(_:))
       }
       .frame(alignment: .top)
       .padding(.bottom, 30)
@@ -51,7 +43,7 @@ struct HomeScreen: View {
   }
 
   private func showDailyWorkoutSheet(_ workout: DailyWorkout) {
-    guard let workoutChallenge = viewModel.workoutChallenge else {
+    guard let workoutChallenge = viewModel.workoutChallenge.resultOrNil() else {
       Logger.error(MusculosError.unexpectedNil, message: "Trying to navigate to daily workout sheet without a workout challenge")
       return
     }

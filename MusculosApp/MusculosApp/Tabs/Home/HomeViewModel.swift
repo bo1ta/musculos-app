@@ -14,9 +14,9 @@ import Utility
 
 @Observable
 @MainActor
-final class HomeViewModel: BaseViewModel {
-  @ObservationIgnored
-  @Injected(\.userStore) private var userStore: UserStoreProtocol
+final class HomeViewModel: BaseViewModel, TabViewModel {
+
+  // MARK: Dependencies
 
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.exerciseRepository) private var exerciseRepository: ExerciseRepositoryProtocol
@@ -27,36 +27,59 @@ final class HomeViewModel: BaseViewModel {
   @ObservationIgnored
   @Injected(\.goalStore) private var goalStore: GoalStore
 
+  // MARK: Properties
+
+  private(set) var quickExercises = LoadingViewState<[Exercise]>.empty
+  private(set) var workoutChallenge = LoadingViewState<WorkoutChallenge>.empty
+
   var goals: [Goal] {
     goalStore.goals
   }
 
-  private(set) var isLoading = false
-  private(set) var quickExercises: [Exercise]?
-  private(set) var workoutChallenge: WorkoutChallenge?
+  var shouldLoad: Bool {
+    quickExercises.isLoadable || workoutChallenge.isLoadable
+  }
 
   func initialLoad() async {
-    isLoading = true
-    defer { isLoading = false }
+    guard shouldLoad else {
+      return
+    }
 
     async let exercisesTask: Void = loadExercises()
     async let workoutTask: Void = loadWorkoutChallenge()
+
     _ = await (exercisesTask, workoutTask)
   }
 
   func loadWorkoutChallenge() async {
+    guard workoutChallenge.isLoadable else {
+      return
+    }
+
+    workoutChallenge = .loading
+
     do {
-      workoutChallenge = try await workoutRepository.generateWorkoutChallenge()
+      let result = try await workoutRepository.generateWorkoutChallenge()
+      workoutChallenge = .loaded(result)
     } catch {
+      workoutChallenge = .error(error)
       Logger.error(error, message: "Error loading workout challenges")
     }
   }
 
   func loadExercises() async {
+    guard quickExercises.isLoadable else {
+      return
+    }
+
+    quickExercises = .loading
+
     do {
       let exercises = try await exerciseRepository.getExercisesByWorkoutGoal(.improveEndurance)
-      quickExercises = Array(exercises.prefix(2))
+      let firstTwoExercises = Array(exercises.prefix(2))
+      quickExercises.assignResult(firstTwoExercises)
     } catch {
+      quickExercises = .error(error)
       Logger.error(error, message: "Error loading exercises for home view")
     }
   }

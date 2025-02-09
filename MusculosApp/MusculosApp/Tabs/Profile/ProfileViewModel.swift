@@ -5,10 +5,12 @@
 //  Created by Solomon Alexandru on 29.12.2024.
 //
 
+import Combine
 import Components
 import DataRepository
 import Factory
 import Models
+import Storage
 import SwiftUI
 import Utility
 
@@ -16,7 +18,7 @@ import Utility
 
 @Observable
 @MainActor
-final class ProfileViewModel: BaseViewModel {
+final class ProfileViewModel: BaseViewModel, TabViewModel {
 
   // MARK: Depedencies
 
@@ -26,20 +28,12 @@ final class ProfileViewModel: BaseViewModel {
   @ObservationIgnored
   @LazyInjected(\DataRepositoryContainer.healthKitClient) private var healthKitClient: HealthKitClient
 
-  @ObservationIgnored
-  @LazyInjected(\DataRepositoryContainer.exerciseSessionRepository) private var sessionRepository
-
-  @ObservationIgnored
-  @LazyInjected(\.userStore) private var userStore: UserStoreProtocol
-
   // MARK: Public
 
   private(set) var favoriteExercises: [Exercise] = []
-  private(set) var userTotalSteps = 0.0
-  private(set) var userTotalSleep = 0
-  private(set) var sessions: [ExerciseSession] = []
-  private(set) var muscleChartData: [MuscleChartData] = []
-  private(set) var sessionsChartData: [SessionChartData] = []
+  private(set) var fetchedResultsPublisher: FetchedResultsPublisher<ExerciseEntity>?
+  private(set) var profileHighlightData: ProfileHighlightData?
+  private(set) var cancellables: Set<AnyCancellable> = []
 
   var userLevel: Int {
     currentUser?.currentLevel ?? 0
@@ -49,11 +43,23 @@ final class ProfileViewModel: BaseViewModel {
     currentUser?.currentLevelProgress ?? 0
   }
 
-  var selectedWorkout: String?
+  var shouldLoad: Bool {
+    favoriteExercises.isEmpty || profileHighlightData == nil
+  }
+
+  init() {
+    fetchedResultsPublisher = StorageContainer.shared.exerciseDataStore().fetchedResultsPublisherForFavorites()
+    fetchedResultsPublisher?.publisher
+      .sink { [weak self] event in
+        guard case .didUpdateContent(let newContent) = event else {
+          return
+        }
+        self?.favoriteExercises = newContent
+      }
+      .store(in: &cancellables)
+  }
 
   func initialLoad() async {
-    await loadSessions()
-
     async let exerciseTask: Void = loadFavoriteExercises()
     async let healthKitTask: Void = loadHealthKitData()
 
@@ -70,31 +76,6 @@ final class ProfileViewModel: BaseViewModel {
     }
   }
 
-  private func loadSessions() async {
-    do {
-      sessions = try await sessionRepository.getCompletedSinceLastWeek()
-      updateChartDataForSessions(sessions)
-    } catch {
-      Logger.error(error, message: "Could not load past sessions")
-    }
-  }
-
-  private func updateChartDataForSessions(_ sessions: [ExerciseSession]) {
-    muscleChartData = sessions
-      .flatMap { $0.exercise.muscleTypes }
-      .reduce(into: [:]) { counts, muscle in
-        counts[muscle.rawValue, default: 0] += 1
-      }
-      .map { MuscleChartData(muscle: $0.key, count: $0.value) }
-
-    sessionsChartData = sessions
-      .reduce(into: [:]) { result, session in
-        let day = session.dateAdded.dayName()
-        result[day, default: 0] += 1
-      }
-      .map { SessionChartData(dayName: $0.key, count: $0.value) }
-  }
-
   private func loadHealthKitData() async {
     do {
       guard try await healthKitClient.requestPermissions() else {
@@ -104,8 +85,8 @@ final class ProfileViewModel: BaseViewModel {
       async let totalSleepTask = healthKitClient.getTotalSleepSinceLastWeek()
       async let totalStepsTask = healthKitClient.getTotalStepsSinceLastWeek()
 
-      (userTotalSleep, userTotalSteps) = try await (totalSleepTask, totalStepsTask)
-
+      let (totalSleep, totalSteps) = try await (totalSleepTask, totalStepsTask)
+      profileHighlightData = ProfileHighlightData(totalSteps: totalSteps, totalSleep: Double(totalSleep))
     } catch {
       Logger.error(error, message: "Error loading HealthKit data")
     }

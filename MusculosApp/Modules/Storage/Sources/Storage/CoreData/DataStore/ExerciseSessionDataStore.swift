@@ -18,12 +18,15 @@ public protocol ExerciseSessionDataStoreProtocol: Sendable {
   func exerciseSessionCompletedToday(for userID: UUID) async -> [ExerciseSession]
   func exerciseSessionsCompletedSinceLastWeek(for userID: UUID) async -> [ExerciseSession]
   func exerciseSessionByID(_ id: UUID) async -> ExerciseSession?
+  func fetchedResultsPublisherForUser(_ userID: UUID) -> FetchedResultsPublisher<ExerciseSessionEntity>
 }
 
 // MARK: - ExerciseSessionDataStore
 
 public struct ExerciseSessionDataStore: ExerciseSessionDataStoreProtocol, @unchecked Sendable {
   @Injected(\StorageContainer.storageManager) public var storageManager: StorageManagerType
+
+  public init() { }
 
   public func exerciseSessionsForUser(_ userID: UUID) async -> [ExerciseSession] {
     let predicate: NSPredicate = \ExerciseSessionEntity.user.uniqueID == userID
@@ -53,5 +56,13 @@ public struct ExerciseSessionDataStore: ExerciseSessionDataStoreProtocol, @unche
   public func exerciseSessionByID(_ id: UUID) async -> ExerciseSession? {
     let predicate: NSPredicate = \ExerciseSessionEntity.uniqueID == id
     return await storageManager.getFirstEntity(ExerciseSessionEntity.self, predicate: predicate)
+  }
+
+  public func fetchedResultsPublisherForUser(_ userID: UUID) -> FetchedResultsPublisher<ExerciseSessionEntity> {
+    let predicate: NSPredicate = \ExerciseSessionEntity.user.uniqueID == userID
+    return storageManager.createFetchedResultsPublisher(
+      matching: predicate,
+      sortDescriptors: [],
+      fetchLimit: nil)
   }
 }

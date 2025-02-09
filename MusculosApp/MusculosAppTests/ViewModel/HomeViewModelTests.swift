@@ -46,7 +46,7 @@ class HomeViewModelTests: XCTestCase {
     #expect(!viewModel.goals.isEmpty)
 
     let quickExercises = try #require(viewModel.quickExercises)
-    #expect(!quickExercises.isEmpty)
+    #expect(!quickExercises.resultsOrEmpty().isEmpty)
   }
 
   private func setupCurrentUser() -> UserProfile {

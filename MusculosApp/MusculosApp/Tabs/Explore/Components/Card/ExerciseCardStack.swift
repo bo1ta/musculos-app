@@ -5,7 +5,9 @@
 //  Created by Solomon Alexandru on 04.10.2024.
 //
 
+import Components
 import Models
+import Storage
 import SwiftUI
 
 public struct ExerciseCardsStack: View {
@@ -26,6 +28,20 @@ public struct ExerciseCardsStack: View {
           }, label: {
             ExerciseSecondaryCard(exercise: exercise)
           })
+        }
+      }
+    }
+  }
+
+  // MARK: Skeleton
+
+  struct Skeleton: View {
+    var body: some View {
+      ScrollView(.horizontal, showsIndicators: false) {
+        LazyHStack(spacing: 20) {
+          ForEach(0..<5, id: \.self) { _ in
+            ExerciseSecondaryCard.Skeleton()
+          }
         }
       }
     }

@@ -44,6 +44,6 @@ public struct GoalRepositoryStub: GoalRepositoryProtocol {
   public func updateGoalProgress(exerciseSession _: ExerciseSession) async throws { }
 
   public func goalsPublisher() -> FetchedResultsPublisher<GoalEntity> {
-    GoalDataStore().goalsPublisherForUserID(expectedUserID ?? UUID())
+    StorageContainer.shared.goalDataStore().goalsPublisherForUserID(expectedUserID ?? UUID())
   }
 }

@@ -14,25 +14,46 @@ import Utility
 // MARK: - ChallengesSection
 
 struct ChallengesSection: View {
-  let workoutChallenge: WorkoutChallenge
+  let state: LoadingViewState<WorkoutChallenge>
   let onSelectDailyWorkout: (DailyWorkout) -> Void
 
   var body: some View {
-    ContentSectionWithHeader(
-      headerTitle: workoutChallenge.title,
-      content: {
+    switch state {
+    case .loading:
+      ContentSectionWithHeader.Skeleton {
         HStack {
-          ForEach(workoutChallenge.dailyWorkouts, id: \.id) { dailyWorkout in
+          ForEach(0..<5, id: \.self) { _ in
             ChallengeCard(
-              label: dailyWorkout.label,
-              level: workoutChallenge.level.rawValue)
-              .onTapGesture {
-                onSelectDailyWorkout(dailyWorkout)
-              }
+              label: "Some label",
+              level: "Some level")
+              .onTapGesture { }
+              .redacted(reason: .placeholder)
+              .defaultShimmering()
           }
           .padding([.horizontal], 5)
         }
-      })
+      }
+
+    case .loaded(let workoutChallenge):
+      ContentSectionWithHeader(
+        headerTitle: workoutChallenge.title,
+        content: {
+          HStack {
+            ForEach(workoutChallenge.dailyWorkouts, id: \.id) { dailyWorkout in
+              ChallengeCard(
+                label: dailyWorkout.label,
+                level: workoutChallenge.level.rawValue)
+                .onTapGesture {
+                  onSelectDailyWorkout(dailyWorkout)
+                }
+            }
+            .padding([.horizontal], 5)
+          }
+        })
+
+    default:
+      EmptyView()
+    }
   }
 }
 

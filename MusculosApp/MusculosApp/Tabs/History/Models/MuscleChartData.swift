@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - MuscleChartData
+
 struct MuscleChartData: Identifiable {
   var id: UUID
   var muscleName: String
@@ -16,5 +18,13 @@ struct MuscleChartData: Identifiable {
     self.id = id
     self.muscleName = muscle
     self.count = count
+  }
+}
+
+// MARK: Equatable
+
+extension MuscleChartData: Equatable {
+  static func ==(_ lhs: MuscleChartData, rhs: MuscleChartData) -> Bool {
+    lhs.id == rhs.id
   }
 }

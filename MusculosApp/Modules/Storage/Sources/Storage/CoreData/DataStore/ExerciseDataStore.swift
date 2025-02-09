@@ -31,6 +31,7 @@ public protocol ExerciseDataStoreProtocol: Sendable {
   func exercisePublisherForID(_ exerciseID: UUID) -> EntityPublisher<ExerciseEntity>
   func addRating(_ exerciseRating: ExerciseRating) async throws
   func addExercise(_ exercise: Exercise) async throws
+  func fetchedResultsPublisherForFavorites() -> FetchedResultsPublisher<ExerciseEntity>
 }
 
 // MARK: - ExerciseDataStore
@@ -184,5 +185,10 @@ public struct ExerciseDataStore: ExerciseDataStoreProtocol, @unchecked Sendable 
 
   public func addExercise(_ exercise: Exercise) async throws {
     try await storageManager.importEntity(exercise, of: ExerciseEntity.self)
+  }
+
+  public func fetchedResultsPublisherForFavorites() -> FetchedResultsPublisher<ExerciseEntity> {
+    let predicate: NSPredicate = \ExerciseEntity.isFavorite == true
+    return storageManager.createFetchedResultsPublisher(matching: predicate, sortDescriptors: [], fetchLimit: nil)
   }
 }

@@ -13,6 +13,8 @@ import SwiftUI
 import Utility
 
 struct HistoryScreen: View {
+  @Environment(\.navigator) private var navigator
+
   @State private var viewModel = HistoryViewModel()
 
   var body: some View {
@@ -20,20 +22,37 @@ struct HistoryScreen: View {
       VStack {
         CalendarView(
           selectedDate: $viewModel.selectedDate,
-          calendarMarkers: viewModel.calendarMarkers)
+          calendarMarkers: viewModel.historyChartData?.calendarMarkers ?? [])
 
-        if !viewModel.muscleChartData.isEmpty {
-          MusclesChartView(data: viewModel.muscleChartData)
+        if let selectedDate = viewModel.selectedDate, !viewModel.displayExercises.isEmpty {
+          ContentSectionWithHeader(headerTitle: "Completed exercises on \(DateHelper.labelDisplayForDate(selectedDate))") {
+            ExerciseCardsStack(
+              exercises: viewModel.displayExercises,
+              onTapExercise: navigateToExerciseDetails(_:))
+          }
+          .transition(.scale)
         }
-        if !viewModel.sessionsChartData.isEmpty {
-          SessionsChartView(data: viewModel.sessionsChartData)
+
+        if let chartData = viewModel.historyChartData {
+          if !chartData.muscleChartData.isEmpty {
+            MusclesChartView(data: chartData.muscleChartData)
+          }
+
+          if !chartData.sessionsChartData.isEmpty {
+            SessionsChartView(data: chartData.sessionsChartData)
+          }
         }
       }
+      .animation(.smooth(duration: UIConstant.AnimationDuration.short), value: viewModel.selectedDate)
     }
     .padding(.horizontal, 16)
     .task {
       await viewModel.initialLoad()
     }
+  }
+
+  private func navigateToExerciseDetails(_ exercise: Exercise) {
+    navigator.navigate(to: CommonDestinations.exerciseDetails(exercise))
   }
 }
 

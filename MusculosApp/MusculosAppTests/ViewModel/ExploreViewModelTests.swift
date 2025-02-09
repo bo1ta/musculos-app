@@ -48,9 +48,9 @@ class ExploreViewModelTests: XCTestCase {
     let viewModel = ExploreViewModel()
     await viewModel.initialLoad()
 
-    XCTAssertEqual(viewModel.favoriteExercises.count, 1)
-    XCTAssertEqual(viewModel.featuredExercises.count, 1)
-    XCTAssertEqual(viewModel.recentSessions.count, 1)
+    XCTAssertEqual(viewModel.featuredExercises.resultsOrEmpty().count, 1)
+    XCTAssertEqual(viewModel.recommendedExercisesByPastSessions.resultsOrEmpty().count, 1)
+    XCTAssertEqual(viewModel.recommendedExercisesByGoals.resultsOrEmpty().count, 1)
   }
 
   func testSearchQuery() async throws {
@@ -72,6 +72,6 @@ class ExploreViewModelTests: XCTestCase {
     let task = try XCTUnwrap(viewModel.searchQueryTask)
     await task.value
 
-    XCTAssertEqual(viewModel.featuredExercises.count, 1)
+    XCTAssertEqual(viewModel.featuredExercises.resultsOrEmpty().count, 1)
   }
 }

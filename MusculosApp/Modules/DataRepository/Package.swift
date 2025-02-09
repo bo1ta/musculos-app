@@ -17,7 +17,7 @@ let package = Package(
     .package(name: "Storage", path: "../Storage"),
     .package(name: "NetworkClient", path: "../NetworkClient"),
     .package(url: "https://github.com/hmlongco/Factory", exact: "2.4.3"),
-    .package(url: "https://github.com/mattmassicotte/Queue", from: "0.1.4"),
+    .package(url: "https://github.com/mattmassicotte/Queue", from: "0.2.0"),
   ],
   targets: [
     .target(

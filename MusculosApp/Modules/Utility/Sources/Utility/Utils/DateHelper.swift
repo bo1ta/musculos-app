@@ -47,6 +47,12 @@ public enum DateHelper {
     return dateFormatter.string(from: Date())
   }
 
+  public static func labelDisplayForDate(_ date: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "E dd MMM" // Format: Tue 11 Jul
+    return dateFormatter.string(from: date)
+  }
+
   public static func nowPlusMinutes(_ minutes: Double) -> Date {
     Date().addingTimeInterval(minutes * 60)
   }

@@ -10,7 +10,11 @@ import Queue
 import Utility
 
 final class BackgroundWorker: Sendable {
-  private let backgroundQueue = AsyncQueue()
+  private let backgroundQueue = AsyncQueue(attributes: [.concurrent, .publishErrors])
+
+  var errorSequence: AsyncQueue.ErrorSequence {
+    backgroundQueue.errorSequence
+  }
 
   @discardableResult
   func queueOperation<Success: Sendable>(
