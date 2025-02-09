@@ -5,6 +5,7 @@
 //  Created by Solomon Alexandru on 22.09.2024.
 //
 
+import Combine
 import DataRepository
 import Factory
 import Foundation
@@ -24,23 +25,22 @@ final class HomeViewModel: BaseViewModel, TabViewModel {
   @ObservationIgnored
   @Injected(\DataRepositoryContainer.workoutRepository) private var workoutRepository: WorkoutRepositoryProtocol
 
-  @ObservationIgnored
-  @Injected(\.goalStore) private var goalStore: GoalStore
-
   // MARK: Properties
 
+  private var goalObserver: AnyCancellable?
   private(set) var quickExercises = LoadingViewState<[Exercise]>.empty
   private(set) var workoutChallenge = LoadingViewState<WorkoutChallenge>.empty
-
-  var goals: [Goal] {
-    goalStore.goals
-  }
+  private(set) var goals: [Goal] = []
 
   var shouldLoad: Bool {
     quickExercises.isLoadable || workoutChallenge.isLoadable
   }
 
+  // MARK: Methods
+
   func initialLoad() async {
+    setupGoalObserver()
+
     guard shouldLoad else {
       return
     }
@@ -51,7 +51,23 @@ final class HomeViewModel: BaseViewModel, TabViewModel {
     _ = await (exercisesTask, workoutTask)
   }
 
-  func loadWorkoutChallenge() async {
+  private func setupGoalObserver() {
+    goals = currentUser?.goals ?? []
+
+    goalObserver = userStore.eventPublisher
+      .sink { event in
+        guard
+          case .didUpdateUser(let userProfile) = event,
+          let goals = userProfile.goals,
+          goals.count != self.goals.count
+        else {
+          return
+        }
+        self.goals = goals
+      }
+  }
+
+  private func loadWorkoutChallenge() async {
     guard workoutChallenge.isLoadable else {
       return
     }
@@ -67,7 +83,7 @@ final class HomeViewModel: BaseViewModel, TabViewModel {
     }
   }
 
-  func loadExercises() async {
+  private func loadExercises() async {
     guard quickExercises.isLoadable else {
       return
     }
@@ -82,5 +98,10 @@ final class HomeViewModel: BaseViewModel, TabViewModel {
       quickExercises = .error(error)
       Logger.error(error, message: "Error loading exercises for home view")
     }
+  }
+
+  func onDisappear() {
+    goalObserver?.cancel()
+    goalObserver = nil
   }
 }

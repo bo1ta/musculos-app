@@ -16,10 +16,26 @@ import Utility
 
 // MARK: - UserStoreEvent
 
-public enum UserStoreEvent {
+public enum UserStoreEvent: Equatable {
   case didFinishOnboarding
   case didLogin
   case didLogout
+  case didUpdateUser(UserProfile)
+
+  public static func ==(_ lhs: UserStoreEvent, rhs: UserStoreEvent) -> Bool {
+    switch (lhs, rhs) {
+    case (.didFinishOnboarding, .didFinishOnboarding):
+      return true
+    case (.didLogin, .didLogin):
+      return true
+    case (.didLogout, .didLogout):
+      return true
+    case (.didUpdateUser(let lhsUser), .didUpdateUser(let rhsUser)):
+      return lhsUser == rhsUser
+    default:
+      return false
+    }
+  }
 }
 
 // MARK: - UserStoreProtocol
@@ -127,8 +143,9 @@ extension UserStore {
 
     let userEntityListener = repository.entityPublisherForUserID(userID)
     userListenerCancellable = userEntityListener.publisher
-      .sink { [weak self] currentUser in
-        self?.currentUser = currentUser
+      .sink { [weak self] updatedUser in
+        self?.currentUser = updatedUser
+        self?.sendEvent(.didUpdateUser(updatedUser))
       }
 
     currentUserListener = userEntityListener

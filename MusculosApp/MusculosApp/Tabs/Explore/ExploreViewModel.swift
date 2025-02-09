@@ -70,7 +70,7 @@ final class ExploreViewModel: BaseViewModel, TabViewModel {
       case .success(let exercises):
         featuredExercises.assignResult(exercises)
       case .failure(let error):
-        featuredExercises = .error(error)
+        featuredExercises.assignErrorIfNotLoaded(error)
         Logger.error(error, message: "Something went wrong while loading featured exercises")
       }
     }

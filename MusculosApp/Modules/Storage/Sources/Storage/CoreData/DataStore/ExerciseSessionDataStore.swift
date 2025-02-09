@@ -60,9 +60,7 @@ public struct ExerciseSessionDataStore: ExerciseSessionDataStoreProtocol, @unche
 
   public func fetchedResultsPublisherForUser(_ userID: UUID) -> FetchedResultsPublisher<ExerciseSessionEntity> {
     let predicate: NSPredicate = \ExerciseSessionEntity.user.uniqueID == userID
-    return storageManager.createFetchedResultsPublisher(
-      matching: predicate,
-      sortDescriptors: [],
-      fetchLimit: nil)
+    let sortDescriptor = NSSortDescriptor(keyPath: \ExerciseSessionEntity.dateAdded, ascending: false)
+    return storageManager.createFetchedResultsPublisher(matching: predicate, sortDescriptors: [sortDescriptor], fetchLimit: nil)
   }
 }

@@ -131,6 +131,9 @@ extension AppState {
     case .didLogout:
       state = .loggedOut
       toastManager.showInfo("Logged out")
+
+    default:
+      break
     }
   }
 }

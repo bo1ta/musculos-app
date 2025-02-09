@@ -19,8 +19,8 @@ public enum LoadingViewState<Result> where Result: Equatable {
   /// based on whether the provided result is empty or not.
   /// - Parameter result: The result to be assigned.
   ///
-  public mutating func assignResult(_ result: Result) {
-    if let collection = result as? any Collection, collection.isEmpty {
+  public mutating func assignResult(_ result: Result) where Result: Collection {
+    if result.isEmpty {
       self = .empty
     } else {
       self = .loaded(result)
@@ -39,12 +39,18 @@ public enum LoadingViewState<Result> where Result: Equatable {
     }
   }
 
-  public mutating func tryAssignError(_ error: Error) {
+  /// Assigns the provided error to the `.error` state, unless the current state is `.loaded`.
+  /// This method is useful in scenarios where errors may be logged and discarded,
+  /// especially in streams where a previous "success" state might have occurred.
+  ///
+  /// - Parameter error: The error to assign to the `.error` state.
+  ///
+  public mutating func assignErrorIfNotLoaded(_ error: Error) {
     switch self {
-    case .empty, .loading:
-      self = .error(error)
-    default:
+    case .loaded:
       return
+    default:
+      self = .error(error)
     }
   }
 
@@ -94,7 +100,7 @@ public enum LoadingViewState<Result> where Result: Equatable {
     switch self {
     case .loaded(let result):
       result
-    case .loading, .empty, .error:
+    default:
       [] as Result
     }
   }
@@ -117,10 +123,4 @@ extension LoadingViewState: Equatable {
       false
     }
   }
-}
-
-// MARK: - EmptyLoadingViewState
-
-public enum EmptyLoadingViewState {
-  case loading, empty, successful
 }

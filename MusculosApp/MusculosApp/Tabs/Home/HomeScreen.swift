@@ -34,6 +34,7 @@ struct HomeScreen: View {
     .task {
       await viewModel.initialLoad()
     }
+    .onDisappear(perform: viewModel.onDisappear)
   }
 
   private func showNotificationsScreen() { }
